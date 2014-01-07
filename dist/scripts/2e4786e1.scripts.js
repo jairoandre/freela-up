@@ -1,0 +1,1 @@
+"use strict";angular.module("zupPainelApp",["ngCookies","ngResource","ngSanitize","ngRoute"]).config(["$routeProvider",function(a){a.when("/",{templateUrl:"views/login.html",controller:"MainCtrl"}).otherwise({redirectTo:"/"})}]),angular.module("zupPainelApp").controller("MainCtrl",function(){});

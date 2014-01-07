@@ -1,6 +1,4 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .controller('MainCtrl', function ($scope) {
-
-  });
+  .controller('MainCtrl', function () {});
