@@ -6,7 +6,7 @@ angular.module('zupPainelApp', [
   'ngSanitize',
   'ngRoute'
 ])
-  .config(function ($routeProvider, $locationProvider) {
+  .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/login.html',
@@ -14,6 +14,10 @@ angular.module('zupPainelApp', [
       })
       .when('/groups', {
         templateUrl: 'views/groups/index.html',
+        controller: 'GroupCtrl'
+      })
+      .when('/groups/:id', {
+        templateUrl: 'views/groups/list.html',
         controller: 'GroupCtrl'
       })
       .otherwise({
