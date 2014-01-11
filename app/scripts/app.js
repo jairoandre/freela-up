@@ -36,6 +36,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/inventories/index.html',
         controller: 'InventoriesCtrl'
       })
+      .when('/items', {
+        templateUrl: 'views/items/search.html',
+        controller: 'ItemsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -1,0 +1,39 @@
+<div id="main_layout">
+  <div id="sidebar">
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="title">
+      <ul>
+        <li><a href="#/items">Explorar</a></li>
+        <li>Buscar</li>
+      </ul>
+    </div>
+
+    <div id="items_search">
+      <h2>Por favor, selecione a categoria na qual você deseja buscar.</h2>
+
+      <p><b>Categoria</b></p>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Selecione <span class="pull-right"><span class="caret"></span></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
