@@ -24,6 +24,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/users/index.html',
         controller: 'UsersCtrl'
       })
+      .when('/reports', {
+        templateUrl: 'views/reports/index.html',
+        controller: 'ReportsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
