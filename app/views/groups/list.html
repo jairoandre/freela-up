@@ -1,0 +1,26 @@
+<div id="main_layout">
+  <div id="sidebar">
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="title">
+      <ul>
+        <li><a href="">Grupos</a></li>
+        <li>Engenheiros</li>
+      </ul>
+
+      <a class="btn btn-info btn-custom">+ Novo grupo</a>
+    </div>
+
+    <div class="simple_search">
+      <span class="glyphicon glyphicon-search"></span>
+      <input type="text" placeholder="Buscar usuários..." />
+    </div>
+
+  </div>
+</div>
