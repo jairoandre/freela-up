@@ -226,6 +226,36 @@ a {
         margin: 11px 10px 0 0;
       }
 
+      .links a {
+        display: block;
+        float: left;
+        color: #666666;
+        padding: 19px 28px;
+        border-right: 1px solid #C8C8C8;
+
+        span {
+          float: left;
+          font-size: 20px;
+          color: #BABABA;
+        }
+
+        p {
+          margin: 0;
+          position: relative;
+          top: 2px;
+          float: left;
+          font-weight: bold;
+        }
+
+        span:empty {
+          width: 1.5em;
+        }
+
+        &.active {
+          background: #E2E2E2;
+        }
+      }
+
       ul {
         float: left;
         list-style: none;
@@ -275,6 +305,16 @@ a {
         border: 0px;
         background: transparent;
         outline: none;
+      }
+
+      .advanced_search {
+        font-weight: bold;
+        text-align: right;
+
+        a {
+          display: block;
+          margin-top: 11px;
+        }
       }
 
       .filter_dropdown_c {
