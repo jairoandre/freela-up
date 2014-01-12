@@ -40,6 +40,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/reports/list.html',
         controller: 'ReportsCtrl'
       })
+      .when('/reports/:id/:id', {
+        templateUrl: 'views/reports/view.html',
+        controller: 'ReportsCtrl'
+      })
       .when('/inventories', {
         templateUrl: 'views/inventories/index.html',
         controller: 'InventoriesCtrl'

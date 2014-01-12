@@ -23,6 +23,10 @@ a {
   text-decoration: none;
 }
 
+p {
+  margin-bottom: 20px;
+}
+
 .ng-main-view {
   height: 100%;
 }
@@ -553,6 +557,15 @@ a {
 
 .btn-lg-custom {
   padding: 13px 25px;
+}
+
+.btn-fat-custom {
+  padding: 6px 27px;
+}
+
+.dropdown-custom {
+  min-width: 300px;
+  text-align: left;
 }
 
 .content {
