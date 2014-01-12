@@ -93,7 +93,7 @@ a {
 
 #main_layout {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 
   #sidebar {
     @include make-md-column(2.5);
