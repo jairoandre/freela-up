@@ -16,6 +16,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/groups/index.html',
         controller: 'GroupCtrl'
       })
+      .when('/groups/add', {
+        templateUrl: 'views/groups/add.html',
+        controller: 'GroupCtrl'
+      })
       .when('/groups/:id', {
         templateUrl: 'views/groups/list.html',
         controller: 'GroupCtrl'
