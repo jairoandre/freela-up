@@ -388,6 +388,10 @@ p {
       }
     }
 
+    .mapItems {
+      height: 600px;
+    }
+
     .form-group {
       margin-bottom: 30px;
     }
@@ -574,4 +578,32 @@ p {
 
 .custom_form {
   height: 46px;
+}
+
+// map
+.pinTooltip {
+  padding: 10px 15px;
+  width: 224px;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+    font-weight: 600 !important;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 8px 0;
+    color: #333;
+    line-height: 1;
+    font-weight: 300 !important;
+    font-size: 13px;
+  }
+
+  a {
+    color: #2ab4dc;
+    text-transform: uppercase;
+    font-weight: 600 !important;
+    font-size: 13px;
+  }
 }
