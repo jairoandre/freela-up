@@ -13,7 +13,7 @@
         <li>Tags</li>
       </ul>
 
-      <a href="#/groups/add" class="btn btn-info btn-custom">+ Nova tag</a>
+      <a href="" class="btn btn-info btn-custom" ng-click="open()">+ Nova tag</a>
     </div>
 
     <table class="table custom_table big_text" id="tags">
@@ -49,3 +49,19 @@
 
   </div>
 </div>
+
+<script type="text/ng-template" id="addTag.html">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="ok()">&times;</button>
+        <h4 class="modal-title">Cadastro de Tag</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="form_tagname">Nome da Tag</label>
+          <input type="text" class="form-control" id="form_tagname">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="ok()">Criar</button>
+      </div>
+</script>
