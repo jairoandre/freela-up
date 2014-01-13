@@ -49,6 +49,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/inventories/index.html',
         controller: 'InventoriesCtrl'
       })
+      .when('/inventories/edit/:id', {
+        templateUrl: 'views/inventories/edit.html',
+        controller: 'InventoriesCtrl'
+      })
       .when('/items', {
         templateUrl: 'views/items/index.html',
         controller: 'ItemsCtrl'
