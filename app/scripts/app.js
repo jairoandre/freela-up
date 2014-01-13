@@ -60,6 +60,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/items/search.html',
         controller: 'ItemsCtrl'
       })
+      .when('/tags', {
+        templateUrl: 'views/tags/index.html',
+        controller: 'TagsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

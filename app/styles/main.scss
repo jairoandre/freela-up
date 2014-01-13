@@ -388,6 +388,48 @@ p {
       }
     }
 
+    #tags {
+      tr.root td:first-child {
+        font-weight: bold;
+      }
+
+      tr.secondLevel {
+        font-size: 14px;
+        background: #F0F0F0;
+        font-weight: bold;
+
+        td:first-child {
+          padding-left: 30px;
+
+          span {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            background: url(../images/sub_tag.png);
+            margin-right: 5px;
+          }
+        }
+      }
+
+      td.links {
+        text-align: right;
+
+        a {
+          margin-right: 10px;
+
+          &.remove {
+            line-height: 0px;
+            padding: 2px 9px 3px;
+            margin-right: 0px;
+
+            &:hover {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+
     .mapItems {
       height: 600px;
     }
@@ -491,16 +533,6 @@ p {
           &:last-child {
             border-bottom: none;
           }
-
-          .remove {
-            background: #1693C6;
-            color: #FFF;
-            border: 0px;
-            width: 25px;
-            height: 25px;
-            text-align: center;
-            border-radius: 25px;
-          }
         }
       }
     }
@@ -578,6 +610,16 @@ p {
 
 .custom_form {
   height: 46px;
+}
+
+.remove {
+  background: #1693C6;
+  color: #FFF;
+  border: 0px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  border-radius: 25px;
 }
 
 // map
