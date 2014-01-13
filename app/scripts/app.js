@@ -61,6 +61,10 @@ angular.module('zupPainelApp', [
         templateUrl: 'views/items/search.html',
         controller: 'ItemsCtrl'
       })
+      .when('/items/:id', {
+        templateUrl: 'views/items/view.html',
+        controller: 'ItemsCtrl'
+      })
       .when('/tags', {
         templateUrl: 'views/tags/index.html',
         controller: 'TagsCtrl'

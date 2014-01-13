@@ -197,32 +197,32 @@ angular.module('zupPainelApp')
 
         var pinTooltip = [
           // 0
-          [['<h1>Coleta de entulho</h1><p>Enviada ontem</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']],
+          [['<h1>Coleta de entulho</h1><p>Enviada ontem</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']],
 
           // 1
-          [['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']],
+          [['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']],
 
           // 2
           [
-            ['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 3 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 5 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 4 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 6 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 2 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
+            ['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 3 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 5 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 4 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 6 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 2 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
           ],
           // 3
           [
-            ['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada ontem</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 2 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 3 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 4 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 5 dias</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
+            ['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada ontem</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 2 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 3 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 4 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
+            ['<h1>Coleta de entulho</h1><p>Enviada há 5 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
           ],
           // 4
           [
-            ['<h1>Coleta de entulho</h1><p>Enviada há 1 semana</p><a href="#" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
+            ['<h1>Coleta de entulho</h1><p>Enviada há 1 semana</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
           ]
         ];
 
