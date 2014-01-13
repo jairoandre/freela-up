@@ -8,11 +8,11 @@ angular.module('zupPainelApp')
     $modal.open({
       templateUrl: 'addTag.html',
       windowClass: 'tagModal',
-      controller: function($scope, $modalInstance) {
+      controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
         $scope.ok = function () {
           $modalInstance.close();
         };
-      }
+      }]
     });
   };
 

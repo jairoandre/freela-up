@@ -394,6 +394,11 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
+  grunt.registerTask('dist', [
+    'connect:dist',
+    'watch'
+  ]);
+
   grunt.registerTask('build', [
     'clean:dist',
     'bower-install',
