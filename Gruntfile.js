@@ -208,8 +208,19 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/views/**/*.html',],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+      js: '<%= yeoman.dist %>/scripts/*.js',
       options: {
-        assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/**/*']
+        assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/**/*'],
+        patterns: {
+          // FIXME While usemin won't have full support for revved files we have to put all references manually here
+          js: [
+            [/(map_pin_boca-lobo\.png)/g, 'Replacing reference to map_pin_boca-lobo.png'],
+            [/(map_pin_entulho\.png)/g, 'Replacing reference to map_pin_entulho.png'],
+            [/(ponto_bocalobo\.png)/g, 'Replacing reference to ponto_bocalobo.png'],
+            [/(ponto_floresta-urbana\.png)/g, 'Replacing reference to ponto_floresta-urbana.png'],
+            [/(ponto_praca-wifi\.png)/g, 'Replacing reference to ponto_praca-wifi.png'],
+          ]
+        }
       }
     },
 
