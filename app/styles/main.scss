@@ -695,9 +695,13 @@ p {
         @include make-md-column(9.5);
         padding: 0px 15px 0 0;
 
-        input {
+        .form-control {
           background: #EEEEEE;
           height: 37px;
+        }
+
+        textarea.form-control {
+          height: 140px;
         }
       }
 
