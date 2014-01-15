@@ -7,7 +7,7 @@ angular.module('zupPainelApp', [
   'ngRoute',
   'ui.bootstrap'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/login.html',
@@ -79,4 +79,19 @@ angular.module('zupPainelApp', [
 
     // Not supported in github :-(
     //$locationProvider.html5Mode(true);
+
+    // register the interceptor via an anonymous factory
+    $httpProvider.interceptors.push(function($q) {
+      return {
+        // change URL on external requests
+        'request': function(config) {
+          config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
+
+          return config || $q.when(config);
+        }
+      };
+    });
+
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
   });
