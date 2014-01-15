@@ -81,7 +81,7 @@ angular.module('zupPainelApp', [
     //$locationProvider.html5Mode(true);
 
     // register the interceptor via an anonymous factory
-    $httpProvider.interceptors.push(function($q) {
+    $httpProvider.interceptors.push(['$q', function($q) {
       return {
         // change URL on external requests
         'request': function(config) {
@@ -90,7 +90,7 @@ angular.module('zupPainelApp', [
           return config || $q.when(config);
         }
       };
-    });
+    }]);
 
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

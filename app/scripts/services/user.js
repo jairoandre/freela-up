@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.factory('User', function User($q, $http) {
+.factory('User', ['$q', '$http', function ($q, $http) {
   return function(email, password) {
 
     /**
@@ -19,13 +19,14 @@ angular.module('zupPainelApp')
         });
       [/code]
     **/
+
     this.auth = function() {
       var deferred = $q.defer();
 
       var req = $http({method: 'POST', url: '{base_url}/authenticate.json', data: {email: email, password: password}});
 
       req.success(function(data) {
-        console.log(data);
+        deferred.resolve(data);
       });
 
       req.error(function(data, status) {
@@ -36,4 +37,4 @@ angular.module('zupPainelApp')
     };
 
   };
-});
+}]);
