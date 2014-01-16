@@ -27,7 +27,8 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-view="" class="ng-main-view"></div>
+    <div ng-view="" class="ng-main-view" ng-hide="isLoading"></div>
+    <div ng-show='isLoading'>Carregando...</div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -73,6 +74,8 @@
     <script src="scripts/directives/mapItems.js"></script>
     <script src="scripts/controllers/tags.js"></script>
     <script src="scripts/services/User.js"></script>
+    <script src="scripts/services/Auth.js"></script>
+    <script src="scripts/services/Error.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -2,14 +2,14 @@
 
 angular.module('zupPainelApp')
 
-.controller('MainCtrl', function (User) {
-  var email = 'e', password = 'a';
+.controller('MainCtrl', function (User, Error, $scope, $location) {
+  $scope.login = function() {
+    var user = new User($scope.email, $scope.password);
 
-  var user = new User(email, password);
-
-  user.auth().then(function() {
-    console.log('success');
-  }, function() {
-    console.log('error');
-  });
+    user.auth().then(function() {
+      $location.path('/reports');
+    }, function(response) {
+      Error.showDetails(response);
+    });
+  };
 });

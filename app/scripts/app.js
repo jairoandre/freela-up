@@ -7,91 +7,182 @@ angular.module('zupPainelApp', [
   'ngRoute',
   'ui.bootstrap'
 ])
-  .config(function ($routeProvider, $httpProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/login.html',
-        controller: 'MainCtrl'
-      })
-      .when('/groups', {
-        templateUrl: 'views/groups/index.html',
-        controller: 'GroupCtrl'
-      })
-      .when('/groups/add', {
-        templateUrl: 'views/groups/add.html',
-        controller: 'GroupCtrl'
-      })
-      .when('/groups/:id', {
-        templateUrl: 'views/groups/list.html',
-        controller: 'GroupCtrl'
-      })
-      .when('/users', {
-        templateUrl: 'views/users/index.html',
-        controller: 'UsersCtrl'
-      })
-      .when('/users/add', {
-        templateUrl: 'views/users/add.html',
-        controller: 'UsersCtrl'
-      })
-      .when('/reports', {
-        templateUrl: 'views/reports/index.html',
-        controller: 'ReportsCtrl'
-      })
-      .when('/reports/:id', {
-        templateUrl: 'views/reports/list.html',
-        controller: 'ReportsCtrl'
-      })
-      .when('/reports/:id/:id', {
-        templateUrl: 'views/reports/view.html',
-        controller: 'ReportsCtrl'
-      })
-      .when('/inventories', {
-        templateUrl: 'views/inventories/index.html',
-        controller: 'InventoriesCtrl'
-      })
-      .when('/inventories/edit/:id', {
-        templateUrl: 'views/inventories/edit.html',
-        controller: 'InventoriesCtrl'
-      })
-      .when('/items', {
-        templateUrl: 'views/items/index.html',
-        controller: 'ItemsCtrl'
-      })
-      .when('/items/map', {
-        templateUrl: 'views/items/map.html',
-        controller: 'ItemsCtrl'
-      })
-      .when('/items/search', {
-        templateUrl: 'views/items/search.html',
-        controller: 'ItemsCtrl'
-      })
-      .when('/items/:id', {
-        templateUrl: 'views/items/view.html',
-        controller: 'ItemsCtrl'
-      })
-      .when('/tags', {
-        templateUrl: 'views/tags/index.html',
-        controller: 'TagsCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
+
+.config(function ($routeProvider, $httpProvider) {
+
+  // Configure each route
+  $routeProvider
+    .when('/', {
+      templateUrl: 'views/login.html',
+      controller: 'MainCtrl'
+    })
+    .when('/groups', {
+      templateUrl: 'views/groups/index.html',
+      controller: 'GroupCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/groups/add', {
+      templateUrl: 'views/groups/add.html',
+      controller: 'GroupCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/groups/:id', {
+      templateUrl: 'views/groups/list.html',
+      controller: 'GroupCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/users', {
+      templateUrl: 'views/users/index.html',
+      controller: 'UsersCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/users/add', {
+      templateUrl: 'views/users/add.html',
+      controller: 'UsersCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/reports', {
+      templateUrl: 'views/reports/index.html',
+      controller: 'ReportsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/reports/:id', {
+      templateUrl: 'views/reports/list.html',
+      controller: 'ReportsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/reports/:id/:id', {
+      templateUrl: 'views/reports/view.html',
+      controller: 'ReportsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/inventories', {
+      templateUrl: 'views/inventories/index.html',
+      controller: 'InventoriesCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/inventories/edit/:id', {
+      templateUrl: 'views/inventories/edit.html',
+      controller: 'InventoriesCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/items', {
+      templateUrl: 'views/items/index.html',
+      controller: 'ItemsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/items/map', {
+      templateUrl: 'views/items/map.html',
+      controller: 'ItemsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/items/search', {
+      templateUrl: 'views/items/search.html',
+      controller: 'ItemsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/items/:id', {
+      templateUrl: 'views/items/view.html',
+      controller: 'ItemsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/tags', {
+      templateUrl: 'views/tags/index.html',
+      controller: 'TagsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .otherwise({
+      redirectTo: '/'
+    });
+
+  // Not supported in github :-(
+  //$locationProvider.html5Mode(true);
+
+  // register the interceptor via an anonymous factory
+  $httpProvider.interceptors.push(['$q', function($q) {
+    return {
+      // change URL on external requests
+      'request': function(config) {
+        // temparary fix -- replace with http://staging.zup.sapience.io later
+        config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
+
+        return config || $q.when(config);
+      }
+    };
+  }]);
+
+  $httpProvider.defaults.useXDomain = true;
+  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+})
+
+.run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
+  $rootScope.$on('$routeChangeStart', function(e, curr, prev) {
+
+    if (typeof prev === 'undefined')
+    {
+      $rootScope.isLoading = true;
+    }
+
+    /*
+    User checklist
+
+    1) Check if route needs authentication
+      1.1) If yes, check if cookie with token exists
+        1.1.1) If cookie exists, check user data with token
+        1.1.2) If okay, stop loading
+      1.2) If cookie doesn't exists, redirect to login page
+    */
+
+    // Check if route needs authentication
+    if (typeof curr.access !== 'undefined' && curr.access.logged === true)
+    {
+      // Check if user has a cookie with token
+      var check = Auth.check();
+
+      check.then(function() {
+        // onSuccess
+        $rootScope.isLoading = false;
+      }, function() {
+        // onError, redirect to login
+        $rootScope.isLoading = false;
+
+        $location.path('/');
       });
+    }
+    else
+    {
+      $rootScope.isLoading = false;
+    }
 
-    // Not supported in github :-(
-    //$locationProvider.html5Mode(true);
-
-    // register the interceptor via an anonymous factory
-    $httpProvider.interceptors.push(['$q', function($q) {
-      return {
-        // change URL on external requests
-        'request': function(config) {
-          config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
-
-          return config || $q.when(config);
-        }
-      };
-    }]);
-
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
   });
+}]);
