@@ -2,7 +2,8 @@
 
 angular.module('zupPainelApp')
 
-.factory('User', ['$q', '$http', function ($q, $http) {
+.service('User', ['$q', '$http', '$cookies', 'Auth', function ($q, $http, $cookies, Auth) {
+
   return function(email, password) {
 
     /**
@@ -26,11 +27,17 @@ angular.module('zupPainelApp')
       var req = $http({method: 'POST', url: '{base_url}/authenticate.json', data: {email: email, password: password}});
 
       req.success(function(data) {
-        deferred.resolve(data);
+        // save user data returned by API
+        Auth.saveUser(data.user);
+
+        // save token on cookie
+        Auth.saveCookie(data.token);
+
+        deferred.resolve();
       });
 
-      req.error(function(data, status) {
-        deferred.reject(data, status);
+      req.error(function(data, status, headers, config) {
+        deferred.reject({data: data, status: status, config: config});
       });
 
       return deferred.promise;
