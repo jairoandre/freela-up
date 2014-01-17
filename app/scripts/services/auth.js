@@ -27,7 +27,7 @@ angular.module('zupPainelApp')
           deferred.reject();
         });
       }
-      else if (token !== null)
+      else if (token !== null && user !== null)
       {
         // Has token and user data
         deferred.resolve();
@@ -36,6 +36,8 @@ angular.module('zupPainelApp')
       {
         // Doesn't have token, user needs to log in
         deferred.reject();
+
+        this.clearCookie();
       }
 
       return deferred.promise;
@@ -56,8 +58,16 @@ angular.module('zupPainelApp')
       $cookies.token = token;
     },
 
+    clearCookie: function() {
+      delete $cookies.token;
+    },
+
     saveUser: function(data) {
       user = data;
+    },
+
+    isLogged: function() {
+      return user !== null && this.getCookie() !== null;
     }
 
   };

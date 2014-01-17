@@ -2,7 +2,13 @@
 
 angular.module('zupPainelApp')
 
-.controller('MainCtrl', function (User, Error, $scope, $location) {
+.controller('MainCtrl', function (User, Error, $scope, $location, Auth) {
+
+  if (Auth.isLogged())
+  {
+    $location.path('/reports');
+  }
+
   $scope.login = function() {
     var user = new User($scope.email, $scope.password);
 
