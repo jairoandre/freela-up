@@ -4,7 +4,9 @@ angular.module('zupPainelApp')
 
 .controller('MainCtrl', function (User, Error, $scope, $location, Auth) {
 
-  if (Auth.isLogged())
+  var token = Auth.getToken();
+
+  if (token !== null)
   {
     $location.path('/reports');
   }

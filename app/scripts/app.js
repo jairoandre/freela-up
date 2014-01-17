@@ -32,7 +32,7 @@ angular.module('zupPainelApp', [
     })
     .when('/groups/:id', {
       templateUrl: 'views/groups/list.html',
-      controller: 'GroupCtrl',
+      controller: 'ViewGroupCtrl',
       access: {
         logged: true
       }
@@ -129,13 +129,23 @@ angular.module('zupPainelApp', [
   //$locationProvider.html5Mode(true);
 
   // register the interceptor via an anonymous factory
-  $httpProvider.interceptors.push(['$q', function($q) {
+  $httpProvider.interceptors.push(['$q', '$injector', function($q, $injector) {
     return {
       // change URL on external requests
       'request': function(config) {
         // temparary fix -- replace with http://staging.zup.sapience.io later
         config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
 
+        // get token and pass to the server with header X-App-Token
+        var token = null;
+
+        $injector.invoke(function(Auth) {
+          token = Auth.getToken();
+        });
+
+        config.headers['X-App-Token'] = token;
+
+        // apply all the changes! :)
         return config || $q.when(config);
       }
     };
@@ -146,6 +156,7 @@ angular.module('zupPainelApp', [
 })
 
 .run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
+
   $rootScope.$on('$routeChangeStart', function(e, curr, prev) {
 
     if (typeof prev === 'undefined')

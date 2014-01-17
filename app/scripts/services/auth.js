@@ -9,12 +9,12 @@ angular.module('zupPainelApp')
 
     check: function() {
       var deferred = $q.defer(),
-          token = this.getCookie();
+          token = this.getToken();
 
       if (token !== null && user === null)
       {
         // has token, check it by getting user data
-        var req = $http({method: 'GET', url: '{base_url}/me.json', headers: {'X-App-Token': token }});
+        var req = $http({method: 'GET', url: '{base_url}/me.json', headers: {'X-App-Token': token }}), that = this;
 
         req.success(function(data) {
           // save user data returned by API
@@ -25,6 +25,7 @@ angular.module('zupPainelApp')
 
         req.error(function() {
           deferred.reject();
+          that.clearToken();
         });
       }
       else if (token !== null && user !== null)
@@ -36,14 +37,13 @@ angular.module('zupPainelApp')
       {
         // Doesn't have token, user needs to log in
         deferred.reject();
-
-        this.clearCookie();
+        this.clearToken();
       }
 
       return deferred.promise;
     },
 
-    getCookie: function() {
+    getToken: function() {
       var cookie = $cookies.token;
 
       if (typeof cookie === 'undefined')
@@ -54,11 +54,11 @@ angular.module('zupPainelApp')
       return cookie;
     },
 
-    saveCookie: function(token) {
+    saveToken: function(token) {
       $cookies.token = token;
     },
 
-    clearCookie: function() {
+    clearToken: function() {
       delete $cookies.token;
     },
 
@@ -67,7 +67,7 @@ angular.module('zupPainelApp')
     },
 
     isLogged: function() {
-      return user !== null && this.getCookie() !== null;
+      return user !== null && this.getToken() !== null;
     }
 
   };

@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.service('User', ['$q', '$http', '$cookies', 'Auth', function ($q, $http, $cookies, Auth) {
+.service('User', ['$q', '$http', 'Auth', function ($q, $http, Auth) {
 
   return function(email, password) {
 
@@ -31,7 +31,7 @@ angular.module('zupPainelApp')
         Auth.saveUser(data.user);
 
         // save token on cookie
-        Auth.saveCookie(data.token);
+        Auth.saveToken(data.token);
 
         deferred.resolve();
       });

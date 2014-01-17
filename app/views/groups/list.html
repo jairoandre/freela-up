@@ -10,8 +10,8 @@
 
     <div class="title">
       <ul>
-        <li><a href="">Grupos</a></li>
-        <li>Engenheiros</li>
+        <li><a href="#/groups">Grupos</a></li>
+        <li>{{ group.name }}</li>
       </ul>
 
       <a href="#/groups/add" class="btn btn-info btn-custom">+ Novo grupo</a>
@@ -23,29 +23,9 @@
     </div>
 
     <table class="table custom_table">
-      <tr>
-        <td><a href="">Alberto de Oliveira Silva</a></td>
-        <td width="20">
-          <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-      </tr>
 
-      <tr>
-        <td><a href="">Alberto de Oliveira Silva</a> <span class="label custom_label label-warning">Gerente</span></td>
-        <td width="20">
-          <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-      </tr>
-
-      <tr>
-        <td><a href="">Alberto de Oliveira Silva</a></td>
-        <td width="20">
-          <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-      </tr>
-
-      <tr>
-        <td><a href="">Alberto de Oliveira Silva</a></td>
+      <tr ng-repeat="user in group.users">
+        <td><a href="">{{ user.name }}</a></td>
         <td width="20">
           <a href=""><span class="glyphicon glyphicon-trash"></span></a>
         </td>
