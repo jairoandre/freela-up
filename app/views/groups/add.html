@@ -1,5 +1,5 @@
 <div id="main_layout">
-  <div id="sidebar">
+  <div id="sidebar" hack-sidebar-height>
     <!-- Include views/layouts/menu.html -->
     <div ng-include="'views/layout/menu.html'"></div>
   </div>
@@ -17,7 +17,7 @@
 
     <div class="content">
       <form>
-        
+
         <div class="form-group">
           <label for="form_groupname">Nome do grupo</label>
           <input type="text" class="form-control input-lg" id="form_groupname">
@@ -96,7 +96,7 @@
         </div>
 
         <div class="form-group">
-          
+
           <label>Insira usuários para participar do grupo</label>
 
           <div class="selectUsers">
