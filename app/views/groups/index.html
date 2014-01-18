@@ -8,27 +8,31 @@
     <!-- Include views/layouts/header.html -->
     <div ng-include="'views/layout/header.html'"></div>
 
-    <div class="title">
-      <ul>
-        <li>Grupos</li>
-      </ul>
+    <div class="loading" ng-show="loading"></div>
 
-      <a href="#/groups/add" class="btn btn-info btn-custom">+ Novo grupo</a>
+    <div ng-hide="loading">
+      <div class="title">
+        <ul>
+          <li>Grupos</li>
+        </ul>
+
+        <a href="#/groups/add" class="btn btn-info btn-custom">+ Novo grupo</a>
+      </div>
+
+      <div class="simple_search">
+        <span class="glyphicon glyphicon-search search_icon"></span>
+        <input type="text" placeholder="Buscar grupo..." />
+      </div>
+
+      <table class="table custom_table big_text">
+        <tr ng-repeat="group in groups">
+          <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
+          <td width="20">
+            <a href=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+      </table>
     </div>
-
-    <div class="simple_search">
-      <span class="glyphicon glyphicon-search search_icon"></span>
-      <input type="text" placeholder="Buscar grupo..." />
-    </div>
-
-    <table class="table custom_table big_text">
-      <tr ng-repeat="group in groups">
-        <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
-        <td width="20">
-          <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-      </tr>
-    </table>
 
   </div>
 </div>
