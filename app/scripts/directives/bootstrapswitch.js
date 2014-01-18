@@ -5,7 +5,6 @@ angular.module('zupPainelApp')
     return {
       link: function(scope, element) {
         element.bootstrapSwitch();
-        console.log('a');
       }
     };
   });

@@ -146,9 +146,9 @@ angular.module('zupPainelApp', [
         // get token and pass to the server with header X-App-Token
         var token = null;
 
-        $injector.invoke(function(Auth) {
+        $injector.invoke(['Auth', function(Auth) {
           token = Auth.getToken();
-        });
+        }]);
 
         config.headers['X-App-Token'] = token;
 
