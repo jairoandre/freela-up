@@ -65,14 +65,14 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/reports/:id', {
+    .when('/reports/:categoryId', {
       templateUrl: 'views/reports/list.html',
-      controller: 'ReportsCtrl',
+      controller: 'ViewItemsReportsCtrl',
       access: {
         logged: true
       }
     })
-    .when('/reports/:id/:id', {
+    .when('/reports/:categoryId/:id', {
       templateUrl: 'views/reports/view.html',
       controller: 'ReportsCtrl',
       access: {
