@@ -6,6 +6,6 @@ angular.module('zupPainelApp')
   return $resource('{base_url}/users/:id.json', { id:'@id' },
     {
       'update': { method: 'PUT' },
-      'getAll': { method: 'GET' }
+      'getAll': { method: 'GET' },
     });
 });

@@ -44,6 +44,13 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/users/group/:groupId', {
+      templateUrl: 'views/users/index.html',
+      controller: 'UsersCtrl',
+      access: {
+        logged: true
+      }
+    })
     .when('/users/:id', {
       templateUrl: 'views/users/view.html',
       controller: 'UsersCtrl',

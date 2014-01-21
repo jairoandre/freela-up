@@ -27,19 +27,15 @@
 
         <div class="col-md-4 filter_dropdown_c">
           <div class="filter_dropdown">
-            <p>Grupos:</p>
-
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Todos <span class="pull-right"><span class="caret"></span></span>
+              Grupo <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li ng-repeat="group in groups" ng-class="{active: groupId == group.id}"><a href="#/users/group/{{ group.id }}">{{ group.name }}</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
+                <li ng-class="{active: !groupId}"><a href="#/users">Todos</a></li>
               </ul>
             </div>
           </div>
