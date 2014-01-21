@@ -53,7 +53,7 @@ angular.module('zupPainelApp', [
     })
     .when('/users/:id', {
       templateUrl: 'views/users/view.html',
-      controller: 'UsersCtrl',
+      controller: 'ViewUsersCtrl',
       access: {
         logged: true
       }
