@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
 
 .controller('UsersCtrl', function ($scope, $q, $routeParams, Users, Groups) {
 
-  var params = null, groupId = $routeParams.groupId;
+  var params = {}, groupId = $routeParams.groupId;
 
   // pass group id to view
   if (typeof groupId !== 'undefined')
@@ -28,6 +28,26 @@ angular.module('zupPainelApp')
   $q.all([usersData.$promise, groupsData.$promise]).then(function() {
     $scope.loading = false;
   });
+
+  // Search function
+  $scope.search = function(text) {
+    if (text === '')
+    {
+      delete params.name;
+    }
+    else
+    {
+      params.name = text;
+    }
+
+    $scope.loadingContent = true;
+
+    usersData = Users.getAll(params, function(data) {
+      $scope.users = data.users;
+
+      $scope.loadingContent = false;
+    });
+  };
 
 })
 
