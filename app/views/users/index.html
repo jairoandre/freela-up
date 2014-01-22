@@ -57,7 +57,7 @@
           <td><span ng-repeat="group in user.groups">{{ group.name }}</span> </td>
           <td class="pull-text-right">
             <a href="#/users/edit/{{ user.id }}"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href=""><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="" ng-click="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></a>
           </td>
         </tr>
 
@@ -66,3 +66,24 @@
 
   </div>
 </div>
+
+<script type="text/ng-template" id="removeUser.html">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="close()">&times;</button>
+        <h4 class="modal-title">Remover usuário</h4>
+      </div>
+      <div class="modal-body">
+        <p>Atenção, você clicou em um botão para remover o usuário <b>{{ user.email }}</b>. Ao confirmar, você esta ciente e responsável pela exclusão.</p>
+
+        <p class="text-danger">Se você tem certeza, digite abaixo a palavra <code>DELETAR</code> e clique no botão remover.</p>
+
+        <div class="form-group has-error">
+          <input type="text" class="form-control" ng-model="confirmText">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+      <button type="button" class="btn btn-fat-custom btn-default" ng-click="close()">Cancelar</button>
+        <button type="button" class="btn btn-fat-custom btn-danger" ng-click="confirm()" ng-disabled="confirmText.toLowerCase() !== 'deletar'">Remover</button>
+      </div>
+</script>

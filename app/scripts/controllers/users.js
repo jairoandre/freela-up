@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('UsersCtrl', function ($scope, $q, $routeParams, Users, Groups) {
+.controller('UsersCtrl', function ($scope, $q, $routeParams, $modal, Users, Groups) {
 
   var params = {}, groupId = $routeParams.groupId;
 
@@ -46,6 +46,25 @@ angular.module('zupPainelApp')
       $scope.users = data.users;
 
       $scope.loadingContent = false;
+    });
+  };
+
+  $scope.deleteUser = function (user) {
+    $modal.open({
+      templateUrl: 'removeUser.html',
+      windowClass: 'removeModal',
+      controller: ['$scope', '$modalInstance', 'Users', function($scope, $modalInstance, Users) {
+        $scope.user = user;
+
+        $scope.confirm = function() {
+
+          var user = Users.get({ id: $scope.user.id }, function() {
+            user.$delete({ id: $scope.user.id });
+            $modalInstance.close();
+          });
+
+        };
+      }]
     });
   };
 

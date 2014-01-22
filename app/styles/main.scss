@@ -858,6 +858,16 @@ p {
   width: 400px;
 }
 
+.removeModal {
+  .modal-dialog {
+    width: 500px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+
 // map
 .pinTooltip {
   padding: 10px 15px;
