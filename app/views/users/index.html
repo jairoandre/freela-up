@@ -48,14 +48,15 @@
           <tr>
             <td>E-mail</td>
             <td>Grupo</td>
-            <td width="20"></td>
+            <td></td>
           </tr>
         </thead>
 
         <tr ng-repeat="user in users">
           <td><a href="#/users/{{ user.id }}">{{ user.email }}</a></td>
           <td><span ng-repeat="group in user.groups">{{ group.name }}</span> </td>
-          <td>
+          <td class="pull-text-right">
+            <a href="#/users/edit/{{ user.id }}"><span class="glyphicon glyphicon-edit"></span></a>
             <a href=""><span class="glyphicon glyphicon-trash"></span></a>
           </td>
         </tr>
