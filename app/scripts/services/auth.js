@@ -18,9 +18,7 @@ angular.module('zupPainelApp')
 
         req.success(function(data) {
           // save user data returned by API
-          user = data.user;
-
-          $rootScope.me = user;
+          that.saveUser(data.user);
 
           deferred.resolve();
         });
@@ -66,6 +64,8 @@ angular.module('zupPainelApp')
 
     saveUser: function(data) {
       user = data;
+
+      $rootScope.me = user;
     },
 
     isLogged: function() {
