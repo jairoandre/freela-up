@@ -53,16 +53,28 @@ angular.module('zupPainelApp')
     $modal.open({
       templateUrl: 'removeUser.html',
       windowClass: 'removeModal',
-      controller: ['$scope', '$modalInstance', 'Users', function($scope, $modalInstance, Users) {
+      resolve: {
+        usersList: function(){
+          return $scope.users;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'Users', 'usersList', function($scope, $modalInstance, Users, usersList) {
         $scope.user = user;
 
+        // delete user from server
         $scope.confirm = function() {
-
           var user = Users.get({ id: $scope.user.id }, function() {
-            user.$delete({ id: $scope.user.id });
-            $modalInstance.close();
-          });
+            user.$delete({ id: $scope.user.id }, function() {
+              $modalInstance.close();
 
+              // remove user from list
+              usersList.splice(usersList.indexOf($scope.user), 1);
+            });
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
         };
       }]
     });
