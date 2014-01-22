@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.factory('Auth', function ($q, $http, $cookies) {
+.factory('Auth', function ($q, $http, $cookies, $rootScope) {
   var user = null;
 
   return {
@@ -19,6 +19,8 @@ angular.module('zupPainelApp')
         req.success(function(data) {
           // save user data returned by API
           user = data.user;
+
+          $rootScope.me = user;
 
           deferred.resolve();
         });
