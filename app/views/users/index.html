@@ -54,7 +54,7 @@
 
         <tr ng-repeat="user in users">
           <td><a href="#/users/{{ user.id }}">{{ user.email }}</a></td>
-          <td>Engenheiros</td>
+          <td><span ng-repeat="group in user.groups">{{ group.name }}</span> </td>
           <td>
             <a href=""><span class="glyphicon glyphicon-trash"></span></a>
           </td>
