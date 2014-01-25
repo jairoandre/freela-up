@@ -16,8 +16,6 @@ angular.module('zupPainelApp')
         $timeout.cancel(currentTimeout);
       }
 
-      console.log('keypress');
-
       currentTimeout = $timeout(function(){
         poster(elem.val());
       }, DELAY_TIME_BEFORE_POSTING);
