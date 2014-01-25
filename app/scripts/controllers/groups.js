@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('GroupsCtrl', function ($scope, Groups) {
+.controller('GroupsCtrl', function ($scope, $modal, Groups) {
 
   $scope.loading = true;
 
@@ -31,6 +31,37 @@ angular.module('zupPainelApp')
       $scope.groups = data.groups;
 
       $scope.loadingContent = false;
+    });
+  };
+
+  $scope.deleteGroup = function (group) {
+    $modal.open({
+      templateUrl: 'removeGroup.html',
+      windowClass: 'removeModal',
+      resolve: {
+        groupsList: function(){
+          return $scope.groups;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'Users', 'groupsList', function($scope, $modalInstance, Users, groupsList) {
+        $scope.group = group;
+
+        // delete user from server
+        $scope.confirm = function() {
+          var group = Groups.get({ id: $scope.group.id }, function() {
+            group.$delete({ id: $scope.group.id }, function() {
+              $modalInstance.close();
+
+              // remove user from list
+              groupsList.splice(groupsList.indexOf($scope.group), 1);
+            });
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
     });
   };
 })
