@@ -43,7 +43,7 @@ angular.module('zupPainelApp')
           return $scope.groups;
         }
       },
-      controller: ['$scope', '$modalInstance', 'Users', 'groupsList', function($scope, $modalInstance, Users, groupsList) {
+      controller: ['$scope', '$modalInstance', 'groupsList', function($scope, $modalInstance, groupsList) {
         $scope.group = group;
 
         // delete user from server

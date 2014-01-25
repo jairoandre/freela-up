@@ -2,16 +2,45 @@
 
 angular.module('zupPainelApp')
 
-.controller('ReportsCtrl', function ($scope, Reports) {
+.controller('ReportsCtrl', function ($scope, $modal, Reports) {
 
   $scope.loading = true;
 
   // Get all reports categories
-  Reports.getAllCategories(function(data) {
+  Reports.get(function(data) {
     $scope.categories = data.categories;
 
     $scope.loading = false;
   });
+
+  $scope.deleteCategory = function (category) {
+    $modal.open({
+      templateUrl: 'removeCategory.html',
+      windowClass: 'removeModal',
+      resolve: {
+        reportsCategoriesList: function(){
+          return $scope.categories;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'Users', 'reportsCategoriesList', function($scope, $modalInstance, Users, reportsCategoriesList) {
+        $scope.category = category;
+
+        // delete user from server
+        $scope.confirm = function() {
+          Reports.delete({ id: $scope.category.id }, function() {
+            $modalInstance.close();
+
+            // remove user from list
+            reportsCategoriesList.splice(reportsCategoriesList.indexOf($scope.category), 1);
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
 })
 
 .controller('ViewItemsReportsCtrl', function ($scope, Reports, $routeParams) {
