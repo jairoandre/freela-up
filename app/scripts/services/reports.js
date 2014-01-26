@@ -6,5 +6,6 @@ angular.module('zupPainelApp')
   return $resource('{base_url}/reports/categories/:id.json', { id:'@id' },
     {
       'getItemsByCategory': { url: '{base_url}/reports/:categoryId/items.json', method: 'GET', params: { categoryId:'@categoryId' } },
+      'getItem': { url: '{base_url}/reports/items/:id.json', params: { id:'@id' } }
     });
 });

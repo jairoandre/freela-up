@@ -7,53 +7,45 @@
   <div id="main_content">
     <!-- Include views/layouts/header.html -->
     <div ng-include="'views/layout/header.html'"></div>
+    <div class="loading" ng-show="loading"></div>
 
-    <div class="title">
-      <ul>
-        <li><a href="#/reports">Relatos</a></li>
-        <li><a href="#/reports/1">Limpeza de boca de lobo</a></li>
-        <li>1321342</li>
-      </ul>
-    </div>
-
-    <div class="content">
-      <h5>Descrição</h5>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur.</p>
-
-      <h5>Categoria</h5>
-      <p>Limpeza de boca de lobo</p>
-
-      <h5>Data de cadastro</h5>
-      <p>21/05/2013</p>
-
-      <h5>Status</h5>
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-custom dropdown-toggle" data-toggle="dropdown">
-        Em aberto <span class="pull-right"><span class="caret"></span></span>
-        </button>
-
-        <ul class="dropdown-menu" role="menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li class="divider"></li>
-          <li><a href="#">Separated link</a></li>
+    <div ng-hide="loading">
+      <div class="title">
+        <ul>
+          <li><a href="#/reports">Relatos</a></li>
+          <li><a href="#/reports/{{ report.category.id }}">{{ report.category.title }}</a></li>
+          <li>#{{ report.id }} {{ report.address }}</li>
         </ul>
       </div>
 
-      <hr />
+      <div class="content">
+        <h5>Endereço</h5>
+        <p>{{ report.address }}</p>
 
-      <a href="#/reports/1" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+        <h5>Descrição</h5>
+        <p>{{ report.description }}</p>
+
+        <h5>Categoria</h5>
+        <p>{{ report.category.title }}</p>
+
+        <h5>Data de cadastro</h5>
+        <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
+
+        <h5>Status</h5>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-custom dropdown-toggle" data-toggle="dropdown">
+          {{ report.status.title }} <span class="pull-right"><span class="caret"></span></span>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="status in report.category.statuses"><a href="">status.title</a></li>
+          </ul>
+        </div>
+
+        <hr />
+
+        <a href="#/reports/{{ report.category.id }}" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+      </div>
     </div>
 
   </div>

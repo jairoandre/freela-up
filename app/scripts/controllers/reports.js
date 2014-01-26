@@ -54,4 +54,17 @@ angular.module('zupPainelApp')
     $scope.loading = false;
   });
 
+})
+
+.controller('ViewReportsCtrl', function ($scope, Reports, $routeParams) {
+
+  $scope.loading = true;
+
+  // Get reports from a specific category
+  Reports.getItem({ id: $routeParams.id }, function(data) {
+    $scope.report = data.report;
+
+    $scope.loading = false;
+  });
+
 });

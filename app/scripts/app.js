@@ -81,7 +81,7 @@ angular.module('zupPainelApp', [
     })
     .when('/reports/:categoryId/:id', {
       templateUrl: 'views/reports/view.html',
-      controller: 'ReportsCtrl',
+      controller: 'ViewReportsCtrl',
       access: {
         logged: true
       }
