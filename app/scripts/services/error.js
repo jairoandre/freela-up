@@ -18,7 +18,7 @@ angular.module('zupPainelApp')
             $scope.response = response;
 
             $scope.ok = function () {
-              $modalInstance.close();
+              window.location.reload();
             };
           }]
         });

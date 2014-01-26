@@ -161,6 +161,22 @@ angular.module('zupPainelApp', [
 
         // apply all the changes! :)
         return config || $q.when(config);
+      },
+
+      // check for expected errors
+      // if not, show generic system error
+      'responseError': function(rejection) {
+
+        var expectedErrors = rejection.config.expectedErrors;
+
+        if (!(typeof expectedErrors !== 'undefined' && expectedErrors.indexOf(rejection.status) !== -1))
+        {
+          $injector.invoke(['Error', function(Error) {
+            Error.showDetails(rejection);
+          }]);
+        }
+
+        return $q.reject(rejection);
       }
     };
   }]);

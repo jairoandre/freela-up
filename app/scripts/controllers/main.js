@@ -17,7 +17,7 @@ angular.module('zupPainelApp')
     user.auth().then(function() {
       $location.path('/reports');
     }, function(response) {
-      Error.showDetails(response);
+      console.log('got', response);
     });
   };
 });

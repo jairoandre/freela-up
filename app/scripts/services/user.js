@@ -24,7 +24,7 @@ angular.module('zupPainelApp')
     this.auth = function() {
       var deferred = $q.defer();
 
-      var req = $http({method: 'POST', url: '{base_url}/authenticate.json', data: {email: email, password: password}});
+      var req = $http({method: 'POST', url: '{base_url}/authenticate.json', data: {email: email, password: password}, expectedErrors: [400, 401]});
 
       req.success(function(data) {
         // save user data returned by API
