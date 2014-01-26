@@ -194,16 +194,6 @@ angular.module('zupPainelApp', [
       $rootScope.isLoading = true;
     }
 
-    /*
-    User checklist
-
-    1) Check if route needs authentication
-      1.1) If yes, check if cookie with token exists
-        1.1.1) If cookie exists, check user data with token
-        1.1.2) If okay, stop loading
-      1.2) If cookie doesn't exists, redirect to login page
-    */
-
     // Check if route needs authentication
     if (typeof curr.access !== 'undefined' && curr.access.logged === true)
     {

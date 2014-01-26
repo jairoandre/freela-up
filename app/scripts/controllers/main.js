@@ -12,12 +12,17 @@ angular.module('zupPainelApp')
   }
 
   $scope.login = function() {
+    $scope.loginError = false;
+
     var user = new User($scope.email, $scope.password);
 
     user.auth().then(function() {
       $location.path('/reports');
     }, function(response) {
-      console.log('got', response);
+      if (response.status == 400 || response.status == 401)
+      {
+        $scope.loginError = true;
+      }
     });
   };
 });
