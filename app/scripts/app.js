@@ -121,9 +121,9 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/items/:id', {
+    .when('/inventories/:categoryId/item/:id', {
       templateUrl: 'views/items/view.html',
-      controller: 'ItemsCtrl',
+      controller: 'ViewItemCtrl',
       access: {
         logged: true
       }

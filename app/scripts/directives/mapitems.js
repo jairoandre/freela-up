@@ -1,338 +1,269 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('mapItems', function () {
+  .directive('mapItems', function ($timeout, $q, $rootScope, Inventories, $compile) {
     return {
       restrict: 'A',
-      link: function(scope, element) {
+      link: function postLink(scope, element) {
+        var mapProvider = {
+          options:
+          {
+            styles: [{}, {'featureType': 'poi.business', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] },{ 'featureType': 'poi.government', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.medical', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.place_of_worship', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.school', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.sports_complex', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'transit', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }, { 'saturation': -100 }, { 'lightness': 42 }] }, { 'featureType': 'road.highway', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': -100 }, { 'lightness': 47 }] }, { 'featureType': 'landscape', 'stylers': [{ 'lightness': 82 }, { 'saturation': -100 }] }, { 'featureType': 'water', 'stylers': [{ 'hue': '#00b2ff' }, { 'saturation': -21 }, { 'lightness': -4 }] }, { 'featureType': 'poi', 'stylers': [{ 'lightness': 19 }, { 'weight': 0.1 }, { 'saturation': -22 }] }, { 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 18 }] }, { 'elementType': 'labels.text', 'stylers': [{ 'saturation': -100 }, { 'lightness': 28 }] }, { 'featureType': 'poi.attraction', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.park', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': 12 }, { 'lightness': 25 }] }, { 'featureType': 'road', 'elementType': 'labels.icon', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road', 'elementType': 'labels.text', 'stylers': [{ 'lightness': 30 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road.highway', 'elementType': 'geometry', 'stylers': [{ 'saturation': -100 }, { 'lightness': 56 }] }, { 'featureType': 'road.local', 'elementType': 'geometry.fill', 'stylers': [{ 'lightness': 62 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'off' }] }],
+            homeLatlng: new google.maps.LatLng(-23.549671, -46.6321713),
+            map: {
+              zoom: 11,
+              scrollwheel: false,
+              mapTypeControl: false,
+              mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'zup']
+              }
+            }
+          },
 
-        /* Google Maps */
-        var styles = [{}, {
-            'featureType': 'poi.business',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          },{
-            'featureType': 'poi.government',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'poi.medical',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'poi.place_of_worship',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'poi.school',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'poi.sports_complex',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'transit',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }, {
-              'saturation': -100
-            }, {
-              'lightness': 42
-            }]
-          }, {
-            'featureType': 'road.highway',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'saturation': -100
-            }, {
-              'lightness': 47
-            }]
-          }, {
-            'featureType': 'landscape',
-            'stylers': [{
-              'lightness': 82
-            }, {
-              'saturation': -100
-            }]
-          }, {
-            'featureType': 'water',
-            'stylers': [{
-              'hue': '#00b2ff'
-            }, {
-              'saturation': -21
-            }, {
-              'lightness': -4
-            }]
-          }, {
-            'featureType': 'poi',
-            'stylers': [{
-              'lightness': 19
-            }, {
-              'weight': 0.1
-            }, {
-              'saturation': -22
-            }]
-          }, {
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'visibility': 'on'
-            }, {
-              'lightness': 18
-            }]
-          }, {
-            'elementType': 'labels.text',
-            'stylers': [{
-              'saturation': -100
-            }, {
-              'lightness': 28
-            }]
-          }, {
-            'featureType': 'poi.attraction',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'poi.park',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'saturation': 12
-            }, {
-              'lightness': 25
-            }]
-          }, {
-            'featureType': 'road',
-            'elementType': 'labels.icon',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'road',
-            'elementType': 'labels.text',
-            'stylers': [{
-              'lightness': 30
-            }]
-          }, {
-            'featureType': 'landscape.man_made',
-            'elementType': 'labels',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'road.highway',
-            'elementType': 'geometry',
-            'stylers': [{
-              'saturation': -100
-            }, {
-              'lightness': 56
-            }]
-          }, {
-            'featureType': 'road.local',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'lightness': 62
-            }]
-          }, {
-            'featureType': 'landscape.man_made',
-            'elementType': 'geometry',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }];
+          zoomLevels: {},
+          currentZoom: 11,
+          map: null,
+          getNewItemsTimeout: null,
+          hideNotVisibleMarkersTimeout: null,
+          doAnimation: true,
+          activeMethod: 'reports', // or items
+          activeInventoryFilters: [],
+          hiddenReportsCategories: [],
+          hiddenInventoryCategories: [],
+          mainMarker: null,
+          allows_arbitrary_position: true,
+          infoWindow: new google.maps.InfoWindow(),
 
-        var styledMap = new google.maps.StyledMapType(styles, { name: 'zup' });
+          start: function() {
+            // create map and set specific listeners
+            this.createMap();
+            this.setListeners();
+          },
 
-        var homeLatlng = new google.maps.LatLng(-23.549671, -46.6321713);
+          createMap: function() {
+            this.zoomLevels = {};
+            this.currentZoom = 11;
 
-        var mapOptions = {
-          center: homeLatlng,
-          zoom: 17,
-          disableDefaultUI: true,
-          mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'zup']
+            var styledMap = new google.maps.StyledMapType(this.options.styles, { name: 'zup' });
+
+            this.map = new google.maps.Map(element[0], this.options.map);
+
+            this.map.mapTypes.set('zup', styledMap);
+            this.map.setMapTypeId('zup');
+            this.map.setCenter(this.options.homeLatlng);
+          },
+
+          setListeners: function() {
+            // refresh map when shown
+            scope.$watch('categoryData', function () {
+              mapProvider.createMap();
+
+              setTimeout(function() {
+                google.maps.event.trigger(mapProvider.map, 'resize');
+                google.maps.event.trigger(mapProvider.map, 'bounds_changed');
+                mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+
+                // Set listener for when bounds changes
+                google.maps.event.addListener(mapProvider.map, 'bounds_changed', function() {
+                  mapProvider.boundsChanged();
+                });
+
+                google.maps.event.trigger(mapProvider.map, 'bounds_changed');
+              }, 80);
+            });
+          },
+
+          getItems: function(options, precallback) {
+            var params = {
+              'position[latitude]': options.center.lat(),
+              'position[longitude]': options.center.lng(),
+              'position[distance]': options.distance,
+              'limit': 80,
+              'zoom': mapProvider.map.getZoom()
+            };
+
+            var itemsData = Inventories.getItems(params);
+
+            return itemsData;
+          },
+
+          boundsChanged: function() {
+            var clearLevels = false;
+
+            if (typeof this.zoomLevels[this.map.getZoom()] === 'undefined')
+            {
+              this.zoomLevels[this.map.getZoom()] = {};
+            }
+
+            // Check if zoom has changed
+            if (this.currentZoom !== this.map.getZoom())
+            {
+              clearLevels = true;
+
+              this.currentZoom = this.map.getZoom();
+            }
+
+            // Wait a bit until hide/show items
+            if (this.hideNotVisibleMarkersTimeout)
+            {
+              $timeout.cancel(this.hideNotVisibleMarkersTimeout);
+            };
+
+            this.hideNotVisibleMarkersTimeout = $timeout(function() {
+              mapProvider.hideNotVisibleMarkers();
+            }, 200);
+
+            // Wait a bit until get new items
+            if (this.getNewItemsTimeout)
+            {
+              $timeout.cancel(this.getNewItemsTimeout);
+            };
+
+            $rootScope.isLoadingItems = true;
+
+            this.getNewItemsTimeout = $timeout(function() {
+              var items = mapProvider.getItems({
+                center: mapProvider.map.getCenter(),
+                distance: mapProvider.getDistance(),
+                limit: 100
+              });
+
+              $q.all([items.$promise]).then(function(values) {
+                $rootScope.isLoadingItems = false;
+
+                if (clearLevels)
+                {
+                  mapProvider.hideAllMarkersFromInactiveLevels();
+                }
+
+                // add reports
+                for (var i = values[0].items.length - 1; i >= 0; i--) {
+                  mapProvider.addMarker(values[0].items[i], mapProvider.doAnimation, 'item');
+                }
+
+                // after first request we will deactive animation
+                if (mapProvider.doAnimation === true)
+                {
+                  mapProvider.doAnimation = false;
+                }
+              });
+
+            }, 1000);
+          },
+
+          // Hide every marker that is not visible to the user
+          hideNotVisibleMarkers: function() {
+            angular.forEach(this.zoomLevels[this.map.getZoom()], function(marker, id) {
+              if (!mapProvider.isMarkerInsideBounds(marker))
+              {
+                marker.setVisible(false);
+              }
+              else
+              {
+                var cat, pos;
+
+                if (marker.type === 'report')
+                {
+                  pos = mapProvider.hiddenReportsCategories.indexOf(marker.item.category_id);
+                }
+
+                if (marker.type === 'item')
+                {
+                  pos = mapProvider.hiddenInventoryCategories.indexOf(marker.item.inventory_category_id);
+                }
+
+                if (!~pos)
+                {
+                  marker.setVisible(true);
+                }
+              }
+            });
+          },
+
+          hideAllMarkersFromInactiveLevels: function() {
+            angular.forEach(this.zoomLevels, function(zoomLevel, zoomLevelId) {
+              console.log(zoomLevelId, mapProvider.currentZoom);
+              if (zoomLevelId != mapProvider.currentZoom)
+              {
+                angular.forEach(zoomLevel, function(marker, id) {
+                  marker.setVisible(false);
+                });
+              }
+            });
+          },
+
+          isMarkerInsideBounds: function(marker) {
+            return this.map.getBounds().contains(marker.getPosition());
+          },
+
+          addMarker: function(item, effect, type) {
+            if (typeof this.zoomLevels[this.map.getZoom()][type + '_' + item.id] === 'undefined')
+            {
+              var LatLng = new google.maps.LatLng(item.position.latitude, item.position.longitude);
+
+              var infowindow = mapProvider.infoWindow;
+
+              var category = scope.getInventoryCategory(item.inventory_category_id);
+              var iconSize = new google.maps.Size(15, 15);
+              var itemType = 'item';
+
+              var pos = mapProvider.hiddenInventoryCategories.indexOf(item.inventory_category_id);
+
+              var categoryIcon = new google.maps.MarkerImage(category.pin.retina.web, null, null, null, iconSize);
+
+              var pinOptions = {
+                position: LatLng,
+                map: this.map,
+                icon: categoryIcon,
+                category: category,
+                item: item,
+                type: itemType
+              };
+
+              if (typeof effect !== 'undefined' && effect === true)
+              {
+                pinOptions.animation = google.maps.Animation.DROP;
+              }
+
+              var pin = new google.maps.Marker(pinOptions);
+
+              this.zoomLevels[this.map.getZoom()][type + '_' + item.id] = pin;
+
+              google.maps.event.addListener(pin, 'click', function() {
+                var html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/inventories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
+
+                var new_scope = scope.$new(true);
+
+                new_scope.category = this.category;
+                new_scope.item = this.item;
+
+                var compiled = $compile(html)(new_scope);
+
+                new_scope.$apply();
+
+                infowindow.setContent(compiled[0]);
+                infowindow.open(mapProvider.map, this);
+              });
+            }
+          },
+
+          getDistance: function() {
+            var bounds = this.map.getBounds();
+
+            var center = bounds.getCenter();
+            var ne = bounds.getNorthEast();
+
+            var dis = google.maps.geometry.spherical.computeDistanceBetween(center, ne);
+
+            return dis;
           }
         };
 
-        var map = new google.maps.Map(element[0], mapOptions);
+        mapProvider.start();
 
-        map.mapTypes.set('zup', styledMap);
-        map.setMapTypeId('zup');
+        scope.mapProvider = mapProvider;
 
-        var markers = [[], [], [], [], []];
-
-        var pinImages = [
-            'images/map_pin_boca-lobo.png', // 0
-            'images/map_pin_entulho.png', // 1
-            'images/ponto_bocalobo.png', // 2
-            'images/ponto_floresta-urbana.png', // 3
-            'images/ponto_praca-wifi.png' // 4
-          ];
-
-        var pinLatLng = [
-          // 0
-          [[-23.549671, -46.6321713]],
-          // 1
-          [[-23.549297, -46.633701]],
-          // 2
-          [[-23.552349, -46.632923], [-23.551926, -46.632601], [-23.551130, -46.632376], [-23.549861, -46.632065], [-23.549310, -46.632043], [-23.548307, -46.632494]],
-          // 3
-          [[-23.549822, -46.631056], [-23.549654, -46.630638], [-23.550087, -46.630852], [-23.549969, -46.630509], [-23.549841, -46.630273], [-23.549290, -46.629908], [-23.549576, -46.629544]],
-          // 4
-          [[-23.550878, -46.631134]]
-        ];
-
-        var pinTooltip = [
-          // 0
-          [['<h1>Coleta de entulho</h1><p>Enviada ontem</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']],
-
-          // 1
-          [['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']],
-
-          // 2
-          [
-            ['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 3 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 5 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 4 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 6 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 2 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
-          ],
-          // 3
-          [
-            ['<h1>Coleta de entulho</h1><p>Enviada hoje</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada ontem</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 2 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 3 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 4 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>'],
-            ['<h1>Coleta de entulho</h1><p>Enviada há 5 dias</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
-          ],
-          // 4
-          [
-            ['<h1>Coleta de entulho</h1><p>Enviada há 1 semana</p><a href="#/items/1" data-toggle="modal" data-target="#item_pin1">Ver detalhes</a>']
-          ]
-        ];
-
-        // Limpeza de boca de lobo
-        for (var i = pinLatLng[0].length - 1; i >= 0; i--) {
-          var LatLng = new google.maps.LatLng(pinLatLng[0][i][0], pinLatLng[0][i][1]);
-
-          var pin = new google.maps.Marker({
-              position: LatLng,
-              map: map,
-              icon: pinImages[0],
-              animation: google.maps.Animation.DROP
-            });
-
-          markers[0].push(pin);
-
-          var infowindow = new google.maps.InfoWindow();
-
-          var pos = i;
-
-          google.maps.event.addListener(pin, 'click', function() {
-            console.log(pos);
-            infowindow.setContent('<div class="pinTooltip">' + pinTooltip[0][pos] + '</div>');
-            infowindow.open(map, this);
-          });
-        };
-
-        // Coleta de entulho
-        for (var i = pinLatLng[1].length - 1; i >= 0; i--) {
-            var LatLng = new google.maps.LatLng(pinLatLng[1][i][0], pinLatLng[1][i][1]);
-
-            var pin = new google.maps.Marker({
-                position: LatLng,
-                map: map,
-                icon: pinImages[1],
-                animation: google.maps.Animation.DROP
-            });
-
-            markers[1].push(pin);
-
-            var infowindow = new google.maps.InfoWindow(), pos = i;
-
-            google.maps.event.addListener(pin, 'click', function() {
-              infowindow.setContent('<div class="pinTooltip">' + pinTooltip[1][pos] + '</div>');
-              infowindow.open(map, this);
-            });
-        };
-
-        // Pontos boca de lobo
-        for (var i = pinLatLng[2].length - 1; i >= 0; i--) {
-            var LatLng = new google.maps.LatLng(pinLatLng[2][i][0], pinLatLng[2][i][1]);
-
-            var pin = new google.maps.Marker({
-                position: LatLng,
-                map: map,
-                icon: pinImages[2],
-                animation: google.maps.Animation.DROP
-            });
-
-            markers[2].push(pin);
-
-            var infowindow = new google.maps.InfoWindow(), pos = i;
-
-            google.maps.event.addListener(pin, 'click', function() {
-                infowindow.setContent('<div class="pinTooltip">' + pinTooltip[2][pos] + '</div>');
-                infowindow.open(map, this);
-            });
-        };
-
-        // Pontos floresta urbana
-        for (var i = pinLatLng[3].length - 1; i >= 0; i--) {
-            var LatLng = new google.maps.LatLng(pinLatLng[3][i][0], pinLatLng[3][i][1]);
-
-            var pin = new google.maps.Marker({
-                position: LatLng,
-                map: map,
-                icon: pinImages[3],
-                animation: google.maps.Animation.DROP
-            });
-
-            markers[3].push(pin);
-
-            var infowindow = new google.maps.InfoWindow(), pos = i;
-
-            google.maps.event.addListener(pin, 'click', function() {
-                infowindow.setContent('<div class="pinTooltip">' + pinTooltip[3][pos] + '</div>');
-                infowindow.open(map, this);
-            });
-        };
-
-        // Pontos praça com wi-fi
-        for (var i = pinLatLng[4].length - 1; i >= 0; i--) {
-            var LatLng = new google.maps.LatLng(pinLatLng[4][i][0], pinLatLng[4][i][1]);
-
-            var pin = new google.maps.Marker({
-                position: LatLng,
-                map: map,
-                icon: pinImages[4],
-                animation: google.maps.Animation.DROP
-            });
-
-            markers[4].push(pin);
-
-            var infowindow = new google.maps.InfoWindow(), pos = i;
-
-            google.maps.event.addListener(pin, 'click', function() {
-              infowindow.setContent('<div class="pinTooltip">' + pinTooltip[4][pos] + '</div>');
-              infowindow.open(map, this);
-            });
-        };
       }
     };
   });
+

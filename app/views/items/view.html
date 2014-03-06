@@ -7,44 +7,35 @@
   <div id="main_content">
     <!-- Include views/layouts/header.html -->
     <div ng-include="'views/layout/header.html'"></div>
+    <div class="loading" ng-show="loading"></div>
 
-    <div class="title">
-      <ul>
-        <li><a href="#/items">Items</a></li>
-        <li>Árvore de exemplo</li>
-      </ul>
-    </div>
+    <div ng-hide="loading">
+      <div class="title">
+        <ul>
+          <li><a href="#/items">Items</a></li>
+          <li>{{ item.title }}</li>
+        </ul>
+      </div>
 
-    <div class="content">
-      <h3>Seção X</h3>
+      <div class="content">
 
-      <h5>Descrição</h5>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div ng-repeat="section in category.sections">
+          <h3>{{ section.title }}</h3>
 
-      <h5>Nome</h5>
-      <p>Árvore de exemplo</p>
+          <div ng-repeat="field in section.fields">
+              <h5>{{ field.title }}</h5>
+              <p>{{ getDataByInventoryFieldId(field.id) }}</p>
+          </div>
 
-      <h5>Data de cadastro</h5>
-      <p>21/05/2013</p>
+          <hr />
+        </div>
 
-      <hr />
+        <div class="roundedMap" map-show-item></div>
 
-      <h3>Localização</h3>
+        <hr />
 
-      <h5>Endereço</h5>
-
-      <p>Av. Paulista, 267</p>
-
-      <div class="roundedMap" map-items></div>
-
-      <hr />
-
-      <a href="#/items" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+        <a href="#/items" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+      </div>
     </div>
 
   </div>
