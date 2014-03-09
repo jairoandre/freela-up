@@ -5,10 +5,11 @@ angular.module('zupPainelApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'restangular'
 ])
 
-.config(function ($routeProvider, $httpProvider) {
+.config(function ($routeProvider, $httpProvider, RestangularProvider) {
 
   // Configure each route
   $routeProvider
@@ -183,6 +184,25 @@ angular.module('zupPainelApp', [
 
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+  // Configure Restangular
+  RestangularProvider.setBaseUrl('http://staging.zup.sapience.io');
+  //Restangular.setDefaultRequestParams({'X-App-Token': "secret key"});
+
+  // Return what is being requested
+  RestangularProvider.setResponseExtractor(function(response, operation, what) {
+    if (typeof response[what] !== 'undefined')
+    {
+      return response[what];
+    }
+
+    for (var key in response)
+    {
+      return response[key];
+    }
+
+    return response;
+  });
 })
 
 .run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
