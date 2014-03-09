@@ -2,48 +2,56 @@
 
 angular.module('zupPainelApp')
 
-.controller('UsersCtrl', function ($scope, $q, $routeParams, $modal, Users, Groups) {
+.controller('UsersCtrl', function ($scope, $q, $routeParams, $modal, Restangular) {
 
-  var params = {}, groupId = $routeParams.groupId;
+  $scope.loading = true;
+
+  var groupId = $routeParams.groupId, users;
 
   // pass group id to view
   if (typeof groupId !== 'undefined')
   {
-    params = {groups: groupId};
+    users = function() { return Restangular.one('groups', groupId).all('users').getList() };
 
     $scope.groupId = groupId;
   }
+  else
+  {
+    users = function() { return Restangular.all('users').getList() };
 
-  $scope.loading = true;
+    groupId = null;
+  }
 
-  // get all necessary data
-  var usersData = Users.getAll(params, function(data) {
-    $scope.users = data.users;
-  });
+  var groups = Restangular.all('groups').getList();
 
-  var groupsData = Groups.getAll(function(data) {
-    $scope.groups = data.groups;
-  });
+  $q.all([users(), groups]).then(function(data) {
+    $scope.users = data[0];
+    $scope.groups = data[1];
 
-  $q.all([usersData.$promise, groupsData.$promise]).then(function() {
     $scope.loading = false;
   });
 
   // Search function
   $scope.search = function(text) {
-    if (text === '')
+    $scope.loadingContent = true;
+
+    var search;
+
+    if (text == '')
     {
-      delete params.name;
+      search = users();
+    }
+    else if (groupId)
+    {
+      search = Restangular.one('search').one('groups', groupId).all('users').getList({name: text, email: text});
     }
     else
     {
-      params.name = text;
+      search = Restangular.one('search').all('users').getList({name: text, email: text});
     }
 
-    $scope.loadingContent = true;
-
-    usersData = Users.getAll(params, function(data) {
-      $scope.users = data.users;
+    search.then(function(data) {
+      $scope.users = data;
 
       $scope.loadingContent = false;
     });
@@ -82,13 +90,12 @@ angular.module('zupPainelApp')
 
 })
 
-.controller('ViewUsersCtrl', function ($scope, Users, $routeParams) {
+.controller('ViewUsersCtrl', function ($scope, Restangular, $routeParams) {
 
   $scope.loading = true;
 
-  // Get specific group
-  Users.get({ id: $routeParams.id }, function(data) {
-    $scope.user = data.user;
+  Restangular.one('users', $routeParams.id).get().then(function(data) {
+    $scope.user = data;
 
     $scope.loading = false;
   });
