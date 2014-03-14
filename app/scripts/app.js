@@ -6,7 +6,8 @@ angular.module('zupPainelApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
-  'restangular'
+  'restangular',
+  'infinite-scroll'
 ])
 
 .config(function ($routeProvider, $httpProvider, RestangularProvider) {
@@ -187,6 +188,7 @@ angular.module('zupPainelApp', [
 
   // Configure Restangular
   RestangularProvider.setBaseUrl('http://staging.zup.sapience.io');
+  RestangularProvider.setFullResponse(true);
   //Restangular.setDefaultRequestParams({'X-App-Token': "secret key"});
 
   // Return what is being requested
