@@ -18,6 +18,7 @@ angular.module('zupPainelApp', [
       templateUrl: 'views/login.html',
       controller: 'MainCtrl'
     })
+    // groups
     .when('/groups', {
       templateUrl: 'views/groups/index.html',
       controller: 'GroupsCtrl',
@@ -39,6 +40,7 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    // users
     .when('/users', {
       templateUrl: 'views/users/index.html',
       controller: 'UsersCtrl',
@@ -67,6 +69,7 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    // reports
     .when('/reports', {
       templateUrl: 'views/reports/index.html',
       controller: 'ReportsCtrl',
@@ -74,20 +77,14 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/reports/:categoryId', {
-      templateUrl: 'views/reports/list.html',
-      controller: 'ViewItemsReportsCtrl',
+    .when('/reports/categories', {
+      templateUrl: 'views/reports/categories.html',
+      controller: 'ReportsCategoriesCtrl',
       access: {
         logged: true
       }
     })
-    .when('/reports/:categoryId/:id', {
-      templateUrl: 'views/reports/view.html',
-      controller: 'ViewReportsCtrl',
-      access: {
-        logged: true
-      }
-    })
+    // inventory
     .when('/inventories', {
       templateUrl: 'views/inventories/index.html',
       controller: 'InventoriesCtrl',
