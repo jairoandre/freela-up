@@ -205,6 +205,14 @@ angular.module('zupPainelApp', [
 
     return response;
   });
+
+  RestangularProvider.setRequestInterceptor(function(elem, operation) {
+    if (operation === "remove") {
+      return null;
+    }
+
+    return elem;
+  });
 })
 
 .run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {

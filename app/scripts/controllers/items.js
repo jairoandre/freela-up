@@ -2,26 +2,75 @@
 
 angular.module('zupPainelApp')
 
-.controller('ItemsCtrl', function ($scope, $modal, Inventories, $q) {
+.controller('ItemsCtrl', function ($scope, $modal, Inventories, $q, Restangular) {
 
-  $scope.loading = true;
+ $scope.loading = true;
 
-  var params = {};
+  var page = 1, per_page = 30, total, searchText = '', loadingPagination = false;
 
-  // Get inventory categories
-  var categoriesData = Inventories.get(function(data) {
-    $scope.categories = data.categories;
-  });
+  // Return right promise
+  var generateItemsPromise = function(searchText) {
+    // if we searching, hit search/users
+    if (searchText != '')
+    {
+      return Restangular.one('search').all('items').getList({name: searchText, email: searchText, page: page, per_page: per_page});
+    }
 
-  // Get all groups
-  var itemsData = Inventories.getItems({per_page: 100, limit: 100}, function(data) {
-    $scope.items = data.items;
-  });
+    return Restangular.one('inventory').all('items').getList({ page: page, per_page: per_page });
+  };
 
-  // Wait for all categories to load
-  $q.all([itemsData.$promise, categoriesData.$promise]).then(function() {
-    $scope.loading = false;
-  });
+  // Get groups for filters
+  var categories = Restangular.one('inventory').all('categories').getList();
+
+  // One every change of page or search, we create generate a new request based on current values
+  var getData = $scope.getData = function(paginate) {
+    if (loadingPagination === false)
+    {
+      loadingPagination = true;
+
+      var itemsPromise = generateItemsPromise(searchText);
+
+      $q.all([itemsPromise, categories]).then(function(responses) {
+        $scope.categories = responses[1].data;
+
+        if (paginate !== true)
+        {
+          $scope.items = responses[0].data;
+        }
+        else
+        {
+          if (typeof $scope.items == 'undefined')
+          {
+            $scope.items = [];
+          }
+
+          for (var i = 0; i < responses[0].data.length; i++) {
+            $scope.items.push(responses[0].data[i]);
+          };
+
+          // add up one page
+          page++;
+        }
+
+        total = parseInt(responses[0].headers().total);
+
+        var last_page = Math.ceil(total / per_page);
+
+        if (page === (last_page + 1))
+        {
+          loadingPagination = null;
+        }
+        else
+        {
+          loadingPagination = false;
+        }
+
+        $scope.loading = false;
+      });
+
+      return itemsPromise;
+    }
+  };
 
   $scope.getInventoryCategory = function(id) {
     for (var i = $scope.categories.length - 1; i >= 0; i--) {
@@ -32,25 +81,6 @@ angular.module('zupPainelApp')
     }
 
     return null;
-  };
-
-  $scope.search = function(text) {
-    if (text === '')
-    {
-      delete params.name;
-    }
-    else
-    {
-      params.name = text;
-    }
-
-    $scope.loadingContent = true;
-
-    groupsData = Groups.getAll(params, function(data) {
-      $scope.groups = data.groups;
-
-      $scope.loadingContent = false;
-    });
   };
 
   $scope.deleteItem = function (item, category) {
@@ -76,7 +106,9 @@ angular.module('zupPainelApp')
 
         // delete user from server
         $scope.confirm = function() {
-          Inventories.deleteItem({ categoryId: $scope.category.id, id: $scope.item.id }, function() {
+          var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).one('items', $scope.item.id).remove();
+
+          deletePromise.then(function() {
             $modalInstance.close();
 
             // remove user from list
