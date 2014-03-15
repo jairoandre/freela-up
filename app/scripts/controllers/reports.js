@@ -82,36 +82,31 @@ angular.module('zupPainelApp')
     return null;
   };
 
-  $scope.deleteReport = function (item, category) {
+  $scope.deleteReport = function (report) {
     $modal.open({
-      templateUrl: 'views/items/removeReport.html',
+      templateUrl: 'views/reports/removeReport.html',
       windowClass: 'removeModal',
       resolve: {
-        itemsList: function() {
-          return $scope.items;
+        reportsList: function() {
+          return $scope.reports;
         },
 
-        item: function() {
-          return item;
-        },
-
-        category: function() {
-          return category;
+        report: function() {
+          return report;
         }
       },
-      controller: ['$scope', '$modalInstance', 'itemsList', 'item', 'category', function($scope, $modalInstance, itemsList, item, category) {
-        $scope.item = item;
-        $scope.category = category;
+      controller: ['$scope', '$modalInstance', 'reportsList', 'report', function($scope, $modalInstance, reportsList, report) {
+        $scope.report = report;
 
         // delete user from server
         $scope.confirm = function() {
-          var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).one('items', $scope.item.id).remove();
+          var deletePromise = Restangular.one('reports').one('items', $scope.report.id).remove();
 
           deletePromise.then(function() {
             $modalInstance.close();
 
             // remove user from list
-            itemsList.splice(itemsList.indexOf($scope.item), 1);
+            reportsList.splice(reportsList.indexOf($scope.report), 1);
           });
         };
 
