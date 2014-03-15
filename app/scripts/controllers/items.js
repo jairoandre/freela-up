@@ -124,18 +124,11 @@ angular.module('zupPainelApp')
   };
 })
 
-.controller('ViewItemCtrl', function ($scope, Inventories, $routeParams, $q) {
-
+.controller('ViewItemCtrl', function ($scope, Restangular, $routeParams, $q) {
   $scope.loading = true;
 
-  var categoryData = Inventories.get({id: $routeParams.categoryId}, function(data) {
-    $scope.category = data.category;
-  });
-
-  // Get specific group
-  var itemData = Inventories.getItem({ categoryId: $routeParams.categoryId, id: $routeParams.id }, function(data) {
-    $scope.item = data.item;
-  });
+  var itemPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).one('items', $routeParams.id).get();
+  var categoryPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).get({display_type: 'full'});
 
   $scope.getDataByInventoryFieldId = function(id) {
     for (var i = $scope.item.data.length - 1; i >= 0; i--) {
@@ -146,7 +139,10 @@ angular.module('zupPainelApp')
     };
   };
 
-  $q.all([categoryData.$promise, itemData.$promise]).then(function() {
+  $q.all([itemPromise, categoryPromise]).then(function(responses) {
+    $scope.item = responses[0].data;
+    $scope.category = responses[1].data;
+
     $scope.loading = false;
   });
 });
