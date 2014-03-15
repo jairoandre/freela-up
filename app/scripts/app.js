@@ -84,6 +84,13 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/reports/categories/:categoryId/item/:id', {
+      templateUrl: 'views/reports/view.html',
+      controller: 'ReportsCategoriesItemCtrl',
+      access: {
+        logged: true
+      }
+    })
     // inventory
     .when('/inventories', {
       templateUrl: 'views/inventories/index.html',

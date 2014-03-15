@@ -157,4 +157,27 @@ angular.module('zupPainelApp')
       }]
     });
   };*/
+})
+
+.controller('ReportsCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q) {
+  $scope.loading = true;
+
+  var reportPromise = Restangular.one('reports').one('items', $routeParams.id).get();
+  var categoriesPromise = Restangular.one('reports').all('categories').getList();
+
+  $q.all([reportPromise, categoriesPromise]).then(function(responses) {
+    $scope.report = responses[0].data;
+
+    // find category
+    for (var i = responses[1].data.length - 1; i >= 0; i--) {
+      if (responses[1].data[i].id == $routeParams.categoryId)
+      {
+        $scope.category = responses[1].data[i];
+      }
+    }
+
+    $scope.loading = false;
+  });
+
+
 });

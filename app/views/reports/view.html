@@ -13,12 +13,14 @@
       <div class="title">
         <ul>
           <li><a href="#/reports">Relatos</a></li>
-          <li><a href="#/reports/{{ report.category.id }}">{{ report.category.title }}</a></li>
-          <li>#{{ report.id }} {{ report.address }}</li>
+          <li>{{ report.address }}</li>
         </ul>
       </div>
 
       <div class="content">
+        <h5>Protocolo</h5>
+        <p>{{ report.protocol }}</p>
+
         <h5>Endereço</h5>
         <p>{{ report.address }}</p>
 
@@ -26,7 +28,7 @@
         <p>{{ report.description }}</p>
 
         <h5>Categoria</h5>
-        <p>{{ report.category.title }}</p>
+        <p>{{ category.title }}</p>
 
         <h5>Data de cadastro</h5>
         <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
@@ -38,13 +40,13 @@
           </button>
 
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="status in report.category.statuses"><a href="">status.title</a></li>
+            <li ng-repeat="status in category.statuses" ng-class="{ active: status.id == report.status.id }"><a href="">{{ status.title }}</a></li>
           </ul>
         </div>
 
         <hr />
 
-        <a href="#/reports/{{ report.category.id }}" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+        <a href="#/reports" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
       </div>
     </div>
 
