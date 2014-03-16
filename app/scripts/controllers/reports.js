@@ -178,6 +178,8 @@ angular.module('zupPainelApp')
 
     $scope.loading = false;
   });
+})
 
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams) {
 
 });

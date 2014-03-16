@@ -1,0 +1,124 @@
+<div id="main_layout">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="title">
+      <ul>
+        <li><a href="#/reports">Relatos</a></li>
+        <li><a href="#/reports/categories">Gerenciar categorias</a></li>
+        <li>Nova categoria</li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <form>
+        <div class="form-group">
+          <label for="form_name">Nome da categoria</label>
+          <input type="text" class="form-control input-lg" id="form_name">
+        </div>
+
+        <div class="form-group">
+          <label>Categoria de inventário relacionada</label>
+          
+          <div class="clearfix"></div>
+          
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-custom dropdown-toggle input-lg" data-toggle="dropdown">
+            Selecione <span class="pull-right"><span class="caret"></span></span>
+            </button>
+
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="">Categoria de inventário</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tempo de resolução do relato</label>
+          <div class="row">
+            <div class="col-md-2">
+              <input type="text" class="form-control input-lg">
+            </div>
+
+            <div class="col-md-2" style="padding: 0px;">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
+                Horas <span class="pull-right"><span class="caret"></span></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                  <li class="active"><a href="">Horas</a></li>
+                  <li><a href="">Dias</a></li>
+                  <li><a href="">Meses</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Compartilhamento no Facebook</label>
+          <div class="clearfix"></div>
+          <input type="checkbox" class="pull-right" checked bootstrap-switch>
+        </div>
+
+        <div class="form-group">
+          <label>Status de relatos públicos <a href="">(Gerenciar status)</a></label>
+
+          <br/>
+
+          <label class="checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox1" value="option1"> Em aberto
+          </label>
+
+          <label class="checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox2" value="option2"> Em andamento
+          </label>
+
+          <label class="checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox3" value="option3"> Resolvido
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Feedback do usuário</label>
+          <div class="row">
+            <div class="col-md-2" style="padding-top: 9px;">
+              <input type="checkbox" class="pull-right" checked bootstrap-switch>
+            </div>
+
+            <div class="col-md-2" style="padding: 0px;">
+              <input type="text" class="form-control input-lg">
+            </div>
+
+            <div class="col-md-2">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
+                Horas <span class="pull-right"><span class="caret"></span></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                  <li class="active"><a href="">Horas</a></li>
+                  <li><a href="">Dias</a></li>
+                  <li><a href="">Meses</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <button type="submit" class="btn btn-info btn-custom btn-lg-custom">Criar categoria</button>
+
+      </form>
+    </div>
+
+  </div>
+</div>
