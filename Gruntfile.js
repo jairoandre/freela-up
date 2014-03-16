@@ -144,7 +144,8 @@ module.exports = function (grunt) {
     'bower-install': {
       app: {
         html: '<%= yeoman.app %>/index.html',
-        ignorePath: '<%= yeoman.app %>/'
+        ignorePath: '<%= yeoman.app %>/',
+        exclude: ['bower_components/bootstrap/docs/assets/css/bootstrap.css']
       }
     },
 
