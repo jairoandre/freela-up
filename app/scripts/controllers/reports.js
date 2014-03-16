@@ -180,6 +180,28 @@ angular.module('zupPainelApp')
   });
 })
 
-.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams) {
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular) {
+  $scope.enabled_user_response_time = false;
 
+  var category = $scope.category = {
+    marker: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+  };
+
+  $scope.send = function() {
+    $scope.inputErrors = null;
+    $scope.processingForm = true;
+
+    var categoryPromise = Restangular.one('reports').post('categories', category);
+
+    categoryPromise.then(function(response) {
+      console.log('success', response);
+
+      $scope.processingForm = false;
+    }, function(response) {
+      console.log('error', response);
+
+      $scope.inputErrors = response.data.error;
+      $scope.processingForm = false;
+    });
+  };
 });

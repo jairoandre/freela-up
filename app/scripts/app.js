@@ -7,7 +7,9 @@ angular.module('zupPainelApp', [
   'ngRoute',
   'ui.bootstrap',
   'restangular',
-  'infinite-scroll'
+  'infinite-scroll',
+  'colorpicker.module',
+  'frapontillo.bootstrap-switch'
 ])
 
 .config(function ($routeProvider, $httpProvider, RestangularProvider) {
@@ -187,7 +189,7 @@ angular.module('zupPainelApp', [
       // if not, show generic system error
       'responseError': function(rejection) {
 
-        var expectedErrors = rejection.config.expectedErrors;
+        var expectedErrors = [400];
 
         if (!(typeof expectedErrors !== 'undefined' && expectedErrors.indexOf(rejection.status) !== -1))
         {
