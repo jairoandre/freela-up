@@ -9,7 +9,8 @@ angular.module('zupPainelApp', [
   'restangular',
   'infinite-scroll',
   'colorpicker.module',
-  'frapontillo.bootstrap-switch'
+  'frapontillo.bootstrap-switch',
+  'angularFileUpload'
 ])
 
 .config(function ($routeProvider, $httpProvider, RestangularProvider) {

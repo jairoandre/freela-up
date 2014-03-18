@@ -535,6 +535,53 @@ p {
       }
     }
 
+    .form-group.upload {
+      .drop-zone {
+        width: 200px;
+        height: 80px;
+        background: #F2F2F2;
+        border-radius: 5px;
+        display: table;
+
+        &.ng-file-over {
+          background: #e0e0e0;
+        }
+
+        span {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          color: #666;
+        }
+      }
+
+      .image {
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        margin: 0 auto;
+        margin-top: 10px;
+      }
+
+      .btn-upload {
+        width: 200px;
+        margin-top: 10px;
+        position: relative;
+        overflow: hidden;
+
+        input {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin: 0;
+          padding: 0;
+          font-size: 20px;
+          cursor: pointer;
+          @include opacity(0);
+        }
+      }
+    }
+
     .selectUsers {
       width: 100%;
       border: 1px solid #C5C5C5;

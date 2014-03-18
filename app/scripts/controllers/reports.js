@@ -129,21 +129,23 @@ angular.module('zupPainelApp')
     $scope.loading = false;
   });
 
-  /*$scope.deleteCategory = function (category) {
+  $scope.deleteCategory = function (category) {
     $modal.open({
-      templateUrl: 'removeCategory.html',
+      templateUrl: 'views/reports/removeCategory.html',
       windowClass: 'removeModal',
       resolve: {
         reportsCategoriesList: function(){
           return $scope.categories;
         }
       },
-      controller: ['$scope', '$modalInstance', 'Users', 'reportsCategoriesList', function($scope, $modalInstance, Users, reportsCategoriesList) {
+      controller: ['$scope', '$modalInstance', 'reportsCategoriesList', function($scope, $modalInstance, reportsCategoriesList) {
         $scope.category = category;
 
         // delete user from server
         $scope.confirm = function() {
-          Reports.delete({ id: $scope.category.id }, function() {
+          var deletePromise = Restangular.one('reports').one('categories', $scope.category.id).remove();
+
+          deletePromise.then(function() {
             $modalInstance.close();
 
             // remove user from list
@@ -156,7 +158,7 @@ angular.module('zupPainelApp')
         };
       }]
     });
-  };*/
+  };
 })
 
 .controller('ReportsCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q) {
@@ -180,28 +182,169 @@ angular.module('zupPainelApp')
   });
 })
 
-.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular) {
-  $scope.enabled_user_response_time = false;
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location) {
+  var updating = $scope.updating = false;
+  var categoryId = $routeParams.id;
 
-  var category = $scope.category = {
-    marker: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
-  };
+  if (typeof categoryId !== 'undefined')
+  {
+    updating = true;
+    $scope.updating = true;
+  }
+
+  // Start loading & get necessary requests
+  $scope.loading = true;
+
+  var categoriesPromise = Restangular.one('inventory').all('categories').getList();
+
+  if (updating)
+  {
+
+    // We create a empty category object to be passed on PUT
+    var category = $scope.category = {};
+
+    var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
+
+    $q.all([categoriesPromise, categoryPromise]).then(function(responses) {
+      $scope.categories = responses[0].data;
+
+      // ...and we populate $scope.category with the data from the server =)
+      category.title = responses[1].data.title;
+      category.color = responses[1].data.color;
+      category.allows_arbitrary_position = responses[1].data.allows_arbitrary_position;
+
+      if (responses[1].data.user_response_time !== null)
+      {
+        $scope.enabled_user_response_time = true;
+        category.user_response_time = responses[1].data.user_response_time;
+      }
+
+      if (responses[1].data.resolution_time !== null)
+      {
+        category.resolution_time = responses[1].data.resolution_time;
+      }
+
+      if (typeof responses[1].data.inventory_categories == 'object' && responses[1].data.inventory_categories.length !== 0)
+      {
+        category.inventory_categories = [];
+
+        for (var i = responses[1].data.inventory_categories.length - 1; i >= 0; i--) {
+          category.inventory_categories.push(responses[1].data.inventory_categories[i].id);
+        };
+      }
+
+      $scope.icon = responses[1].data.icon.default.web.active;
+
+      $scope.loading = false;
+    });
+  }
+  else
+  {
+    categoriesPromise.then(function(response) {
+      $scope.categories = response.data;
+
+      $scope.loading = false;
+    });
+
+    $scope.enabled_user_response_time = false;
+
+    // We create a default
+    var category = $scope.category = {
+      marker: 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+      inventory_categories: [],
+      allows_arbitrary_position: true,
+      statuses: {
+        0: {title: 'Em aberto', color: '#ff0000', initial: 'true', final: 'false'},
+        1: {title: 'Em andamento', color: '#ff0000', initial: 'false', final: 'false'},
+        2: {title: 'Resolvido', color: '#ff0000', initial: 'false', final: 'true'}
+      }
+    };
+  }
+
+  // Image uploader
+  var uploader = $scope.uploader = $fileUploader.create({
+    scope: $scope,
+    filters: [
+        function(item) {
+          uploader.queue = [];
+          return true;
+        }
+    ]
+  });
+
+  // Images only
+  uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+    var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+    type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+    return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+  });
 
   $scope.send = function() {
     $scope.inputErrors = null;
     $scope.processingForm = true;
+    var icon, promises = [];
 
-    var categoryPromise = Restangular.one('reports').post('categories', category);
+    // Add images to queue for processing it's dataUrl
+    function addAsync(file) {
+      var deferred = $q.defer();
 
-    categoryPromise.then(function(response) {
-      console.log('success', response);
+      var file = file, picReader = new FileReader();
 
-      $scope.processingForm = false;
-    }, function(response) {
-      console.log('error', response);
+      picReader.addEventListener('load', function(event) {
+        var picFile = event.target;
 
-      $scope.inputErrors = response.data.error;
-      $scope.processingForm = false;
+        icon = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
+        deferred.resolve();
+      });
+
+      // pass as base64 and strip data:image
+      picReader.readAsDataURL(file);
+
+      return deferred.promise;
+    };
+
+    for (var i = uploader.queue.length - 1; i >= 0; i--) {
+      promises.push(addAsync(uploader.queue[i].file));
+    };
+
+    // wait for images to process as base64
+    $q.all(promises).then(function() {
+      if (updating)
+      {
+        $scope.updated = false;
+
+        if (icon)
+        {
+          category.icon = icon;
+        }
+
+        var postCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(category);
+
+        postCategoryPromise.then(function(response) {
+          $scope.updated = true;
+
+          $scope.processingForm = false;
+        }, function(response) {
+          $scope.inputErrors = response.data.error;
+          $scope.processingForm = false;
+        });
+      }
+      else
+      {
+        category.icon = icon;
+        category.marker = icon;
+
+        var postCategoryPromise = Restangular.one('reports').post('categories', category);
+
+        postCategoryPromise.then(function(response) {
+          $location.path('/reports/categories');
+
+          $scope.processingForm = false;
+        }, function(response) {
+          $scope.inputErrors = response.data.error;
+          $scope.processingForm = false;
+        });
+      }
     });
   };
 });
