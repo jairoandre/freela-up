@@ -20,14 +20,6 @@
   &.switch-mini {
     min-width: 72px;
 
-    span,
-    label {
-      padding-bottom: 4px;
-      padding-top: 4px;
-      font-size: 10px;
-      line-height: 9px;
-    }
-
     i.switch-mini-icons {
       height: 1.20em;
       line-height: 9px;
@@ -41,55 +33,18 @@
 
   &.switch-small {
     min-width: 80px;
-
-    span,
-    label {
-      padding-bottom: 3px;
-      padding-top: 3px;
-      font-size: 12px;
-      line-height: 18px;
-    }
   }
 
   &.switch-large {
     min-width: 120px;
-
-    span,
-    label {
-      padding-bottom: 9px;
-      padding-top: 9px;
-      font-size: 16px;
-      line-height: normal;
-    }
-  }
-
-  &.switch-animate {
-
-    > div {
-      .transition(left 0.5s);
-    }
-  }
-
-  &.switch-off {
-
-    > div {
-      left: -50%;
-    }
-  }
-
-  &.switch-on {
-
-    > div {
-      left: 0%;
-    }
   }
 
   &.disabled {
     .opacity(.5);
     cursor: default !important;
 
-    span,
-    label {
+    label,
+    span {
       cursor: default !important;
     }
   }
@@ -99,7 +54,18 @@
     width: 150%;
     position: relative;
     top: 0;
-    .translate3d(0, 0, 0);
+
+    &.switch-animate {
+      .transition(left 0.5s);
+    }
+
+    &.switch-off {
+      left: -50%;
+    }
+
+    &.switch-on {
+      left: 0%;
+    }
   }
 
   input[type=radio],
@@ -118,6 +84,27 @@
     padding-top: 4px;
     font-size: 14px;
     line-height: 20px;
+
+    &.switch-mini {
+      padding-bottom: 4px;
+      padding-top: 4px;
+      font-size: 10px;
+      line-height: 9px;
+    }
+
+    &.switch-small {
+      padding-bottom: 3px;
+      padding-top: 3px;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    &.switch-large {
+      padding-bottom: 9px;
+      padding-top: 9px;
+      font-size: 16px;
+      line-height: normal;
+    }
   }
 
   label {
@@ -125,8 +112,11 @@
     margin-top: -1px;
     margin-bottom: -1px;
     z-index: 100;
-    width: 33.333333333%;
+    width: 34%;
+    // border-left: 1px solid @btnBorder;
+    // border-right: 1px solid @btnBorder;
     background: @btn-default-bg;
+    // .buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark);
 
     i {
       color: #000;
@@ -139,7 +129,7 @@
   span {
     text-align: center;
     z-index: 1;
-    width: 33.333333333%;
+    width: 33%;
 
     &.switch-left {
       color: #f00;

@@ -35,6 +35,6 @@
     "commit": "88b408549b78ff0f699bb7d9b32caaebf384c99a"
   },
   "_source": "git://github.com/frapontillo/angular-bootstrap-switch.git",
-  "_target": "0.2.1",
+  "_target": "~0.2.1",
   "_originalSource": "angular-bootstrap-switch"
 }

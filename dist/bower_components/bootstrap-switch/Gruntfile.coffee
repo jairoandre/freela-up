@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 
   grunt.initConfig
 
-    # load package.json
+    # load package json
     pkg: grunt.file.readJSON "package.json"
 
     coffeelint:
@@ -25,7 +25,7 @@ module.exports = (grunt) ->
           level: "error"
         max_line_length:
           level: "ignore"
-      build: ["Gruntfile.coffee", "src/**/*.coffee"]
+      build: ["Gruntfile.coffee", "src/coffee/**/*.coffee"]
 
     coffee:
       build:
@@ -37,6 +37,7 @@ module.exports = (grunt) ->
 
     uglify:
       build:
+        preserveComments: "some"
         expand: true
         src: "build/js/bootstrap-switch.js"
         ext: ".min.js"
@@ -54,49 +55,33 @@ module.exports = (grunt) ->
         ext: ".min.css"
 
     usebanner:
-      options:
-        banner: "/* ========================================================================\n" +
-        " * <%= pkg.name %> - v<%= pkg.version %>\n" +
-        " * <%= pkg.homepage %>\n" +
-        " * ========================================================================\n" +
-        " * Copyright 2012-2013 <%= pkg.author.name %>\n" +
-        " *\n" +
-        " * ========================================================================\n" +
-        " * Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
-        " * you may not use this file except in compliance with the License.\n" +
-        " * You may obtain a copy of the License at\n" +
-        " *\n" +
-        " *     http://www.apache.org/licenses/LICENSE-2.0\n" +
-        " *\n" +
-        " * Unless required by applicable law or agreed to in writing, software\n" +
-        " * distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
-        " * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
-        " * See the License for the specific language governing permissions and\n" +
-        " * limitations under the License.\n" +
-        " * ========================================================================\n" +
-        " */\n"
-      css:
+      build:
+        options:
+          banner: "/* ========================================================================\n" +
+          " * <%= pkg.name %> - v<%= pkg.version %>\n" +
+          " * <%= pkg.homepage %>\n" +
+          " * ========================================================================\n" +
+          " * Copyright 2012-2013 <%= pkg.author.name %>\n" +
+          " *\n" +
+          " * ========================================================================\n" +
+          " * Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+          " * you may not use this file except in compliance with the License.\n" +
+          " * You may obtain a copy of the License at\n" +
+          " *\n" +
+          " *     http://www.apache.org/licenses/LICENSE-2.0\n" +
+          " *\n" +
+          " * Unless required by applicable law or agreed to in writing, software\n" +
+          " * distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+          " * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+          " * See the License for the specific language governing permissions and\n" +
+          " * limitations under the License.\n" +
+          " * ========================================================================\n" +
+          " */\n"
         files:
-          src: ["build/**/*.css"]
-      js:
-        files:
-          src: ["build/**/*.js"]
+          src: ["build/**/*"]
 
     jshint:
       all: ["*.json"]
-
-    clean:
-      css: ["build/css"]
-      js: ["build/js"]
-
-    connect:
-      go:
-        options:
-          port: 3000
-
-    open:
-      go:
-        path: "http://localhost:<%= connect.go.options.port %>"
 
     bump:
       options:
@@ -104,13 +89,4 @@ module.exports = (grunt) ->
         commitFiles: ["-a"]
         push: false
 
-    watch:
-      coffee:
-        files: ["src/**/*.coffee"]
-        tasks: ["clean:js", "coffeelint", "coffee", "uglify", "usebanner:js"]
-      less:
-        files: ["src/**/*.less"],
-        tasks: ["clean:css", "less", "cssmin", "usebanner:css"]
-
-  grunt.registerTask "go", ["build", "connect", "open", "watch"]
-  grunt.registerTask "build", ["clean", "coffeelint", "coffee", "uglify", "usebanner:js", "less", "cssmin", "usebanner:css"]
+  grunt.registerTask "build", ["coffeelint", "coffee", "uglify", "less", "cssmin", "usebanner"]
