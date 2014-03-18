@@ -126,6 +126,11 @@ angular.module('zupPainelApp', [
     .when('/items', {
       templateUrl: 'views/items/index.html',
       controller: 'ItemsCtrl',
+      resolve: {
+        'isMap': function() {
+          return false;
+        }
+      },
       access: {
         logged: true
       }
@@ -133,6 +138,11 @@ angular.module('zupPainelApp', [
     .when('/items/map', {
       templateUrl: 'views/items/map.html',
       controller: 'ItemsCtrl',
+      resolve: {
+        'isMap': function() {
+          return true;
+        }
+      },
       access: {
         logged: true
       }

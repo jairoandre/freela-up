@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('ItemsCtrl', function ($scope, $modal, Inventories, $q, Restangular) {
+.controller('ItemsCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap) {
 
  $scope.loading = true;
 
@@ -71,6 +71,11 @@ angular.module('zupPainelApp')
       return itemsPromise;
     }
   };
+
+  if (isMap === true)
+  {
+    getData();
+  }
 
   $scope.getInventoryCategory = function(id) {
     for (var i = $scope.categories.length - 1; i >= 0; i--) {
