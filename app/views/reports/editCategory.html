@@ -15,8 +15,7 @@
         <ul>
           <li><a href="#/reports">Relatos</a></li>
           <li><a href="#/reports/categories">Gerenciar categorias</a></li>
-          <li ng-hide="updating">Nova categoria</li>
-          <li ng-show="updating">{{ category.title }}</li>
+          <li><span ng-hide="updating">Nova categoria</span><span ng-show="updating">{{ category.title }}</span></li>
         </ul>
       </div>
 
@@ -105,7 +104,7 @@
           </div>
 
           <div class="form-group">
-            <label generic-input name="statuses">Status de relatos disponíveis <!--<a href="">(Gerenciar status)</a>--></label>
+            <label generic-input name="statuses">Status de relatos disponíveis <a href="" ng-click="manageStatuses()">(Gerenciar status)</a></label>
 
             <ul>
               <li ng-repeat="status in category.statuses">{{ status.title }}</li>

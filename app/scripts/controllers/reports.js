@@ -182,7 +182,7 @@ angular.module('zupPainelApp')
   });
 })
 
-.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location) {
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal) {
   var updating = $scope.updating = false;
   var categoryId = $routeParams.id;
 
@@ -212,6 +212,7 @@ angular.module('zupPainelApp')
       category.title = responses[1].data.title;
       category.color = responses[1].data.color;
       category.allows_arbitrary_position = responses[1].data.allows_arbitrary_position;
+      category.statuses = responses[1].data.statuses;
 
       if (responses[1].data.user_response_time !== null)
       {
@@ -253,13 +254,60 @@ angular.module('zupPainelApp')
       marker: 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
       inventory_categories: [],
       allows_arbitrary_position: true,
-      statuses: {
-        0: {title: 'Em aberto', color: '#ff0000', initial: 'true', final: 'false'},
-        1: {title: 'Em andamento', color: '#ff0000', initial: 'false', final: 'false'},
-        2: {title: 'Resolvido', color: '#ff0000', initial: 'false', final: 'true'}
-      }
+      statuses: [
+        {title: 'Em aberto', color: '#ff0000', initial: true, final: false},
+        {title: 'Em andamento', color: '#ff0000', initial: false, final: false},
+        {title: 'Resolvido', color: '#ff0000', initial: false, final: true}
+      ]
     };
   }
+
+  $scope.manageStatuses = function () {
+    $modal.open({
+      templateUrl: 'views/reports/manageStatuses.html',
+      windowClass: 'manageStatuses',
+      resolve: {
+        category: function() {
+          return $scope.category;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'category', function($scope, $modalInstance, category) {
+        $scope.category = category;
+        $scope.newStatus = {};
+
+        $scope.createStatus = function() {
+          if ($scope.newStatus.title !== '')
+          {
+            $scope.category.statuses.push({title: $scope.newStatus.title, color: '#FFFFFF', initial: 'false', final: 'false'});
+
+            $scope.newStatus.title = '';
+          }
+        };
+
+        $scope.changeInitial = function(status) {
+          for (var i = $scope.category.statuses.length - 1; i >= 0; i--) {
+            if (status != $scope.category.statuses[i])
+            {
+              $scope.category.statuses[i].initial = false;
+            }
+          };
+
+          // force change if user clicks on same checkbox
+          status.initial = true;
+        };
+
+        $scope.removeStatus = function(status) {
+          $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
+  $scope.manageStatuses();
 
   // Image uploader
   var uploader = $scope.uploader = $fileUploader.create({
@@ -309,6 +357,18 @@ angular.module('zupPainelApp')
 
     // wait for images to process as base64
     $q.all(promises).then(function() {
+      // change category.statuses to acceptable format for the API
+      var tempStatuses = category.statuses;
+
+      category.statuses = {};
+
+      for (var i = tempStatuses.length - 1; i >= 0; i--) {
+        tempStatuses[i].initial = tempStatuses[i].initial.toString();
+        tempStatuses[i].final = tempStatuses[i].initial.toString();
+
+        category.statuses[i] = tempStatuses[i];
+      };
+
       if (updating)
       {
         $scope.updated = false;
