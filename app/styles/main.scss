@@ -406,6 +406,17 @@ p {
       }
     }
 
+    .gallery {
+      a.image {
+        display: block;
+        width: 150px;
+        height: 150px;
+        float: left;
+        background-size: 150px 150px;
+        margin-right: 10px;
+      }
+    }
+
     #tags {
       tr.root td:first-child {
         font-weight: bold;

@@ -44,6 +44,14 @@
           </ul>
         </div>
 
+        <h5>Imagens</h5>
+
+        <div class="gallery">
+          <a href="" class="image" ng-repeat="image in report.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
+        </div>
+
+        <div class="clearfix"></div>
+
         <hr />
 
         <a href="#/reports" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
