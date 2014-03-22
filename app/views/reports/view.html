@@ -44,13 +44,15 @@
           </ul>
         </div>
 
-        <h5>Imagens</h5>
+        <div ng-hide="report.images.length == 0">
+          <h5>Imagens</h5>
 
-        <div class="gallery">
-          <a href="" class="image" ng-repeat="image in report.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
+          <div class="gallery">
+            <a href="" class="image" ng-repeat="image in report.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
+          </div>
+
+          <div class="clearfix"></div>
         </div>
-
-        <div class="clearfix"></div>
 
         <hr />
 
