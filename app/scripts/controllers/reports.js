@@ -180,6 +180,14 @@ angular.module('zupPainelApp')
 
     $scope.loading = false;
   });
+
+  $scope.changeStatus = function(statusId) {
+    var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': statusId });
+
+    changeStatusPromise.then(function(response) {
+      $scope.report = response.data;
+    });
+  };
 })
 
 .controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal) {
