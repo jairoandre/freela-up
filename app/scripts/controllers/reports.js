@@ -214,7 +214,7 @@ angular.module('zupPainelApp')
   };
 })
 
-.controller('ReportsCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q) {
+.controller('ReportsCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q, $modal) {
   $scope.loading = true;
 
   var reportPromise = Restangular.one('reports').one('items', $routeParams.id).get();
@@ -222,6 +222,8 @@ angular.module('zupPainelApp')
 
   $q.all([reportPromise, categoriesPromise]).then(function(responses) {
     $scope.report = responses[0].data;
+
+    $scope.report.status_id = $scope.report.status.id;
 
     // find category
     for (var i = responses[1].data.length - 1; i >= 0; i--) {
@@ -234,11 +236,39 @@ angular.module('zupPainelApp')
     $scope.loading = false;
   });
 
-  $scope.changeStatus = function(statusId) {
-    var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': statusId });
+  $scope.editReportStatus = function (report, category) {
+    $modal.open({
+      templateUrl: 'views/reports/editReportStatus.html',
+      windowClass: 'editStatusModal',
+      resolve: {
+        report: function() {
+          return report;
+        },
 
-    changeStatusPromise.then(function(response) {
-      $scope.report = response.data;
+        category: function() {
+          return category;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'category', 'report', function($scope, $modalInstance, category, report) {
+        $scope.category = category;
+        $scope.report = report;
+
+        $scope.changeStatus = function(statusId) {
+          $scope.report.status_id = statusId;
+        };
+
+        $scope.save = function() {
+          var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id });
+
+          changeStatusPromise.then(function(response) {
+            $modalInstance.close();
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
     });
   };
 })
