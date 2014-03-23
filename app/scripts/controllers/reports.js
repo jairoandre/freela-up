@@ -133,6 +133,42 @@ angular.module('zupPainelApp')
       }]
     });
   };
+
+  $scope.editReportStatus = function (report, category) {
+    $modal.open({
+      templateUrl: 'views/reports/editReportStatus.html',
+      windowClass: 'editStatusModal',
+      resolve: {
+        report: function() {
+          return report;
+        },
+
+        category: function() {
+          return category;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'category', 'report', function($scope, $modalInstance, category, report) {
+        $scope.category = category;
+        $scope.report = report;
+
+        $scope.changeStatus = function(statusId) {
+          $scope.report.status_id = statusId;
+        };
+
+        $scope.save = function() {
+          var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id });
+
+          changeStatusPromise.then(function(response) {
+            $modalInstance.close();
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
 })
 
 .controller('ReportsCategoriesCtrl', function ($scope, Restangular, $modal) {

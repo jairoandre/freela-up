@@ -937,9 +937,23 @@ p {
   }
 }
 
+.editStatusModal {
+  .modal-dialog {
+    width: 360px;
+  }
+
+  .modal-body {
+    padding-top: 10px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+
 .manageStatuses {
   .modal-dialog {
-    width: 530px;
+    width: 360px;
   }
 
   .modal-body {
