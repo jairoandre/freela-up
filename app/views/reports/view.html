@@ -26,11 +26,15 @@
         <h5>Endereço</h5>
         <p>{{ report.address }}</p>
 
-        <h5>Referência</h5>
-        <p>{{ report.reference }}</p>
+        <div ng-hide="report.reference == null || report.reference == ''">
+          <h5>Referência</h5>
+          <p>{{ report.reference }}</p>
+        </div>
 
-        <h5>Descrição</h5>
-        <p>{{ report.description }}</p>
+        <div ng-hide="report.description == null || report.description == ''">
+          <h5>Descrição</h5>
+          <p>{{ report.description }}</p>
+        </div>
 
         <h5>Categoria</h5>
         <p>{{ category.title }}</p>
