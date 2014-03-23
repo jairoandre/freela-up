@@ -12,7 +12,7 @@ angular.module('zupPainelApp')
     // if we searching, hit search/users
     if (searchText != '')
     {
-      return Restangular.one('search').all('items').getList({name: searchText, email: searchText, page: page, per_page: per_page});
+      return Restangular.one('search').all('reports').all('items').getList({address: searchText, page: page, per_page: per_page});
     }
 
     return Restangular.one('reports').all('items').getList({ page: page, per_page: per_page });
@@ -69,6 +69,23 @@ angular.module('zupPainelApp')
 
       return reportsPromise;
     }
+  };
+
+  // Search function
+  $scope.search = function(text) {
+    searchText = text;
+
+    // reset pagination
+    page = 1;
+    loadingPagination = false;
+
+    $scope.loadingContent = true;
+
+    getData().then(function(response) {
+      $scope.loadingContent = false;
+
+      page++;
+    });
   };
 
   $scope.getReportCategory = function(id) {
