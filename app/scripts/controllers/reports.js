@@ -19,7 +19,7 @@ angular.module('zupPainelApp')
   };
 
   // Get groups for filters
-  var categories = Restangular.one('reports').all('categories').getList();
+  var categories = Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
 
   // One every change of page or search, we create generate a new request based on current values
   var getData = $scope.getData = function(paginate) {
@@ -70,6 +70,49 @@ angular.module('zupPainelApp')
       return reportsPromise;
     }
   };
+
+  categories.then(function(response) {
+    $scope.statuses = [];
+    $scope.inventoryCategories = [];
+
+    // merge all categories statuses in one array with no duplicates
+    for (var i = response.data.length - 1; i >= 0; i--) {
+      for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
+        var found = false;
+
+        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
+          if ($scope.statuses[k].id === response.data[i].statuses[j].id)
+          {
+            found = true;
+          }
+        };
+
+        if (!found)
+        {
+          $scope.statuses.push(response.data[i].statuses[j])
+        }
+      };
+    };
+
+    // merge all inventory statuses in one array with no duplicates
+    for (var i = response.data.length - 1; i >= 0; i--) {
+      for (var j = response.data[i].inventory_categories.length - 1; j >= 0; j--) {
+        var found = false;
+
+        for (var k = $scope.inventoryCategories.length - 1; k >= 0; k--) {
+          if ($scope.inventoryCategories[k].id === response.data[i].inventory_categories[j].id)
+          {
+            found = true;
+          }
+        };
+
+        if (!found)
+        {
+          $scope.inventoryCategories.push(response.data[i].inventory_categories[j])
+        }
+      };
+    };
+  });
 
   // Search function
   $scope.search = function(text) {
