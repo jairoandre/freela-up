@@ -80,6 +80,13 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/reports/map', {
+      templateUrl: 'views/reports/map.html',
+      controller: 'ReportsMapCtrl',
+      access: {
+        logged: true
+      }
+    })
     .when('/reports/categories', {
       templateUrl: 'views/reports/categories.html',
       controller: 'ReportsCategoriesCtrl',

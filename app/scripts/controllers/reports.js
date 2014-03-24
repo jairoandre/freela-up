@@ -370,6 +370,86 @@ angular.module('zupPainelApp')
   };
 })
 
+.controller('ReportsMapCtrl', function ($scope, $q, Restangular) {
+  $scope.loading = true;
+
+  var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList({display_type: 'full'});
+  var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({display_type: 'full'});
+
+
+  $q.all([inventoryCategoriesPromise, reportsCategoriesPromise]).then(function(responses) {
+    $scope.inventoryCategories = responses[0].data;
+    $scope.reportCategories = responses[1].data;
+
+    $scope.loading = false;
+  });
+
+  $scope.getInventoryCategory = function(id) {
+    for (var i = $scope.inventoryCategories.length - 1; i >= 0; i--) {
+      if ($scope.inventoryCategories[i].id === id)
+      {
+        return $scope.inventoryCategories[i];
+      }
+    }
+
+    return null;
+  };
+
+  $scope.getReportCategory = function(id) {
+    for (var i = $scope.reportCategories.length - 1; i >= 0; i--) {
+      if ($scope.reportCategories[i].id === id)
+      {
+        return $scope.reportCategories[i];
+      }
+    }
+
+    return null;
+  };
+
+  $scope.getItemsPeriodBySliderPosition = function(pos) {
+    // From 6 months ago to today
+    if (pos == 1)
+    {
+      var beginDate = new Date();
+      beginDate.setHours(0, 0, 0, 0);
+      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 6, 1);
+      beginDate = beginDate.toISOString();
+    }
+
+    // From 3 months ago to today
+    if (pos == 2)
+    {
+      var beginDate = new Date();
+      beginDate.setHours(0, 0, 0, 0);
+      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 3, 1);
+      beginDate = beginDate.toISOString();
+    }
+
+    // From 1 month ago to today
+    if (pos == 3)
+    {
+      var beginDate = new Date();
+      beginDate.setHours(0, 0, 0, 0);
+      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 1, 1);
+      beginDate = beginDate.toISOString();
+    }
+
+    // From 1 week ago to today
+    if (pos == 4)
+    {
+      var beginDate = new Date();
+      beginDate.setDate(beginDate.getDate() - 7);
+      beginDate = beginDate.toISOString();
+    }
+
+    var endDate = new Date();
+    endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000));
+    endDate = endDate.toISOString();
+
+    return {beginDate: beginDate, endDate: endDate};
+  };
+})
+
 .controller('ReportsCategoriesCtrl', function ($scope, Restangular, $modal) {
   $scope.loading = true;
 
