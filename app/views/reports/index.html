@@ -35,14 +35,14 @@
               </button>
 
               <ul class="dropdown-menu" role="menu">
-                <li><a href="">Última semana</a></li>
-                <li><a href="">Último mês</a></li>
-                <li><a href="">Últimos 3 meses</a></li>
-                <li><a href="">Últimos 6 meses</a></li>
+                <li ng-class="{active: periodPos == 4}"><a href="" ng-click="changeSelectedPeriod(4)">Última semana</a></li>
+                <li ng-class="{active: periodPos == 3}"><a href="" ng-click="changeSelectedPeriod(3)">Último mês</a></li>
+                <li ng-class="{active: periodPos == 2}"><a href="" ng-click="changeSelectedPeriod(2)">Últimos 3 meses</a></li>
+                <li ng-class="{active: periodPos == 1}"><a href="" ng-click="changeSelectedPeriod(1)">Últimos 6 meses</a></li>
 
                 <li class="divider"></li>
 
-                <li><a href="">Todos</a></li>
+                <li ng-class="{active: periodPos == null}"><a href="" ng-click="changeSelectedPeriod(null)">Todos</a></li>
               </ul>
             </div>
           </div>
@@ -56,7 +56,7 @@
               <div class="dropdown-menu" role="menu" style="padding: 10px 16px 6px 16px;">
                 <div class="checkbox" ng-repeat="status in statuses" style="margin-top: 5px;">
                   <label>
-                    <input type="checkbox" value="d">
+                    <input type="checkbox" ng-checked="selectedStatuses[status.id] == true" ng-click="changeSelectedStatuses(status.id)">
                     {{ status.title }}
                   </label>
                 </div>

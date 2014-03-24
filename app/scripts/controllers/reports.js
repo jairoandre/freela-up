@@ -8,6 +8,8 @@ angular.module('zupPainelApp')
   var page = 1, per_page = 30, total, searchText = '', loadingPagination = false;
 
   var selectedCategories = $scope.selectedCategories = {};
+  var selectedStatuses = $scope.selectedStatuses = {}
+  var beginDate = null, endDate = null;
 
   // Return right promise
   var generateReportsPromise = function(searchText) {
@@ -16,13 +18,7 @@ angular.module('zupPainelApp')
     // if we searching, hit search/users
     if (searchText != '')
     {
-      //url = Restangular.one('search').all('reports').all('items');
-
       options.address = searchText;
-    }
-    else
-    {
-      //url = Restangular.one('reports').all('items');
     }
 
     // check if we have categories selected
@@ -42,6 +38,35 @@ angular.module('zupPainelApp')
       {
         options.reports_categories_ids = categories.join();
       }
+    }
+
+    // check if we have statuses selected
+    if (Object.keys(selectedStatuses).length != 0)
+    {
+      var statuses = [];
+
+      for (var key in selectedStatuses)
+      {
+        if (selectedStatuses[key] == true)
+        {
+          statuses.push(key);
+        }
+      }
+
+      if (statuses.length !== 0)
+      {
+        options.status_ids = statuses.join();
+      }
+    }
+
+    if (beginDate !== null)
+    {
+      options.beginDate = beginDate;
+    }
+
+    if (endDate !== null)
+    {
+      options.endDate = endDate;
     }
 
     return url.getList(options);
@@ -149,12 +174,58 @@ angular.module('zupPainelApp')
     loadingPagination = false;
 
     $scope.loadingContent = true;
+    $scope.reports = [];
 
     getData().then(function(response) {
       $scope.loadingContent = false;
 
       page++;
     });
+  };
+
+  // helper to get beginDate and endDate by the slider position
+  // Current possible positions: [1, 2, 3, 4]
+  var getPeriodByOption = function(pos) {
+    // From 6 months ago to today
+    if (pos == 1)
+    {
+      var beginDate = new Date();
+      beginDate.setHours(0, 0, 0, 0);
+      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 6, 1);
+      beginDate = beginDate.toISOString();
+    }
+
+    // From 3 months ago to today
+    if (pos == 2)
+    {
+      var beginDate = new Date();
+      beginDate.setHours(0, 0, 0, 0);
+      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 3, 1);
+      beginDate = beginDate.toISOString();
+    }
+
+    // From 1 month ago to today
+    if (pos == 3)
+    {
+      var beginDate = new Date();
+      beginDate.setHours(0, 0, 0, 0);
+      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 1, 1);
+      beginDate = beginDate.toISOString();
+    }
+
+    // From 1 week ago to today
+    if (pos == 4)
+    {
+      var beginDate = new Date();
+      beginDate.setDate(beginDate.getDate() - 7);
+      beginDate = beginDate.toISOString();
+    }
+
+    var endDate = new Date();
+    endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000));
+    endDate = endDate.toISOString();
+
+    return {beginDate: beginDate, endDate: endDate};
   };
 
   $scope.changeSelectedCategories = function(id) {
@@ -166,6 +237,35 @@ angular.module('zupPainelApp')
     {
       $scope.selectedCategories[id] = true;
     }
+
+    loadFilters();
+  };
+
+  $scope.changeSelectedStatuses = function(id) {
+    if ($scope.selectedStatuses[id] === true)
+    {
+      $scope.selectedStatuses[id] = false;
+    }
+    else
+    {
+      $scope.selectedStatuses[id] = true;
+    }
+
+    loadFilters();
+  };
+
+  $scope.changeSelectedPeriod = function(pos) {
+    var period = {beginDate: null, endDate: null};
+    $scope.periodPos = null;
+
+    if (pos != null)
+    {
+      period = getPeriodByOption(pos);
+      $scope.periodPos = pos;
+    }
+
+    beginDate = period.beginDate;
+    endDate = period.endDate;
 
     loadFilters();
   };
