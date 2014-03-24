@@ -127,7 +127,6 @@ angular.module('zupPainelApp')
 
   categories.then(function(response) {
     $scope.statuses = [];
-    $scope.inventoryCategories = [];
 
     // merge all categories statuses in one array with no duplicates
     for (var i = response.data.length - 1; i >= 0; i--) {
@@ -144,25 +143,6 @@ angular.module('zupPainelApp')
         if (!found)
         {
           $scope.statuses.push(response.data[i].statuses[j])
-        }
-      };
-    };
-
-    // merge all inventory statuses in one array with no duplicates
-    for (var i = response.data.length - 1; i >= 0; i--) {
-      for (var j = response.data[i].inventory_categories.length - 1; j >= 0; j--) {
-        var found = false;
-
-        for (var k = $scope.inventoryCategories.length - 1; k >= 0; k--) {
-          if ($scope.inventoryCategories[k].id === response.data[i].inventory_categories[j].id)
-          {
-            found = true;
-          }
-        };
-
-        if (!found)
-        {
-          $scope.inventoryCategories.push(response.data[i].inventory_categories[j])
         }
       };
     };

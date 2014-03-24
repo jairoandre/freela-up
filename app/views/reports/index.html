@@ -71,7 +71,7 @@
               </button>
 
               <div class="dropdown-menu" role="menu" style="padding: 10px 16px 6px 16px;">
-                <div class="checkbox" ng-repeat="category in inventoryCategories" style="margin-top: 5px;">
+                <div class="checkbox" ng-repeat="category in categories" style="margin-top: 5px;">
                   <label>
                     <input type="checkbox" ng-checked="selectedCategories[category.id] == true" ng-click="changeSelectedCategories(category.id)">
                     {{ category.title }}
