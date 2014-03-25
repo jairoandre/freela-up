@@ -144,8 +144,8 @@ angular.module('zupPainelApp')
 
   $scope.loading = true;
 
-  Restangular.one('users', $routeParams.id).get().then(function(data) {
-    $scope.user = data;
+  Restangular.one('users', $routeParams.id).get().then(function(response) {
+    $scope.user = response.data;
 
     $scope.loading = false;
   });
