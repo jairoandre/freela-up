@@ -10,7 +10,7 @@ angular.module('zupPainelApp')
   $scope.loadingPagination = false;
 
   var selectedCategories = $scope.selectedCategories = {};
-  var selectedStatuses = $scope.selectedStatuses = {}
+  var selectedStatus = $scope.selectedStatus = null;
   var beginDate = null, endDate = null;
 
   // Return right promise
@@ -42,23 +42,10 @@ angular.module('zupPainelApp')
       }
     }
 
-    // check if we have statuses selected
-    if (Object.keys(selectedStatuses).length != 0)
+    // check if we have a status selected
+    if (selectedStatus !== null)
     {
-      var statuses = [];
-
-      for (var key in selectedStatuses)
-      {
-        if (selectedStatuses[key] == true)
-        {
-          statuses.push(key);
-        }
-      }
-
-      if (statuses.length !== 0)
-      {
-        options.status_ids = statuses.join();
-      }
+      options.status_id = selectedStatus;
     }
 
     if (beginDate !== null)
@@ -229,14 +216,7 @@ angular.module('zupPainelApp')
   };
 
   $scope.changeSelectedStatuses = function(id) {
-    if ($scope.selectedStatuses[id] === true)
-    {
-      $scope.selectedStatuses[id] = false;
-    }
-    else
-    {
-      $scope.selectedStatuses[id] = true;
-    }
+    selectedStatus = $scope.selectedStatus = id;
 
     loadFilters();
   };
