@@ -1063,6 +1063,16 @@ p {
   background-size: 64px 64px;
 }
 
+.loadingScrolling {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: url(../images/loading.gif);
+  background-size: 32px 32px;
+}
+
 .pull-text-right {
   text-align: right;
 }
