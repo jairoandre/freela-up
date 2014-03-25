@@ -153,7 +153,7 @@ angular.module('zupPainelApp')
   var loadFilters = function() {
     // reset pagination
     page = 1;
-    loadingPagination = false;
+    $scope.loadingPagination = false;
 
     $scope.loadingContent = true;
     $scope.reports = [];
@@ -256,17 +256,7 @@ angular.module('zupPainelApp')
   $scope.search = function(text) {
     searchText = text;
 
-    // reset pagination
-    page = 1;
-    loadingPagination = false;
-
-    $scope.loadingContent = true;
-
-    getData().then(function(response) {
-      $scope.loadingContent = false;
-
-      page++;
-    });
+    loadFilters();
   };
 
   $scope.getReportCategory = function(id) {
