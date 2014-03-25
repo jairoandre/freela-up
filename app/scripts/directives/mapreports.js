@@ -74,10 +74,6 @@ angular.module('zupPainelApp')
             google.maps.event.addListener(this.map, 'bounds_changed', function() {
               mapProvider.boundsChanged();
             });
-
-            $(window).resize(function() {
-              mapProvider.resize();
-            });
           },
 
           getReports: function(options, callback) {

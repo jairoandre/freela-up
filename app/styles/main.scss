@@ -1073,6 +1073,23 @@ p {
   background-size: 32px 32px;
 }
 
+.loadingMapItems {
+  display: block;
+  position: fixed;
+  width: 60px;
+  top: 0px;
+  left: 50%;
+  margin-left: -30px;
+  background: #323232;
+  text-align: center;
+  padding: 15px 0 15px 0;
+  z-index: 100000;
+
+  img {
+    width: 20px;
+  }
+}
+
 .pull-text-right {
   text-align: right;
 }
