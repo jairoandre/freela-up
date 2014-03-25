@@ -6,7 +6,9 @@ angular.module('zupPainelApp')
 
  $scope.loading = true;
 
-  var page = 1, per_page = 30, total, searchText = '', loadingPagination = false;
+  var page = 1, per_page = 30, total, searchText = '';
+
+  $scope.loadingPagination = false;
 
   // Return right promise
   var generateItemsPromise = function(searchText) {
@@ -24,9 +26,9 @@ angular.module('zupPainelApp')
 
   // One every change of page or search, we create generate a new request based on current values
   var getData = $scope.getData = function(paginate) {
-    if (loadingPagination === false)
+    if ($scope.loadingPagination === false)
     {
-      loadingPagination = true;
+      $scope.loadingPagination = true;
 
       var itemsPromise = generateItemsPromise(searchText);
 
@@ -58,11 +60,11 @@ angular.module('zupPainelApp')
 
         if (page === (last_page + 1))
         {
-          loadingPagination = null;
+          $scope.loadingPagination = null;
         }
         else
         {
-          loadingPagination = false;
+          $scope.loadingPagination = false;
         }
 
         $scope.loading = false;
