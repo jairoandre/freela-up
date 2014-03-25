@@ -48,8 +48,6 @@ angular.module('zupPainelApp')
           endDate: null,
 
           start: function() {
-            mapProvider.resize();
-
             // set dates to first filter
             var period = scope.getItemsPeriodBySliderPosition(1);
 
@@ -59,10 +57,6 @@ angular.module('zupPainelApp')
             // create map and set specific listeners
             this.createMap();
             this.setListeners();
-          },
-
-          resize: function() {
-
           },
 
           createMap: function() {
