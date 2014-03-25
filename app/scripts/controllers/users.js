@@ -5,8 +5,9 @@ angular.module('zupPainelApp')
 .controller('UsersCtrl', function ($scope, $q, $routeParams, $modal, Restangular) {
 
   $scope.loading = true;
+  $scope.loadingPagination = false;
 
-  var groupId = $routeParams.groupId, page = 1, per_page = 30, total, searchText = '', loadingPagination = false;
+  var groupId = $routeParams.groupId, page = 1, per_page = 30, total, searchText = '';
 
   // Return right promise
   var generateUsersPromise = function(groupId, searchText) {
@@ -39,9 +40,9 @@ angular.module('zupPainelApp')
 
   // One every change of page or search, we create generate a new request based on current values
   var getData = $scope.getData = function(paginate) {
-    if (loadingPagination === false)
+    if ($scope.loadingPagination === false)
     {
-      loadingPagination = true;
+      $scope.loadingPagination = true;
 
       var usersPromise = generateUsersPromise(groupId, searchText);
 
@@ -73,11 +74,11 @@ angular.module('zupPainelApp')
 
         if (page === (last_page + 1))
         {
-          loadingPagination = null;
+          $scope.loadingPagination = null;
         }
         else
         {
-          loadingPagination = false;
+          $scope.loadingPagination = false;
         }
 
         $scope.loading = false;
@@ -93,7 +94,7 @@ angular.module('zupPainelApp')
 
     // reset pagination
     page = 1;
-    loadingPagination = false;
+    $scope.loadingPagination = false;
 
     $scope.loadingContent = true;
 
