@@ -127,8 +127,13 @@ angular.module('zupPainelApp')
     }
   };
 
+  // create statuses array
   categories.then(function(response) {
     $scope.statuses = [];
+
+    for (var i = response.data.length - 1; i >= 0; i--) {
+      $scope.selectedCategories[response.data[i].id] = true;
+    };
 
     // merge all categories statuses in one array with no duplicates
     for (var i = response.data.length - 1; i >= 0; i--) {
@@ -345,15 +350,48 @@ angular.module('zupPainelApp')
 .controller('ReportsMapCtrl', function ($scope, $q, Restangular) {
   $scope.loading = true;
 
+  var selectedCategories = $scope.selectedCategories = {};
+
   var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList({display_type: 'full'});
   var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({display_type: 'full'});
-
 
   $q.all([inventoryCategoriesPromise, reportsCategoriesPromise]).then(function(responses) {
     $scope.inventoryCategories = responses[0].data;
     $scope.reportCategories = responses[1].data;
 
+    for (var i = $scope.reportCategories.length - 1; i >= 0; i--) {
+      $scope.selectedCategories[$scope.reportCategories[i].id] = true;
+    };
+
     $scope.loading = false;
+  });
+
+  // create statuses array
+  reportsCategoriesPromise.then(function(response) {
+    $scope.statuses = [];
+
+    for (var i = response.data.length - 1; i >= 0; i--) {
+      $scope.selectedCategories[response.data[i].id] = true;
+    };
+
+    // merge all categories statuses in one array with no duplicates
+    for (var i = response.data.length - 1; i >= 0; i--) {
+      for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
+        var found = false;
+
+        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
+          if ($scope.statuses[k].id === response.data[i].statuses[j].id)
+          {
+            found = true;
+          }
+        };
+
+        if (!found)
+        {
+          $scope.statuses.push(response.data[i].statuses[j])
+        }
+      };
+    };
   });
 
   $scope.getInventoryCategory = function(id) {
@@ -419,6 +457,31 @@ angular.module('zupPainelApp')
     endDate = endDate.toISOString();
 
     return {beginDate: beginDate, endDate: endDate};
+  };
+
+  $scope.changeSelectedCategories = function(id) {
+    if ($scope.selectedCategories[id] === true)
+    {
+      $scope.selectedCategories[id] = false;
+    }
+    else
+    {
+      $scope.selectedCategories[id] = true;
+    }
+
+    $scope.filterByReportCategory(id);
+  };
+
+  $scope.changeSelectedStatuses = function(id) {
+    $scope.selectedStatus = id;
+
+    $scope.filterReportsByStatus(id);
+  };
+
+  $scope.changeSelectedPeriod = function(pos) {
+    $scope.periodPos = pos;
+
+    $scope.filterReportsByPeriod($scope.getItemsPeriodBySliderPosition(pos));
   };
 })
 
