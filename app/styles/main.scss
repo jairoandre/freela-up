@@ -1094,12 +1094,41 @@ p {
   text-align: right;
 }
 
+// google maps autocomplete
+.pac-icon-marker { display: none !important; }
+
+.pac-item {
+    padding: 18px 15px !important;
+    height: 50px !important;
+    border-top: none !important;
+    border-bottom: 0.5px solid #b2b2b2 !important;
+    font-weight: 300;
+    font-size: 14px !important;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1 !important;
+    cursor: pointer;
+
+    .pac-item-query > .pac-matched { font-weight: 600 !important; }
+}
+
+.pac-item:nth-child(4), .pac-item:nth-child(5), .pac-item:nth-child(6) { display: none !important; }
+
+.pac-container:after { display: none !important; }
+
+.pac-container {
+    min-width: 387px;
+    border-radius: 5px !important;
+    background: #fff !important;
+    z-index: 10000 !important;
+    margin-top: 10px;
+}
+
+/* Color picker */
 .colorpicker-visible,
 .colorpicker-visible .dropdown-menu {
   display: block !important;
 }
 
-/* Color picker */
 colorpicker-saturation {
   display: block;
   width: 100px;
