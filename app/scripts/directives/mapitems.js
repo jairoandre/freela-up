@@ -56,7 +56,7 @@ angular.module('zupPainelApp')
           setListeners: function() {
             // refresh map when shown
             scope.$watch('categoryData', function () {
-              mapProvider.createMap();
+              //mapProvider.createMap();
 
               setTimeout(function() {
                 google.maps.event.trigger(mapProvider.map, 'resize');
@@ -182,7 +182,6 @@ angular.module('zupPainelApp')
 
           hideAllMarkersFromInactiveLevels: function() {
             angular.forEach(this.zoomLevels, function(zoomLevel, zoomLevelId) {
-              console.log(zoomLevelId, mapProvider.currentZoom);
               if (zoomLevelId != mapProvider.currentZoom)
               {
                 angular.forEach(zoomLevel, function(marker, id) {
@@ -261,7 +260,7 @@ angular.module('zupPainelApp')
 
         mapProvider.start();
 
-        scope.mapProvider = mapProvider;
+        scope.map = mapProvider.map;
 
       }
     };
