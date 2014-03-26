@@ -45,17 +45,17 @@ angular.module('zupPainelApp')
     // check if we have a status selected
     if (selectedStatus !== null)
     {
-      options.status_id = selectedStatus;
+      options.statuses_ids = selectedStatus;
     }
 
     if (beginDate !== null)
     {
-      options.beginDate = beginDate;
+      options.begin_date = beginDate;
     }
 
     if (endDate !== null)
     {
-      options.endDate = endDate;
+      options.end_date = endDate;
     }
 
     return url.getList(options);
