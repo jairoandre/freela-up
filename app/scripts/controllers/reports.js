@@ -580,11 +580,13 @@ angular.module('zupPainelApp')
   // Start loading & get necessary requests
   $scope.loading = true;
 
+  $scope.default_resolution_time_selection = 60;
+  $scope.default_user_response_time_selection = 60;
+
   var categoriesPromise = Restangular.one('inventory').all('categories').getList();
 
   if (updating)
   {
-
     // We create a empty category object to be passed on PUT
     var category = $scope.category = {};
 
@@ -602,12 +604,13 @@ angular.module('zupPainelApp')
       if (responses[1].data.user_response_time !== null)
       {
         $scope.enabled_user_response_time = true;
-        category.user_response_time = responses[1].data.user_response_time;
+        category.user_response_time = Math.round(responses[1].data.user_response_time / 60);
       }
 
       if (responses[1].data.resolution_time !== null)
       {
-        category.resolution_time = responses[1].data.resolution_time;
+        // ...and convert resolution_time to minutes
+        category.resolution_time = Math.round(responses[1].data.resolution_time  / 60);
       }
 
       if (typeof responses[1].data.inventory_categories == 'object' && responses[1].data.inventory_categories.length !== 0)
@@ -755,6 +758,20 @@ angular.module('zupPainelApp')
         editedCategory.statuses[i] = tempStatuses[i];
       };
 
+      // And we convert the user selection to seconds
+      editedCategory.resolution_time = Math.round(editedCategory.resolution_time * $scope.default_resolution_time_selection);
+
+      // also the user feedback time we convert it to seconds
+      if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabled_user_response_time == true)
+      {
+        editedCategory.user_response_time = Math.round(editedCategory.user_response_time * $scope.default_user_response_time_selection);
+      }
+      else
+      {
+        editedCategory.user_response_time = null;
+      }
+
+      // PUT if updating and POST if creating a new category
       if (updating)
       {
         $scope.updated = false;
