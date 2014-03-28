@@ -545,7 +545,7 @@ angular.module('zupPainelApp')
       },
       controller: ['$scope', '$modalInstance', 'category', 'report', function($scope, $modalInstance, category, report) {
         $scope.category = category;
-        $scope.report = report;
+        $scope.report = angular.copy(report);
 
         $scope.changeStatus = function(statusId) {
           $scope.report.status_id = statusId;
@@ -555,6 +555,8 @@ angular.module('zupPainelApp')
           var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id });
 
           changeStatusPromise.then(function(response) {
+            report.status_id = $scope.report.status_id;
+
             $modalInstance.close();
           });
         };
