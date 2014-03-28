@@ -49,7 +49,7 @@
                 <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste a imagem</span>
 
                 <div class="image" ng-show="icon && uploader.queue.length == 0">
-                  <img ng-src="{{ icon }}">
+                  <img ng-src="{{ icon }}" width="65" height="65">
                 </div>
 
                 <div class="image" ng-repeat="item in uploader.queue">

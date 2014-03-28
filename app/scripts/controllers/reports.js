@@ -619,7 +619,7 @@ angular.module('zupPainelApp')
         };
       }
 
-      $scope.icon = responses[1].data.icon.default.web.active;
+      $scope.icon = responses[1].data.original_icon;
 
       $scope.loading = false;
     });
