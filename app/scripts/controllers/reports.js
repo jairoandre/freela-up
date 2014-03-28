@@ -740,17 +740,19 @@ angular.module('zupPainelApp')
 
     // wait for images to process as base64
     $q.all(promises).then(function() {
-      // change category.statuses to acceptable format for the API
-      var tempStatuses = category.statuses;
+      var editedCategory = angular.copy(category);
 
-      category.statuses = {};
+      // change category.statuses to acceptable format for the API
+      var tempStatuses = editedCategory.statuses;
+
+      editedCategory.statuses = {};
 
       for (var i = tempStatuses.length - 1; i >= 0; i--) {
         tempStatuses[i].initial = tempStatuses[i].initial.toString();
         tempStatuses[i].final = tempStatuses[i].initial.toString();
         tempStatuses[i].active = tempStatuses[i].active.toString();
 
-        category.statuses[i] = tempStatuses[i];
+        editedCategory.statuses[i] = tempStatuses[i];
       };
 
       if (updating)
@@ -759,10 +761,10 @@ angular.module('zupPainelApp')
 
         if (icon)
         {
-          category.icon = icon;
+          editedCategory.icon = icon;
         }
 
-        var postCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(category);
+        var postCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
 
         postCategoryPromise.then(function(response) {
           $scope.updated = true;
@@ -775,10 +777,10 @@ angular.module('zupPainelApp')
       }
       else
       {
-        category.icon = icon;
-        category.marker = icon;
+        editedCategory.icon = icon;
+        editedCategory.marker = icon;
 
-        var postCategoryPromise = Restangular.one('reports').post('categories', category);
+        var postCategoryPromise = Restangular.one('reports').post('categories', editedCategory);
 
         postCategoryPromise.then(function(response) {
           $location.path('/reports/categories');
