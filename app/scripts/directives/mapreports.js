@@ -48,6 +48,8 @@ angular.module('zupPainelApp')
           endDate: null,
 
           start: function() {
+            mapProvider.resize();
+
             // set dates to first filter
             var period = scope.getItemsPeriodBySliderPosition(1);
 
@@ -69,10 +71,18 @@ angular.module('zupPainelApp')
             this.map.setCenter(this.options.homeLatlng);
           },
 
+          resize: function() {
+            element.css({'height': $(window).height() - 243});
+          },
+
           setListeners: function() {
             // Set listener for when bounds changes
             google.maps.event.addListener(this.map, 'bounds_changed', function() {
               mapProvider.boundsChanged();
+            });
+
+            $(window).resize(function() {
+              mapProvider.resize();
             });
           },
 
