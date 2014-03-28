@@ -35,6 +35,8 @@ angular.module('zupPainelApp')
           infoWindow: new google.maps.InfoWindow(),
 
           start: function() {
+            mapProvider.resize();
+
             // create map and set specific listeners
             this.createMap();
             this.setListeners();
@@ -51,6 +53,10 @@ angular.module('zupPainelApp')
             this.map.mapTypes.set('zup', styledMap);
             this.map.setMapTypeId('zup');
             this.map.setCenter(this.options.homeLatlng);
+          },
+
+          resize: function() {
+            element.css({'height': $(window).height() - 243});
           },
 
           setListeners: function() {
@@ -70,6 +76,10 @@ angular.module('zupPainelApp')
 
                 google.maps.event.trigger(mapProvider.map, 'bounds_changed');
               }, 80);
+            });
+
+            $(window).resize(function() {
+              mapProvider.resize();
             });
           },
 
