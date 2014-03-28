@@ -640,9 +640,9 @@ angular.module('zupPainelApp')
       inventory_categories: [],
       allows_arbitrary_position: true,
       statuses: [
-        {title: 'Em aberto', color: '#ff0000', initial: true, final: false},
-        {title: 'Em andamento', color: '#ff0000', initial: false, final: false},
-        {title: 'Resolvido', color: '#ff0000', initial: false, final: true}
+        {title: 'Em aberto', color: '#ff0000', initial: true, final: false, active: true},
+        {title: 'Em andamento', color: '#ff0000', initial: false, final: false, active: true},
+        {title: 'Resolvido', color: '#ff0000', initial: false, final: true, active: true}
       ]
     };
   }
@@ -748,6 +748,7 @@ angular.module('zupPainelApp')
       for (var i = tempStatuses.length - 1; i >= 0; i--) {
         tempStatuses[i].initial = tempStatuses[i].initial.toString();
         tempStatuses[i].final = tempStatuses[i].initial.toString();
+        tempStatuses[i].active = tempStatuses[i].active.toString();
 
         category.statuses[i] = tempStatuses[i];
       };

@@ -8,11 +8,11 @@
         <form ng-submit="createStatus()">
             <div class="row">
                 <div class="col-md-9">
-                    <input type="text" placeholder="Criar novo status..." ng-model="newStatus.title" />        
+                    <input type="text" placeholder="Criar novo status..." ng-model="newStatus.title" />
                 </div>
 
                 <div class="col-md-3">
-                    <button href="" type="submit" class="btn btn-info btn-custom">Criar</button>    
+                    <button href="" type="submit" class="btn btn-info btn-custom">Criar</button>
                 </div>
             </div>
         </form>
@@ -24,6 +24,7 @@
                 <td>Nome do status</td>
                 <td>Status inicial</td>
                 <td>Status final</td>
+                <td>Ativado</td>
                 <td>Cor</td>
                 <td>Remover</td>
             </tr>
@@ -34,6 +35,7 @@
                 <td>{{ status.title }}</td>
                 <td><input type="checkbox" ng-change="changeInitial(status)" ng-model="status.initial" /></td>
                 <td><input type="checkbox" ng-model="status.final" /></td>
+                <td><input type="checkbox" ng-model="status.active" /></td>
                 <td><input type="text" class="colorpicker_input" colorpicker ng-model="status.color" /></td>
                 <td><button type="button" class="remove" ng-click="removeStatus(status)">×</button></td>
             </tr>
