@@ -1015,6 +1015,14 @@ p {
         background: #F2F2F2;
         text-align: center;
         padding: 5px 12px;
+        float: left;
+      }
+
+      .show_status_color {
+        width: 20px;
+        height: 31px;
+        box-shadow: 1px 0 0 rgba(000, 000, 000, 0.5);
+        float: left;
       }
     }
   }
