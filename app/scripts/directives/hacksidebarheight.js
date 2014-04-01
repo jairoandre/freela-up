@@ -6,7 +6,7 @@ angular.module('zupPainelApp')
   return {
     link: function postLink(scope, element) {
       scope.$watch(function(){ return angular.element(document).height(); }, function(newValue) {
-        element.height(newValue);
+        //element.height(newValue);
       });
     }
   };
