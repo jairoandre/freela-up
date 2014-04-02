@@ -56,7 +56,7 @@ angular.module('zupPainelApp')
           },
 
           resize: function() {
-            element.css({'height': $(window).height() - 243});
+            element.css({'height': $(window).height() - 233});
           },
 
           setListeners: function() {
