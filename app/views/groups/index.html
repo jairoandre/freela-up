@@ -28,7 +28,8 @@
       <table class="table custom_table big_text" ng-hide="loadingContent">
         <tr ng-repeat="group in groups">
           <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
-          <td width="20">
+          <td class="actions">
+            <a class="icon_action" href=""><span class="glyphicon glyphicon-edit"></span></a>
             <a href="" ng-click="deleteGroup(group)"><span class="glyphicon glyphicon-trash"></span></a>
           </td>
         </tr>
