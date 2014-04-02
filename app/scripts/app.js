@@ -253,7 +253,7 @@ angular.module('zupPainelApp', [
   });
 })
 
-.run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
+.run(['$rootScope', '$location', 'Auth', '$timeout', function($rootScope, $location, Auth, $timeout) {
 
   $rootScope.$on('$routeChangeStart', function(e, curr, prev) {
 
@@ -284,4 +284,15 @@ angular.module('zupPainelApp', [
     }
 
   });
+
+  $rootScope.showMessage = function(icon, text, scrollTop) {
+    $rootScope.systemMessage = {icon: icon, text: text};
+
+    $timeout(function() { $rootScope.systemMessage = null; }, 3500);
+
+    if (scrollTop === true)
+    {
+      $rootScope.scrollTop = true;
+    }
+  };
 }]);

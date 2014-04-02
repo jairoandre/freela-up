@@ -199,6 +199,15 @@ p {
       padding-right: 20%;
       z-index: 1000;
 
+      .message-status {
+        p {
+          margin: 26px 20px 0 30px;
+          color: #8F8F8F;
+        }
+
+        float: left;
+      }
+
       .notifications {
         height: 70px;
         border-left: 1px solid #D9D9D9;

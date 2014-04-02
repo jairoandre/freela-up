@@ -1,4 +1,8 @@
     <div id="header">
+      <div class="message-status" ng-show="systemMessage">
+        <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
+      </div>
+
       <div class="pull-right">
         <div class="notifications">
           <p><span>14</span></p>

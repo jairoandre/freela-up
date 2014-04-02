@@ -776,8 +776,6 @@ angular.module('zupPainelApp')
       // PUT if updating and POST if creating a new category
       if (updating)
       {
-        $scope.updated = false;
-
         if (icon)
         {
           editedCategory.icon = icon;
@@ -786,7 +784,7 @@ angular.module('zupPainelApp')
         var postCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
 
         postCategoryPromise.then(function(response) {
-          $scope.updated = true;
+          $scope.showMessage('ok-circle', 'A categoria de relato foi atualizada com sucesso', true);
 
           $scope.processingForm = false;
         }, function(response) {
