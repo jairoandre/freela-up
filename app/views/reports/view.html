@@ -26,53 +26,57 @@
       </div>
 
       <div class="content">
-        <h5>Protocolo</h5>
-        <p>{{ report.protocol }}</p>
+        <div class="row">
+          <div class="col-xs-8">
+            <h5>Protocolo</h5>
+            <p>{{ report.protocol }}</p>
 
-        <h5>Endereço</h5>
-        <p>{{ report.address }}</p>
+            <h5>Endereço</h5>
+            <p>{{ report.address }}</p>
 
-        <div ng-hide="report.reference == null || report.reference == ''">
-          <h5>Referência</h5>
-          <p>{{ report.reference }}</p>
-        </div>
+            <div ng-hide="report.reference == null || report.reference == ''">
+              <h5>Referência</h5>
+              <p>{{ report.reference }}</p>
+            </div>
 
-        <div ng-hide="report.description == null || report.description == ''">
-          <h5>Descrição</h5>
-          <p>{{ report.description }}</p>
-        </div>
+            <div ng-hide="report.description == null || report.description == ''">
+              <h5>Descrição</h5>
+              <p>{{ report.description }}</p>
+            </div>
 
-        <h5>Categoria</h5>
-        <p>{{ category.title }}</p>
+            <h5>Categoria</h5>
+            <p>{{ category.title }}</p>
 
-        <h5>Data de cadastro</h5>
-        <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
+            <h5>Data de cadastro</h5>
+            <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
 
-        <h5>Status</h5>
-        <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
+            <h5>Status</h5>
+            <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
 
-        <div ng-hide="report.images.length == 0">
-          <h5>Imagens</h5>
+            <div ng-hide="report.images.length == 0">
+              <h5>Imagens</h5>
 
-          <div class="gallery">
-            <a href="" class="image" ng-repeat="image in report.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
+              <div class="gallery">
+                <a href="" class="image" ng-repeat="image in report.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
+              </div>
+
+              <div class="clearfix"></div>
+            </div>
           </div>
 
-          <div class="clearfix"></div>
+          <div class="col-xs-4">
+            <h5>Nome completo do municipante</h5>
+            <p><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
+
+            <h5>Email</h5>
+            <p>{{ report.user.email }}</p>
+
+            <h5>Telefone</h5>
+            <p>{{ report.user.phone }}</p>
+          </div>
         </div>
 
         <div class="roundedMap" style="margin-top: 20px;" map-show-report></div>
-
-        <hr />
-
-        <h5>Nome completo do municipante</h5>
-        <p><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
-
-        <h5>Email</h5>
-        <p>{{ report.user.email }}</p>
-
-        <h5>Telefone</h5>
-        <p>{{ report.user.phone }}</p>
 
         <hr />
 
