@@ -788,6 +788,8 @@ angular.module('zupPainelApp')
 
           $scope.processingForm = false;
         }, function(response) {
+          $scope.showMessage('remove-circle', 'A categoria de relato não pode ser salva', true);
+
           $scope.inputErrors = response.data.error;
           $scope.processingForm = false;
         });
@@ -804,6 +806,8 @@ angular.module('zupPainelApp')
 
           $scope.processingForm = false;
         }, function(response) {
+          $scope.showMessage('remove-circle', 'A categoria de relato não pode ser salva', true);
+
           $scope.inputErrors = response.data.error;
           $scope.processingForm = false;
         });
