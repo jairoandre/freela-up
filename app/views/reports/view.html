@@ -15,8 +15,14 @@
           <li><a href="#/reports">Relatos</a></li>
           <li>{{ report.address }}</li>
         </ul>
+      </div>
 
-        <a href="" ng-click="editReportStatus(report, category)" class="btn btn-info btn-custom">Alterar status</a>
+      <div class="status-bar" ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">
+        <div class="background" ng-style="{ 'background-color': status.color }"></div>
+        <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
+        <a class="pull-right" ng-click="editReportStatus(report, category)" href="">Alterar status</a>
+
+        <div class="clearfix"></div>
       </div>
 
       <div class="content">
