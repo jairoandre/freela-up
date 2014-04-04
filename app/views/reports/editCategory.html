@@ -33,8 +33,19 @@
           <div class="form-group">
             <label>Categoria de inventário relacionada</label>
 
-            <select multiple class="form-control" ng-model="category.inventory_categories" ng-options="category.id as category.title for category in categories">
-            </select>
+            <div class="selectUsers">
+              <div class="simple_search">
+                <span class="glyphicon glyphicon-search search_icon"></span>
+                <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete" ui-autocomplete="myOption" />
+              </div>
+
+              <ul>
+                <li ng-repeat="id in category.inventory_categories"><span ng-repeat="category in categories" ng-show="category.id == id">{{ category.title }}</span> <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button></li>
+              </ul>
+            </div>
+
+            <!--<select multiple class="form-control" ng-model="category.inventory_categories" ng-options="category.id as category.title for category in categories">
+            </select>-->
           </div>
 
           <div class="form-group upload">

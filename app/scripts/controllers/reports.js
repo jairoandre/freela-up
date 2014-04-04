@@ -569,7 +569,7 @@ angular.module('zupPainelApp')
   };
 })
 
-.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal) {
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal, $compile) {
   var updating = $scope.updating = false;
   var categoryId = $routeParams.id;
 
@@ -651,6 +651,42 @@ angular.module('zupPainelApp')
       ]
     };
   }
+
+  $scope.myOption = {
+    options: {
+      source: function( request, uiResponse ) {
+        var categoriesPromise = Restangular.one('search').one('inventory').all('categories').getList({ title: request.term });
+
+        categoriesPromise.then(function(response) {
+          uiResponse( $.map( response.data, function( item ) {
+            return {
+              label: item.title,
+              value: item.title,
+              id: item.id
+            }
+          }));
+        });
+      },
+      select: function( event, ui ) {
+        $scope.addCategory(ui.item.id);
+      },
+      messages: {
+        noResults: '',
+        results: function() {}
+      }
+    }
+  };
+
+  $scope.addCategory = function(id) {
+    if (!~category.inventory_categories.indexOf(id))
+    {
+      category.inventory_categories.push(id);
+    }
+  };
+
+  $scope.removeCategory = function(id) {
+    category.inventory_categories.splice(category.inventory_categories.indexOf(id), 1);
+  };
 
   $scope.manageStatuses = function () {
     $modal.open({
