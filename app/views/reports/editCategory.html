@@ -20,66 +20,75 @@
       </div>
 
       <div class="content">
+        <h3>Informações da categoria</h3>
+
         <div class="alert alert-danger" ng-show="inputErrors">
           <p ng-bind-html="inputErrors | formatErrors"></p>
         </div>
 
         <form ng-submit="send()">
-          <div class="form-group">
-            <label for="form_name">Nome da categoria</label>
-            <input type="text" class="form-control input-lg" id="form_name" ng-model="category.title" generic-input name="title">
-          </div>
 
-          <div class="form-group">
-            <label>Categoria de inventário relacionada</label>
-
-            <div class="selectUsers">
-              <div class="simple_search">
-                <span class="glyphicon glyphicon-search search_icon"></span>
-                <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete" ui-autocomplete="myOption" />
-              </div>
-
-              <ul>
-                <li ng-repeat="id in category.inventory_categories"><span ng-repeat="category in categories" ng-show="category.id == id">{{ category.title }}</span> <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button></li>
-              </ul>
+          <div style="width: 80%">
+            <div class="form-group">
+              <label for="form_name">Nome da categoria</label>
+              <input type="text" class="form-control input-lg" id="form_name" ng-model="category.title" generic-input name="title">
             </div>
 
-            <!--<select multiple class="form-control" ng-model="category.inventory_categories" ng-options="category.id as category.title for category in categories">
-            </select>-->
-          </div>
+            <div class="form-group">
+              <label>Categoria de inventário relacionada</label>
 
-          <div class="form-group upload">
-            <label>Ícone da categoria</label>
-
-            <div class="queue">
-              <div ng-show="uploader.isHTML5" class="drop-zone" ng-file-over ng-style="{'background-color': category.color}">
-                <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste a imagem</span>
-
-                <div class="image" ng-show="icon && uploader.queue.length == 0">
-                  <img ng-src="{{ icon }}" width="65" height="65">
+              <div class="selectUsers">
+                <div class="simple_search">
+                  <span class="glyphicon glyphicon-search search_icon"></span>
+                  <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete" ui-autocomplete="myOption" />
                 </div>
 
-                <div class="image" ng-repeat="item in uploader.queue">
-                  <div ng-thumb="{ file: item.file, width: 60, height: 60 }"></div>
+                <ul>
+                  <li ng-repeat="id in category.inventory_categories"><span ng-repeat="category in categories" ng-show="category.id == id">{{ category.title }}</span> <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button></li>
+                </ul>
+              </div>
+
+              <!--<select multiple class="form-control" ng-model="category.inventory_categories" ng-options="category.id as category.title for category in categories">
+              </select>-->
+            </div>
+
+            <div class="form-group upload">
+              <label>Ícone da categoria</label>
+
+              <div class="queue">
+                <div ng-show="uploader.isHTML5" class="drop-zone" ng-file-over ng-style="{'background-color': category.color}">
+                  <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste a imagem</span>
+
+                  <div class="image" ng-show="icon && uploader.queue.length == 0">
+                    <img ng-src="{{ icon }}" width="65" height="65">
+                  </div>
+
+                  <div class="image" ng-repeat="item in uploader.queue">
+                    <div ng-thumb="{ file: item.file, width: 60, height: 60 }"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="btn btn-default btn-upload">
+                  <span>Selecione um arquivo</span>
+
+                  <input ng-file-select type="file" multiple  />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Cor representativa</label>
+              <div class="row">
+                <div class="col-md-2" generic-input name="color">
+                  <input type="text" colorpicker type="text" ng-model="category.color" class="form-control input-lg">
                 </div>
               </div>
             </div>
-
-            <div class="btn btn-default btn-upload">
-                <span>Selecione um arquivo</span>
-
-                <input ng-file-select type="file" multiple  />
-            </div>
           </div>
 
-          <div class="form-group">
-            <label>Cor representativa</label>
-            <div class="row">
-              <div class="col-md-2" generic-input name="color">
-                <input type="text" colorpicker type="text" ng-model="category.color" class="form-control input-lg">
-              </div>
-            </div>
-          </div>
+          <hr />
+
+          <h3>Configurações de relato</h3>
 
           <div class="form-group">
             <label>Tempo de resolução do relato</label>
@@ -104,19 +113,19 @@
           </div>
 
           <div class="form-group">
-            <label>Permitir criar relatos em pontos livres</label>
-
-            <div class="clearfix"></div>
-
-            <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
-          </div>
-
-          <div class="form-group">
             <label generic-input name="statuses">Estados de relatos disponíveis <a href="" ng-click="manageStatuses()">(Gerenciar estados)</a></label>
 
             <ul>
               <li ng-repeat="status in category.statuses">{{ status.title }}</li>
             </ul>
+          </div>
+
+          <div class="form-group">
+            <label>Permitir criar relatos em pontos livres</label>
+
+            <div class="clearfix"></div>
+
+            <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
           </div>
 
           <div class="form-group">
