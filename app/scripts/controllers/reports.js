@@ -821,11 +821,11 @@ angular.module('zupPainelApp')
         var postCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
 
         postCategoryPromise.then(function(response) {
-          $scope.showMessage('ok-circle', 'A categoria de relato foi atualizada com sucesso', 'success', true);
+          $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
           $scope.processingForm = false;
         }, function(response) {
-          $scope.showMessage('remove-circle', 'A categoria de relato não pode ser salva', 'error', true);
+          $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
           $scope.inputErrors = response.data.error;
           $scope.processingForm = false;
@@ -843,7 +843,7 @@ angular.module('zupPainelApp')
 
           $scope.processingForm = false;
         }, function(response) {
-          $scope.showMessage('remove-circle', 'A categoria de relato não pode ser salva', 'error', true);
+          $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
           $scope.inputErrors = response.data.error;
           $scope.processingForm = false;

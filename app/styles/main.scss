@@ -1427,3 +1427,16 @@ colorpicker-preview {
   background-position: 0 100%;
 }
 
+.fade-animation.ng-hide-add,
+.fade-animation.ng-hide-remove {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+
+  /* remember to add this */
+  display:block!important;
+  opacity:1;
+}
+.fade-animation.ng-hide {
+  opacity:0;
+}
+
