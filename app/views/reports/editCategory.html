@@ -10,7 +10,7 @@
 
     <div class="loading" ng-show="loading"></div>
 
-    <div ng-hide="loading">
+    <div ng-hide="loading" class="fade-animation">
       <div class="title">
         <ul>
           <li><a href="#/reports">Relatos</a></li>
@@ -22,7 +22,7 @@
       <div class="content">
         <h3>Informações da categoria</h3>
 
-        <div class="alert alert-danger" ng-show="inputErrors">
+        <div class="alert alert-danger fade-animation" ng-show="inputErrors">
           <p ng-bind-html="inputErrors | formatErrors"></p>
         </div>
 

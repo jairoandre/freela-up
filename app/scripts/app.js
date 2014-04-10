@@ -289,8 +289,9 @@ angular.module('zupPainelApp', [
 
   $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {
     $rootScope.systemMessage = {icon: icon, text: text, messageClass: messageClass};
+    $rootScope.showSystemMessage = true;
 
-    $timeout(function() { $rootScope.systemMessage = null; }, 3500);
+    $timeout(function() { $rootScope.showSystemMessage = false; }, 3500);
 
     if (scrollTop === true)
     {
