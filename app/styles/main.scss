@@ -201,8 +201,20 @@ p {
 
       .message-status {
         p {
-          margin: 26px 20px 0 30px;
+          margin: 19px 20px 0 30px;
           color: #8F8F8F;
+          padding: 7px 15px;
+          border-radius: 5px;
+        }
+
+        &.error p {
+          background: #F2DFDF;
+          color: #B74B4A;
+        }
+
+        &.success p {
+          background: #D9EDF6;
+          color: #3A85AA;
         }
 
         float: left;
