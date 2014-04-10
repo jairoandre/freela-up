@@ -644,10 +644,11 @@ angular.module('zupPainelApp')
       marker: 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
       inventory_categories: [],
       allows_arbitrary_position: true,
+      color: '#2AB4DC',
       statuses: [
-        {title: 'Em aberto', color: '#ff0000', initial: true, final: false, active: true},
-        {title: 'Em andamento', color: '#ff0000', initial: false, final: false, active: true},
-        {title: 'Resolvido', color: '#ff0000', initial: false, final: true, active: true}
+        {title: 'Em aberto', color: '#E68012', initial: true, final: false, active: true},
+        {title: 'Em andamento', color: '#919191', initial: false, final: false, active: true},
+        {title: 'Resolvido', color: '#5EB623', initial: false, final: true, active: true}
       ]
     };
   }

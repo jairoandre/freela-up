@@ -4,7 +4,7 @@
     <div ng-include="'views/layout/menu.html'"></div>
   </div>
 
-  <div id="main_content">
+  <div id="main_content" class="custom-manage-category">
     <!-- Include views/layouts/header.html -->
     <div ng-include="'views/layout/header.html'"></div>
 
@@ -53,11 +53,11 @@
             </div>
 
             <div class="form-group upload">
-              <label>Ícone da categoria</label>
+              <label>Ícone da categoria <span>(60x60px)</span></label>
 
               <div class="queue">
                 <div ng-show="uploader.isHTML5" class="drop-zone" ng-file-over ng-style="{'background-color': category.color}">
-                  <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste a imagem</span>
+                  <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste o ícone</span>
 
                   <div class="image" ng-show="icon && uploader.queue.length == 0">
                     <img ng-src="{{ icon }}" width="65" height="65">
@@ -80,7 +80,7 @@
               <label>Cor representativa</label>
               <div class="row">
                 <div class="col-md-2" generic-input name="color">
-                  <input type="text" colorpicker type="text" ng-model="category.color" class="form-control input-lg">
+                  <button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker" ng-model="category.color" ng-style="{'background-color': category.color}"></button>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
           <div class="form-group">
             <label>Tempo de resolução do relato</label>
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-1">
                 <input type="text" class="form-control input-lg" ng-model="category.resolution_time" generic-input name="resolution_time">
               </div>
 
@@ -115,8 +115,8 @@
           <div class="form-group">
             <label generic-input name="statuses">Estados de relatos disponíveis <a href="" ng-click="manageStatuses()">(Gerenciar estados)</a></label>
 
-            <ul>
-              <li ng-repeat="status in category.statuses">{{ status.title }}</li>
+            <ul class="statuses-list">
+              <li ng-repeat="status in category.statuses"><span ng-style="{'background-color': status.color}"></span> {{ status.title }}</li>
             </ul>
           </div>
 
@@ -135,7 +135,7 @@
                 <input type="checkbox" class="pull-right" bs-switch ng-model="enabled_user_response_time">
               </div>
 
-              <div class="col-md-2" style="padding: 0px;">
+              <div class="col-md-1" style="padding: 0px;">
                 <input type="text" class="form-control input-lg" ng-model="category.user_response_time" generic-input name="user_response_time" ng-show="enabled_user_response_time">
               </div>
 

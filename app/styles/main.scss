@@ -525,6 +525,43 @@ p {
       }
     }
 
+    // Custom pages
+    &.custom-manage-category {
+      .input-lg {
+        height: 40px;
+        padding: 6px 14px;
+        font-size: 15px;
+      }
+
+      label span {
+        color: #999;
+        font-weight: normal;
+        font-size: 12px;
+      }
+
+      hr {
+        border-top-color: #E5E5E5;
+        margin: 40px 0 40px 0;
+      }
+
+      ul.statuses-list {
+        list-style: none;
+        padding: 0px;
+
+        li {
+          margin-top: 5px;
+        }
+
+        span {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          margin-right: 5px;
+        }
+      }
+    }
+
     .mapItems {
       height: 600px;
     }
@@ -628,7 +665,7 @@ p {
           display: table-cell;
           vertical-align: middle;
           text-align: center;
-          color: #666;
+          color: #FFF;
         }
       }
 
@@ -958,6 +995,13 @@ p {
 
 .btn-fat-custom {
   padding: 6px 27px;
+}
+
+.btn-colorpicker {
+  width: 130px;
+  height: 39px;
+  outline: none;
+  border: 1px solid rgba(000, 000, 000, 0.3);
 }
 
 .dropdown-custom {
