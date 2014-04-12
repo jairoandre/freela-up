@@ -520,7 +520,7 @@ angular.module('zupPainelApp')
 
     $scope.report.status_id = $scope.report.status.id;
 
-    $scope.feedback = responses[2].data.feedback;
+    $scope.feedback = responses[2].data;
 
     // find category
     for (var i = responses[1].data.length - 1; i >= 0; i--) {
@@ -736,6 +736,8 @@ angular.module('zupPainelApp')
       }]
     });
   };
+
+  $scope.manageStatuses();
 
   // Image uploader
   var uploader = $scope.uploader = $fileUploader.create({

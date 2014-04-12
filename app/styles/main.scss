@@ -1031,6 +1031,11 @@ p {
   height: 39px;
   outline: none;
   border: 1px solid rgba(000, 000, 000, 0.3);
+
+  &.btn-colorpicker-small {
+    width: 50px;
+    height: 25px;
+  }
 }
 
 .dropdown-custom {
@@ -1096,7 +1101,7 @@ p {
 
 .manageStatuses {
   .modal-dialog {
-    width: 500px;
+    width: 600px;
   }
 
   .modal-body {
@@ -1109,7 +1114,8 @@ p {
     padding: 7px 0 7px 0;
 
     .col-md-3 {
-      padding: 0 0 0 25px;
+      text-align: right;
+      padding-right: 25px;
     }
 
     input {
@@ -1137,6 +1143,10 @@ p {
 
       tr td {
         padding-bottom: 5px;
+
+        &:first-child {
+          padding-left: 20px;
+        }
       }
     }
 
@@ -1148,6 +1158,49 @@ p {
 
         td {
           padding: 10px 0 10px 0;
+          position: relative;
+
+          &:first-child {
+            padding-left: 20px;
+          }
+
+          .edit_title {
+            color: #000;
+            padding: 5px 7px;
+
+            &:hover {
+              background: #E5E5E5;
+              text-decoration: none;
+              border-radius: 5px;
+            }
+          }
+
+          .edit_status_title {
+            position: absolute;
+            width: 578px;
+            height: 100%;
+            background: #F2F2F2;
+            top: 0px;
+            left: 0px;
+            z-index: 1000;
+            text-align: right;
+            padding-right: 20px;
+
+            input {
+              height: 100%;
+              border: 0px;
+              outline: none;
+              background: #F2F2F2;
+              padding-left: 27px;
+              float: left;
+            }
+
+            a {
+              display: inline-block;
+              margin-top: 12px;
+              font-weight: bold;
+            }
+          }
         }
       }
 

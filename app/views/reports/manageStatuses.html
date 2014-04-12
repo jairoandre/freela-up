@@ -21,7 +21,7 @@
     <table>
         <thead>
             <tr>
-                <td>Nome do estado</td>
+                <td style="text-align: left; width: 40%;">Nome do estado</td>
                 <td>Estado inicial</td>
                 <td>Estado final</td>
                 <td>Ativado</td>
@@ -32,11 +32,11 @@
 
         <tbody>
             <tr ng-repeat="status in category.statuses">
-                <td>{{ status.title }}</td>
+                <td style="text-align: left;"><a href="" class="edit_title" ng-click="edit_title = true">{{ status.title }}</a> <div class="edit_status_title" ng-show="edit_title"><input type="text" ng-model="status.title" /> <a href="" ng-click="edit_title = false">Pronto</a></div> </td>
                 <td><input type="checkbox" ng-change="changeInitial(status)" ng-model="status.initial" /></td>
                 <td><input type="checkbox" ng-model="status.final" /></td>
                 <td><input type="checkbox" ng-model="status.active" /></td>
-                <td><input type="text" class="colorpicker_input" colorpicker colorpicker-fixed-position="true" ng-model="status.color" /></td>
+                <td><button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker btn-colorpicker-small" ng-model="status.color" colorpicker-fixed-position="true" ng-style="{'background-color': status.color}"></button></td>
                 <td><button type="button" class="remove" ng-click="removeStatus(status)">×</button></td>
             </tr>
         </tbody>
