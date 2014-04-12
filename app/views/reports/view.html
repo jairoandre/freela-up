@@ -76,6 +76,29 @@
           </div>
         </div>
 
+        <div ng-hide="feedback == false">
+          <hr />
+
+          <h5>Feedback do usuário</h5>
+          <p ng-show="feedback.kind == 'positive'">Positivo</p>
+          <p ng-show="feedback.kind != 'positive'">Negativo</p>
+
+          <h5>Comentário</h5>
+          <p>{{ feedback.content }}</p>
+
+          <div ng-hide="feedback.images.length == 0">
+            <h5>Imagens</h5>
+
+            <div class="gallery">
+              <a href="" class="image" ng-repeat="image in feedback.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <hr />
+
         <div class="roundedMap" style="margin-top: 20px;" map-show-report></div>
 
         <hr />

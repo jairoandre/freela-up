@@ -512,12 +512,15 @@ angular.module('zupPainelApp')
   $scope.loading = true;
 
   var reportPromise = Restangular.one('reports').one('items', $routeParams.id).get();
+  var feedbackPromise = Restangular.one('reports', $routeParams.id).one('feedback').get();
   var categoriesPromise = Restangular.one('reports').all('categories').getList();
 
-  $q.all([reportPromise, categoriesPromise]).then(function(responses) {
+  $q.all([reportPromise, categoriesPromise, feedbackPromise]).then(function(responses) {
     $scope.report = responses[0].data;
 
     $scope.report.status_id = $scope.report.status.id;
+
+    $scope.feedback = responses[2].data.feedback;
 
     // find category
     for (var i = responses[1].data.length - 1; i >= 0; i--) {
