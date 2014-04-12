@@ -94,7 +94,7 @@
         </thead>
 
         <tr ng-repeat="report in reports">
-          <td><a href="#/reports/categories/{{ report.category_id }}/item/{{ report.id }}">{{ report.protocol }}</a></td>
+          <td class="status_color"><span></span><a href="#/reports/categories/{{ report.category_id }}/item/{{ report.id }}">{{ report.protocol }}</a></td>
           <td>{{ report.address }}</td>
           <td>{{ getReportCategory(report.category_id).title }}</td>
           <td>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</td>

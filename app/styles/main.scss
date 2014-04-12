@@ -473,6 +473,21 @@ p {
         .actions {
           text-align: right;
         }
+
+        .status_color {
+          position: relative;
+          z-index: 100;
+
+          span {
+            display: block;
+            background: #37B8E8;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 10px;
+            height: 100%;
+          }
+        }
       }
 
       &.big_text {
