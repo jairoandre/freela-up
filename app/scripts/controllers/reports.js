@@ -737,8 +737,6 @@ angular.module('zupPainelApp')
     });
   };
 
-  $scope.manageStatuses();
-
   // Image uploader
   var uploader = $scope.uploader = $fileUploader.create({
     scope: $scope,
