@@ -4,7 +4,7 @@
     <div ng-include="'views/layout/menu.html'"></div>
   </div>
 
-  <div id="main_content">
+  <div id="main_content" class="custom-users">
     <!-- Include views/layouts/header.html -->
     <div ng-include="'views/layout/header.html'"></div>
 
@@ -14,75 +14,63 @@
         <div class="title">
           <ul>
             <li><a href="#/users">Usuários</a></li>
-            <li>{{ user.email }}</li>
+            <li>{{ user.name }}</li>
           </ul>
 
-          <a href="#/users/edit/{{ user.id }}" class="btn btn-info btn-custom">Editar usuário</a>
+          <a class="icon_action" href=""><span class="glyphicon glyphicon-trash"></span></a>
+          <a href="#/users/edit/{{ user.id }}" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
         </div>
 
         <div class="content">
-          <form>
+          <div class="user-box">
+            <div class="avatar"></div>
 
-            <div class="form-group" ng-show="user.name !== null && user.name !== ''">
-              <label for="form_username">Nome completo</label>
-              <input type="text" class="form-control input-lg" id="form_username" value="{{ user.name }}" disabled>
+            <h1>{{ user.name }}</h1>
+            <h2>{{ user.email }}</h2>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <hr />
+
+          <div class="row">
+            <div class="col-xs-8">
+              <h5>Endereço</h5>
+              <p>{{ user.address }}</p>
+
+              <h5>Complemento</h5>
+              <p>{{ user.address_additional }}</p>
+
+              <h5>Cidade</h5>
+              <p>{{ user.district }}</p>
+
+              <h5>CEP</h5>
+              <p>{{ user.postal_code }}</p>
+
+              <h5>Telefone</h5>
+              <p>{{ user.phone }}</p>
+
+              <h5>Documento</h5>
+              <p>{{ user.document }}</p>
+
+              <h5>Usuário cadastrado em</h5>
+              <p>{{ user.created_at | date:'dd/MM/yy HH:mm'}}</p>
             </div>
 
-            <div class="form-group">
-              <label for="form_email">Email</label>
-              <input type="email" class="form-control custom_form" id="form_email" value="{{ user.email }}" disabled>
+            <div class="col-xs-4">
+              <h5>Grupos</h5>
+
+              <ul ng-hide="user.groups.length == 0" class="groups-list">
+                  <li ng-repeat="group in user.groups"><a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}</a></li>
+              </ul>
+
+              <p ng-show="user.groups.length == 0">Usuário não está vinculado a um grupo.</p>
             </div>
+          </div>
 
-            <div class="form-group" ng-show="user.address !== null && user.address !== ''">
-              <label for="form_address">Endereço</label>
-              <input type="text" class="form-control custom_form" id="form_address" value="{{ user.address }}" disabled>
-            </div>
+          <hr />
 
-            <div class="form-group" ng-show="user.address_additional !== null && user.address_additional !== ''">
-              <label for="form_address_additional">Complemento</label>
-              <input type="text" class="form-control custom_form" id="form_address_additional" value="{{ user.address_additional }}" disabled>
-            </div>
-
-            <div class="form-group" ng-show="user.district !== null && user.district !== ''">
-              <label for="form_district">Cidade</label>
-              <input type="text" class="form-control custom_form" id="form_district" value="{{ user.district }}" disabled>
-            </div>
-
-            <div class="form-group" ng-show="user.postal_code !== null && user.postal_code !== ''">
-              <label for="form_postal_code">CEP</label>
-              <input type="text" class="form-control custom_form" id="form_postal_code" value="{{ user.postal_code }}" disabled>
-            </div>
-
-            <div class="form-group" ng-show="user.phone !== null && user.phone !== ''">
-              <label for="form_phone">Telefone</label>
-              <input type="text" class="form-control custom_form" id="form_phone" value="{{ user.phone }}" disabled>
-            </div>
-
-            <div class="form-group" ng-show="user.document !== null && user.document !== ''">
-              <label for="form_document">Documento</label>
-              <input type="text" class="form-control custom_form" id="form_document" value="{{ user.document }}" disabled>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <b>Usuário cadastrado em</b><br/>
-                    {{ user.created_at | date:'dd/MM/yy HH:mm'}}
-                </p>
-            </div>
-
-            <div class="form-group">
-                <label>Grupos</label>
-
-                <br/>
-
-                <ul ng-hide="user.groups.length == 0">
-                    <li ng-repeat="group in user.groups">{{ group.name }}</li>
-                </ul>
-
-                <p ng-show="user.groups.length == 0">Usuário não está vinculado a um grupo.</p>
-            </div>
-
-          </form>
+          <a href="#/users" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
         </div>
     </div>
 
