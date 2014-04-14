@@ -17,7 +17,7 @@
             <li>{{ user.name }}</li>
           </ul>
 
-          <a class="icon_action" href=""><span class="glyphicon glyphicon-trash"></span></a>
+          <a class="icon_action" href="" ng-click="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></a>
           <a href="#/users/edit/{{ user.id }}" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
         </div>
 
@@ -25,8 +25,10 @@
           <div class="user-box">
             <div class="avatar"></div>
 
-            <h1>{{ user.name }}</h1>
-            <h2>{{ user.email }}</h2>
+            <div class="info">
+              <h1>{{ user.name }}</h1>
+              <h2>({{ user.email }})</h2>
+            </div>
           </div>
 
           <div class="clearfix"></div>
@@ -52,19 +54,21 @@
 
               <h5>Documento</h5>
               <p>{{ user.document }}</p>
-
-              <h5>Usuário cadastrado em</h5>
-              <p>{{ user.created_at | date:'dd/MM/yy HH:mm'}}</p>
             </div>
 
             <div class="col-xs-4">
               <h5>Grupos</h5>
 
               <ul ng-hide="user.groups.length == 0" class="groups-list">
-                  <li ng-repeat="group in user.groups"><a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}</a></li>
+                  <li ng-repeat="group in user.groups"><a href="#/groups/{{ group.id }}"><i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}</a></li>
               </ul>
 
               <p ng-show="user.groups.length == 0">Usuário não está vinculado a um grupo.</p>
+
+              <div class="clearfix"></div>
+
+              <h5>Usuário cadastrado em</h5>
+              <p>{{ user.created_at | date:'dd/MM/yy HH:mm'}}</p>
             </div>
           </div>
 
