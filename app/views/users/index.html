@@ -46,14 +46,18 @@
       <table class="table custom_table" ng-hide="loadingContent" infinite-scroll="getData(true)" infinite-scroll-distance="3">
         <thead>
           <tr>
+            <td>Nome</td>
             <td>E-mail</td>
-            <td>Grupo</td>
+            <td>Telefone</td>
+            <td>Grupo(s)</td>
             <td></td>
           </tr>
         </thead>
 
         <tr ng-repeat="user in users">
-          <td><a href="#/users/{{ user.id }}">{{ user.email }}</a></td>
+          <td><a href="#/users/{{ user.id }}">{{ user.name }}</a></td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
           <td><span ng-repeat="group in user.groups">{{ group.name }}</span> </td>
           <td class="actions">
             <a class="icon_action" href="#/users/edit/{{ user.id }}"><span class="glyphicon glyphicon-edit"></span></a>
