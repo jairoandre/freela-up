@@ -9,7 +9,7 @@ angular.module('zupPainelApp')
 
       scope.$watch('inputErrors', function() {
         var errors = scope.inputErrors,
-            group = $(element).parent('.form-group');
+            group = $(element).closest('.form-group');
 
         // clear errors
         element.removeClass('has-error');
