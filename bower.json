@@ -19,6 +19,7 @@
     "angular-bootstrap-switch": "~0.2.1",
     "angular-file-upload": "~0.4.0",
     "jquery-ui": "~1.10.4",
+    "angular-ui-utils": "bower-mask",
     "ui-autocomplete": "~0.5.5",
     "angular-animate": "1.2.6"
   },

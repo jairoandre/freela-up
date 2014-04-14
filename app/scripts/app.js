@@ -6,6 +6,7 @@ angular.module('zupPainelApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
+  'ui.mask',
   'restangular',
   'infinite-scroll',
   'colorpicker.module',
@@ -60,16 +61,23 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/users/:id', {
-      templateUrl: 'views/users/view.html',
-      controller: 'ViewUsersCtrl',
+    .when('/users/add', {
+      templateUrl: 'views/users/edit.html',
+      controller: 'UsersEditCtrl',
       access: {
         logged: true
       }
     })
-    .when('/users/add', {
-      templateUrl: 'views/users/add.html',
-      controller: 'UserCtrl',
+    .when('/users/:id', {
+      templateUrl: 'views/users/view.html',
+      controller: 'UsersViewCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/users/edit/:id', {
+      templateUrl: 'views/users/edit.html',
+      controller: 'UsersEditCtrl',
       access: {
         logged: true
       }
