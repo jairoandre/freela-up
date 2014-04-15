@@ -1,0 +1,34 @@
+<div id="full_page">
+  <div class="header">
+    <a href="#/inventories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+    <div class="title">Novo item de inventário</div>
+
+    <a href="" ng-click="send()" class="submit_button"><span>Cadastrar</span></a>
+  </div>
+
+  <div class="loading" ng-show="loading"></div>
+
+  <div class="pages-animation" ng-hide="loading">
+
+    <div class="big_content_darker">
+      <div class="rounder_wrapper" ng-repeat="section in category.sections">
+        <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
+
+        <div class="fields">
+          <div class="form-group" ng-repeat="field in section.fields | orderBy: field.position">
+            <label for="generic_input_{{ field.id }}">
+              <div ng-show="field.label !== null">{{ field.label }}</div>
+              <div ng-show="field.label == null">{{ field.title }}</div>
+            </label>
+
+            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'">
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+  </div>
+</div>

@@ -146,8 +146,18 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
   })
-  .controller('InventoriesCategoriesItemEditCtrl', function () {
+  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular) {
+    var categoryId = $routeParams.categoryId;
 
+    $scope.loading = true;
+
+    var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
+
+    categoryPromise.then(function(response) {
+      $scope.category = response.data;
+
+      $scope.loading = false;
+    });
   })
   .controller('InventoriesCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q) {
     $scope.loading = true;

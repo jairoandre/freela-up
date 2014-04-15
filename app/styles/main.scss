@@ -950,6 +950,25 @@ p {
       margin: 19px 0 0 23px;
       color: #FFF;
     }
+
+    a.submit_button {
+      float: right;
+      width: 120px;
+      height: 100%;
+      background: #259ECB;
+      display: table;
+
+      span {
+        display: table-cell;
+        color: #FFF;
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   .tabs {
@@ -992,11 +1011,27 @@ p {
     background: #FFF;
     border: 1px solid #CFCFCF;
     border-radius: 10px;
-    padding: 20px;
     margin: 0 auto;
     margin-right: 10%;
     margin-left: 10%;
     margin-top: 30px;
+
+    .title {
+      display: block;
+      width: 100%;
+      background: #F2F2F2;
+      padding: 20px 20px 20px 30px;
+      border-bottom: 1px solid #E5E5E5;
+
+      h1 {
+        margin: 0px;
+        font-size: 25px;
+      }
+    }
+
+    .fields {
+      margin: 40px 60px 60px;
+    }
 
     &.select_category {
       p {
