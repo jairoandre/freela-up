@@ -135,8 +135,16 @@ angular.module('zupPainelApp')
   .controller('InventoriesCategoriesEditCtrl', function () {
 
   })
-  .controller('InventoriesCategoriesSelectCtrl', function () {
+  .controller('InventoriesCategoriesSelectCtrl', function ($scope, Restangular, $modal) {
+    $scope.loading = true;
 
+    var categoriesPromise = Restangular.one('inventory').all('categories').getList();
+
+    categoriesPromise.then(function(response) {
+      $scope.categories = response.data;
+
+      $scope.loading = false;
+    });
   })
   .controller('InventoriesCategoriesItemEditCtrl', function () {
 

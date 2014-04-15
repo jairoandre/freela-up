@@ -165,7 +165,7 @@ angular.module('zupPainelApp', [
       }
     })
     .when('/inventories/categories/select', {
-      templateUrl: 'views/inventories/items/select.html',
+      templateUrl: 'views/inventories/select.html',
       controller: 'InventoriesCategoriesSelectCtrl',
       access: {
         logged: true
