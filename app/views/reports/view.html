@@ -56,9 +56,7 @@
             <div ng-hide="report.images.length == 0">
               <h5>Imagens</h5>
 
-              <div class="gallery">
-                <a href="" class="image" ng-repeat="image in report.images" ng-style="{'background-image': 'url(' + image.high + ')' }"></a>
-              </div>
+              <gallery images="images"></gallery>
 
               <div class="clearfix"></div>
             </div>

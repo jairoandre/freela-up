@@ -530,6 +530,12 @@ angular.module('zupPainelApp')
       }
     }
 
+    $scope.images = [];
+
+    for (var i = $scope.report.images.length - 1; i >= 0; i--) {
+      $scope.images.push({src: $scope.report.images[i].high});
+    };
+
     $scope.loading = false;
   });
 
