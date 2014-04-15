@@ -285,7 +285,7 @@ p {
       padding-right: 20%;
       z-index: 1000;
 
-      .btn-custom {
+      .btn-custom, .btn-group {
         float: right;
         margin: 11px 10px 0 0;
       }
@@ -1137,12 +1137,20 @@ p {
   }
 }
 
-.btn-custom {
+.btn-custom, .btn-custom-group {
   border: 0px;
   background: #1693C6;
 
   &:hover {
     background: #2fb4e6;
+  }
+}
+
+.btn-custom-group {
+  border-left: 1px solid #1A83AA;
+
+  &:first-child {
+    border-left: 0px;
   }
 }
 

@@ -125,24 +125,10 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    // inventory
+    // inventories
     .when('/inventories', {
       templateUrl: 'views/inventories/index.html',
       controller: 'InventoriesCtrl',
-      access: {
-        logged: true
-      }
-    })
-    .when('/inventories/edit/:id', {
-      templateUrl: 'views/inventories/edit.html',
-      controller: 'InventoriesCtrl',
-      access: {
-        logged: true
-      }
-    })
-    .when('/items', {
-      templateUrl: 'views/items/index.html',
-      controller: 'ItemsCtrl',
       resolve: {
         'isMap': function() {
           return false;
@@ -152,9 +138,9 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/items/map', {
-      templateUrl: 'views/items/map.html',
-      controller: 'ItemsCtrl',
+    .when('/inventories/map', {
+      templateUrl: 'views/inventories/map.html',
+      controller: 'InventoriesCtrl',
       resolve: {
         'isMap': function() {
           return true;
@@ -164,16 +150,44 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/items/search', {
-      templateUrl: 'views/items/search.html',
-      controller: 'ItemsCtrl',
+    .when('/inventories/categories', {
+      templateUrl: 'views/inventories/categories.html',
+      controller: 'InventoriesCategoriesCtrl',
       access: {
         logged: true
       }
     })
-    .when('/inventories/:categoryId/item/:id', {
-      templateUrl: 'views/items/view.html',
-      controller: 'ViewItemCtrl',
+    .when('/inventories/categories/:id/edit', {
+      templateUrl: 'views/inventories/edit.html',
+      controller: 'InventoriesCategoriesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/inventories/categories/select', {
+      templateUrl: 'views/inventories/items/select.html',
+      controller: 'InventoriesCategoriesSelectCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/inventories/categories/:categoryId/item/add', {
+      templateUrl: 'views/inventories/items/edit.html',
+      controller: 'InventoriesCategoriesItemEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/inventories/categories/:categoryId/item/:id/edit', {
+      templateUrl: 'views/inventories/items/edit.html',
+      controller: 'InventoriesCategoriesItemEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/inventories/categories/:categoryId/item/:id', {
+      templateUrl: 'views/inventories/items/view.html',
+      controller: 'InventoriesCategoriesItemCtrl',
       access: {
         logged: true
       }
@@ -189,7 +203,7 @@ angular.module('zupPainelApp', [
       redirectTo: '/'
     });
 
-  // Not supported in github :-(
+  // Not supported on github :-(
   //$locationProvider.html5Mode(true);
 
   // register the interceptor via an anonymous factory
@@ -292,7 +306,6 @@ angular.module('zupPainelApp', [
     {
       $rootScope.isLoading = false;
     }
-
   });
 
   $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {
