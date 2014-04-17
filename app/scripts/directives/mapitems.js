@@ -239,7 +239,7 @@ angular.module('zupPainelApp')
               this.zoomLevels[this.map.getZoom()][type + '_' + item.id] = pin;
 
               google.maps.event.addListener(pin, 'click', function() {
-                var html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/inventories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
+                var html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/inventories/categories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
 
                 var new_scope = scope.$new(true);
 
