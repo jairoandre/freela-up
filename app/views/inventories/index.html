@@ -50,7 +50,7 @@
           <td>{{ getInventoryCategory(item.inventory_category_id).title }}</td>
           <td>{{ item.created_at | date:'dd/MM/yy HH:mm'}}</td>
           <td class="actions">
-            <a class="icon_action" href=""><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
             <a class="icon_action" href="" ng-click="deleteItem(item, getInventoryCategory(item.inventory_category_id))"><span class="glyphicon glyphicon-trash"></span></a>
           </td>
         </tr>

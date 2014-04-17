@@ -146,8 +146,19 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
   })
-  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular) {
+  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q) {
+    var updating = $scope.updating = false;
+
     var categoryId = $routeParams.categoryId;
+    var itemId = $routeParams.id;
+
+    var itemData = $scope.itemData = {};
+
+    if (typeof itemId !== 'undefined')
+    {
+      updating = true;
+      $scope.updating = true;
+    }
 
     $scope.loading = true;
 
@@ -156,8 +167,80 @@ angular.module('zupPainelApp')
     categoryPromise.then(function(response) {
       $scope.category = response.data;
 
-      $scope.loading = false;
+      // create an object with all the possible fields values
+      for (var i = $scope.category.sections.length - 1; i >= 0; i--) {
+        for (var j = $scope.category.sections[i].fields.length - 1; j >= 0; j--) {
+          // we leave as null for empty fields
+          itemData[$scope.category.sections[i].fields[j].id] = null;
+        };
+      };
     });
+
+    if (updating)
+    {
+      var itemPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).one('items', $routeParams.id).get();
+
+      $q.all([itemPromise, categoryPromise]).then(function(responses) {
+        $scope.item = responses[0].data;
+
+        var getDataByInventoryFieldId = function(id) {
+          for (var i = $scope.item.data.length - 1; i >= 0; i--) {
+            if ($scope.item.data[i].inventory_field_id == id)
+            {
+              return $scope.item.data[i].content;
+            }
+          };
+        };
+
+        // populate itemData with item information
+        for (var x in itemData)
+        {
+          itemData[x] = getDataByInventoryFieldId(x);
+        }
+
+        $scope.loading = false;
+      });
+    }
+    else
+    {
+      categoryPromise.then(function(response) {
+        $scope.loading = false;
+      });
+    }
+
+    $scope.send = function() {
+      var formattedData = {data: {}};
+
+      // we need to format our data
+      for (var x in itemData)
+      {
+        if (itemData[x] != null)
+        {
+          formattedData.data[x] = itemData[x];
+        }
+      }
+
+      if (updating)
+      {
+        var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
+
+        putCategoryPromise.then(function(response) {
+          console.log(response);
+        }, function(response) {
+          console.log(response);
+        });
+      }
+      else
+      {
+        var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
+
+        postCategoryPromise.then(function(response) {
+          console.log(response);
+        }, function(response) {
+          console.log(response);
+        });
+      }
+    };
   })
   .controller('InventoriesCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q) {
     $scope.loading = true;
