@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
   .directive('gallery', function () {
     return {
         restrict: 'E',
-        templateUrl: "/views/layout/gallery.html",
+        templateUrl: "views/layout/gallery.html",
         scope: {
             images: '='
         },
