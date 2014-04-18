@@ -15,6 +15,9 @@
           <li><a href="#/inventories">Inventário</a></li>
           <li>{{ item.title }}</li>
         </ul>
+
+        <a class="icon_action" href="" ng-click="deleteItem(item, category)"><span class="glyphicon glyphicon-trash"></span></a>
+        <a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
       </div>
 
       <div class="content">

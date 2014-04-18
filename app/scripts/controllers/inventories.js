@@ -254,7 +254,7 @@ angular.module('zupPainelApp')
       }
     };
   })
-  .controller('InventoriesCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q) {
+  .controller('InventoriesCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q, $location, $modal) {
     $scope.loading = true;
 
     var itemPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).one('items', $routeParams.id).get();
@@ -274,5 +274,40 @@ angular.module('zupPainelApp')
           return $scope.item.data[i].content;
         }
       };
+    };
+
+    $scope.deleteItem = function (item, category) {
+      $modal.open({
+        templateUrl: 'views/inventories/items/removeItem.html',
+        windowClass: 'removeModal',
+        resolve: {
+          item: function() {
+            return item;
+          },
+
+          category: function() {
+            return category;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'item', 'category', function($scope, $modalInstance, item, category) {
+          $scope.item = item;
+          $scope.category = category;
+
+          // delete user from server
+          $scope.confirm = function() {
+            var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).one('items', $scope.item.id).remove();
+
+            deletePromise.then(function() {
+              $modalInstance.close();
+
+              $location.path('/inventories');
+            });
+          };
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
     };
   });
