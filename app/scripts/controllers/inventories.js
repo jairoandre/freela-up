@@ -146,7 +146,7 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
   })
-  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q) {
+  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
@@ -220,14 +220,21 @@ angular.module('zupPainelApp')
         }
       }
 
+      $scope.processingForm = true;
+
       if (updating)
       {
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
 
         putCategoryPromise.then(function(response) {
-          console.log(response);
+          $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
+
+          $scope.processingForm = false;
         }, function(response) {
-          console.log(response);
+          $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
+
+          $scope.inputErrors = response.data.error;
+          $scope.processingForm = false;
         });
       }
       else
@@ -235,9 +242,14 @@ angular.module('zupPainelApp')
         var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
 
         postCategoryPromise.then(function(response) {
-          console.log(response);
+          $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
+
+          $location.path('/inventories');
         }, function(response) {
-          console.log(response);
+          $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
+
+          $scope.inputErrors = response.data.error;
+          $scope.processingForm = false;
         });
       }
     };

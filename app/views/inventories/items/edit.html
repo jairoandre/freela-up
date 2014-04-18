@@ -5,6 +5,10 @@
     <div class="title" ng-show="!updating">Novo item de inventário</div>
     <div class="title" ng-show="updating">Editar item: {{ item.title }}</div>
 
+    <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
+      <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
+    </div>
+
     <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>
   </div>
 
@@ -14,17 +18,25 @@
 
   <form class="pages-animation" ng-hide="loading">
     <div class="big_content_darker">
+
+      <div class="rounder_wrapper errors" ng-show="inputErrors">
+        <div class="alert alert-danger fade-animation">
+          <p ng-bind-html="inputErrors | formatErrors"></p>
+        </div>
+      </div>
+
       <div class="rounder_wrapper" ng-repeat="section in category.sections">
         <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
 
         <div class="fields">
           <div class="form-group" ng-repeat="field in section.fields | orderBy: field.position">
             <label for="generic_input_{{ field.id }}">
-              <div ng-show="field.label !== null">{{ field.label }}</div>
-              <div ng-show="field.label == null">{{ field.title }}</div>
+              <span ng-show="field.label !== null">{{ field.label }}</span>
+              <span ng-show="field.label == null">{{ field.title }}</span>
+              <span ng-show="field.required == true"> *</span>
             </label>
 
-            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'" ng-model="itemData[field.id]">
+            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
           </div>
         </div>
       </div>
