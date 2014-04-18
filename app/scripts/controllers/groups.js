@@ -37,14 +37,18 @@ angular.module('zupPainelApp')
   };
 })
 
-.controller('ViewGroupsCtrl', function ($scope, Groups, $routeParams) {
+.controller('ViewGroupsCtrl', function ($scope, Restangular, $routeParams, $q) {
+  var groupId = $routeParams.id;
 
   $scope.loading = true;
 
+  var groupsPromise = Restangular.one('groups', groupId).get();
+  var usersPromise = Restangular.one('groups', groupId).one('users').getList();
+
   // Get specific group
-  Groups.getUsers({ id: $routeParams.id }, function(data) {
-    $scope.group = data.group;
-    $scope.users = data.users;
+  $q.all([groupsPromise, usersPromise]).then(function(responses) {
+    $scope.group = responses[0].data;
+    $scope.users = responses[1].data;
 
     $scope.loading = false;
   });
