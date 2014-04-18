@@ -2,15 +2,15 @@
 
 angular.module('zupPainelApp')
 
-.controller('GroupsCtrl', function ($scope, $modal, Groups) {
+.controller('GroupsCtrl', function ($scope, $modal, Restangular) {
 
   $scope.loading = true;
 
-  var params = {};
+  var groupsPromise = Restangular.all('groups').getList();
 
   // Get all groups
-  var groupsData = Groups.getAll(function(data) {
-    $scope.groups = data.groups;
+  groupsPromise.then(function(response) {
+    $scope.groups = response.data;
 
     $scope.loading = false;
   });
