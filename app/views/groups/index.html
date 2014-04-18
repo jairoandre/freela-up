@@ -22,11 +22,11 @@
 
       <div class="simple_search">
         <span class="glyphicon glyphicon-search search_icon"></span>
-        <input type="text" placeholder="Buscar grupo..." keyboard-poster="search" />
+        <input type="text" placeholder="Buscar grupo..." ng-model="search" />
       </div>
 
       <table class="table custom_table big_text" ng-hide="loadingContent">
-        <tr ng-repeat="group in groups">
+        <tr ng-repeat="group in groups | filter: search">
           <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
           <td class="actions">
             <a class="icon_action" href=""><span class="glyphicon glyphicon-edit"></span></a>

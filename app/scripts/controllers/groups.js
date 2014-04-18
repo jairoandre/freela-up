@@ -15,25 +15,6 @@ angular.module('zupPainelApp')
     $scope.loading = false;
   });
 
-  $scope.search = function(text) {
-    if (text === '')
-    {
-      delete params.name;
-    }
-    else
-    {
-      params.name = text;
-    }
-
-    $scope.loadingContent = true;
-
-    groupsData = Groups.getAll(params, function(data) {
-      $scope.groups = data.groups;
-
-      $scope.loadingContent = false;
-    });
-  };
-
   $scope.deleteGroup = function (group) {
     $modal.open({
       templateUrl: 'removeGroup.html',
