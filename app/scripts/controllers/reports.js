@@ -624,10 +624,10 @@ angular.module('zupPainelApp')
         category.resolution_time = Math.round(responses[1].data.resolution_time  / 60);
       }
 
+      category.inventory_categories = [];
+
       if (typeof responses[1].data.inventory_categories == 'object' && responses[1].data.inventory_categories.length !== 0)
       {
-        category.inventory_categories = [];
-
         for (var i = responses[1].data.inventory_categories.length - 1; i >= 0; i--) {
           category.inventory_categories.push(responses[1].data.inventory_categories[i].id);
         };
