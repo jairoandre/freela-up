@@ -27,17 +27,7 @@ angular.module('zupPainelApp')
       controller: ['$scope', '$modalInstance', 'groupsList', function($scope, $modalInstance, groupsList) {
         $scope.group = group;
 
-        // delete user from server
-        $scope.confirm = function() {
-          var group = Groups.get({ id: $scope.group.id }, function() {
-            group.$delete({ id: $scope.group.id }, function() {
-              $modalInstance.close();
-
-              // remove user from list
-              groupsList.splice(groupsList.indexOf($scope.group), 1);
-            });
-          });
-        };
+        /** TO DO DELETE GROUP **/
 
         $scope.close = function() {
           $modalInstance.close();
