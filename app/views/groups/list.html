@@ -26,12 +26,18 @@
       </div>
 
       <table class="table custom_table">
+        <thead>
+          <tr>
+            <td>Nome</td>
+            <td>E-mail</td>
+            <td>Telefone</td>
+          </tr>
+        </thead>
 
         <tr ng-repeat="user in users">
-          <td><a href="#/users/{{ user.id }}">{{ user.email }}</a></td>
-          <td width="20">
-            <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
+          <td><a href="#/users/{{ user.id }}">{{ user.name }}</a></td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
         </tr>
 
       </table>
