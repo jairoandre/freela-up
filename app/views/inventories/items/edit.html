@@ -29,7 +29,41 @@
         <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
 
         <div class="fields">
-          <div class="form-group" ng-repeat="field in section.fields | orderBy: field.position">
+
+          <!-- show custom lat/lng fields -->
+          <div ng-show="section.location == true">
+            <div class="row">
+              <!-- latitude field -->
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <label for="generic_input_{{ latLngIds[0] }}">
+                    Latitude
+                  </label>
+
+                  <input class="form-control" id="generic_input_{{ latLngIds[0] }}" type="text" ng-model="itemData[latLngIds[0]]" generic-input name="latitute">
+                </div>
+              </div>
+
+              <!-- longitude field -->
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <label for="generic_input_{{ latLngIds[1] }}">
+                    Longitude
+                  </label>
+
+                  <input class="form-control" id="generic_input_{{ latLngIds[1] }}" type="text" ng-model="itemData[latLngIds[1]]" generic-input name="longitude">
+                </div>
+              </div>
+
+              <!-- modal button -->
+              <div class="col-xs-4">
+                <a href="" ng-click="openMapModal()" class="btn btn-info btn-fat-custom btn-custom" style="margin-top: 25px;">Localizar no mapa</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- show normal fields -->
+          <div class="form-group" ng-repeat="field in section.fields | orderBy: field.position" ng-hide="hiddenFields.indexOf(field.id) !== -1">
             <label for="generic_input_{{ field.id }}">
               <span ng-show="field.label !== null">{{ field.label }}</span>
               <span ng-show="field.label == null">{{ field.title }}</span>

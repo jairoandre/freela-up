@@ -1330,6 +1330,12 @@ p {
   width: 400px;
 }
 
+.mapModal {
+  .modal-dialog {
+    width: 700px;
+  }
+}
+
 .removeModal {
   .modal-dialog {
     width: 500px;

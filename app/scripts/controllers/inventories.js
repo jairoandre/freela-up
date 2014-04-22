@@ -146,7 +146,7 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
   })
-  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location) {
+  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
@@ -161,6 +161,8 @@ angular.module('zupPainelApp')
     }
 
     $scope.loading = true;
+    $scope.hiddenFields = [];
+    $scope.latLngIds = [];
 
     var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
 
@@ -170,8 +172,26 @@ angular.module('zupPainelApp')
       // create an object with all the possible fields values
       for (var i = $scope.category.sections.length - 1; i >= 0; i--) {
         for (var j = $scope.category.sections[i].fields.length - 1; j >= 0; j--) {
+          var section = $scope.category.sections[i];
+
           // we leave as null for empty fields
-          itemData[$scope.category.sections[i].fields[j].id] = null;
+          itemData[section.fields[j].id] = null;
+
+          // detect location fields
+          if (section.location == true)
+          {
+            if (section.fields[j].title == 'latitude')
+            {
+              $scope.latLngIds[0] = section.fields[j].id;
+              $scope.hiddenFields.push(section.fields[j].id);
+            }
+
+            if (section.fields[j].title == 'longitude')
+            {
+              $scope.latLngIds[1] = section.fields[j].id;
+              $scope.hiddenFields.push(section.fields[j].id);
+            }
+          }
         };
       };
     });
@@ -207,6 +227,20 @@ angular.module('zupPainelApp')
         $scope.loading = false;
       });
     }
+
+    $scope.openMapModal = function () {
+      $modal.open({
+        templateUrl: 'views/inventories/items/modalMap.html',
+        windowClass: 'mapModal',
+        controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    };
 
     $scope.send = function() {
       var formattedData = {data: {}};
