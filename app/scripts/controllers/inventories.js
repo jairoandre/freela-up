@@ -146,7 +146,7 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
   })
-  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal) {
+  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
@@ -162,7 +162,7 @@ angular.module('zupPainelApp')
 
     $scope.loading = true;
     $scope.hiddenFields = [];
-    $scope.latLngIds = [];
+    var latLngIds = $scope.latLngIds = [];
 
     var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
 
@@ -229,16 +229,46 @@ angular.module('zupPainelApp')
     }
 
     $scope.openMapModal = function () {
-      $modal.open({
+      var mapModalInstance =  $modal.open({
         templateUrl: 'views/inventories/items/modalMap.html',
         windowClass: 'mapModal',
-        controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+        resolve: {
+          category: function() {
+            var deferred = $q.defer();
 
+            $scope.$watch('loading', function() {
+              if ($scope.loading == false)
+              {
+                deferred.resolve($scope.category);
+              }
+            });
+
+            return deferred.promise;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'category', function($scope, $modalInstance, category) {
+          $scope.updating = updating;
+          $scope.category = category;
+
+          $scope.latLng = [itemData[latLngIds[0]], itemData[latLngIds[1]]];
 
           $scope.close = function() {
             $modalInstance.close();
           };
+
+          $scope.save = function() {
+            itemData[latLngIds[0]] = $scope.latLng[0];
+            itemData[latLngIds[1]] = $scope.latLng[1];
+
+            $modalInstance.close();
+          };
         }]
+      });
+
+      mapModalInstance.opened.then(function () {
+        setTimeout(function() {
+          $rootScope.selectLatLngMap.start();
+        }, 80);
       });
     };
 
