@@ -7,6 +7,7 @@ angular.module('zupPainelApp', [
   'ngRoute',
   'ui.bootstrap',
   'ui.mask',
+  'ui.select2',
   'restangular',
   'infinite-scroll',
   'colorpicker.module',

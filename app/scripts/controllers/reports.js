@@ -9,8 +9,8 @@ angular.module('zupPainelApp')
 
   $scope.loadingPagination = false;
 
-  var selectedCategories = $scope.selectedCategories = {};
-  var selectedStatus = $scope.selectedStatus = null;
+  $scope.selectedCategories = [];
+  $scope.selectedStatuses = [];
   var beginDate = null, endDate = null;
 
   // Return right promise
@@ -24,28 +24,15 @@ angular.module('zupPainelApp')
     }
 
     // check if we have categories selected
-    if (Object.keys(selectedCategories).length != 0)
+    if ($scope.selectedCategories.length !== 0)
     {
-      var categories = [];
-
-      for (var key in selectedCategories)
-      {
-        if (selectedCategories[key] == true)
-        {
-          categories.push(key);
-        }
-      }
-
-      if (categories.length !== 0)
-      {
-        options.reports_categories_ids = categories.join();
-      }
+      options.reports_categories_ids = $scope.selectedCategories.join();
     }
 
-    // check if we have a status selected
-    if (selectedStatus !== null)
+    // check if we have statuses selected
+    if ($scope.selectedStatuses.length !== 0)
     {
-      options.statuses_ids = selectedStatus;
+      options.statuses_ids = $scope.selectedStatuses.join();
     }
 
     if (beginDate !== null)
@@ -118,10 +105,6 @@ angular.module('zupPainelApp')
   categories.then(function(response) {
     $scope.statuses = [];
 
-    for (var i = response.data.length - 1; i >= 0; i--) {
-      $scope.selectedCategories[response.data[i].id] = true;
-    };
-
     // merge all categories statuses in one array with no duplicates
     for (var i = response.data.length - 1; i >= 0; i--) {
       for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
@@ -157,85 +140,9 @@ angular.module('zupPainelApp')
     });
   };
 
-  // helper to get beginDate and endDate by the slider position
-  // Current possible positions: [1, 2, 3, 4]
-  var getPeriodByOption = function(pos) {
-    // From 6 months ago to today
-    if (pos == 1)
-    {
-      var beginDate = new Date();
-      beginDate.setHours(0, 0, 0, 0);
-      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 6, 1);
-      beginDate = beginDate.toISOString();
-    }
-
-    // From 3 months ago to today
-    if (pos == 2)
-    {
-      var beginDate = new Date();
-      beginDate.setHours(0, 0, 0, 0);
-      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 3, 1);
-      beginDate = beginDate.toISOString();
-    }
-
-    // From 1 month ago to today
-    if (pos == 3)
-    {
-      var beginDate = new Date();
-      beginDate.setHours(0, 0, 0, 0);
-      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 1, 1);
-      beginDate = beginDate.toISOString();
-    }
-
-    // From 1 week ago to today
-    if (pos == 4)
-    {
-      var beginDate = new Date();
-      beginDate.setDate(beginDate.getDate() - 7);
-      beginDate = beginDate.toISOString();
-    }
-
-    var endDate = new Date();
-    endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000));
-    endDate = endDate.toISOString();
-
-    return {beginDate: beginDate, endDate: endDate};
-  };
-
-  $scope.changeSelectedCategories = function(id) {
-    if ($scope.selectedCategories[id] === true)
-    {
-      $scope.selectedCategories[id] = false;
-    }
-    else
-    {
-      $scope.selectedCategories[id] = true;
-    }
-
+  $scope.$watchCollection('[selectedCategories, selectedStatuses]', function() {
     loadFilters();
-  };
-
-  $scope.changeSelectedStatuses = function(id) {
-    selectedStatus = $scope.selectedStatus = id;
-
-    loadFilters();
-  };
-
-  $scope.changeSelectedPeriod = function(pos) {
-    var period = {beginDate: null, endDate: null};
-    $scope.periodPos = null;
-
-    if (pos != null)
-    {
-      period = getPeriodByOption(pos);
-      $scope.periodPos = pos;
-    }
-
-    beginDate = period.beginDate;
-    endDate = period.endDate;
-
-    loadFilters();
-  };
+  });
 
   // Search function
   $scope.search = function(text) {

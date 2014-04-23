@@ -22,63 +22,42 @@
       </div>
 
       <div class="simple_search">
-        <div class="col-md-5 search_column1">
+        <div class="col-xs-9 search_column1">
           <span class="glyphicon glyphicon-search search_icon"></span>
           <input type="text" placeholder="Busque pelo endereço" keyboard-poster="search" style="width: 80%;" />
         </div>
 
-        <div class="col-md-7 filter_dropdown_c">
-          <div class="filter_dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Período <span class="pull-right"><span class="caret"></span></span>
-              </button>
+        <div class="col-xs-3 filter_change">
+          <a href="">Utilizar busca avançada</a>
+        </div>
+      </div>
 
-              <ul class="dropdown-menu" role="menu">
-                <li ng-class="{active: periodPos == 4}"><a href="" ng-click="changeSelectedPeriod(4)">Última semana</a></li>
-                <li ng-class="{active: periodPos == 3}"><a href="" ng-click="changeSelectedPeriod(3)">Último mês</a></li>
-                <li ng-class="{active: periodPos == 2}"><a href="" ng-click="changeSelectedPeriod(2)">Últimos 3 meses</a></li>
-                <li ng-class="{active: periodPos == 1}"><a href="" ng-click="changeSelectedPeriod(1)">Últimos 6 meses</a></li>
+      <div class="middle">
+        <div class="simple_filters">
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label>Nas categorias</label>
 
-                <li class="divider"></li>
-
-                <li ng-class="{active: periodPos == null}"><a href="" ng-click="changeSelectedPeriod(null)">Todos</a></li>
-              </ul>
+              <select class="multiple-select" ui-select2 ng-model="selectedCategories" data-placeholder="Digite uma categoria" multiple>
+                <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.title }}</option>
+              </select>
             </div>
           </div>
 
-          <div class="filter_dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Estado <span class="pull-right"><span class="caret"></span></span>
-              </button>
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label>Com status</label>
 
-              <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="status in statuses" ng-class="{active: selectedStatus == status.id}"><a href="" ng-click="changeSelectedStatuses(status.id)">{{ status.title }}</a></li>
-
-                <li class="divider"></li>
-
-                <li ng-class="{active: selectedStatus == null}"><a href="" ng-click="changeSelectedStatuses(null)">Todos</a></li>
-              </ul>
+              <select class="multiple-select" ui-select2 ng-model="selectedStatuses" data-placeholder="Digite um status" multiple>
+                <option ng-repeat="status in statuses" value="{{ status.id }}">{{ status.title }}</option>
+              </select>
             </div>
           </div>
 
-          <div class="filter_dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Categorias <span class="pull-right"><span class="caret"></span></span>
-              </button>
-
-              <div class="dropdown-menu" role="menu" style="padding: 10px 16px 6px 16px;">
-                <div class="checkbox" ng-repeat="category in categories" style="margin-top: 5px;">
-                  <label>
-                    <input type="checkbox" ng-checked="selectedCategories[category.id] == true" ng-click="changeSelectedCategories(category.id)">
-                    {{ category.title }}
-                  </label>
-                </div>
-              </div>
-            </div>
+          <div class="col-xs-4">
           </div>
+
+          <div class="clearfix"></div>
         </div>
       </div>
 

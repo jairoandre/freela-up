@@ -378,7 +378,7 @@ p {
       }
     }
 
-    .simple_search + table, .simple_search + .mapItems {
+    .simple_search + table, .simple_search + .mapItems, .simple_search + .middle {
       margin-top: 44px;
     }
 
@@ -426,6 +426,19 @@ p {
         padding-right: 10px;
       }
 
+      .filter_change {
+        background: #F2F2F2;
+        height: 100%;
+        border-left: 1px solid #C5C5C5;
+
+        a {
+          font-weight: bold;
+          margin-top: 12px;
+          display: block;
+          text-align: center;
+        }
+      }
+
       .filter_dropdown {
         float: right;
         margin-left: 7px;
@@ -442,6 +455,38 @@ p {
           .dropdown-toggle {
             min-width: 158px;
             text-align: left;
+          }
+        }
+      }
+    }
+
+    .middle {
+      .simple_filters {
+        background: #F2F2F2;
+        border-bottom: 1px solid #E5E5E5;
+        padding: 13px 3px;
+
+        .form-group {
+          margin-bottom: 0px;
+        }
+
+        .multiple-select {
+          width: 100%;
+        }
+
+        .select2-container-multi {
+          .select2-choices {
+            border-color: #CCC;
+            border-radius: 6px;
+
+            .select2-search-choice {
+              background: #259ECB;
+              color: #FFF;
+              border: 0px;
+              padding: 6px 14px;
+              font-size: 12px;
+              box-shadow: none;
+            }
           }
         }
       }
