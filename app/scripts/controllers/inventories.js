@@ -9,6 +9,11 @@ angular.module('zupPainelApp')
 
     $scope.loadingPagination = false;
 
+    $scope.selectedCategories = [];
+    $scope.selectedStatuses = [];
+    $scope.beginDate = null;
+    $scope.endDate = null;
+
     // Return right promise
     var generateItemsPromise = function(searchText) {
       var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: per_page };
