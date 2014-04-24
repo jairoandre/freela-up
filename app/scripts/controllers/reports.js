@@ -11,7 +11,8 @@ angular.module('zupPainelApp')
 
   $scope.selectedCategories = [];
   $scope.selectedStatuses = [];
-  var beginDate = null, endDate = null;
+  $scope.beginDate = null;
+  $scope.endDate = null;
 
   // Return right promise
   var generateReportsPromise = function(searchText) {
@@ -35,14 +36,18 @@ angular.module('zupPainelApp')
       options.statuses_ids = $scope.selectedStatuses.join();
     }
 
-    if (beginDate !== null)
+    if ($scope.beginDate !== null)
     {
-      options.begin_date = beginDate;
+      var date = new Date($scope.beginDate);
+
+      options.begin_date = date.toISOString();
     }
 
-    if (endDate !== null)
+    if ($scope.endDate !== null)
     {
-      options.end_date = endDate;
+      var date = new Date($scope.endDate);
+
+      options.end_date = date.toISOString();
     }
 
     return url.getList(options);
@@ -140,7 +145,7 @@ angular.module('zupPainelApp')
     });
   };
 
-  $scope.$watchCollection('[selectedCategories, selectedStatuses]', function() {
+  $scope.$watchCollection('[selectedCategories, selectedStatuses, beginDate, endDate]', function() {
     loadFilters();
   });
 
