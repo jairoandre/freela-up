@@ -11,13 +11,35 @@ angular.module('zupPainelApp')
 
     // Return right promise
     var generateItemsPromise = function(searchText) {
+      var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: per_page };
+
       // if we searching, hit search/users
       if (searchText != '')
       {
-        return Restangular.one('search').all('items').getList({name: searchText, email: searchText, page: page, per_page: per_page});
+        options.address = searchText;
       }
 
-      return Restangular.one('inventory').all('items').getList({ page: page, per_page: per_page });
+      // check if we have categories selected
+      if ($scope.selectedCategories.length !== 0)
+      {
+        options.inventory_categories_ids = $scope.selectedCategories.join();
+      }
+
+      if ($scope.beginDate !== null)
+      {
+        var date = new Date($scope.beginDate);
+
+        options.begin_date = date.toISOString();
+      }
+
+      if ($scope.endDate !== null)
+      {
+        var date = new Date($scope.endDate);
+
+        options.end_date = date.toISOString();
+      }
+
+      return url.getList(options);
     };
 
     // Get groups for filters
@@ -77,6 +99,32 @@ angular.module('zupPainelApp')
     {
       getData();
     }
+
+    var loadFilters = function() {
+      // reset pagination
+      page = 1;
+      $scope.loadingPagination = false;
+
+      $scope.loadingContent = true;
+      $scope.items = [];
+
+      getData().then(function(response) {
+        $scope.loadingContent = false;
+
+        page++;
+      });
+    };
+
+    $scope.$watchCollection('[selectedCategories, selectedStatuses, beginDate, endDate]', function() {
+      loadFilters();
+    });
+
+    // Search function
+    $scope.search = function(text) {
+      searchText = text;
+
+      loadFilters();
+    };
 
     $scope.getInventoryCategory = function(id) {
       for (var i = $scope.categories.length - 1; i >= 0; i--) {
