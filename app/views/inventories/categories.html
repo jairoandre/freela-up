@@ -25,7 +25,7 @@
           <td><a href="#/inventories/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
           <td width="90">
             <a href="#/inventories/categories/{{ category.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href=""><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="" ng-click="deleteCategory(category)"><span class="glyphicon glyphicon-trash"></span></a>
           </td>
         </tr>
       </table>
