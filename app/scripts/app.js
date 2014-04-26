@@ -158,6 +158,13 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/inventories/categories/add', {
+      templateUrl: 'views/inventories/edit.html',
+      controller: 'InventoriesCategoriesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
     .when('/inventories/categories/:categoryId/edit', {
       templateUrl: 'views/inventories/edit.html',
       controller: 'InventoriesCategoriesEditCtrl',
