@@ -224,8 +224,35 @@ angular.module('zupPainelApp')
       });
     };
   })
-  .controller('InventoriesCategoriesEditCtrl', function () {
+  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular) {
+    var updating = $scope.updating = false;
 
+    var categoryId = $routeParams.categoryId;
+
+    if (typeof categoryId !== 'undefined')
+    {
+      updating = true;
+      $scope.updating = true;
+    }
+
+    $scope.loading = true;
+
+    $scope.category = {};
+
+    if (updating)
+    {
+      var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
+
+      categoryPromise.then(function(response) {
+        $scope.category = response.data;
+
+        $scope.loading = false;
+      });
+    }
+    else
+    {
+      $scope.loading = false;
+    }
   })
   .controller('InventoriesCategoriesSelectCtrl', function ($scope, Restangular, $modal) {
     $scope.loading = true;
