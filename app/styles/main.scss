@@ -1903,3 +1903,17 @@ colorpicker-preview {
     }
   }
 }
+
+/* Datepicker styling */
+.datepicker-popup {
+  position: relative;
+
+  .dropdown-menu {
+    left: auto !important;
+    right: 0px;
+  }
+
+  .btn-default {
+    border: none;
+  }
+}
