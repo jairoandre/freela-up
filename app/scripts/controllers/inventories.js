@@ -34,14 +34,14 @@ angular.module('zupPainelApp')
       {
         var date = new Date($scope.beginDate);
 
-        options.begin_date = date.toISOString();
+        options['created_at[begin]'] = date.toISOString();
       }
 
       if ($scope.endDate !== null)
       {
         var date = new Date($scope.endDate);
 
-        options.end_date = date.toISOString();
+        options['created_at[end]'] = date.toISOString();
       }
 
       return url.getList(options);
