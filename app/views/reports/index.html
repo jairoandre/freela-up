@@ -59,14 +59,18 @@
               <div class="form-group">
                 <label>No periódo</label>
 
-                <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="beginDate" show-weeks="false" datepicker-options="dateOptions" show-button-bar="false" />
+                <div class="datepicker-popup">
+                  <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="beginDate" show-weeks="false" datepicker-options="dateOptions" show-button-bar="false" />
+                </div>
               </div>
             </div>
 
             <div class="col-xs-6">
               <label>Até</label>
 
-              <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="endDate" show-weeks="false" datepicker-options="dateOptions" show-button-bar="false" />
+              <div class="datepicker-popup">
+                <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="endDate" show-weeks="false" datepicker-options="dateOptions" show-button-bar="false" />
+              </div>
             </div>
           </div>
 
