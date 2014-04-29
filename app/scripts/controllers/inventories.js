@@ -21,7 +21,7 @@ angular.module('zupPainelApp')
       // if we searching, hit search/users
       if (searchText != '')
       {
-        options.address = searchText;
+        options.query = searchText;
       }
 
       // check if we have categories selected
