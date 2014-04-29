@@ -5,23 +5,58 @@ angular.module('zupPainelApp')
 .controller('ReportsCtrl', function ($scope, Restangular, $modal, $q) {
  $scope.loading = true;
 
-  var page = 1, per_page = 30, total, searchText = '';
+  var page = 1, per_page = 30, total;
 
   $scope.loadingPagination = false;
 
-  $scope.selectedCategories = [];
-  $scope.selectedStatuses = [];
-  $scope.beginDate = null;
-  $scope.endDate = null;
+  // Basic filters
+  var resetFilters = function() {
+    $scope.selectedCategories = [];
+    $scope.selectedStatuses = [];
+    $scope.beginDate = null;
+    $scope.endDate = null;
+    $scope.searchText = null;
+  };
+
+  // watch for filter type changes
+  $scope.$watchCollection('[advanced_search, active_advanced_filters]', function() {
+    resetFilters();
+  });
+
+  // Advanced filters
+  //$scope.advanced_search = true;
+
+  $scope.available_filters = [
+    {name: 'Com o estado...', action: 'status'},
+    {name: 'Com as categorias...', action: 'category'},
+  ];
+
+  $scope.active_advanced_filters = [
+    {
+      title: 'Categoria(s)',
+      desc: 'Árvores, Bueiros',
+      type: 'categories',
+      value: [22, 8]
+    },
+
+    {
+      title: 'Título ou endereço',
+      desc: '\'Guaianases\'',
+      type: 'query',
+      value: 'Guaianases'
+    }
+  ];
+
+  $scope.active_advanced_filters = [];
 
   // Return right promise
-  var generateReportsPromise = function(searchText) {
+  var generateReportsPromise = function() {
     var url = Restangular.one('search').all('reports').all('items'), options = { page: page, per_page: per_page };
 
     // if we searching, hit search/users
-    if (searchText != '')
+    if ($scope.searchText !== null)
     {
-      options.query = searchText;
+      options.query = $scope.searchText;
     }
 
     // check if we have categories selected
@@ -62,7 +97,7 @@ angular.module('zupPainelApp')
     {
       $scope.loadingPagination = true;
 
-      var reportsPromise = generateReportsPromise(searchText);
+      var reportsPromise = generateReportsPromise();
 
       $q.all([reportsPromise, categories]).then(function(responses) {
         $scope.categories = responses[1].data;
@@ -149,9 +184,67 @@ angular.module('zupPainelApp')
     loadFilters();
   });
 
+  // We watch for changes in the advanced filter to set it's variables
+  $scope.$watch('advanced_search', function() {
+    if ($scope.advanced_search == true)
+    {
+      loadFilters();
+    }
+  });
+
+  $scope.$watch('active_advanced_filters', function() {
+    if ($scope.advanced_search == true)
+    {
+      resetFilters();
+
+      for (var i = $scope.active_advanced_filters.length - 1; i >= 0; i--) {
+        var filter = $scope.active_advanced_filters[i];
+
+        if (filter.type == 'query')
+        {
+          $scope.searchText = filter.value;
+        }
+
+        if (filter.type == 'categories')
+        {
+          $scope.selectedCategories = filter.value;
+        }
+      };
+
+      loadFilters();
+    }
+  }, true);
+
+  $scope.removeFilter = function(filter) {
+    $scope.active_advanced_filters.splice($scope.active_advanced_filters.indexOf(filter), 1);
+  };
+
+  $scope.resetFilters = function() {
+    $scope.active_advanced_filters = [];
+  };
+
+  // All available filters
+  var advancedFilterQuery = function(query) {
+    var filter = {
+      title: 'Título ou endereço',
+      desc: query,
+      type: 'query',
+      value: query
+    };
+
+    $scope.active_advanced_filters.push(filter);
+  };
+
+  $scope.loadFilter = function(status) {
+    if (status == 'query')
+    {
+      advancedFilterQuery($scope.filter_query);
+    }
+  };
+
   // Search function
   $scope.search = function(text) {
-    searchText = text;
+    $scope.searchText = text;
 
     loadFilters();
   };
