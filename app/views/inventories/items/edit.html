@@ -40,7 +40,7 @@
                     Latitude
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ latLngIds[0] }}" type="text" ng-model="itemData[latLngIds[0]]" generic-input name="latitute">
+                  <input class="form-control" id="generic_input_{{ latLngIds[0] }}" type="text" ng-model="itemData[latLngIds[0]]" generic-input name="latitude">
                 </div>
               </div>
 
@@ -71,6 +71,27 @@
             </label>
 
             <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+
+            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" style="width: 20%;">
+
+            <div ng-show="field.kind == 'checkbox'">
+              <div class="checkbox" ng-repeat="value in field.available_values">
+                <label>
+                  <input type="checkbox" ng-model="itemData[field.id][value]">
+                  {{ value }}
+                </label>
+              </div>
+            </div>
+
+            <div ng-show="field.kind == 'radio'">
+              <div class="radio" ng-repeat="value in field.available_values">
+                <label>
+                  <input type="radio" ng-model="itemData[field.id]" ng-value="value">
+                  {{ value }}
+                </label>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

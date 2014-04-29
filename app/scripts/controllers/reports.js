@@ -27,8 +27,8 @@ angular.module('zupPainelApp')
   //$scope.advanced_search = true;
 
   $scope.available_filters = [
-    {name: 'Com o estado...', action: 'status'},
     {name: 'Com as categorias...', action: 'category'},
+    {name: 'Com os estados...', action: 'status'},
   ];
 
   $scope.active_advanced_filters = [
@@ -209,6 +209,11 @@ angular.module('zupPainelApp')
         {
           $scope.selectedCategories = filter.value;
         }
+
+        if (filter.type == 'statuses')
+        {
+          $scope.selectedStatuses = filter.value;
+        }
       };
 
       loadFilters();
@@ -235,10 +240,142 @@ angular.module('zupPainelApp')
     $scope.active_advanced_filters.push(filter);
   };
 
+  var advancedFilterCategory = function() {
+    $modal.open({
+      templateUrl: 'views/reports/filters/category.html',
+      windowClass: 'filterCategoryModal',
+      resolve: {
+        categories: function() {
+          return $scope.categories;
+        },
+
+        active_advanced_filters: function() {
+          return $scope.active_advanced_filters;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'categories', 'active_advanced_filters', function($scope, $modalInstance, categories, active_advanced_filters) {
+        $scope.categories = categories;
+        $scope.active_advanced_filters = active_advanced_filters;
+
+        $scope.updateCategory = function(category) {
+          var i = $scope.categories.indexOf(category);
+
+          if ($scope.categories[i].selected === true)
+          {
+            $scope.categories[i].selected = false;
+          }
+          else
+          {
+            $scope.categories[i].selected = true;
+          }
+        };
+
+        $scope.save = function() {
+          var filter = {
+            title: 'Categorias',
+            type: 'categories',
+            value: []
+          };
+
+          var desc = [];
+
+          for (var i = $scope.categories.length - 1; i >= 0; i--) {
+            if ($scope.categories[i].selected == true)
+            {
+              filter.value.push($scope.categories[i].id);
+              desc.push(' ' + $scope.categories[i].title);
+            }
+          };
+
+          filter.desc = desc.join();
+
+          $scope.active_advanced_filters.push(filter);
+
+          $modalInstance.close();
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
+  var advancedFilterStatus = function() {
+    $modal.open({
+      templateUrl: 'views/reports/filters/status.html',
+      windowClass: 'filterCategoryModal',
+      resolve: {
+        statuses: function() {
+          return $scope.statuses;
+        },
+
+        active_advanced_filters: function() {
+          return $scope.active_advanced_filters;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'statuses', 'active_advanced_filters', function($scope, $modalInstance, statuses, active_advanced_filters) {
+        $scope.statuses = statuses;
+        $scope.active_advanced_filters = active_advanced_filters;
+
+        $scope.updateStatus = function(status) {
+          var i = $scope.statuses.indexOf(status);
+
+          if ($scope.statuses[i].selected === true)
+          {
+            $scope.statuses[i].selected = false;
+          }
+          else
+          {
+            $scope.statuses[i].selected = true;
+          }
+        };
+
+        $scope.save = function() {
+          var filter = {
+            title: 'Estados',
+            type: 'statuses',
+            value: []
+          };
+
+          var desc = [];
+
+          for (var i = $scope.statuses.length - 1; i >= 0; i--) {
+            if ($scope.statuses[i].selected == true)
+            {
+              filter.value.push($scope.statuses[i].id);
+              desc.push(' ' + $scope.statuses[i].title);
+            }
+          };
+
+          filter.desc = desc.join();
+
+          $scope.active_advanced_filters.push(filter);
+
+          $modalInstance.close();
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
   $scope.loadFilter = function(status) {
     if (status == 'query')
     {
       advancedFilterQuery($scope.filter_query);
+    }
+
+    if (status == 'category')
+    {
+      advancedFilterCategory();
+    }
+
+    if (status == 'status')
+    {
+      advancedFilterStatus();
     }
   };
 

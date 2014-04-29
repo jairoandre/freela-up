@@ -293,22 +293,37 @@ angular.module('zupPainelApp')
         for (var j = $scope.category.sections[i].fields.length - 1; j >= 0; j--) {
           var section = $scope.category.sections[i];
 
-          // we leave as null for empty fields
-          itemData[section.fields[j].id] = null;
-
-          // detect location fields
-          if (section.location == true)
+          if (typeof section !== 'undefined')
           {
-            if (section.fields[j].title == 'latitude')
+            // we leave as null for empty fields
+            itemData[section.fields[j].id] = null;
+
+            if (section.fields[j].kind == 'checkbox')
             {
-              $scope.latLngIds[0] = section.fields[j].id;
-              $scope.hiddenFields.push(section.fields[j].id);
+              var optionsObj = {};
+
+              // we leave all the options checked as blank
+              for (var b = section.fields[j].available_values.length - 1; b >= 0; b--) {
+                optionsObj[section.fields[j].available_values[b]] = false;
+              };
+
+              itemData[section.fields[j].id] = optionsObj;
             }
 
-            if (section.fields[j].title == 'longitude')
+            // detect location fields
+            if (section.location == true)
             {
-              $scope.latLngIds[1] = section.fields[j].id;
-              $scope.hiddenFields.push(section.fields[j].id);
+              if (section.fields[j].title == 'latitude')
+              {
+                $scope.latLngIds[0] = section.fields[j].id;
+                $scope.hiddenFields.push(section.fields[j].id);
+              }
+
+              if (section.fields[j].title == 'longitude')
+              {
+                $scope.latLngIds[1] = section.fields[j].id;
+                $scope.hiddenFields.push(section.fields[j].id);
+              }
             }
           }
         };
@@ -334,7 +349,20 @@ angular.module('zupPainelApp')
         // populate itemData with item information
         for (var x in itemData)
         {
-          itemData[x] = getDataByInventoryFieldId(x);
+          var data = getDataByInventoryFieldId(x);
+
+          // we detect if it's a checkbox by checking if the value is an array
+          if (typeof data == 'object')
+          {
+            for (var c in itemData[x])
+            {
+              console.log(c, itemData[x][c]);
+            }
+          }
+          else
+          {
+            itemData[x] = data;
+          }
         }
 
         $scope.loading = false;
@@ -399,7 +427,24 @@ angular.module('zupPainelApp')
       {
         if (itemData[x] != null)
         {
-          formattedData.data[x] = itemData[x];
+          if (typeof itemData[x] == 'object')
+          {
+            var selectedItems = [];
+
+            for (var z in itemData[x])
+            {
+              if (itemData[x][z] == true)
+              {
+                selectedItems.push(z);
+              }
+            }
+
+            formattedData.data[x] = selectedItems;
+          }
+          else
+          {
+            formattedData.data[x] = itemData[x];
+          }
         }
       }
 

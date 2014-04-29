@@ -1496,6 +1496,35 @@ p {
   }
 }
 
+.filterCategoryModal {
+  .modal-dialog {
+    width: 500px;
+  }
+
+  .modal-body {
+    padding: 10px 0 10px 0;
+
+    ul {
+      list-style: none;
+      padding: 0px;
+
+      a {
+        display: block;
+        width: 100%;
+        background: #F2F2F2;
+        padding: 9px 16px;
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+
+        &.selected {
+          background: #E6E6E6;
+        }
+      }
+    }
+  }
+}
+
 .manageStatuses {
   .modal-dialog {
     width: 600px;
