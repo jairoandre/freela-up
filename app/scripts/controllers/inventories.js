@@ -352,12 +352,11 @@ angular.module('zupPainelApp')
           var data = getDataByInventoryFieldId(x);
 
           // we detect if it's a checkbox by checking if the value is an array
-          if (typeof data == 'object')
+          if (data instanceof Array)
           {
-            for (var c in itemData[x])
-            {
-              console.log(c, itemData[x][c]);
-            }
+            for (var i = data.length - 1; i >= 0; i--) {
+              itemData[x][data[i]] = true;
+            };
           }
           else
           {
