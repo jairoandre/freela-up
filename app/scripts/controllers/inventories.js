@@ -265,7 +265,7 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
   })
-  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope) {
+  .controller('InventoriesCategoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope, $fileUploader) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
