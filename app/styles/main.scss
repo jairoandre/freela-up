@@ -1360,6 +1360,53 @@ p {
       }
     }
   }
+
+  &.items-edit {
+    .queue {
+      text-align: center;
+      padding: 0 50px 30px 50px;
+
+      .image {
+        display: inline-block;
+        width: 150px;
+        height: 150px;
+        border: 0px;
+        margin-right: 10px;
+        position: relative;
+
+        button {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+          width: 30px;
+          height: 30px;
+          border: 0px;
+          color: #FFF;
+          background: rgba(0, 0, 0, 0.8);
+        }
+      }
+    }
+
+    .drop-zone {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      border: dashed 14px #F3F3F3;
+      vertical-align: top;
+
+      span {
+        font-size: 14px;
+        font-weight: 400;
+        color: #CECECE;
+        margin-top: 40px;
+        display: inline-block;
+      }
+    }
+
+    .ng-file-over {
+      border: dashed 14px #CCC;
+    }
+  }
 }
 
 .btn-custom, .btn-custom-group {

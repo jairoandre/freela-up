@@ -1,4 +1,4 @@
-<div id="full_page">
+<div id="full_page" class="items-edit">
   <div class="header">
     <a href="#/inventories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
@@ -89,6 +89,30 @@
                   <input type="radio" ng-model="itemData[field.id]" ng-value="value">
                   {{ value }}
                 </label>
+              </div>
+            </div>
+
+            <div ng-show="field.kind == 'images'">
+              <div class="upload btn btn-default btn-upload">
+                  <span>Selecione o arquivo</span>
+
+                  <input ng-file-select type="file" multiple  />
+              </div>
+
+              <div class="queue">
+                <div class="image" ng-repeat="item in uploader.queue">
+                  <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, width: 150, height: 150 }"></div>
+
+                  <span ng-show="!uploader.isHTML5">{{ item.file.name }}</span>
+
+                  <button type="button" ng-click="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </div>
+
+                <div ng-show="uploader.isHTML5" class="drop-zone" ng-file-over>
+                  <span>Ou arraste a imagem aqui</span>
+                </div>
               </div>
             </div>
 

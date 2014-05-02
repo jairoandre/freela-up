@@ -281,7 +281,19 @@ angular.module('zupPainelApp')
 
     $scope.loading = true;
     $scope.hiddenFields = [];
+    $scope.imagesFieldId = null;
     var latLngIds = $scope.latLngIds = [];
+
+    var uploader = $scope.uploader = $fileUploader.create({
+      scope: $scope
+    });
+
+    // Images only
+    uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+      var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+      type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+      return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+    });
 
     var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
 
@@ -324,6 +336,11 @@ angular.module('zupPainelApp')
                 $scope.latLngIds[1] = section.fields[j].id;
                 $scope.hiddenFields.push(section.fields[j].id);
               }
+            }
+
+            if (section.fields[j].kind == 'images')
+            {
+              $scope.imagesFieldId = section.fields[j].id;
             }
           }
         };
@@ -419,66 +436,97 @@ angular.module('zupPainelApp')
     };
 
     $scope.send = function() {
-      var formattedData = {data: {}};
+      $scope.processingForm = true;
+      var images = [], promises = [];
 
-      // we need to format our data
-      for (var x in itemData)
-      {
-        if (itemData[x] != null)
+      // process images
+      function addAsync(file) {
+        var deferred = $q.defer();
+
+        var file = file, picReader = new FileReader();
+
+        picReader.addEventListener('load', function(event) {
+          var picFile = event.target;
+
+          images.push(picFile.result.replace(/^data:image\/[^;]+;base64,/, ''));
+          deferred.resolve();
+        });
+
+        // pass as base64 and strip data:image
+        picReader.readAsDataURL(file);
+
+        return deferred.promise;
+      };
+
+      for (var i = uploader.queue.length - 1; i >= 0; i--) {
+        promises.push(addAsync(uploader.queue[i].file));
+      };
+
+      $q.all(promises).then(function() {
+        var formattedData = {data: {}};
+
+        // we need to format our data
+        for (var x in itemData)
         {
-          if (typeof itemData[x] == 'object')
+          if (itemData[x] != null)
           {
-            var selectedItems = [];
-
-            for (var z in itemData[x])
+            if (typeof itemData[x] == 'object')
             {
-              if (itemData[x][z] == true)
-              {
-                selectedItems.push(z);
-              }
-            }
+              var selectedItems = [];
 
-            formattedData.data[x] = selectedItems;
-          }
-          else
-          {
-            formattedData.data[x] = itemData[x];
+              for (var z in itemData[x])
+              {
+                if (itemData[x][z] == true)
+                {
+                  selectedItems.push(z);
+                }
+              }
+
+              formattedData.data[x] = selectedItems;
+            }
+            else
+            {
+              formattedData.data[x] = itemData[x];
+            }
           }
         }
-      }
 
-      $scope.processingForm = true;
+        if ($scope.imagesFieldId !== null)
+        {
+          formattedData.data[$scope.imagesFieldId] = images;
+        }
 
-      if (updating)
-      {
-        var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
+        if (updating)
+        {
+          var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
 
-        putCategoryPromise.then(function(response) {
-          $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
+          putCategoryPromise.then(function(response) {
+            $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
 
-          $scope.processingForm = false;
-        }, function(response) {
-          $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
+            $scope.processingForm = false;
+          }, function(response) {
+            $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
 
-          $scope.inputErrors = response.data.error;
-          $scope.processingForm = false;
-        });
-      }
-      else
-      {
-        var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
+            $scope.inputErrors = response.data.error;
+            $scope.processingForm = false;
+          });
+        }
+        else
+        {
+          var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
 
-        postCategoryPromise.then(function(response) {
-          $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
+          postCategoryPromise.then(function(response) {
+            $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
 
-          $location.path('/inventories');
-        }, function(response) {
-          $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
+            $location.path('/inventories');
+          }, function(response) {
+            $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
 
-          $scope.inputErrors = response.data.error;
-          $scope.processingForm = false;
-        });
-      }
+            $scope.inputErrors = response.data.error;
+            $scope.processingForm = false;
+          });
+        }
+      });
     };
   })
   .controller('InventoriesCategoriesItemCtrl', function ($scope, Restangular, $routeParams, $q, $location, $modal) {
