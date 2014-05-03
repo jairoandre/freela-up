@@ -29,6 +29,9 @@ angular.module('zupPainelApp')
   $scope.available_filters = [
     {name: 'Com as categorias...', action: 'category'},
     {name: 'Com os estados...', action: 'status'},
+    {name: 'Criado pelos munícipes...', action: 'author'},
+    {name: 'Por período...', action: 'date'},
+    {name: 'Por perímetro...', action: 'area'},
   ];
 
   $scope.active_advanced_filters = [];
