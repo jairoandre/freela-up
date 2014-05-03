@@ -1543,7 +1543,7 @@ p {
   }
 }
 
-.filterCategoryModal {
+.filterCategoriesModal, .filterStatusesModal {
   .modal-dialog {
     width: 500px;
   }
@@ -1559,12 +1559,13 @@ p {
         display: block;
         width: 100%;
         background: #F2F2F2;
-        padding: 10px 16px;
+        padding: 9px 16px;
         cursor: pointer;
         color: #000;
         text-decoration: none;
         padding-left: 42px;
         border-bottom: 1px solid #E5E5E5;
+        position: relative;
 
         i {
           margin-right: 8px;
@@ -1573,6 +1574,34 @@ p {
         &.selected {
           background: #E6E6E6;
           padding-left: 16px;
+        }
+
+        &.status span {
+          display: block;
+          content: '';
+          width: 100%;
+          top: 0px;
+          left: 0px;
+          height: 100%;
+          float: left;
+          position: absolute;
+          opacity: 0.3;
+
+          &.not-selected {
+            background: #F2F2F2 !important;
+          }
+        }
+
+        &.status b {
+          display: block;
+          content: '';
+          width: 4px;
+          top: 0px;
+          left: 0px;
+          height: 100%;
+          float: left;
+          position: absolute;
+          background: #000;
         }
       }
     }
