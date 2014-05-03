@@ -227,7 +227,7 @@ angular.module('zupPainelApp')
   var advancedFilterCategory = function() {
     $modal.open({
       templateUrl: 'views/reports/filters/category.html',
-      windowClass: 'filterCategoryModal',
+      windowClass: 'filterCategoriesModal',
       resolve: {
         categories: function() {
           return $scope.categories;
@@ -288,7 +288,7 @@ angular.module('zupPainelApp')
   var advancedFilterStatus = function() {
     $modal.open({
       templateUrl: 'views/reports/filters/status.html',
-      windowClass: 'filterCategoryModal',
+      windowClass: 'filterStatusesModal',
       resolve: {
         statuses: function() {
           return $scope.statuses;
