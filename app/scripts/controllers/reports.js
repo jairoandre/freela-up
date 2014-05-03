@@ -24,7 +24,7 @@ angular.module('zupPainelApp')
   });
 
   // Advanced filters
-  $scope.advanced_search = true;
+  //$scope.advanced_search = true;
 
   $scope.available_filters = [
     {name: 'Com as categorias...', action: 'category'},
