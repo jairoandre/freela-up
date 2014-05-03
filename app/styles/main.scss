@@ -1549,7 +1549,7 @@ p {
   }
 
   .modal-body {
-    padding: 10px 0 10px 0;
+    padding: 0px;
 
     ul {
       list-style: none;
@@ -1559,13 +1559,20 @@ p {
         display: block;
         width: 100%;
         background: #F2F2F2;
-        padding: 9px 16px;
+        padding: 10px 16px;
         cursor: pointer;
         color: #000;
         text-decoration: none;
+        padding-left: 42px;
+        border-bottom: 1px solid #E5E5E5;
+
+        i {
+          margin-right: 8px;
+        }
 
         &.selected {
           background: #E6E6E6;
+          padding-left: 16px;
         }
       }
     }

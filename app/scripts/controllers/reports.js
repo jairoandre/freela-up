@@ -24,27 +24,11 @@ angular.module('zupPainelApp')
   });
 
   // Advanced filters
-  //$scope.advanced_search = true;
+  $scope.advanced_search = true;
 
   $scope.available_filters = [
     {name: 'Com as categorias...', action: 'category'},
     {name: 'Com os estados...', action: 'status'},
-  ];
-
-  $scope.active_advanced_filters = [
-    {
-      title: 'Categoria(s)',
-      desc: 'Árvores, Bueiros',
-      type: 'categories',
-      value: [22, 8]
-    },
-
-    {
-      title: 'Título ou endereço',
-      desc: '\'Guaianases\'',
-      type: 'query',
-      value: 'Guaianases'
-    }
   ];
 
   $scope.active_advanced_filters = [];
