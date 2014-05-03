@@ -152,7 +152,7 @@ angular.module('zupPainelApp')
     };
   });
 
-  var loadFilters = function() {
+  var loadFilters = $scope.reload = function() {
     // reset pagination
     page = 1;
     $scope.loadingPagination = false;
