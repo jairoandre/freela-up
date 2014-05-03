@@ -427,6 +427,13 @@ p {
           position: absolute;
           width: 20%;
           right: 20%;
+
+          a {
+            position: absolute;
+            top: 50%;
+            margin: -10px 0 0 -75px;
+            left: 50%;
+          }
         }
 
         .advanced_filters_bar {
