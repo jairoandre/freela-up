@@ -13,6 +13,7 @@ angular.module('zupPainelApp')
   var resetFilters = function() {
     $scope.selectedCategories = [];
     $scope.selectedStatuses = [];
+    $scope.selectedUsers = [];
     $scope.beginDate = null;
     $scope.endDate = null;
     $scope.searchText = null;
@@ -24,7 +25,7 @@ angular.module('zupPainelApp')
   });
 
   // Advanced filters
-  $scope.advanced_search = true;
+  //$scope.advanced_search = true;
 
   $scope.available_filters = [
     {name: 'Com as categorias...', action: 'category'},
@@ -56,6 +57,12 @@ angular.module('zupPainelApp')
     if ($scope.selectedStatuses.length !== 0)
     {
       options.statuses_ids = $scope.selectedStatuses.join();
+    }
+
+    // check if we have statuses selected
+    if ($scope.selectedUsers.length !== 0)
+    {
+      options.users_ids = $scope.selectedUsers.join();
     }
 
     if ($scope.beginDate !== null)
@@ -200,6 +207,11 @@ angular.module('zupPainelApp')
         if (filter.type == 'statuses')
         {
           $scope.selectedStatuses = filter.value;
+        }
+
+        if (filter.type == 'authors')
+        {
+          $scope.selectedUsers = filter.value;
         }
       };
 
@@ -349,6 +361,76 @@ angular.module('zupPainelApp')
     });
   };
 
+  var advancedFilterAuthor = function() {
+    $modal.open({
+      templateUrl: 'views/reports/filters/author.html',
+      windowClass: 'filterAuthorModal',
+      resolve: {
+        active_advanced_filters: function() {
+          return $scope.active_advanced_filters;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'active_advanced_filters', function($scope, $modalInstance, active_advanced_filters) {
+        $scope.active_advanced_filters = active_advanced_filters;
+        $scope.users = [];
+
+        $scope.usersAutocomplete = {
+          options: {
+            source: function( request, uiResponse ) {
+              var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
+
+              categoriesPromise.then(function(response) {
+                uiResponse( $.map( response.data, function( user ) {
+                  return {
+                    label: user.name,
+                    value: user.name,
+                    user: user
+                  }
+                }));
+              });
+            },
+            select: function( event, ui ) {
+              $scope.users.push(ui.item.user);
+            },
+            messages: {
+              noResults: '',
+              results: function() {}
+            }
+          }
+        };
+
+        $scope.removeUser = function(user) {
+          $scope.users.splice($scope.users.indexOf(user), 1);
+        };
+
+        $scope.save = function() {
+          var filter = {
+            title: 'Usuários',
+            type: 'authors',
+            value: []
+          };
+
+          var desc = [];
+
+          for (var i = $scope.users.length - 1; i >= 0; i--) {
+            filter.value.push($scope.users[i].id);
+            desc.push(' ' + $scope.users[i].name);
+          };
+
+          filter.desc = desc.join();
+
+          $scope.active_advanced_filters.push(filter);
+
+          $modalInstance.close();
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
   $scope.loadFilter = function(status) {
     if (status == 'query')
     {
@@ -363,6 +445,11 @@ angular.module('zupPainelApp')
     if (status == 'status')
     {
       advancedFilterStatus();
+    }
+
+    if (status == 'author')
+    {
+      advancedFilterAuthor();
     }
   };
 
@@ -791,7 +878,7 @@ angular.module('zupPainelApp')
     };
   }
 
-  $scope.myOption = {
+  $scope.categoriesAutocomplete = {
     options: {
       source: function( request, uiResponse ) {
         var categoriesPromise = Restangular.one('search').one('inventory').all('categories').getList({ title: request.term });
