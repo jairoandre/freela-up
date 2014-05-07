@@ -356,7 +356,7 @@ angular.module('zupPainelApp')
 
         $scope.close = function() {
           $modalInstance.close();
-        };
+        }; // hello
       }]
     });
   };
