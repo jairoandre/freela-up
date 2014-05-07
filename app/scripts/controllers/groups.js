@@ -24,7 +24,7 @@ angular.module('zupPainelApp')
           return $scope.groups;
         }
       },
-      controller: ['$scope', '$modalInstance', 'groupsList', function($scope, $modalInstance, groupsList) {
+      controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
         $scope.group = group;
 
         /** TO DO DELETE GROUP **/
