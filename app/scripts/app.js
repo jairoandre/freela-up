@@ -277,7 +277,7 @@ angular.module('zupPainelApp', [
   });
 
   RestangularProvider.setRequestInterceptor(function(elem, operation) {
-    if (operation === "remove") {
+    if (operation === 'remove') {
       return null;
     }
 
