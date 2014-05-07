@@ -2,10 +2,9 @@
 
 angular.module('zupPainelApp')
   .controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap) {
+    $scope.loading = true;
 
-   $scope.loading = true;
-
-    var page = 1, per_page = 30, total, searchText = '';
+    var page = 1, perPage = 30, total, searchText = '';
 
     $scope.loadingPagination = false;
 
@@ -16,10 +15,10 @@ angular.module('zupPainelApp')
 
     // Return right promise
     var generateItemsPromise = function(searchText) {
-      var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: per_page };
+      var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage }; // jshint ignore:line
 
       // if we searching, hit search/users
-      if (searchText != '')
+      if (searchText !== '')
       {
         options.query = searchText;
       }
@@ -27,21 +26,21 @@ angular.module('zupPainelApp')
       // check if we have categories selected
       if ($scope.selectedCategories.length !== 0)
       {
-        options.inventory_categories_ids = $scope.selectedCategories.join();
+        options.inventory_categories_ids = $scope.selectedCategories.join(); // jshint ignore:line
       }
 
       if ($scope.beginDate !== null)
       {
-        var date = new Date($scope.beginDate);
+        var beginDate = new Date($scope.beginDate);
 
-        options['created_at[begin]'] = date.toISOString();
+        options['created_at[begin]'] = beginDate.toISOString();
       }
 
       if ($scope.endDate !== null)
       {
-        var date = new Date($scope.endDate);
+        var endDate = new Date($scope.endDate);
 
-        options['created_at[end]'] = date.toISOString();
+        options['created_at[end]'] = endDate.toISOString();
       }
 
       return url.getList(options);
@@ -67,14 +66,14 @@ angular.module('zupPainelApp')
           }
           else
           {
-            if (typeof $scope.items == 'undefined')
+            if (typeof $scope.items === 'undefined')
             {
               $scope.items = [];
             }
 
             for (var i = 0; i < responses[0].data.length; i++) {
               $scope.items.push(responses[0].data[i]);
-            };
+            }
 
             // add up one page
             page++;
@@ -82,9 +81,9 @@ angular.module('zupPainelApp')
 
           total = parseInt(responses[0].headers().total);
 
-          var last_page = Math.ceil(total / per_page);
+          var lastPage = Math.ceil(total / perPage);
 
-          if (page === (last_page + 1))
+          if (page === (lastPage + 1))
           {
             $scope.loadingPagination = null;
           }
@@ -113,7 +112,7 @@ angular.module('zupPainelApp')
       $scope.loadingContent = true;
       $scope.items = [];
 
-      getData().then(function(response) {
+      getData().then(function() {
         $scope.loadingContent = false;
 
         page++;
@@ -241,7 +240,7 @@ angular.module('zupPainelApp')
 
     if (updating)
     {
-      var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
+      var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'}); // jshint ignore:line
 
       categoryPromise.then(function(response) {
         $scope.category = response.data;
@@ -254,7 +253,7 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     }
   })
-  .controller('InventoriesCategoriesSelectCtrl', function ($scope, Restangular, $modal) {
+  .controller('InventoriesCategoriesSelectCtrl', function ($scope, Restangular) {
     $scope.loading = true;
 
     var categoriesPromise = Restangular.one('inventory').all('categories').getList();
@@ -295,7 +294,7 @@ angular.module('zupPainelApp')
       return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
     });
 
-    var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'});
+    var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'}); // jshint ignore:line
 
     categoryPromise.then(function(response) {
       $scope.category = response.data;
@@ -310,41 +309,43 @@ angular.module('zupPainelApp')
             // we leave as null for empty fields
             itemData[section.fields[j].id] = null;
 
-            if (section.fields[j].kind == 'checkbox')
+            if (section.fields[j].kind === 'checkbox')
             {
               var optionsObj = {};
 
               // we leave all the options checked as blank
+              /* jshint ignore:start */
               for (var b = section.fields[j].available_values.length - 1; b >= 0; b--) {
                 optionsObj[section.fields[j].available_values[b]] = false;
-              };
+              }
+              /* jshint ignore:end */
 
               itemData[section.fields[j].id] = optionsObj;
             }
 
             // detect location fields
-            if (section.location == true)
+            if (section.location === true)
             {
-              if (section.fields[j].title == 'latitude')
+              if (section.fields[j].title === 'latitude')
               {
                 $scope.latLngIds[0] = section.fields[j].id;
                 $scope.hiddenFields.push(section.fields[j].id);
               }
 
-              if (section.fields[j].title == 'longitude')
+              if (section.fields[j].title === 'longitude')
               {
                 $scope.latLngIds[1] = section.fields[j].id;
                 $scope.hiddenFields.push(section.fields[j].id);
               }
             }
 
-            if (section.fields[j].kind == 'images')
+            if (section.fields[j].kind === 'images')
             {
               $scope.imagesFieldId = section.fields[j].id;
             }
           }
-        };
-      };
+        }
+      }
     });
 
     if (updating)
@@ -356,11 +357,11 @@ angular.module('zupPainelApp')
 
         var getDataByInventoryFieldId = function(id) {
           for (var i = $scope.item.data.length - 1; i >= 0; i--) {
-            if ($scope.item.data[i].inventory_field_id == id)
+            if ($scope.item.data[i].inventory_field_id == id) // jshint ignore:line
             {
               return $scope.item.data[i].content;
             }
-          };
+          }
         };
 
         // populate itemData with item information
@@ -373,7 +374,7 @@ angular.module('zupPainelApp')
           {
             for (var i = data.length - 1; i >= 0; i--) {
               itemData[x][data[i]] = true;
-            };
+            }
           }
           else
           {
@@ -386,7 +387,7 @@ angular.module('zupPainelApp')
     }
     else
     {
-      categoryPromise.then(function(response) {
+      categoryPromise.then(function() {
         $scope.loading = false;
       });
     }
@@ -400,7 +401,7 @@ angular.module('zupPainelApp')
             var deferred = $q.defer();
 
             $scope.$watch('loading', function() {
-              if ($scope.loading == false)
+              if ($scope.loading === false)
               {
                 deferred.resolve($scope.category);
               }
@@ -443,7 +444,7 @@ angular.module('zupPainelApp')
       function addAsync(file) {
         var deferred = $q.defer();
 
-        var file = file, picReader = new FileReader();
+        var picReader = new FileReader();
 
         picReader.addEventListener('load', function(event) {
           var picFile = event.target;
@@ -456,11 +457,11 @@ angular.module('zupPainelApp')
         picReader.readAsDataURL(file);
 
         return deferred.promise;
-      };
+      }
 
       for (var i = uploader.queue.length - 1; i >= 0; i--) {
         promises.push(addAsync(uploader.queue[i].file));
-      };
+      }
 
       $q.all(promises).then(function() {
         var formattedData = {data: {}};
@@ -468,15 +469,15 @@ angular.module('zupPainelApp')
         // we need to format our data
         for (var x in itemData)
         {
-          if (itemData[x] != null)
+          if (itemData[x] !== null)
           {
-            if (typeof itemData[x] == 'object')
+            if (typeof itemData[x] === 'object')
             {
               var selectedItems = [];
 
               for (var z in itemData[x])
               {
-                if (itemData[x][z] == true)
+                if (itemData[x][z] === true)
                 {
                   selectedItems.push(z);
                 }
@@ -500,7 +501,7 @@ angular.module('zupPainelApp')
         {
           var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
 
-          putCategoryPromise.then(function(response) {
+          putCategoryPromise.then(function() {
             $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
 
             $scope.processingForm = false;
@@ -515,7 +516,7 @@ angular.module('zupPainelApp')
         {
           var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
 
-          postCategoryPromise.then(function(response) {
+          postCategoryPromise.then(function() {
             $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
 
             $location.path('/inventories');
@@ -533,7 +534,7 @@ angular.module('zupPainelApp')
     $scope.loading = true;
 
     var itemPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).one('items', $routeParams.id).get();
-    var categoryPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).get({display_type: 'full'});
+    var categoryPromise = Restangular.one('inventory').one('categories', $routeParams.categoryId).get({display_type: 'full'}); // jshint ignore:line
 
     $q.all([itemPromise, categoryPromise]).then(function(responses) {
       $scope.item = responses[0].data;
@@ -544,11 +545,11 @@ angular.module('zupPainelApp')
 
     $scope.getDataByInventoryFieldId = function(id) {
       for (var i = $scope.item.data.length - 1; i >= 0; i--) {
-        if ($scope.item.data[i].inventory_field_id === id)
+        if ($scope.item.data[i].inventory_field_id === id) // jshint ignore:line
         {
           return $scope.item.data[i].content;
         }
-      };
+      }
     };
 
     $scope.deleteItem = function (item, category) {
