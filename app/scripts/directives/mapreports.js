@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('mapReports', function (Reports, $compile, $timeout, Inventories, $q, $window) {
+  .directive('mapReports', function (Reports, $compile, $timeout, Inventories, $q) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -86,7 +86,7 @@ angular.module('zupPainelApp')
             });
           },
 
-          getReports: function(options, callback) {
+          getReports: function(options) {
             var params = {
               'position[latitude]': options.center.lat(),
               'position[longitude]': options.center.lng(),
@@ -127,7 +127,7 @@ angular.module('zupPainelApp')
             if (this.hideNotVisibleMarkersTimeout)
             {
               $timeout.cancel(this.hideNotVisibleMarkersTimeout);
-            };
+            }
 
             this.hideNotVisibleMarkersTimeout = $timeout(function() {
               mapProvider.hideNotVisibleMarkers();
@@ -137,7 +137,7 @@ angular.module('zupPainelApp')
             if (this.getNewItemsTimeout)
             {
               $timeout.cancel(this.getNewItemsTimeout);
-            };
+            }
 
             scope.isLoadingItems = true;
 
@@ -178,21 +178,21 @@ angular.module('zupPainelApp')
 
           // Hide every marker that is not visible to the user
           hideNotVisibleMarkers: function() {
-            angular.forEach(this.zoomLevels[this.map.getZoom()], function(marker, id) {
+            angular.forEach(this.zoomLevels[this.map.getZoom()], function(marker) {
               if (!mapProvider.isMarkerInsideBounds(marker))
               {
                 marker.setVisible(false);
               }
               else
               {
-                var cat, pos;
+                var pos;
 
                 if (marker.type === 'report')
                 {
-                  pos = mapProvider.hiddenReportsCategories.indexOf(marker.item.category_id);
+                  pos = mapProvider.hiddenReportsCategories.indexOf(marker.item.category_id); // jshint ignore:line
                 }
 
-                if (!~pos)
+                if (!~pos) // jshint ignore:line
                 {
                   marker.setVisible(true);
                 }
@@ -202,9 +202,9 @@ angular.module('zupPainelApp')
 
           hideAllMarkersFromInactiveLevels: function() {
             angular.forEach(this.zoomLevels, function(zoomLevel, zoomLevelId) {
-              if (zoomLevelId != mapProvider.currentZoom)
+              if (zoomLevelId !== mapProvider.currentZoom)
               {
-                angular.forEach(zoomLevel, function(marker, id) {
+                angular.forEach(zoomLevel, function(marker) {
                   marker.setVisible(false);
                 });
               }
@@ -234,19 +234,19 @@ angular.module('zupPainelApp')
 
               var category, iconSize, viewAction, itemType, visibility = false;
 
-              category = scope.getReportCategory(item.category_id);
+              category = scope.getReportCategory(item.category_id); // jshint ignore:line
               iconSize = new google.maps.Size(54, 51);
               viewAction = scope.viewReport;
               itemType = 'report';
 
-              var pos = mapProvider.hiddenReportsCategories.indexOf(item.category_id);
+              var pos = mapProvider.hiddenReportsCategories.indexOf(item.category_id); // jshint ignore:line
 
-              if (!~pos)
+              if (!~pos) // jshint ignore:line
               {
                 visibility = true;
               }
 
-              if (item.inventory_item_id !== null)
+              if (item.inventory_item_id !== null) // jshint ignore:line
               {
                 viewAction = scope.viewItemWithReports;
               }
@@ -279,15 +279,15 @@ angular.module('zupPainelApp')
               google.maps.event.addListener(pin, 'click', function() {
                 var html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/categories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
 
-                var new_scope = scope.$new(true);
+                var newScope = scope.$new(true);
 
-                new_scope.category = this.category;
-                new_scope.item = this.item;
-                new_scope.view = viewAction;
+                newScope.category = this.category;
+                newScope.item = this.item;
+                newScope.view = viewAction;
 
-                var compiled = $compile(html)(new_scope);
+                var compiled = $compile(html)(newScope);
 
-                new_scope.$apply();
+                newScope.$apply();
 
                 infowindow.setContent(compiled[0]);
                 infowindow.open(mapProvider.map, this);
@@ -323,24 +323,24 @@ angular.module('zupPainelApp')
 
           filterOneCategory: function(inventoryId) {
             for (var i = scope.inventoryCategories.length - 1; i >= 0; i--) {
-              if (scope.inventoryCategories[i].id == inventoryId)
+              if (scope.inventoryCategories[i].id === inventoryId)
               {
                 mapProvider.filterItems(inventoryId);
               }
               else
               {
-                if (!~mapProvider.hiddenInventoryCategories.indexOf(scope.inventoryCategories[i].id))
+                if (!~mapProvider.hiddenInventoryCategories.indexOf(scope.inventoryCategories[i].id)) // jshint ignore:line
                 {
                   mapProvider.filterItems(scope.inventoryCategories[i].id);
                 }
               }
-            };
+            }
           },
 
-          filterReports: function(reportCategoryId, hideAll) {
+          filterReports: function(reportCategoryId) {
             var pos = mapProvider.hiddenReportsCategories.indexOf(reportCategoryId);
 
-            if (~pos)
+            if (~pos) // jshint ignore:line
             {
               mapProvider.toggleReportCategoryVisibility(reportCategoryId, 'show');
               mapProvider.hiddenReportsCategories.splice(pos, 1);
@@ -349,27 +349,24 @@ angular.module('zupPainelApp')
             {
               mapProvider.toggleReportCategoryVisibility(reportCategoryId, 'hide');
               mapProvider.hiddenReportsCategories.push(reportCategoryId);
-            };
+            }
           },
 
           toggleReportCategoryVisibility: function(reportCategoryId, action) {
-            angular.forEach(mapProvider.zoomLevels, function(zoomLevel, zoomLevelId) {
-              angular.forEach(zoomLevel, function(marker, id) {
-                //if (mapProvider.isMarkerInsideBounds(marker))
-                //{
-                  if (marker.item.category_id === reportCategoryId)
+            angular.forEach(mapProvider.zoomLevels, function(zoomLevel) {
+              angular.forEach(zoomLevel, function(marker) {
+                if (marker.item.category_id === reportCategoryId) // jshint ignore:line
+                {
+                  if (action === 'show')
                   {
-                    if (action === 'show')
-                    {
-                      marker.setVisible(true);
-                    };
-
-                    if (action === 'hide')
-                    {
-                      marker.setVisible(false);
-                    };
+                    marker.setVisible(true);
                   }
-                //}
+
+                  if (action === 'hide')
+                  {
+                    marker.setVisible(false);
+                  }
+                }
               });
             });
           },
