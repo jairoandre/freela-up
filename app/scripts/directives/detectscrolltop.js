@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
   .directive('detectScrollTop', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         scope.$watch('scrollTop', function() {
           if (scope.scrollTop === true)
           {
