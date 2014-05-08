@@ -19,7 +19,7 @@ angular.module('zupPainelApp')
     user.auth().then(function() {
       $location.path('/reports');
     }, function(response) {
-      if (response.status == 400 || response.status == 401)
+      if (response.status === 400 || response.status === 401)
       {
         $scope.loginError = true;
       }
