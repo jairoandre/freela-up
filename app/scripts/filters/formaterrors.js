@@ -13,7 +13,7 @@ angular.module('zupPainelApp')
           var capitalizedIndex = translatedIndex.charAt(0).toUpperCase() + translatedIndex.slice(1);
 
           formattedErrors.push(capitalizedIndex + ' ' + $filter('translateErrors')(errors[index][i]));
-        };
+        }
       }
 
       return $sce.trustAsHtml(formattedErrors.join('<br>'));
