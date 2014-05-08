@@ -20,12 +20,12 @@ angular.module('zupPainelApp')
   };
 
   // watch for filter type changes
-  $scope.$watchCollection('[advanced_search, active_advanced_filters]', function() {
+  $scope.$watchCollection('[advancedSearch, active_advanced_filters]', function() {
     resetFilters();
   });
 
   // Advanced filters
-  //$scope.advanced_search = true;
+  //$scope.advancedSearch = true;
 
   $scope.available_filters = [
     {name: 'Com as categorias...', action: 'category'},
@@ -179,15 +179,15 @@ angular.module('zupPainelApp')
   });
 
   // We watch for changes in the advanced filter to set it's variables
-  $scope.$watch('advanced_search', function() {
-    if ($scope.advanced_search == true)
+  $scope.$watch('advancedSearch', function() {
+    if ($scope.advancedSearch == true)
     {
       loadFilters();
     }
   });
 
   $scope.$watch('active_advanced_filters', function() {
-    if ($scope.advanced_search == true)
+    if ($scope.advancedSearch == true)
     {
       resetFilters();
 
