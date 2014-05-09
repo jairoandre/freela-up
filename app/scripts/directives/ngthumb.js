@@ -1,5 +1,6 @@
 'use strict';
 
+/* jshint ignore:start */
 angular.module('zupPainelApp')
   .directive('ngThumb', function ($window) {
     var helper = {
@@ -45,4 +46,4 @@ angular.module('zupPainelApp')
         }
     };
   });
-
+/* jshint ignore:end */
