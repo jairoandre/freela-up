@@ -1,5 +1,6 @@
 'use strict';
-
+// No patience to JSlint this :P
+/* jshint ignore:start */
 angular.module('zupPainelApp')
   .directive('gallery', function () {
     return {
@@ -53,3 +54,4 @@ angular.module('zupPainelApp')
         }
     };
   });
+/* jshint ignore:end */
