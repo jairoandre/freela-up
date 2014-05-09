@@ -20,7 +20,7 @@ angular.module('zupPainelApp')
           changeMargin();
         });
 
-        scope.$watch('active_advanced_filters', function() {
+        scope.$watch('activeAdvancedFilters', function() {
           changeMargin();
         }, true);
       }

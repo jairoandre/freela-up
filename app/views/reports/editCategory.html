@@ -100,12 +100,12 @@
               <div class="col-md-2" style="padding: 0px;">
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
-                  <span ng-show="default_resolution_time_selection == 60">Minutos</span> <span ng-show="default_resolution_time_selection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
+                  <span ng-show="defaultResolutionTimeSelection == 60">Minutos</span> <span ng-show="defaultResolutionTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
                   </button>
 
                   <ul class="dropdown-menu" role="menu">
-                    <li ng-class="{active: default_resolution_time_selection == 60}"><a href="" ng-click="default_resolution_time_selection = 60">Minutos</a></li>
-                    <li ng-class="{active: default_resolution_time_selection == 3600}"><a href="" ng-click="default_resolution_time_selection = 3600">Horas</a></li>
+                    <li ng-class="{active: defaultResolutionTimeSelection == 60}"><a href="" ng-click="defaultResolutionTimeSelection = 60">Minutos</a></li>
+                    <li ng-class="{active: defaultResolutionTimeSelection == 3600}"><a href="" ng-click="defaultResolutionTimeSelection = 3600">Horas</a></li>
                   </ul>
                 </div>
               </div>
@@ -132,22 +132,22 @@
             <label>Feedback do usuário</label>
             <div class="row">
               <div class="col-md-2" style="padding-top: 9px;">
-                <input type="checkbox" class="pull-right" bs-switch ng-model="enabled_user_response_time">
+                <input type="checkbox" class="pull-right" bs-switch ng-model="enabledUserResponseTime">
               </div>
 
               <div class="col-md-1" style="padding: 0px;">
-                <input type="text" class="form-control input-lg" ng-model="category.user_response_time" generic-input name="user_response_time" ng-show="enabled_user_response_time">
+                <input type="text" class="form-control input-lg" ng-model="category.user_response_time" generic-input name="user_response_time" ng-show="enabledUserResponseTime">
               </div>
 
               <div class="col-md-2">
-                <div class="btn-group" ng-show="enabled_user_response_time">
+                <div class="btn-group" ng-show="enabledUserResponseTime">
                   <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
-                  <span ng-show="default_user_response_time_selection == 60">Minutos</span> <span ng-show="default_user_response_time_selection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
+                  <span ng-show="defaultUserResponseTimeSelection == 60">Minutos</span> <span ng-show="defaultUserResponseTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
                   </button>
 
                   <ul class="dropdown-menu" role="menu">
-                    <li ng-class="{active: default_user_response_time_selection == 60}"><a href="" ng-click="default_user_response_time_selection = 60">Minutos</a></li>
-                    <li ng-class="{active: default_user_response_time_selection == 3600}"><a href="" ng-click="default_user_response_time_selection = 3600">Horas</a></li>
+                    <li ng-class="{active: defaultUserResponseTimeSelection == 60}"><a href="" ng-click="defaultUserResponseTimeSelection = 60">Minutos</a></li>
+                    <li ng-class="{active: defaultUserResponseTimeSelection == 3600}"><a href="" ng-click="defaultUserResponseTimeSelection = 3600">Horas</a></li>
                   </ul>
                 </div>
               </div>

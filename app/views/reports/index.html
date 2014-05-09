@@ -25,22 +25,22 @@
       <div class="advancedSearch" id="advancedSearch" ng-show="advancedSearch">
         <div class="col-xs-9 search_column1">
           <span class="glyphicon glyphicon-search search_icon"></span>
-          <input type="text" placeholder="Busque um filtro..." on-focus="show_available_filters = true" on-blur="show_available_filters = false" on-blur-delay="200" ng-model="filter_query" style="width: 80%;" />
+          <input type="text" placeholder="Busque um filtro..." on-focus="show_availableFilters = true" on-blur="show_availableFilters = false" on-blur-delay="200" ng-model="filterQuery" style="width: 80%;" />
 
           <div class="clearfix"></div>
 
-          <div class="available_filters" ng-show="show_available_filters">
+          <div class="availableFilters" ng-show="show_availableFilters">
             <a href="" ng-click="loadFilter('query')">Protocolo ou endereço contém...</a>
-            <a href="" ng-click="loadFilter(filter.action)" ng-repeat="filter in available_filters | filter:filter_query">{{ filter.name }}</a>
+            <a href="" ng-click="loadFilter(filter.action)" ng-repeat="filter in availableFilters | filter:filterQuery">{{ filter.name }}</a>
           </div>
 
-          <div class="advanced_filters_bar" ng-show="active_advanced_filters.length !== 0">
-            <div class="filter" ng-repeat="filter in active_advanced_filters"><b>{{ filter.title }}</b> {{ filter.desc }} <span class="glyphicon glyphicon-remove" ng-click="removeFilter(filter)"></span></div>
+          <div class="advanced_filters_bar" ng-show="activeAdvancedFilters.length !== 0">
+            <div class="filter" ng-repeat="filter in activeAdvancedFilters"><b>{{ filter.title }}</b> {{ filter.desc }} <span class="glyphicon glyphicon-remove" ng-click="removeFilter(filter)"></span></div>
           </div>
 
           <div class="clearfix"></div>
 
-          <a href="" class="clear_filters" ng-show="active_advanced_filters.length !== 0" ng-click="resetFilters()"><span class="glyphicon glyphicon-remove"></span> Limpar todos os filtros</a>
+          <a href="" class="clear_filters" ng-show="activeAdvancedFilters.length !== 0" ng-click="resetFilters()"><span class="glyphicon glyphicon-remove"></span> Limpar todos os filtros</a>
         </div>
 
         <div class="col-xs-3 filter_change">

@@ -3,9 +3,9 @@
 angular.module('zupPainelApp')
 
 .controller('ReportsCtrl', function ($scope, Restangular, $modal, $q) {
- $scope.loading = true;
+  $scope.loading = true;
 
-  var page = 1, per_page = 30, total;
+  var page = 1, perPage = 30, total;
 
   $scope.loadingPagination = false;
 
@@ -20,14 +20,14 @@ angular.module('zupPainelApp')
   };
 
   // watch for filter type changes
-  $scope.$watchCollection('[advancedSearch, active_advanced_filters]', function() {
+  $scope.$watchCollection('[advancedSearch, activeAdvancedFilters]', function() {
     resetFilters();
   });
 
   // Advanced filters
   //$scope.advancedSearch = true;
 
-  $scope.available_filters = [
+  $scope.availableFilters = [
     {name: 'Com as categorias...', action: 'category'},
     {name: 'Com os estados...', action: 'status'},
     {name: 'Criado pelos munícipes...', action: 'author'},
@@ -35,11 +35,11 @@ angular.module('zupPainelApp')
     {name: 'Por perímetro...', action: 'area'},
   ];
 
-  $scope.active_advanced_filters = [];
+  $scope.activeAdvancedFilters = [];
 
   // Return right promise
   var generateReportsPromise = function() {
-    var url = Restangular.one('search').all('reports').all('items'), options = { page: page, per_page: per_page };
+    var url = Restangular.one('search').all('reports').all('items'), options = { page: page, per_page: perPage }; // jshint ignore:line
 
     // if we searching, hit search/users
     if ($scope.searchText !== null)
@@ -50,33 +50,33 @@ angular.module('zupPainelApp')
     // check if we have categories selected
     if ($scope.selectedCategories.length !== 0)
     {
-      options.reports_categories_ids = $scope.selectedCategories.join();
+      options.reports_categories_ids = $scope.selectedCategories.join(); // jshint ignore:line
     }
 
     // check if we have statuses selected
     if ($scope.selectedStatuses.length !== 0)
     {
-      options.statuses_ids = $scope.selectedStatuses.join();
+      options.statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
     }
 
     // check if we have statuses selected
     if ($scope.selectedUsers.length !== 0)
     {
-      options.users_ids = $scope.selectedUsers.join();
+      options.users_ids = $scope.selectedUsers.join(); // jshint ignore:line
     }
 
     if ($scope.beginDate !== null)
     {
-      var date = new Date($scope.beginDate);
+      var beginDate = new Date($scope.beginDate);
 
-      options.begin_date = date.toISOString();
+      options.begin_date = beginDate.toISOString(); // jshint ignore:line
     }
 
     if ($scope.endDate !== null)
     {
-      var date = new Date($scope.endDate);
+      var endDate = new Date($scope.endDate);
 
-      options.end_date = date.toISOString();
+      options.end_date = endDate.toISOString(); // jshint ignore:line
     }
 
     return url.getList(options);
@@ -102,14 +102,14 @@ angular.module('zupPainelApp')
         }
         else
         {
-          if (typeof $scope.reports == 'undefined')
+          if (typeof $scope.reports === 'undefined')
           {
             $scope.reports = [];
           }
 
           for (var i = 0; i < responses[0].data.length; i++) {
             $scope.reports.push(responses[0].data[i]);
-          };
+          }
 
           // add up one page
           page++;
@@ -117,9 +117,9 @@ angular.module('zupPainelApp')
 
         total = parseInt(responses[0].headers().total);
 
-        var last_page = Math.ceil(total / per_page);
+        var lastPage = Math.ceil(total / perPage);
 
-        if (page === (last_page + 1))
+        if (page === (lastPage + 1))
         {
           $scope.loadingPagination = null;
         }
@@ -149,14 +149,14 @@ angular.module('zupPainelApp')
           {
             found = true;
           }
-        };
+        }
 
         if (!found)
         {
-          $scope.statuses.push(response.data[i].statuses[j])
+          $scope.statuses.push(response.data[i].statuses[j]);
         }
-      };
-    };
+      }
+    }
   });
 
   var loadFilters = $scope.reload = function() {
@@ -167,7 +167,7 @@ angular.module('zupPainelApp')
     $scope.loadingContent = true;
     $scope.reports = [];
 
-    getData().then(function(response) {
+    getData().then(function() {
       $scope.loadingContent = false;
 
       page++;
@@ -180,51 +180,51 @@ angular.module('zupPainelApp')
 
   // We watch for changes in the advanced filter to set it's variables
   $scope.$watch('advancedSearch', function() {
-    if ($scope.advancedSearch == true)
+    if ($scope.advancedSearch === true)
     {
       loadFilters();
     }
   });
 
-  $scope.$watch('active_advanced_filters', function() {
-    if ($scope.advancedSearch == true)
+  $scope.$watch('activeAdvancedFilters', function() {
+    if ($scope.advancedSearch === true)
     {
       resetFilters();
 
-      for (var i = $scope.active_advanced_filters.length - 1; i >= 0; i--) {
-        var filter = $scope.active_advanced_filters[i];
+      for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
+        var filter = $scope.activeAdvancedFilters[i];
 
-        if (filter.type == 'query')
+        if (filter.type === 'query')
         {
           $scope.searchText = filter.value;
         }
 
-        if (filter.type == 'categories')
+        if (filter.type === 'categories')
         {
           $scope.selectedCategories = filter.value;
         }
 
-        if (filter.type == 'statuses')
+        if (filter.type === 'statuses')
         {
           $scope.selectedStatuses = filter.value;
         }
 
-        if (filter.type == 'authors')
+        if (filter.type === 'authors')
         {
           $scope.selectedUsers = filter.value;
         }
-      };
+      }
 
       loadFilters();
     }
   }, true);
 
   $scope.removeFilter = function(filter) {
-    $scope.active_advanced_filters.splice($scope.active_advanced_filters.indexOf(filter), 1);
+    $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
   };
 
   $scope.resetFilters = function() {
-    $scope.active_advanced_filters = [];
+    $scope.activeAdvancedFilters = [];
   };
 
   // All available filters
@@ -236,7 +236,7 @@ angular.module('zupPainelApp')
       value: query
     };
 
-    $scope.active_advanced_filters.push(filter);
+    $scope.activeAdvancedFilters.push(filter);
   };
 
   var advancedFilterCategory = function() {
@@ -248,13 +248,13 @@ angular.module('zupPainelApp')
           return $scope.categories;
         },
 
-        active_advanced_filters: function() {
-          return $scope.active_advanced_filters;
+        activeAdvancedFilters: function() {
+          return $scope.activeAdvancedFilters;
         }
       },
-      controller: ['$scope', '$modalInstance', 'categories', 'active_advanced_filters', function($scope, $modalInstance, categories, active_advanced_filters) {
+      controller: ['$scope', '$modalInstance', 'categories', 'activeAdvancedFilters', function($scope, $modalInstance, categories, activeAdvancedFilters) {
         $scope.categories = categories;
-        $scope.active_advanced_filters = active_advanced_filters;
+        $scope.activeAdvancedFilters = activeAdvancedFilters;
 
         $scope.updateCategory = function(category) {
           var i = $scope.categories.indexOf(category);
@@ -279,16 +279,16 @@ angular.module('zupPainelApp')
           var desc = [];
 
           for (var i = $scope.categories.length - 1; i >= 0; i--) {
-            if ($scope.categories[i].selected == true)
+            if ($scope.categories[i].selected === true)
             {
               filter.value.push($scope.categories[i].id);
               desc.push(' ' + $scope.categories[i].title);
             }
-          };
+          }
 
           filter.desc = desc.join();
 
-          $scope.active_advanced_filters.push(filter);
+          $scope.activeAdvancedFilters.push(filter);
 
           $modalInstance.close();
         };
@@ -309,13 +309,13 @@ angular.module('zupPainelApp')
           return $scope.statuses;
         },
 
-        active_advanced_filters: function() {
-          return $scope.active_advanced_filters;
+        activeAdvancedFilters: function() {
+          return $scope.activeAdvancedFilters;
         }
       },
-      controller: ['$scope', '$modalInstance', 'statuses', 'active_advanced_filters', function($scope, $modalInstance, statuses, active_advanced_filters) {
+      controller: ['$scope', '$modalInstance', 'statuses', 'activeAdvancedFilters', function($scope, $modalInstance, statuses, activeAdvancedFilters) {
         $scope.statuses = statuses;
-        $scope.active_advanced_filters = active_advanced_filters;
+        $scope.activeAdvancedFilters = activeAdvancedFilters;
 
         $scope.updateStatus = function(status) {
           var i = $scope.statuses.indexOf(status);
@@ -340,16 +340,16 @@ angular.module('zupPainelApp')
           var desc = [];
 
           for (var i = $scope.statuses.length - 1; i >= 0; i--) {
-            if ($scope.statuses[i].selected == true)
+            if ($scope.statuses[i].selected === true)
             {
               filter.value.push($scope.statuses[i].id);
               desc.push(' ' + $scope.statuses[i].title);
             }
-          };
+          }
 
           filter.desc = desc.join();
 
-          $scope.active_advanced_filters.push(filter);
+          $scope.activeAdvancedFilters.push(filter);
 
           $modalInstance.close();
         };
@@ -366,12 +366,12 @@ angular.module('zupPainelApp')
       templateUrl: 'views/reports/filters/author.html',
       windowClass: 'filterAuthorModal',
       resolve: {
-        active_advanced_filters: function() {
-          return $scope.active_advanced_filters;
+        activeAdvancedFilters: function() {
+          return $scope.activeAdvancedFilters;
         }
       },
-      controller: ['$scope', '$modalInstance', 'active_advanced_filters', function($scope, $modalInstance, active_advanced_filters) {
-        $scope.active_advanced_filters = active_advanced_filters;
+      controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
+        $scope.activeAdvancedFilters = activeAdvancedFilters;
         $scope.users = [];
 
         $scope.usersAutocomplete = {
@@ -385,7 +385,7 @@ angular.module('zupPainelApp')
                     label: user.name,
                     value: user.name,
                     user: user
-                  }
+                  };
                 }));
               });
             },
@@ -415,11 +415,11 @@ angular.module('zupPainelApp')
           for (var i = $scope.users.length - 1; i >= 0; i--) {
             filter.value.push($scope.users[i].id);
             desc.push(' ' + $scope.users[i].name);
-          };
+          }
 
           filter.desc = desc.join();
 
-          $scope.active_advanced_filters.push(filter);
+          $scope.activeAdvancedFilters.push(filter);
 
           $modalInstance.close();
         };
@@ -432,22 +432,22 @@ angular.module('zupPainelApp')
   };
 
   $scope.loadFilter = function(status) {
-    if (status == 'query')
+    if (status === 'query')
     {
-      advancedFilterQuery($scope.filter_query);
+      advancedFilterQuery($scope.filterQuery);
     }
 
-    if (status == 'category')
+    if (status === 'category')
     {
       advancedFilterCategory();
     }
 
-    if (status == 'status')
+    if (status === 'status')
     {
       advancedFilterStatus();
     }
 
-    if (status == 'author')
+    if (status === 'author')
     {
       advancedFilterAuthor();
     }
@@ -524,13 +524,13 @@ angular.module('zupPainelApp')
         $scope.report = report;
 
         $scope.changeStatus = function(statusId) {
-          $scope.report.status_id = statusId;
+          $scope.report.status_id = statusId; // jshint ignore:line
         };
 
         $scope.save = function() {
-          var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id });
+          var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id }); // jshint ignore:line
 
-          changeStatusPromise.then(function(response) {
+          changeStatusPromise.then(function() {
             $modalInstance.close();
           });
         };
@@ -546,10 +546,10 @@ angular.module('zupPainelApp')
 .controller('ReportsMapCtrl', function ($scope, $q, Restangular) {
   $scope.loading = true;
 
-  var selectedCategories = $scope.selectedCategories = {};
+  $scope.selectedCategories = {};
 
-  var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList({display_type: 'full'});
-  var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({display_type: 'full'});
+  var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList({display_type: 'full'}); // jshint ignore:line
+  var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({display_type: 'full'}); // jshint ignore:line
 
   $q.all([inventoryCategoriesPromise, reportsCategoriesPromise]).then(function(responses) {
     $scope.inventoryCategories = responses[0].data;
@@ -557,7 +557,7 @@ angular.module('zupPainelApp')
 
     for (var i = $scope.reportCategories.length - 1; i >= 0; i--) {
       $scope.selectedCategories[$scope.reportCategories[i].id] = true;
-    };
+    }
 
     $scope.loading = false;
   });
@@ -566,9 +566,9 @@ angular.module('zupPainelApp')
   reportsCategoriesPromise.then(function(response) {
     $scope.statuses = [];
 
-    for (var i = response.data.length - 1; i >= 0; i--) {
-      $scope.selectedCategories[response.data[i].id] = true;
-    };
+    for (var b = response.data.length - 1; b >= 0; b--) {
+      $scope.selectedCategories[response.data[b].id] = true;
+    }
 
     // merge all categories statuses in one array with no duplicates
     for (var i = response.data.length - 1; i >= 0; i--) {
@@ -580,14 +580,14 @@ angular.module('zupPainelApp')
           {
             found = true;
           }
-        };
+        }
 
         if (!found)
         {
-          $scope.statuses.push(response.data[i].statuses[j])
+          $scope.statuses.push(response.data[i].statuses[j]);
         }
-      };
-    };
+      }
+    }
   });
 
   $scope.getInventoryCategory = function(id) {
@@ -614,36 +614,38 @@ angular.module('zupPainelApp')
 
   $scope.getItemsPeriodBySliderPosition = function(pos) {
     // From 6 months ago to today
-    if (pos == 1)
+    var beginDate;
+
+    if (pos === 1)
     {
-      var beginDate = new Date();
+      beginDate = new Date();
       beginDate.setHours(0, 0, 0, 0);
       beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 6, 1);
       beginDate = beginDate.toISOString();
     }
 
     // From 3 months ago to today
-    if (pos == 2)
+    if (pos === 2)
     {
-      var beginDate = new Date();
+      beginDate = new Date();
       beginDate.setHours(0, 0, 0, 0);
       beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 3, 1);
       beginDate = beginDate.toISOString();
     }
 
     // From 1 month ago to today
-    if (pos == 3)
+    if (pos === 3)
     {
-      var beginDate = new Date();
+      beginDate = new Date();
       beginDate.setHours(0, 0, 0, 0);
       beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 1, 1);
       beginDate = beginDate.toISOString();
     }
 
     // From 1 week ago to today
-    if (pos == 4)
+    if (pos === 4)
     {
-      var beginDate = new Date();
+      beginDate = new Date();
       beginDate.setDate(beginDate.getDate() - 7);
       beginDate = beginDate.toISOString();
     }
@@ -734,13 +736,14 @@ angular.module('zupPainelApp')
   $q.all([reportPromise, categoriesPromise, feedbackPromise]).then(function(responses) {
     $scope.report = responses[0].data;
 
-    $scope.report.status_id = $scope.report.status.id;
+    $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
 
     $scope.feedback = responses[2].data;
 
     // find category
     for (var i = responses[1].data.length - 1; i >= 0; i--) {
-      if (responses[1].data[i].id == $routeParams.categoryId)
+      console.log(responses[1].data[i].id, $routeParams.categoryId, 'types');
+      if (responses[1].data[i].id.toString() === $routeParams.categoryId)
       {
         $scope.category = responses[1].data[i];
       }
@@ -748,9 +751,9 @@ angular.module('zupPainelApp')
 
     $scope.images = [];
 
-    for (var i = $scope.report.images.length - 1; i >= 0; i--) {
-      $scope.images.push({src: $scope.report.images[i].high});
-    };
+    for (var c = $scope.report.images.length - 1; c >= 0; c--) {
+      $scope.images.push({src: $scope.report.images[c].high});
+    }
 
     $scope.loading = false;
   });
@@ -773,14 +776,14 @@ angular.module('zupPainelApp')
         $scope.report = angular.copy(report);
 
         $scope.changeStatus = function(statusId) {
-          $scope.report.status_id = statusId;
+          $scope.report.status_id = statusId; // jshint ignore:line
         };
 
         $scope.save = function() {
-          var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id });
+          var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'status_id': $scope.report.status_id }); // jshint ignore:line
 
-          changeStatusPromise.then(function(response) {
-            report.status_id = $scope.report.status_id;
+          changeStatusPromise.then(function() {
+            report.status_id = $scope.report.status_id; // jshint ignore:line
 
             $modalInstance.close();
           });
@@ -794,7 +797,7 @@ angular.module('zupPainelApp')
   };
 })
 
-.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal, $compile) {
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal) {
   var updating = $scope.updating = false;
   var categoryId = $routeParams.id;
 
@@ -807,15 +810,15 @@ angular.module('zupPainelApp')
   // Start loading & get necessary requests
   $scope.loading = true;
 
-  $scope.default_resolution_time_selection = 60;
-  $scope.default_user_response_time_selection = 60;
+  $scope.defaultResolutionTimeSelection = 60;
+  $scope.defaultUserResponseTimeSelection = 60;
 
-  var categoriesPromise = Restangular.one('inventory').all('categories').getList();
+  var categoriesPromise = Restangular.one('inventory').all('categories').getList(), category;
 
   if (updating)
   {
     // We create a empty category object to be passed on PUT
-    var category = $scope.category = {};
+    category = $scope.category = {};
 
     var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
 
@@ -825,31 +828,33 @@ angular.module('zupPainelApp')
       // ...and we populate $scope.category with the data from the server =)
       category.title = responses[1].data.title;
       category.color = responses[1].data.color;
-      category.allows_arbitrary_position = responses[1].data.allows_arbitrary_position;
+      category.allows_arbitrary_position = responses[1].data.allows_arbitrary_position; // jshint ignore:line
       category.statuses = responses[1].data.statuses;
 
-      if (responses[1].data.user_response_time !== null)
+      if (responses[1].data.user_response_time !== null) // jshint ignore:line
       {
-        $scope.enabled_user_response_time = true;
-        category.user_response_time = Math.round(responses[1].data.user_response_time / 60);
+        $scope.enabledUserResponseTime = true;
+        category.user_response_time = Math.round(responses[1].data.user_response_time / 60); // jshint ignore:line
       }
 
-      if (responses[1].data.resolution_time !== null)
+      if (responses[1].data.resolution_time !== null) // jshint ignore:line
       {
         // ...and convert resolution_time to minutes
-        category.resolution_time = Math.round(responses[1].data.resolution_time  / 60);
+        category.resolution_time = Math.round(responses[1].data.resolution_time  / 60); // jshint ignore:line
       }
 
-      category.inventory_categories = [];
+      category.inventory_categories = []; // jshint ignore:line
 
+      /* jshint ignore:start */
       if (typeof responses[1].data.inventory_categories == 'object' && responses[1].data.inventory_categories.length !== 0)
       {
         for (var i = responses[1].data.inventory_categories.length - 1; i >= 0; i--) {
           category.inventory_categories.push(responses[1].data.inventory_categories[i].id);
         };
       }
+      /* jshint ignore:end */
 
-      $scope.icon = responses[1].data.original_icon;
+      $scope.icon = responses[1].data.original_icon; // jshint ignore:line
 
       $scope.loading = false;
     });
@@ -862,13 +867,13 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     });
 
-    $scope.enabled_user_response_time = false;
+    $scope.enabledUserResponseTime = false;
 
     // We create a default
-    var category = $scope.category = {
+    category = $scope.category = {
       marker: 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-      inventory_categories: [],
-      allows_arbitrary_position: true,
+      inventory_categories: [], // jshint ignore:line
+      allows_arbitrary_position: true, // jshint ignore:line
       color: '#2AB4DC',
       statuses: [
         {title: 'Em aberto', color: '#E68012', initial: true, final: false, active: true},
@@ -889,7 +894,7 @@ angular.module('zupPainelApp')
               label: item.title,
               value: item.title,
               id: item.id
-            }
+            };
           }));
         });
       },
@@ -904,14 +909,14 @@ angular.module('zupPainelApp')
   };
 
   $scope.addCategory = function(id) {
-    if (!~category.inventory_categories.indexOf(id))
+    if (!~category.inventory_categories.indexOf(id)) // jshint ignore:line
     {
-      category.inventory_categories.push(id);
+      category.inventory_categories.push(id); // jshint ignore:line
     }
   };
 
   $scope.removeCategory = function(id) {
-    category.inventory_categories.splice(category.inventory_categories.indexOf(id), 1);
+    category.inventory_categories.splice(category.inventory_categories.indexOf(id), 1); // jshint ignore:line
   };
 
   $scope.manageStatuses = function () {
@@ -938,11 +943,11 @@ angular.module('zupPainelApp')
 
         $scope.changeInitial = function(status) {
           for (var i = $scope.category.statuses.length - 1; i >= 0; i--) {
-            if (status != $scope.category.statuses[i])
+            if (status !== $scope.category.statuses[i])
             {
               $scope.category.statuses[i].initial = false;
             }
-          };
+          }
 
           // force change if user clicks on same checkbox
           status.initial = true;
@@ -963,10 +968,10 @@ angular.module('zupPainelApp')
   var uploader = $scope.uploader = $fileUploader.create({
     scope: $scope,
     filters: [
-        function(item) {
-          uploader.queue = [];
-          return true;
-        }
+      function() {
+        uploader.queue = [];
+        return true;
+      }
     ]
   });
 
@@ -986,7 +991,7 @@ angular.module('zupPainelApp')
     function addAsync(file) {
       var deferred = $q.defer();
 
-      var file = file, picReader = new FileReader();
+      var picReader = new FileReader();
 
       picReader.addEventListener('load', function(event) {
         var picFile = event.target;
@@ -999,11 +1004,11 @@ angular.module('zupPainelApp')
       picReader.readAsDataURL(file);
 
       return deferred.promise;
-    };
+    }
 
     for (var i = uploader.queue.length - 1; i >= 0; i--) {
       promises.push(addAsync(uploader.queue[i].file));
-    };
+    }
 
     // wait for images to process as base64
     $q.all(promises).then(function() {
@@ -1020,19 +1025,19 @@ angular.module('zupPainelApp')
         tempStatuses[i].active = tempStatuses[i].active.toString();
 
         editedCategory.statuses[i] = tempStatuses[i];
-      };
+      }
 
       // And we convert the user selection to seconds
-      editedCategory.resolution_time = Math.round(editedCategory.resolution_time * $scope.default_resolution_time_selection);
+      editedCategory.resolution_time = Math.round(editedCategory.resolution_time * $scope.defaultResolutionTimeSelection); // jshint ignore:line
 
       // also the user feedback time we convert it to seconds
-      if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabled_user_response_time == true)
+      if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabledUserResponseTime == true) // jshint ignore:line
       {
-        editedCategory.user_response_time = Math.round(editedCategory.user_response_time * $scope.default_user_response_time_selection);
+        editedCategory.user_response_time = Math.round(editedCategory.user_response_time * $scope.defaultUserResponseTimeSelection); // jshint ignore:line
       }
       else
       {
-        editedCategory.user_response_time = null;
+        editedCategory.user_response_time = null; // jshint ignore:line
       }
 
       // PUT if updating and POST if creating a new category
@@ -1043,9 +1048,9 @@ angular.module('zupPainelApp')
           editedCategory.icon = icon;
         }
 
-        var postCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
+        var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
 
-        postCategoryPromise.then(function(response) {
+        putCategoryPromise.then(function() {
           $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
           $scope.processingForm = false;
@@ -1063,7 +1068,7 @@ angular.module('zupPainelApp')
 
         var postCategoryPromise = Restangular.one('reports').post('categories', editedCategory);
 
-        postCategoryPromise.then(function(response) {
+        postCategoryPromise.then(function() {
           $location.path('/reports/categories');
 
           $scope.processingForm = false;
