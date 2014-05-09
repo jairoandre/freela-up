@@ -33,7 +33,7 @@ angular.module('zupPainelApp')
 
             var position;
 
-            if (scope.$parent.updating == false)
+            if (scope.$parent.updating === false)
             {
               position = mapProvider.options.homeLatlng;
             }
@@ -76,7 +76,7 @@ angular.module('zupPainelApp')
             {
               if (status === google.maps.GeocoderStatus.OK)
               {
-                scope.formattedAddress = results[0].formatted_address;
+                scope.formattedAddress = results[0].formatted_address; // jshint ignore:line
 
                 scope.$apply();
               }
