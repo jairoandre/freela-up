@@ -7,7 +7,7 @@ angular.module('zupPainelApp')
   $scope.loading = true;
   $scope.loadingPagination = false;
 
-  var groupId = $routeParams.groupId, page = 1, per_page = 30, total, searchText = '';
+  var groupId = $routeParams.groupId, page = 1, perPage = 30, total, searchText = '';
 
   // Return right promise
   var generateUsersPromise = function(groupId, searchText) {
@@ -16,23 +16,23 @@ angular.module('zupPainelApp')
       $scope.groupId = groupId;
 
       // if we are searching with a group, hit /search/groups/{id}/users
-      if (searchText != '')
+      if (searchText !== '')
       {
-        return Restangular.one('search').one('groups', groupId).all('users').getList({name: searchText, email: searchText, page: page, per_page: per_page});
+        return Restangular.one('search').one('groups', groupId).all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
       }
 
-      return Restangular.one('groups', groupId).all('users').getList({ page: page, per_page: per_page });
+      return Restangular.one('groups', groupId).all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
     }
 
     groupId = $scope.groupId = null;
 
     // if we searching, hit search/users
-    if (searchText != '')
+    if (searchText !== '')
     {
-      return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: per_page});
+      return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
     }
 
-    return Restangular.all('users').getList({ page: page, per_page: per_page });
+    return Restangular.all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
   };
 
   // Get groups for filters
@@ -55,14 +55,14 @@ angular.module('zupPainelApp')
         }
         else
         {
-          if (typeof $scope.users == 'undefined')
+          if (typeof $scope.users === 'undefined')
           {
             $scope.users = [];
           }
 
           for (var i = 0; i < responses[0].data.length; i++) {
             $scope.users.push(responses[0].data[i]);
-          };
+          }
 
           // add up one page
           page++;
@@ -70,9 +70,9 @@ angular.module('zupPainelApp')
 
         total = parseInt(responses[0].headers().total);
 
-        var last_page = Math.ceil(total / per_page);
+        var lastPage = Math.ceil(total / perPage);
 
-        if (page === (last_page + 1))
+        if (page === (lastPage + 1))
         {
           $scope.loadingPagination = null;
         }
@@ -98,7 +98,7 @@ angular.module('zupPainelApp')
 
     $scope.loadingContent = true;
 
-    getData().then(function(response) {
+    getData().then(function() {
       $scope.loadingContent = false;
 
       page++;
@@ -155,12 +155,7 @@ angular.module('zupPainelApp')
     $modal.open({
       templateUrl: 'views/users/removeUser.html',
       windowClass: 'removeModal',
-      resolve: {
-        usersList: function(){
-          return $scope.users;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'Users', 'usersList', function($scope, $modalInstance, Users, usersList) {
+      controller: ['$scope', '$modalInstance', 'Users', function($scope, $modalInstance, Users) {
         $scope.user = user;
 
         // delete user from server
@@ -184,7 +179,7 @@ angular.module('zupPainelApp')
 
 })
 
-.controller('UsersEditCtrl', function ($scope, Restangular, $routeParams) {
+.controller('UsersEditCtrl', function ($scope, Restangular, $routeParams, $location) {
   var updating = $scope.updating = false;
   var userId = $routeParams.id;
 
@@ -219,7 +214,7 @@ angular.module('zupPainelApp')
     {
       var putUserPromise = Restangular.one('users', userId).customPUT($scope.user);
 
-      putUserPromise.then(function(response) {
+      putUserPromise.then(function() {
         $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
 
         $scope.processingForm = false;
@@ -234,7 +229,7 @@ angular.module('zupPainelApp')
     {
       var postUserPromise = Restangular.one('users').post(null, $scope.user);
 
-      postUserPromise.then(function(response) {
+      postUserPromise.then(function() {
         $scope.showMessage('ok', 'O usuário foi criado com sucesso', 'success', true);
 
         $location.path('/users');
