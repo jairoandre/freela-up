@@ -6,7 +6,7 @@ angular.module('zupPainelApp')
       restrict: 'A',
       link: function(scope, elm, attrs) {
         elm.bind('focus', function() {
-            scope.$apply(attrs.onFocus);
+          scope.$apply(attrs.onFocus);
         });
       }
     };
