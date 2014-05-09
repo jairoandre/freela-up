@@ -51,7 +51,6 @@ angular.module('zupPainelApp')
 
             var infowindow = mapProvider.infoWindow;
 
-            var category = category;
             var iconSize = new google.maps.Size(54, 51);
 
             var categoryIcon = new google.maps.MarkerImage(category.marker.retina.web, null, null, null, iconSize);
@@ -71,14 +70,14 @@ angular.module('zupPainelApp')
             google.maps.event.addListener(pin, 'click', function() {
               var html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ report.created_at | date: \'dd/MM/yy HH:mm\'}}</p></div>';
 
-              var new_scope = scope.$new(true);
+              var newScope = scope.$new(true);
 
-              new_scope.category = this.category;
-              new_scope.report = this.report;
+              newScope.category = this.category;
+              newScope.report = this.report;
 
-              var compiled = $compile(html)(new_scope);
+              var compiled = $compile(html)(newScope);
 
-              new_scope.$apply();
+              newScope.$apply();
 
               infowindow.setContent(compiled[0]);
               infowindow.open(mapProvider.map, this);
