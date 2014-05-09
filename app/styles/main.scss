@@ -386,7 +386,7 @@ p {
       margin-top: 44px;
     }
 
-    .simple_search, .advanced_search {
+    .simple_search, .advancedSearch {
       width: 100%;
       height: 44px;
       background: #E2E2E2;
@@ -396,7 +396,7 @@ p {
       top: 129px;
       z-index: 1000;
 
-      &.advanced_search {
+      &.advancedSearch {
         min-height: 44px;
         height: auto;
 
@@ -495,7 +495,7 @@ p {
         outline: none;
       }
 
-      .advanced_search {
+      .advancedSearch {
         font-weight: bold;
         text-align: right;
 

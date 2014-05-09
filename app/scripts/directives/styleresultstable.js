@@ -4,24 +4,24 @@ angular.module('zupPainelApp')
   .directive('styleResultsTable', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         var changeMargin = function() {
-          if (scope.advanced_search == true)
+          if (scope.advancedSearch === true)
           {
-            element.css({'margin-top': $('#advanced_search').height()});
+            element.css({'margin-top': $('#advancedSearch').height()});
           }
           else
           {
-            element.removeAttr("style");
+            element.removeAttr('style');
           }
         };
 
-        scope.$watch('advanced_search', function() {
+        scope.$watch('advancedSearch', function() {
           changeMargin();
         });
 
         scope.$watch('active_advanced_filters', function() {
-         changeMargin();
+          changeMargin();
         }, true);
       }
     };
