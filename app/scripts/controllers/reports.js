@@ -386,7 +386,7 @@ angular.module('zupPainelApp')
                   return {
                     label: user.name,
                     value: user.name,
-                    user: user
+                    user: {id: user.id, name: user.name}
                   };
                 }));
               });
@@ -400,7 +400,19 @@ angular.module('zupPainelApp')
 
         $scope.usersAutocomplete.events = {
           select: function( event, ui ) {
-            $scope.users.push(ui.item.user);
+            var found = false;
+
+            for (var i = $scope.users.length - 1; i >= 0; i--) {
+              if ($scope.users[i].id === ui.item.user.id)
+              {
+                found = true;
+              }
+            }
+
+            if (!found)
+            {
+              $scope.users.push(ui.item.user);
+            }
           },
 
           change: function() {
