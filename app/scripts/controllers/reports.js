@@ -373,9 +373,11 @@ angular.module('zupPainelApp')
       controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
         $scope.activeAdvancedFilters = activeAdvancedFilters;
         $scope.users = [];
+        $scope.field = {};
 
         $scope.usersAutocomplete = {
           options: {
+            onlySelect: true,
             source: function( request, uiResponse ) {
               var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
 
@@ -389,13 +391,20 @@ angular.module('zupPainelApp')
                 }));
               });
             },
-            select: function( event, ui ) {
-              $scope.users.push(ui.item.user);
-            },
             messages: {
               noResults: '',
               results: function() {}
             }
+          }
+        };
+
+        $scope.usersAutocomplete.events = {
+          select: function( event, ui ) {
+            $scope.users.push(ui.item.user);
+          },
+
+          change: function() {
+            $scope.field.text = '';
           }
         };
 
