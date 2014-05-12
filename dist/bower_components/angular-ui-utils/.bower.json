@@ -5,11 +5,11 @@
     "angular": ">= 1.0.2"
   },
   "homepage": "https://github.com/angular-ui/ui-utils",
-  "_release": "dc3f0e4ce4",
+  "_release": "b500b8950d",
   "_resolution": {
     "type": "branch",
     "branch": "bower-mask",
-    "commit": "dc3f0e4ce4626332c09db180e140c94316851bbf"
+    "commit": "b500b8950d6a9f2d54c7107dbf049a0d94920986"
   },
   "_source": "git://github.com/angular-ui/ui-utils.git",
   "_target": "bower-mask",

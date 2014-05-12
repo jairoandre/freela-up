@@ -1,17 +1,16 @@
 {
   "name": "ngInfiniteScroll",
   "version": "1.0.0",
-  "main": "./ng-infinite-scroll.js",
+  "main": "build/ng-infinite-scroll.js",
   "dependencies": {},
-  "homepage": "https://github.com/BinaryMuse/ngInfiniteScroll-bower",
+  "homepage": "https://github.com/sroze/ngInfiniteScroll",
   "_release": "1.0.0",
   "_resolution": {
     "type": "version",
     "tag": "1.0.0",
-    "commit": "335220c11a341c2b58e3119a1650b187429c83e2"
+    "commit": "02d58a06eadbc57681755560540cdddfb807fa00"
   },
-  "_source": "git://github.com/BinaryMuse/ngInfiniteScroll-bower.git",
+  "_source": "git://github.com/sroze/ngInfiniteScroll.git",
   "_target": "~1.0.0",
-  "_originalSource": "ngInfiniteScroll",
-  "_direct": true
+  "_originalSource": "ngInfiniteScroll"
 }

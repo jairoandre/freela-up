@@ -1,7 +1,7 @@
 {
   "name": "ui-autocomplete",
   "main": "autocomplete.js",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "homepage": "https://github.com/zensh/ui-autocomplete",
   "authors": [
     "Yan Qing <admin@zensh.com>"
@@ -20,14 +20,13 @@
     "test",
     "tests"
   ],
-  "_release": "0.5.5",
+  "_release": "0.5.6",
   "_resolution": {
     "type": "version",
-    "tag": "v0.5.5",
-    "commit": "d2633c37c1e0baa7caba241c79a9632cb04fe353"
+    "tag": "v0.5.6",
+    "commit": "d9f11f24e5a31f2f46b9ac24181cc68ca4edf7b8"
   },
   "_source": "git://github.com/zensh/ui-autocomplete.git",
   "_target": "~0.5.5",
-  "_originalSource": "ui-autocomplete",
-  "_direct": true
+  "_originalSource": "ui-autocomplete"
 }
