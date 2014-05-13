@@ -2176,5 +2176,9 @@ colorpicker-preview {
 
 /* Autocomplete */
 .ui-autocomplete {
+  top: 380px !important;
+  left: 310px !important;
+  max-height: 100% !important;
+  width: 816px !important;
   z-index: 9999 !important;
 }
