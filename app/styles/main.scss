@@ -2121,6 +2121,27 @@ colorpicker-preview {
       font-size: 12px;
       box-shadow: none;
 
+      div {
+        float: left;
+      }
+
+      .remove-icon {
+        display: block;
+        float: right;
+        width: 10px !important;
+        position: inherit !important;
+        right: 0 !important;
+        top: 0 !important;
+        font-size: 10px;
+        color: #fff !important;
+        background: none;
+
+        span {
+          margin-top: 1px;
+          margin-left: 3px;
+        }
+      }
+
       /*a.select2-search-choice-close {
         position: relative;
         top: 1px;
