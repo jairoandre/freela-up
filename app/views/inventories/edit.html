@@ -1,6 +1,6 @@
 <div id="full_page">
-	<div class="header">
-		<a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  <div class="header">
+    <a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
     <div class="title" ng-show="!updating">Nova categoria de inventário</div>
     <div class="title" ng-show="updating">{{ category.title }}</div>
@@ -10,119 +10,134 @@
     </div>
 
     <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>
-	</div>
+  </div>
 
   <div class="spacing"></div>
 
-	<div class="tabs">
-		<a href="" class="active">Campos</a>
-		<a href="">Estados</a>
-		<a href="">Fórmulas</a>
-		<a href="">Configurações</a>
-	</div>
+  <div class="tabs">
+    <a href="" class="active">Campos</a>
+    <a href="">Estados</a>
+    <a href="">Fórmulas</a>
+    <a href="">Configurações</a>
+  </div>
 
   <div class="loading" ng-show="loading"></div>
 
-	<div class="big_content" class="pages-animation" ng-hide="loading">
-		<div class="left_column">
+  <div class="big_content" class="pages-animation" ng-hide="loading">
+    <div class="left_column">
 
-			<div class="section" ng-repeat="section in category.sections">
-				<div class="top">
-					<div class="name">{{ section.title }} <span ng-show="section.required == true">*</span></div>
+      <div class="section" ng-repeat="section in category.sections">
+        <div class="top">
+          <div class="name">{{ section.title }} <span ng-show="section.required == true">*</span></div>
 
-					<div class="actions">
-						<a href=""><span class="glyphicon glyphicon-lock"></span></a>
-						<a href=""><span class="glyphicon glyphicon-trash"></span></a>
-						<a href=""><span class="glyphicon glyphicon-move"></span></a>
-					</div>
+          <div class="actions">
+            <a href=""><span class="glyphicon glyphicon-lock"></span></a>
+            <a href=""><span class="glyphicon glyphicon-trash"></span></a>
+            <a href=""><span class="glyphicon glyphicon-move"></span></a>
+          </div>
 
-					<div class="clearfix"></div>
-				</div>
+          <div class="clearfix"></div>
+        </div>
 
-				<div class="middle">
-					<!-- text field -->
-					<div class="input" ng-repeat="field in section.fields | orderBy: field.position">
-						<div class="type">
-							<label for="generic_input_{{ field.id }}">
-                <span ng-show="field.label !== null">{{ field.label }}</span>
-                <span ng-show="field.label == null">{{ field.title }}</span>
-                <span ng-show="field.required == true"> *</span>
+        <div class="middle">
+          <!-- text field -->
+          <div droppable-inputs-area class="droppableInputsArea">
+            <div class="input" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}">
+              <div class="type">
+                <label for="generic_input_{{ field.id }}">
+                  <span ng-show="field.label !== null">{{ field.label }}</span>
+                  <span ng-show="field.label == null">{{ field.title }}</span>
+                  <span ng-show="field.required == true"> *</span>
+                </label>
+
+                <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'">
+              </div>
+
+              <div class="actions">
+                <a href=""><span class="glyphicon glyphicon-edit"></span></a>
+                <a href=""><span class="glyphicon glyphicon-lock"></span></a>
+                <a href=""><span class="glyphicon glyphicon-trash"></span></a>
+                <a href="" class="handle"><span class="glyphicon glyphicon-move"></span></a>
+              </div>
+
+              <div class="clearfix"></div>
+            </div>
+          </div>
+
+          <!-- checkbox
+
+          <div class="input">
+            <div class="type">
+              <label for="form_lat">Endereço</label>
+              <br />
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" value="option1"> Opção 1
               </label>
 
-							<input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'">
-						</div>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox2" value="option2"> Opção 2
+              </label>
 
-						<div class="actions">
-							<a href=""><span class="glyphicon glyphicon-edit"></span></a>
-							<a href=""><span class="glyphicon glyphicon-lock"></span></a>
-							<a href=""><span class="glyphicon glyphicon-trash"></span></a>
-							<a href=""><span class="glyphicon glyphicon-move"></span></a>
-						</div>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox3" value="option3"> Opção 3
+              </label>
+            </div>
 
-						<div class="clearfix"></div>
-					</div>
+            <div class="actions">
+              <a href=""><span class="glyphicon glyphicon-edit"></span></a>
+              <a href=""><span class="glyphicon glyphicon-lock"></span></a>
+              <a href=""><span class="glyphicon glyphicon-trash"></span></a>
+              <a href=""><span class="glyphicon glyphicon-move"></span></a>
+            </div>
 
-					<!-- checkbox
-
-					<div class="input">
-						<div class="type">
-							<label for="form_lat">Endereço</label>
-							<br />
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox1" value="option1"> Opção 1
-							</label>
-
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox2" value="option2"> Opção 2
-							</label>
-
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox3" value="option3"> Opção 3
-							</label>
-						</div>
-
-						<div class="actions">
-							<a href=""><span class="glyphicon glyphicon-edit"></span></a>
-							<a href=""><span class="glyphicon glyphicon-lock"></span></a>
-							<a href=""><span class="glyphicon glyphicon-trash"></span></a>
-							<a href=""><span class="glyphicon glyphicon-move"></span></a>
-						</div>
-
-						<div class="clearfix"></div>
-					</div>
+            <div class="clearfix"></div>
+          </div>
 
           -->
 
-				</div>
-			</div>
-		</div>
+        </div>
+      </div>
+    </div>
 
-		<div class="right_column">
-			<a class="btn btn-info btn-custom btn-block btn-lg-custom">+ Adicionar nova seção</a>
+    <div class="right_column">
+      <a class="btn btn-info btn-custom btn-block btn-lg-custom">+ Adicionar nova seção</a>
 
-			<div class="inputs">
-				<div class="info"><p>Arraste os campos que você deseja adicionar</p></div>
+      <div class="inputs">
+        <div class="info"><p>Arraste os campos que você deseja adicionar</p></div>
 
-				<div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-				<div class="simple_search">
-					<span class="glyphicon glyphicon-search search_icon"></span>
-					<input type="text" placeholder="Buscar..." />
-				</div>
+        <div class="simple_search">
+          <span class="glyphicon glyphicon-search search_icon"></span>
+          <input type="text" placeholder="Buscar..." />
+        </div>
 
-				<div class="list">
-					<div class="item"><p>Campo de texto</p></div>
-					<div class="item"><p>Campo numérico</p></div>
-					<div class="item"><p>Lista ordenada</p></div>
-					<div class="item"><p>Opção múltipla</p></div>
-					<div class="item"><p>Opção única</p></div>
-					<div class="item"><p>E-mail</p></div>
-					<div class="item"><p>CPF</p></div>
-					<div class="item"><p>CNPJ</p></div>
-				</div>
-			</div>
-		</div>
+        <div class="list">
+          <div class="item" name="text" draggable-input><p>Campo de texto</p></div>
+          <div class="item" name="integer" draggable-input><p>Campo numérico</p></div>
+          <div class="item" name="decimal" draggable-input><p>Campo decimal</p></div>
+          <div class="item" name="checkbox" draggable-input><p>Campo de múltipla escolha</p></div>
+          <div class="item" name="radio" draggable-input><p>Campo de escolha única</p></div>
+          <div class="item" name="meters" draggable-input><p>Campo em metros</p></div>
+          <div class="item" name="centimeters" draggable-input><p>Campo em centímetros</p></div>
+          <div class="item" name="kilometers" draggable-input><p>Campo em quilômetros</p></div>
+          <div class="item" name="years" draggable-input><p>Campo em anos</p></div>
+          <div class="item" name="months" draggable-input><p>Campo em meses</p></div>
+          <div class="item" name="days" draggable-input><p>Campo em dias</p></div>
+          <div class="item" name="hours" draggable-input><p>Campo em horas</p></div>
+          <div class="item" name="seconds" draggable-input><p>Campo em segundos</p></div>
+          <div class="item" name="angle" draggable-input><p>Campo de ângulo</p></div>
+          <div class="item" name="date" draggable-input><p>Campo de data</p></div>
+          <div class="item" name="time" draggable-input><p>Campo de tempo</p></div>
+          <div class="item" name="cpf" draggable-input><p>Campo de CPF</p></div>
+          <div class="item" name="cnpj" draggable-input><p>Campo de CNPJ</p></div>
+          <div class="item" name="url" draggable-input><p>Campo de URL</p></div>
+          <div class="item" name="email" draggable-input><p>Campo de e-mail</p></div>
+          <div class="item" name="images" draggable-input><p>Campo de imagens</p></div>
+        </div>
+      </div>
+    </div>
 
-		<div class="clearfix"></div>
-	</div>
+    <div class="clearfix"></div>
+  </div>
 </div>
