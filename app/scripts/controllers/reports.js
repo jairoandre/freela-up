@@ -514,6 +514,7 @@ angular.module('zupPainelApp')
 
           deletePromise.then(function() {
             $modalInstance.close();
+            $scope.showMessage('ok', 'O Relato ' + $scope.report.protocol + ' foi removido com sucesso', 'success', true);
 
             // remove user from list
             reportsList.splice(reportsList.indexOf($scope.report), 1);
@@ -733,6 +734,7 @@ angular.module('zupPainelApp')
 
           deletePromise.then(function() {
             $modalInstance.close();
+            $scope.showMessage('ok', 'A categoria de relato foi removida com sucesso', 'success', true);
 
             // remove user from list
             reportsCategoriesList.splice(reportsCategoriesList.indexOf($scope.category), 1);

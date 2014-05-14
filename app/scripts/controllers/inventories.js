@@ -168,6 +168,7 @@ angular.module('zupPainelApp')
 
             deletePromise.then(function() {
               $modalInstance.close();
+              $scope.showMessage('ok', 'O Inventário ' + $scope.item.title + ' foi removido com sucesso', 'success', true);
 
               // remove user from list
               itemsList.splice(itemsList.indexOf($scope.item), 1);
