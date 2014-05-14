@@ -107,7 +107,7 @@ p {
   min-width: 960px;
 
   #sidebar {
-    width: 280px;
+    width: 20%;
     height: 100%;
     background: #333;
     padding: 0px;
@@ -183,16 +183,14 @@ p {
 
   #main_content {
     width: 80%;
-    min-width: 680px;
     min-height: 100%;
     background: #FFFFFF;
-    left: 280px;
+    left: 20%;
     padding: 129px 0 60px 0;
-    position: relative;
+    position: absolute;
 
     #header {
       width: 80%;
-      min-width: 680px;
       height: 71px;
       border-bottom: 1px solid #D9D9D9;
       position: fixed;
@@ -278,7 +276,6 @@ p {
 
     .title {
       width: 80%;
-      min-width: 680px;
       height: 58px;
       background: #F0F0F0;
       border-bottom: 1px solid #C8C8C8;
@@ -2158,7 +2155,7 @@ colorpicker-preview {
       background: #259ECB;
       color: #FFF;
       border: 0px;
-      padding: 6px 14px;
+      padding: 6px 13px;
       font-size: 12px;
       box-shadow: none;
 
@@ -2222,4 +2219,40 @@ colorpicker-preview {
   max-height: 100% !important;
   width: 816px !important;
   z-index: 9999 !important;
+}
+
+/* Checkbox */
+.input-choice {
+  display: none;
+}
+
+.label-choice {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+
+  &:before {
+    content: " ";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background-color: #FFF;
+    border: 1px solid #1693C6;
+    border-radius: 3px;
+  }
+
+  span {
+    display: none;
+  }
+}
+
+.input-choice:checked + .label-choice:before {
+  content: '✓';
+  background-color: #F4F4F4;
+  color: #1693C6;
+  font-size: 14px;
+  text-align: center;
 }
