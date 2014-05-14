@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
   .directive('droppableInputsArea', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         var pendingNewInput = null;
 
         var updateInputsPosition = function() {
@@ -24,7 +24,7 @@ angular.module('zupPainelApp')
               return $('<div class="customSortablePlaceholder"><p>Solte para adicionar</p></div>');
             },
 
-            update: function(container, p) {
+            update: function() {
               return;
             }
           },
@@ -40,8 +40,8 @@ angular.module('zupPainelApp')
               minimum: null,
               required: false,
               size: 'M',
-              inventory_fields_can_view: [],
-              inventory_fields_can_edit: [],
+              inventory_fields_can_view: [], // jshint ignore:line
+              inventory_fields_can_edit: [], // jshint ignore:line
               position: null
             };
 
@@ -63,7 +63,7 @@ angular.module('zupPainelApp')
                 {
                   scope.section.fields[i].position = scope.section.fields[i].position + 0.5;
                 }
-              };
+              }
 
               scope.section.fields.push(pendingNewInput);
 
