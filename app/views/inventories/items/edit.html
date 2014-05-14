@@ -63,7 +63,7 @@
           </div>
 
           <!-- show normal fields -->
-          <div class="form-group" ng-repeat="field in section.fields | orderBy: field.position" ng-hide="hiddenFields.indexOf(field.id) !== -1">
+          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1">
             <label for="generic_input_{{ field.id }}">
               <span ng-show="field.label !== null">{{ field.label }}</span>
               <span ng-show="field.label == null">{{ field.title }}</span>
