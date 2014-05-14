@@ -25,5 +25,6 @@
   },
   "_source": "git://github.com/mgonto/restangular.git",
   "_target": "~1.3.1",
-  "_originalSource": "restangular"
+  "_originalSource": "restangular",
+  "_direct": true
 }

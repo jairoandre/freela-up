@@ -68,6 +68,7 @@ colorpicker-alpha,
 .colorpicker {
   top: 0;
   left: 0;
+  position: absolute;
   z-index: 9999;
   display: none;
   colorpicker-hue,
@@ -86,9 +87,6 @@ colorpicker-alpha,
     colorpicker-alpha {
       display: block;
     }
-  }
-  &.dropdown {
-    position: absolute;
   }
   &.colorpicker-fixed-position {
     position: fixed;
@@ -116,7 +114,7 @@ colorpicker-alpha,
     position: static;
     top: 0;
     left: 0;
-    min-width: 129px;
+    min-width: 120px;
     padding: 4px;
     margin-top: 0;
   }

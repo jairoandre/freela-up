@@ -48,9 +48,8 @@ When files are selected or dropped into the component, one or more filters are a
 - **autoUpload** `{Boolean}`: Automatically upload files after adding them to the queue
 - **method** `{String}`: It's a request method. By default `POST`
 - **removeAfterUpload** `{Boolean}`: Remove files from the queue after uploading
-- **isHTML5** `{Boolean}`: `true` if uploader is html5-uploader. Readonly.
+- **isHTML5** `{Boolean}`: `true` if uploader is html5-uploader
 - **isUploading** `{Boolean}`: `true` if an upload is in progress
-- **queueLimit** `{Number}` : maximum count of files
 
 #### Methods
 
@@ -224,9 +223,8 @@ uploader.bind( 'progress', function( event, item, progress ) {
 - **autoUpload** `{Boolean}` - загружать автоматически после добавления элемента в очередь
 - **method** `{String}`: - метод запроса. По умолчанию `POST`
 - **removeAfterUpload** `{Boolean}` - удалить файлы после загрузки
-- **isHTML5** `{Boolean}` - `true`, если это html5-загрузчик. Только для чтения
+- **isHTML5** `{Boolean}` - `true`, если это html5-загрузчик
 - **isUploading** `{Boolean}` - загрузчик в процессе загрузки
-- **queueLimit** `{Number}` - максимальное количество файлов
 
 #### Методы
 

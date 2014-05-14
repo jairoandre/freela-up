@@ -2,7 +2,7 @@
 /*global angular, $ */
 
 /*
- *  AngularJS Autocomplete, version 0.5.6
+ *  AngularJS Autocomplete, version 0.5.4
  *  Wrapper for the jQuery UI Autocomplete Widget - v1.10.3
  *  API @ http://api.jqueryui.com/autocomplete/
  *
@@ -175,7 +175,7 @@ angular.module('ui.autocomplete', [])
               }
               if (value === null) {
                 ctrl.$render();
-              } else if (value === '') {
+              } else if (ctrl.$viewValue === '') {
                 scope.$apply(function () {
                   changeNgModel();
                 });
@@ -290,6 +290,13 @@ angular.module('ui.autocomplete', [])
           // add filter method to AngularJS
           autocomplete.methods.filter = filter;
           autocomplete.methods.clean = cleanNgModel;
+
+          //auto update autoupdate options
+          // scope.$watch(function () {
+          //     return autocomplete.options;
+          // }, function (value) {
+          //     element.autocomplete('option', checkOptions(value));
+          // });
 
           element.on('focus', autoFocusHandler);
 

@@ -1,5 +1,5 @@
 /*
- Angular File Upload v0.4.0
+ Angular File Upload v0.3.3.1
  https://github.com/nervgh/angular-file-upload
 */
 (function(angular, factory) {
@@ -101,14 +101,12 @@ app.factory('$fileUploader', [ '$compile', '$rootScope', '$http', '$window', fun
             filters: [],
             formData: [],
             isUploading: false,
-            queueLimit: Number.MAX_VALUE,
             _nextIndex: 0,
             _timestamp: Date.now()
         }, params);
 
-        // add default filters
-        this.filters.unshift(this._emptyFileFilter);
-        this.filters.unshift(this._queueLimitFilter);
+        // add the base filter
+        this.filters.unshift(this._filter);
 
         this.scope.$on('file:add', function (event, items, options) {
             event.stopPropagation();
@@ -132,22 +130,13 @@ app.factory('$fileUploader', [ '$compile', '$rootScope', '$http', '$window', fun
         constructor: Uploader,
 
         /**
-         * Returns "true" if item is DOMElement or a file with size > 0
+         * The base filter. If returns "true" an item will be added to the queue
          * @param {File|Input} item
-         * @returns {Boolean}
+         * @returns {boolean}
          * @private
          */
-        _emptyFileFilter: function (item) {
+        _filter: function (item) {
             return angular.isElement(item) ? true : !!item.size;
-        },
-
-        /**
-         * Returns "true" if the limit has not been reached
-         * @returns {Boolean}
-         * @private
-         */
-        _queueLimitFilter: function() {
-            return this.queue.length < this.queueLimit;
         },
 
         /**
