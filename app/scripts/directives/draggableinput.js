@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
   .directive('draggableInput', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         element.draggable({
           connectToSortable: '.droppableInputsArea',
           revert: 'invalid',
