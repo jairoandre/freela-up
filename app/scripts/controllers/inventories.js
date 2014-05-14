@@ -224,7 +224,7 @@ angular.module('zupPainelApp')
       });
     };
   })
-  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular) {
+  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
@@ -253,6 +253,36 @@ angular.module('zupPainelApp')
     {
       $scope.loading = false;
     }
+
+    $scope.send = function() {
+      $scope.processingForm = true;
+
+      if (updating)
+      {
+        var formattedData = angular.copy($scope.category);
+
+        // remove unecessary data
+        delete formattedData.icon;
+        delete formattedData.created_at;
+        delete formattedData.pin;
+        delete formattedData.marker;
+        delete formattedData.plot_format;
+        delete formattedData.require_item_status;
+
+        var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
+        var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedData);
+
+        $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
+          $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
+
+          $scope.processingForm = false;
+        }, function(response) {
+          $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
+
+          $scope.processingForm = false;
+        });
+      }
+    };
   })
   .controller('InventoriesCategoriesSelectCtrl', function ($scope, Restangular) {
     $scope.loading = true;

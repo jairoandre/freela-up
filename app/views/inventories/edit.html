@@ -48,6 +48,7 @@
                   <span ng-show="field.label !== null">{{ field.label }}</span>
                   <span ng-show="field.label == null">{{ field.title }}</span>
                   <span ng-show="field.required == true"> *</span>
+                  {{ field.position }}
                 </label>
 
                 <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'">
