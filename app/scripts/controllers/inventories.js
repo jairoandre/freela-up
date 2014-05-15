@@ -321,6 +321,10 @@ angular.module('zupPainelApp')
       $scope.editStatus($scope.category.statuses[newStatus - 1]);
     };
 
+    $scope.removeStatus = function(status) {
+      $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+    };
+
     $scope.send = function() {
       $scope.processingForm = true;
 
