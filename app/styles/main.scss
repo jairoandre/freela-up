@@ -2345,3 +2345,123 @@ colorpicker-preview {
     width: 100%;
   }
 }
+
+/**
+*  Progress Button
+*
+* Estilo extraído deste tutorial:
+*
+* http://tympanus.net/Development/ProgressButtonStyles/
+*
+*/
+
+.progress-button {
+  position: relative;
+  display: inline-block;
+  padding: 0 60px !important;
+  margin-top: 10px !important;
+  outline: none;
+  border: none;
+  color: #fff;
+  letter-spacing: 1px;
+  line-height: 3;
+  box-sizing: border-box;
+}
+
+.progress-button[disabled],
+.progress-button[disabled].state-loading {
+  cursor: default;
+}
+
+.progress-button .content {
+  position: relative;
+  display: block;
+  padding: 0 !important;
+}
+
+.progress-button .content::before,
+.progress-button .content::after  {
+  position: absolute;
+  right: 20px;
+  color: #0c323d !important;
+  font-family: 'Glyphicons Halflings';
+  opacity: 0;
+  transition: opacity 0.3s 0.3s;
+}
+
+.progress-button .content::before {
+  content: "\e013"; /* success */
+}
+
+.progress-button .content::after {
+  content: "\e014"; /* error */
+}
+
+.progress-button.state-success .content::before,
+.progress-button.state-error .content::after {
+  opacity: 1;
+}
+
+.notransition {
+  transition: none !important;
+}
+
+.progress-button .progress {
+  background: #0c323d !important;
+}
+
+.progress-button .progress-inner {
+  position: absolute;
+  left: 0;
+  background: #0c323d !important;
+}
+
+.progress-button[data-horizontal] .progress-inner {
+  top: 0;
+  width: 0;
+  height: 100%;
+  transition: width 0.3s, opacity 0.3s;
+}
+
+.progress-button[data-vertical] .progress-inner {
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  transition: height 0.3s, opacity 0.3s;
+}
+
+.progress-button[data-perspective] {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  perspective: 900px;
+}
+
+.progress-button[data-perspective] .content {
+  padding: 0 60px;
+  background: #1d9650 !important;
+}
+
+.progress-button[data-perspective] .progress-wrap {
+  display: block;
+  transition: transform 0.2s;
+  transform-style: preserve-3d;
+}
+
+.progress-button[data-perspective] .content,
+.progress-button[data-perspective] .progress {
+  outline: 1px solid rgba(0,0,0,0);
+}
+
+.progress-button[data-style="top-line"] .progress-inner {
+  height: 3px;
+}
+
+.progress-button[data-style="top-line"] .content::before,
+.progress-button[data-style="top-line"] .content::after {
+  right: auto;
+  left: 100%;
+  margin-left: 25px;
+}
+
