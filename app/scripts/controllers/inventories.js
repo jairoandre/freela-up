@@ -277,9 +277,11 @@ angular.module('zupPainelApp')
     if (updating)
     {
       var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'}); // jshint ignore:line
+      var groupsPromise = Restangular.all('groups').getList();
 
-      categoryPromise.then(function(response) {
-        $scope.category = response.data;
+      $q.all([groupsPromise, categoryPromise]).then(function(responses) {
+        $scope.groups = responses[0].data;
+        $scope.category = responses[1].data;
 
         $scope.loading = false;
       });
@@ -294,18 +296,11 @@ angular.module('zupPainelApp')
 
       if (updating)
       {
-        var formattedData = angular.copy($scope.category);
-
-        // remove unecessary data
-        delete formattedData.icon;
-        delete formattedData.created_at;
-        delete formattedData.pin;
-        delete formattedData.marker;
-        delete formattedData.plot_format;
-        delete formattedData.require_item_status;
+        var formattedData = {title: $scope.category.title};
+        var formattedFormData = {sections: $scope.category.sections};
 
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
-        var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedData);
+        var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
 
         $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
           $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);

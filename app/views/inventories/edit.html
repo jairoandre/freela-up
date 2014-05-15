@@ -42,7 +42,7 @@
         <div class="middle">
           <!-- text field -->
           <div droppable-inputs-area class="droppableInputsArea">
-            <div class="input" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}">
+            <div class="input" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
               <div class="type">
                 <label for="generic_input_{{ field.id }}">
                   <span ng-show="field.label !== null">{{ field.label }}</span>
@@ -70,10 +70,13 @@
                 <div class="option trash">
                   <div class="popover bottom" ng-show="showFieldConfirmRemovePopover">
                     <div class="arrow"></div>
-                    <h3 class="popover-title">Popover top</h3>
+                    <h3 class="popover-title">Remover campo {{ field.label }}</h3>
 
                     <div class="popover-content">
-                      <p>oi</p>
+                      <div class="row">
+                        <div class="col-xs-6"><a href="" ng-click="showFieldConfirmRemovePopover = false" class="btn btn-default btn-block">Cancelar</a></div>
+                        <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                      </div>
                     </div>
                   </div>
 
@@ -83,10 +86,28 @@
                 <div class="option permissions">
                   <div class="popover bottom" ng-show="showFieldPermissionsPopover">
                     <div class="arrow"></div>
-                    <h3 class="popover-title">Popover top</h3>
+                    <h3 class="popover-title">Permissões do campo {{ field.label }}</h3>
 
                     <div class="popover-content">
-                      <p>oi</p>
+                      <div class="form-group">
+                        <label>Grupos que podem visualizar:</label>
+
+                        <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_view" data-placeholder="Digite um grupo" multiple>
+                          <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Grupos que podem editar:</label>
+
+                        <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_edit" data-placeholder="Digite um grupo" multiple>
+                          <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                        </select>
+                      </div>
+
+                      <a href="" ng-click="showFieldPermissionsPopover = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                      <div class="clearfix"></div>
                     </div>
                   </div>
 
@@ -126,37 +147,6 @@
               <div class="clearfix"></div>
             </div>
           </div>
-
-          <!-- checkbox
-
-          <div class="input">
-            <div class="type">
-              <label for="form_lat">Endereço</label>
-              <br />
-              <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox1" value="option1"> Opção 1
-              </label>
-
-              <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox2" value="option2"> Opção 2
-              </label>
-
-              <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox3" value="option3"> Opção 3
-              </label>
-            </div>
-
-            <div class="actions">
-              <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-              <a href=""><span class="glyphicon glyphicon-lock"></span></a>
-              <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-              <a href=""><span class="glyphicon glyphicon-move"></span></a>
-            </div>
-
-            <div class="clearfix"></div>
-          </div>
-
-          -->
 
         </div>
       </div>
