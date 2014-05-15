@@ -235,7 +235,7 @@ angular.module('zupPainelApp')
       $scope.updating = true;
     }
 
-    $scope.currentTab = 'statuses';
+    $scope.currentTab = 'fields';
 
     $scope.availableInputs = [
       {kind: 'text', name: 'Campo de texto', multipleOptions: false},
@@ -313,6 +313,7 @@ angular.module('zupPainelApp')
       });
     };
 
+    // we add a new status and open the edit modal
     $scope.newStatus = function() {
       var status = {title: 'Novo estado sem título', color: '#259ECB'};
 
