@@ -1851,6 +1851,25 @@ p {
               margin-top: 12px;
               font-weight: bold;
             }
+
+            &.remove-div {
+              left: -516px;
+            }
+
+            .remove-message {
+              text-align: left;
+              margin-left: 27px;
+              span {
+                margin-left: 140px;
+              }
+              .cancel-link {
+                color: #1E1E1E;
+                margin-right: 25px;
+              }
+              .remove-link {
+                color: #D65452;
+              }
+            }
           }
         }
       }
@@ -2472,7 +2491,7 @@ colorpicker-preview {
   z-index: 2000;
   left: -1px;
   position: relative;
-  width: 100%;
+  width: 101%;
   list-style: none;
   padding: 0;
   margin: 16px 0 0 0;
