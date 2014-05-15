@@ -235,6 +235,41 @@ angular.module('zupPainelApp')
       $scope.updating = true;
     }
 
+    $scope.availableInputs = [
+      {kind: 'text', name: 'Campo de texto', multipleOptions: false},
+      {kind: 'integer', name: 'Campo numérico', multipleOptions: false},
+      {kind: 'decimal', name: 'Campo decimal', multipleOptions: false},
+      {kind: 'checkbox', name: 'Campo de múltipla escolha', multipleOptions: true},
+      {kind: 'radio', name: 'Campo de escolha única', multipleOptions: true},
+      {kind: 'meters', name: 'Campo em metros', multipleOptions: false},
+      {kind: 'centimeters', name: 'Campo em centímetros', multipleOptions: false},
+      {kind: 'kilometers', name: 'Campo em quilômetros', multipleOptions: false},
+      {kind: 'years', name: 'Campo em anos', multipleOptions: false},
+      {kind: 'months', name: 'Campo em meses', multipleOptions: false},
+      {kind: 'days', name: 'Campo em dias', multipleOptions: false},
+      {kind: 'hours', name: 'Campo em horas', multipleOptions: false},
+      {kind: 'seconds', name: 'Campo em segundos', multipleOptions: false},
+      {kind: 'angle', name: 'Campo de ângulo', multipleOptions: false},
+      {kind: 'date', name: 'Campo de data', multipleOptions: false},
+      {kind: 'time', name: 'Campo de tempo', multipleOptions: false},
+      {kind: 'cpf', name: 'Campo de CPF', multipleOptions: false},
+      {kind: 'cnpj', name: 'Campo de CNPJ', multipleOptions: false},
+      {kind: 'url', name: 'Campo de URL', multipleOptions: false},
+      {kind: 'email', name: 'Campo de e-mail', multipleOptions: false},
+      {kind: 'images', name: 'Campo de imagens', multipleOptions: false},
+    ];
+
+    $scope.kindHasMultipleOptions = function(kind) {
+      for (var i = $scope.availableInputs.length - 1; i >= 0; i--) {
+        if ($scope.availableInputs[i].kind === kind)
+        {
+          return $scope.availableInputs[i].multipleOptions === true;
+        }
+      };
+
+      return false;
+    };
+
     $scope.loading = true;
 
     $scope.category = {};

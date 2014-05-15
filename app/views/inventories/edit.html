@@ -27,7 +27,7 @@
     <div class="left_column">
 
       <div class="section" ng-repeat="section in category.sections">
-        <div class="top">
+        <div class="top_part">
           <div class="name">{{ section.title }} <span ng-show="section.required == true">*</span></div>
 
           <div class="actions">
@@ -50,14 +50,77 @@
                   <span ng-show="field.required == true"> *</span>
                 </label>
 
-                <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'">
+                <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text'" disabled="disabled">
+                <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer'" disabled="disabled">
+
+                <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
+                  <label ng-repeat="value in field.available_values">
+                    <input type="checkbox"> {{ value }} <a href="" remove-input-value><span class="glyphicon glyphicon-remove"></span></a>
+                  </label>
+
+                  <a href="" class="newItem">+ Novo item</a>
+                </div>
               </div>
 
               <div class="actions">
-                <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-                <a href=""><span class="glyphicon glyphicon-lock"></span></a>
-                <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-                <a href="" class="handle"><span class="glyphicon glyphicon-move"></span></a>
+                <div class="option move">
+                  <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
+                </div>
+
+                <div class="option trash">
+                  <div class="popover bottom" ng-show="showFieldConfirmRemovePopover">
+                    <div class="arrow"></div>
+                    <h3 class="popover-title">Popover top</h3>
+
+                    <div class="popover-content">
+                      <p>oi</p>
+                    </div>
+                  </div>
+
+                  <a href="" ng-click="showFieldConfirmRemovePopover = true" class="icon"><span class="glyphicon glyphicon-trash"></span></a>
+                </div>
+
+                <div class="option permissions">
+                  <div class="popover bottom" ng-show="showFieldPermissionsPopover">
+                    <div class="arrow"></div>
+                    <h3 class="popover-title">Popover top</h3>
+
+                    <div class="popover-content">
+                      <p>oi</p>
+                    </div>
+                  </div>
+
+                  <a href="" ng-click="showFieldPermissionsPopover = true" class="icon"><span class="glyphicon glyphicon-lock"></span></a>
+                </div>
+
+                <div class="option edit">
+                  <div class="popover bottom" ng-show="showFieldOptionsPopover">
+                    <div class="arrow"></div>
+                    <h3 class="popover-title">Opções do campo {{ field.label }}</h3>
+
+                    <div class="popover-content">
+                      <div class="form-group">
+                        <label>Preenchimento requerido?</label>
+
+                        <br />
+
+                        <label class="radio-inline">
+                          <input type="radio" ng-model="field.required" ng-value="true"> Sim
+                        </label>
+
+                        <label class="radio-inline">
+                          <input type="radio" ng-model="field.required" ng-value="false"> Não
+                        </label>
+                      </div>
+
+                      <a href="" ng-click="showFieldOptionsPopover = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+
+                  <a href="" ng-click="showFieldOptionsPopover = true" class="icon"><span class="glyphicon glyphicon-edit"></span></a>
+                </div>
               </div>
 
               <div class="clearfix"></div>
@@ -109,31 +172,11 @@
 
         <div class="simple_search">
           <span class="glyphicon glyphicon-search search_icon"></span>
-          <input type="text" placeholder="Buscar..." />
+          <input type="text" placeholder="Buscar..." ng-model="searchInputs" />
         </div>
 
         <div class="list">
-          <div class="item" name="text" draggable-input><p>Campo de texto</p></div>
-          <div class="item" name="integer" draggable-input><p>Campo numérico</p></div>
-          <div class="item" name="decimal" draggable-input><p>Campo decimal</p></div>
-          <div class="item" name="checkbox" draggable-input><p>Campo de múltipla escolha</p></div>
-          <div class="item" name="radio" draggable-input><p>Campo de escolha única</p></div>
-          <div class="item" name="meters" draggable-input><p>Campo em metros</p></div>
-          <div class="item" name="centimeters" draggable-input><p>Campo em centímetros</p></div>
-          <div class="item" name="kilometers" draggable-input><p>Campo em quilômetros</p></div>
-          <div class="item" name="years" draggable-input><p>Campo em anos</p></div>
-          <div class="item" name="months" draggable-input><p>Campo em meses</p></div>
-          <div class="item" name="days" draggable-input><p>Campo em dias</p></div>
-          <div class="item" name="hours" draggable-input><p>Campo em horas</p></div>
-          <div class="item" name="seconds" draggable-input><p>Campo em segundos</p></div>
-          <div class="item" name="angle" draggable-input><p>Campo de ângulo</p></div>
-          <div class="item" name="date" draggable-input><p>Campo de data</p></div>
-          <div class="item" name="time" draggable-input><p>Campo de tempo</p></div>
-          <div class="item" name="cpf" draggable-input><p>Campo de CPF</p></div>
-          <div class="item" name="cnpj" draggable-input><p>Campo de CNPJ</p></div>
-          <div class="item" name="url" draggable-input><p>Campo de URL</p></div>
-          <div class="item" name="email" draggable-input><p>Campo de e-mail</p></div>
-          <div class="item" name="images" draggable-input><p>Campo de imagens</p></div>
+          <div class="item" ng-repeat="input in availableInputs | filter: searchInputs" name="{{ input.kind }}" draggable-input><p>{{ input.name }}</p></div>
         </div>
       </div>
     </div>

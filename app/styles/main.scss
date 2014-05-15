@@ -1229,7 +1229,7 @@ p {
     border-radius: 5px;
     margin-bottom: 20px;
 
-    .top {
+    .top_part {
       background: #F0F0F0;
       border-bottom: 1px solid #E1E1E1;
       padding: 18px 19px;
@@ -1276,6 +1276,10 @@ p {
         .form-control {
           background: #EEEEEE;
           height: 37px;
+
+          &.integer {
+            width: 10%;
+          }
         }
 
         textarea.form-control {
@@ -1283,21 +1287,49 @@ p {
         }
       }
 
+      .multipleValues {
+        label {
+          margin-right: 10px;
+          font-weight: normal;
+        }
+
+        .newItem {
+          font-weight: bold;
+          white-space: nowrap;
+        }
+      }
+
       .actions {
         @include make-xs-column(2.5);
-        font-size: 18px;
         padding: 24px 13px 0 0;
-        text-align: right;
 
-        a {
-          margin-right: 10px;
+        .option {
+          float: right;
+          position: relative;
+          margin-right: 15px;
 
-          &.handle {
-            cursor: move;
+          &:first-child {
+            margin-right: 0px;
           }
 
-          &:last-child {
-            margin: 0px;
+          .popover {
+            width: 340px;
+            left: -161px;
+            top: 25px;
+            max-width: none;
+            display: block;
+
+            p {
+              font-size: 14px;
+            }
+          }
+
+          a.icon {
+            font-size: 18px;
+
+            &.handle {
+              cursor: move;
+            }
           }
         }
       }
