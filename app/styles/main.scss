@@ -1150,6 +1150,10 @@ p {
     min-height: 700px;
   }
 
+  .toolbar {
+    padding: 0 20px 20px 20px;
+  }
+
   .rounder_wrapper {
     width: 80%;
     background: #FFF;
@@ -1383,6 +1387,28 @@ p {
             }
           }
         }
+      }
+    }
+  }
+
+  .simple_table {
+    width: 100%;
+
+    tr {
+      border-top: 1px solid #E5E5E5;
+      border-bottom: 1px solid #E5E5E5;
+
+      td {
+        padding: 15px 20px 15px 20px;
+      }
+    }
+
+    .actions {
+      text-align: right;
+      font-size: 19px;
+
+      a {
+        margin-left: 5px;
       }
     }
   }

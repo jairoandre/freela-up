@@ -235,6 +235,8 @@ angular.module('zupPainelApp')
       $scope.updating = true;
     }
 
+    $scope.currentTab = 'statuses';
+
     $scope.availableInputs = [
       {kind: 'text', name: 'Campo de texto', multipleOptions: false},
       {kind: 'integer', name: 'Campo numérico', multipleOptions: false},
@@ -296,7 +298,7 @@ angular.module('zupPainelApp')
 
       if (updating)
       {
-        var formattedData = {title: $scope.category.title};
+        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status};
         var formattedFormData = {sections: $scope.category.sections};
 
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
