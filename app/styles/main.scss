@@ -1271,6 +1271,47 @@ p {
         border-radius: 4px;
       }
 
+      label.input_name {
+        border-radius: 4px;
+        padding: 2px 6px;
+        margin-left: -6px;
+        cursor: pointer;
+
+        &:hover {
+          background: #E5E5E5;
+        }
+      }
+
+      .edit_label {
+        margin-bottom: 5px;
+
+        input {
+          width: 150px;
+          border-radius: 4px;
+          padding: 2px 6px;
+          background: #E5E5E5;
+          border: 0px;
+          outline: 0px;
+          font-weight: normal;
+          float: left;
+        }
+
+        a {
+          display: block;
+          border-radius: 4px;
+          padding: 2px 6px;
+          background: #259DCB;
+          float: left;
+          color: #FFF;
+          margin-left: 5px;
+          font-weight: normal;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+
       &:last-child {
         border-bottom: none;
       }
