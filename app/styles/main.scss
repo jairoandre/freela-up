@@ -541,23 +541,29 @@ p {
       }
     }
 
-    .middle {
-      .simple_filters {
-        background: #F2F2F2;
-        border-bottom: 1px solid #E5E5E5;
-        padding: 13px 3px;
+    .simple_filters {
+      width: 80%;
+      height: 86px;
+      background: #F2F2F2;
+      border-bottom: 1px solid #E5E5E5;
+      top: 173px;
+      position: fixed;
+      padding: 13px 3px;
+      z-index: 1000;
 
-        .form-group {
-          margin-bottom: 0px;
-        }
+      .form-group {
+        margin-bottom: 0px;
+      }
 
-        .multiple-select {
-          width: 100%;
-        }
+      .multiple-select {
+        width: 100%;
       }
     }
 
     .table {
+      &.top {
+        margin-top: 130px;
+      }
       &.custom_table {
         a {
           font-weight: bold;
@@ -2287,4 +2293,10 @@ colorpicker-preview {
   color: #1693C6;
   font-size: 14px;
   text-align: center;
+}
+
+.dropdown-menu {
+  &.status {
+    width: 100%;
+  }
 }
