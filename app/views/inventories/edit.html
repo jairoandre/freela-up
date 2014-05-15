@@ -42,7 +42,7 @@
         <div class="middle">
           <!-- text field -->
           <div droppable-inputs-area class="droppableInputsArea">
-            <div class="input" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
+            <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
               <div class="type">
                 <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
                   <span ng-show="field.label !== null">{{ field.label }}</span>
@@ -64,7 +64,7 @@
 
                 <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
                   <label ng-repeat="value in field.available_values">
-                    <input type="checkbox"> {{ value }} <a href="" remove-input-value><span class="glyphicon glyphicon-remove"></span></a>
+                    <input type="checkbox"> {{ value }} <a href="" ng-click=""><span class="glyphicon glyphicon-remove"></span></a>
                   </label>
 
                   <a href="" class="newItem">+ Novo item</a>
