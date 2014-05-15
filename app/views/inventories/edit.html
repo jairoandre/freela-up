@@ -196,7 +196,7 @@
       <tr ng-repeat="status in category.statuses">
         <td><b ng-style="{'color': status.color}">{{ status.title }}</b></td>
         <td class="actions">
-          <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+          <a class="icon_action" href="" ng-click="editStatus(status)"><span class="glyphicon glyphicon-edit"></span></a>
           <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
         </td>
       </tr>

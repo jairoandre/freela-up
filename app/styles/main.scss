@@ -1658,6 +1658,16 @@ p {
   }
 }
 
+.editInventoryStatusesModal {
+  .modal-dialog {
+    width: 400px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+
 .editStatusModal {
   .modal-dialog {
     width: 360px;

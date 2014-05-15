@@ -224,7 +224,7 @@ angular.module('zupPainelApp')
       });
     };
   })
-  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q) {
+  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
@@ -293,12 +293,40 @@ angular.module('zupPainelApp')
       $scope.loading = false;
     }
 
+    // modal for editing and adding a new status
+    $scope.editStatus = function (status) {
+      $modal.open({
+        templateUrl: 'views/inventories/editStatus.html',
+        windowClass: 'editInventoryStatusesModal',
+        resolve: {
+          status: function() {
+            return status;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'status', function($scope, $modalInstance, status) {
+          $scope.status = status;
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    };
+
+    $scope.newStatus = function() {
+      var status = {title: 'Novo estado sem título', color: '#259ECB'};
+
+      var newStatus = $scope.category.statuses.push(status);
+
+      $scope.editStatus($scope.category.statuses[newStatus - 1]);
+    };
+
     $scope.send = function() {
       $scope.processingForm = true;
 
       if (updating)
       {
-        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status};
+        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses};
         var formattedFormData = {sections: $scope.category.sections};
 
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
