@@ -286,7 +286,7 @@ angular.module('zupPainelApp')
         {
           return $scope.availableInputs[i].multipleOptions === true;
         }
-      };
+      }
 
       return false;
     };
@@ -350,7 +350,7 @@ angular.module('zupPainelApp')
 
       if (updating)
       {
-        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses};
+        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses}; // jshint ignore:line
         var formattedFormData = {sections: $scope.category.sections};
 
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
@@ -360,7 +360,7 @@ angular.module('zupPainelApp')
           $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
 
           $scope.processingForm = false;
-        }, function(response) {
+        }, function() {
           $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
 
           $scope.processingForm = false;
