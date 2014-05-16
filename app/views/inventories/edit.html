@@ -15,15 +15,15 @@
   <div class="spacing"></div>
 
   <div class="tabs">
-    <a href="" class="active">Campos</a>
-    <a href="">Estados</a>
-    <a href="">Fórmulas</a>
-    <a href="">Configurações</a>
+    <a href="" ng-click="currentTab = 'fields'" ng-class="{'active': currentTab == 'fields'}">Campos</a>
+    <a href="" ng-click="currentTab = 'statuses'" ng-class="{'active': currentTab == 'statuses'}">Estados</a>
+    <a href="" ng-click="currentTab = 'formulas'" ng-class="{'active': currentTab == 'formulas'}">Fórmulas</a>
+    <a href="" ng-click="currentTab = 'configs'" ng-class="{'active': currentTab == 'configs'}">Configurações</a>
   </div>
 
   <div class="loading" ng-show="loading"></div>
 
-  <div class="big_content" class="pages-animation" ng-hide="loading">
+  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'fields'">
     <div class="left_column">
 
       <div class="section" ng-repeat="section in category.sections">
@@ -161,7 +161,7 @@
       </div>
     </div>
 
-    <div class="right_column">
+    <div class="right_column" inputs-sidebar>
       <a class="btn btn-info btn-custom btn-block btn-lg-custom">+ Adicionar nova seção</a>
 
       <div class="inputs">
@@ -181,5 +181,25 @@
     </div>
 
     <div class="clearfix"></div>
+  </div>
+
+  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'statuses'">
+    <div class="toolbar">
+      <div class="pull-left">Obrigatório o uso de estados <input bs-switch type="checkbox" class="pull-right" ng-model="category.require_item_status"></div>
+
+      <a href="" ng-click="newStatus()" class="btn btn-info btn-custom pull-right">+ Novo estado</a>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <table class="simple_table">
+      <tr ng-repeat="status in category.statuses" class="pages-animation">
+        <td><b ng-style="{'color': status.color}">{{ status.title }}</b></td>
+        <td class="actions">
+          <a class="icon_action" href="" ng-click="editStatus(status)"><span class="glyphicon glyphicon-edit"></span></a>
+          <a class="icon_action" href="" ng-click="removeStatus(status)"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>

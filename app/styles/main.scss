@@ -560,6 +560,10 @@ p {
       }
     }
 
+    .simple_filters + .mapItems {
+      margin-top: 129px;
+    }
+
     .table {
       &.reports {
         margin-top: 130px;
@@ -1153,6 +1157,10 @@ p {
     min-height: 700px;
   }
 
+  .toolbar {
+    padding: 0 20px 20px 20px;
+  }
+
   .rounder_wrapper {
     width: 80%;
     background: #FFF;
@@ -1229,8 +1237,12 @@ p {
   .right_column {
     width: 20%;
     float: left;
-    position: fixed;
-    right: 2%;
+
+    &.affix {
+      position: fixed;
+      top: 85px;
+      right: 2%;
+    }
   }
 
   .section {
@@ -1341,6 +1353,7 @@ p {
         label {
           margin-right: 10px;
           font-weight: normal;
+          display: block;
         }
 
         .newItem {
@@ -1386,6 +1399,28 @@ p {
             }
           }
         }
+      }
+    }
+  }
+
+  .simple_table {
+    width: 100%;
+
+    tr {
+      border-top: 1px solid #E5E5E5;
+      border-bottom: 1px solid #E5E5E5;
+
+      td {
+        padding: 15px 20px 15px 20px;
+      }
+    }
+
+    .actions {
+      text-align: right;
+      font-size: 19px;
+
+      a {
+        margin-left: 5px;
       }
     }
   }
@@ -1628,6 +1663,16 @@ p {
 .removeModal {
   .modal-dialog {
     width: 500px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+
+.editInventoryStatusesModal {
+  .modal-dialog {
+    width: 400px;
   }
 
   .modal-footer {
