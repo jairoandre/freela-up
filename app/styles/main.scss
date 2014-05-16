@@ -424,7 +424,7 @@ p {
         .filter_change {
           position: absolute;
           width: 20%;
-          right: 20%;
+          right: 0;
 
           a {
             position: absolute;
@@ -561,8 +561,11 @@ p {
     }
 
     .table {
-      &.top {
+      &.reports {
         margin-top: 130px;
+      }
+      &.inventories {
+        margin-top: 110px;
       }
       &.custom_table {
         a {
@@ -2520,5 +2523,34 @@ colorpicker-preview {
 .open {
   .menu-dropdown {
     display: block;
+  }
+}
+
+.sort-table {
+  cursor: pointer;
+}
+
+.sort-true,
+.sort-false {
+  span {
+    font-weight: bold;
+  }
+  .arrow {
+    position: relative;
+    top: 2px;
+    left: 4px;
+    font-family: 'Glyphicons Halflings';
+  }
+}
+
+.sort-true {
+  .arrow:after {
+    content: "\e114";
+  }
+}
+
+.sort-false {
+  .arrow:after {
+    content: "\e113";
   }
 }

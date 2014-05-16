@@ -13,6 +13,25 @@ angular.module('zupPainelApp')
     $scope.beginDate = null;
     $scope.endDate = null;
 
+    $scope.sort = {
+      column: '',
+      descending: false
+    };
+
+    $scope.changeSorting = function (column) {
+      var sort = $scope.sort;
+      if (sort.column === column) {
+        sort.descending = !sort.descending;
+      } else {
+        sort.column = column;
+        sort.descending = false;
+      }
+    };
+
+    $scope.selectedCls = function (column) {
+      return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
+    };
+
     // Return right promise
     var generateItemsPromise = function(searchText) {
       var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage }; // jshint ignore:line

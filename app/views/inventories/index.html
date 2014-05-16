@@ -71,23 +71,35 @@
         <div class="clearfix"></div>
       </div>
 
-      <table class="table custom_table top" infinite-scroll="getData(true)" infinite-scroll-distance="3">
+      <table class="table custom_table inventories" infinite-scroll="getData(true)" infinite-scroll-distance="3">
         <thead>
           <tr>
-            <td width="60%">Nome</td>
-            <td>Categoria</td>
-            <td>Data de inclusão</td>
+            <td width="60%" ng-click="changeSorting('title')" ng-class="selectedCls('title')" class="sort-table">
+              <span>Nome</span><span class="arrow"></span>
+            </td>
+            <td ng-click="changeSorting('inventory_category_id')" ng-class="selectedCls('inventory_category_id')" class="sort-table">
+              <span>Categoria</span><span class="arrow"></span>
+            </td>
+            <td ng-click="changeSorting('created_at')" ng-class="selectedCls('created_at')" class="sort-table">
+              <span>Data de inclusão</span><span class="arrow"></span>
+            </td>
             <td></td>
           </tr>
         </thead>
 
-        <tr ng-repeat="item in items">
-          <td><a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}">{{ item.title }}</a></td>
+        <tr ng-repeat="item in items | orderBy:sort.column:sort.descending">">
+          <td>
+            <a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}">{{ item.title }}</a>
+          </td>
           <td>{{ getInventoryCategory(item.inventory_category_id).title }}</td>
           <td>{{ item.created_at | date:'dd/MM/yy HH:mm'}}</td>
           <td class="actions">
-            <a class="icon_action" href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-            <a class="icon_action" href="" ng-click="deleteItem(item, getInventoryCategory(item.inventory_category_id))"><span class="glyphicon glyphicon-trash"></span></a>
+            <a class="icon_action" href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}/edit">
+              <span class="glyphicon glyphicon-edit"></span>
+            </a>
+            <a class="icon_action" href="" ng-click="deleteItem(item, getInventoryCategory(item.inventory_category_id))">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
           </td>
         </tr>
       </table>
