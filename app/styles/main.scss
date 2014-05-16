@@ -1230,8 +1230,12 @@ p {
   .right_column {
     width: 20%;
     float: left;
-    position: fixed;
-    right: 2%;
+
+    &.affix {
+      position: fixed;
+      top: 85px;
+      right: 2%;
+    }
   }
 
   .section {
