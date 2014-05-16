@@ -2363,12 +2363,49 @@ colorpicker-preview {
 }
 
 /* Autocomplete */
+.ui-widget {
+  .search_icon {
+    position: relative;
+    top: 14px;
+    left: 16px;
+    font-family: 'Glyphicons Halflings';
+    &:before {
+      content: "\e003";
+      color: #999999;
+    }
+  }
+  input {
+    position: relative;
+    top: -12px;
+    width: 100%;
+    padding: 4px 15px;
+    margin-left: 28px;
+    color: #999999;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+}
+
 .ui-autocomplete {
-  top: 380px !important;
-  left: 310px !important;
+  top: 387px !important;
+  left: 20% !important;
+  padding: 0px !important;
+  margin-left: 30px !important;
   max-height: 100% !important;
-  width: 816px !important;
   z-index: 9999 !important;
+  .ui-menu-item {
+    width: 100% !important;
+    a {
+      padding: 5px !important
+    }
+  }
+  .ui-state-focus {
+    background: #259ecb !important;
+    color: #FFF !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
 }
 
 /* Checkbox */
