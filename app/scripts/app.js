@@ -210,6 +210,7 @@ angular.module('zupPainelApp', [
     // fluxos
     .when('/flows', {
       templateUrl: 'views/flows/index.html',
+      controller: 'FlowsCtrl',
       access: {
         logged: true
       }
