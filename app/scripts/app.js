@@ -207,6 +207,13 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    // fluxos
+    .when('/flows', {
+      templateUrl: 'views/flows/index.html',
+      access: {
+        logged: true
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });

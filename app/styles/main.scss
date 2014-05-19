@@ -571,6 +571,15 @@ p {
       &.inventories {
         margin-top: 110px;
       }
+      &.flows {
+        .information {
+          margin-bottom: 0;
+        }
+        .date,
+        .name {
+          display: block;
+        }
+      }
       &.custom_table {
         a {
           font-weight: bold;
