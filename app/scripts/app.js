@@ -215,6 +215,12 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/flows/show', {
+      templateUrl: 'views/flows/view.html',
+      access: {
+        logged: true
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });

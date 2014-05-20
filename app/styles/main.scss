@@ -2806,3 +2806,30 @@ colorpicker-preview {
     content: "\e113";
   }
 }
+
+.flow-tab {
+  width: 100%;
+
+  .links {
+    a {
+      display: block;
+      float: left;
+      padding: 30px;
+      width: 33.3%;
+      text-align: center;
+      background: #F0F0F0;
+      background: #F0F0F0;
+      color: #333333;
+      font-weight: bold;
+      border-left: 1px solid #C8C8C8;
+      &.active {
+        background: #FFF;
+        color: #969696;
+        border-bottom: none;
+      }
+      &:hover {
+        text-decoration: none !important;
+      }
+    }
+  }
+}
