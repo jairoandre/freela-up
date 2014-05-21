@@ -207,6 +207,32 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    // fluxos
+    .when('/flows', {
+      templateUrl: 'views/flows/index.html',
+      controller: 'FlowsCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/flows/steps', {
+      templateUrl: 'views/flows/steps.html',
+      access: {
+        logged: true
+      }
+    })
+    .when('/flows/permissions', {
+      templateUrl: 'views/flows/permissions.html',
+      access: {
+        logged: true
+      }
+    })
+    .when('/flows/versions', {
+      templateUrl: 'views/flows/versions.html',
+      access: {
+        logged: true
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });

@@ -7,6 +7,25 @@ angular.module('zupPainelApp')
   $scope.loading = true;
   $scope.loadingPagination = false;
 
+  $scope.sort = {
+    column: '',
+    descending: false
+  };
+
+  $scope.changeSorting = function (column) {
+    var sort = $scope.sort;
+    if (sort.column === column) {
+      sort.descending = !sort.descending;
+    } else {
+      sort.column = column;
+      sort.descending = false;
+    }
+  };
+
+  $scope.selectedCls = function (column) {
+    return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
+  };
+
   var groupId = $routeParams.groupId, page = 1, perPage = 30, total, searchText = '';
 
   // Return right promise

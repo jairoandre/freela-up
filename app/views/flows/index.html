@@ -1,0 +1,163 @@
+<div id="main_layout">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="loading" ng-show="loading"></div>
+    <div class="loading" ng-show="loadingContent"></div>
+
+    <div ng-hide="loading" class="pages-animation">
+      <div class="title">
+        <ul>
+          <li>Fluxos</li>
+        </ul>
+
+        <a href="#" ng-click="addFlow()" class="btn btn-info btn-custom">+ Novo Fluxo</a>
+      </div>
+
+      <div class="simple_search">
+        <div class="col-md-8 search_column1">
+          <span class="glyphicon glyphicon-search search_icon"></span>
+          <input type="text" placeholder="Buscar" keyboard-poster="search" />
+        </div>
+      </div>
+
+      <table class="table custom_table flows" ng-hide="loadingContent" infinite-scroll="getData(true)" infinite-scroll-distance="3">
+        <thead>
+          <tr>
+            <td ng-click="changeSorting('name')"
+                ng-class="selectedCls('name')" class="sort-table" width="45%">
+              <span>Nome</span><span class="arrow"></span>
+            </td>
+            <td ng-click="changeSorting('')"
+                ng-class="selectedCls('')" class="sort-table">
+              <span>Criado em</span><span class="arrow"></span>
+            </td>
+            <td ng-click="changeSorting('')"
+                ng-class="selectedCls('')" class="sort-table">
+              <span>Modificado em</span><span class="arrow"></span></td>
+            <td></td>
+          </tr>
+        </thead>
+
+        <tr>
+          <td>
+            <a href="#/flows/steps">Nome de um fluxo</a>
+            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td class="actions">
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">Nome de um fluxo</a>
+            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td class="actions">
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">Nome de um fluxo</a>
+            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td class="actions">
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">Nome de um fluxo</a>
+            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td class="actions">
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">Nome de um fluxo</a>
+            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td class="actions">
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">Nome de um fluxo</a>
+            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td>
+            <span class="date">12/10/2014</span>
+            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+          </td>
+          <td class="actions">
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+
+      </table>
+
+      <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
+    </div>
+
+  </div>
+</div>
