@@ -345,6 +345,11 @@ angular.module('zupPainelApp')
       $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
     };
 
+    $scope.$on('hidePopovers', function(event, data) {
+      // tell each popover to close before opening a new one
+      $scope.$broadcast('hideOpenPopovers', data);
+    });
+
     $scope.send = function() {
       $scope.processingForm = true;
 

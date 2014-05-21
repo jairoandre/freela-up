@@ -77,23 +77,23 @@
                 </div>
 
                 <div class="option trash">
-                  <div class="popover bottom" ng-show="showFieldConfirmRemovePopover">
+                  <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
                     <div class="arrow"></div>
                     <h3 class="popover-title">Remover campo {{ field.label }}</h3>
 
                     <div class="popover-content">
                       <div class="row">
-                        <div class="col-xs-6"><a href="" ng-click="showFieldConfirmRemovePopover = false" class="btn btn-default btn-block">Cancelar</a></div>
+                        <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
                         <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
                       </div>
                     </div>
                   </div>
 
-                  <a href="" ng-click="showFieldConfirmRemovePopover = true" class="icon"><span class="glyphicon glyphicon-trash"></span></a>
+                  <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
                 </div>
 
                 <div class="option permissions">
-                  <div class="popover bottom" ng-show="showFieldPermissionsPopover">
+                  <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
                     <div class="arrow"></div>
                     <h3 class="popover-title">Permissões do campo {{ field.label }}</h3>
 
@@ -114,17 +114,17 @@
                         </select>
                       </div>
 
-                      <a href="" ng-click="showFieldPermissionsPopover = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+                      <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
 
                       <div class="clearfix"></div>
                     </div>
                   </div>
 
-                  <a href="" ng-click="showFieldPermissionsPopover = true" class="icon"><span class="glyphicon glyphicon-lock"></span></a>
+                  <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
                 </div>
 
                 <div class="option edit">
-                  <div class="popover bottom" ng-show="showFieldOptionsPopover">
+                  <div class="popover bottom" inventory-popover="options" ng-show="popover.options">
                     <div class="arrow"></div>
                     <h3 class="popover-title">Opções do campo {{ field.label }}</h3>
 
@@ -143,13 +143,13 @@
                         </label>
                       </div>
 
-                      <a href="" ng-click="showFieldOptionsPopover = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+                      <a href="" ng-click="popover.options = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
 
                       <div class="clearfix"></div>
                     </div>
                   </div>
 
-                  <a href="" ng-click="showFieldOptionsPopover = true" class="icon"><span class="glyphicon glyphicon-edit"></span></a>
+                  <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
                 </div>
               </div>
 
