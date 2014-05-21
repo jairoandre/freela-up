@@ -215,8 +215,14 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/flows/show', {
-      templateUrl: 'views/flows/view.html',
+    .when('/flows/steps', {
+      templateUrl: 'views/flows/steps.html',
+      access: {
+        logged: true
+      }
+    })
+    .when('/flows/permissions', {
+      templateUrl: 'views/flows/permissions.html',
       access: {
         logged: true
       }

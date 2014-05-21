@@ -2808,28 +2808,46 @@ colorpicker-preview {
 }
 
 .flow-tab {
-  width: 100%;
-
-  .links {
-    a {
-      display: block;
-      float: left;
-      padding: 30px;
-      width: 33.3%;
-      text-align: center;
-      background: #F0F0F0;
-      background: #F0F0F0;
-      color: #333333;
-      font-weight: bold;
-      border-left: 1px solid #C8C8C8;
-      &.active {
-        background: #FFF;
-        color: #969696;
-        border-bottom: none;
-      }
-      &:hover {
-        text-decoration: none !important;
-      }
+  width: 80%;
+  height: 80px;
+  top: 129px;
+  position: fixed;
+  z-index: 999;
+  a {
+    display: block;
+    float: left;
+    padding: 30px;
+    width: 33.3%;
+    text-align: center;
+    background: #F0F0F0;
+    background: #F0F0F0;
+    color: #333333;
+    font-weight: bold;
+    border-left: 1px solid #C8C8C8;
+    border-bottom: 1px solid #C8C8C8;
+    &.active {
+      background: #FFF;
+      color: #969696;
+      border-bottom: none;
+    }
+    &:hover {
+      text-decoration: none !important;
     }
   }
+}
+
+.flow-form {
+  width: 70%;
+  padding: 30px;
+  margin-top: 75px;
+}
+
+.flow-table {
+  border-bottom: 1px solid #CCC;
+  margin-top: 10px;
+}
+
+.flow-footer {
+  padding-left: 20px;
+  margin-bottom: 70px;
 }
