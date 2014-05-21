@@ -2816,7 +2816,7 @@ colorpicker-preview {
   a {
     display: block;
     float: left;
-    padding: 30px;
+    padding: 25px;
     width: 33.3%;
     text-align: center;
     background: #F0F0F0;
@@ -2839,15 +2839,85 @@ colorpicker-preview {
 .flow-form {
   width: 70%;
   padding: 30px;
-  margin-top: 75px;
+  margin-top: 68px;
 }
 
 .flow-table {
   border-bottom: 1px solid #CCC;
-  margin-top: 10px;
+  margin-top: 69px;
+}
+
+.flow-version-table {
+  margin-top: 74px;
+  .secondLevel {
+    background: #F0F0F0;
+    .indicator {
+      display: inline-block;
+      margin-left: 20px;
+      width: 9px;
+      height: 9px;
+      background: url(../images/sub_tag.png);
+      margin-right: 5px;
+    }
+  }
 }
 
 .flow-footer {
   padding-left: 20px;
   margin-bottom: 70px;
+}
+
+.number-version,
+.arrow-version {
+  display: block;
+  float: left;
+}
+
+.number-version {
+  font-size: 20px;
+}
+
+.arrow-version {
+  width: 24px;
+  height: 24px;
+  margin-left: 9px;
+  margin-top: 2px;
+  border: 3px solid #428bca;
+  border-radius: 12px;
+  font-family: 'Glyphicons Halflings';
+  &:after {
+    position: relative;
+    top: -1px;
+    left: 2px;
+    display: inline-block;
+    content: "\e114";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.active-version {
+  color: #969696;
+  .arrow-version {
+    border: 3px solid #969696;
+    &:after {
+      top: -2px;
+      left: 3px;
+      content: "\e113";
+    }
+  }
+}
+
+.btn-version {
+  width: 97px;
+  margin-right: 20px;
+}
+
+.btn-util {
+  background: #CCCCCC;
+  color: #969696;
 }
