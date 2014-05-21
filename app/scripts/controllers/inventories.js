@@ -243,7 +243,7 @@ angular.module('zupPainelApp')
       });
     };
   })
-  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal) {
+  .controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window) {
     var updating = $scope.updating = false;
 
     var categoryId = $routeParams.categoryId;
@@ -254,6 +254,7 @@ angular.module('zupPainelApp')
       $scope.updating = true;
     }
 
+    $scope.unsavedCategory = false;
     $scope.currentTab = 'fields';
 
     $scope.availableInputs = [
@@ -304,13 +305,41 @@ angular.module('zupPainelApp')
         $scope.groups = responses[0].data;
         $scope.category = responses[1].data;
 
+        // watch for modifications in $scope.category
+        $scope.$watch('category', function(newValue, oldValue) {
+          if (newValue !== oldValue)
+          {
+            $scope.unsavedCategory = true;
+          }
+        }, true);
+
         $scope.loading = false;
       });
     }
     else
     {
       $scope.loading = false;
+
+      // watch for modifications in $scope.category
+      $scope.$watch('category', function(newValue, oldValue) {
+        if (newValue !== oldValue)
+        {
+          $scope.unsavedCategory = true;
+        }
+      }, true);
     }
+
+    // send alert to user before leaving the page that modifications are not saved
+    $window.onbeforeunload = function() {
+      if ($scope.unsavedCategory === true)
+      {
+        return 'Você tem certeza que deseja sair? Há alterações que não foram salvas.';
+      }
+      else
+      {
+        return null;
+      }
+    };
 
     // modal for editing and adding a new status
     $scope.editStatus = function (status) {
@@ -364,6 +393,7 @@ angular.module('zupPainelApp')
         $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
           $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
 
+          $scope.unsavedCategory = false;
           $scope.processingForm = false;
         }, function() {
           $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
