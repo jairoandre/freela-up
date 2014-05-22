@@ -239,6 +239,12 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/flows/triggers/edit', {
+      templateUrl: 'views/flows/editTriggers.html',
+      access: {
+        logged: true
+      }
+    })
     .when('/flows/versions', {
       templateUrl: 'views/flows/versions.html',
       access: {

@@ -3016,12 +3016,21 @@ colorpicker-preview {
   }
 }
 
+.updated-msg {
+  float: right;
+  color: #969696;
+  margin-top: 23px;
+  margin-right: 19px;
+  font-size: 16px;
+}
+
 .step-form {
   border: 1px solid #E1E1E1;
   border-radius: 4px;
   .form-group {
     padding: 15px 20px;
     border-bottom: 1px solid #E1E1E1;
+    margin-bottom: 0;
     &.form-group-last {
       border: none;
     }
@@ -3036,12 +3045,16 @@ colorpicker-preview {
         a {
           font-weight: bold;
           margin-left: 5px;
-          font-size: 14px;
+          font-size: 16px;
         }
         span {
           display: block;
           margin-left: 14px;
           font-weight: normal;
+        }
+        &:last-child {
+          position: relative;
+          left: -14px;
         }
       }
     }
@@ -3065,15 +3078,15 @@ colorpicker-preview {
       width: 100%;
       input {
         display: inline-block;
-        width: 84%;
+        width: 83%;
       }
       a {
-        width: 15%;
+        width: 16%;
         margin: 0;
       }
       .attachments {
         display: inline-block;
-        width: 84%;
+        width: 83%;
         height: 37px;
         background: #EEEEEE;
         span {
@@ -3081,11 +3094,10 @@ colorpicker-preview {
           top: -1px;
           left: 0;
           font-family: 'Glyphicons Halflings';
-          z-index: 9999;
           &:before {
             font-size: 20px;
             content: "\e142";
-            color: #999999;
+            color: #CCCCCC;
           }
         }
         input {
@@ -3093,8 +3105,8 @@ colorpicker-preview {
           top: -31px;
           width: 100%;
           padding: 4px 15px;
-          margin-left: 28px;
-          color: #999999;
+          margin-left: 20px;
+          color: #333333;
           border: none;
           background: transparent;
           outline: none;
@@ -3109,7 +3121,7 @@ colorpicker-preview {
   .actions {
     position: relative;
     float: right;
-    padding: 5px 9px 0 0;
+    padding: 10px 9px 0 0;
     .remove-form {
       margin: 0 15px;
     }
@@ -3132,5 +3144,113 @@ colorpicker-preview {
     height: 109px !important;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
+  }
+}
+
+.trigger-full {
+  width: 100%;
+  padding: 2%;
+  background: #FFF;
+  .trigger-header {
+    width: 100%;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #E1E1E1;
+    p {
+      float: left;
+      margin-top: 5px;
+      margin-bottom: 0;
+      font-size: 16px;
+    }
+    a {
+      float: right;
+    }
+  }
+  ul {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    .triggers {
+      width: 100%;
+      background: #F0F0F0;
+      border: 1px solid #E1E1E1;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      .content-trigger {
+        padding: 18px 19px;
+      }
+      p {
+        float: left;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+      }
+      .actions {
+        width: 112px;
+        float: right;
+        font-size: 24px;
+        font-weight: bold;
+        .middle-link {
+          margin-left: 15px;
+        }
+        .right-link {
+          float: right;
+        }
+        .arrow-version {
+          width: 26px;
+          height: 26px;
+          border-radius: 13px;
+          &:after {
+            top: -11px;
+            left: 3px;
+            font-size: 13px;
+          }
+        }
+      }
+      &.active {
+        background: #FFF;
+        .arrow-version {
+          &:after {
+            top: -13px;
+            left: 4px;
+            content: "\e113";
+          }
+        }
+      }
+    }
+    .trigger-conditions {
+      h3 {
+        width: 100%;
+        background: #F0F0F0;
+        font-size: 16px;
+        font-weight: normal;
+        margin: 0;
+        border-bottom: 1px solid #E1E1E1;
+      }
+      h3, form {
+        padding: 18px 19px;
+      }
+    }
+    .trigger-table {
+      width: 100%;
+      thead {
+        background: #F0F0F0;
+        border-top: 1px solid #E1E1E1;
+        border-bottom: 1px solid #E1E1E1;
+        td {
+          padding: 5px 10px;
+        }
+      }
+      tbody {
+        td {
+          padding: 10px;
+          border-bottom: 1px solid #E1E1E1;
+        }
+        .remove-condition,
+        .new-condition {
+          text-align: center;
+        }
+      }
+    }
   }
 }

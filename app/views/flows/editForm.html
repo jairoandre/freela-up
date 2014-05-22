@@ -1,12 +1,14 @@
 <div id="full_page">
   <div class="header">
-    <a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="#/inventories/categories" class="back">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
 
     <div class="title" ng-show="!updating">
       Título da etapa <span class="glyphicon glyphicon-edit"></span>
     </div>
 
-    <div style="float: right; color: #969696; margin-top: 23px; font-size: 16px; margin-right: 19px;">
+    <div class="updated-msg">
       <span class="glyphicon glyphicon-check"></span> Todas as alterações foram salvas.
     </div>
   </div>
@@ -16,7 +18,7 @@
   <div class="tabs step-tab">
     <a href="#/flows/forms/edit" class="active">Formulário</a>
     <a href="#/flows/permissions/edit">Permissões</a>
-    <a href="">Gatilhos</a>
+    <a href="#/flows/triggers/edit">Gatilhos</a>
   </div>
 
   <div class="loading" ng-show="loading"></div>
@@ -210,7 +212,9 @@
       </div>
 
       <div class="inputs step-sidebar-bottom">
-        <div class="info"><p>Campos especiais</p></div>
+        <div class="info">
+          <p>Campos especiais</p>
+        </div>
 
         <div class="clearfix"></div>
 
@@ -232,25 +236,5 @@
     </div>
 
     <div class="clearfix"></div>
-  </div>
-
-  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'statuses'">
-    <div class="toolbar">
-      <div class="pull-left">Obrigatório o uso de estados <input bs-switch type="checkbox" class="pull-right" ng-model="category.require_item_status"></div>
-
-      <a href="" ng-click="newStatus()" class="btn btn-info btn-custom pull-right">+ Novo estado</a>
-
-      <div class="clearfix"></div>
-    </div>
-
-    <table class="simple_table">
-      <tr ng-repeat="status in category.statuses" class="pages-animation">
-        <td><b ng-style="{'color': status.color}">{{ status.title }}</b></td>
-        <td class="actions">
-          <a class="icon_action" href="" ng-click="editStatus(status)"><span class="glyphicon glyphicon-edit"></span></a>
-          <a class="icon_action" href="" ng-click="removeStatus(status)"><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-      </tr>
-    </table>
   </div>
 </div>
