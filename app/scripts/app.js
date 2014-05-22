@@ -233,6 +233,12 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/flows/forms/edit', {
+      templateUrl: 'views/flows/editForm.html',
+      access: {
+        logged: true
+      }
+    })
     .when('/flows/versions', {
       templateUrl: 'views/flows/versions.html',
       access: {

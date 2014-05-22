@@ -1,6 +1,6 @@
-<div id="full_page" class="items-edit">
-  <div class="header clearfix">
-    <a href="#/inventories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<div id="full_page">
+  <div class="header">
+    <a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
     <div class="title" ng-show="!updating">
       Título da etapa <span class="glyphicon glyphicon-edit"></span>
@@ -11,21 +11,15 @@
     </div>
   </div>
 
-  <div>
-    <a href="#" class="active">Formulário</a>
-    <a href="#/flows/permissions/edit" class="middle">Permissões</a>
-    <a href="#">Gatilhos</a>
+  <div class="spacing"></div>
+
+  <div class="tabs step-tab">
+    <a href="#/flows/forms/edit">Formulário</a>
+    <a href="#/flows/permissions/edit" class="active">Permissões</a>
+    <a href="">Gatilhos</a>
   </div>
 
   <div class="loading" ng-show="loading"></div>
-
-  <div class="header-permission">
-    <div>
-      <a href="#" class="link-tab">Formulário</a>
-      <a href="#" class="link-tab active">Permissões</a>
-      <a href="#" class="link-tab">Gatilhos</a>
-    </div>
-  </div>
 
   <div ng-hide="loading" class="pages-animation full-permission">
     <form>
