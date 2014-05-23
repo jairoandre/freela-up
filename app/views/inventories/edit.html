@@ -63,9 +63,22 @@
                 <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer'" disabled="disabled">
 
                 <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
-                  <label ng-repeat="value in field.available_values">
-                    <input type="checkbox"> {{ value }} <a href="" ng-click=""><span class="glyphicon glyphicon-remove"></span></a>
-                  </label>
+                  <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
+                    <input type="checkbox" class="value">
+
+                    <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
+
+                    <div class="edit_label" ng-show="editingValue">
+                      <input type="text" ng-model="value" />
+                      <a href="" ng-click="editingValue = false">Ok</a>
+
+                      <div class="clearfix"></div>
+                    </div>
+
+                    <a href="" class="remove_value" ng-click="removeValue(value)"><span class="glyphicon glyphicon-remove"></span></a>
+
+                    <div class="clearfix"></div>
+                  </div>
 
                   <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
                 </div>
