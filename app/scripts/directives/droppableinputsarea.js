@@ -34,7 +34,7 @@ angular.module('zupPainelApp')
             var newInput = {
               kind: inputType,
               label: 'Novo ' + inputType,
-              title: 'newInput',
+              title: null,
               location: false,
               maximum: null,
               minimum: null,
