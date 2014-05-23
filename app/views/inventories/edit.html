@@ -26,228 +26,315 @@
   <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'fields'">
     <div class="left_column">
 
-      <div class="section" ng-repeat="section in category.sections">
-        <div class="top_part">
-          <div class="name">{{ section.title }} <span ng-show="section.required == true">*</span></div>
+      <div sortable-sections class="sortableSections">
+        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy">
+          <div class="top_part">
+            <div class="type">
+              <a class="name" href="" ng-click="editingSectionLabel = true" ng-hide="editingSectionLabel">{{ section.title }} <span ng-show="section.required == true">*</span></a>
 
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-lock"></span></a>
-            <a href=""><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-move"></span></a>
-          </div>
-
-          <div class="clearfix"></div>
-        </div>
-
-        <div class="middle">
-          <!-- text field -->
-          <div droppable-inputs-area class="droppableInputsArea">
-            <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
-              <div class="type">
-                <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
-                  <span ng-show="field.label !== null">{{ field.label }}</span>
-                  <span ng-show="field.label == null">{{ field.title }}</span>
-                  <span ng-show="field.required == true"> *</span>
-                </label>
-
-                <div class="edit_label" ng-show="editingLabel">
-                  <input type="text" ng-model="field.label" />
-                  <a href="" ng-click="editingLabel = false">Salvar</a>
-
-                  <div class="clearfix"></div>
-                </div>
+              <div class="edit_label" ng-show="editingSectionLabel">
+                <input type="text" ng-model="section.title" />
+                <a href="" ng-click="editingSectionLabel = false">Salvar</a>
 
                 <div class="clearfix"></div>
+              </div>
+            </div>
 
-                <!-- input type: text, url, email -->
-                <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
+            <div class="actions">
+              <div class="option move">
+                <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
+              </div>
 
-                <!-- input type date, time, cpf, cnpj -->
-                <div class="custom_size col-xs-3" ng-show="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
-                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" disabled="disabled">
+              <div class="option trash">
+                <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
+                  <div class="arrow"></div>
+                  <h3 class="popover-title">Remover seção {{ section.title }}</h3>
+
+                  <div class="popover-content">
+                    <div class="row">
+                      <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
+                      <div class="col-xs-6"><a href="" ng-click="section.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- input type: integer, decimal -->
-                <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
+                <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
+              </div>
 
-                <!-- input type: meters -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'meters'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">metros</span>
-                </div>
+              <div class="option permissions">
+                <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
+                  <div class="arrow"></div>
+                  <h3 class="popover-title">Permissões da seção {{ section.label }}</h3>
 
-                <!-- input type: centimeters -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'centimeters'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">cm</span>
-                </div>
+                  <div class="popover-content">
+                    <div class="form-group">
+                      <label>Grupos que podem visualizar:</label>
 
-                <!-- input type: kilometers -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'kilometers'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">km</span>
-                </div>
-
-                <!-- input type: years -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'years'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">anos</span>
-                </div>
-
-                <!-- input type: months -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'months'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">meses</span>
-                </div>
-
-                <!-- input type: days -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'days'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">dias</span>
-                </div>
-
-                <!-- input type: hours -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'hours'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">horas</span>
-                </div>
-
-                <!-- input type: seconds -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'seconds'">
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                  <span class="input-group-addon">segundos</span>
-                </div>
-
-                <!-- input type: angle -->
-                <div class="input-group col-xs-3" ng-show="field.kind == 'angle'">
-                  <span class="input-group-addon">ângulo</span>
-                  <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
-                </div>
-
-                <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
-                  <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
-                    <input type="checkbox" class="value">
-
-                    <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
-
-                    <div class="edit_label" ng-show="editingValue">
-                      <input type="text" ng-model="value" />
-                      <a href="" ng-click="editingValue = false">Ok</a>
-
-                      <div class="clearfix"></div>
+                      <select class="multiple-select" ui-select2 ng-model="section.inventory_sections_can_view" data-placeholder="Digite um grupo" multiple>
+                        <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                      </select>
                     </div>
 
-                    <a href="" class="remove_value" ng-click="removeValue(value)"><span class="glyphicon glyphicon-remove"></span></a>
+                    <div class="form-group">
+                      <label>Grupos que podem editar:</label>
+
+                      <select class="multiple-select" ui-select2 ng-model="section.inventory_sections_can_edit" data-placeholder="Digite um grupo" multiple>
+                        <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                      </select>
+                    </div>
+
+                    <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+
+                <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+              </div>
+
+              <div class="option edit">
+                <div class="popover bottom" inventory-popover="options" ng-show="popover.options">
+                  <div class="arrow"></div>
+                  <h3 class="popover-title">Opções da seção {{ section.title }}</h3>
+
+                  <div class="popover-content">
+                    <div class="form-group">
+                      <label>Preenchimento requerido?</label>
+
+                      <br />
+
+                      <label class="radio-inline">
+                        <input type="radio" ng-model="section.required" ng-value="true"> Sim
+                      </label>
+
+                      <label class="radio-inline">
+                        <input type="radio" ng-model="section.required" ng-value="false"> Não
+                      </label>
+                    </div>
+
+                    <a href="" ng-click="popover.options = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+
+                <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="middle">
+            <!-- text field -->
+            <div droppable-inputs-area class="droppableInputsArea">
+              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
+                <div class="type">
+                  <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
+                    <span ng-show="field.label !== null">{{ field.label }}</span>
+                    <span ng-show="field.label == null">{{ field.title }}</span>
+                    <span ng-show="field.required == true"> *</span>
+                  </label>
+
+                  <div class="edit_label" ng-show="editingLabel">
+                    <input type="text" ng-model="field.label" />
+                    <a href="" ng-click="editingLabel = false">Salvar</a>
 
                     <div class="clearfix"></div>
                   </div>
 
-                  <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
-                </div>
-              </div>
+                  <div class="clearfix"></div>
 
-              <div class="actions">
-                <div class="option move">
-                  <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
-                </div>
+                  <!-- input type: text, url, email -->
+                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
 
-                <div class="option trash">
-                  <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
-                    <div class="arrow"></div>
-                    <h3 class="popover-title">Remover campo {{ field.label }}</h3>
-
-                    <div class="popover-content">
-                      <div class="row">
-                        <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
-                        <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
-                      </div>
-                    </div>
+                  <!-- input type date, time, cpf, cnpj -->
+                  <div class="custom_size col-xs-3" ng-show="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
+                    <input class="form-control" id="generic_input_{{ field.id }}" type="text" disabled="disabled">
                   </div>
 
-                  <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
-                </div>
+                  <!-- input type: integer, decimal -->
+                  <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
 
-                <div class="option permissions">
-                  <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
-                    <div class="arrow"></div>
-                    <h3 class="popover-title">Permissões do campo {{ field.label }}</h3>
+                  <!-- input type: meters -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'meters'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">metros</span>
+                  </div>
 
-                    <div class="popover-content">
-                      <div class="form-group">
-                        <label>Grupos que podem visualizar:</label>
+                  <!-- input type: centimeters -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'centimeters'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">cm</span>
+                  </div>
 
-                        <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_view" data-placeholder="Digite um grupo" multiple>
-                          <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
-                        </select>
+                  <!-- input type: kilometers -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'kilometers'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">km</span>
+                  </div>
+
+                  <!-- input type: years -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'years'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">anos</span>
+                  </div>
+
+                  <!-- input type: months -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'months'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">meses</span>
+                  </div>
+
+                  <!-- input type: days -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'days'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">dias</span>
+                  </div>
+
+                  <!-- input type: hours -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'hours'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">horas</span>
+                  </div>
+
+                  <!-- input type: seconds -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'seconds'">
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                    <span class="input-group-addon">segundos</span>
+                  </div>
+
+                  <!-- input type: angle -->
+                  <div class="input-group col-xs-3" ng-show="field.kind == 'angle'">
+                    <span class="input-group-addon">ângulo</span>
+                    <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+                  </div>
+
+                  <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
+                    <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
+                      <input type="checkbox" class="value">
+
+                      <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
+
+                      <div class="edit_label" ng-show="editingValue">
+                        <input type="text" ng-model="value" />
+                        <a href="" ng-click="editingValue = false">Ok</a>
+
+                        <div class="clearfix"></div>
                       </div>
 
-                      <div class="form-group">
-                        <label>Grupos que podem editar:</label>
-
-                        <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_edit" data-placeholder="Digite um grupo" multiple>
-                          <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
-                        </select>
-                      </div>
-
-                      <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+                      <a href="" class="remove_value" ng-click="removeValue(value)"><span class="glyphicon glyphicon-remove"></span></a>
 
                       <div class="clearfix"></div>
                     </div>
-                  </div>
 
-                  <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+                    <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
+                  </div>
                 </div>
 
-                <div class="option edit">
-                  <div class="popover bottom" inventory-popover="options" ng-show="popover.options">
-                    <div class="arrow"></div>
-                    <h3 class="popover-title">Opções do campo {{ field.label }}</h3>
+                <div class="actions">
+                  <div class="option move">
+                    <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
+                  </div>
 
-                    <div class="popover-content">
-                      <div class="form-group">
-                        <label>Preenchimento requerido?</label>
+                  <div class="option trash">
+                    <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
+                      <div class="arrow"></div>
+                      <h3 class="popover-title">Remover campo {{ field.label }}</h3>
 
-                        <br />
-
-                        <label class="radio-inline">
-                          <input type="radio" ng-model="field.required" ng-value="true"> Sim
-                        </label>
-
-                        <label class="radio-inline">
-                          <input type="radio" ng-model="field.required" ng-value="false"> Não
-                        </label>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-xs-6">
-                          <div class="form-group">
-                            <label>Min. de caracteres</label>
-                            <input type="number" class="form-control" ng-model="field.minimum" />
-                          </div>
-                        </div>
-
-                        <div class="col-xs-6">
-                          <div class="form-group">
-                            <label>Máx. de caracteres</label>
-                            <input type="number" class="form-control" ng-model="field.maximum" />
-                          </div>
+                      <div class="popover-content">
+                        <div class="row">
+                          <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
+                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
                         </div>
                       </div>
-
-                      <a href="" ng-click="popover.options = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
-
-                      <div class="clearfix"></div>
                     </div>
+
+                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
                   </div>
 
-                  <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
-                </div>
-              </div>
+                  <div class="option permissions">
+                    <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
+                      <div class="arrow"></div>
+                      <h3 class="popover-title">Permissões do campo {{ field.label }}</h3>
 
-              <div class="clearfix"></div>
+                      <div class="popover-content">
+                        <div class="form-group">
+                          <label>Grupos que podem visualizar:</label>
+
+                          <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_view" data-placeholder="Digite um grupo" multiple>
+                            <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Grupos que podem editar:</label>
+
+                          <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_edit" data-placeholder="Digite um grupo" multiple>
+                            <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                          </select>
+                        </div>
+
+                        <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+
+                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+                  </div>
+
+                  <div class="option edit">
+                    <div class="popover bottom" inventory-popover="options" ng-show="popover.options">
+                      <div class="arrow"></div>
+                      <h3 class="popover-title">Opções do campo {{ field.label }}</h3>
+
+                      <div class="popover-content">
+                        <div class="form-group">
+                          <label>Preenchimento requerido?</label>
+
+                          <br />
+
+                          <label class="radio-inline">
+                            <input type="radio" ng-model="field.required" ng-value="true"> Sim
+                          </label>
+
+                          <label class="radio-inline">
+                            <input type="radio" ng-model="field.required" ng-value="false"> Não
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <div class="form-group">
+                              <label>Min. de caracteres</label>
+                              <input type="number" class="form-control" ng-model="field.minimum" />
+                            </div>
+                          </div>
+
+                          <div class="col-xs-6">
+                            <div class="form-group">
+                              <label>Máx. de caracteres</label>
+                              <input type="number" class="form-control" ng-model="field.maximum" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <a href="" ng-click="popover.options = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+
+                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
+                  </div>
+                </div>
+
+                <div class="clearfix"></div>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
