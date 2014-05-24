@@ -1203,6 +1203,10 @@ p {
 
     .fields {
       margin: 40px 60px 60px;
+
+      .custom_size {
+        padding: 0px;
+      }
     }
 
     &.select_category {
