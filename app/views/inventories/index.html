@@ -26,18 +26,46 @@
         <a href="" ng-click="reload()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh"></i></a>
       </div>
 
-    <div class="simple_search">
-      <div class="col-xs-9 search_column1">
-        <span class="glyphicon glyphicon-search search_icon"></span>
-        <input type="text" placeholder="Busque pelo endereço" keyboard-poster="search" style="width: 80%;" />
+      <div class="advancedSearch" id="advancedSearch" ng-show="advancedSearch">
+        <div class="col-xs-9 search_column1">
+          <span class="glyphicon glyphicon-search search_icon"></span>
+          <input type="text" placeholder="Busque um filtro..." on-focus="show_availableFilters = true" on-blur="show_availableFilters = false" on-blur-delay="200" ng-model="filterQuery" style="width: 80%;" />
+
+          <div class="clearfix"></div>
+
+          <div class="availableFilters" ng-show="show_availableFilters">
+            <a href="" ng-click="loadFilter('query')">Protocolo ou endereço contém...</a>
+            <a href="" ng-click="loadFilter(filter.action)" ng-repeat="filter in availableFilters | filter:filterQuery">{{ filter.name }}</a>
+          </div>
+
+          <div class="advanced_filters_bar" ng-show="activeAdvancedFilters.length !== 0">
+            <div class="filter" ng-repeat="filter in activeAdvancedFilters"><b>{{ filter.title }}</b> {{ filter.desc }} <span class="glyphicon glyphicon-remove" ng-click="removeFilter(filter)"></span></div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <a href="" class="clear_filters" ng-show="activeAdvancedFilters.length !== 0" ng-click="resetFilters()"><span class="glyphicon glyphicon-remove"></span> Limpar todos os filtros</a>
+        </div>
+
+        <div class="col-xs-3 filter_change">
+          <a href="" ng-click="advancedSearch = false">Utilizar busca simples</a>
+        </div>
+
+        <div class="clearfix"></div>
       </div>
 
-      <div class="col-xs-3 filter_change">
-        <a href="">Utilizar busca avançada</a>
-      </div>
-    </div>
+      <div class="simple_search" ng-hide="advancedSearch">
+        <div class="col-xs-9 search_column1">
+          <span class="glyphicon glyphicon-search search_icon"></span>
+          <input type="text" placeholder="Busque pelo endereço" keyboard-poster="search" style="width: 80%;" />
+        </div>
 
-      <div class="simple_filters">
+        <div class="col-xs-3 filter_change">
+          <a href="" ng-click="advancedSearch = true">Utilizar busca avançada</a>
+        </div>
+      </div>
+
+      <div class="simple_filters" ng-hide="advancedSearch">
         <div class="col-xs-4">
           <div class="form-group">
             <label>Nas categorias</label>
@@ -81,7 +109,7 @@
         <div class="clearfix"></div>
       </div>
 
-      <table class="table custom_table inventories" infinite-scroll="getData(true)" infinite-scroll-distance="3">
+      <table class="table custom_table inventories" infinite-scroll="getData(true)" infinite-scroll-distance="3" ng-class="{'advanced-filters-margin': advancedSearch == true}" style-results-table>
         <thead>
           <tr>
             <td ng-click="changeSorting('title')"
