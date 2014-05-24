@@ -1523,6 +1523,19 @@ p {
         }
       }
     }
+
+    .empty_section {
+      width: 100%;
+      height: 50px;
+      display: table;
+      background: #FCF8F8;
+
+      p {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+      }
+    }
   }
 
   .simple_table {

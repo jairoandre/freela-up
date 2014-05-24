@@ -361,6 +361,17 @@ angular.module('zupPainelApp')
       });
     };
 
+    $scope.newSection = function() {
+      var newSection = {title: 'Nova seção sem título', required: false, location: false, fields: []};
+
+      $scope.category.sections.push(newSection);
+
+      // NO NO NO THIS WASNT SUPPOSE TO BE HERE :(:(::())) ILL CRY FOREVA
+      // PLS BE SMAR T AND PUT IN A DIRECTIVE
+      // PLS
+      $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+    };
+
     // we add a new status and open the edit modal
     $scope.newStatus = function() {
       var status = {title: 'Novo estado sem título', color: '#259ECB'};

@@ -128,6 +128,8 @@
           <div class="middle">
             <!-- text field -->
             <div droppable-inputs-area class="droppableInputsArea">
+              <div class="empty_section" ng-show="section.fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta seção</p></div>
+
               <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
                 <div class="type">
                   <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
@@ -340,7 +342,7 @@
     </div>
 
     <div class="right_column" inputs-sidebar>
-      <a class="btn btn-info btn-custom btn-block btn-lg-custom">+ Adicionar nova seção</a>
+      <a class="btn btn-info btn-custom btn-block btn-lg-custom" href="" ng-click="newSection()">+ Adicionar nova seção</a>
 
       <div class="inputs">
         <div class="info"><p>Arraste os campos que você deseja adicionar</p></div>
