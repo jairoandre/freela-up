@@ -38,12 +38,22 @@
     </div>
 
       <div class="simple_filters">
-        <div class="col-xs-8">
+        <div class="col-xs-4">
           <div class="form-group">
             <label>Nas categorias</label>
 
             <select class="multiple-select" ui-select2 ng-model="selectedCategories" data-placeholder="Digite uma categoria" multiple>
               <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.title }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label>Com status</label>
+
+            <select class="multiple-select" ui-select2 ng-model="selectedStatuses" data-placeholder="Digite um status" multiple>
+              <option ng-repeat="status in statuses" value="{{ status.id }}">{{ status.title }}</option>
             </select>
           </div>
         </div>

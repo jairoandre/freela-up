@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
   .directive('sortableSections', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         var updateSectionPosition = function() {
           element.find('.section').each(function() {
             $(this).scope().section.position = $(this).index();
@@ -25,9 +25,6 @@ angular.module('zupPainelApp')
             update: function() {
               return;
             }
-          },
-          update: function(event, ui) {
-            var newElementPos = $(ui.item).index();
           },
           start: function(event, ui) {
             $(ui.helper).addClass('helper');

@@ -19,6 +19,7 @@ angular.module('zupPainelApp')
     $scope.searchText = null;
   };
 
+  // sorting the tables
   $scope.sort = {
     column: '',
     descending: false

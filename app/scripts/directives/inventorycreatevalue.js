@@ -8,7 +8,7 @@ angular.module('zupPainelApp')
         var count = 1;
 
         scope.newValue = function() {
-          scope.field.available_values.push('Nova opção ' + count);
+          scope.field.available_values.push('Nova opção ' + count); // jshint ignore:line
 
           count++;
         };

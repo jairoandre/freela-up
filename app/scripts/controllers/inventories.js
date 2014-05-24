@@ -13,6 +13,7 @@ angular.module('zupPainelApp')
     $scope.beginDate = null;
     $scope.endDate = null;
 
+    // sorting the tables
     $scope.sort = {
       column: '',
       descending: false
