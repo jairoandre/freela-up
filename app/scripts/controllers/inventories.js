@@ -47,7 +47,8 @@ angular.module('zupPainelApp')
       {name: 'Com as categorias...', action: 'category'},
       {name: 'Com os estados...', action: 'status'},
       {name: 'Criado pelos munícipes...', action: 'author'},
-      {name: 'Por período...', action: 'date'}
+      {name: 'Por período...', action: 'date'},
+      {name: 'Por campos...', action: 'fields'}
     ];
 
     $scope.activeAdvancedFilters = [];
