@@ -87,13 +87,23 @@ angular.module('zupPainelApp', [
     .when('/reports', {
       templateUrl: 'views/reports/index.html',
       controller: 'ReportsCtrl',
+      resolve: {
+        'isMap': function() {
+          return false;
+        }
+      },
       access: {
         logged: true
       }
     })
     .when('/reports/map', {
       templateUrl: 'views/reports/map.html',
-      controller: 'ReportsMapCtrl',
+      controller: 'ReportsCtrl',
+      resolve: {
+        'isMap': function() {
+          return true;
+        }
+      },
       access: {
         logged: true
       }

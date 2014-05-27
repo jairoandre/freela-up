@@ -20,65 +20,43 @@
       <a href="#/reports/categories" class="btn btn-info btn-custom">Gerenciar categorias</a>
     </div>
 
-    <div class="simple_search">
-        <div class="col-md-5 search_column1">
-          <span class="glyphicon glyphicon-search search_icon"></span>
-          <input type="text" placeholder="Busque pelo endereço" style="width: 80%;" search-map />
+    <div class="advancedSearch" id="advancedSearch" ng-show="advancedSearch">
+      <div class="col-xs-9 search_column1">
+        <span class="glyphicon glyphicon-search search_icon"></span>
+        <input type="text" placeholder="Busque um filtro..." on-focus="show_availableFilters = true" on-blur="show_availableFilters = false" on-blur-delay="200" ng-model="filterQuery" style="width: 80%;" />
+
+        <div class="clearfix"></div>
+
+        <div class="availableFilters" ng-show="show_availableFilters">
+          <a href="" ng-click="loadFilter('query')">Protocolo ou endereço contém...</a>
+          <a href="" ng-click="loadFilter(filter.action)" ng-repeat="filter in availableFilters | filter:filterQuery">{{ filter.name }}</a>
         </div>
 
-        <!--<div class="col-md-7 filter_dropdown_c">
-          <div class="filter_dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Período <span class="pull-right"><span class="caret"></span></span>
-              </button>
+        <div class="advanced_filters_bar" ng-show="activeAdvancedFilters.length !== 0">
+          <div class="filter" ng-repeat="filter in activeAdvancedFilters"><b>{{ filter.title }}</b> {{ filter.desc }} <span class="glyphicon glyphicon-remove" ng-click="removeFilter(filter)"></span></div>
+        </div>
 
-              <ul class="dropdown-menu" role="menu">
-                <li ng-class="{active: periodPos == 4}"><a href="" ng-click="changeSelectedPeriod(4)">Última semana</a></li>
-                <li ng-class="{active: periodPos == 3}"><a href="" ng-click="changeSelectedPeriod(3)">Último mês</a></li>
-                <li ng-class="{active: periodPos == 2}"><a href="" ng-click="changeSelectedPeriod(2)">Últimos 3 meses</a></li>
-                <li ng-class="{active: periodPos == 1}"><a href="" ng-click="changeSelectedPeriod(1)">Últimos 6 meses</a></li>
+        <div class="clearfix"></div>
 
-                <li class="divider"></li>
+        <a href="" class="clear_filters" ng-show="activeAdvancedFilters.length !== 0" ng-click="resetFilters()"><span class="glyphicon glyphicon-remove"></span> Limpar todos os filtros</a>
+      </div>
 
-                <li ng-class="{active: periodPos == null}"><a href="" ng-click="changeSelectedPeriod(null)">Todos</a></li>
-              </ul>
-            </div>
-          </div>
+      <div class="col-xs-3 filter_change">
+        <a href="" ng-click="advancedSearch = false">Utilizar busca simples</a>
+      </div>
 
-          <div class="filter_dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Estado <span class="pull-right"><span class="caret"></span></span>
-              </button>
+      <div class="clearfix"></div>
+    </div>
 
-              <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="status in statuses" ng-class="{active: selectedStatus == status.id}"><a href="" ng-click="changeSelectedStatuses(status.id)">{{ status.title }}</a></li>
+    <div class="simple_search" ng-hide="advancedSearch">
+      <div class="col-xs-9 search_column1">
+        <span class="glyphicon glyphicon-search search_icon"></span>
+        <input type="text" placeholder="Busque pelo endereço" keyboard-poster="search" style="width: 80%;" />
+      </div>
 
-                <li class="divider"></li>
-
-                <li ng-class="{active: selectedStatus == null}"><a href="" ng-click="changeSelectedStatuses(null)">Todos</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="filter_dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Categorias <span class="pull-right"><span class="caret"></span></span>
-              </button>
-
-              <div class="dropdown-menu" role="menu" style="padding: 10px 16px 6px 16px;">
-                <div class="checkbox" ng-repeat="category in reportCategories" style="margin-top: 5px;">
-                  <label>
-                    <input type="checkbox" ng-checked="selectedCategories[category.id] == true" ng-click="changeSelectedCategories(category.id)">
-                    {{ category.title }}
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>-->
+      <div class="col-xs-3 filter_change">
+        <a href="" ng-click="advancedSearch = true">Utilizar busca avançada</a>
+      </div>
     </div>
 
     <div class="simple_filters" ng-hide="advancedSearch">

@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('ReportsCtrl', function ($scope, Restangular, $modal, $q) {
+.controller('ReportsCtrl', function ($scope, Restangular, $modal, $q, isMap) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total;
@@ -17,6 +17,10 @@ angular.module('zupPainelApp')
     $scope.beginDate = null;
     $scope.endDate = null;
     $scope.searchText = null;
+
+    // map options
+    $scope.position = null;
+    $scope.zoom = null;
   };
 
   // sorting the tables
@@ -99,6 +103,19 @@ angular.module('zupPainelApp')
       options.end_date = endDate.toISOString(); // jshint ignore:line
     }
 
+    // map options
+    if ($scope.position !== null)
+    {
+      options['position[latitude]'] = $scope.position.latitude;
+      options['position[longitude]'] = $scope.position.longitude;
+      options['position[distance]'] = $scope.position.distance;
+    }
+
+    if ($scope.zoom !== null)
+    {
+      options.zoom = $scope.zoom;
+    }
+
     return url.getList(options);
   };
 
@@ -106,10 +123,16 @@ angular.module('zupPainelApp')
   var categories = Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
 
   // One every change of page or search, we create generate a new request based on current values
-  var getData = $scope.getData = function(paginate) {
+  var getData = $scope.getData = function(paginate, mapOptions) {
     if ($scope.loadingPagination === false)
     {
       $scope.loadingPagination = true;
+
+      if (typeof mapOptions !== 'undefined')
+      {
+        $scope.position = mapOptions.position;
+        $scope.zoom = mapOptions.zoom;
+      }
 
       var reportsPromise = generateReportsPromise();
 
@@ -180,18 +203,25 @@ angular.module('zupPainelApp')
   });
 
   var loadFilters = $scope.reload = function() {
-    // reset pagination
-    page = 1;
-    $scope.loadingPagination = false;
+    if (!isMap)
+    {
+      // reset pagination
+      page = 1;
+      $scope.loadingPagination = false;
 
-    $scope.loadingContent = true;
-    $scope.reports = [];
+      $scope.loadingContent = true;
+      $scope.reports = [];
 
-    getData().then(function() {
-      $scope.loadingContent = false;
+      getData().then(function() {
+        $scope.loadingContent = false;
 
-      page++;
-    });
+        page++;
+      });
+    }
+    else
+    {
+      $scope.$broadcast('updateMap', true);
+    }
   };
 
   $scope.$watchCollection('[selectedCategories, selectedStatuses, beginDate, endDate]', function() {
@@ -585,146 +615,6 @@ angular.module('zupPainelApp')
   };
 })
 
-.controller('ReportsMapCtrl', function ($scope, $q, Restangular) {
-  $scope.loading = true;
-
-  $scope.selectedCategories = {};
-
-  var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList({display_type: 'full'}); // jshint ignore:line
-  var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({display_type: 'full'}); // jshint ignore:line
-
-  $q.all([inventoryCategoriesPromise, reportsCategoriesPromise]).then(function(responses) {
-    $scope.inventoryCategories = responses[0].data;
-    $scope.reportCategories = responses[1].data;
-
-    for (var i = $scope.reportCategories.length - 1; i >= 0; i--) {
-      $scope.selectedCategories[$scope.reportCategories[i].id] = true;
-    }
-
-    $scope.loading = false;
-  });
-
-  // create statuses array
-  reportsCategoriesPromise.then(function(response) {
-    $scope.statuses = [];
-
-    for (var b = response.data.length - 1; b >= 0; b--) {
-      $scope.selectedCategories[response.data[b].id] = true;
-    }
-
-    // merge all categories statuses in one array with no duplicates
-    for (var i = response.data.length - 1; i >= 0; i--) {
-      for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
-        var found = false;
-
-        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === response.data[i].statuses[j].id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
-        {
-          $scope.statuses.push(response.data[i].statuses[j]);
-        }
-      }
-    }
-  });
-
-  $scope.getInventoryCategory = function(id) {
-    for (var i = $scope.inventoryCategories.length - 1; i >= 0; i--) {
-      if ($scope.inventoryCategories[i].id === id)
-      {
-        return $scope.inventoryCategories[i];
-      }
-    }
-
-    return null;
-  };
-
-  $scope.getReportCategory = function(id) {
-    for (var i = $scope.reportCategories.length - 1; i >= 0; i--) {
-      if ($scope.reportCategories[i].id === id)
-      {
-        return $scope.reportCategories[i];
-      }
-    }
-
-    return null;
-  };
-
-  $scope.getItemsPeriodBySliderPosition = function(pos) {
-    // From 6 months ago to today
-    var beginDate;
-
-    if (pos === 1)
-    {
-      beginDate = new Date();
-      beginDate.setHours(0, 0, 0, 0);
-      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 6, 1);
-      beginDate = beginDate.toISOString();
-    }
-
-    // From 3 months ago to today
-    if (pos === 2)
-    {
-      beginDate = new Date();
-      beginDate.setHours(0, 0, 0, 0);
-      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 3, 1);
-      beginDate = beginDate.toISOString();
-    }
-
-    // From 1 month ago to today
-    if (pos === 3)
-    {
-      beginDate = new Date();
-      beginDate.setHours(0, 0, 0, 0);
-      beginDate = new Date(beginDate.getFullYear(), beginDate.getMonth() - 1, 1);
-      beginDate = beginDate.toISOString();
-    }
-
-    // From 1 week ago to today
-    if (pos === 4)
-    {
-      beginDate = new Date();
-      beginDate.setDate(beginDate.getDate() - 7);
-      beginDate = beginDate.toISOString();
-    }
-
-    var endDate = new Date();
-    endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000));
-    endDate = endDate.toISOString();
-
-    return {beginDate: beginDate, endDate: endDate};
-  };
-
-  $scope.changeSelectedCategories = function(id) {
-    if ($scope.selectedCategories[id] === true)
-    {
-      $scope.selectedCategories[id] = false;
-    }
-    else
-    {
-      $scope.selectedCategories[id] = true;
-    }
-
-    $scope.filterByReportCategory(id);
-  };
-
-  $scope.changeSelectedStatuses = function(id) {
-    $scope.selectedStatus = id;
-
-    $scope.filterReportsByStatus(id);
-  };
-
-  $scope.changeSelectedPeriod = function(pos) {
-    $scope.periodPos = pos;
-
-    $scope.filterReportsByPeriod($scope.getItemsPeriodBySliderPosition(pos));
-  };
-})
-
 .controller('ReportsCategoriesCtrl', function ($scope, Restangular, $modal) {
   $scope.loading = true;
 
@@ -785,7 +675,6 @@ angular.module('zupPainelApp')
 
     // find category
     for (var i = responses[1].data.length - 1; i >= 0; i--) {
-      console.log(responses[1].data[i].id, $routeParams.categoryId, 'types');
       if (responses[1].data[i].id.toString() === $routeParams.categoryId)
       {
         $scope.category = responses[1].data[i];

@@ -44,17 +44,9 @@ angular.module('zupPainelApp')
           hiddenInventoryCategories: [],
           infoWindow: new google.maps.InfoWindow(),
           currentReportFilterStatus: null,
-          beginDate: null,
-          endDate: null,
 
           start: function() {
             mapProvider.resize();
-
-            // set dates to first filter
-            var period = scope.getItemsPeriodBySliderPosition(1);
-
-            this.beginDate = period.beginDate;
-            this.endDate = period.endDate;
 
             // create map and set specific listeners
             this.createMap();
@@ -81,12 +73,16 @@ angular.module('zupPainelApp')
               mapProvider.boundsChanged();
             });
 
+            scope.$on('updateMap', function() {
+              mapProvider.boundsChanged(true);
+            });
+
             $(window).resize(function() {
               mapProvider.resize();
             });
           },
 
-          getReports: function(options) {
+          /*getReports: function(options) {
             var params = {
               'position[latitude]': options.center.lat(),
               'position[longitude]': options.center.lng(),
@@ -105,7 +101,7 @@ angular.module('zupPainelApp')
             var reportsData = Reports.getItems(params);
 
             return reportsData;
-          },
+          },*/
 
           boundsChanged: function(forceReset) {
             var clearLevels = false;
@@ -142,13 +138,13 @@ angular.module('zupPainelApp')
             scope.isLoadingItems = true;
 
             this.getNewItemsTimeout = $timeout(function() {
-              var reports = mapProvider.getReports({
-                center: mapProvider.map.getCenter(),
-                distance: mapProvider.getDistance(),
+              var reports = scope.getData(false, {
+                position: {'latitude': mapProvider.map.getCenter().lat(), 'longitude': mapProvider.map.getCenter().lng(), 'distance': mapProvider.getDistance()},
+                zoom: mapProvider.map.getZoom(),
                 limit: 100
               });
 
-              $q.all([reports.$promise]).then(function(values) {
+              reports.then(function(response) {
                 scope.isLoadingItems = false;
 
                 if (forceReset === true)
@@ -162,8 +158,8 @@ angular.module('zupPainelApp')
                 }
 
                 // add reports
-                for (var i = values[0].reports.length - 1; i >= 0; i--) {
-                  mapProvider.addMarker(values[0].reports[i], mapProvider.doAnimation, 'report');
+                for (var i = response.data.length - 1; i >= 0; i--) {
+                  mapProvider.addMarker(response.data[i], mapProvider.doAnimation, 'report');
                 }
 
                 // after first request we will deactive animation
@@ -304,83 +300,13 @@ angular.module('zupPainelApp')
             var dis = google.maps.geometry.spherical.computeDistanceBetween(center, ne);
 
             return dis;
-          },
-
-          filterReportsByStatus: function(statusId) {
-            // set status id
-            mapProvider.currentReportFilterStatus = scope.activeStatus = statusId;
-
-            // force reload, now requests will search with the category id
-            mapProvider.boundsChanged(true);
-          },
-
-          filterReportsByPeriod: function(period) {
-            mapProvider.beginDate = period.beginDate;
-            mapProvider.endDate = period.endDate;
-
-            mapProvider.boundsChanged(true);
-          },
-
-          filterOneCategory: function(inventoryId) {
-            for (var i = scope.inventoryCategories.length - 1; i >= 0; i--) {
-              if (scope.inventoryCategories[i].id === inventoryId)
-              {
-                mapProvider.filterItems(inventoryId);
-              }
-              else
-              {
-                if (!~mapProvider.hiddenInventoryCategories.indexOf(scope.inventoryCategories[i].id)) // jshint ignore:line
-                {
-                  mapProvider.filterItems(scope.inventoryCategories[i].id);
-                }
-              }
-            }
-          },
-
-          filterReports: function(reportCategoryId) {
-            var pos = mapProvider.hiddenReportsCategories.indexOf(reportCategoryId);
-
-            if (~pos) // jshint ignore:line
-            {
-              mapProvider.toggleReportCategoryVisibility(reportCategoryId, 'show');
-              mapProvider.hiddenReportsCategories.splice(pos, 1);
-            }
-            else
-            {
-              mapProvider.toggleReportCategoryVisibility(reportCategoryId, 'hide');
-              mapProvider.hiddenReportsCategories.push(reportCategoryId);
-            }
-          },
-
-          toggleReportCategoryVisibility: function(reportCategoryId, action) {
-            angular.forEach(mapProvider.zoomLevels, function(zoomLevel) {
-              angular.forEach(zoomLevel, function(marker) {
-                if (marker.item.category_id === reportCategoryId) // jshint ignore:line
-                {
-                  if (action === 'show')
-                  {
-                    marker.setVisible(true);
-                  }
-
-                  if (action === 'hide')
-                  {
-                    marker.setVisible(false);
-                  }
-                }
-              });
-            });
-          },
+          }
         };
 
         mapProvider.start();
 
         // bind to scope
         scope.map = mapProvider.map;
-        scope.filterItemsByInventoryId = mapProvider.filterOneCategory;
-        scope.filterByReportCategory = mapProvider.filterReports;
-        scope.filterReportsByStatus = mapProvider.filterReportsByStatus;
-        scope.activeStatus = mapProvider.currentReportFilterStatus;
-        scope.filterReportsByPeriod = mapProvider.filterReportsByPeriod;
       }
     };
   });
