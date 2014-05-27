@@ -22,10 +22,10 @@
 
       <div class="content">
 
-        <div ng-repeat="section in category.sections">
+        <div ng-repeat="section in category.sections | orderBy:'position'">
           <h3>{{ section.title }}</h3>
 
-          <div ng-repeat="field in section.fields">
+          <div ng-repeat="field in section.fields | orderBy:'position'">
               <h5 ng-show="field.label !== null">{{ field.label }}</h5>
               <h5 ng-show="field.label == null">{{ field.title }}</h5>
 
