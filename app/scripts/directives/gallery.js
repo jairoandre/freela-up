@@ -29,7 +29,10 @@ angular.module('zupPainelApp')
               };
 
               $scope.source = function (img) {
-                if (typeof img !== 'undefined') return img[$scope.path];
+                if (typeof img !== 'undefined')
+                {
+                  return img[$scope.path];
+                }
 
                 return '';
               };
