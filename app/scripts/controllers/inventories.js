@@ -16,6 +16,10 @@ angular.module('zupPainelApp')
       $scope.beginDate = null;
       $scope.endDate = null;
       $scope.searchText = null;
+
+      // map options
+      $scope.position = null;
+      $scope.zoom = null;
     };
 
     // sorting the tables
@@ -54,7 +58,7 @@ angular.module('zupPainelApp')
     $scope.activeAdvancedFilters = [];
 
     // Return right promise
-    var generateItemsPromise = function(searchText) {
+    var generateItemsPromise = function() {
       var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage }; // jshint ignore:line
 
       // if we searching, hit search/users
@@ -93,6 +97,19 @@ angular.module('zupPainelApp')
         var endDate = new Date($scope.endDate);
 
         options['created_at[end]'] = endDate.toISOString();
+      }
+
+      // map options
+      if ($scope.position !== null)
+      {
+        options['position[latitude]'] = $scope.position.latitude;
+        options['position[longitude]'] = $scope.position.longitude;
+        options['position[distance]'] = $scope.position.distance;
+      }
+
+      if ($scope.zoom !== null)
+      {
+        options.zoom = $scope.zoom;
       }
 
       return url.getList(options);
@@ -151,24 +168,26 @@ angular.module('zupPainelApp')
       }
     };
 
-    if (isMap === true)
-    {
-      getData();
-    }
-
     var loadFilters = $scope.reload = function() {
-      // reset pagination
-      page = 1;
-      $scope.loadingPagination = false;
+      if (!isMap)
+      {
+        // reset pagination
+        page = 1;
+        $scope.loadingPagination = false;
 
-      $scope.loadingContent = true;
-      $scope.items = [];
+        $scope.loadingContent = true;
+        $scope.items = [];
 
-      getData().then(function() {
-        $scope.loadingContent = false;
+        getData().then(function() {
+          $scope.loadingContent = false;
 
-        page++;
-      });
+          page++;
+        });
+      }
+      else
+      {
+        $scope.$broadcast('updateMap', true);
+      }
     };
 
     $scope.$watchCollection('[selectedCategories, selectedStatuses, beginDate, endDate]', function() {
