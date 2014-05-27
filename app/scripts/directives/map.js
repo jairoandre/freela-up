@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('mapReports', function (Reports, $compile, $timeout, Inventories, $q) {
+  .directive('map', function ($compile, $timeout) {
     return {
       restrict: 'A',
-      link: function postLink(scope, element) {
+      link: function postLink(scope, element, attrs) {
         var mapProvider = {
           options:
           {
@@ -82,27 +82,6 @@ angular.module('zupPainelApp')
             });
           },
 
-          /*getReports: function(options) {
-            var params = {
-              'position[latitude]': options.center.lat(),
-              'position[longitude]': options.center.lng(),
-              'position[distance]': options.distance,
-              'limit': 80,
-              'zoom': mapProvider.map.getZoom(),
-              'begin_date': mapProvider.beginDate,
-              'end_date': mapProvider.endDate
-            };
-
-            if (mapProvider.currentReportFilterStatus !== null)
-            {
-              params.statuses = mapProvider.currentReportFilterStatus;
-            }
-
-            var reportsData = Reports.getItems(params);
-
-            return reportsData;
-          },*/
-
           boundsChanged: function(forceReset) {
             var clearLevels = false;
 
@@ -138,13 +117,13 @@ angular.module('zupPainelApp')
             scope.isLoadingItems = true;
 
             this.getNewItemsTimeout = $timeout(function() {
-              var reports = scope.getData(false, {
+              var items = scope.getData(false, {
                 position: {'latitude': mapProvider.map.getCenter().lat(), 'longitude': mapProvider.map.getCenter().lng(), 'distance': mapProvider.getDistance()},
                 zoom: mapProvider.map.getZoom(),
                 limit: 100
               });
 
-              reports.then(function(response) {
+              items.then(function(response) {
                 scope.isLoadingItems = false;
 
                 if (forceReset === true)
@@ -157,9 +136,9 @@ angular.module('zupPainelApp')
                   mapProvider.hideAllMarkersFromInactiveLevels();
                 }
 
-                // add reports
+                // add item
                 for (var i = response.data.length - 1; i >= 0; i--) {
-                  mapProvider.addMarker(response.data[i], mapProvider.doAnimation, 'report');
+                  mapProvider.addMarker(response.data[i], mapProvider.doAnimation);
                 }
 
                 // after first request we will deactive animation
@@ -183,9 +162,14 @@ angular.module('zupPainelApp')
               {
                 var pos;
 
-                if (marker.type === 'report')
+                if (attrs.mapCategory === 'report')
                 {
                   pos = mapProvider.hiddenReportsCategories.indexOf(marker.item.category_id); // jshint ignore:line
+                }
+
+                if (attrs.mapCategory === 'inventory')
+                {
+                  pos = mapProvider.hiddenInventoryCategories.indexOf(marker.item.inventory_category_id); // jshint ignore:line
                 }
 
                 if (!~pos) // jshint ignore:line
@@ -228,23 +212,32 @@ angular.module('zupPainelApp')
 
               var infowindow = mapProvider.infoWindow;
 
-              var category, iconSize, viewAction, itemType, visibility = false;
+              var category, iconSize, viewAction, visibility = false;
 
-              category = scope.getReportCategory(item.category_id); // jshint ignore:line
-              iconSize = new google.maps.Size(54, 51);
-              viewAction = scope.viewReport;
-              itemType = 'report';
-
-              var pos = mapProvider.hiddenReportsCategories.indexOf(item.category_id); // jshint ignore:line
-
-              if (!~pos) // jshint ignore:line
+              if (attrs.mapCategory === 'report')
               {
-                visibility = true;
+                category = scope.getReportCategory(item.category_id); // jshint ignore:line
+                iconSize = new google.maps.Size(54, 51);
+
+                var pos = mapProvider.hiddenReportsCategories.indexOf(item.category_id); // jshint ignore:line
+
+                if (!~pos) // jshint ignore:line
+                {
+                  visibility = true;
+                }
               }
-
-              if (item.inventory_item_id !== null) // jshint ignore:line
+              else
               {
-                viewAction = scope.viewItemWithReports;
+                category = scope.getInventoryCategory(item.inventory_category_id); // jshint ignore:line
+                //iconSize = new google.maps.Size(15, 15);
+                iconSize = new google.maps.Size(54, 51);
+
+                var pos = mapProvider.hiddenInventoryCategories.indexOf(item.inventory_category_id); // jshint ignore:line
+
+                if (!~pos) // jshint ignore:line
+                {
+                  visibility = true;
+                }
               }
 
               var categoryIcon = new google.maps.MarkerImage(category.marker.retina.web, null, null, null, iconSize);
@@ -255,7 +248,6 @@ angular.module('zupPainelApp')
                 icon: categoryIcon,
                 category: category,
                 item: item,
-                type: itemType
               };
 
               if (typeof effect !== 'undefined' && effect === true)
@@ -273,7 +265,16 @@ angular.module('zupPainelApp')
               this.zoomLevels[this.map.getZoom()][type + '_' + item.id] = pin;
 
               google.maps.event.addListener(pin, 'click', function() {
-                var html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/categories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
+                var html;
+
+                if (attrs.mapCategory === 'report')
+                {
+                  html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/categories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
+                }
+                else
+                {
+                  html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/inventories/categories/{{ category.id }}/item/{{ item.id }}">Ver detalhes</a></div>';
+                }
 
                 var newScope = scope.$new(true);
 
