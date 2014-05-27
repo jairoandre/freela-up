@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div class="rounder_wrapper" ng-repeat="section in category.sections">
+      <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'">
         <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
 
         <div class="fields">
