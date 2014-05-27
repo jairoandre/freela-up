@@ -168,6 +168,30 @@ angular.module('zupPainelApp')
       }
     };
 
+    // create statuses array
+    categories.then(function(response) {
+      $scope.statuses = [];
+
+      // merge all categories statuses in one array with no duplicates
+      for (var i = response.data.length - 1; i >= 0; i--) {
+        for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
+          var found = false;
+
+          for (var k = $scope.statuses.length - 1; k >= 0; k--) {
+            if ($scope.statuses[k].id === response.data[i].statuses[j].id)
+            {
+              found = true;
+            }
+          }
+
+          if (!found)
+          {
+            $scope.statuses.push(response.data[i].statuses[j]);
+          }
+        }
+      }
+    });
+
     var loadFilters = $scope.reload = function() {
       if (!isMap)
       {
@@ -792,6 +816,8 @@ angular.module('zupPainelApp')
     $scope.imagesFieldId = null;
     var latLngIds = $scope.latLngIds = [];
 
+    $scope.item = {inventory_status_id: null};
+
     var uploader = $scope.uploader = $fileUploader.create({
       scope: $scope
     });
@@ -824,8 +850,11 @@ angular.module('zupPainelApp')
 
               // we leave all the options checked as blank
               /* jshint ignore:start */
-              for (var b = section.fields[j].available_values.length - 1; b >= 0; b--) {
-                optionsObj[section.fields[j].available_values[b]] = false;
+              if (section.fields[j].available_values !== null)
+              {
+                for (var b = section.fields[j].available_values.length - 1; b >= 0; b--) {
+                  optionsObj[section.fields[j].available_values[b]] = false;
+                }
               }
               /* jshint ignore:end */
 
@@ -866,7 +895,8 @@ angular.module('zupPainelApp')
 
         var getDataByInventoryFieldId = function(id) {
           for (var i = $scope.item.data.length - 1; i >= 0; i--) {
-            if ($scope.item.data[i].inventory_field_id == id) // jshint ignore:line
+
+            if ($scope.item.data[i].field.id == id) // jshint ignore:line
             {
               return $scope.item.data[i].content;
             }
@@ -973,7 +1003,7 @@ angular.module('zupPainelApp')
       }
 
       $q.all(promises).then(function() {
-        var formattedData = {data: {}};
+        var formattedData = {inventory_status_id: $scope.item.inventory_status_id, data: {}}; // jshint ignore:line
 
         // we need to format our data
         for (var x in itemData)

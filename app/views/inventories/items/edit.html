@@ -25,6 +25,23 @@
         </div>
       </div>
 
+      <div class="rounder_wrapper">
+        <div class="title"><h1>Status de item *</h1></div>
+
+        <div class="fields">
+          <div class="form-group">
+            <div>
+              <div class="radio" ng-repeat="status in category.statuses">
+                <label>
+                  <input type="radio" ng-model="item.inventory_status_id" ng-value="status.id">
+                  {{ status.title }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="rounder_wrapper" ng-repeat="section in category.sections">
         <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
 
