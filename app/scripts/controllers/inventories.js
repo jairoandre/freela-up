@@ -1084,7 +1084,7 @@ angular.module('zupPainelApp')
 
     $scope.getDataByInventoryFieldId = function(id) {
       for (var i = $scope.item.data.length - 1; i >= 0; i--) {
-        if ($scope.item.data[i].inventory_field_id === id) // jshint ignore:line
+        if ($scope.item.data[i].field.id === id) // jshint ignore:line
         {
           return $scope.item.data[i].content;
         }
