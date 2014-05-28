@@ -16,6 +16,7 @@ angular.module('zupPainelApp')
       $scope.beginDate = null;
       $scope.endDate = null;
       $scope.searchText = null;
+      $scope.fields = null;
 
       // map options
       $scope.position = null;
@@ -76,7 +77,7 @@ angular.module('zupPainelApp')
       // check if we have statuses selected
       if ($scope.selectedStatuses.length !== 0)
       {
-        options.statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
+        options.inventory_statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
@@ -97,6 +98,16 @@ angular.module('zupPainelApp')
         var endDate = new Date($scope.endDate);
 
         options['created_at[end]'] = endDate.toISOString();
+      }
+
+      // fields
+      if ($scope.fields !== null)
+      {
+        for (var i = $scope.fields.length - 1; i >= 0; i--) {
+          var key = 'fields[' + $scope.fields[i].id + '][' + $scope.fields[i].condition + ']';
+
+          options[key] = $scope.fields[i].value;
+        };
       }
 
       // map options
@@ -252,6 +263,11 @@ angular.module('zupPainelApp')
           if (filter.type === 'authors')
           {
             $scope.selectedUsers = filter.value;
+          }
+
+          if (filter.type === 'fields')
+          {
+            $scope.fields = filter.value;
           }
         }
 
@@ -492,6 +508,59 @@ angular.module('zupPainelApp')
       });
     };
 
+    var advancedFilterFields = function() {
+      $modal.open({
+        templateUrl: 'views/inventories/filters/fields.html',
+        windowClass: 'fieldsCategoriesModal',
+        resolve: {
+          categories: function() {
+            return $scope.categories;
+          },
+
+          activeAdvancedFilters: function() {
+            return $scope.activeAdvancedFilters;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'categories', 'activeAdvancedFilters', function($scope, $modalInstance, categories, activeAdvancedFilters) {
+          $scope.categories = categories;
+          $scope.activeAdvancedFilters = activeAdvancedFilters;
+
+          $scope.methods = [
+            { condition: 'greater_than', text: 'Maior que' },
+            { condition: 'lesser_than', text: 'Menor' },
+            { condition: 'equal_to', text: 'Igual a' },
+            { condition: 'different', text: 'Diferente de' },
+            { condition: 'like', text: 'Parecido com' },
+            { condition: 'includes', text: 'Inclui' },
+            { condition: 'excludes', text: 'Não inclui' },
+          ];
+
+          $scope.newField = {
+            currentCategory: null,
+            currentMethod: null
+          };
+
+          $scope.selectCategory = function(category) {
+            $scope.newField.currentCategory = category;
+          };
+
+          $scope.selectMethod = function(method) {
+            $scope.newField.currentMethod = method;
+          };
+
+          $scope.fields = [{id: 128, condition: 'equal_to', value: 10}, {id: 133, condition: 'equal_to', value: 11}];
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    };
+
+    /*setTimeout(function() {
+      advancedFilterFields();
+    }, 2000);*/
+
     $scope.loadFilter = function(status) {
       if (status === 'query')
       {
@@ -511,6 +580,11 @@ angular.module('zupPainelApp')
       if (status === 'author')
       {
         advancedFilterAuthor();
+      }
+
+      if (status === 'fields')
+      {
+        advancedFilterFields();
       }
     };
 

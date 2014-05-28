@@ -1834,6 +1834,50 @@ p {
   }
 }
 
+.fieldsCategoriesModal {
+  .modal-dialog {
+    width: 700px;
+  }
+
+  .modal-body {
+    padding: 0px;
+  }
+
+  .new_field {
+    background: #F2F2F2;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 15px 15px;
+
+    .btn-group-block {
+      width: 100%;
+    }
+
+    .btn-block {
+      width: 100%;
+      text-align: left;
+      padding-left: 7px;
+
+      .caret {
+        text-align: right;
+      }
+    }
+
+    .row {
+      margin-top: 10px;
+      padding: 0 8px 0 8px;
+
+      &.disabled {
+        opacity: 0.6;
+      }
+
+      .col {
+        padding-right: 7px;
+        padding-left: 7px;
+      }
+    }
+  }
+}
+
 .filterCategoriesModal, .filterStatusesModal, .filterAuthorModal {
   .modal-dialog {
     width: 500px;
