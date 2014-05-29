@@ -579,6 +579,20 @@ p {
         .name {
           display: block;
         }
+        &.versions {
+          margin-top: 74px;
+          .secondLevel {
+            background: #F0F0F0;
+            .indicator {
+              display: inline-block;
+              margin-left: 20px;
+              width: 9px;
+              height: 9px;
+              background: url(../images/sub_tag.png);
+              margin-right: 5px;
+            }
+          }
+        }
       }
       &.custom_table {
         a {
@@ -2982,7 +2996,7 @@ colorpicker-preview {
   }
 }
 
-.flow-tab {
+.flow-links {
   width: 80%;
   height: 80px;
   top: 129px;
@@ -3011,48 +3025,34 @@ colorpicker-preview {
   }
 }
 
-.flow-form {
+.steps {
+  border-bottom: 1px solid #CCC;
+  margin-top: 69px;
+}
+
+.steps-footer {
+  padding-left: 20px;
+  margin-bottom: 70px;
+}
+
+.permissions-form {
   width: 70%;
   padding: 30px;
   margin-top: 68px;
 }
 
-.flow-table {
-  border-bottom: 1px solid #CCC;
-  margin-top: 69px;
-}
-
-.flow-version-table {
-  margin-top: 74px;
-  .secondLevel {
-    background: #F0F0F0;
-    .indicator {
-      display: inline-block;
-      margin-left: 20px;
-      width: 9px;
-      height: 9px;
-      background: url(../images/sub_tag.png);
-      margin-right: 5px;
-    }
-  }
-}
-
-.flow-footer {
-  padding-left: 20px;
-  margin-bottom: 70px;
-}
-
-.number-version,
-.arrow-version {
+/* Arrow icon */
+.number_icon,
+.arrow_icon {
   display: block;
   float: left;
 }
 
-.number-version {
+.number_icon {
   font-size: 20px;
 }
 
-.arrow-version {
+.arrow_icon {
   width: 24px;
   height: 24px;
   margin-left: 9px;
@@ -3077,10 +3077,13 @@ colorpicker-preview {
 
 .active-version {
   color: #969696;
-  .arrow-version {
+  &:hover {
+    color: #969696;
+  }
+  .arrow_icon {
     border: 3px solid #969696;
     &:after {
-      top: -2px;
+      top: -3px;
       left: 3px;
       content: "\e113";
     }
@@ -3371,7 +3374,7 @@ colorpicker-preview {
         .right-link {
           float: right;
         }
-        .arrow-version {
+        .arrow_icon {
           width: 26px;
           height: 26px;
           border-radius: 13px;
@@ -3384,7 +3387,7 @@ colorpicker-preview {
       }
       &.active {
         background: #FFF;
-        .arrow-version {
+        .arrow_icon {
           &:after {
             top: -13px;
             left: 4px;
