@@ -1166,6 +1166,12 @@ p {
         color: #333;
       }
     }
+    &.edit {
+      width: 100%;
+      a {
+        width: 33.2% !important;
+      }
+    }
   }
 
   .big_content {
@@ -3159,7 +3165,11 @@ colorpicker-preview {
   top: 0;
 }
 
-.full-permission {
+.edit-form {
+  padding-bottom: 200px;
+}
+
+.edit-permissions {
   background: #FFF;
   padding: 0 50px 100px 50px;
   h3 {
@@ -3184,13 +3194,6 @@ colorpicker-preview {
         }
       }
     }
-  }
-}
-
-.step-tab {
-  width: 100%;
-  a {
-    width: 33.2% !important;
   }
 }
 
@@ -3325,11 +3328,11 @@ colorpicker-preview {
   }
 }
 
-.trigger-full {
+.edit-triggers {
   width: 100%;
   padding: 2%;
   background: #FFF;
-  .trigger-header {
+  .edit-triggers-header {
     width: 100%;
     padding-bottom: 30px;
     border-bottom: 1px solid #E1E1E1;
@@ -3348,40 +3351,45 @@ colorpicker-preview {
     list-style: none;
     padding: 0;
     margin-top: 20px;
-    .triggers {
+    .list-triggers-item {
       width: 100%;
       background: #F0F0F0;
       border: 1px solid #E1E1E1;
       border-radius: 4px;
       margin-bottom: 10px;
-      .content-trigger {
-        padding: 18px 19px;
-      }
-      p {
-        float: left;
-        font-size: 24px;
-        font-weight: bold;
-        margin: 0;
-      }
-      .actions {
-        width: 112px;
-        float: right;
-        font-size: 24px;
-        font-weight: bold;
-        .middle-link {
-          margin-left: 15px;
+      .item-content {
+        padding: 13px 19px;
+        p {
+          float: left;
+          font-size: 20px;
+          font-weight: bold;
+          margin: 4px 0 0 0;
+          color: #333;
         }
-        .right-link {
+        .actions {
+          width: 112px;
           float: right;
-        }
-        .arrow_icon {
-          width: 26px;
-          height: 26px;
-          border-radius: 13px;
-          &:after {
-            top: -11px;
-            left: 3px;
-            font-size: 13px;
+          font-size: 24px;
+          font-weight: bold;
+          .glyphicon {
+            font-size: 22px;
+          }
+          .middle-link {
+            margin-left: 18px;
+          }
+          .right-link {
+            float: right;
+            margin-top: 3px;
+          }
+          .arrow_icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 100%;
+            &:after {
+              top: -14px;
+              left: 2px;
+              font-size: 11px;
+            }
           }
         }
       }
@@ -3389,14 +3397,14 @@ colorpicker-preview {
         background: #FFF;
         .arrow_icon {
           &:after {
-            top: -13px;
-            left: 4px;
+            top: -16px;
+            left: 3px;
             content: "\e113";
           }
         }
       }
     }
-    .trigger-conditions {
+    .item-conditions {
       h3 {
         width: 100%;
         background: #F0F0F0;
@@ -3409,7 +3417,7 @@ colorpicker-preview {
         padding: 18px 19px;
       }
     }
-    .trigger-table {
+    .item-table {
       width: 100%;
       thead {
         background: #F0F0F0;
