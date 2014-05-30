@@ -3442,6 +3442,16 @@ colorpicker-preview {
       h3, form {
         padding: 18px 19px;
       }
+      .form-group {
+        width: 60%;
+        .item-conditions-content {
+          float: left;
+          width: 49%;
+          &.content-first {
+            margin-right: 2%;
+          }
+        }
+      }
     }
     .item-table {
       width: 100%;
@@ -3464,5 +3474,56 @@ colorpicker-preview {
         }
       }
     }
+  }
+}
+
+/* Select Trigger */
+.select-trigger {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  width: 100%;
+  &:after {
+    font-family: 'Glyphicons Halflings';
+    position: absolute;
+    top: 50%;
+    right: 1.25rem;
+    display: inline-block;
+    content: "";
+    width: 0;
+    height: 0;
+    margin-top: -.15rem;
+    pointer-events: none;
+    border-top: 6px solid;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid transparent;
+  }
+  select {
+    cursor: pointer;
+    outline: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}
+
+/* Hide the arrow in IE10 and up */
+.select-trigger select::-ms-expand {
+  display: none;
+}
+
+/* Media query to target Firefox only */
+@-moz-document url-prefix() {
+  /* Firefox hack to hide the arrow */
+  .select-trigger select {
+    text-indent: 0.01px;
+    text-overflow: '';
+    padding-right: 1rem;
+  }
+
+  /* <option> elements inherit styles from <select>, so reset them. */
+  .select option {
+    background-color: white;
   }
 }

@@ -124,19 +124,21 @@
             <tbody>
               <tr>
                 <td>
-                  <select class="form-control">
-                    <option>Distância máxima até a central</option>
-                  </select>
+                  <label class="select-trigger">
+                    <select class="form-control">
+                      <option>Distância máxima até a central</option>
+                    </select>
+                  </label>
                 </td>
                 <td>
-                  <select class="form-control">
-                    <option>Maior</option>
-                  </select>
+                  <label class="select-trigger">
+                    <select class="form-control">
+                      <option>Maior</option>
+                    </select>
+                  </label>
                 </td>
                 <td>
-                  <select class="form-control">
-                    <option>3500</option>
-                  </select>
+                  <input type="text" class="form-control" value="3500">
                 </td>
                 <td class="remove-condition">
                   <button type="button" class="remove" ng-click="remove_status = true">x</button>
@@ -144,19 +146,21 @@
               </tr>
               <tr>
                 <td>
-                  <select class="form-control">
-                    <option>Inclinação</option>
-                  </select>
+                  <label class="select-trigger">
+                    <select class="form-control">
+                      <option>Inclinação</option>
+                    </select>
+                  </label>
                 </td>
                 <td>
-                  <select class="form-control">
-                    <option>Menor</option>
-                  </select>
+                  <label class="select-trigger">
+                    <select class="form-control">
+                      <option>Menor</option>
+                    </select>
+                  </label>
                 </td>
                 <td>
-                  <select class="form-control">
-                    <option>45</option>
-                  </select>
+                  <input type="text" class="form-control" value="45">
                 </td>
                 <td class="remove-condition">
                   <button type="button" class="remove" ng-click="remove_status = true">x</button>
@@ -173,21 +177,25 @@
           <div class="item-conditions">
             <h3>Caso as condições sejam verdadeiras</h3>
             <form action="">
-              <div class="form-group clearfix" style="width: 60%;">
-                <div style="float: left; width: 49%; margin-right: 2%;">
+              <div class="form-group clearfix">
+                <div class="item-conditions-content content-first">
                   <label for="">Selecione uma ação</label>
-                  <select class="form-control">
-                    <option>Finalizar caso</option>
-                  </select>
+                  <label class="select-trigger">
+                    <select class="form-control">
+                      <option>Finalizar caso</option>
+                    </select>
+                  </label>
                 </div>
-                <div style="float: left; width: 49%;">
+                <div class="item-conditions-content">
                   <label for="">Alterar estado de resolução para</label>
-                  <select class="form-control">
-                    <option>Impossibilidade técnica</option>
-                  </select>
+                  <label class="select-trigger">
+                    <select class="form-control">
+                      <option>Impossibilidade técnica</option>
+                    </select>
+                  </label>
                 </div>
               </div>
-              <div class="form-group" style="width: 60%;">
+              <div class="form-group">
                 <label for="">Descrição</label>
                 <textarea class="form-control" rows="4" placeholder="Caso finalizado devido a impossibilidade técnica"></textarea>
               </div>
