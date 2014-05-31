@@ -3248,6 +3248,21 @@ colorpicker-preview {
         margin-bottom: 10px;
         .label-choice:before {
           top: 0;
+          width: 18px;
+          height: 18px;
+          color: #1693C6;
+          font-size: 14px;
+          text-align: center;
+          background-color: #FFF;
+          border: 1px solid #b4b4b4;
+          border-radius: 2px;
+        }
+        .input-choice:checked + .label-choice:before {
+          font-family: 'Glyphicons Halflings';
+          font-size: 10px;
+          font-weight: normal;
+          content: "\e013";
+          background-color: #F2F2F2;
         }
         a {
           font-weight: bold;
