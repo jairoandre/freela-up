@@ -128,7 +128,7 @@
           </tr>
         </thead>
 
-        <tr ng-repeat="item in items | orderBy:sort.column:sort.descending">">
+        <tr ng-repeat="item in items | orderBy:sort.column:sort.descending">
           <td>
             <a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}">{{ item.title }}</a>
           </td>
