@@ -4,15 +4,15 @@
 </div>
 
 <div class="modal-body">
-  <div style="padding: 15px; border-bottom: 1px solid #e5e5e5;">
+  <div class="modal-flow">
     <form action="">
       <div class="form-group">
-        <label style="display: block;">Nome do Fluxo</label>
-        <input type="text" class="form-control" placeholder="Nome de um fluxo" style="width: 80%">
+        <label>Nome do Fluxo</label>
+        <input type="text" class="form-control" placeholder="Nome de um fluxo">
       </div>
       <div class="form-group">
-        <label style="display: block;">Descrição</label>
-        <textarea class="form-control" rows="4" placeholder="Cadastro e informações sobre aquisição de um novo cliente" style="width: 80%"></textarea>
+        <label>Descrição</label>
+        <textarea class="form-control" rows="4" placeholder="Cadastro e informações sobre aquisição de um novo cliente"></textarea>
       </div>
      <div class="form-group">
         <label>Este é um fluxo inicial?</label>
@@ -28,8 +28,8 @@
      </div>
     </form>
   </div>
-  <div>
-    <h4 class="modal-title" style="padding: 15px">Estados de resolução</h4>
+  <div class="modal-flow-choice">
+    <h4 class="modal-title">Estados de resolução</h4>
     <div class="new-status">
       <form ng-submit="createStatus()">
         <div class="row">
@@ -47,7 +47,7 @@
     <table>
       <thead>
         <tr>
-          <td style="text-align: left; width: 60%;">Nome do estado</td>
+          <td class="first-td" width="60%">Nome do estado</td>
           <td>Estado padrão</td>
           <td>Remover</td>
         </tr>
@@ -55,7 +55,7 @@
 
       <tbody>
         <tr>
-          <td style="text-align: left;">
+          <td class="first-td">
             <a href="" class="edit_title" ng-click="edit_title = true">Em aberto</a>
             <div class="edit_status_title" ng-show="edit_title">
               <input type="text" value="Em aberto" />
@@ -82,7 +82,7 @@
           </td>
         </tr>
         <tr>
-          <td style="text-align: left;">
+          <td class="first-td">
             <a href="" class="edit_title" ng-click="edit_title = true">Em andamento</a>
             <div class="edit_status_title" ng-show="edit_title">
               <input type="text" value="Em andamento" />
@@ -109,7 +109,7 @@
           </td>
         </tr>
         <tr>
-          <td style="text-align: left;">
+          <td class="first-td">
             <a href="" class="edit_title" ng-click="edit_title = true">Resolvido</a>
             <div class="edit_status_title" ng-show="edit_title">
               <input type="text" value="Resolvido" />
@@ -136,7 +136,7 @@
           </td>
         </tr>
         <tr>
-          <td style="text-align: left;">
+          <td class="first-td">
             <a href="" class="edit_title" ng-click="edit_title = true">Não resolvido</a>
             <div class="edit_status_title" ng-show="edit_title">
               <input type="text" value="Não resolvido" />

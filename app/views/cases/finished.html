@@ -1,0 +1,153 @@
+<div id="main_layout">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="loading" ng-show="loading"></div>
+    <div class="loading" ng-show="loadingContent"></div>
+
+    <div ng-hide="loading" class="pages-animation">
+      <div class="title">
+        <div class="links">
+          <a href="#/cases">
+            <span class="glyphicon glyphicon-pencil"></span> <p>Casos em andamento</p>
+          </a>
+          <a href="#/cases/new">
+            <span class="glyphicon glyphicon-file"></span> <p>Iniciar novo caso</p>
+          </a>
+          <a href="#/cases/finished" class="active">
+            <span class="glyphicon glyphicon-ok"></span> <p>Casos concluídos</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="simple_search" ng-hide="advancedSearch">
+        <div class="col-xs-9 search_column1">
+          <span class="glyphicon glyphicon-search search_icon"></span>
+          <input type="text" placeholder="Buscar" keyboard-poster="search" style="width: 80%;" />
+        </div>
+      </div>
+
+      <div class="simple_filters" ng-hide="advancedSearch">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Fluxos</label>
+
+            <div class="select2-container select2-container-multi multiple-select ng-valid ng-dirty" id="s2id_autogen1">
+              <ul class="select2-choices">
+                <li class="select2-search-choice">
+                  <div>Instalação de antena</div>
+                  <a href="#" class="select2-search-choice-close remove-icon" tabindex="-1">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+                </li>
+                <li class="select2-search-field">
+                  <label for="s2id_autogen2" class="select2-offscreen"></label>
+                  <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" id="s2id_autogen2" placeholder="" style="width: 20px;" aria-activedescendant="select2-result-label-8">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Nas etapas</label>
+
+            <select class="multiple-select" ui-select2 ng-model="selectedCategories" data-placeholder="Digite uma etapa" multiple>
+              <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.title }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <table class="table custom_table reports" infinite-scroll="getData(true)" infinite-scroll-distance="3" ng-class="{'advanced-filters-margin': advancedSearch == true}" style-results-table>
+        <thead>
+          <tr>
+            <td ng-click="changeSorting('')"
+                ng-class="selectedCls('')" width="60%" class="sort-table">
+              <span>Nome</span><span class="arrow"></span>
+            </td>
+            <td ng-click="changeSorting('')"
+                ng-class="selectedCls('')" class="sort-table">
+              <span>Iniciado em</span><span class="arrow"></span>
+            </td>
+            <td ng-click="changeSorting('')"
+                ng-class="selectedCls('')" class="sort-table">
+              <span>Finalizado em</span><span class="arrow"></span>
+            </td>
+            <td></td>
+          </tr>
+        </thead>
+
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="">Nome de um caso</a></td>
+          <td>12/10/2014</td>
+          <td>22/11/2014</td>
+          <td class="actions">
+            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+          </td>
+        </tr>
+
+      </table>
+
+      <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
+    </div>
+
+  </div>
+</div>

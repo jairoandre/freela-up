@@ -261,6 +261,25 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    // casos
+    .when('/cases', {
+      templateUrl: 'views/cases/index.html',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/new', {
+      templateUrl: 'views/cases/new.html',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/finished', {
+      templateUrl: 'views/cases/finished.html',
+      access: {
+        logged: true
+      }
+    })
     .otherwise({
       redirectTo: '/'
     });

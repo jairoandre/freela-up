@@ -579,6 +579,20 @@ p {
         .name {
           display: block;
         }
+        &.versions {
+          margin-top: 74px;
+          .secondLevel {
+            background: #F0F0F0;
+            .indicator {
+              display: inline-block;
+              margin-left: 20px;
+              width: 9px;
+              height: 9px;
+              background: url(../images/sub_tag.png);
+              margin-right: 5px;
+            }
+          }
+        }
       }
       &.custom_table {
         a {
@@ -1150,6 +1164,12 @@ p {
       &.active {
         background: #FFF;
         color: #333;
+      }
+    }
+    &.edit {
+      width: 100%;
+      a {
+        width: 33.2% !important;
       }
     }
   }
@@ -3004,7 +3024,7 @@ colorpicker-preview {
   }
 }
 
-.flow-tab {
+.flow-links {
   width: 80%;
   height: 80px;
   top: 129px;
@@ -3033,48 +3053,34 @@ colorpicker-preview {
   }
 }
 
-.flow-form {
+.steps {
+  border-bottom: 1px solid #CCC;
+  margin-top: 69px;
+}
+
+.steps-footer {
+  padding-left: 20px;
+  margin-bottom: 70px;
+}
+
+.permissions-form {
   width: 70%;
   padding: 30px;
   margin-top: 68px;
 }
 
-.flow-table {
-  border-bottom: 1px solid #CCC;
-  margin-top: 69px;
-}
-
-.flow-version-table {
-  margin-top: 74px;
-  .secondLevel {
-    background: #F0F0F0;
-    .indicator {
-      display: inline-block;
-      margin-left: 20px;
-      width: 9px;
-      height: 9px;
-      background: url(../images/sub_tag.png);
-      margin-right: 5px;
-    }
-  }
-}
-
-.flow-footer {
-  padding-left: 20px;
-  margin-bottom: 70px;
-}
-
-.number-version,
-.arrow-version {
+/* Arrow icon */
+.number_icon,
+.arrow_icon {
   display: block;
   float: left;
 }
 
-.number-version {
+.number_icon {
   font-size: 20px;
 }
 
-.arrow-version {
+.arrow_icon {
   width: 24px;
   height: 24px;
   margin-left: 9px;
@@ -3099,10 +3105,13 @@ colorpicker-preview {
 
 .active-version {
   color: #969696;
-  .arrow-version {
+  &:hover {
+    color: #969696;
+  }
+  .arrow_icon {
     border: 3px solid #969696;
     &:after {
-      top: -2px;
+      top: -3px;
       left: 3px;
       content: "\e113";
     }
@@ -3158,27 +3167,57 @@ colorpicker-preview {
       }
     }
   }
+  .new-step-form {
+    padding: 20px 30px;
+    input {
+      width: 100%;
+    }
+  }
+  .list-steps {
+    padding: 0;
+    list-style-type: none;
+    border-top: 1px solid #C7C7C7;
+    li {
+      padding: 12px 18px;
+      background: #F0F0F0;
+      border-bottom: 1px solid #C7C7C7;
+    }
+  }
   .modal-footer {
     border-top: none;
   }
 }
 
-.list-form-step {
-  padding: 0;
-  list-style-type: none;
-  border-top: 1px solid #C7C7C7;
-  li {
-    padding: 12px 18px;
-    background: #F0F0F0;
-    border-bottom: 1px solid #C7C7C7;
+.modal-flow {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  form {
+    label {
+      display: block;
+    }
+    input[type=text],
+    textarea {
+      width: 80%;
+    }
   }
 }
 
-.full-steps-edit {
-  top: 0;
+.modal-flow-choice {
+  .modal-title {
+    padding: 15px;
+  }
+  table {
+    .first-td {
+      text-align: left;
+    }
+  }
 }
 
-.full-permission {
+.edit-form {
+  padding-bottom: 200px;
+}
+
+.edit-permissions {
   background: #FFF;
   padding: 0 50px 100px 50px;
   h3 {
@@ -3203,13 +3242,6 @@ colorpicker-preview {
         }
       }
     }
-  }
-}
-
-.step-tab {
-  width: 100%;
-  a {
-    width: 33.2% !important;
   }
 }
 
@@ -3238,6 +3270,21 @@ colorpicker-preview {
         margin-bottom: 10px;
         .label-choice:before {
           top: 0;
+          width: 18px;
+          height: 18px;
+          color: #1693C6;
+          font-size: 14px;
+          text-align: center;
+          background-color: #FFF;
+          border: 1px solid #b4b4b4;
+          border-radius: 2px;
+        }
+        .input-choice:checked + .label-choice:before {
+          font-family: 'Glyphicons Halflings';
+          font-size: 10px;
+          font-weight: normal;
+          content: "\e013";
+          background-color: #F2F2F2;
         }
         a {
           font-weight: bold;
@@ -3278,8 +3325,13 @@ colorpicker-preview {
         width: 83%;
       }
       a {
-        width: 16%;
-        margin: 0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 15.5%;
+        height: 37px;
+        padding: 7px 0;
+        margin: 0 0 0 0.5%;
       }
       .attachments {
         display: inline-block;
@@ -3344,11 +3396,11 @@ colorpicker-preview {
   }
 }
 
-.trigger-full {
+.edit-triggers {
   width: 100%;
   padding: 2%;
   background: #FFF;
-  .trigger-header {
+  .edit-triggers-header {
     width: 100%;
     padding-bottom: 30px;
     border-bottom: 1px solid #E1E1E1;
@@ -3367,55 +3419,60 @@ colorpicker-preview {
     list-style: none;
     padding: 0;
     margin-top: 20px;
-    .triggers {
+    .list-triggers-item {
       width: 100%;
       background: #F0F0F0;
       border: 1px solid #E1E1E1;
       border-radius: 4px;
       margin-bottom: 10px;
-      .content-trigger {
-        padding: 18px 19px;
-      }
-      p {
-        float: left;
-        font-size: 24px;
-        font-weight: bold;
-        margin: 0;
-      }
-      .actions {
-        width: 112px;
-        float: right;
-        font-size: 24px;
-        font-weight: bold;
-        .middle-link {
-          margin-left: 15px;
+      .item-content {
+        padding: 13px 19px;
+        p {
+          float: left;
+          font-size: 20px;
+          font-weight: bold;
+          margin: 4px 0 0 0;
+          color: #333;
         }
-        .right-link {
+        .actions {
+          width: 112px;
           float: right;
-        }
-        .arrow-version {
-          width: 26px;
-          height: 26px;
-          border-radius: 13px;
-          &:after {
-            top: -11px;
-            left: 3px;
-            font-size: 13px;
+          font-size: 24px;
+          font-weight: bold;
+          .glyphicon {
+            font-size: 22px;
+          }
+          .middle-link {
+            margin-left: 18px;
+          }
+          .right-link {
+            float: right;
+            margin-top: 3px;
+          }
+          .arrow_icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 100%;
+            &:after {
+              top: -14px;
+              left: 2px;
+              font-size: 11px;
+            }
           }
         }
       }
       &.active {
         background: #FFF;
-        .arrow-version {
+        .arrow_icon {
           &:after {
-            top: -13px;
-            left: 4px;
+            top: -16px;
+            left: 3px;
             content: "\e113";
           }
         }
       }
     }
-    .trigger-conditions {
+    .item-conditions {
       h3 {
         width: 100%;
         background: #F0F0F0;
@@ -3427,8 +3484,18 @@ colorpicker-preview {
       h3, form {
         padding: 18px 19px;
       }
+      .form-group {
+        width: 60%;
+        .item-conditions-content {
+          float: left;
+          width: 49%;
+          &.content-first {
+            margin-right: 2%;
+          }
+        }
+      }
     }
-    .trigger-table {
+    .item-table {
       width: 100%;
       thead {
         background: #F0F0F0;
@@ -3449,5 +3516,56 @@ colorpicker-preview {
         }
       }
     }
+  }
+}
+
+/* Select Trigger */
+.select-trigger {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  width: 100%;
+  &:after {
+    font-family: 'Glyphicons Halflings';
+    position: absolute;
+    top: 50%;
+    right: 1.25rem;
+    display: inline-block;
+    content: "";
+    width: 0;
+    height: 0;
+    margin-top: -.15rem;
+    pointer-events: none;
+    border-top: 5px solid;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid transparent;
+  }
+  select {
+    cursor: pointer;
+    outline: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}
+
+/* Hide the arrow in IE10 and up */
+.select-trigger select::-ms-expand {
+  display: none;
+}
+
+/* Media query to target Firefox only */
+@-moz-document url-prefix() {
+  /* Firefox hack to hide the arrow */
+  .select-trigger select {
+    text-indent: 0.01px;
+    text-overflow: '';
+    padding-right: 1rem;
+  }
+
+  /* <option> elements inherit styles from <select>, so reset them. */
+  .select option {
+    background-color: white;
   }
 }
