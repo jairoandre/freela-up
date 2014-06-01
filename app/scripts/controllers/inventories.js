@@ -525,6 +525,8 @@ angular.module('zupPainelApp')
           $scope.categories = categories;
           $scope.activeAdvancedFilters = activeAdvancedFilters;
 
+          $scope.items = [];
+
           $scope.methods = [
             { condition: 'greater_than', text: 'Maior que' },
             { condition: 'lesser_than', text: 'Menor' },
@@ -536,19 +538,61 @@ angular.module('zupPainelApp')
           ];
 
           $scope.newField = {
-            currentCategory: null,
-            currentMethod: null
+            category: null,
+            condition: null,
+            field: null,
+            value: null
           };
 
           $scope.selectCategory = function(category) {
-            $scope.newField.currentCategory = category;
+            // create array just with fields
+            category.fields = [];
+
+            for (var i = category.sections.length - 1; i >= 0; i--) {
+              for (var j = category.sections[i].fields.length - 1; j >= 0; j--) {
+                category.fields.push(category.sections[i].fields[j]);
+              };
+            };
+
+            $scope.newField.category = category;
           };
 
-          $scope.selectMethod = function(method) {
-            $scope.newField.currentMethod = method;
+          $scope.selectCondition = function(condition) {
+            $scope.newField.condition = condition;
+          };
+
+          $scope.selectField = function(field) {
+            $scope.newField.field = field;
+          };
+
+          $scope.addItem = function() {
+            $scope.items.push(angular.copy($scope.newField));
           };
 
           $scope.fields = [{id: 128, condition: 'equal_to', value: 10}, {id: 133, condition: 'equal_to', value: 11}];
+
+          $scope.save = function() {
+            var filter = {
+              title: 'Campos',
+              type: 'fields',
+              value: []
+            };
+
+            var desc = [];
+
+            for (var i = $scope.items.length - 1; i >= 0; i--) {
+              filter.value.push({id: $scope.items[i].field.id, condition: $scope.items[i].condition.condition, value: $scope.items[i].value});
+              desc.push(' ' + $scope.items[i].field.label + ': ' + $scope.items[i].condition.text + ' ' + $scope.items[i].value);
+            }
+
+            filter.desc = desc.join();
+
+            console.log(filter);
+
+            $scope.activeAdvancedFilters.push(filter);
+
+            $modalInstance.close();
+          };
 
           $scope.close = function() {
             $modalInstance.close();
@@ -556,10 +600,6 @@ angular.module('zupPainelApp')
         }]
       });
     };
-
-    /*setTimeout(function() {
-      advancedFilterFields();
-    }, 2000);*/
 
     $scope.loadFilter = function(status) {
       if (status === 'query')
