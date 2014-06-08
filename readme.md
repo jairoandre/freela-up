@@ -7,7 +7,7 @@ This document describes how to install, work and deploy the lastest version of Z
 
 - [How to install](#how-to-install)
 - [Our branching model](#out-branching-model)
-- [Working on new features](#working-on-new-feature)
+- [Working on new features](#working-on-new-features)
     - [Creating a new branch](#creating-a-new-branch)
     - [Testing your code](#testing-your-code)
     - [Sending a pull request to develop](#sending-a-pull-request-to-develop)
@@ -54,7 +54,7 @@ Let's suppose we have the issue named *"ZUP-232 add new images to the project"*.
 
 This command creates a new branch from develop. From now on, you're free to work on your issue and commit changes. As soon as you commit something, please send it to origin.
 
-      $ git push
+    $ git push
 
 ### Testing your code
 
@@ -78,7 +78,7 @@ After you're done testing (and reviewing your code!) you should create a pull re
 4. Describe anything useful on the content that you find important.
 5. Click on the big green button!
 
->Can't seem to find how to compare the branchs? Just change the link to your issue ID: https://github.com/panchodev/zup-painel/compare/develop...ZUP-232
+>Can't seem to find how to compare the branches? Just change the link to your issue ID: https://github.com/panchodev/zup-painel/compare/develop...ZUP-232
 
 After you create a new pull request, the code will be put under review by another member of the team.
 
@@ -88,9 +88,9 @@ We believe in writing quality code. Each pull request should be evaluated carefu
 
 Github can do the merging automatically. If by any ways that is not possible, you can also do it by the command line:
 
-      $ git checkout develop
-      $ git merge --no-ff 'ZUP-232'
-      % git push origin develop
+    $ git checkout develop
+    $ git merge --no-ff 'ZUP-232'
+    $ git push origin develop
 
 After a sucessfull merge into develop, Wercker will automatically **test and deploy** the latest PR. The new code into develop will be deployed to http://testing-zup-painel.herokuapp.com/.
 
@@ -98,7 +98,7 @@ After a sucessfull merge into develop, Wercker will automatically **test and dep
 
 When you're done working on your feature, you should clean up the branch you created. Locally you can delete your branch using the command:
 
-      git branch -d 'ZUP-232'
+    $ git branch -d 'ZUP-232'
 
 It's also good to delete the branch at Github, so we don't acumulate unecessary versions of the app. To do so just go to the [branches page](https://github.com/panchodev/zup-painel/branches).
 
