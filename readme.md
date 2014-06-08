@@ -15,7 +15,7 @@ This document describes how to install, work and deploy the lastest version of Z
 - [Working on bug fixes](#working-on-bug-fixes)
 
 ## How to install
-ZUP-Painel uses [Yeoman](http://yeoman.io/) for it's development process. All you need is to simply install Yeoman requirements: yo, grunt, bower and it's AngularJS generator.
+ZUP-Painel uses [Yeoman](http://yeoman.io/) for its development process. All you need is to simply install Yeoman requirements: yo, grunt, bower and its AngularJS generator.
 
     $ npm install -g yo
     $ npm install -g grunt-cli bower
@@ -35,14 +35,14 @@ $ grunt serve
 You should ~~hopefully~~ see the app running beautifully in your browser.
 
 ## Our branching model
-In our team, we use two main branches to host the code with an infinte lifetime:
+In our team, we use two main branches to host the code with an infinite lifetime:
 * master
 * develop
 
 At *origin/master* we keep our production-ready code. *origin/develop* is used to test code that will be delivered to the next release, where it will be merged into *master*. You shouldn't commit changes directly into the main branches. To work on new features or on bug fixes, check out the guide below.
 
 ## Working on new features
-Working on new features should be easy and painless. Each 'feature' is a **new branch** in the project. This way, each developer can work with the lastest code available, without having to worry about merging problems or faulty code.
+Working on new features should be easy and painless. Each 'feature' is a **new branch** in the project. This way, each developer may work with the latest code available, without having to worry about merging problems or faulty code.
 
 In our team we use [Attlasian JIRA](https://www.atlassian.com/software/jira) to keep track of tasks/bugs. For better organization, each new feature branch should be named with the issue ID.
 
@@ -70,11 +70,11 @@ After the deploy is sucessful, you'll be able to test your new feature live at h
 
 ### Sending a pull request to develop
 
-After you're done testing (and reviewing your code!) you should create a pull request to merge your branch feature into the branch develop. It's simple:
+After you're done testing (and reviewing your code!) you should create a pull request to merge your branch feature into the branch develop. Its simple:
 
 1. Compare the base branch (develop) with your feature branch (ex.: ZUP-232)
 2. REVIEW.THE.CODE.THOROUGHLY. We don't want any problems in the future :)
-3. Create a meaniful title for the pull request (with the issue ID on the title, plase)
+3. Create a meaningful title for the pull request (with the issue ID on the title, plase)
 4. Describe anything useful on the content that you find important.
 5. Click on the big green button!
 
@@ -92,7 +92,7 @@ Github can do the merging automatically. If by any ways that is not possible, yo
     $ git merge --no-ff 'ZUP-232'
     $ git push origin develop
 
-After a sucessfull merge into develop, Wercker will automatically **test and deploy** the latest PR. The new code into develop will be deployed to http://testing-zup-painel.herokuapp.com/.
+After a successfull merge into develop, Wercker will automatically **test and deploy** the latest PR. The new code into develop will be deployed to http://testing-zup-painel.herokuapp.com/.
 
 ### Cleaning up
 
@@ -100,7 +100,7 @@ When you're done working on your feature, you should clean up the branch you cre
 
     $ git branch -d 'ZUP-232'
 
-It's also good to delete the branch at Github, so we don't acumulate unecessary versions of the app. To do so just go to the [branches page](https://github.com/panchodev/zup-painel/branches).
+It's also good to delete the branch at Github, so we don't accumulate unnecessary versions of the app. To do so just go to the [branches page](https://github.com/panchodev/zup-painel/branches).
 
 ## Working on bug fixes
 
