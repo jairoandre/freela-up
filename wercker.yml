@@ -10,3 +10,14 @@ build:
         token: $HIPCHAT_TOKEN
         room-id: $HIPCHAT_ROOM_ID
         from-name: wercker
+deploy:
+  steps:
+    - wercker/npm-install
+    - olger/yeoman-bower-install
+    - wercker/grunt:
+        tasks: build
+  after-steps:
+    - hipchat-notify:
+        token: $HIPCHAT_TOKEN
+        room-id: $HIPCHAT_ROOM_ID
+        from-name: wercker
