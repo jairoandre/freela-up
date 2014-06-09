@@ -11,6 +11,9 @@ build:
             name: install bower
             code: sudo npm install -g bower
         - script:
+            name: create frontend folder
+            code: mkdir frontend
+        - script:
             cwd: frontend/
             name: install npm dependencies
             code: |
