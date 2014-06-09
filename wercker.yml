@@ -23,7 +23,7 @@ build:
         - script:
             cwd: frontend/
             name: install bower dependencies
-            code: bower -f install --config.storage.cache=$WERCKER_CACHE_DIR/wercker/bower
+            code: bower -f install
         - script:
             cwd: frontend/
             name: build project using grunt
