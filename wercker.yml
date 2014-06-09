@@ -11,12 +11,6 @@ build:
         code: |
           sudo npm install -g bower
           bower -f install
-  after-steps:
-    - hipchat-notify:
-        token: $HIPCHAT_TOKEN
-        room-id: $HIPCHAT_ROOM_ID
-        from-name: wercker
-
     # A step that executes `npm test` command
     # We are not using tests right now
     #- npm-test
@@ -24,3 +18,8 @@ build:
     # grunt
     - wercker/grunt@0.0.2:
         tasks: build
+  after-steps:
+    - hipchat-notify:
+        token: $HIPCHAT_TOKEN
+        room-id: $HIPCHAT_ROOM_ID
+        from-name: wercker
