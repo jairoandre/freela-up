@@ -5,6 +5,9 @@ build:
     - olger/yeoman-bower-install
     - wercker/grunt:
         tasks: build
+        verbose: true
+        stack: true
+        debug: true
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
