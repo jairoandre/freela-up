@@ -1,24 +1,22 @@
-box: audionerd/ubuntu12.04-ruby2.0.0-nodejs0.10@0.1.6
-# Build definition
+box: wercker/nodejs
 build:
+  # The steps that will be executed on build
   steps:
-    - bundle-install
-    - npm-install
+    - script:
+        name: npm install
+        code: |
+            sudo npm install -g grunt-cli
+            mkdir -p $WERCKER_CACHE_DIR/wercker/npm
+            npm config set cache $WERCKER_CACHE_DIR/wercker/npm
+            sudo npm install --save-dev
     - script:
         name: install compass
-        code: sudo gem install compass
+        code: sudo gem install compass --no-ri --no-rdoc
+
     - script:
-        name: install bower
+        name: run grunt-cli
         code: |
-          sudo npm install -g bower
-          bower -f install
-    # A step that executes `npm test` command
-    # We are not using tests right now
-    #- npm-test
-    #- wercker/bundle-install@0.9.1
-    # grunt
-    - wercker/grunt@0.0.2:
-        tasks: build
+            grunt build
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
