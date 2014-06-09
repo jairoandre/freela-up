@@ -1,10 +1,10 @@
 box: olger/box-yeoman
 build:
-    steps:
-        - wercker/npm-install
-        - olger/yeoman-bower-install
-        - wercker/grunt:
-            tasks: build
+  steps:
+    - wercker/npm-install
+    - olger/yeoman-bower-install
+    - wercker/grunt:
+        tasks: build
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
