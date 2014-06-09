@@ -1,0 +1,21 @@
+box: wercker/nodejs
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+    # A step that executes `npm install` command
+    - npm-install
+    - script:
+        name: install bower
+        code: |
+          sudo npm install -g bower
+          bower install
+
+
+    # A step that executes `npm test` command
+    # We are not using tests right now
+    #- npm-test
+    - wercker/bundle-install@0.9.1
+    # grunt
+    - wercker/grunt@0.0.2:
+        tasks: build
