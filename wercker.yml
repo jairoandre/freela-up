@@ -1,14 +1,11 @@
 box: wercker/ubuntu12.04-ruby2.0.0
 # Build definition
 build:
-  # The steps that will be executed on build
   steps:
-    # A step that executes `npm install` command
     - npm-install
     - script:
-      name: install compass
-      code: |
-        sudo gem install compass
+        name: install compass
+        code: sudo gem install compass
     - script:
         name: install bower
         code: |
