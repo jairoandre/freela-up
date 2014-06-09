@@ -2,6 +2,7 @@ box: audionerd/ubuntu12.04-ruby2.0.0-nodejs0.10@0.1.6
 # Build definition
 build:
   steps:
+    - bundle-install
     - npm-install
     - script:
         name: install compass
@@ -14,7 +15,7 @@ build:
     # A step that executes `npm test` command
     # We are not using tests right now
     #- npm-test
-    - wercker/bundle-install@0.9.1
+    #- wercker/bundle-install@0.9.1
     # grunt
     - wercker/grunt@0.0.2:
         tasks: build
