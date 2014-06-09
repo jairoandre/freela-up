@@ -1,35 +1,22 @@
 box: wercker/nodejs
+# Build definition
 build:
-    steps:
-        - script:
-            name: install compass
-            code: sudo gem install compass --no-ri --no-rdoc
-        - script:
-            name: install grunt
-            code: sudo npm install -g grunt-cli
-        - script:
-            name: install bower
-            code: sudo npm install -g bower
-        - script:
-            name: create frontend folder
-            code: mkdir frontend
-        - script:
-            cwd: frontend/
-            name: install npm dependencies
-            code: |
-                mkdir -p $WERCKER_CACHE_DIR/wercker/npm
-                npm config set cache $WERCKER_CACHE_DIR/wercker/npm
-                sudo npm install --save-dev
-        - script:
-            cwd: frontend/
-            name: install bower dependencies
-            code: bower -f install
-        - script:
-            cwd: frontend/
-            name: build project using grunt
-            code: grunt build
-        - script:
-            name: echo nodejs information
-            code: |
-                echo "node version $(node -v) running"
-                echo "npm version $(npm -v) running"
+  steps:
+    - npm-install
+    - script:
+        name: install compass
+        code: sudo gem install compass
+    - script:
+        name: install bower
+        code: |
+          sudo npm install -g bower
+          bower -f install
+    #- npm-test
+    - wercker/bundle-install@0.9.1
+    - wercker/grunt@0.1.0:
+        tasks: build
+  after-steps:
+    - hipchat-notify:
+        token: $HIPCHAT_TOKEN
+        room-id: $HIPCHAT_ROOM_ID
+        from-name: wercker
