@@ -13,8 +13,8 @@ build:
 deploy:
   steps:
     - script:
-        name: List files 1
-        code: ls -R
+        name: wattt
+        code: pwd
     - heroku-deploy
   after-steps:
     - hipchat-notify:
