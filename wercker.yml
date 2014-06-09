@@ -9,7 +9,7 @@ build:
         name: install bower
         code: |
           sudo npm install -g bower
-          bower install
+          bower -f install
 
 
     # A step that executes `npm test` command
