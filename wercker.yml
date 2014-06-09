@@ -1,23 +1,10 @@
-box: wercker/nodejs
-# Build definition
+box: olger/box-yeoman
 build:
-  steps:
-    - npm-install
-    - script:
-        name: install compass
-        code: sudo gem install compass
-    - script:
-        name: install bower
-        code: |
-          sudo npm install -g bower
-          bower -f install
-    #- npm-test
-    - wercker/bundle-install@0.9.1
-    - script:
-        name: create dist folder
-        code: mkdir -p dist/images
-    - wercker/grunt@0.1.0:
-        tasks: build
+    steps:
+        - wercker/npm-install
+        - olger/yeoman-bower-install
+        - wercker/grunt:
+            tasks: build
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
