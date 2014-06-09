@@ -14,9 +14,8 @@ build:
     #- npm-test
     - wercker/bundle-install@0.9.1
     - script:
-        name: list folders
-        code: |
-          ls -R
+        name: create dist folder
+        code: mkdir -p dist/images
     - wercker/grunt@0.1.0:
         tasks: build
   after-steps:
