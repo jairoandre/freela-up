@@ -12,7 +12,11 @@ build:
     - script:
         name: install compass
         code: sudo gem install compass --no-ri --no-rdoc
-
+    - script:
+        name: install bower
+        code: |
+          sudo npm install -g bower
+          bower -f install
     - script:
         name: run grunt-cli
         code: |
