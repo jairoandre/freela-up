@@ -13,8 +13,12 @@ build:
 deploy:
   steps:
     - script:
-        name: wattt
-        code: pwd
+        name: Create git directory from deploy source
+        code: |
+            cd $WERCKER_HEROKU_DEPLOY_SOURCE_DIR
+            git init
+            git add .
+            git commit -m 'wercker deploy'
     - heroku-deploy
   after-steps:
     - hipchat-notify:
