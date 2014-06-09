@@ -13,7 +13,10 @@ build:
 deploy:
   steps:
     - script:
-        name: Create git directory from deploy source
+        name: remove current git structure
+        code: rm -rf .git
+    - script:
+        name: create git directory from deploy source
         code: |
             cd $WERCKER_HEROKU_DEPLOY_SOURCE_DIR
             git config --global user.name '$WERCKER_HEROKU_DEPLOY_USER';
@@ -21,6 +24,7 @@ deploy:
             git init
             git add .
             git commit -m 'wercker deploy'
+            mv .git ../
     - heroku-deploy
   after-steps:
     - hipchat-notify:
