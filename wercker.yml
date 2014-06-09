@@ -13,6 +13,10 @@ build:
           bower -f install
     #- npm-test
     - wercker/bundle-install@0.9.1
+    - script:
+        name: list folders
+        code: |
+          ls -R
     - wercker/grunt@0.1.0:
         tasks: build
   after-steps:
