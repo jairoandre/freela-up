@@ -10,6 +10,7 @@ build:
         token: $HIPCHAT_TOKEN
         room-id: $HIPCHAT_ROOM_ID
         from-name: wercker
+# deploy to heroku
 deploy:
   steps:
     - script:
