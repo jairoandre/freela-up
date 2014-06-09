@@ -16,6 +16,7 @@ deploy:
     - olger/yeoman-bower-install
     - wercker/grunt:
         tasks: build
+    - heroku-deploy
   after-steps:
     - hipchat-notify:
         token: $HIPCHAT_TOKEN
