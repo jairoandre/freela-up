@@ -16,6 +16,8 @@ deploy:
         name: Create git directory from deploy source
         code: |
             cd $WERCKER_HEROKU_DEPLOY_SOURCE_DIR
+            git config --global user.name '$WERCKER_HEROKU_DEPLOY_USER';
+            git config --global user.email '$WERCKER_HEROKU_DEPLOY_USER';
             git init
             git add .
             git commit -m 'wercker deploy'
