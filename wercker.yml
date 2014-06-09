@@ -15,13 +15,6 @@ deploy:
     - script:
         name: List files 1
         code: ls -R
-    - wercker/npm-install
-    - olger/yeoman-bower-install
-    - wercker/grunt:
-        tasks: build
-    - script:
-        name: List files 1
-        code: ls -R
     - heroku-deploy
   after-steps:
     - hipchat-notify:
