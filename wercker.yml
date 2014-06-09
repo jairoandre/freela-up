@@ -1,4 +1,4 @@
-box: wercker/nodejs
+box: audionerd/ubuntu12.04-ruby2.0.0-nodejs0.10@0.1.6
 # Build definition
 build:
   steps:
