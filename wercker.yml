@@ -14,6 +14,9 @@ build:
 deploy:
   steps:
     - script:
+        name: create empty index.php for cedar support
+        code: touch index.php
+    - script:
         name: remove current git structure
         code: rm -rf .git
     - script:
