@@ -908,9 +908,10 @@ angular.module('zupPainelApp')
       allows_arbitrary_position: true, // jshint ignore:line
       color: '#2AB4DC',
       statuses: [
-        {title: 'Em aberto', color: '#E68012', initial: true, final: false, active: true},
-        {title: 'Em andamento', color: '#919191', initial: false, final: false, active: true},
-        {title: 'Resolvido', color: '#5EB623', initial: false, final: true, active: true}
+        {"title":"Em andamento","color":"#f8b01d","initial":false,"final":false,"active":true,"created_at":"2014-03-05T01:12:34.181-03:00","updated_at":"2014-03-05T01:12:34.181-03:00"},
+        {"title":"Resolvidas","color":"#78c953","initial":false,"final":true,"active":true,"created_at":"2014-03-05T01:12:34.195-03:00","updated_at":"2014-03-05T01:12:34.195-03:00"},
+        {"title":"Não resolvidas","color":"#999999","initial":false,"final":true,"active":true,"created_at":"2014-03-05T01:12:34.200-03:00","updated_at":"2014-03-05T01:12:34.200-03:00"},
+        {"title":"Em aberto","color":"#ff0000","initial":true,"final":false,"active":true,"created_at":"2014-03-17T22:52:50.365-03:00","updated_at":"2014-03-17T22:52:50.365-03:00"}
       ]
     };
   }
