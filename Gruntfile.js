@@ -299,7 +299,7 @@ module.exports = function (grunt) {
             'views/{,*/}*.html',
             'views/**/**/*.html',
             'bower_components/**/*',
-            'images/{,*/}*.{webp}',
+            'images/*',
             'fonts/*',
             'bower_components/sass-bootstrap/fonts/*.*'
           ]
@@ -328,7 +328,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        'imagemin',
+        //'imagemin',
         'svgmin'
       ]
     },
@@ -411,6 +411,7 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
+    //'imagemin',
     'cdnify',
     'cssmin',
     'uglify',
