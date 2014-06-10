@@ -108,7 +108,7 @@ angular.module('zupPainelApp')
         var key = 'fields[' + $scope.fields[i].id + '][' + $scope.fields[i].condition + ']';
 
         options[key] = $scope.fields[i].value;
-      };
+      }
     }
 
     // map options
@@ -562,8 +562,8 @@ angular.module('zupPainelApp')
           for (var i = category.sections.length - 1; i >= 0; i--) {
             for (var j = category.sections[i].fields.length - 1; j >= 0; j--) {
               category.fields.push(category.sections[i].fields[j]);
-            };
-          };
+            }
+          }
 
           $scope.newField.category = category;
         };
@@ -992,7 +992,7 @@ angular.module('zupPainelApp')
   $scope.imagesFieldId = null;
   var latLngIds = $scope.latLngIds = [];
 
-  $scope.item = {inventory_status_id: null};
+  $scope.item = {inventory_status_id: null}; // jshint ignore:line
 
   var uploader = $scope.uploader = $fileUploader.create({
     scope: $scope
