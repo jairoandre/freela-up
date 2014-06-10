@@ -54,6 +54,7 @@ angular.module('zupPainelApp')
     {name: 'Com os estados...', action: 'status'},
     {name: 'Criado pelos munícipes...', action: 'author'},
     {name: 'Por período...', action: 'date'},
+    {name: 'Por perímetro...', action: 'area'},
     {name: 'Por campos...', action: 'fields'}
   ];
 
@@ -658,6 +659,38 @@ angular.module('zupPainelApp')
     });
   };
 
+  var advancedFilterArea = function() {
+    $modal.open({
+      templateUrl: 'views/inventories/filters/area.html',
+      windowClass: 'filterAreaModal',
+      resolve: {
+        activeAdvancedFilters: function() {
+          return $scope.activeAdvancedFilters;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
+        $scope.activeAdvancedFilters = activeAdvancedFilters;
+
+        $scope.save = function() {
+          var beginDateFilter = {
+            title: 'A partir da data',
+            type: 'beginDate',
+            desc: $scope.period.beginDate.getDate() + '/' + ($scope.period.beginDate.getMonth() + 1) + '/' + $scope.period.beginDate.getFullYear(),
+            value: $scope.period.beginDate
+          };
+
+          $scope.activeAdvancedFilters.push(beginDateFilter);
+
+          $modalInstance.close();
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
   $scope.loadFilter = function(status) {
     if (status === 'query')
     {
@@ -687,6 +720,11 @@ angular.module('zupPainelApp')
     if (status === 'date')
     {
       advancedFilterPeriod();
+    }
+
+    if (status === 'area')
+    {
+      advancedFilterArea();
     }
   };
 
