@@ -25,7 +25,7 @@ deploy:
             git init
             git add .
             git commit -m 'wercker deploy'
-            cp .git ../
+            cp -R .git ../
     - heroku-deploy
   after-steps:
     - hipchat-notify:
