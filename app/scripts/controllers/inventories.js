@@ -611,6 +611,8 @@ angular.module('zupPainelApp')
     });
   };
 
+  advancedFilterFields();
+
   var advancedFilterPeriod = function() {
     $modal.open({
       templateUrl: 'views/inventories/filters/period.html',
