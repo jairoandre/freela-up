@@ -219,8 +219,8 @@
                       <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
 
                       <div class="edit_label" ng-show="editingValue">
-                        <input type="text" ng-model="value" />
-                        <a href="" ng-click="editingValue = false">Ok</a>
+                        <input type="text" ng-model="editValue" />
+                        <a href="" ng-click="saveValue()">Ok</a>
 
                         <div class="clearfix"></div>
                       </div>
