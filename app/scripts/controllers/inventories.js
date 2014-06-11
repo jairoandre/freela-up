@@ -906,6 +906,139 @@ angular.module('zupPainelApp')
   {
     $scope.loading = false;
 
+    // added fake fields
+    $scope.category.title = 'Nova categoria sem título';
+    $scope.category.color = '#2AB4DC';
+    $scope.category.icon = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    $scope.category.marker = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    $scope.category.pin = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    $scope.category.plot_format = 'marker';
+
+    $scope.category.sections = [{
+        'title': 'Localização',
+        'required': true,
+        'location': true,
+        'fields': [
+          {
+            'title': 'longitude',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 1,
+            'label': 'Longitude',
+            'maximum': null,
+            'minimum': null,
+            'required': true,
+            'location': true
+          },
+          {
+            'title': 'postal_code',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 3,
+            'label': 'CEP',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'road_classification',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 8,
+            'label': 'Classificação Viária',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'city',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 5,
+            'label': 'Cidade',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'latitude',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 0,
+            'label': 'Latitude',
+            'maximum': null,
+            'minimum': null,
+            'required': true,
+            'location': true
+          },
+          {
+            'title': 'address',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 2,
+            'label': 'Endereço',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'district',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 4,
+            'label': 'Bairro',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'state',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 6,
+            'label': 'Estado',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'codlog',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 7,
+            'label': 'Codlog',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          }
+        ]
+      }];
+
     // watch for modifications in $scope.category
     $scope.$watch('category', function(newValue, oldValue) {
       if (newValue !== oldValue)
@@ -996,6 +1129,15 @@ angular.module('zupPainelApp')
         $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
 
         $scope.processingForm = false;
+      });
+    }
+    else
+    {
+      var postData = {title: $scope.category.title, color: $scope.category.color, icon: $scope.category.icon, marker: $scope.category.marker, pin: $scope.category.pin, plot_format: $scope.category.plot_format}; // jshint ignore:line
+      var postCategoryPromise = Restangular.one('inventory').post('categories', postData);
+
+      postCategoryPromise.then(function(response) {
+        console.log(response);
       });
     }
   };
