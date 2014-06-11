@@ -1180,6 +1180,12 @@ p {
         width: 33.2% !important;
       }
     }
+    &.case {
+      width: 100%;
+      a {
+        width: 49.89% !important;
+      }
+    }
   }
 
   .big_content {
@@ -3471,6 +3477,22 @@ colorpicker-preview {
   margin-top: 23px;
   margin-right: 19px;
   font-size: 16px;
+  &.case {
+    margin-top: 15px;
+  }
+  .status-msg,
+  .header-msg {
+    display: block;
+    text-align: right;
+  }
+  .status-msg {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .header-msg {
+    font-size: 13px;
+    font-weight: normal;
+  }
 }
 
 .step-form {
@@ -3787,5 +3809,125 @@ colorpicker-preview {
   /* <option> elements inherit styles from <select>, so reset them. */
   .select option {
     background-color: white;
+  }
+}
+
+.case-content {
+  border: 1px solid #E1E1E1;
+  border-radius: 4px;
+  &.aside {
+    width: 20%;
+    float: left;
+    border: none;
+    .case-header {
+      border: 1px solid #E1E1E1;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+    .case-aside-top-list {
+      margin: 0;
+      border: 1px solid #E1E1E1;
+      border-top: none;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+    .case-aside-bottom-list {
+      background: #F0F0F0;
+      border: 1px solid #E1E1E1;
+      border-radius: 4px;
+      li {
+        width: 100%;
+        &:first-child {
+          border-bottom: 1px solid #E1E1E1;
+        }
+        span {
+          margin-right: 10px;
+        }
+        a {
+          display: block;
+          padding: 10px;
+          font-weight: bold;
+          &.error {
+            color: #B74B4B;
+          }
+        }
+      }
+    }
+  }
+  &.principal {
+    width: 78%;
+    margin-left: 2%;
+    float: left;
+  }
+  div {
+    width: 100%;
+    border-bottom: 1px solid #E1E1E1;
+    p {
+      margin: 0;
+    }
+    a {
+      font-weight: bold;
+    }
+    .case-link {
+      float: right;
+    }
+  }
+  .case-header {
+    background: #F0F0F0;
+    padding: 20px;
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 4px 0 0 0;
+      color: #333;
+      margin: 0;
+    }
+  }
+  .case-sub-header {
+    background: #F8F8F8;
+    padding: 10px 20px;
+    p {
+      float: left;
+      width: 90%;
+      color: #969696;
+    }
+    &.last {
+      border: none;
+    }
+  }
+  .case-default {
+    padding: 20px;
+    border-bottom: 1px solid #E1E1E1;
+    .case-title {
+      font-weight: bold;
+    }
+    .case-msg {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #969696;
+    }
+    ul {
+      list-style: initial;
+      margin-top: 12px;
+      margin-bottom: 0;
+      margin-left: 20px;
+    }
+    .case-list {
+      list-style: none;
+      margin-left: 0;
+      li {
+        display: inline-block;
+        margin-right: 10px;
+      }
+      div {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #E1E1E1;
+        p {
+          padding: 10px;
+          font-size: 12px;
+        }
+      }
+    }
   }
 }
