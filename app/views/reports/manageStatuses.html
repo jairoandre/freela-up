@@ -31,7 +31,7 @@
         </thead>
 
         <tbody>
-            <tr ng-repeat="status in category.statuses">
+            <tr ng-repeat="status in category.statuses" report-status>
                 <td style="text-align: left;">
                   <a href="" class="edit_title" ng-click="edit_title = true">{{ status.title }}</a> <div class="edit_status_title" ng-show="edit_title">
                     <input type="text" ng-model="status.title" />
@@ -81,5 +81,5 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()">Fechar</button>
+    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()">Salvar</button>
 </div>
