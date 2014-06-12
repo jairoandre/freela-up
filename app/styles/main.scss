@@ -3871,42 +3871,36 @@ colorpicker-preview {
               height: 25px;
               border-radius: 100%;
               z-index: 10;
+              background-color: #7EBA27;
+              background-repeat: no-repeat;
+              background-position: center center;
             }
           }
           .icon-form {
             &:before {
-              background: #7EBA27 url(../images/etapa-formulario.png) no-repeat center center;
+              background-image: url(../images/etapa-formulario.png);
+
             }
           }
           .icon-flow {
             &:before {
-              background: #7EBA27 url(../images/etapa-fluxo.png) no-repeat center center;
+              background-image: url(../images/etapa-fluxo.png);
             }
           }
         }
         .active-link {
           color: #000;
-          .icon-form {
+          .tree-icon {
             &:before {
-              background: #000 url(../images/etapa-formulario.png) no-repeat center center;
-            }
-          }
-          .icon-flow {
-            &:before {
-              background: #000 url(../images/etapa-fluxo.png) no-repeat center center;
+              background-color: #000;
             }
           }
         }
         .other-link {
           color: #259ecb;
-          .icon-form {
+          .tree-icon {
             &:before {
-              background: #259ecb url(../images/etapa-formulario.png) no-repeat center center;
-            }
-          }
-          .icon-flow {
-            &:before {
-              background: #259ecb url(../images/etapa-fluxo.png) no-repeat center center;
+              background-color: #259ecb;
             }
           }
         }
