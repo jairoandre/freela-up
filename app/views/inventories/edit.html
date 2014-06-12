@@ -1,9 +1,22 @@
+<div class="loadingRequest" ng-show="processingForm"><img src="images/loading.gif" /></div>
+<div class="blockContent" ng-show="processingForm"></div>
+
 <div id="full_page">
   <div class="header">
     <a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
-    <div class="title" ng-show="!updating">Nova categoria de inventário</div>
-    <div class="title" ng-show="updating">{{ category.title }}</div>
+    <a class="title" href="" ng-hide="editingCategoryTitle" ng-click="editingCategoryTitle = true">{{ category.title }}</a>
+
+    <div class="divider"></div>
+
+    <div class="edit_label" ng-show="editingCategoryTitle">
+      <input type="text" ng-model="category.title" />
+      <a href="" ng-click="editingCategoryTitle = false">Salvar</a>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <a href="" class="edit-information"><span class="glyphicon glyphicon-edit"></span>Alterar ícone e cor</a>
 
     <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
       <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>

@@ -829,7 +829,7 @@ angular.module('zupPainelApp')
     });
   };
 })
-.controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window) {
+.controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window, $location) {
   var updating = $scope.updating = false;
 
   var categoryId = $routeParams.categoryId;
@@ -1112,10 +1112,11 @@ angular.module('zupPainelApp')
   $scope.send = function() {
     $scope.processingForm = true;
 
+    var formattedFormData = {sections: $scope.category.sections};
+
     if (updating)
     {
       var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses}; // jshint ignore:line
-      var formattedFormData = {sections: $scope.category.sections};
 
       var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
       var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
@@ -1137,7 +1138,20 @@ angular.module('zupPainelApp')
       var postCategoryPromise = Restangular.one('inventory').post('categories', postData);
 
       postCategoryPromise.then(function(response) {
-        console.log(response);
+        var newCategory = response.data;
+
+        if ($scope.unsavedCategory === true)
+        {
+          var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
+
+          putCategoryFormsPromise.then(function(response) {
+            $location.path('/inventories/categories/' + newCategory.id + '/edit');
+          });
+        }
+        else
+        {
+          $location.path('/inventories/categories/' + newCategory.id + '/edit');
+        }
       });
     }
   };
