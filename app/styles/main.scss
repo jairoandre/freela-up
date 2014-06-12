@@ -1168,7 +1168,9 @@ p {
       border-radius: 4px 4px 0 0;
       text-align: center;
       font-weight: bold;
-
+      &.tab-last {
+        margin-right: 0;
+      }
       &.active {
         background: #FFF;
         color: #333;
@@ -1178,6 +1180,12 @@ p {
       width: 100%;
       a {
         width: 33.2% !important;
+      }
+    }
+    &.case {
+      width: 100%;
+      a {
+        width: 49.9% !important;
       }
     }
   }
@@ -3471,6 +3479,23 @@ colorpicker-preview {
   margin-top: 23px;
   margin-right: 19px;
   font-size: 16px;
+  &.case {
+    margin-top: 15px;
+    margin-right: 22px;
+  }
+  .status-msg,
+  .header-msg {
+    display: block;
+    text-align: right;
+  }
+  .status-msg {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .header-msg {
+    font-size: 13px;
+    font-weight: normal;
+  }
 }
 
 .step-form {
@@ -3787,5 +3812,200 @@ colorpicker-preview {
   /* <option> elements inherit styles from <select>, so reset them. */
   .select option {
     background-color: white;
+  }
+}
+
+.case-content {
+  border: 1px solid #E1E1E1;
+  border-radius: 4px;
+  &.aside {
+    width: 22%;
+    float: left;
+    border: none;
+    .case-header {
+      border: 1px solid #E1E1E1;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+    .aside-tree {
+      margin: 0;
+      border: 1px solid #E1E1E1;
+      border-top: none;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+      list-style-type: none;
+      position: relative;
+      padding: 10px 0;
+      li {
+        position: relative;
+        width: 100%;
+        &:after {
+          content: '';
+          position: absolute;
+          left: 26px;
+          border-left: 1px solid #E1E1E1;
+          height: 100%;
+          width: 0px;
+          top: 10px;
+        }
+        &:last-child::after {
+          display:none;
+        }
+        .tree-link {
+          display: block;
+          padding: 10px 20px;
+          font-size: 15px;
+          font-weight: bold;
+          color: #969696;
+          &:hover {
+            text-decoration: none;
+          }
+          .tree-icon {
+            position: relative;
+            &:before {
+              content: '';
+              position: absolute;
+              top: -2px;
+              left: -6px;
+              width: 25px;
+              height: 25px;
+              border-radius: 100%;
+              z-index: 10;
+              background-color: #7EBA27;
+              background-repeat: no-repeat;
+              background-position: center center;
+            }
+          }
+          .icon-form {
+            &:before {
+              background-image: url(../images/etapa-formulario.png);
+
+            }
+          }
+          .icon-flow {
+            &:before {
+              background-image: url(../images/etapa-fluxo.png);
+            }
+          }
+        }
+        .active-link {
+          color: #000;
+          .tree-icon {
+            &:before {
+              background-color: #000;
+            }
+          }
+        }
+        .other-link {
+          color: #259ecb;
+          .tree-icon {
+            &:before {
+              background-color: #259ecb;
+            }
+          }
+        }
+        .tree-text {
+          margin-left: 27px;
+        }
+      }
+    }
+    .case-aside-bottom-list {
+      background: #F0F0F0;
+      border: 1px solid #E1E1E1;
+      border-radius: 4px;
+      li {
+        width: 100%;
+        &:first-child {
+          border-bottom: 1px solid #E1E1E1;
+        }
+        span {
+          margin-right: 10px;
+        }
+        a {
+          display: block;
+          padding: 10px;
+          font-weight: bold;
+          &.error {
+            color: #B74B4B;
+          }
+        }
+      }
+    }
+  }
+  &.principal {
+    width: 76%;
+    margin-left: 2%;
+    float: right;
+  }
+  div {
+    width: 100%;
+    border-bottom: 1px solid #E1E1E1;
+    p {
+      margin: 0;
+    }
+    a {
+      font-weight: bold;
+    }
+    .case-link {
+      float: right;
+    }
+  }
+  .case-header {
+    background: #F0F0F0;
+    padding: 20px;
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 4px 0 0 0;
+      color: #333;
+      margin: 0;
+    }
+  }
+  .case-sub-header {
+    background: #F8F8F8;
+    padding: 10px 20px;
+    p {
+      float: left;
+      width: 90%;
+      color: #969696;
+    }
+    &.last {
+      border: none;
+    }
+  }
+  .case-default {
+    padding: 20px;
+    border-bottom: 1px solid #E1E1E1;
+    .case-title {
+      font-weight: bold;
+    }
+    .case-msg {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #969696;
+    }
+    ul {
+      list-style: initial;
+      margin-top: 12px;
+      margin-bottom: 0;
+      margin-left: 20px;
+    }
+    .case-list {
+      list-style: none;
+      margin-left: 0;
+      li {
+        display: inline-block;
+        margin-right: 10px;
+      }
+      div {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #E1E1E1;
+        p {
+          padding: 10px;
+          font-size: 12px;
+        }
+      }
+    }
   }
 }

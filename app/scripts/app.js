@@ -268,6 +268,12 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/cases/show', {
+      templateUrl: 'views/cases/show.html',
+      access: {
+        logged: true
+      }
+    })
     .when('/cases/new', {
       templateUrl: 'views/cases/new.html',
       access: {
