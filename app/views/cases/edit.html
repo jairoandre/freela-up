@@ -1,0 +1,225 @@
+<div id="full_page">
+  <div class="header">
+    <a href="#/inventories/categories" class="back">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+
+    <div class="title" ng-show="!updating">
+      Nome de um caso
+    </div>
+
+    <div class="updated-msg case">
+      <span class="header-msg">Estado do caso</span>
+      <span class="status-msg">Em andamento</span>
+    </div>
+  </div>
+
+  <div class="spacing"></div>
+
+  <div class="tabs case">
+    <a href="#" class="active">Etapas</a>
+    <a href="#" class="tab-last">Histórico</a>
+  </div>
+
+  <div class="loading" ng-show="loading"></div>
+
+  <div ng-hide="loading" class="pages-animation edit-triggers clearfix">
+    <div class="case-content aside">
+      <div class="case-header">
+        <h2>Etapa fluxo</h2>
+      </div>
+
+      <ul class="aside-tree">
+        <li>
+          <a href="#" class="tree-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link">
+            <span class="tree-icon icon-flow"></span>
+            <span class="tree-text">Etapa fluxo</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link active-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-flow"></span>
+            <span class="tree-text">Etapa fluxo</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-flow"></span>
+            <span class="tree-text">Etapa fluxo</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-flow"></span>
+            <span class="tree-text">Etapa fluxo</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="tree-link other-link">
+            <span class="tree-icon icon-form"></span>
+            <span class="tree-text">Etapa formulário</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="case-aside-bottom-list">
+        <li><a href=""><span class="glyphicon glyphicon-ok"></span>Finalizar caso</a></li>
+        <li><a href="" class="error"><span class="glyphicon glyphicon-trash"></span>Excluir caso</a></li>
+      </ul>
+    </div>
+
+    <div class="case-content principal">
+      <div class="case-header edit-case clearfix">
+        <h2>Etapa formulário</h2>
+        <p>Condutor: <span>Thiago Miqueias</span> <a href="#">(Alterar)</a></p>
+      </div>
+
+      <form action="#">
+        <fieldset>
+          <div class="form-group">
+            <label>Data*</label>
+            <input type="text" class="form-control date-field" placeholder="selecione">
+          </div>
+          <div class="form-group">
+            <label>Serviços requisitados*</label>
+            <ul>
+              <li>
+                <input type="checkbox" class="input-choice" id="-default" checked="checked">
+                <label for="-default" class="label-choice">
+                  <span>Opção 1</span>
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" class="input-choice" id="-default" checked="checked">
+                <label for="-default" class="label-choice">
+                  <span>Opção 2</span>
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" class="input-choice" id="-default" checked="checked">
+                <label for="-default" class="label-choice">
+                  <span>Opção 3</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div class="form-group">
+            <label >Anexar documentos (exemplo sem arquivos)</label>
+            <div class="drag-files">
+              <p>Selecione os arquivos ou arraste-os</p>
+              <a href="#" class="btn btn-info btn-custom">Procurar</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label >Anexar documentos (exemplo com arquivos)</label>
+            <div class="drag-files">
+              <ul class="case-list">
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+              </ul>
+              <p>Selecione os arquivos ou arraste-os</p>
+              <a href="#" class="btn btn-info btn-custom">Procurar</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label >Descrição do problema</label>
+            <textarea class="form-control" rows="6"></textarea>
+          </div>
+          <div class="form-group clearfix">
+            <label style="display: block">Relato*</label>
+            <input type="text" class="form-control inline-input" placeholder="Selecione um ou mais relatos">
+            <a href="#" class="btn btn-info btn-custom btn-inline">Procurar</a>
+          </div>
+          <div class="form-group clearfix">
+            <label style="display: block">Item de inventário*</label>
+            <input type="text" class="form-control inline-input" placeholder="Selecione um ou mais itens de inventário">
+            <a href="#" class="btn btn-info btn-custom btn-inline">Procurar</a>
+          </div>
+
+          <div class="case-default">
+            <p class="case-title">Campo de etapa anterior</p>
+            <p>Valor preenchido no campo</p>
+            <p class="case-msg">* Somente leitura</p>
+          </div>
+          <div class="case-default">
+            <p class="case-title">Comprimento do bueiro</p>
+            <p>Valor preenchido no campo</p>
+            <p class="case-msg">* Possui relação com o campo "Bueiro a ser removido"</p>
+          </div>
+          <div class="form-group last-group">
+            <button class="btn btn-info btn-custom">
+              <span class="glyphicon glyphicon-ok"></span> Concluir etapa
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="clearfix"></div>
+  </div>
+</div>
