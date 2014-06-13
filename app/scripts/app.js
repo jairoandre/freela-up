@@ -274,6 +274,12 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/cases/history', {
+      templateUrl: 'views/cases/history.html',
+      access: {
+        logged: true
+      }
+    })
     .when('/cases/new', {
       templateUrl: 'views/cases/new.html',
       access: {
