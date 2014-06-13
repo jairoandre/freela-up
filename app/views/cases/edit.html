@@ -113,7 +113,7 @@
     <div class="case-content principal">
       <div class="case-header edit-case clearfix">
         <h2>Etapa formulário</h2>
-        <p>Condutor: <span>Thiago Miqueias</span> <a href="#">(Alterar)</a></p>
+        <p>Condutor: <span>Thiago Miqueias</span> <a ng-click="changeConductor()">(Alterar)</a></p>
       </div>
 
       <form action="#">
@@ -212,9 +212,9 @@
             <p class="case-msg">* Possui relação com o campo "Bueiro a ser removido"</p>
           </div>
           <div class="form-group last-group">
-            <button class="btn btn-info btn-custom">
+            <a class="btn btn-info btn-custom" ng-click="selectConductor()">
               <span class="glyphicon glyphicon-ok"></span> Concluir etapa
-            </button>
+            </a>
           </div>
         </fieldset>
       </form>

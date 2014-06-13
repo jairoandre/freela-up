@@ -282,6 +282,7 @@ angular.module('zupPainelApp', [
     })
     .when('/cases/edit', {
       templateUrl: 'views/cases/edit.html',
+      controller: 'CasesCtrl',
       access: {
         logged: true
       }
@@ -370,6 +371,26 @@ angular.module('zupPainelApp', [
   });
 })
 
+.controller('CasesCtrl', function ($scope, Restangular, $modal) {
+  $scope.loading = false;
+  $scope.loadingPagination = false;
+  $scope.loadingContent = false;
+
+  $scope.selectConductor = function () {
+    $modal.open({
+      templateUrl: 'views/cases/selectConductor.html',
+      windowClass: 'modalConductor'
+    });
+  };
+
+  $scope.changeConductor = function () {
+    $modal.open({
+      templateUrl: 'views/cases/changeConductor.html',
+      windowClass: 'modalConductor'
+    });
+  };
+})
+
 .run(['$rootScope', '$location', 'Auth', '$timeout', function($rootScope, $location, Auth, $timeout) {
 
   $rootScope.$on('$routeChangeStart', function(e, curr, prev) {
@@ -413,3 +434,6 @@ angular.module('zupPainelApp', [
     }
   };
 }]);
+
+
+

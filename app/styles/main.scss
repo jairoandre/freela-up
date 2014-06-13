@@ -4058,6 +4058,7 @@ colorpicker-preview {
         float: right;
         span,
         a {
+          cursor: pointer;
           font-weight: bold;
         }
       }
@@ -4108,6 +4109,23 @@ colorpicker-preview {
           font-size: 12px;
         }
       }
+    }
+  }
+}
+
+.modalConductor {
+  .modal-content {
+    width: 400px;
+  }
+  .btn-group {
+    width: 100%;
+  }
+  legend {
+    font-size: 14px;
+    margin-bottom: 20px;
+    border: none;
+    strong {
+      font-weight: bold;
     }
   }
 }
