@@ -7,14 +7,14 @@
 
     <a class="title" href="" ng-hide="editingCategoryTitle" ng-click="editingCategoryTitle = true">{{ category.title }}</a>
 
-    <div class="divider"></div>
-
     <div class="edit_label" ng-show="editingCategoryTitle">
       <input type="text" ng-model="category.title" />
       <a href="" ng-click="editingCategoryTitle = false">Salvar</a>
 
       <div class="clearfix"></div>
     </div>
+
+    <div class="divider"></div>
 
     <a href="" class="edit-information"><span class="glyphicon glyphicon-edit"></span>Alterar ícone e cor</a>
 
