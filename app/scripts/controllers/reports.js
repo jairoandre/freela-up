@@ -1005,7 +1005,18 @@ angular.module('zupPainelApp')
         };
 
         $scope.removeStatus = function(status) {
-          $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+          if (typeof status.id !== 'undefined')
+          {
+            var deletePromise = Restangular.one('reports').one('categories', categoryId).one('statuses', status.id).remove();
+
+            deletePromise.then(function() {
+              $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+            });
+          }
+          else
+          {
+            $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+          }
         };
 
         $scope.close = function() {
