@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('reportStatus', function (Restangular) {
+  .directive('reportStatus', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         if (scope.$parent.$parent.updating === true)
         {
           scope.$watch('status', function(oldValue, newValue) {
