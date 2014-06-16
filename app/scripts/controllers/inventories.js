@@ -891,13 +891,13 @@ angular.module('zupPainelApp')
       $scope.groups = responses[0].data;
       $scope.category = responses[1].data;
 
-      if ($scope.category.plot_format === 'pin')
+      if ($scope.category.plot_format === 'pin') // jshint ignore:line
       {
-        $scope.category.plot_format = false;
+        $scope.category.plot_format = false; // jshint ignore:line
       }
       else
       {
-        $scope.category.plot_format = true;
+        $scope.category.plot_format = true; // jshint ignore:line
       }
 
       // watch for modifications in $scope.category
@@ -921,7 +921,7 @@ angular.module('zupPainelApp')
     $scope.category.icon = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
     $scope.category.marker = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
     $scope.category.pin = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-    $scope.category.plot_format = false;
+    $scope.category.plot_format = false; // jshint ignore:line
 
     $scope.category.sections = [{
         'title': 'Localização',
@@ -1155,7 +1155,7 @@ angular.module('zupPainelApp')
           return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
         });
 
-        uploader.bind('afteraddingfile', function(event, item, progress) {
+        uploader.bind('afteraddingfile', function() {
           $scope.$apply(function() {
             $scope.uploaderQueue.items = uploader.queue;
           });
@@ -1196,22 +1196,24 @@ angular.module('zupPainelApp')
       promises.push(addAsync($scope.uploaderQueue.items[i].file));
     }
 
-    if ($scope.category.plot_format === false)
+    if ($scope.category.plot_format === false) // jshint ignore:line
     {
-      $scope.category.plot_format = 'pin';
+      $scope.category.plot_format = 'pin'; // jshint ignore:line
     }
     else
     {
-      $scope.category.plot_format = 'marker';
+      $scope.category.plot_format = 'marker'; // jshint ignore:line
     }
 
     // wait for images to process as base64
     $q.all(promises).then(function() {
+      var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format}; // jshint ignore:line
       var formattedFormData = {sections: $scope.category.sections};
 
       if (updating)
       {
-        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format}; // jshint ignore:line
+        // we don't need to update 'statuses' when doing PUT
+        delete formattedData.statuses;
 
         if (icon)
         {
@@ -1239,8 +1241,7 @@ angular.module('zupPainelApp')
           icon = $scope.category.icon;
         }
 
-        var postData = {title: $scope.category.title, color: $scope.category.color, icon: icon, plot_format: $scope.category.plot_format}; // jshint ignore:line
-        var postCategoryPromise = Restangular.one('inventory').post('categories', postData);
+        var postCategoryPromise = Restangular.one('inventory').post('categories', formattedData);
 
         postCategoryPromise.then(function(response) {
           var newCategory = response.data;
@@ -1258,27 +1259,27 @@ angular.module('zupPainelApp')
                 // we populate updateFieldsIds with each field's title and it's id
                 for (var j = newCategory.sections[i].fields.length - 1; j >= 0; j--) {
                   updateFieldsIds[newCategory.sections[i].fields[j].title] = newCategory.sections[i][j].id;
-                };
+                }
               }
-            };
+            }
 
             // now we update our array of fields with the new ids
-            for (var i = $scope.category.sections.length - 1; i >= 0; i--) {
-              var section = $scope.category.sections[i];
+            for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
+              var section = $scope.category.sections[x];
 
               if (section.location === true)
               {
                 section.id = updateSectionId;
 
-                for (var i = section.fields.length - 1; i >= 0; i--) {
-                  section.fields[i].id = updateFieldsIds[section.fields[i].title];
-                };
+                for (var z = section.fields.length - 1; z >= 0; z--) {
+                  section.fields[z].id = updateFieldsIds[section.fields[z].title];
+                }
               }
-            };
+            }
 
             var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
 
-            putCategoryFormsPromise.then(function(response) {
+            putCategoryFormsPromise.then(function() {
               $location.path('/inventories/categories/' + newCategory.id + '/edit');
             });
           }
