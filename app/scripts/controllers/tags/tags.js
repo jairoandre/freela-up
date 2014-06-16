@@ -3,7 +3,6 @@
 angular.module('zupPainelApp')
 
 .controller('TagsCtrl', function ($scope, $modal) {
-
   $scope.open = function () {
     $modal.open({
       templateUrl: 'addTag.html',
@@ -15,5 +14,4 @@ angular.module('zupPainelApp')
       }]
     });
   };
-
 });

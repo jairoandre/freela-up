@@ -1,0 +1,38 @@
+'use strict';
+
+angular.module('zupPainelApp')
+
+.controller('GroupsCtrl', function ($scope, $modal, Restangular) {
+
+  $scope.loading = true;
+
+  var groupsPromise = Restangular.all('groups').getList();
+
+  // Get all groups
+  groupsPromise.then(function(response) {
+    $scope.groups = response.data;
+
+    $scope.loading = false;
+  });
+
+  $scope.deleteGroup = function (group) {
+    $modal.open({
+      templateUrl: 'removeGroup.html',
+      windowClass: 'removeModal',
+      resolve: {
+        groupsList: function(){
+          return $scope.groups;
+        }
+      },
+      controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+        $scope.group = group;
+
+        /** TO DO DELETE GROUP **/
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+});

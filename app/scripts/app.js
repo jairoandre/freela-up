@@ -42,7 +42,7 @@ angular.module('zupPainelApp', [
     })
     .when('/groups/:id', {
       templateUrl: 'views/groups/list.html',
-      controller: 'ViewGroupsCtrl',
+      controller: 'GroupsViewCtrl',
       access: {
         logged: true
       }
@@ -131,7 +131,7 @@ angular.module('zupPainelApp', [
     })
     .when('/reports/categories/:categoryId/item/:id', {
       templateUrl: 'views/reports/view.html',
-      controller: 'ReportsCategoriesItemCtrl',
+      controller: 'ReportsItemCtrl',
       access: {
         logged: true
       }
@@ -191,21 +191,21 @@ angular.module('zupPainelApp', [
     })
     .when('/inventories/categories/:categoryId/item/add', {
       templateUrl: 'views/inventories/items/edit.html',
-      controller: 'InventoriesCategoriesItemEditCtrl',
+      controller: 'InventoriesItemEditCtrl',
       access: {
         logged: true
       }
     })
     .when('/inventories/categories/:categoryId/item/:id/edit', {
       templateUrl: 'views/inventories/items/edit.html',
-      controller: 'InventoriesCategoriesItemEditCtrl',
+      controller: 'InventoriesItemEditCtrl',
       access: {
         logged: true
       }
     })
     .when('/inventories/categories/:categoryId/item/:id', {
       templateUrl: 'views/inventories/items/view.html',
-      controller: 'InventoriesCategoriesItemCtrl',
+      controller: 'InventoriesItemCtrl',
       access: {
         logged: true
       }
