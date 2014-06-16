@@ -1247,6 +1247,35 @@ angular.module('zupPainelApp')
 
           if ($scope.unsavedCategory === true)
           {
+            var updateFieldsIds = {}, updateSectionId;
+
+            // before updating the forms, let's set each field id to our own
+            for (var i = newCategory.sections.length - 1; i >= 0; i--) {
+              if (newCategory.sections[i].location === true)
+              {
+                updateSectionId = newCategory.sections[i].id;
+
+                // we populate updateFieldsIds with each field's title and it's id
+                for (var j = newCategory.sections[i].fields.length - 1; j >= 0; j--) {
+                  updateFieldsIds[newCategory.sections[i].fields[j].title] = newCategory.sections[i][j].id;
+                };
+              }
+            };
+
+            // now we update our array of fields with the new ids
+            for (var i = $scope.category.sections.length - 1; i >= 0; i--) {
+              var section = $scope.category.sections[i];
+
+              if (section.location === true)
+              {
+                section.id = updateSectionId;
+
+                for (var i = section.fields.length - 1; i >= 0; i--) {
+                  section.fields[i].id = updateFieldsIds[section.fields[i].title];
+                };
+              }
+            };
+
             var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
 
             putCategoryFormsPromise.then(function(response) {
