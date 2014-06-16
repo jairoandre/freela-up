@@ -365,7 +365,7 @@ angular.module('zupPainelApp', [
 
     for (var x in response)
     {
-      return response[key];
+      return response[x];
     }
 
     return response;
