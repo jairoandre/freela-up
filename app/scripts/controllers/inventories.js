@@ -829,7 +829,7 @@ angular.module('zupPainelApp')
     });
   };
 })
-.controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window) {
+.controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window, $location, $fileUploader) {
   var updating = $scope.updating = false;
 
   var categoryId = $routeParams.categoryId;
@@ -891,6 +891,15 @@ angular.module('zupPainelApp')
       $scope.groups = responses[0].data;
       $scope.category = responses[1].data;
 
+      if ($scope.category.plot_format === 'pin')
+      {
+        $scope.category.plot_format = false;
+      }
+      else
+      {
+        $scope.category.plot_format = true;
+      }
+
       // watch for modifications in $scope.category
       $scope.$watch('category', function(newValue, oldValue) {
         if (newValue !== oldValue)
@@ -905,6 +914,139 @@ angular.module('zupPainelApp')
   else
   {
     $scope.loading = false;
+
+    // added fake fields
+    $scope.category.title = 'Nova categoria sem título';
+    $scope.category.color = '#2AB4DC';
+    $scope.category.icon = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    $scope.category.marker = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    $scope.category.pin = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    $scope.category.plot_format = false;
+
+    $scope.category.sections = [{
+        'title': 'Localização',
+        'required': true,
+        'location': true,
+        'fields': [
+          {
+            'title': 'longitude',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 1,
+            'label': 'Longitude',
+            'maximum': null,
+            'minimum': null,
+            'required': true,
+            'location': true
+          },
+          {
+            'title': 'postal_code',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 3,
+            'label': 'CEP',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'road_classification',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 8,
+            'label': 'Classificação Viária',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'city',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 5,
+            'label': 'Cidade',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'latitude',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 0,
+            'label': 'Latitude',
+            'maximum': null,
+            'minimum': null,
+            'required': true,
+            'location': true
+          },
+          {
+            'title': 'address',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 2,
+            'label': 'Endereço',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'district',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 4,
+            'label': 'Bairro',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'state',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 6,
+            'label': 'Estado',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          },
+          {
+            'title': 'codlog',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 7,
+            'label': 'Codlog',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true
+          }
+        ]
+      }];
 
     // watch for modifications in $scope.category
     $scope.$watch('category', function(newValue, oldValue) {
@@ -976,28 +1118,177 @@ angular.module('zupPainelApp')
     $scope.$broadcast('hideOpenPopovers', data);
   });
 
+  $scope.uploaderQueue = {items: []};
+
+  $scope.editCategoryOptions = function () {
+    $modal.open({
+      templateUrl: 'views/inventories/editCategoryOptions.html',
+      windowClass: 'editCategory',
+      resolve: {
+        category: function() {
+          return $scope.category;
+        },
+
+        uploaderQueue: function() {
+          return $scope.uploaderQueue;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'category', 'uploaderQueue', function($scope, $modalInstance, category, uploaderQueue) {
+        $scope.category = category;
+        $scope.uploaderQueue = uploaderQueue;
+
+        // image uploader
+        var uploader = $scope.uploader = $fileUploader.create({
+          scope: $scope,
+          filters: [
+            function() {
+              uploader.queue = [];
+              return true;
+            }
+          ]
+        });
+
+        // Images only
+        uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+          var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+          type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+          return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        });
+
+        uploader.bind('afteraddingfile', function(event, item, progress) {
+          $scope.$apply(function() {
+            $scope.uploaderQueue.items = uploader.queue;
+          });
+        });
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
   $scope.send = function() {
     $scope.processingForm = true;
 
-    if (updating)
+    var icon, promises = [];
+
+    // Add images to queue for processing it's dataUrl
+    function addAsync(file) {
+      var deferred = $q.defer();
+
+      var picReader = new FileReader();
+
+      picReader.addEventListener('load', function(event) {
+        var picFile = event.target;
+
+        icon = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
+        deferred.resolve();
+      });
+
+      // pass as base64 and strip data:image
+      picReader.readAsDataURL(file);
+
+      return deferred.promise;
+    }
+
+    for (var i = $scope.uploaderQueue.items.length - 1; i >= 0; i--) {
+      promises.push(addAsync($scope.uploaderQueue.items[i].file));
+    }
+
+    if ($scope.category.plot_format === false)
     {
-      var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses}; // jshint ignore:line
+      $scope.category.plot_format = 'pin';
+    }
+    else
+    {
+      $scope.category.plot_format = 'marker';
+    }
+
+    // wait for images to process as base64
+    $q.all(promises).then(function() {
       var formattedFormData = {sections: $scope.category.sections};
 
-      var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
-      var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
+      if (updating)
+      {
+        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format}; // jshint ignore:line
 
-      $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
-        $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
+        if (icon)
+        {
+          formattedData.icon = icon;
+        }
 
-        $scope.unsavedCategory = false;
-        $scope.processingForm = false;
-      }, function() {
-        $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
+        var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
+        var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
 
-        $scope.processingForm = false;
-      });
-    }
+        $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
+          $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
+
+          $scope.unsavedCategory = false;
+          $scope.processingForm = false;
+        }, function() {
+          $scope.showMessage('exclamation-sign', 'O inventário não pode ser atualizado.', 'error', true);
+
+          $scope.processingForm = false;
+        });
+      }
+      else
+      {
+        if (!icon)
+        {
+          icon = $scope.category.icon;
+        }
+
+        var postData = {title: $scope.category.title, color: $scope.category.color, icon: icon, plot_format: $scope.category.plot_format}; // jshint ignore:line
+        var postCategoryPromise = Restangular.one('inventory').post('categories', postData);
+
+        postCategoryPromise.then(function(response) {
+          var newCategory = response.data;
+
+          if ($scope.unsavedCategory === true)
+          {
+            var updateFieldsIds = {}, updateSectionId;
+
+            // before updating the forms, let's set each field id to our own
+            for (var i = newCategory.sections.length - 1; i >= 0; i--) {
+              if (newCategory.sections[i].location === true)
+              {
+                updateSectionId = newCategory.sections[i].id;
+
+                // we populate updateFieldsIds with each field's title and it's id
+                for (var j = newCategory.sections[i].fields.length - 1; j >= 0; j--) {
+                  updateFieldsIds[newCategory.sections[i].fields[j].title] = newCategory.sections[i][j].id;
+                };
+              }
+            };
+
+            // now we update our array of fields with the new ids
+            for (var i = $scope.category.sections.length - 1; i >= 0; i--) {
+              var section = $scope.category.sections[i];
+
+              if (section.location === true)
+              {
+                section.id = updateSectionId;
+
+                for (var i = section.fields.length - 1; i >= 0; i--) {
+                  section.fields[i].id = updateFieldsIds[section.fields[i].title];
+                };
+              }
+            };
+
+            var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
+
+            putCategoryFormsPromise.then(function(response) {
+              $location.path('/inventories/categories/' + newCategory.id + '/edit');
+            });
+          }
+          else
+          {
+            $location.path('/inventories/categories/' + newCategory.id + '/edit');
+          }
+        });
+      }
+    });
   };
 })
 .controller('InventoriesCategoriesSelectCtrl', function ($scope, Restangular) {

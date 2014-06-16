@@ -42,6 +42,7 @@ angular.module('zupPainelApp')
               size: 'M',
               inventory_fields_can_view: [], // jshint ignore:line
               inventory_fields_can_edit: [], // jshint ignore:line
+              available_values: [], // jshint ignore:line
               position: null
             };
 

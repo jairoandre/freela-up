@@ -348,12 +348,22 @@ angular.module('zupPainelApp', [
 
   // Return what is being requested
   RestangularProvider.setResponseExtractor(function(response, operation, what) {
+    // we first check if what we want do exist
     if (typeof response[what] !== 'undefined')
     {
       return response[what];
     }
 
+    // then return the first object in the response
     for (var key in response)
+    {
+      if (typeof response[key] === 'object')
+      {
+        return response[key];
+      }
+    }
+
+    for (var x in response)
     {
       return response[key];
     }
