@@ -4,7 +4,7 @@ angular.module('zupPainelApp')
   .directive('areaMap', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         var mapProvider = {
           options:
           {
