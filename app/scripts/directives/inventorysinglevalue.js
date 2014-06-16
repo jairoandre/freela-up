@@ -10,8 +10,8 @@ angular.module('zupPainelApp')
         scope.saveValue = function() {
           scope.editingValue = false;
 
-          var index = scope.$parent.field.available_values.indexOf(scope.value);
-          scope.$parent.field.available_values[index] = scope.editValue;
+          var index = scope.$parent.field.available_values.indexOf(scope.value); // jshint ignore:line
+          scope.$parent.field.available_values[index] = scope.editValue; // jshint ignore:line
 
         };
 
