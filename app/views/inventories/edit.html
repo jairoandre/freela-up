@@ -16,7 +16,7 @@
 
     <div class="divider"></div>
 
-    <a href="" class="edit-information"><span class="glyphicon glyphicon-edit"></span>Alterar ícone e cor</a>
+    <a href="" ng-click="editCategoryOptions()" class="edit-information"><span class="glyphicon glyphicon-edit"></span>Alterar ícone e cor</a>
 
     <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
       <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>

@@ -1903,6 +1903,68 @@ p {
   }
 }
 
+.editCategory {
+  .modal-dialog {
+    width: 500px;
+  }
+
+  .form-group.upload {
+    .drop-zone {
+      width: 260px;
+      height: 80px;
+      background: #F2F2F2;
+      border-radius: 5px;
+      display: table;
+
+      &.ng-file-over {
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.47);
+        border: 4px solid #FFF;
+      }
+
+      span {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        color: #FFF;
+      }
+    }
+
+    .image {
+      width: 60px;
+      height: 60px;
+      vertical-align: middle;
+      margin: 0 auto;
+      margin-top: 10px;
+    }
+
+    .btn-upload {
+      width: 200px;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+
+      input {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        @include opacity(0);
+      }
+    }
+  }
+
+  .has-switch {
+    min-width: 130px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+
 .removeModal {
   .modal-dialog {
     width: 500px;
