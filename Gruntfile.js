@@ -297,10 +297,8 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'views/**/**/*.html',
-            'bower_components/**/*',
             'images/*',
-            'fonts/*',
-            'bower_components/sass-bootstrap/fonts/*.*'
+            'fonts/*'
           ]
         }, {
           expand: true,
