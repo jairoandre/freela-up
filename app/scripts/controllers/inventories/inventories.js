@@ -17,7 +17,7 @@ angular.module('zupPainelApp')
     $scope.beginDate = null;
     $scope.endDate = null;
     $scope.searchText = null;
-    $scope.fields = null;
+    $scope.fields = [];
 
     // map options
     $scope.position = null;
@@ -103,7 +103,7 @@ angular.module('zupPainelApp')
     }
 
     // fields
-    if ($scope.fields !== null)
+    if ($scope.fields.length !== 0)
     {
       for (var i = $scope.fields.length - 1; i >= 0; i--) {
         var key = 'fields[' + $scope.fields[i].id + '][' + $scope.fields[i].condition + ']';
@@ -269,7 +269,7 @@ angular.module('zupPainelApp')
 
         if (filter.type === 'fields')
         {
-          $scope.fields = filter.value;
+          $scope.fields.push(filter.value);
         }
 
         if (filter.type === 'beginDate')

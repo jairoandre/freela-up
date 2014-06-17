@@ -346,25 +346,17 @@ angular.module('zupPainelApp')
             $scope.items.push(angular.copy($scope.newField));
           };
 
-          $scope.fields = [{id: 128, condition: 'equal_to', value: 10}, {id: 133, condition: 'equal_to', value: 11}];
-
           $scope.save = function() {
-            var filter = {
-              title: 'Campos',
-              type: 'fields',
-              value: []
-            };
-
-            var desc = [];
-
             for (var i = $scope.items.length - 1; i >= 0; i--) {
-              filter.value.push({id: $scope.items[i].field.id, condition: $scope.items[i].condition.condition, value: $scope.items[i].value});
-              desc.push(' ' + $scope.items[i].field.label + ': ' + $scope.items[i].condition.text + ' ' + $scope.items[i].value);
+              var filter = {
+                title: 'Campo',
+                type: 'fields',
+                desc: $scope.items[i].field.label + ': ' + $scope.items[i].condition.text + ' ' + $scope.items[i].value,
+                value: {id: $scope.items[i].field.id, condition: $scope.items[i].condition.condition, value: $scope.items[i].value}
+              };
+
+              $scope.activeAdvancedFilters.push(filter);
             }
-
-            filter.desc = desc.join();
-
-            $scope.activeAdvancedFilters.push(filter);
 
             $modalInstance.close();
           };
