@@ -95,6 +95,7 @@ angular.module('zupPainelApp')
     $scope.category.marker = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
     $scope.category.pin = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
     $scope.category.plot_format = false; // jshint ignore:line
+    $scope.category.statuses = [];
 
     $scope.category.sections = [{
         'title': 'Localização',
@@ -310,6 +311,8 @@ angular.module('zupPainelApp')
         $scope.category = category;
         $scope.uploaderQueue = uploaderQueue;
 
+        $scope.icon = category.original_icon; // jshint ignore:line
+
         // image uploader
         var uploader = $scope.uploader = $fileUploader.create({
           scope: $scope,
@@ -409,57 +412,54 @@ angular.module('zupPainelApp')
       }
       else
       {
-        if (!icon)
+        if (icon)
         {
-          icon = $scope.category.icon;
+          formattedData.icon = icon;
+        }
+        else
+        {
+          formattedData.icon = $scope.category.icon;
         }
 
         var postCategoryPromise = Restangular.one('inventory').post('categories', formattedData);
 
         postCategoryPromise.then(function(response) {
-          var newCategory = response.data;
+          var newCategory = response.data, updateFieldsIds = {}, updateSectionId;
 
-          if ($scope.unsavedCategory === true)
-          {
-            var updateFieldsIds = {}, updateSectionId;
+          // before updating the forms, let's set each field id to our own
+          for (var i = newCategory.sections.length - 1; i >= 0; i--) {
+            if (newCategory.sections[i].location === true)
+            {
+              updateSectionId = newCategory.sections[i].id;
 
-            // before updating the forms, let's set each field id to our own
-            for (var i = newCategory.sections.length - 1; i >= 0; i--) {
-              if (newCategory.sections[i].location === true)
-              {
-                updateSectionId = newCategory.sections[i].id;
-
-                // we populate updateFieldsIds with each field's title and it's id
-                for (var j = newCategory.sections[i].fields.length - 1; j >= 0; j--) {
-                  updateFieldsIds[newCategory.sections[i].fields[j].title] = newCategory.sections[i][j].id;
-                }
+              // we populate updateFieldsIds with each field's title and it's id
+              for (var j = newCategory.sections[i].fields.length - 1; j >= 0; j--) {
+                updateFieldsIds[newCategory.sections[i].fields[j].title] = newCategory.sections[i].fields[j].id;
               }
             }
-
-            // now we update our array of fields with the new ids
-            for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
-              var section = $scope.category.sections[x];
-
-              if (section.location === true)
-              {
-                section.id = updateSectionId;
-
-                for (var z = section.fields.length - 1; z >= 0; z--) {
-                  section.fields[z].id = updateFieldsIds[section.fields[z].title];
-                }
-              }
-            }
-
-            var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
-
-            putCategoryFormsPromise.then(function() {
-              $location.path('/inventories/categories/' + newCategory.id + '/edit');
-            });
           }
-          else
-          {
+
+          console.log(updateFieldsIds);
+
+          // now we update our array of fields with the new ids
+          for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
+            var section = $scope.category.sections[x];
+
+            if (section.location === true)
+            {
+              section.id = updateSectionId;
+
+              for (var z = section.fields.length - 1; z >= 0; z--) {
+                section.fields[z].id = updateFieldsIds[section.fields[z].title];
+              }
+            }
+          }
+
+          var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
+
+          putCategoryFormsPromise.then(function() {
             $location.path('/inventories/categories/' + newCategory.id + '/edit');
-          }
+          });
         });
       }
     });
