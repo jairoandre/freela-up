@@ -254,7 +254,7 @@ angular.module('zupPainelApp')
 
         if (filter.type === 'categories')
         {
-          $scope.selectedCategories = filter.value;
+          $scope.selectedCategories.push(filter.value);
         }
 
         if (filter.type === 'statuses')

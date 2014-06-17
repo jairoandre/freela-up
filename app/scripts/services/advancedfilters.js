@@ -37,25 +37,19 @@ angular.module('zupPainelApp')
           };
 
           $scope.save = function() {
-            var filter = {
-              title: 'Categorias',
-              type: 'categories',
-              value: []
-            };
-
-            var desc = [];
-
             for (var i = $scope.categories.length - 1; i >= 0; i--) {
               if ($scope.categories[i].selected === true)
               {
-                filter.value.push($scope.categories[i].id);
-                desc.push(' ' + $scope.categories[i].title);
+                var filter = {
+                  title: 'Categoria',
+                  type: 'categories',
+                  desc: $scope.categories[i].title,
+                  value: $scope.categories[i].id
+                };
+
+                $scope.activeAdvancedFilters.push(filter);
               }
             }
-
-            filter.desc = desc.join();
-
-            $scope.activeAdvancedFilters.push(filter);
 
             $modalInstance.close();
           };
