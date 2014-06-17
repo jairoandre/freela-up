@@ -261,7 +261,7 @@ angular.module('zupPainelApp')
 
         if (filter.type === 'authors')
         {
-          $scope.selectedUsers = filter.value;
+          $scope.selectedUsers.push(filter.value);
         }
 
         if (filter.type === 'beginDate')

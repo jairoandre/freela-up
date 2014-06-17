@@ -182,22 +182,16 @@ angular.module('zupPainelApp')
           };
 
           $scope.save = function() {
-            var filter = {
-              title: 'Usuários',
-              type: 'authors',
-              value: []
-            };
-
-            var desc = [];
-
             for (var i = $scope.users.length - 1; i >= 0; i--) {
-              filter.value.push($scope.users[i].id);
-              desc.push(' ' + $scope.users[i].name);
+              var filter = {
+                title: 'Usuário',
+                type: 'authors',
+                desc: $scope.users[i].name,
+                value: $scope.users[i].id
+              };
+
+              $scope.activeAdvancedFilters.push(filter);
             }
-
-            filter.desc = desc.join();
-
-            $scope.activeAdvancedFilters.push(filter);
 
             $modalInstance.close();
           };
