@@ -17,8 +17,8 @@
   <div class="spacing"></div>
 
   <div class="tabs case">
-    <a href="#/cases/show" class="active">Etapas</a>
-    <a href="#/cases/history" class="tab-last">Histórico</a>
+    <a href="#" class="active">Etapas</a>
+    <a href="#" class="tab-last">Histórico</a>
   </div>
 
   <div class="loading" ng-show="loading"></div>
@@ -27,14 +27,14 @@
     <div class="case-content aside">
       <div class="case-header">
         <h2>
-          <a href="#" class="clearfix">
+          <a href="#" class="case-header-active clearfix">
             <span class="case-header-text">Etapa fluxo</span>
             <span class="case-header-icon"></span>
           </a>
         </h2>
       </div>
 
-     <div class="content-select-tree" style="display: none;">
+     <div class="content-select-tree">
        <ul class="select-tree">
          <li>
            <a href="#" class="default-link">Etapa nível 1</a>
@@ -163,87 +163,113 @@
     </div>
 
     <div class="case-content principal">
-      <div class="case-header">
+      <div class="case-header edit-case clearfix">
         <h2>Etapa formulário</h2>
+        <p>Condutor: <span>Thiago Miqueias</span> <a ng-click="changeConductor()">(Alterar)</a></p>
       </div>
-      <div class="case-sub-header clearfix">
-        <p>Esta etapa já foi preenchida</p>
-        <a href="#/cases/edit" class="case-link">Editar</a>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Data</p>
-        <p>12/05/2014</p>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Serviços requisitados</p>
-        <ul>
-          <li>Opção 1</li>
-          <li>Opção 2</li>
-        </ul>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Anexar documentos (com arquivos)</p>
-        <ul class="case-list">
-          <li>
-            <div>
-              <p>Contrato.pdf</p>
+
+      <form action="#">
+        <fieldset>
+          <div class="form-group">
+            <label>Data*</label>
+            <input type="text" class="form-control date-field" placeholder="selecione">
+          </div>
+          <div class="form-group">
+            <label>Serviços requisitados*</label>
+            <ul>
+              <li>
+                <input type="checkbox" class="input-choice" id="-default" checked="checked">
+                <label for="-default" class="label-choice">
+                  <span>Opção 1</span>
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" class="input-choice" id="-default" checked="checked">
+                <label for="-default" class="label-choice">
+                  <span>Opção 2</span>
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" class="input-choice" id="-default" checked="checked">
+                <label for="-default" class="label-choice">
+                  <span>Opção 3</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div class="form-group">
+            <label >Anexar documentos (exemplo sem arquivos)</label>
+            <div class="drag-files">
+              <p>Selecione os arquivos ou arraste-os</p>
+              <a href="#" class="btn btn-info btn-custom">Procurar</a>
             </div>
-          </li>
-          <li>
-            <div>
-              <p>Contrato.pdf</p>
+          </div>
+          <div class="form-group">
+            <label >Anexar documentos (exemplo com arquivos)</label>
+            <div class="drag-files">
+              <ul class="case-list">
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <p>Contrato.pdf</p>
+                  </div>
+                </li>
+              </ul>
+              <p>Selecione os arquivos ou arraste-os</p>
+              <a href="#" class="btn btn-info btn-custom">Procurar</a>
             </div>
-          </li>
-          <li>
-            <div>
-              <p>Contrato.pdf</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>Contrato.pdf</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>Contrato.pdf</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Descrição do problema</p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, quas, alias! Neque, necessitatibus, alias voluptatem dolorem pariatur provident soluta quia saepe vero reprehenderit explicabo fuga! Ipsam voluptatibus explicabo voluptatum accusamus! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Relatos</p>
-        <ul>
-          <li><a href="#">Relato 1</a></li>
-          <li><a href="#">Relato 2</a></li>
-        </ul>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Item de inventário</p>
-        <ul>
-          <li><a href="#">Item de inventário</a></li>
-        </ul>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Campo de etapa anterior</p>
-        <p>Valor preenchido no campo</p>
-        <p class="case-msg">* Somente leitura</p>
-      </div>
-      <div class="case-default">
-        <p class="case-title">Comprimento do bueiro</p>
-        <p>Valor preenchido no campo</p>
-        <p class="case-msg">* Possui relação com o campo "Bueiro a ser removido"</p>
-      </div>
-      <div class="case-sub-header last clearfix">
-        <p>Esta etapa já foi preenchida</p>
-        <a href="#" class="case-link">Editar</a>
-      </div>
+          </div>
+          <div class="form-group">
+            <label >Descrição do problema</label>
+            <textarea class="form-control" rows="6"></textarea>
+          </div>
+          <div class="form-group clearfix">
+            <label style="display: block">Relato*</label>
+            <input type="text" class="form-control inline-input" placeholder="Selecione um ou mais relatos">
+            <a href="#" class="btn btn-info btn-custom btn-inline">Procurar</a>
+          </div>
+          <div class="form-group clearfix">
+            <label style="display: block">Item de inventário*</label>
+            <input type="text" class="form-control inline-input" placeholder="Selecione um ou mais itens de inventário">
+            <a href="#" class="btn btn-info btn-custom btn-inline">Procurar</a>
+          </div>
+
+          <div class="case-default">
+            <p class="case-title">Campo de etapa anterior</p>
+            <p>Valor preenchido no campo</p>
+            <p class="case-msg">* Somente leitura</p>
+          </div>
+          <div class="case-default">
+            <p class="case-title">Comprimento do bueiro</p>
+            <p>Valor preenchido no campo</p>
+            <p class="case-msg">* Possui relação com o campo "Bueiro a ser removido"</p>
+          </div>
+          <div class="form-group last-group clearfix">
+            <a class="btn btn-info btn-custom" ng-click="selectConductor()">
+              <span class="glyphicon glyphicon-ok"></span> Concluir etapa
+            </a>
+          </div>
+        </fieldset>
+      </form>
     </div>
 
     <div class="clearfix"></div>
