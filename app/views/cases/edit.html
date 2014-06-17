@@ -26,8 +26,60 @@
   <div ng-hide="loading" class="pages-animation edit-triggers clearfix">
     <div class="case-content aside">
       <div class="case-header">
-        <h2>Etapa fluxo</h2>
+        <h2>
+          <a href="#" class="case-header-active clearfix">
+            <span class="case-header-text">Etapa fluxo</span>
+            <span class="case-header-icon"></span>
+          </a>
+        </h2>
       </div>
+
+     <div class="content-select-tree">
+       <ul class="select-tree">
+         <li>
+           <a href="#" class="default-link">Etapa nível 1</a>
+           <ul>
+             <li>
+               <a href="#" class="default-link">Etapa nível 2</a>
+             </li>
+             <li>
+               <a href="#" class="default-link">Etapa nível 2</a>
+               <ul>
+                 <li>
+                   <a href="#" class="default-link">Etapa nível 3</a>
+                 </li>
+                 <li>
+                   <a href="#" class="default-link">Etapa nível 3</a>
+                 </li>
+                 <li>
+                   <a href="#" class="active-link">Etapa fluxo</a>
+                 </li>
+                 <li>
+                   <a href="#">Etapa nível 3</a>
+                 </li>
+               </ul>
+             </li>
+             <li>
+               <a href="#">Etapa nível 2</a>
+             </li>
+           </ul>
+         </li>
+         <li>
+           <a href="#">Etapa nível 1</a>
+           <ul>
+             <li>
+               <a href="#">Etapa nível 2</a>
+             </li>
+             <li>
+               <a href="#">Etapa nível 2</a>
+             </li>
+           </ul>
+         </li>
+         <li>
+           <a href="#">Etapa nível 1</a>
+         </li>
+       </ul>
+     </div>
 
       <ul class="aside-tree">
         <li>
@@ -211,7 +263,7 @@
             <p>Valor preenchido no campo</p>
             <p class="case-msg">* Possui relação com o campo "Bueiro a ser removido"</p>
           </div>
-          <div class="form-group last-group">
+          <div class="form-group last-group clearfix">
             <a class="btn btn-info btn-custom" ng-click="selectConductor()">
               <span class="glyphicon glyphicon-ok"></span> Concluir etapa
             </a>
