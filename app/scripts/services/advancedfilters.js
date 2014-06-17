@@ -93,25 +93,19 @@ angular.module('zupPainelApp')
           };
 
           $scope.save = function() {
-            var filter = {
-              title: 'Estados',
-              type: 'statuses',
-              value: []
-            };
-
-            var desc = [];
-
             for (var i = $scope.statuses.length - 1; i >= 0; i--) {
               if ($scope.statuses[i].selected === true)
               {
-                filter.value.push($scope.statuses[i].id);
-                desc.push(' ' + $scope.statuses[i].title);
+                var filter = {
+                  title: 'Estado',
+                  type: 'statuses',
+                  desc: $scope.statuses[i].title,
+                  value: $scope.statuses[i].id
+                };
+
+                $scope.activeAdvancedFilters.push(filter);
               }
             }
-
-            filter.desc = desc.join();
-
-            $scope.activeAdvancedFilters.push(filter);
 
             $modalInstance.close();
           };

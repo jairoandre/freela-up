@@ -256,7 +256,7 @@ angular.module('zupPainelApp')
 
         if (filter.type === 'statuses')
         {
-          $scope.selectedStatuses = filter.value;
+          $scope.selectedStatuses.push(filter.value);
         }
 
         if (filter.type === 'authors')
