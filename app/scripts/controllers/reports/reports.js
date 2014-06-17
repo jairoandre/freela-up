@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('ReportsCtrl', function ($scope, Restangular, $modal, $q, isMap) {
+.controller('ReportsCtrl', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total;
@@ -299,299 +299,6 @@ angular.module('zupPainelApp')
     $scope.activeAdvancedFilters.push(filter);
   };
 
-  var advancedFilterCategory = function() {
-    $modal.open({
-      templateUrl: 'views/reports/filters/category.html',
-      windowClass: 'filterCategoriesModal',
-      resolve: {
-        categories: function() {
-          return $scope.categories;
-        },
-
-        activeAdvancedFilters: function() {
-          return $scope.activeAdvancedFilters;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'categories', 'activeAdvancedFilters', function($scope, $modalInstance, categories, activeAdvancedFilters) {
-        $scope.categories = categories;
-        $scope.activeAdvancedFilters = activeAdvancedFilters;
-
-        $scope.updateCategory = function(category) {
-          var i = $scope.categories.indexOf(category);
-
-          if ($scope.categories[i].selected === true)
-          {
-            $scope.categories[i].selected = false;
-          }
-          else
-          {
-            $scope.categories[i].selected = true;
-          }
-        };
-
-        $scope.save = function() {
-          var filter = {
-            title: 'Categorias',
-            type: 'categories',
-            value: []
-          };
-
-          var desc = [];
-
-          for (var i = $scope.categories.length - 1; i >= 0; i--) {
-            if ($scope.categories[i].selected === true)
-            {
-              filter.value.push($scope.categories[i].id);
-              desc.push(' ' + $scope.categories[i].title);
-            }
-          }
-
-          filter.desc = desc.join();
-
-          $scope.activeAdvancedFilters.push(filter);
-
-          $modalInstance.close();
-        };
-
-        $scope.close = function() {
-          $modalInstance.close();
-        };
-      }]
-    });
-  };
-
-  var advancedFilterStatus = function() {
-    $modal.open({
-      templateUrl: 'views/reports/filters/status.html',
-      windowClass: 'filterStatusesModal',
-      resolve: {
-        statuses: function() {
-          return $scope.statuses;
-        },
-
-        activeAdvancedFilters: function() {
-          return $scope.activeAdvancedFilters;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'statuses', 'activeAdvancedFilters', function($scope, $modalInstance, statuses, activeAdvancedFilters) {
-        $scope.statuses = statuses;
-        $scope.activeAdvancedFilters = activeAdvancedFilters;
-
-        $scope.updateStatus = function(status) {
-          var i = $scope.statuses.indexOf(status);
-
-          if ($scope.statuses[i].selected === true)
-          {
-            $scope.statuses[i].selected = false;
-          }
-          else
-          {
-            $scope.statuses[i].selected = true;
-          }
-        };
-
-        $scope.save = function() {
-          var filter = {
-            title: 'Estados',
-            type: 'statuses',
-            value: []
-          };
-
-          var desc = [];
-
-          for (var i = $scope.statuses.length - 1; i >= 0; i--) {
-            if ($scope.statuses[i].selected === true)
-            {
-              filter.value.push($scope.statuses[i].id);
-              desc.push(' ' + $scope.statuses[i].title);
-            }
-          }
-
-          filter.desc = desc.join();
-
-          $scope.activeAdvancedFilters.push(filter);
-
-          $modalInstance.close();
-        };
-
-        $scope.close = function() {
-          $modalInstance.close();
-        }; // hello
-      }]
-    });
-  };
-
-  var advancedFilterAuthor = function() {
-    $modal.open({
-      templateUrl: 'views/reports/filters/author.html',
-      windowClass: 'filterAuthorModal',
-      resolve: {
-        activeAdvancedFilters: function() {
-          return $scope.activeAdvancedFilters;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
-        $scope.activeAdvancedFilters = activeAdvancedFilters;
-        $scope.users = [];
-        $scope.field = {};
-
-        $scope.usersAutocomplete = {
-          options: {
-            onlySelect: true,
-            source: function( request, uiResponse ) {
-              var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
-
-              categoriesPromise.then(function(response) {
-                uiResponse( $.map( response.data, function( user ) {
-                  return {
-                    label: user.name,
-                    value: user.name,
-                    user: {id: user.id, name: user.name}
-                  };
-                }));
-              });
-            },
-            messages: {
-              noResults: '',
-              results: function() {}
-            }
-          }
-        };
-
-        $scope.usersAutocomplete.events = {
-          select: function( event, ui ) {
-            var found = false;
-
-            for (var i = $scope.users.length - 1; i >= 0; i--) {
-              if ($scope.users[i].id === ui.item.user.id)
-              {
-                found = true;
-              }
-            }
-
-            if (!found)
-            {
-              $scope.users.push(ui.item.user);
-            }
-          },
-
-          change: function() {
-            $scope.field.text = '';
-          }
-        };
-
-        $scope.removeUser = function(user) {
-          $scope.users.splice($scope.users.indexOf(user), 1);
-        };
-
-        $scope.save = function() {
-          var filter = {
-            title: 'Usuários',
-            type: 'authors',
-            value: []
-          };
-
-          var desc = [];
-
-          for (var i = $scope.users.length - 1; i >= 0; i--) {
-            filter.value.push($scope.users[i].id);
-            desc.push(' ' + $scope.users[i].name);
-          }
-
-          filter.desc = desc.join();
-
-          $scope.activeAdvancedFilters.push(filter);
-
-          $modalInstance.close();
-        };
-
-        $scope.close = function() {
-          $modalInstance.close();
-        };
-      }]
-    });
-  };
-
-  var advancedFilterPeriod = function() {
-    $modal.open({
-      templateUrl: 'views/inventories/filters/period.html',
-      windowClass: 'filterPeriodModal',
-      resolve: {
-        activeAdvancedFilters: function() {
-          return $scope.activeAdvancedFilters;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
-        $scope.activeAdvancedFilters = activeAdvancedFilters;
-        $scope.period = {beginDate: new Date(), endDate: new Date(), tab: 'between'};
-
-        $scope.save = function() {
-          if ($scope.period.tab === 'between' || $scope.period.tab === 'from')
-          {
-            var beginDateFilter = {
-              title: 'A partir da data',
-              type: 'beginDate',
-              desc: $scope.period.beginDate.getDate() + '/' + ($scope.period.beginDate.getMonth() + 1) + '/' + $scope.period.beginDate.getFullYear(),
-              value: $scope.period.beginDate
-            };
-
-            $scope.activeAdvancedFilters.push(beginDateFilter);
-          }
-
-          if ($scope.period.tab === 'between' || $scope.period.tab === 'to')
-          {
-            var endDateFilter = {
-              title: 'Até a data',
-              type: 'endDate',
-              desc: $scope.period.endDate.getDate() + '/' + ($scope.period.endDate.getMonth() + 1) + '/' + $scope.period.endDate.getFullYear(),
-              value: $scope.period.endDate
-            };
-
-            $scope.activeAdvancedFilters.push(endDateFilter);
-          }
-
-          $modalInstance.close();
-        };
-
-        $scope.close = function() {
-          $modalInstance.close();
-        };
-      }]
-    });
-  };
-
-  var advancedFilterArea = function() {
-    $modal.open({
-      templateUrl: 'views/reports/filters/area.html',
-      windowClass: 'filterAreaModal',
-      resolve: {
-        activeAdvancedFilters: function() {
-          return $scope.activeAdvancedFilters;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
-        $scope.activeAdvancedFilters = activeAdvancedFilters;
-
-        $scope.save = function() {
-          var beginDateFilter = {
-            title: 'A partir da data',
-            type: 'beginDate',
-            desc: $scope.period.beginDate.getDate() + '/' + ($scope.period.beginDate.getMonth() + 1) + '/' + $scope.period.beginDate.getFullYear(),
-            value: $scope.period.beginDate
-          };
-
-          $scope.activeAdvancedFilters.push(beginDateFilter);
-
-          $modalInstance.close();
-        };
-
-        $scope.close = function() {
-          $modalInstance.close();
-        };
-      }]
-    });
-  };
-
   $scope.loadFilter = function(status) {
     if (status === 'query')
     {
@@ -600,27 +307,26 @@ angular.module('zupPainelApp')
 
     if (status === 'category')
     {
-      advancedFilterCategory();
+      AdvancedFilters.category($scope.categories, $scope.activeAdvancedFilters);
     }
 
     if (status === 'status')
     {
-      advancedFilterStatus();
+      AdvancedFilters.status($scope.statuses, $scope.activeAdvancedFilters);
     }
 
     if (status === 'author')
     {
-      advancedFilterAuthor();
+      AdvancedFilters.author($scope.activeAdvancedFilters);
     }
-
     if (status === 'date')
     {
-      advancedFilterPeriod();
+      AdvancedFilters.period($scope.activeAdvancedFilters);
     }
 
     if (status === 'area')
     {
-      advancedFilterArea();
+      AdvancedFilters.area($scope.activeAdvancedFilters);
     }
   };
 
