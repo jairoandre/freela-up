@@ -34,8 +34,8 @@ angular.module('zupPainelApp', [
       }
     })
     .when('/groups/add', {
-      templateUrl: 'views/groups/add.html',
-      controller: 'GroupsCtrl',
+      templateUrl: 'views/groups/edit.html',
+      controller: 'GroupsEditCtrl',
       access: {
         logged: true
       }
@@ -43,6 +43,13 @@ angular.module('zupPainelApp', [
     .when('/groups/:id', {
       templateUrl: 'views/groups/list.html',
       controller: 'GroupsViewCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/groups/:id/edit', {
+      templateUrl: 'views/groups/edit.html',
+      controller: 'GroupsEditCtrl',
       access: {
         logged: true
       }

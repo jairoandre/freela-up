@@ -1,0 +1,89 @@
+<div id="main_layout">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="title">
+      <ul>
+        <li><a href="#/groups">Grupos</a></li>
+        <li><span ng-hide="updating">Novo grupo</span><span ng-show="updating">{{ group.name }}</span></li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="alert alert-danger fade-animation" ng-show="inputErrors">
+        <p ng-bind-html="inputErrors | formatErrors"></p>
+      </div>
+
+      <form ng-submit="send()">
+        <div class="form-group">
+          <label for="form_groupname">Nome do grupo</label>
+          <input type="text" class="form-control input-lg" id="form_groupname" ng-model="group.name" generic-input name="name">
+        </div>
+
+        <div class="form-group">
+          <label>Selecione as permissões do grupo</label>
+
+          <div class="selectPermissions">
+            <div class="column1">
+              <ul>
+                <li class="active"><a href="">Todas</a></li>
+              </ul>
+            </div>
+
+            <div class="column2">
+              <ul>
+                <li ng-repeat="(key, value) in group.permissions">
+                  {{ key }} <input bs-switch type="checkbox" ng-model="group.permissions[key]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+              </ul>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <!--
+        <div class="form-group">
+          <label>Este grupo pode cadastrar usuários?</label>
+          <br />
+
+          <label class="radio-inline">
+            <input type="radio" name="canRegisterUsers" checked value="option1"> Sim
+          </label>
+
+          <label class="radio-inline">
+            <input type="radio" name="canRegisterUsers" value="option2"> Não
+          </label>
+        </div> -->
+
+        <div class="form-group" ng-show="!updating">
+          <label>Insira usuários para participar do grupo</label>
+
+          <div class="selectUsers">
+            <div class="simple_search">
+              <span class="glyphicon glyphicon-search search_icon"></span>
+              <input type="text" placeholder="Buscar usuários..." ng-model="user" ui-autocomplete="usersAutocomplete" />
+            </div>
+
+            <ul>
+              <li ng-repeat="user in users">{{ user.name }} <button type="button" class="remove" ng-click="removeUser(user)">×</button></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <hr />
+
+        <button type="submit" class="btn btn-info btn-custom btn-lg-custom pull-right" ng-hide="updating">Criar grupo</button>
+        <button type="submit" class="btn btn-info btn-custom btn-lg-custom pull-right" ng-show="updating">Atualizar grupo</button>
+      </form>
+    </div>
+
+  </div>
+</div>
