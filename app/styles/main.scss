@@ -2201,6 +2201,10 @@ p {
             border-radius: 4px 4px 0 0;
             border-top: 1px solid #CCC;
           }
+
+          &.form-error {
+            border-color: #a94442;
+          }
         }
       }
 

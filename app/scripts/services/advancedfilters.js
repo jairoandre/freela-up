@@ -254,7 +254,7 @@ angular.module('zupPainelApp')
 
     // advanced filter by geographic area
     area: function(activeAdvancedFilters) {
-      $modal.open({
+      return $modal.open({
         templateUrl: 'views/filters/area.html',
         windowClass: 'filterAreaModal',
         resolve: {
@@ -266,14 +266,16 @@ angular.module('zupPainelApp')
           $scope.activeAdvancedFilters = activeAdvancedFilters;
 
           $scope.save = function() {
-            var beginDateFilter = {
-              title: 'A partir da data',
-              type: 'beginDate',
-              desc: $scope.period.beginDate.getDate() + '/' + ($scope.period.beginDate.getMonth() + 1) + '/' + $scope.period.beginDate.getFullYear(),
-              value: $scope.period.beginDate
-            };
+            for (var i = $scope.circles.length - 1; i >= 0; i--) {
+              var beginDateFilter = {
+                title: 'Perímetro',
+                type: 'area',
+                desc: $scope.circles[i].get('distance').toFixed(2).replace('.', ',') + 'km de ' + $scope.circles[i].get('position').lat().toFixed(4) + ', ' + $scope.circles[i].get('position').lng().toFixed(4),
+                value: {latitude: $scope.circles[i].get('position').lat(), longitude: $scope.circles[i].get('position').lng(), distance: $scope.circles[i].get('distance') * 1000} // we convert the distance to meters, as used in the API
+              };
 
-            $scope.activeAdvancedFilters.push(beginDateFilter);
+              $scope.activeAdvancedFilters.push(beginDateFilter);
+            }
 
             $modalInstance.close();
           };
