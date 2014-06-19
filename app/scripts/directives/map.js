@@ -61,6 +61,12 @@ angular.module('zupPainelApp')
             this.map.mapTypes.set('zup', styledMap);
             this.map.setMapTypeId('zup');
             this.map.setCenter(this.options.homeLatlng);
+
+            setTimeout(function() {
+              google.maps.event.trigger(mapProvider.map, 'resize');
+              google.maps.event.trigger(mapProvider.map, 'bounds_changed');
+              mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+            }, 80);
           },
 
           resize: function() {

@@ -20,6 +20,7 @@ angular.module('zupPainelApp')
 
     // map options
     $scope.position = null;
+    $scope.selectedAreas = [];
     $scope.zoom = null;
   };
 
@@ -104,11 +105,23 @@ angular.module('zupPainelApp')
     }
 
     // map options
-    if ($scope.position !== null)
+    if ($scope.selectedAreas.length === 0 && $scope.position !== null)
     {
       options['position[latitude]'] = $scope.position.latitude;
       options['position[longitude]'] = $scope.position.longitude;
       options['position[distance]'] = $scope.position.distance;
+    }
+    else if ($scope.selectedAreas.length !== 0)
+    {
+      for (var i = $scope.selectedAreas.length - 1; i >= 0; i--) {
+        var latKey = 'position[' + i + '][latitude]';
+        var lngKey = 'position[' + i + '][longitude]';
+        var disKey = 'position[' + i + '][distance]';
+
+        options[latKey] = $scope.selectedAreas[i].latitude;
+        options[lngKey] = $scope.selectedAreas[i].longitude;
+        options[disKey] = $scope.selectedAreas[i].distance;
+      }
     }
 
     if ($scope.zoom !== null)
@@ -272,6 +285,11 @@ angular.module('zupPainelApp')
         if (filter.type === 'endDate')
         {
           $scope.endDate = filter.value;
+        }
+
+        if (filter.type === 'area')
+        {
+          $scope.selectedAreas.push(filter.value);
         }
       }
 

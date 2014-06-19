@@ -21,6 +21,7 @@ angular.module('zupPainelApp')
 
     // map options
     $scope.position = null;
+    $scope.selectedAreas = [];
     $scope.zoom = null;
   };
 
@@ -113,11 +114,23 @@ angular.module('zupPainelApp')
     }
 
     // map options
-    if ($scope.position !== null)
+    if ($scope.selectedAreas.length === 0 && $scope.position !== null)
     {
       options['position[latitude]'] = $scope.position.latitude;
       options['position[longitude]'] = $scope.position.longitude;
       options['position[distance]'] = $scope.position.distance;
+    }
+    else if ($scope.selectedAreas.length !== 0)
+    {
+      for (var z = $scope.selectedAreas.length - 1; z >= 0; z--) {
+        var latKey = 'position[' + z + '][latitude]';
+        var lngKey = 'position[' + z + '][longitude]';
+        var disKey = 'position[' + z + '][distance]';
+
+        options[latKey] = $scope.selectedAreas[z].latitude;
+        options[lngKey] = $scope.selectedAreas[z].longitude;
+        options[disKey] = $scope.selectedAreas[z].distance;
+      }
     }
 
     if ($scope.zoom !== null)
@@ -132,10 +145,16 @@ angular.module('zupPainelApp')
   var categories = Restangular.one('inventory').all('categories').getList();
 
   // One every change of page or search, we create generate a new request based on current values
-  var getData = $scope.getData = function(paginate) {
+  var getData = $scope.getData = function(paginate, mapOptions) {
     if ($scope.loadingPagination === false)
     {
       $scope.loadingPagination = true;
+
+      if (typeof mapOptions !== 'undefined')
+      {
+        $scope.position = mapOptions.position;
+        $scope.zoom = mapOptions.zoom;
+      }
 
       var itemsPromise = generateItemsPromise(searchText);
 
@@ -280,6 +299,11 @@ angular.module('zupPainelApp')
         if (filter.type === 'endDate')
         {
           $scope.endDate = filter.value;
+        }
+
+        if (filter.type === 'area')
+        {
+          $scope.selectedAreas.push(filter.value);
         }
       }
 
