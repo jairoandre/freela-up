@@ -129,9 +129,7 @@
         </thead>
 
         <tr ng-repeat="item in items | orderBy:sort.column:sort.descending">
-          <td>
-            <a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}">{{ item.title }}</a>
-          </td>
+          <td class="status_color"><span ng-repeat="status in getInventoryCategory(item.inventory_category_id).statuses" ng-style="{'background-color': status.color}" ng-show="status.id == item.inventory_status_id"></span><a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}">{{ item.title }}</a></td>
           <td>{{ getInventoryCategory(item.inventory_category_id).title }}</td>
           <td>{{ item.created_at | date:'dd/MM/yy HH:mm'}}</td>
           <td class="actions">
