@@ -886,7 +886,7 @@ p {
       border-radius: 5px;
 
       .column1 {
-        @include make-md-column(4);
+        @include make-xs-column(4);
         height: 100%;
         float: left;
         border-right: 1px solid #C5C5C5;
@@ -923,7 +923,7 @@ p {
       }
 
       .column2 {
-        @include make-md-column(8);
+        @include make-xs-column(8);
         height: 100%;
         float: left;
         overflow: auto;

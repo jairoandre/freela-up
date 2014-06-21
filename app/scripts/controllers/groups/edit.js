@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('GroupsEditCtrl', function ($scope, Restangular, $routeParams, $location) {
+.controller('GroupsEditCtrl', function ($scope, Restangular, $routeParams, $location, $q) {
   var updating = $scope.updating = false;
   var groupId = $routeParams.id;
 
@@ -13,32 +13,69 @@ angular.module('zupPainelApp')
   }
 
   $scope.loading = true;
+  $scope.data = {};
+  $scope.group = {};
+  $scope.tab = 'groups_can_edit';
+
+  // available permissions in it's default
+  $scope.permissions = {
+    'manage_users': false,
+    'manage_groups': false,
+    'manage_inventory_categories': false,
+    'manage_inventory_items': false,
+    'manage_reports_categories': false,
+    'manage_reports': false,
+    'manage_flows': false,
+    'flow_can_view_all_steps': {},
+    'flow_can_execute_all_steps': {},
+    'flow_can_delete_own_cases': {},
+    'flow_can_delete_all_cases': {},
+    'can_view_step': {},
+    'can_execute_step': {},
+    'groups_can_edit': {},
+    'groups_can_view': {},
+    'reports_categories_can_edit': {},
+    'reports_categories_can_view': {},
+    'inventory_categories_can_edit': {},
+    'inventory_categories_can_view': {},
+    'inventory_sections_can_view': {},
+    'inventory_sections_can_edit': {},
+    'inventory_fields_can_view': {},
+    'inventory_fields_can_edit': {},
+  };
+
+  // we get all data that is necessary for each permission
+  var groupsPromise = Restangular.all('groups').getList();
+  var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList();
+
+  var promises = [groupsPromise, reportsCategoriesPromise];
+
+  $q.all(promises).then(function(responses) {
+    $scope.data.groups = responses[0].data;
+    $scope.data.reportsCategories = responses[1].data;
+  });
 
   if (updating)
   {
-    Restangular.one('groups', $routeParams.id).get().then(function(response) {
-      $scope.group = response.data;
+    var groupPromise = Restangular.one('groups', $routeParams.id).get();
+
+    $q.all([groupPromise].concat(promises)).then(function(responses) {
+      $scope.group = responses[0].data;
+
+      // update permissions with existing ones
+      for (var permission in $scope.group.permissions)
+      {
+        $scope.permissions[permission] = $scope.group.permissions[permission];
+      }
 
       $scope.loading = false;
     });
   }
   else
   {
-    $scope.loading = false;
-    $scope.group = {};
-
-    // available permissions
-    $scope.group.permissions = {
-      'manage_users': false,
-      'manage_inventory_categories': false,
-      'manage_inventory_items': false,
-      'manage_groups': false,
-      'manage_reports_categories': false,
-      'manage_reports': false,
-      'manage_flows': false,
-      'view_categories': false,
-      'view_sections': false,
-    };
+    $q.all(promises).then(function() {
+      $scope.loading = false;
+    });
 
     // users autocomplete
     $scope.users = [];
@@ -97,6 +134,37 @@ angular.module('zupPainelApp')
     $scope.inputErrors = null;
     $scope.processingForm = true;
 
+    // we transform our $scope.permissions object to pass only id's
+    $scope.group.permissions = {};
+
+    for (var key in $scope.permissions)
+    {
+      if ($scope.permissions[key] === true)
+      {
+        $scope.group.permissions[key] = true;
+      }
+
+      if (typeof $scope.permissions[key] === 'object' && $scope.permissions[key].length !== 0)
+      {
+        $scope.group.permissions[key] = [];
+
+        for (var id in $scope.permissions[key])
+        {
+          if ($scope.permissions[key][id] === true)
+          {
+            $scope.group.permissions[key].push(id);
+          }
+        }
+      }
+    }
+
+    // let's create an array with the users id's
+    $scope.group.users = [];
+
+    for (var i = $scope.users.length - 1; i >= 0; i--) {
+      $scope.group.users.push($scope.users[i].id);
+    }
+
     // PUT if updating and POST if creating a new group
     if (updating)
     {
@@ -115,13 +183,6 @@ angular.module('zupPainelApp')
     }
     else
     {
-      // let's create an array with the users id's
-      $scope.group.users = [];
-
-      for (var i = $scope.users.length - 1; i >= 0; i--) {
-        $scope.group.users.push($scope.users[i].id);
-      }
-
       var postUserPromise = Restangular.one('groups').post(null, $scope.group);
 
       postUserPromise.then(function() {
