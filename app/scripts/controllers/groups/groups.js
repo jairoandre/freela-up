@@ -24,10 +24,20 @@ angular.module('zupPainelApp')
           return $scope.groups;
         }
       },
-      controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+      controller: ['$scope', '$modalInstance', 'groupsList', function($scope, $modalInstance, groupsList) {
         $scope.group = group;
 
-        /** TO DO DELETE GROUP **/
+        // delete user from server
+        $scope.confirm = function() {
+          var deletePromise = Restangular.one('groups', $scope.group.id).remove();
+
+          deletePromise.then(function() {
+            $modalInstance.close();
+
+            // remove user from list
+            groupsList.splice(groupsList.indexOf($scope.group), 1);
+          });
+        };
 
         $scope.close = function() {
           $modalInstance.close();

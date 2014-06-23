@@ -29,7 +29,7 @@
         <tr ng-repeat="group in groups | filter: search">
           <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
           <td class="actions">
-            <a class="icon_action" href=""><span class="glyphicon glyphicon-edit"></span></a>
+            <a class="icon_action" href="#/groups/{{ group.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
             <a href="" ng-click="deleteGroup(group)"><span class="glyphicon glyphicon-trash"></span></a>
           </td>
         </tr>
@@ -45,7 +45,7 @@
         <h4 class="modal-title">Remover grupo</h4>
       </div>
       <div class="modal-body">
-        <p>Atenção, você clicou em um botão para remover o grupo <b>{{ group.email }}</b>. Ao confirmar, você esta ciente e responsável pela exclusão.</p>
+        <p>Atenção, você clicou em um botão para remover o grupo <b>{{ group.name }}</b>. Ao confirmar, você esta ciente e responsável pela exclusão.</p>
 
         <p class="text-danger">Se você tem certeza, digite abaixo a palavra <code>DELETAR</code> e clique no botão remover.</p>
 
