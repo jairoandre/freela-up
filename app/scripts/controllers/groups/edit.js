@@ -65,7 +65,20 @@ angular.module('zupPainelApp')
       // update permissions with existing ones
       for (var permission in $scope.group.permissions)
       {
-        $scope.permissions[permission] = $scope.group.permissions[permission];
+        if ($scope.group.permissions[permission] instanceof Array)
+        {
+          var valuesObj = {};
+
+          for (var p = $scope.group.permissions[permission].length - 1; p >= 0; p--) {
+            valuesObj[$scope.group.permissions[permission][p]] = true;
+          };
+
+          $scope.permissions[permission] = valuesObj;
+        }
+        else
+        {
+          $scope.permissions[permission] = $scope.group.permissions[permission];
+        }
       }
 
       $scope.loading = false;
@@ -76,59 +89,59 @@ angular.module('zupPainelApp')
     $q.all(promises).then(function() {
       $scope.loading = false;
     });
-
-    // users autocomplete
-    $scope.users = [];
-
-    $scope.usersAutocomplete = {
-      options: {
-        onlySelect: true,
-        source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
-
-          categoriesPromise.then(function(response) {
-            uiResponse( $.map( response.data, function( user ) {
-              return {
-                label: user.name,
-                value: user.name,
-                user: {id: user.id, name: user.name}
-              };
-            }));
-          });
-        },
-        messages: {
-          noResults: '',
-          results: function() {}
-        }
-      }
-    };
-
-    $scope.usersAutocomplete.events = {
-      select: function( event, ui ) {
-        var found = false;
-
-        for (var i = $scope.users.length - 1; i >= 0; i--) {
-          if ($scope.users[i].id === ui.item.user.id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
-        {
-          $scope.users.push(ui.item.user);
-        }
-      },
-
-      change: function() {
-        $scope.user = '';
-      }
-    };
-
-    $scope.removeUser = function(user) {
-      $scope.users.splice($scope.users.indexOf(user), 1);
-    };
   }
+
+  // users autocomplete
+  $scope.users = [];
+
+  $scope.usersAutocomplete = {
+    options: {
+      onlySelect: true,
+      source: function( request, uiResponse ) {
+        var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
+
+        categoriesPromise.then(function(response) {
+          uiResponse( $.map( response.data, function( user ) {
+            return {
+              label: user.name,
+              value: user.name,
+              user: {id: user.id, name: user.name}
+            };
+          }));
+        });
+      },
+      messages: {
+        noResults: '',
+        results: function() {}
+      }
+    }
+  };
+
+  $scope.usersAutocomplete.events = {
+    select: function( event, ui ) {
+      var found = false;
+
+      for (var i = $scope.users.length - 1; i >= 0; i--) {
+        if ($scope.users[i].id === ui.item.user.id)
+        {
+          found = true;
+        }
+      }
+
+      if (!found)
+      {
+        $scope.users.push(ui.item.user);
+      }
+    },
+
+    change: function() {
+      $scope.user = '';
+    }
+  };
+
+  $scope.removeUser = function(user) {
+    $scope.users.splice($scope.users.indexOf(user), 1);
+  };
 
   $scope.send = function() {
     $scope.inputErrors = null;
