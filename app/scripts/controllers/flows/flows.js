@@ -6,7 +6,7 @@ angular.module('zupPainelApp')
 
   $scope.loading = true;
 
-  var flowsPromise = Restangular.all('flows').getList();
+  var flowsPromise = Restangular.all('flows').getList({'display_type': 'full'});
 
   flowsPromise.then(function(response) {
     $scope.loading = false;

@@ -53,12 +53,12 @@
 
           <td>
             <span class="date">{{ flow.created_at | date:'dd/MM/yy HH:mm'}}</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+            <span class="name" ng-show="flow.created_by !== null">Por <a href="#/users/edit/{{ flow.created_by.id }}">{{ flow.created_by.name }}</a></span>
           </td>
 
           <td>
             <span class="date">{{ flow.updated_at | date:'dd/MM/yy HH:mm'}}</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+            <span class="name" ng-show="flow.updated_by !== null">Por <a href="#/users/edit/{{ flow.updated_by.id }}">{{ flow.updated_by.name }}</a>
           </td>
 
           <td class="actions">
