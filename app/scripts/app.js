@@ -239,12 +239,6 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/flows/permissions', {
-      templateUrl: 'views/flows/permissions.html',
-      access: {
-        logged: true
-      }
-    })
     .when('/flows/permissions/edit', {
       templateUrl: 'views/flows/editPermissions.html',
       access: {
@@ -259,12 +253,6 @@ angular.module('zupPainelApp', [
     })
     .when('/flows/triggers/edit', {
       templateUrl: 'views/flows/editTriggers.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/versions', {
-      templateUrl: 'views/flows/versions.html',
       access: {
         logged: true
       }
