@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <table class="table custom_table flows" ng-hide="loadingContent" infinite-scroll="getData(true)" infinite-scroll-distance="3">
+      <table class="table custom_table flows">
         <thead>
           <tr>
             <td ng-click="changeSorting('name')"
@@ -45,109 +45,22 @@
           </tr>
         </thead>
 
-        <tr>
+        <tr ng-repeat="flow in flows">
           <td>
-            <a href="#/flows/steps">Nome de um fluxo</a>
-            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
+            <a href="#/flows/{{ flow.id }}">{{ flow.title }}</a>
+            <p class="information"><span>{{ flow.steps_id.length }} etapas</span> | <span>{{ flow.total_cases }} casos</span></p>
           </td>
+
           <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+            <span class="date">{{ flow.created_at | date:'dd/MM/yy HH:mm'}}</span>
+            <span class="name" ng-show="flow.created_by !== null">Por <a href="#/users/edit/{{ flow.created_by.id }}">{{ flow.created_by.name }}</a></span>
           </td>
+
           <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
+            <span class="date">{{ flow.updated_at | date:'dd/MM/yy HH:mm'}}</span>
+            <span class="name" ng-show="flow.updated_by !== null">Por <a href="#/users/edit/{{ flow.updated_by.id }}">{{ flow.updated_by.name }}</a>
           </td>
-          <td class="actions">
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">Nome de um fluxo</a>
-            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td class="actions">
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">Nome de um fluxo</a>
-            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td class="actions">
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">Nome de um fluxo</a>
-            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td class="actions">
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">Nome de um fluxo</a>
-            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td class="actions">
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
-            <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">Nome de um fluxo</a>
-            <p class="information"><span>3 etapas</span> | <span>3 formulários</span></p>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
-          <td>
-            <span class="date">12/10/2014</span>
-            <span class="name">Por <a href="#">Thiago Miqueias</a></span>
-          </td>
+
           <td class="actions">
             <a class="icon_action" href="#"><span class="glyphicon glyphicon-edit"></span></a>
             <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
@@ -155,8 +68,6 @@
         </tr>
 
       </table>
-
-      <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
     </div>
 
   </div>

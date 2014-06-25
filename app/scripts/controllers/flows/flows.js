@@ -3,9 +3,18 @@
 angular.module('zupPainelApp')
 
 .controller('FlowsCtrl', function ($scope, Restangular, $modal) {
-  $scope.loading = false;
-  $scope.loadingPagination = false;
-  $scope.loadingContent = false;
+
+  $scope.loading = true;
+
+  var flowsPromise = Restangular.all('flows').getList({'display_type': 'full'});
+
+  flowsPromise.then(function(response) {
+    $scope.loading = false;
+
+    $scope.flows = response.data;
+
+    console.log(Restangular.stripRestangular($scope.flows));
+  });
 
   $scope.addFlow = function () {
     $modal.open({
