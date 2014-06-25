@@ -12,8 +12,6 @@ angular.module('zupPainelApp')
     $scope.loading = false;
 
     $scope.flows = response.data;
-
-    console.log(Restangular.stripRestangular($scope.flows));
   });
 
   $scope.addFlow = function () {
