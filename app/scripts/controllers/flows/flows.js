@@ -20,18 +20,4 @@ angular.module('zupPainelApp')
       windowClass: 'addFlowModal'
     });
   };
-
-  $scope.editStep = function () {
-    $modal.open({
-      templateUrl: 'views/flows/editStep.html',
-      windowClass: 'editStepModal'
-    });
-  };
-
-  $scope.addStep = function () {
-    $modal.open({
-      templateUrl: 'views/flows/addStep.html',
-      windowClass: 'editStepModal'
-    });
-  };
 });
