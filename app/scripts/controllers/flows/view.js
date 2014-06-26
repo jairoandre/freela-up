@@ -56,7 +56,6 @@ angular.module('zupPainelApp')
           }
           else
           {
-            console.log($scope.selectedFlow);
             step = {title: $scope.selectedFlow.title, step_type: 'flow', child_flow_id: $scope.selectedFlow.id};
           }
 
