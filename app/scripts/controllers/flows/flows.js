@@ -12,28 +12,12 @@ angular.module('zupPainelApp')
     $scope.loading = false;
 
     $scope.flows = response.data;
-
-    console.log(Restangular.stripRestangular($scope.flows));
   });
 
   $scope.addFlow = function () {
     $modal.open({
       templateUrl: 'views/flows/addFlow.html',
       windowClass: 'addFlowModal'
-    });
-  };
-
-  $scope.editStep = function () {
-    $modal.open({
-      templateUrl: 'views/flows/editStep.html',
-      windowClass: 'editStepModal'
-    });
-  };
-
-  $scope.addStep = function () {
-    $modal.open({
-      templateUrl: 'views/flows/addStep.html',
-      windowClass: 'editStepModal'
     });
   };
 });

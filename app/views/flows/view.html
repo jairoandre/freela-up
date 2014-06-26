@@ -1,0 +1,276 @@
+<div id="main_layout" ng-controller="FlowsCtrl">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="loading" ng-show="loading"></div>
+
+    <div ng-hide="loading" class="pages-animation">
+      <div class="title">
+        <ul>
+          <li><a href="#/flows">Fluxos</a></li>
+          <li class="ng-binding">{{ flow.title }}</li>
+        </ul>
+
+        <a href="#" class="btn btn-info btn-custom">Editar Informações</a>
+      </div>
+
+      <div class="flow-links">
+        <a href="" ng-class="{'active': currentTab == 'steps'}" ng-click="currentTab = 'steps'">Etapas</a>
+
+        <a href="" class="middle" ng-class="{'active': currentTab == 'versions'}" ng-click="currentTab = 'versions'">Versões</a>
+
+        <a href="" ng-class="{'active': currentTab == 'permissions'}" ng-click="currentTab = 'permissions'">Permissões</a>
+      </div>
+
+      <div ng-show="currentTab == 'steps'">
+        <table class="table custom_table big_text steps" id="tags">
+
+          <tr class="root" ng-repeat="step in flow.steps">
+            <td>
+              <a href="#/flows/{{ flow.id }}/step/{{ step.id }}">{{ step.title }}</a>
+            </td>
+
+            <td class="links">
+              <a class="icon_action" href="" ng-click="editStep()">
+                <span class="glyphicon glyphicon-edit"></span>
+              </a>
+
+              <a class="icon_action" href="">
+                <span class="glyphicon glyphicon-trash"></span>
+              </a>
+
+              <a class="icon_action" href="">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
+              </a>
+            </td>
+          </tr>
+
+          <!--
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span></span> <a href="#">Nome da etapa (tipo formulário)</a>
+            </td>
+          </tr>
+          -->
+        </table>
+
+        <div class="steps-footer">
+          <a href="" class="btn btn-info btn-custom" ng-click="addStep()">+ Nova Etapa</a>
+        </div>
+      </div>
+
+      <div ng-show="currentTab == 'versions'">
+        <table class="table custom_table flows versions">
+          <thead>
+            <tr>
+              <td ng-click="changeSorting('')"
+                  ng-class="selectedCls('')" width="8%" class="sort-table">
+                <span>Versão</span><span class="arrow"></span>
+              </td>
+              <td ng-click="changeSorting('')"
+                  ng-class="selectedCls('')" class="sort-table">
+                <span>Criada em</span><span class="arrow"></span>
+              </td>
+              <td></td>
+            </tr>
+          </thead>
+
+          <tr>
+            <td>
+              <a href="#">
+                <span class="number_icon">6</span>
+                <span class="arrow_icon"></span>
+              </a>
+            </td>
+            <td>22/09/2014</td>
+            <td class="actions">
+              <a href="#" class="btn btn-util btn-version">Utilizando</a>
+              <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <span class="number_icon">5</span>
+                <span class="arrow_icon"></span>
+              </a>
+            </td>
+            <td>12/09/2014</td>
+            <td class="actions">
+              <a href="#" class="btn btn-info btn-custom btn-version">Utilizar</a>
+              <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#" class="active-version">
+                <span class="number_icon">4</span>
+                <span class="arrow_icon"></span>
+              </a>
+            </td>
+            <td>15/08/2014</td>
+            <td class="actions">
+              <a href="#" class="btn btn-info btn-custom btn-version">Utilizar</a>
+              <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span class="indicator"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+            </td>
+          </tr>
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span class="indicator"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+            </td>
+          </tr>
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span class="indicator"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+            </td>
+          </tr>
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span class="indicator"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+            </td>
+          </tr>
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span class="indicator"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+            </td>
+          </tr>
+          <tr class="secondLevel">
+            <td colspan="3">
+              <span class="indicator"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <span class="number_icon">3</span>
+                <span class="arrow_icon"></span>
+              </a>
+            </td>
+            <td>05/07/2014</td>
+            <td class="actions">
+              <a href="#" class="btn btn-info btn-custom btn-version">Utilizar</a>
+              <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <span class="number_icon">6</span>
+                <span class="arrow_icon"></span>
+              </a>
+            </td>
+            <td>26/06/2014</td>
+            <td class="actions">
+              <a href="#" class="btn btn-info btn-custom btn-version">Utilizar</a>
+              <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <a href="#">
+                <span class="number_icon">6</span>
+                <span class="arrow_icon"></span>
+              </a>
+            </td>
+            <td>03/05/2014</td>
+            <td class="actions">
+              <a href="#" class="btn btn-info btn-custom btn-version">Utilizar</a>
+              <a class="icon_action" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+      <div ng-show="currentTab == 'permissions'">
+        <form action="" class="permissions-form">
+          <div class="form-group">
+            <label>Grupos que podem visualizar todas as etapas</label>
+
+            <div class="selectUsers">
+              <div class="ui-widget">
+                <span class="search_icon"></span>
+                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                <input type="text" placeholder="Buscar grupos" ng-model="inventories_autocomplete" ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input ng-pristine ng-valid" autocomplete="off">
+              </div>
+
+              <ul>
+                <li>GrupoX <button type="button" class="remove">×</button></li>
+                <li>GrupoY <button type="button" class="remove">×</button></li>
+                <li>GrupoZ <button type="button" class="remove">×</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Grupos que podem executar todas as etapas</label>
+
+            <div class="selectUsers">
+              <div class="ui-widget">
+                <span class="search_icon"></span>
+                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                <input type="text" placeholder="Buscar grupos" ng-model="inventories_autocomplete" ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input ng-pristine ng-valid" autocomplete="off">
+              </div>
+
+              <ul>
+                <li>GrupoX <button type="button" class="remove">×</button></li>
+                <li>GrupoY <button type="button" class="remove">×</button></li>
+                <li>GrupoZ <button type="button" class="remove">×</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Grupos que podem excluir casos de qualquer usuário</label>
+
+            <div class="selectUsers">
+              <div class="ui-widget">
+                <span class="search_icon"></span>
+                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                <input type="text" placeholder="Buscar grupos" ng-model="inventories_autocomplete" ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input ng-pristine ng-valid" autocomplete="off">
+              </div>
+
+              <ul>
+                <li>GrupoX <button type="button" class="remove">×</button></li>
+                <li>GrupoY <button type="button" class="remove">×</button></li>
+                <li>GrupoZ <button type="button" class="remove">×</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Grupos que podem excluir casos próprios</label>
+
+            <div class="selectUsers">
+              <div class="ui-widget">
+                <span class="search_icon"></span>
+                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                <input type="text" placeholder="Buscar grupos" ng-model="inventories_autocomplete" ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input ng-pristine ng-valid" autocomplete="off">
+              </div>
+
+              <ul>
+                <li>GrupoX <button type="button" class="remove">×</button></li>
+                <li>GrupoY <button type="button" class="remove">×</button></li>
+                <li>GrupoZ <button type="button" class="remove">×</button></li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
