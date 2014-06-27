@@ -7,7 +7,7 @@ angular.module('zupPainelApp')
   var flowId = $routeParams.id;
 
   $scope.loading = true;
-  $scope.currentTab = 'steps'
+  $scope.currentTab = 'steps';
 
   var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
 
@@ -79,7 +79,7 @@ angular.module('zupPainelApp')
             {
               $scope.flows[i].hidden = true;
             }
-          };
+          }
         });
 
         $scope.save = function() {
@@ -87,11 +87,11 @@ angular.module('zupPainelApp')
 
           if ($scope.flow.stepType === 'form')
           {
-            step = {title: $scope.flow.title, step_type: 'form'};
+            step = {title: $scope.flow.title, step_type: 'form'}; // jshint ignore:line
           }
           else
           {
-            step = {title: $scope.selectedFlow.title, step_type: 'flow', child_flow_id: $scope.selectedFlow.id};
+            step = {title: $scope.selectedFlow.title, step_type: 'flow', child_flow_id: $scope.selectedFlow.id}; // jshint ignore:line
           }
 
           var stepPromise = Restangular.one('flows', flow.id).post('steps', step);
