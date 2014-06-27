@@ -28,7 +28,7 @@
         </div>
 
         <ul class="list-steps">
-          <li ng-repeat="flow in flows | filter: searchFlow" ng-click="selectFlow(flow)" ng-class="{'active': selectedFlow == flow}">{{ flow.title }}</li>
+          <li ng-repeat="flow in flows | filter: searchFlow" ng-click="selectFlow(flow)" ng-class="{'active': selectedFlow == flow}" ng-hide="flow.hidden == true">{{ flow.title }}</li>
         </ul>
     </div>
   </div>
