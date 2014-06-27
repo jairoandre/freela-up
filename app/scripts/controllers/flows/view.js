@@ -33,13 +33,9 @@ angular.module('zupPainelApp')
       resolve: {
         flow: function() {
           return $scope.flow;
-        },
-
-        step: function() {
-          return step;
         }
       },
-      controller: ['$scope', '$modalInstance', 'flow', 'step', function($scope, $modalInstance, flow, step) {
+      controller: ['$scope', '$modalInstance', 'flow', function($scope, $modalInstance, flow) {
         $scope.step = angular.copy(step);
 
         $scope.save = function()
@@ -108,6 +104,37 @@ angular.module('zupPainelApp')
           stepPromise.then(function(response) {
             flow.steps.push(Restangular.stripRestangular(response.data));
             $modalInstance.close();
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
+  $scope.removeStep = function (step) {
+    $modal.open({
+      templateUrl: 'views/inventories/removeCategory.html',
+      windowClass: 'removeModal',
+      resolve: {
+        flow: function() {
+          return $scope.flow;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'flow', function($scope, $modalInstance, flow) {
+        $scope.step = step;
+
+        // delete user from server
+        $scope.confirm = function() {
+          var deletePromise = Restangular.one('flows', flow.id).one('steps', step.id).remove();
+
+          deletePromise.then(function() {
+            $modalInstance.close();
+
+            // remove user from list
+            flow.steps.splice(flow.steps.indexOf($scope.step), 1);
           });
         };
 
