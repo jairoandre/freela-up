@@ -28,7 +28,7 @@ angular.module('zupPainelApp')
 
   $scope.editStep = function (step) {
     $modal.open({
-      templateUrl: 'views/flows/editStep.html',
+      templateUrl: 'views/flows/steps/editBasic.html',
       windowClass: 'editStepModal',
       resolve: {
         flow: function() {
@@ -61,7 +61,7 @@ angular.module('zupPainelApp')
 
   $scope.addStep = function () {
     $modal.open({
-      templateUrl: 'views/flows/addStep.html',
+      templateUrl: 'views/flows/steps/add.html',
       windowClass: 'editStepModal',
       resolve: {
         flow: function() {
