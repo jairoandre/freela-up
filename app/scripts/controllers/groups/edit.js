@@ -71,7 +71,7 @@ angular.module('zupPainelApp')
 
           for (var p = $scope.group.permissions[permission].length - 1; p >= 0; p--) {
             valuesObj[$scope.group.permissions[permission][p]] = true;
-          };
+          }
 
           $scope.permissions[permission] = valuesObj;
         }
