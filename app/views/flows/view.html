@@ -33,11 +33,11 @@
 
           <tr class="root" ng-repeat="step in flow.steps">
             <td>
-              <a href="#/flows/{{ flow.id }}/step/{{ step.id }}">{{ step.title }}</a>
+              <a href="#/flows/{{ flow.id }}/step/{{ step.id }}">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo)</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
             </td>
 
             <td class="links">
-              <a class="icon_action" href="" ng-click="editStep()">
+              <a class="icon_action" href="" ng-click="editStep(step)">
                 <span class="glyphicon glyphicon-edit"></span>
               </a>
 
