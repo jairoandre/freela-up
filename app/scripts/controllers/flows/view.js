@@ -17,6 +17,15 @@ angular.module('zupPainelApp')
     $scope.flow = response.data;
   });
 
+  $scope.getAncestor = function(stepId) {
+    for (var i = $scope.flow.list_tree_steps.length - 1; i >= 0; i--) {
+      if ($scope.flow.list_tree_steps[i].step.id === stepId)
+      {
+        return $scope.flow.list_tree_steps[i];
+      }
+    };
+  };
+
   $scope.editStep = function (step) {
     $modal.open({
       templateUrl: 'views/flows/editStep.html',

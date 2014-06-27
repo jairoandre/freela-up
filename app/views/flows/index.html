@@ -48,7 +48,7 @@
         <tr ng-repeat="flow in flows">
           <td>
             <a href="#/flows/{{ flow.id }}">{{ flow.title }}</a>
-            <p class="information"><span>{{ flow.steps_id.length }} etapas</span> | <span>{{ flow.total_cases }} casos</span></p>
+            <p class="information"><span>{{ flow.steps.length }} etapas</span> | <span>{{ flow.total_cases }} casos</span></p>
           </td>
 
           <td>
