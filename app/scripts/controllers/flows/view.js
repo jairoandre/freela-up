@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('FlowsViewCtrl', function ($scope, Restangular, $routeParams, $modal) {
+.controller('FlowsViewCtrl', function ($scope, Restangular, $routeParams, $modal, $q) {
 
   var flowId = $routeParams.id;
 
@@ -41,10 +41,19 @@ angular.module('zupPainelApp')
           $scope.selectedFlow = flow;
         };
 
+        var flowsAncestorsPromise = Restangular.one('flows', flow.id).all('ancestors').getList();
         var flowsPromise = Restangular.all('flows').getList();
 
-        flowsPromise.then(function(response) {
-          $scope.flows = response.data;
+        $q.all([flowsPromise, flowsAncestorsPromise]).then(function(responses) {
+          $scope.flows = responses[0].data;
+          var ancestors = responses[1].data;
+
+          for (var i = $scope.flows.length - 1; i >= 0; i--) {
+            if (ancestors.indexOf($scope.flows[i].id) !== -1)
+            {
+              $scope.flows[i].hidden = true;
+            }
+          };
         });
 
         $scope.save = function() {
