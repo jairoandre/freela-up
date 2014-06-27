@@ -17,10 +17,36 @@ angular.module('zupPainelApp')
     $scope.flow = response.data;
   });
 
-  $scope.editStep = function () {
+  $scope.editStep = function (step) {
     $modal.open({
       templateUrl: 'views/flows/editStep.html',
-      windowClass: 'editStepModal'
+      windowClass: 'editStepModal',
+      resolve: {
+        flow: function() {
+          return $scope.flow;
+        },
+
+        step: function() {
+          return step;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'flow', 'step', function($scope, $modalInstance, flow, step) {
+        $scope.step = angular.copy(step);
+
+        $scope.save = function()
+        {
+          var putStepPromise = Restangular.one('flows', flow.id).one('steps', step.id).customPUT({title: $scope.step.title});
+
+          putStepPromise.then(function() {
+            step.title = $scope.step.title;
+            $modalInstance.close();
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
     });
   };
 
