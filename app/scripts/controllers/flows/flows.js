@@ -16,7 +16,7 @@ angular.module('zupPainelApp')
 
   $scope.addFlow = function () {
     $modal.open({
-      templateUrl: 'views/flows/addFlow.html',
+      templateUrl: 'views/flows/add.html',
       windowClass: 'addFlowModal'
     });
   };
