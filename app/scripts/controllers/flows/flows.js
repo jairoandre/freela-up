@@ -61,7 +61,7 @@ angular.module('zupPainelApp')
           var postResolutionPromise = Restangular.one('flows', flow.id).post('resolution_states', $scope.newResolutionState);
 
           postResolutionPromise.then(function(response) {
-            $scope.flow.resolution_states.push(Restangular.stripRestangular(response.data));
+            $scope.flow.resolution_states.push(Restangular.stripRestangular(response.data)); // jshint ignore:line
           });
         };
 
@@ -69,7 +69,7 @@ angular.module('zupPainelApp')
         {
           var putFlowPromise = Restangular.one('flows', flow.id).customPUT($scope.flow);
 
-          putFlowPromise.then(function(response) {
+          putFlowPromise.then(function() {
             flows[flows.indexOf(flow)] = $scope.flow;
 
             $modalInstance.close();
