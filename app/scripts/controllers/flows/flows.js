@@ -82,4 +82,35 @@ angular.module('zupPainelApp')
       }]
     });
   };
+
+  $scope.removeFlow = function (flow) {
+    $modal.open({
+      templateUrl: 'views/flows/remove.html',
+      windowClass: 'removeModal',
+      resolve: {
+        flows: function() {
+          return $scope.flows;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'flows', function($scope, $modalInstance, flows) {
+        $scope.flow = flow;
+
+        // delete user from server
+        $scope.confirm = function() {
+          var deletePromise = Restangular.one('flows', flow.id).remove();
+
+          deletePromise.then(function() {
+            $modalInstance.close();
+
+            // remove flow from list
+            flows.splice(flows.indexOf($scope.flow), 1);
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
 });
