@@ -18,12 +18,12 @@ angular.module('zupPainelApp')
   });
 
   $scope.getAncestor = function(stepId) {
-    for (var i = $scope.flow.list_tree_steps.length - 1; i >= 0; i--) {
-      if ($scope.flow.list_tree_steps[i].step.id === stepId)
+    for (var i = $scope.flow.list_tree_steps.length - 1; i >= 0; i--) { // jshint ignore:line
+      if ($scope.flow.list_tree_steps[i].step.id === stepId) // jshint ignore:line
       {
-        return $scope.flow.list_tree_steps[i];
+        return $scope.flow.list_tree_steps[i]; // jshint ignore:line
       }
-    };
+    }
   };
 
   $scope.editStep = function (step) {
