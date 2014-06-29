@@ -30,11 +30,11 @@
       <form ng-submit="createStatus()">
         <div class="row">
           <div class="col-md-9">
-              <input type="text" placeholder="Criar novo status..." ng-model="newStatus.title" />
+              <input type="text" placeholder="Criar novo status..." ng-model="newResolutionState.title" />
           </div>
 
           <div class="col-md-3">
-              <button href="" type="submit" class="btn btn-info btn-custom">Criar</button>
+              <button href="" type="submit" class="btn btn-info btn-custom" ng-click="createResolutionState()">Criar</button>
           </div>
         </div>
       </form>
@@ -50,106 +50,31 @@
       </thead>
 
       <tbody>
-        <tr>
+        <tr ng-repeat="state in flow.resolution_states">
           <td class="first-td">
-            <a href="" class="edit_title" ng-click="edit_title = true">Em aberto</a>
+            <a href="" class="edit_title" ng-click="edit_title = true">{{ state.title }}</a>
+
             <div class="edit_status_title" ng-show="edit_title">
-              <input type="text" value="Em aberto" />
+              <input type="text" ng-model="state.title" />
               <a href="" ng-click="edit_title = false">Pronto</a>
             </div>
           </td>
+
           <td>
-            <input type="radio" class="input-choice" id="-default" />
-            <label for="-default" class="label-choice radio-choice">
+            <input type="radio" class="input-choice" id="{{ state.id }}-default" ng-model="state.default" />
+
+            <label for="{{ state.id }}-default" class="label-choice radio-choice">
               <span>default</span>
             </label>
           </td>
+
           <td>
             <button type="button" class="remove" ng-click="remove_status = true">x</button>
+
             <div class="edit_status_title remove-div" ng-show="remove_status">
               <p class="remove-message">
                 Você tem certeza que deseja excluir?
-                <span>
-                  <a href="" ng-click="remove_status = false" class="cancel-link">Cancelar</a>
-                  <a href="" ng-click="remove_status = false" class="remove-link">Excluir</a>
-                </span>
-              </p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="first-td">
-            <a href="" class="edit_title" ng-click="edit_title = true">Em andamento</a>
-            <div class="edit_status_title" ng-show="edit_title">
-              <input type="text" value="Em andamento" />
-              <a href="" ng-click="edit_title = false">Pronto</a>
-            </div>
-          </td>
-          <td>
-            <input type="radio" class="input-choice" id="-default" checked="checked" />
-            <label for="-default" class="label-choice radio-choice">
-              <span>default</span>
-            </label>
-          </td>
-          <td>
-            <button type="button" class="remove" ng-click="remove_status = true">x</button>
-            <div class="edit_status_title remove-div" ng-show="remove_status">
-              <p class="remove-message">
-                Você tem certeza que deseja excluir?
-                <span>
-                  <a href="" ng-click="remove_status = false" class="cancel-link">Cancelar</a>
-                  <a href="" ng-click="remove_status = false" class="remove-link">Excluir</a>
-                </span>
-              </p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="first-td">
-            <a href="" class="edit_title" ng-click="edit_title = true">Resolvido</a>
-            <div class="edit_status_title" ng-show="edit_title">
-              <input type="text" value="Resolvido" />
-              <a href="" ng-click="edit_title = false">Pronto</a>
-            </div>
-          </td>
-          <td>
-            <input type="radio" class="input-choice" id="-default" />
-            <label for="-default" class="label-choice radio-choice">
-              <span>default</span>
-            </label>
-          </td>
-          <td>
-            <button type="button" class="remove" ng-click="remove_status = true">x</button>
-            <div class="edit_status_title remove-div" ng-show="remove_status">
-              <p class="remove-message">
-                Você tem certeza que deseja excluir?
-                <span>
-                  <a href="" ng-click="remove_status = false" class="cancel-link">Cancelar</a>
-                  <a href="" ng-click="remove_status = false" class="remove-link">Excluir</a>
-                </span>
-              </p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="first-td">
-            <a href="" class="edit_title" ng-click="edit_title = true">Não resolvido</a>
-            <div class="edit_status_title" ng-show="edit_title">
-              <input type="text" value="Não resolvido" />
-              <a href="" ng-click="edit_title = false">Pronto</a>
-            </div>
-          </td>
-          <td>
-            <input type="radio" class="input-choice" id="-default" />
-            <label for="-default" class="label-choice radio-choice">
-              <span>default</span>
-            </label>
-          </td>
-          <td>
-            <button type="button" class="remove" ng-click="remove_status = true">x</button>
-            <div class="edit_status_title remove-div" ng-show="remove_status">
-              <p class="remove-message">
-                Você tem certeza que deseja excluir?
+
                 <span>
                   <a href="" ng-click="remove_status = false" class="cancel-link">Cancelar</a>
                   <a href="" ng-click="remove_status = false" class="remove-link">Excluir</a>

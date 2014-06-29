@@ -55,6 +55,15 @@ angular.module('zupPainelApp')
       },
       controller: ['$scope', '$modalInstance', 'flows', function($scope, $modalInstance, flows) {
         $scope.flow = angular.copy(flow);
+        $scope.newResolutionState = {default: false};
+
+        $scope.createResolutionState = function() {
+          var postResolutionPromise = Restangular.one('flows', flow.id).post('resolution_states', $scope.newResolutionState);
+
+          postResolutionPromise.then(function(response) {
+            $scope.flow.resolution_states.push(Restangular.stripRestangular(response.data));
+          });
+        };
 
         $scope.save = function()
         {
