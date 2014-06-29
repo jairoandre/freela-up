@@ -25,7 +25,7 @@ angular.module('zupPainelApp')
           var deleteResolutionPromise = Restangular.one('flows', scope.flow.id).one('resolution_states', scope.state.id).remove();
 
           deleteResolutionPromise.then(function() {
-            scope.$parent.$parent.flow.resolution_states.splice(scope.$parent.$parent.flow.resolution_states.indexOf(scope.state), 1);
+            scope.$parent.$parent.flow.resolution_states.splice(scope.$parent.$parent.flow.resolution_states.indexOf(scope.state), 1); // jshint ignore:line
 
             scope.showRemoveState = false;
           });
