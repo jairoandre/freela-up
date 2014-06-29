@@ -43,4 +43,34 @@ angular.module('zupPainelApp')
       }]
     });
   };
+
+  $scope.editFlow = function (flow) {
+    $modal.open({
+      templateUrl: 'views/flows/edit.html',
+      windowClass: 'addFlowModal',
+      resolve: {
+        flows: function() {
+          return $scope.flows;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'flows', function($scope, $modalInstance, flows) {
+        $scope.flow = angular.copy(flow);
+
+        $scope.save = function()
+        {
+          var putFlowPromise = Restangular.one('flows', flow.id).customPUT($scope.flow);
+
+          putFlowPromise.then(function(response) {
+            flows[flows.indexOf(flow)] = $scope.flow;
+
+            $modalInstance.close();
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
 });
