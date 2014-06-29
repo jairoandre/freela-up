@@ -5,7 +5,6 @@ angular.module('zupPainelApp')
     return {
       restrict: 'A',
       link: function postLink(scope) {
-        console.log(scope);
         scope.saveTitle = function() {
           var putResolutionPromise = Restangular.one('flows', scope.flow.id).one('resolution_states', scope.state.id).customPUT({title: scope.state.title});
 
