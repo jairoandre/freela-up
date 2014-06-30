@@ -241,6 +241,7 @@ angular.module('zupPainelApp', [
     })
     .when('/flows/:id/steps/:stepId', {
       templateUrl: 'views/flows/steps/edit.html',
+      controller: 'FlowsStepsCtrl',
       access: {
         logged: true
       }
