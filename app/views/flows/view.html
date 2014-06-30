@@ -33,7 +33,7 @@
           <tr ng-repeat-start="step in flow.steps"></tr>
           <tr class="root">
             <td>
-              <a href="#/flows/{{ flow.id }}/step/{{ step.id }}">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo de {{ getAncestor(step.id).flow.title }})</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
+              <a href="#/flows/{{ flow.id }}/steps/{{ step.id }}">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo de {{ getAncestor(step.id).flow.title }})</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
             </td>
 
             <td class="links">
