@@ -30,6 +30,42 @@ angular.module('zupPainelApp')
     console.log(Restangular.stripRestangular($scope.triggers));
   });
 
+  // available fields
+  $scope.availableInputs = {
+    'normal': [
+      {kind: 'text', name: 'Campo de texto'},
+      {kind: 'integer', name: 'Campo numérico'},
+      {kind: 'decimal', name: 'Campo decimal'},
+      {kind: 'checkbox', name: 'Campo de múltipla escolha', multipleOptions: true},
+      {kind: 'select', name: 'Campo de lista', multipleOptions: true},
+      {kind: 'radio', name: 'Campo de escolha única', multipleOptions: true},
+      {kind: 'meters', name: 'Campo em metros'},
+      {kind: 'centimeters', name: 'Campo em centímetros'},
+      {kind: 'kilometers', name: 'Campo em quilômetros'},
+      {kind: 'years', name: 'Campo em anos'},
+      {kind: 'months', name: 'Campo em meses'},
+      {kind: 'days', name: 'Campo em dias'},
+      {kind: 'hours', name: 'Campo em horas'},
+      {kind: 'seconds', name: 'Campo em segundos'},
+      {kind: 'angle', name: 'Campo de ângulo'},
+      {kind: 'date', name: 'Campo de data'},
+      {kind: 'time', name: 'Campo de tempo'},
+      {kind: 'cpf', name: 'Campo de CPF'},
+      {kind: 'cnpj', name: 'Campo de CNPJ'},
+      {kind: 'url', name: 'Campo de URL'},
+      {kind: 'email', name: 'Campo de e-mail'},
+      {kind: 'image', name: 'Campo de imagem'},
+      {kind: 'attachment', name: 'Campo de anexo'},
+    ],
+
+    'special': [
+      {kind: 'previous_field', name: 'Etapa anterior'},
+      {kind: 'category_inventory', name: 'Categoria de inventário'},
+      {kind: 'category_inventory_field', name: 'Campo de inventário'},
+      {kind: 'category_report', name: 'Categoria de relato'},
+    ]
+  };
+
   $scope.editStep = function () {
     $modal.open({
       templateUrl: 'views/flows/steps/editBasic.html',

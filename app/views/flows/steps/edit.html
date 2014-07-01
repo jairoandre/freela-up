@@ -25,148 +25,217 @@
 
   <div class="big_content" class="pages-animation edit-form" ng-show="currentTab == 'form' && !loading">
     <div class="left_column">
-      <form action="" class="step-form">
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label for="">Data</label>
-            <input type="text" class="form-control date-field" placeholder="xx/xx/xxxx" width="200px;">
-          </div>
+      <div flow-droppable-inputs-area class="step-form droppableInputsArea">
+        <div class="empty_section" ng-show="fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta seção</p></div>
 
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label for="">Serviços requisitados</label>
-            <ul>
-              <li>
-                <input type="checkbox" class="input-choice" id="-default" checked="checked" />
-                <label for="-default" class="label-choice">
-                  <span>Opção 1</span>
-                </label>
-                <a href="#">x</a>
-              </li>
-              <li>
-                <input type="checkbox" class="input-choice" id="-default" checked="checked" />
-                <label for="-default" class="label-choice">
-                  <span>Opção 2</span>
-                </label>
-                <a href="#">x</a>
-              </li>
-              <li>
-                <input type="checkbox" class="input-choice" id="-default" checked="checked" />
-                <label for="-default" class="label-choice">
-                  <span>Opção 3</span>
-                </label>
-                <a href="#">x</a>
-              </li>
-              <li>
-                <a href="#">+ Nova opção</a>
-              </li>
-            </ul>
-          </div>
+        <div class="input pages-animation" ng-repeat="field in fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
+          <div class="type">
+            <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
+              <span ng-show="field.label !== null">{{ field.label }}</span>
+              <span ng-show="field.label == null">{{ field.title }}</span>
+              <span ng-show="field.required == true"> *</span>
+            </label>
 
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label for="">Anexar documentos</label>
-            <div class="inline">
-              <div class="form-control attachments">
-                <span class=""></span>
-                <input type="text">
+            <div class="edit_label" ng-show="editingLabel">
+              <input type="text" ng-model="field.label" />
+              <a href="" ng-click="editingLabel = false">Salvar</a>
+
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- input type: text, url, email -->
+            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
+
+            <!-- input type date, time, cpf, cnpj -->
+            <div class="custom_size col-xs-3" ng-show="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="text" disabled="disabled">
+            </div>
+
+            <!-- input type: integer, decimal -->
+            <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
+
+            <!-- input type: meters -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'meters'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">metros</span>
+            </div>
+
+            <!-- input type: centimeters -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'centimeters'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">cm</span>
+            </div>
+
+            <!-- input type: kilometers -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'kilometers'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">km</span>
+            </div>
+
+            <!-- input type: years -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'years'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">anos</span>
+            </div>
+
+            <!-- input type: months -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'months'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">meses</span>
+            </div>
+
+            <!-- input type: days -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'days'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">dias</span>
+            </div>
+
+            <!-- input type: hours -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'hours'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">horas</span>
+            </div>
+
+            <!-- input type: seconds -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'seconds'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">segundos</span>
+            </div>
+
+            <!-- input type: angle -->
+            <div class="input-group col-xs-3" ng-show="field.kind == 'angle'">
+              <span class="input-group-addon">ângulo</span>
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+            </div>
+
+            <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
+              <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
+                <input type="checkbox" class="value">
+
+                <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
+
+                <div class="edit_label" ng-show="editingValue">
+                  <input type="text" ng-model="editValue" />
+                  <a href="" ng-click="saveValue()">Ok</a>
+
+                  <div class="clearfix"></div>
+                </div>
+
+                <a href="" class="remove_value" ng-click="removeValue(value)"><span class="glyphicon glyphicon-remove"></span></a>
+
+                <div class="clearfix"></div>
               </div>
-              <a href="#" class="btn btn-util btn-version">Procurar</a>
+
+              <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
             </div>
           </div>
 
           <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label style="display: block;">Descrição do problema</label>
-            <textarea class="form-control" rows="6"></textarea>
-          </div>
+            <div class="option move">
+              <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
+            </div>
 
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label for="">Relato</label>
-            <div class="inline">
-              <input type="text" class="form-control" placeholder="Selecione um ou mais relatos">
-              <a href="#" class="btn btn-util btn-version">Procurar</a>
+            <div class="option trash" ng-hide="field.location === true">
+              <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
+                <div class="arrow"></div>
+                <h3 class="popover-title">Remover campo {{ field.label }}</h3>
+
+                <div class="popover-content">
+                  <div class="row">
+                    <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
+                    <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                  </div>
+                </div>
+              </div>
+
+              <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
+            </div>
+
+            <div class="option permissions">
+              <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
+                <div class="arrow"></div>
+                <h3 class="popover-title">Permissões do campo {{ field.label }}</h3>
+
+                <div class="popover-content">
+                  <div class="form-group">
+                    <label>Grupos que podem visualizar:</label>
+
+                    <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_view" data-placeholder="Digite um grupo" multiple>
+                      <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Grupos que podem editar:</label>
+
+                    <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_edit" data-placeholder="Digite um grupo" multiple>
+                      <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
+                    </select>
+                  </div>
+
+                  <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+              <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+            </div>
+
+            <div class="option edit">
+              <div class="popover bottom" inventory-popover="options" ng-show="popover.options">
+                <div class="arrow"></div>
+                <h3 class="popover-title">Opções do campo {{ field.label }}</h3>
+
+                <div class="popover-content">
+                  <div class="form-group">
+                    <label>Preenchimento requerido?</label>
+
+                    <br />
+
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="field.required" ng-value="true"> Sim
+                    </label>
+
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="field.required" ng-value="false"> Não
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <div class="form-group">
+                        <label>Min. de caracteres</label>
+                        <input type="number" class="form-control" ng-model="field.minimum" />
+                      </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                      <div class="form-group">
+                        <label>Máx. de caracteres</label>
+                        <input type="number" class="form-control" ng-model="field.maximum" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="" ng-click="popover.options = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+              <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
             </div>
           </div>
 
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
+          <div class="clearfix"></div>
         </div>
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label for="">Itens de inventário</label>
-            <div class="inline">
-              <input type="text" class="form-control" placeholder="Selecione um ou mais itens de inventário">
-              <a href="#" class="btn btn-util btn-version">Procurar</a>
-            </div>
-          </div>
-
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-        <div class="form-group clearfix">
-          <div class="form-inputs">
-            <label for="">Campo de etapa anterior</label>
-            <input type="text" class="form-control" placeholder="Valor preenchido no campo">
-            <span class="form-msg">* Somente leitura</span>
-          </div>
-
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-        <div class="form-group clearfix form-group-last">
-          <div class="form-inputs">
-            <label for="">Comprimento do bueiro</label>
-            <input type="text" class="form-control" placeholder="Valor preenchido no campo">
-            <span class="form-msg">* Possui relação com o campo "Bueiro a ser removido"</span>
-          </div>
-
-          <div class="actions">
-            <a href=""><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="" class="remove-form"><span class="glyphicon glyphicon-trash"></span></a>
-            <a href=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
 
     <div class="right_column" inputs-sidebar>
-      <a class="btn btn-info btn-custom btn-block btn-lg-custom">+ Adicionar nova seção</a>
-
       <div class="inputs step-sidebar">
         <div class="info"><p>Campos básicos</p></div>
 
@@ -178,36 +247,7 @@
         </div>
 
         <div class="list">
-          <div class="item" draggable-input>
-            <p>Campo de texto</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Campo numérico</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Anexo</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Opção múltipla</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Opção única</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>E-mail</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>CPF</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>CNPJ</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Campo de data</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Campo de descrição</p>
-          </div>
+          <div class="item" ng-repeat="input in availableInputs.normal | filter: searchInputs" name="{{ input.kind }}" draggable-input><p>{{ input.name }}</p></div>
         </div>
       </div>
 
@@ -219,18 +259,7 @@
         <div class="clearfix"></div>
 
         <div class="list">
-          <div class="item" draggable-input>
-            <p>Relato</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Item de Inventário</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Etapa Anterior</p>
-          </div>
-          <div class="item" draggable-input>
-            <p>Campo de Categoria</p>
-          </div>
+          <div class="item" ng-repeat="input in availableInputs.special" name="{{ input.kind }}" draggable-input><p>{{ input.name }}</p></div>
         </div>
       </div>
     </div>
