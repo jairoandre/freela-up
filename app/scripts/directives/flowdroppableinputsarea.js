@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('flowDroppableInputsArea', function () {
+  .directive('flowDroppableInputsArea', function (Restangular) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -36,8 +36,7 @@ angular.module('zupPainelApp')
               title: 'Novo ' + inputType,
               maximum: null,
               minimum: null,
-              required: false,
-              presence: 'M',
+              presence: false,
               position: null
             };
 
@@ -61,11 +60,14 @@ angular.module('zupPainelApp')
                 }
               }
 
-              scope.fields.push(pendingNewInput);
+              // create the new input
+              var fieldPromise = Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).post('fields', pendingNewInput);
 
-              scope.$apply();
+              fieldPromise.then(function() {
+                scope.fields.push(pendingNewInput);
 
-              pendingNewInput = null;
+                pendingNewInput = null;
+              });
             }
           },
           start: function(event, ui) {
