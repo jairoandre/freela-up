@@ -32,17 +32,12 @@ angular.module('zupPainelApp')
             var inputType = ui.item.attr('name');
 
             var newInput = {
-              kind: inputType,
-              label: 'Novo ' + inputType,
-              title: null,
-              location: false,
+              field_type: inputType,
+              title: 'Novo ' + inputType,
               maximum: null,
               minimum: null,
               required: false,
-              size: 'M',
-              inventory_fields_can_view: [], // jshint ignore:line
-              inventory_fields_can_edit: [], // jshint ignore:line
-              available_values: [], // jshint ignore:line
+              presence: 'M',
               position: null
             };
 
@@ -59,14 +54,14 @@ angular.module('zupPainelApp')
               pendingNewInput.position = newElementPos;
 
               // find which element has the same position, and add 0.5 to it's position so the new element is rendered before the old one
-              for (var i = scope.section.fields.length - 1; i >= 0; i--) {
-                if (scope.section.fields[i].position === newElementPos)
+              for (var i = scope.fields.length - 1; i >= 0; i--) {
+                if (scope.fields[i].position === newElementPos)
                 {
-                  scope.section.fields[i].position = scope.section.fields[i].position + 0.5;
+                  scope.fields[i].position = scope.fields[i].position + 0.5;
                 }
               }
 
-              scope.section.fields.push(pendingNewInput);
+              scope.fields.push(pendingNewInput);
 
               scope.$apply();
 

@@ -3671,19 +3671,23 @@ colorpicker-preview {
   margin-top: 23px;
   margin-right: 19px;
   font-size: 16px;
+
   &.case {
     margin-top: 15px;
     margin-right: 22px;
   }
+
   .status-msg,
   .header-msg {
     display: block;
     text-align: right;
   }
+
   .status-msg {
     font-size: 14px;
     font-weight: bold;
   }
+
   .header-msg {
     font-size: 13px;
     font-weight: normal;
@@ -3693,18 +3697,24 @@ colorpicker-preview {
 .step-form {
   border: 1px solid #E1E1E1;
   border-radius: 4px;
+  margin-top: 10px;
+
   .form-group {
     padding: 15px 20px;
     border-bottom: 1px solid #E1E1E1;
     margin-bottom: 0;
+
     &.form-group-last {
       border: none;
     }
+
     ul {
       list-style: none;
       padding: 6px 12px;
+
       li {
         margin-bottom: 10px;
+
         .label-choice:before {
           top: 0;
           width: 18px;
@@ -3716,6 +3726,7 @@ colorpicker-preview {
           border: 1px solid #b4b4b4;
           border-radius: 2px;
         }
+
         .input-choice:checked + .label-choice:before {
           font-family: 'Glyphicons Halflings';
           font-size: 10px;
@@ -3723,44 +3734,54 @@ colorpicker-preview {
           content: "\e013";
           background-color: #F2F2F2;
         }
+
         a {
           font-weight: bold;
           margin-left: 5px;
           font-size: 16px;
         }
+
         span {
           display: block;
           margin-left: 14px;
           font-weight: normal;
         }
+
         &:last-child {
           position: relative;
           left: -14px;
         }
       }
     }
+
     input,
     textarea {
       background: #EEEEEE;
     }
+
     input {
       &.form-control {
         height: 37px;
       }
     }
   }
-  .date-field  {
+
+  .date-field {
     width: 100px !important;
   }
+
   .form-inputs {
     float: left;
     width: 80%;
+
     .inline {
       width: 100%;
+
       input {
         display: inline-block;
         width: 83%;
       }
+
       a {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -3770,22 +3791,26 @@ colorpicker-preview {
         padding: 7px 0;
         margin: 0 0 0 0.5%;
       }
+
       .attachments {
         display: inline-block;
         width: 83%;
         height: 37px;
         background: #EEEEEE;
+
         span {
           position: relative;
           top: -1px;
           left: 0;
           font-family: 'Glyphicons Halflings';
+
           &:before {
             font-size: 20px;
             content: "\e142";
             color: #CCCCCC;
           }
         }
+
         input {
           position: relative;
           top: -31px;
@@ -3799,22 +3824,66 @@ colorpicker-preview {
         }
       }
     }
+
     .form-msg {
       font-size: 12px;
       color: #969696;
     }
   }
+
   .actions {
     position: relative;
     float: right;
     padding: 10px 9px 0 0;
+
+    .option {
+      float: right;
+      position: relative;
+      margin-right: 15px;
+
+      &:first-child {
+        margin-right: 0px;
+      }
+
+      .multiple-select {
+        width: 100%;
+      }
+
+      .popover {
+        width: 340px;
+        left: -161px;
+        top: 25px;
+        max-width: none;
+        display: block;
+
+        p {
+          font-size: 14px;
+        }
+      }
+
+      a.icon {
+        font-size: 18px;
+
+        &.handle {
+          cursor: move;
+        }
+      }
+    }
+  }
+
+  /*.actions {
+    position: relative;
+    float: right;
+    padding: 10px 9px 0 0;
+
     .remove-form {
       margin: 0 15px;
     }
+
     a {
       font-size: 18px;
     }
-  }
+  }*/
 }
 
 .step-sidebar {

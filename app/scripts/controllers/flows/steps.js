@@ -66,6 +66,11 @@ angular.module('zupPainelApp')
     ]
   };
 
+  $scope.$on('hidePopovers', function(event, data) {
+    // tell each popover to close before opening a new one
+    $scope.$broadcast('hideOpenPopovers', data);
+  });
+
   $scope.editStep = function () {
     $modal.open({
       templateUrl: 'views/flows/steps/editBasic.html',
