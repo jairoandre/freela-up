@@ -32,13 +32,12 @@
         <div class="input pages-animation form-group clearfix" ng-repeat="field in fields | orderBy:'order_number'" id="input_{{ field.id }}" ng-hide="field.destroy">
           <div class="form-inputs">
             <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
-              <span ng-show="field.label !== null">{{ field.label }}</span>
-              <span ng-show="field.label == null">{{ field.title }}</span>
+              {{ field.title }}
               <span ng-show="field.required == true"> *</span>
             </label>
 
             <div class="edit_label" ng-show="editingLabel">
-              <input type="text" ng-model="field.label" />
+              <input type="text" ng-model="field.title" />
               <a href="" ng-click="editingLabel = false">Salvar</a>
 
               <div class="clearfix"></div>

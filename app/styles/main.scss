@@ -3764,6 +3764,49 @@ colorpicker-preview {
         height: 37px;
       }
     }
+
+    label.input_name {
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-left: -6px;
+      cursor: pointer;
+
+      &:hover {
+        background: #E5E5E5;
+      }
+    }
+
+    .edit_label {
+      margin-bottom: 5px;
+
+      input {
+        width: 150px;
+        border: 1px solid #D9D9D9;
+        border-radius: 4px 0 0 4px;
+        padding: 2px 6px;
+        background: #FFF;
+        outline: 0px;
+        font-weight: normal;
+        color: #666;
+        float: left;
+      }
+
+      a {
+        border: 1px solid #D9D9D9;
+        border-left: none;
+        display: block;
+        border-radius: 0 4px 4px 0;
+        padding: 2px 6px;
+        background: #F3F3F3;
+        color: #259DCB;
+        float: left;
+        font-weight: normal;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
   }
 
   .date-field {
