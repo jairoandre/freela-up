@@ -7,10 +7,22 @@ angular.module('zupPainelApp')
       link: function postLink(scope, element) {
         var pendingNewInput = null;
 
-        var updateInputsPosition = function() {
+        var updateInputsPosition = function(stop) {
           element.find('.input').each(function() {
-            $(this).scope().field.position = $(this).index();
+            $(this).scope().field.step_order = $(this).index();
           });
+
+          // update fields order
+          if (stop === true)
+          {
+            var ids = [];
+
+            for (var i = scope.fields.length - 1; i >= 0; i--) {
+              ids[scope.fields[i].step_order - 1] = scope.fields[i].id;
+            };
+
+            Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).all('fields').customPUT({ids: ids});
+          }
 
           scope.$apply();
         };
@@ -78,7 +90,7 @@ angular.module('zupPainelApp')
           stop: function(event, ui) {
             $(ui.item).removeClass('helper');
 
-            updateInputsPosition();
+            updateInputsPosition(true);
           }
         });
       }
