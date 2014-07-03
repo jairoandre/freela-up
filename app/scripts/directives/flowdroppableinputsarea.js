@@ -75,14 +75,13 @@ angular.module('zupPainelApp')
                 }
               }
 
-              // let's put the input in the DOM firsthand
-              scope.fields.push(pendingNewInput);
-
-              // and then create the new input
+              // create the new input
               var fieldPromise = Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).post('fields', pendingNewInput);
 
               fieldPromise.then(function(response) {
                 pendingNewInput.id = response.data.id;
+
+                scope.fields.push(pendingNewInput);
 
                 $timeout(function() {
                   updateInputsPosition(true);

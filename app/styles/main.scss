@@ -3704,6 +3704,12 @@ colorpicker-preview {
     padding: 15px 20px;
     border-bottom: 1px solid #E1E1E1;
     margin-bottom: 0;
+    background: #FFF;
+
+    &.helper {
+      box-shadow: 0 0 8px #000;
+      border-radius: 4px;
+    }
 
     &.form-group-last {
       border: none;
