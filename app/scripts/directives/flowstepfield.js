@@ -16,6 +16,12 @@ angular.module('zupPainelApp')
           });
         };
 
+        scope.saveField = function() {
+          update().then(function() {
+            scope.popover.options = false;
+          });
+        };
+
         scope.removeField = function() {
           scope.field.remove().then(function() {
             scope.field.destroy = true;
