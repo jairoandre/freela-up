@@ -55,6 +55,11 @@ angular.module('zupPainelApp')
               order_number: null
             };
 
+            if (scope.kindHasMultipleOptions(inputType) === true)
+            {
+              newInput.values = {0: 'Novo item'};
+            }
+
             pendingNewInput = newInput;
           },
           update: function(event, ui) {

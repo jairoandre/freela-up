@@ -66,6 +66,17 @@ angular.module('zupPainelApp')
     ]
   };
 
+  $scope.kindHasMultipleOptions = function(kind) {
+    for (var i = $scope.availableInputs.normal.length - 1; i >= 0; i--) {
+      if ($scope.availableInputs.normal[i].kind === kind)
+      {
+        return $scope.availableInputs.normal[i].multipleOptions === true;
+      }
+    }
+
+    return false;
+  };
+
   $scope.$on('hidePopovers', function(event, data) {
     // tell each popover to close before opening a new one
     $scope.$broadcast('hideOpenPopovers', data);
