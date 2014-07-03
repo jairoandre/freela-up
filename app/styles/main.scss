@@ -3764,6 +3764,10 @@ colorpicker-preview {
       &.form-control {
         height: 37px;
       }
+
+      &.integer {
+        width: 10%;
+      }
     }
 
     label.input_name {
