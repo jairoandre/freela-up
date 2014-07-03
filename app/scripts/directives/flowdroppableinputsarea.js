@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('flowDroppableInputsArea', function (Restangular) {
+  .directive('flowDroppableInputsArea', function (Restangular, $timeout) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -9,8 +9,10 @@ angular.module('zupPainelApp')
 
         var updateInputsPosition = function(stop) {
           element.find('.input').each(function() {
-            $(this).scope().field.step_order = $(this).index();
+            $(this).scope().field.order_number = $(this).index();
           });
+
+          scope.$apply();
 
           // update fields order
           if (stop === true)
@@ -18,13 +20,14 @@ angular.module('zupPainelApp')
             var ids = [];
 
             for (var i = scope.fields.length - 1; i >= 0; i--) {
-              ids[scope.fields[i].step_order - 1] = scope.fields[i].id;
+              if (typeof scope.fields[i].id === 'number')
+              {
+                ids[scope.fields[i].order_number - 1] = scope.fields[i].id;
+              }
             };
 
             Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).all('fields').customPUT({ids: ids});
           }
-
-          scope.$apply();
         };
 
         element.sortable({
@@ -49,7 +52,7 @@ angular.module('zupPainelApp')
               maximum: null,
               minimum: null,
               presence: false,
-              position: null
+              order_number: null
             };
 
             pendingNewInput = newInput;
@@ -62,21 +65,28 @@ angular.module('zupPainelApp')
               // no need to have a new element added to the DOM, angular will do automatically with ng-repeat
               $(this).find('.item').remove();
 
-              pendingNewInput.position = newElementPos;
+              pendingNewInput.order_number = newElementPos;
 
               // find which element has the same position, and add 0.5 to it's position so the new element is rendered before the old one
               for (var i = scope.fields.length - 1; i >= 0; i--) {
-                if (scope.fields[i].position === newElementPos)
+                if (scope.fields[i].order_number === newElementPos)
                 {
-                  scope.fields[i].position = scope.fields[i].position + 0.5;
+                  scope.fields[i].order_number = scope.fields[i].order_number + 0.5;
                 }
               }
 
-              // create the new input
+              // let's put the input in the DOM firsthand
+              scope.fields.push(pendingNewInput);
+
+              // and then create the new input
               var fieldPromise = Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).post('fields', pendingNewInput);
 
-              fieldPromise.then(function() {
-                scope.fields.push(pendingNewInput);
+              fieldPromise.then(function(response) {
+                pendingNewInput.id = response.data.id;
+
+                $timeout(function() {
+                  updateInputsPosition(true);
+                });
 
                 pendingNewInput = null;
               });
