@@ -1,16 +1,24 @@
 'use strict';
 
 angular.module('zupPainelApp')
-  .directive('flowStepField', function () {
+  .directive('flowStepField', function (Restangular) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
 
-        scope.saveTitle = function() {
-          var putFieldPromise = Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).one('fields', scope.field.id).customPUT({title: scope.field.title});
+        var update = function() {
+          return Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).one('fields', scope.field.id).customPUT(scope.field);
+        };
 
-          putFieldPromise.then(function() {
+        scope.saveTitle = function() {
+          update().then(function() {
             scope.editingLabel = false;
+          });
+        };
+
+        scope.removeField = function() {
+          scope.field.remove().then(function() {
+            scope.field.destroy = true;
           });
         };
 
