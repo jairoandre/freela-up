@@ -53,7 +53,7 @@
 
           <tr ng-show="step.step_type === 'flow'" ng-repeat="flowStep in getAncestor(step.id).flow_steps" class="secondLevel">
             <td colspan="3">
-              <span></span> <a href="#/flows/{{ getAncestor(step.id).flow.id }}/step/{{ flowStep.step.id }}">{{ flowStep.step.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step.step_type == 'form'">(tipo formulário)</b></a></a>
+              <span></span> <a href="#/flows/{{ getAncestor(step.id).flow.id }}/steps/{{ flowStep.step.id }}">{{ flowStep.step.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step.step_type == 'form'">(tipo formulário)</b></a></a>
             </td>
           </tr>
           <tr ng-repeat-end></tr>
