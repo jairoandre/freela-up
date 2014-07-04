@@ -116,7 +116,7 @@ angular.module('zupPainelApp')
 
   $scope.removeStep = function (step) {
     $modal.open({
-      templateUrl: 'views/inventories/removeCategory.html',
+      templateUrl: 'views/flows/steps/remove.html',
       windowClass: 'removeModal',
       resolve: {
         flow: function() {

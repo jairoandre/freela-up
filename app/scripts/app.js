@@ -239,20 +239,9 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/flows/permissions/edit', {
-      templateUrl: 'views/flows/editPermissions.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/forms/edit', {
-      templateUrl: 'views/flows/editForm.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/triggers/edit', {
-      templateUrl: 'views/flows/editTriggers.html',
+    .when('/flows/:flowId/steps/:id', {
+      templateUrl: 'views/flows/steps/edit.html',
+      controller: 'FlowsStepsCtrl',
       access: {
         logged: true
       }
