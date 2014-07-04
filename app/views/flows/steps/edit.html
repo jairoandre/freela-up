@@ -164,11 +164,11 @@
                     <br />
 
                     <label class="radio-inline">
-                      <input type="radio" ng-model="field.presence" ng-value="true"> Sim
+                      <input type="radio" ng-model="field.requirements.presence" value="true"> Sim
                     </label>
 
                     <label class="radio-inline">
-                      <input type="radio" ng-model="field.presence" ng-value="false"> Não
+                      <input type="radio" ng-model="field.requirements.presence" value="false"> Não
                     </label>
                   </div>
 
@@ -176,14 +176,14 @@
                     <div class="col-xs-6">
                       <div class="form-group">
                         <label>Min. de caracteres</label>
-                        <input type="number" class="form-control" ng-model="field.minimum" />
+                        <input type="number" class="form-control" ng-model="field.requirements.minimum" />
                       </div>
                     </div>
 
                     <div class="col-xs-6">
                       <div class="form-group">
                         <label>Máx. de caracteres</label>
-                        <input type="number" class="form-control" ng-model="field.maximum" />
+                        <input type="number" class="form-control" ng-model="field.requirements.maximum" />
                       </div>
                     </div>
                   </div>
