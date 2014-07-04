@@ -56,49 +56,55 @@
             <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.field_type == 'integer' || field.field_type == 'decimal'" disabled="disabled">
 
             <!-- input type: meters -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'meters'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'meter'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">metros</span>
             </div>
 
             <!-- input type: centimeters -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'centimeters'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'centimeter'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">cm</span>
             </div>
 
             <!-- input type: kilometers -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'kilometers'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'kilometer'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">km</span>
             </div>
 
             <!-- input type: years -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'years'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'year'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">anos</span>
             </div>
 
             <!-- input type: months -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'months'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'month'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">meses</span>
             </div>
 
             <!-- input type: days -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'days'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'day'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">dias</span>
             </div>
 
             <!-- input type: hours -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'hours'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'hour'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">horas</span>
             </div>
 
+            <!-- input type: minute -->
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'minute'">
+              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
+              <span class="input-group-addon">minutos</span>
+            </div>
+
             <!-- input type: seconds -->
-            <div class="input-group col-xs-3" ng-show="field.field_type == 'seconds'">
+            <div class="input-group col-xs-3" ng-show="field.field_type == 'second'">
               <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
               <span class="input-group-addon">segundos</span>
             </div>
