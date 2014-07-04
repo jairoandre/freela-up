@@ -110,7 +110,7 @@
             </div>
 
             <div ng-show="kindHasMultipleOptions(field.field_type) === true" class="multipleValues">
-              <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
+              <div ng-repeat="(id, value) in field.values track by $index" flow-single-value>
                 <input type="checkbox" class="value">
 
                 <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
@@ -127,7 +127,7 @@
                 <div class="clearfix"></div>
               </div>
 
-              <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
+              <a href="" ng-click="newValue()" class="newItem" flow-create-value>+ Novo item</a>
             </div>
           </div>
 
