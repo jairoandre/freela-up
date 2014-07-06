@@ -91,7 +91,7 @@ angular.module('zupPainelApp')
   $scope.newTrigger = function() {
     var newTrigger = {
       title: 'Novo gatilho',
-      trigger_conditions_attributes: [],
+      trigger_conditions: [],
       action_type: 'disable_steps',
       action_values: [],
       description: '',

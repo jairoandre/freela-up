@@ -19,23 +19,40 @@ angular.module('zupPainelApp')
           {id: 'inc', name: 'Entre valores'},
         ];
 
-        scope.changeDefaultState = function() {
-          var putResolutionPromise = Restangular.one('flows', scope.flow.id).one('resolution_states', scope.state.id).customPUT({title: scope.state.title, default: scope.state.default});
-
-          putResolutionPromise.then(function() {
-            // yay :)
-          });
+        scope.newCondition = function() {
+          scope.trigger.trigger_conditions.push({field: {}, condition_type: '==', values: []}); // jshint ignore:line
         };
 
-        scope.removeState = function() {
-          var deleteResolutionPromise = Restangular.one('flows', scope.flow.id).one('resolution_states', scope.state.id).remove();
+        scope.saveTrigger = function() {
 
-          deleteResolutionPromise.then(function() {
-            scope.$parent.$parent.flow.resolution_states.splice(scope.$parent.$parent.flow.resolution_states.indexOf(scope.state), 1); // jshint ignore:line
+          var conditions = [];
 
-            scope.showRemoveState = false;
-          });
+          for (var i = scope.trigger.trigger_conditions.length - 1; i >= 0; i--) {
+            conditions.push({field_id: scope.trigger.trigger_conditions[i].field.id, condition_type: scope.trigger.trigger_conditions[i].condition_type, values: scope.trigger.trigger_conditions[i].values});
+          };
+
+          var trigger = {
+            title: scope.trigger.title,
+            trigger_conditions_attributes: conditions,
+            action_type: scope.trigger.action_type,
+            action_values: scope.trigger.action_values,
+            description: scope.trigger.description
+          };
+
+          // helpers
+          var updateTriggerPromise, stepContainer = Restangular.one('flows', scope.$parent.flow.id).one('steps', scope.$parent.step.id);
+
+          if (scope.trigger.isNew === true)
+          {
+
+            updateTriggerPromise = stepContainer.post('triggers', trigger);
+          }
+          else
+          {
+            updateTriggerPromise = stepContainer.one('triggers', scope.trigger.id).customPUT(trigger);
+          }
         };
+
       }
     };
   });
