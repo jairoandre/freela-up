@@ -298,7 +298,7 @@
 
     <ul flow-triggers>
       <li ng-repeat="trigger in triggers" flow-trigger>
-        <div class="list-triggers-item" ng-class="{'active': editing === true}">
+        <div class="list-triggers-item" ng-class="{'active': editing !== true}">
           <div class="item-content">
             <p class="name">{{ trigger.title }}</p>
 
@@ -348,7 +348,7 @@
 
               <tr>
                 <td colspan="4" class="new-condition">
-                  <a href="#/inventories/categories/add" class="btn btn-info btn-custom">+ Nova condição</a>
+                  <a href="#" ng-click="newCondition()" class="btn btn-info btn-custom">+ Nova condição</a>
                 </td>
               </tr>
             </tbody>
@@ -356,29 +356,65 @@
 
           <div class="item-conditions" ng-show="!editing">
             <h3>Caso as condições sejam verdadeiras</h3>
-            <form action="">
+            <form ng-action="saveTrigger()">
               <div class="form-group clearfix">
                 <div class="item-conditions-content content-first">
                   <label for="">Selecione uma ação</label>
+
                   <label class="select-trigger">
-                    <select class="form-control">
-                      <option>Finalizar caso</option>
-                    </select>
+                    <select class="form-control" ng-model="trigger.action_type" ng-options="type.action as type.name for type in action_types"></select>
                   </label>
                 </div>
-                <div class="item-conditions-content">
-                  <label for="">Alterar estado de resolução para</label>
-                  <label class="select-trigger">
-                    <select class="form-control">
-                      <option>Impossibilidade técnica</option>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'disable_steps'">
+                  <label for="">Desativar as etapa(s)</label>
+
+                  <div class="clearfix"></div>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
+                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
                     </select>
-                  </label>
                 </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'enable_steps'">
+                  <label for="">Ativar as etapa(s)</label>
+
+                  <div class="clearfix"></div>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
+                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    </select>
+                </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'finish_flow'">
+                  <label for="">Finalizar os fluxo(s)</label>
+
+                  <div class="clearfix"></div>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
+                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    </select>
+                </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'transfer_flow'">
+                  <label for="">Transferir os fluxo(s)</label>
+
+                  <div class="clearfix"></div>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
+                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    </select>
+                </div>
+
               </div>
+
               <div class="form-group">
                 <label for="">Descrição</label>
+
                 <textarea class="form-control" rows="4" placeholder="Caso finalizado devido a impossibilidade técnica"></textarea>
               </div>
+
+              <div class="save-trigger">
+                <button href="" type="submit" class="btn btn-info btn-custom">Salvar gatilho</button>
+              </div>
+
+              <div class="clearfix"></div>
             </form>
           </div>
         </div>

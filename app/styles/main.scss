@@ -4053,10 +4053,19 @@ colorpicker-preview {
         .item-conditions-content {
           float: left;
           width: 49%;
+
           &.content-first {
             margin-right: 2%;
           }
+
+          .multiple-select {
+            min-width: 250px;
+          }
         }
+      }
+
+      .save-trigger {
+        text-align: center;
       }
     }
     .item-table {

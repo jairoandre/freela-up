@@ -10,7 +10,7 @@ angular.module('zupPainelApp')
   $scope.loading = true;
   $scope.currentTab = 'triggers';
 
-  var flowPromise = Restangular.one('flows', flowId).get();
+  var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
   var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();
   var fieldsPromise = Restangular.one('flows', flowId).one('steps', stepId).all('fields').getList();
   var triggersPromise = Restangular.one('flows', flowId).one('steps', stepId).all('triggers').getList();
@@ -77,6 +77,14 @@ angular.module('zupPainelApp')
 
     return false;
   };
+
+  // Triggers helpers
+  $scope.action_types = [
+    {action: 'enable_steps', name: 'Ativar etapa(s)'},
+    {action: 'disable_steps', name: 'Desativar etapa(s)'},
+    {action: 'finish_flow', name: 'Finalizar fluxo(s)'},
+    {action: 'transfer_flow', name: 'Transferir fluxo(s)'},
+  ];
 
   $scope.$on('hidePopovers', function(event, data) {
     // tell each popover to close before opening a new one
