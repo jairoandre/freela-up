@@ -6,6 +6,11 @@ angular.module('zupPainelApp')
       restrict: 'A',
       link: function postLink(scope) {
 
+        if (scope.trigger.isNew === true)
+        {
+          scope.editing = true;
+        }
+
         scope.types = [
           {id: '==', name: 'Igual'},
           {id: '!=', name: 'Diferente'},
@@ -13,14 +18,6 @@ angular.module('zupPainelApp')
           {id: '<', name: 'Menor'},
           {id: 'inc', name: 'Entre valores'},
         ];
-
-        scope.saveTitle = function() {
-          var putResolutionPromise = Restangular.one('flows', scope.flow.id).one('resolution_states', scope.state.id).customPUT({title: scope.state.title});
-
-          putResolutionPromise.then(function() {
-            scope.editTitle = false;
-          });
-        };
 
         scope.changeDefaultState = function() {
           var putResolutionPromise = Restangular.one('flows', scope.flow.id).one('resolution_states', scope.state.id).customPUT({title: scope.state.title, default: scope.state.default});

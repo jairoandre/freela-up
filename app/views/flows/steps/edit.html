@@ -293,12 +293,12 @@
   <div class="pages-animation edit-triggers" ng-show="currentTab == 'triggers' && !loading">
     <div class="edit-triggers-header clearfix">
       <p>{{ triggers.length }} gatilhos criados</p>
-      <a href="#" class="btn btn-info btn-custom">+ Novo gatilho</a>
+      <a href="" ng-click="newTrigger()" class="btn btn-info btn-custom">+ Novo gatilho</a>
     </div>
 
     <ul flow-triggers>
       <li ng-repeat="trigger in triggers" flow-trigger>
-        <div class="list-triggers-item" ng-class="{'active': editing !== true}">
+        <div class="list-triggers-item" ng-class="{'active': editing == true}">
           <div class="item-content">
             <p class="name">{{ trigger.title }}</p>
 
@@ -307,13 +307,15 @@
 
               <a href="" class="middle-link" ng-click=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
 
-              <a href="" class="right-link" ng-click="editing = true"><span class="arrow_icon"></span></a>
+              <a href="" class="right-link" ng-click="editing = false" ng-show="editing"><span class="arrow_icon"></span></a>
+
+               <a href="" class="right-link" ng-click="editing = true" ng-hide="editing"><span class="arrow_icon"></span></a>
             </div>
 
             <div class="clearfix"></div>
           </div>
 
-          <table class="item-table" ng-show="!editing">
+          <table class="item-table" ng-show="editing">
             <thead>
               <tr>
                 <td width="35%">Campo</td>
@@ -354,7 +356,7 @@
             </tbody>
           </table>
 
-          <div class="item-conditions" ng-show="!editing">
+          <div class="item-conditions" ng-show="editing">
             <h3>Caso as condições sejam verdadeiras</h3>
             <form ng-action="saveTrigger()">
               <div class="form-group clearfix">
@@ -388,8 +390,8 @@
                   <label for="">Finalizar os fluxo(s)</label>
 
                   <div class="clearfix"></div>
-                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
-                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite um fluxo" multiple>
+                      <option ng-repeat="flow in flows" value="{{ flow.id }}">{{ flow.title }}</option>
                     </select>
                 </div>
 
@@ -397,8 +399,8 @@
                   <label for="">Transferir os fluxo(s)</label>
 
                   <div class="clearfix"></div>
-                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
-                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite um fluxo" multiple>
+                      <option ng-repeat="flow in flows" value="{{ flow.id }}">{{ flow.title }}</option>
                     </select>
                 </div>
 

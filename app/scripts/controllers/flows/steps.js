@@ -14,14 +14,16 @@ angular.module('zupPainelApp')
   var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();
   var fieldsPromise = Restangular.one('flows', flowId).one('steps', stepId).all('fields').getList();
   var triggersPromise = Restangular.one('flows', flowId).one('steps', stepId).all('triggers').getList();
+  var flowsPromise = Restangular.all('flows').getList();
 
-  $q.all([flowPromise, stepPromise, fieldsPromise, triggersPromise]).then(function(responses) {
+  $q.all([flowPromise, stepPromise, fieldsPromise, triggersPromise, flowsPromise]).then(function(responses) {
     $scope.loading = false;
 
     $scope.flow = responses[0].data;
     $scope.step = responses[1].data;
     $scope.fields = responses[2].data;
     $scope.triggers = responses[3].data;
+    $scope.flows = responses[4].data;
 
     // debbuging :-D
     console.log(Restangular.stripRestangular($scope.flow));
@@ -85,6 +87,19 @@ angular.module('zupPainelApp')
     {action: 'finish_flow', name: 'Finalizar fluxo(s)'},
     {action: 'transfer_flow', name: 'Transferir fluxo(s)'},
   ];
+
+  $scope.newTrigger = function() {
+    var newTrigger = {
+      title: 'Novo gatilho',
+      trigger_conditions_attributes: [],
+      action_type: 'disable_steps',
+      action_values: [],
+      description: '',
+      isNew: true
+    };
+
+    $scope.triggers.push(newTrigger);
+  };
 
   $scope.$on('hidePopovers', function(event, data) {
     // tell each popover to close before opening a new one
