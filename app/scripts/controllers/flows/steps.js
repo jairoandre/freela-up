@@ -8,7 +8,7 @@ angular.module('zupPainelApp')
   var flowId = $routeParams.flowId, stepId = $routeParams.id;
 
   $scope.loading = true;
-  $scope.currentTab = 'form';
+  $scope.currentTab = 'triggers';
 
   var flowPromise = Restangular.one('flows', flowId).get();
   var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();

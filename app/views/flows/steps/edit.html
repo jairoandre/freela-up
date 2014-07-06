@@ -292,94 +292,28 @@
 
   <div class="pages-animation edit-triggers" ng-show="currentTab == 'triggers' && !loading">
     <div class="edit-triggers-header clearfix">
-      <p>4 gatilhos criados</p>
-      <a href="#/inventories/categories/add" class="btn btn-info btn-custom">+ Novo gatilho</a>
+      <p>{{ triggers.length }} gatilhos criados</p>
+      <a href="#" class="btn btn-info btn-custom">+ Novo gatilho</a>
     </div>
 
-    <ul>
-      <li>
-        <div class="list-triggers-item">
+    <ul flow-triggers>
+      <li ng-repeat="trigger in triggers" flow-trigger>
+        <div class="list-triggers-item" ng-class="{'active': editing === true}">
           <div class="item-content">
-            <p class="name">Título do gatilho</p>
+            <p class="name">{{ trigger.title }}</p>
 
             <div class="actions">
-              <a href="">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-              <a href="" class="middle-link">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-              <a href="" class="right-link">
-                <span class="arrow_icon"></span>
-              </a>
+              <a href="" ng-click="removeTrigger()"><span class="glyphicon glyphicon-trash"></span></a>
+
+              <a href="" class="middle-link" ng-click=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
+
+              <a href="" class="right-link" ng-click="editing = true"><span class="arrow_icon"></span></a>
             </div>
 
             <div class="clearfix"></div>
           </div>
-        </div>
-      </li>
-      <li>
-        <div class="list-triggers-item">
-          <div class="item-content">
-            <p class="name">Título do gatilho</p>
 
-            <div class="actions">
-              <a href="">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-              <a href="" class="middle-link">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-              <a href="" class="right-link">
-                <span class="arrow_icon"></span>
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="list-triggers-item">
-          <div class="item-content">
-            <p class="name">Título do gatilho</p>
-
-            <div class="actions">
-              <a href="">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-              <a href="" class="middle-link">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-              <a href="" class="right-link">
-                <span class="arrow_icon"></span>
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="list-triggers-item active">
-          <div class="item-content">
-            <p class="name">Título do gatilho</p>
-
-            <div class="actions">
-              <a href="">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-              <a href="" class="middle-link">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-              <a href="" class="right-link">
-                <span class="arrow_icon"></span>
-              </a>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <table class="item-table">
+          <table class="item-table" ng-show="!editing">
             <thead>
               <tr>
                 <td width="35%">Campo</td>
@@ -389,59 +323,38 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+
+              <tr ng-repeat="condition in trigger.trigger_conditions">
                 <td>
                   <label class="select-trigger">
-                    <select class="form-control">
-                      <option>Distância máxima até a central</option>
-                    </select>
+                    <select class="form-control" ng-model="condition.field.id" ng-options="field.id as field.title for field in fields"></select>
                   </label>
                 </td>
+
                 <td>
                   <label class="select-trigger">
-                    <select class="form-control">
-                      <option>Maior</option>
-                    </select>
+                    <select class="form-control" ng-model="condition.condition_type" ng-options="type.id as type.name for type in types"></select>
                   </label>
                 </td>
+
                 <td>
-                  <input type="text" class="form-control" value="3500">
+                  <input type="text" class="form-control" ng-model="condition.values[0]">
                 </td>
+
                 <td class="remove-condition">
-                  <button type="button" class="remove" ng-click="remove_status = true">x</button>
+                  <button type="button" class="remove" ng-click="removeStatus()">x</button>
                 </td>
               </tr>
+
               <tr>
-                <td>
-                  <label class="select-trigger">
-                    <select class="form-control">
-                      <option>Inclinação</option>
-                    </select>
-                  </label>
-                </td>
-                <td>
-                  <label class="select-trigger">
-                    <select class="form-control">
-                      <option>Menor</option>
-                    </select>
-                  </label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" value="45">
-                </td>
-                <td class="remove-condition">
-                  <button type="button" class="remove" ng-click="remove_status = true">x</button>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4" class="new-condition class="remove-condition"">
+                <td colspan="4" class="new-condition">
                   <a href="#/inventories/categories/add" class="btn btn-info btn-custom">+ Nova condição</a>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <div class="item-conditions">
+          <div class="item-conditions" ng-show="!editing">
             <h3>Caso as condições sejam verdadeiras</h3>
             <form action="">
               <div class="form-group clearfix">
@@ -467,48 +380,6 @@
                 <textarea class="form-control" rows="4" placeholder="Caso finalizado devido a impossibilidade técnica"></textarea>
               </div>
             </form>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="list-triggers-item">
-          <div class="item-content">
-            <p class="name">Título do gatilho</p>
-
-            <div class="actions">
-              <a href="">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-              <a href="" class="middle-link">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-              <a href="" class="right-link">
-                <span class="arrow_icon"></span>
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="list-triggers-item">
-          <div class="item-content">
-            <p class="name">Título do gatilho</p>
-
-            <div class="actions">
-              <a href="">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-              <a href="" class="middle-link">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-              <a href="" class="right-link">
-                <span class="arrow_icon"></span>
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
           </div>
         </div>
       </li>
