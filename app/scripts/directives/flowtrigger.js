@@ -6,6 +6,7 @@ angular.module('zupPainelApp')
       restrict: 'A',
       link: function postLink(scope) {
 
+        // let's open the options section as soon as the user creates a new trigger
         if (scope.trigger.isNew === true)
         {
           scope.editing = true;
@@ -19,11 +20,30 @@ angular.module('zupPainelApp')
           {id: 'inc', name: 'Entre valores'},
         ];
 
+        scope.removeTrigger = function() {
+          if (scope.trigger.isNew !== true)
+          {
+            scope.processingForm = true;
+
+            var deletePromise = Restangular.one('flows', scope.$parent.flow.id).one('steps', scope.$parent.step.id).one('triggers', scope.trigger.id).remove();
+
+            deletePromise.then(function() {
+              scope.$parent.triggers.splice(scope.$parent.triggers.indexOf(scope.trigger), 1);
+              scope.processingForm = false;
+            });
+          }
+          else
+          {
+            scope.$parent.triggers.splice(scope.$parent.triggers.indexOf(scope.trigger), 1);
+          }
+        };
+
         scope.newCondition = function() {
           scope.trigger.trigger_conditions.push({field: {}, condition_type: '==', values: []}); // jshint ignore:line
         };
 
         scope.removeCondition = function(condition) {
+          // if we have the condition id, we need to delete from the API
           if (typeof condition.id === 'number')
           {
             scope.processingForm = true;
@@ -46,6 +66,7 @@ angular.module('zupPainelApp')
 
           var conditions = [];
 
+          // let's make our array API-friendly
           for (var i = scope.trigger.trigger_conditions.length - 1; i >= 0; i--) {
             var transformedCondition = {
               field_id: scope.trigger.trigger_conditions[i].field.id,
