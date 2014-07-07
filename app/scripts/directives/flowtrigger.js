@@ -23,12 +23,42 @@ angular.module('zupPainelApp')
           scope.trigger.trigger_conditions.push({field: {}, condition_type: '==', values: []}); // jshint ignore:line
         };
 
+        scope.removeCondition = function(condition) {
+          if (typeof condition.id === 'number')
+          {
+            scope.processingForm = true;
+
+            var deletePromise = Restangular.one('flows', scope.$parent.flow.id).one('steps', scope.$parent.step.id).one('triggers', scope.trigger.id).one('trigger_conditions', condition.id).remove();
+
+            deletePromise.then(function() {
+              scope.trigger.trigger_conditions.splice(scope.trigger.trigger_conditions.indexOf(condition), 1);
+              scope.processingForm = false;
+            });
+          }
+          else
+          {
+            scope.trigger.trigger_conditions.splice(scope.trigger.trigger_conditions.indexOf(condition), 1);
+          }
+        };
+
         scope.saveTrigger = function() {
+          scope.processingForm = true;
 
           var conditions = [];
 
           for (var i = scope.trigger.trigger_conditions.length - 1; i >= 0; i--) {
-            conditions.push({field_id: scope.trigger.trigger_conditions[i].field.id, condition_type: scope.trigger.trigger_conditions[i].condition_type, values: scope.trigger.trigger_conditions[i].values});
+            var transformedCondition = {
+              field_id: scope.trigger.trigger_conditions[i].field.id,
+              condition_type: scope.trigger.trigger_conditions[i].condition_type,
+              values: scope.trigger.trigger_conditions[i].values
+            };
+
+            if (typeof scope.trigger.trigger_conditions[i].id !== 'undefined')
+            {
+              transformedCondition.id = scope.trigger.trigger_conditions[i].id;
+            }
+
+            conditions.push(transformedCondition);
           };
 
           var trigger = {
@@ -44,13 +74,17 @@ angular.module('zupPainelApp')
 
           if (scope.trigger.isNew === true)
           {
-
             updateTriggerPromise = stepContainer.post('triggers', trigger);
           }
           else
           {
             updateTriggerPromise = stepContainer.one('triggers', scope.trigger.id).customPUT(trigger);
           }
+
+          updateTriggerPromise.then(function() {
+            scope.showMessage('ok', 'O gatilho foi atualizado com sucesso!', 'success');
+            scope.processingForm = false;
+          });
         };
 
       }

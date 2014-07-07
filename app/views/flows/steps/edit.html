@@ -8,6 +8,10 @@
       {{ step.title }} <a href="" ng-click="editStep()" class="editIcon"><span class="glyphicon glyphicon-edit"></span></a>
     </div>
 
+    <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
+      <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
+    </div>
+
     <div class="updated-msg" style="display: none;">
       <span class="glyphicon glyphicon-check"></span> Todas as alterações foram salvas.
     </div>
@@ -298,6 +302,8 @@
 
     <ul flow-triggers>
       <li ng-repeat="trigger in triggers" flow-trigger>
+        <div class="saving" ng-show="processingForm"></div>
+
         <div class="list-triggers-item" ng-class="{'active': editing == true}">
           <div class="item-content">
             <p class="name">{{ trigger.title }}</p>
@@ -344,7 +350,7 @@
                 </td>
 
                 <td class="remove-condition">
-                  <button type="button" class="remove" ng-click="removeStatus()">x</button>
+                  <button type="button" class="remove" ng-click="removeCondition(condition)">x</button>
                 </td>
               </tr>
 
