@@ -8,20 +8,22 @@ angular.module('zupPainelApp')
   var flowId = $routeParams.flowId, stepId = $routeParams.id;
 
   $scope.loading = true;
-  $scope.currentTab = 'form';
+  $scope.currentTab = 'triggers';
 
-  var flowPromise = Restangular.one('flows', flowId).get();
+  var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
   var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();
   var fieldsPromise = Restangular.one('flows', flowId).one('steps', stepId).all('fields').getList();
   var triggersPromise = Restangular.one('flows', flowId).one('steps', stepId).all('triggers').getList();
+  var flowsPromise = Restangular.all('flows').getList();
 
-  $q.all([flowPromise, stepPromise, fieldsPromise, triggersPromise]).then(function(responses) {
+  $q.all([flowPromise, stepPromise, fieldsPromise, triggersPromise, flowsPromise]).then(function(responses) {
     $scope.loading = false;
 
     $scope.flow = responses[0].data;
     $scope.step = responses[1].data;
     $scope.fields = responses[2].data;
     $scope.triggers = responses[3].data;
+    $scope.flows = responses[4].data;
 
     // debbuging :-D
     console.log(Restangular.stripRestangular($scope.flow));
@@ -76,6 +78,27 @@ angular.module('zupPainelApp')
     }
 
     return false;
+  };
+
+  // Triggers helpers
+  $scope.action_types = [
+    {action: 'enable_steps', name: 'Ativar etapa(s)'},
+    {action: 'disable_steps', name: 'Desativar etapa(s)'},
+    {action: 'finish_flow', name: 'Finalizar fluxo(s)'},
+    {action: 'transfer_flow', name: 'Transferir fluxo(s)'},
+  ];
+
+  $scope.newTrigger = function() {
+    var newTrigger = {
+      title: 'Novo gatilho',
+      trigger_conditions: [],
+      action_type: 'disable_steps',
+      action_values: [],
+      description: '',
+      isNew: true
+    };
+
+    $scope.triggers.push(newTrigger);
   };
 
   $scope.$on('hidePopovers', function(event, data) {
