@@ -4005,6 +4005,26 @@ colorpicker-preview {
       border: 1px solid #E1E1E1;
       border-radius: 4px;
       margin-bottom: 10px;
+
+      .edit-trigger-title {
+        float: left;
+        display: inline-block;
+        width: 300px;
+        border-width: 0px 0px 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgb(204, 204, 204);
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        box-shadow: none;
+        padding: 0px;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 4px 0px 0px;
+        color: rgb(51, 51, 51);
+      }
+
       .item-content {
         padding: 13px 19px;
         p {

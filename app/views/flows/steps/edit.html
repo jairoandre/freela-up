@@ -306,7 +306,8 @@
 
         <div class="list-triggers-item" ng-class="{'active': editing == true}">
           <div class="item-content">
-            <p class="name">{{ trigger.title }}</p>
+            <p class="name" ng-hide="editing">{{ trigger.title }}</p>
+            <input class="edit-trigger-title form-control" ng-show="editing" ng-model="trigger.title" placeholder="Título do gatilho" />
 
             <div class="actions">
               <a href="" ng-click="removeTrigger()"><span class="glyphicon glyphicon-trash"></span></a>
