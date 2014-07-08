@@ -9,7 +9,6 @@ angular.module('zupPainelApp')
 
         var updateInputsPosition = function(stop) {
           element.find('.input').each(function() {
-            console.log($(this).index(), this);
             $(this).scope().field.order_number = $(this).index();
           });
 
