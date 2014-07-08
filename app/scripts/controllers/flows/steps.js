@@ -3,12 +3,10 @@
 angular.module('zupPainelApp')
 
 .controller('FlowsStepsCtrl', function ($scope, Restangular, $modal, $routeParams, $q) {
-  $scope.currentTab = 'form';
-
   var flowId = $routeParams.flowId, stepId = $routeParams.id;
 
   $scope.loading = true;
-  $scope.currentTab = 'triggers';
+  $scope.currentTab = 'form';
 
   var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
   var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();

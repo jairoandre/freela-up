@@ -9,6 +9,7 @@ angular.module('zupPainelApp')
 
         var updateInputsPosition = function(stop) {
           element.find('.input').each(function() {
+            console.log($(this).index(), this);
             $(this).scope().field.order_number = $(this).index();
           });
 
@@ -22,7 +23,7 @@ angular.module('zupPainelApp')
             for (var i = scope.fields.length - 1; i >= 0; i--) {
               if (typeof scope.fields[i].id === 'number')
               {
-                ids[scope.fields[i].order_number - 1] = scope.fields[i].id;
+                ids[scope.fields[i].order_number] = scope.fields[i].id;
               }
             };
 
@@ -98,8 +99,6 @@ angular.module('zupPainelApp')
           },
           start: function(event, ui) {
             $(ui.helper).addClass('helper');
-
-            updateInputsPosition();
           },
           stop: function(event, ui) {
             $(ui.item).removeClass('helper');

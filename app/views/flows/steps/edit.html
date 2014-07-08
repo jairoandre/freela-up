@@ -35,7 +35,7 @@
         <div class="input pages-animation form-group clearfix" ng-repeat="field in fields | orderBy:'order_number'" id="input_{{ field.id }}" ng-hide="field.destroy" flow-step-field>
           <div class="form-inputs">
             <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
-              {{ field.title }}
+              {{ field.title }} {{field.order_number}}
               <span ng-show="field.required == true"> *</span>
             </label>
 
