@@ -108,15 +108,14 @@
         <table class="table custom_table" style="margin-top: 44px;">
           <thead>
             <tr>
-              <td ng-click="changeSorting('')"
-                  ng-class="selectedCls('')" width="50%" class="sort-table">
+              <td>
                 <span>Nome do fluxo inicial</span><span class="arrow"></span>
               </td>
             </tr>
           </thead>
 
-          <tr>
-            <td><a href="#/cases/show">Nome do fluxo</a></td>
+          <tr ng-repeat="flow in flows">
+            <td><a href="" ng-click="startCase(flow)">{{ flow.title }}</a></td>
           </tr>
         </table>
       </div>
