@@ -33,6 +33,8 @@
 
       <div flow-droppable-inputs-area class="step-form droppableInputsArea">
         <div class="input pages-animation form-group clearfix" ng-repeat="field in fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy" flow-step-field>
+          <div class="saving" ng-show="savingField"></div>
+
           <div class="form-inputs">
             <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
               {{ field.title }} {{field.position}}

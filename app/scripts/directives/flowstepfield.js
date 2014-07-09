@@ -12,11 +12,16 @@ angular.module('zupPainelApp')
         }
         else
         {
+          scope.savingField = true;
+
           // field needs to be created!
           var fieldPromise = Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).post('fields', scope.field);
 
           fieldPromise.then(function(response) {
             scope.field.id = response.data.id;
+
+            // enable the field again
+            scope.savingField = false;
 
             // update the order...again :P
             scope.updateFieldsOrder();
@@ -28,21 +33,21 @@ angular.module('zupPainelApp')
         };
 
         scope.saveTitle = function() {
-          update().then(function() {
-            scope.editingLabel = false;
-          });
+          update();
+
+          scope.editingLabel = false;
         };
 
         scope.saveField = function() {
-          update().then(function() {
-            scope.popover.options = false;
-          });
+          update();
+
+          scope.popover.options = false;
         };
 
         scope.removeField = function() {
-          scope.field.remove().then(function() {
-            scope.field.destroy = true;
-          });
+          scope.field.remove();
+
+          scope.field.destroy = true;
         };
 
       }
