@@ -3,9 +3,7 @@
 angular.module('zupPainelApp')
 
 .controller('CasesCtrl', function ($scope, Restangular, $modal) {
-  $scope.loading = false;
-  $scope.loadingPagination = false;
-  $scope.loadingContent = false;
+  $scope.currentTab = 'progress';
 
   $scope.selectConductor = function () {
     $modal.open({
