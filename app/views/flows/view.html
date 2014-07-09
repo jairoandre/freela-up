@@ -29,34 +29,34 @@
       </div>
 
       <div ng-show="currentTab == 'steps'">
-        <table class="table custom_table big_text steps" id="tags">
-          <tr ng-repeat-start="step in flow.steps"></tr>
-          <tr class="root">
-            <td>
-              <a href="#/flows/{{ flow.id }}/steps/{{ step.id }}">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo de {{ getAncestor(step.id).flow.title }})</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
-            </td>
+        <table class="table custom_table big_text steps" id="tags" flow-steps-order>
+          <tbody ng-repeat="step in flow.steps">
+            <tr class="root">
+              <td>
+                <a href="#/flows/{{ flow.id }}/steps/{{ step.id }}">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo de {{ getAncestor(step.id).flow.title }})</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
+              </td>
 
-            <td class="links">
-              <a class="icon_action" href="" ng-click="editStep(step)">
-                <span class="glyphicon glyphicon-edit"></span>
-              </a>
+              <td class="links">
+                <a class="icon_action" href="" ng-click="editStep(step)">
+                  <span class="glyphicon glyphicon-edit"></span>
+                </a>
 
-              <a class="icon_action" href="" ng-click="removeStep(step)">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
+                <a class="icon_action" href="" ng-click="removeStep(step)">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
 
-              <a class="icon_action" href="">
-                <span class="glyphicon glyphicon-resize-vertical"></span>
-              </a>
-            </td>
-          </tr>
+                <a class="icon_action handle" href="">
+                  <span class="glyphicon glyphicon-resize-vertical"></span>
+                </a>
+              </td>
+            </tr>
 
-          <tr ng-show="step.step_type === 'flow'" ng-repeat="flowStep in getAncestor(step.id).flow_steps" class="secondLevel">
-            <td colspan="3">
-              <span></span> <a href="#/flows/{{ getAncestor(step.id).flow.id }}/steps/{{ flowStep.step.id }}">{{ flowStep.step.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step.step_type == 'form'">(tipo formulário)</b></a></a>
-            </td>
-          </tr>
-          <tr ng-repeat-end></tr>
+            <tr ng-show="step.step_type === 'flow'" ng-repeat="flowStep in getAncestor(step.id).flow_steps" class="secondLevel">
+              <td colspan="3">
+                <span></span> <a href="#/flows/{{ getAncestor(step.id).flow.id }}/steps/{{ flowStep.step.id }}">{{ flowStep.step.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step.step_type == 'form'">(tipo formulário)</b></a></a>
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         <div class="steps-footer">

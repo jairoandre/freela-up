@@ -568,21 +568,27 @@ p {
       &.reports {
         margin-top: 130px;
       }
+
       &.inventories {
         margin-top: 130px;
       }
+
       &.flows {
         .information {
           margin-bottom: 0;
         }
+
         .date,
         .name {
           display: block;
         }
+
         &.versions {
           margin-top: 74px;
+
           .secondLevel {
             background: #F0F0F0;
+
             .indicator {
               display: inline-block;
               margin-left: 20px;
@@ -748,6 +754,15 @@ p {
     }
 
     #tags {
+      tbody {
+        background: #FFF;
+
+        &.helper {
+          box-shadow: 0 0 8px #000;
+          border-radius: 4px;
+        }
+      }
+
       tr.root td:first-child {
         font-weight: bold;
       }
