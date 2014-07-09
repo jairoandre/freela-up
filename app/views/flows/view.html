@@ -1,4 +1,4 @@
-<div id="main_layout" ng-controller="FlowsCtrl">
+<div id="main_layout">
   <div id="sidebar" hack-sidebar-height>
     <!-- Include views/layouts/menu.html -->
     <div ng-include="'views/layout/menu.html'"></div>
@@ -17,7 +17,7 @@
           <li class="ng-binding">{{ flow.title }}</li>
         </ul>
 
-        <a href="#" class="btn btn-info btn-custom">Editar Informações</a>
+        <a href="" ng-click="editFlow()" class="btn btn-info btn-custom">Editar Informações</a>
       </div>
 
       <div class="flow-links">
