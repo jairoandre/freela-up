@@ -66,18 +66,4 @@ angular.module('zupPainelApp')
       return casesPromise;
     }
   };
-
-  $scope.selectConductor = function () {
-    $modal.open({
-      templateUrl: 'views/cases/selectConductor.html',
-      windowClass: 'modalConductor'
-    });
-  };
-
-  $scope.changeConductor = function () {
-    $modal.open({
-      templateUrl: 'views/cases/changeConductor.html',
-      windowClass: 'modalConductor'
-    });
-  };
 });

@@ -254,9 +254,16 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/cases/:id', {
-      templateUrl: 'views/cases/view.html',
-      controller: 'CasesCtrl',
+    .when('/cases/:id/flow/:flowId', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/new/flow/:flowId', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesEditCtrl',
       access: {
         logged: true
       }
