@@ -249,10 +249,19 @@ angular.module('zupPainelApp', [
     // casos
     .when('/cases', {
       templateUrl: 'views/cases/index.html',
+      controller: 'CasesCtrl',
       access: {
         logged: true
       }
     })
+    .when('/cases/:id', {
+      templateUrl: 'views/cases/view.html',
+      controller: 'CasesCtrl',
+      access: {
+        logged: true
+      }
+    })
+    /*
     .when('/cases/show', {
       templateUrl: 'views/cases/show.html',
       access: {
@@ -283,7 +292,7 @@ angular.module('zupPainelApp', [
       access: {
         logged: true
       }
-    })
+    })*/
     .otherwise({
       redirectTo: '/'
     });
