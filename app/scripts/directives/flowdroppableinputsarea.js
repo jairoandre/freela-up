@@ -7,9 +7,33 @@ angular.module('zupPainelApp')
       link: function postLink(scope, element) {
         var pendingNewInput = null;
 
+        scope.updateFieldsOrder = function() {
+          var ids = [], cancel = false;
+
+          for (var i = scope.fields.length - 1; i >= 0; i--) {
+            if (typeof scope.fields[i].id !== 'undefined')
+            {
+              ids[scope.fields[i].position] = scope.fields[i].id;
+            }
+          };
+
+          // okay, before we update we need to make sure that every item in the list is with it's correct position :-)
+          for (var i = ids.length - 1; i >= 0; i--) {
+            if (typeof ids[i] === 'undefined')
+            {
+              cancel = true;
+            }
+          };
+
+          if (!cancel)
+          {
+            Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).all('fields').customPUT({ids: ids});
+          }
+        };
+
         var updateInputsPosition = function(stop) {
           element.find('.input').each(function() {
-            $(this).scope().field.order_number = $(this).index();
+            $(this).scope().field.position = $(this).index();
           });
 
           scope.$apply();
@@ -17,16 +41,7 @@ angular.module('zupPainelApp')
           // update fields order
           if (stop === true)
           {
-            var ids = [];
-
-            for (var i = scope.fields.length - 1; i >= 0; i--) {
-              if (typeof scope.fields[i].id === 'number')
-              {
-                ids[scope.fields[i].order_number] = scope.fields[i].id;
-              }
-            };
-
-            Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).all('fields').customPUT({ids: ids});
+            scope.updateFieldsOrder();
           }
         };
 
@@ -52,7 +67,7 @@ angular.module('zupPainelApp')
               maximum: null,
               minimum: null,
               presence: false,
-              order_number: null
+              position: null
             };
 
             if (scope.kindHasMultipleOptions(inputType) === true)
@@ -70,34 +85,27 @@ angular.module('zupPainelApp')
               // no need to have a new element added to the DOM, angular will do automatically with ng-repeat
               $(this).find('.item').remove();
 
-              pendingNewInput.order_number = newElementPos;
+              pendingNewInput.position = newElementPos;
 
               // find which element has the same position, and add 0.5 to it's position so the new element is rendered before the old one
               for (var i = scope.fields.length - 1; i >= 0; i--) {
-                if (scope.fields[i].order_number === newElementPos)
+                if (scope.fields[i].position === newElementPos)
                 {
-                  scope.fields[i].order_number = scope.fields[i].order_number + 0.5;
+                  scope.fields[i].position = scope.fields[i].position + 0.5;
                 }
               }
 
-              // create the new input
-              var fieldPromise = Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).post('fields', pendingNewInput);
+              scope.fields.push(pendingNewInput);
 
-              fieldPromise.then(function(response) {
-                pendingNewInput.id = response.data.id;
+              scope.$apply();
 
-                scope.fields.push(pendingNewInput);
-
-                $timeout(function() {
-                  updateInputsPosition(true);
-                });
-
-                pendingNewInput = null;
-              });
+              pendingNewInput = null;
             }
           },
           start: function(event, ui) {
             $(ui.helper).addClass('helper');
+
+            updateInputsPosition();
           },
           stop: function(event, ui) {
             $(ui.item).removeClass('helper');
