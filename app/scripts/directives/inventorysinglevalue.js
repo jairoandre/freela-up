@@ -4,15 +4,24 @@ angular.module('zupPainelApp')
   .directive('inventorySingleValue', function () {
     return {
       restrict: 'A',
-      link: function postLink(scope) {
+      link: function postLink(scope, element) {
         scope.editValue = angular.copy(scope.value);
+
+        // detect "esc" key on input
+        element.find('.editValue').keyup(function(e) {
+          if (e.keyCode === 27)
+          {
+            scope.editingValue = false;
+
+            scope.$apply();
+          };
+        });
 
         scope.saveValue = function() {
           scope.editingValue = false;
 
           var index = scope.$parent.field.available_values.indexOf(scope.value); // jshint ignore:line
           scope.$parent.field.available_values[index] = scope.editValue; // jshint ignore:line
-
         };
 
         scope.removeValue = function(value) {
