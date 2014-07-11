@@ -1,9 +1,13 @@
 <div class="loadingRequest" ng-show="processingForm"><img src="images/loading.gif" /></div>
 <div class="blockContent" ng-show="processingForm"></div>
 
-<div id="full_page">
+<div id="full_page" ng-show="loading">
+  <div class="loading"></div>
+</div>
+
+<div id="full_page" ng-hide="loading">
   <div class="header">
-    <a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="" ng-click="goBack()" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
     <a class="title" href="" ng-hide="editingCategoryTitle" ng-click="editingCategoryTitle = true">{{ category.title }}</a>
 
@@ -34,9 +38,7 @@
     <a href="" ng-click="currentTab = 'configs'" ng-class="{'active': currentTab == 'configs'}">Configurações</a>
   </div>
 
-  <div class="loading" ng-show="loading"></div>
-
-  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'fields'">
+  <div class="big_content" class="pages-animation" ng-hide="currentTab !== 'fields'">
     <div class="left_column">
 
       <div sortable-sections class="sortableSections">
@@ -376,7 +378,7 @@
     <div class="clearfix"></div>
   </div>
 
-  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'statuses'">
+  <div class="big_content" class="pages-animation" ng-hide="currentTab !== 'statuses'">
     <div class="toolbar">
       <div class="pull-left">Obrigatório o uso de estados <input bs-switch type="checkbox" class="pull-right" ng-model="category.require_item_status"></div>
 

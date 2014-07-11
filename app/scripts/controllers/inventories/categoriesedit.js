@@ -243,6 +243,23 @@ angular.module('zupPainelApp')
     }
   };
 
+  $scope.goBack = function() {
+    if ($scope.unsavedCategory === true)
+    {
+      if (confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.'))
+      {
+        $scope.unsavedCategory = false;
+        $scope.loading = true;
+        $location.path('/inventories/categories');
+      }
+    }
+    else
+    {
+      $scope.loading = true;
+      $location.path('/inventories/categories');
+    }
+  };
+
   // modal for editing and adding a new status
   $scope.editStatus = function (status) {
     $modal.open({
