@@ -69,7 +69,7 @@ angular.module('zupPainelApp')
       // save filters into hash
       if ($scope.activeAdvancedFilters.length !== 0)
       {
-        $location.search('filters', JSON.stringify($scope.activeAdvancedFilters));
+        $location.search('filters', $window.btoa(JSON.stringify($scope.activeAdvancedFilters)));
       }
       else
       {
@@ -127,7 +127,7 @@ angular.module('zupPainelApp')
   if (typeof $location.search().filters !== 'undefined')
   {
     $scope.advancedSearch = true;
-    $scope.activeAdvancedFilters = JSON.parse($location.search().filters);
+    $scope.activeAdvancedFilters = JSON.parse($window.atob($location.search().filters));
   }
 
   // Return right promise
