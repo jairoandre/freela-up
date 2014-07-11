@@ -145,4 +145,41 @@ angular.module('zupPainelApp')
     });
   };
 
+  $scope.editFlow = function () {
+    $modal.open({
+      templateUrl: 'views/flows/edit.html',
+      windowClass: 'addFlowModal',
+      resolve: {
+        flow: function() {
+          return $scope.flow;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'flow', function($scope, $modalInstance, flow) {
+        $scope.flow = flow;
+        $scope.newResolutionState = {default: false};
+
+        $scope.createResolutionState = function() {
+          var postResolutionPromise = Restangular.one('flows', flow.id).post('resolution_states', $scope.newResolutionState);
+
+          postResolutionPromise.then(function(response) {
+            $scope.flow.resolution_states.push(Restangular.stripRestangular(response.data)); // jshint ignore:line
+          });
+        };
+
+        $scope.save = function()
+        {
+          var putFlowPromise = Restangular.one('flows', flow.id).customPUT($scope.flow);
+
+          putFlowPromise.then(function() {
+            $modalInstance.close();
+          });
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
 });

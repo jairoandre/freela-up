@@ -32,11 +32,12 @@
       <div class="empty_section" ng-show="fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta etapa abaixo.</p></div>
 
       <div flow-droppable-inputs-area class="step-form droppableInputsArea">
-        <div class="input pages-animation form-group clearfix" ng-repeat="field in fields | orderBy:'order_number'" id="input_{{ field.id }}" ng-hide="field.destroy" flow-step-field>
+        <div class="input pages-animation form-group clearfix" ng-repeat="field in fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy" flow-step-field>
+          <div class="saving" ng-show="savingField"></div>
+
           <div class="form-inputs">
             <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
-              {{ field.title }} {{field.order_number}}
-              <span ng-show="field.required == true"> *</span>
+              {{ field.title }} <span ng-show="field.requirements.presence"> *</span>
             </label>
 
             <div class="edit_label" ng-show="editingLabel">

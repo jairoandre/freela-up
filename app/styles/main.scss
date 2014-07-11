@@ -568,21 +568,27 @@ p {
       &.reports {
         margin-top: 130px;
       }
+
       &.inventories {
         margin-top: 130px;
       }
+
       &.flows {
         .information {
           margin-bottom: 0;
         }
+
         .date,
         .name {
           display: block;
         }
+
         &.versions {
           margin-top: 74px;
+
           .secondLevel {
             background: #F0F0F0;
+
             .indicator {
               display: inline-block;
               margin-left: 20px;
@@ -748,6 +754,15 @@ p {
     }
 
     #tags {
+      tbody {
+        background: #FFF;
+
+        &.helper {
+          box-shadow: 0 0 8px #000;
+          border-radius: 4px;
+        }
+      }
+
       tr.root td:first-child {
         font-weight: bold;
       }
@@ -3705,6 +3720,17 @@ colorpicker-preview {
     border-bottom: 1px solid #E1E1E1;
     margin-bottom: 0;
     background: #FFF;
+    position: relative;
+
+    .saving {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: 5;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.5);
+    }
 
     &.helper {
       box-shadow: 0 0 8px #000;
