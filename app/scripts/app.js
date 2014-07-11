@@ -147,6 +147,7 @@ angular.module('zupPainelApp', [
     .when('/inventories', {
       templateUrl: 'views/inventories/index.html',
       controller: 'InventoriesCtrl',
+      reloadOnSearch: false,
       resolve: {
         'isMap': function() {
           return false;
@@ -159,6 +160,7 @@ angular.module('zupPainelApp', [
     .when('/inventories/map', {
       templateUrl: 'views/inventories/map.html',
       controller: 'InventoriesCtrl',
+      reloadOnSearch: false,
       resolve: {
         'isMap': function() {
           return true;

@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters) {
+.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total, searchText = '';
@@ -60,6 +60,75 @@ angular.module('zupPainelApp')
   ];
 
   $scope.activeAdvancedFilters = [];
+
+  $scope.$watch('activeAdvancedFilters', function() {
+    if ($scope.advancedSearch === true)
+    {
+      resetFilters();
+
+      // save filters into hash
+      if ($scope.activeAdvancedFilters.length !== 0)
+      {
+        $location.search('filters', JSON.stringify($scope.activeAdvancedFilters));
+      }
+      else
+      {
+        $location.search('filters', null);
+      }
+
+      for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
+        var filter = $scope.activeAdvancedFilters[i];
+
+        if (filter.type === 'query')
+        {
+          $scope.searchText = filter.value;
+        }
+
+        if (filter.type === 'categories')
+        {
+          $scope.selectedCategories.push(filter.value);
+        }
+
+        if (filter.type === 'statuses')
+        {
+          $scope.selectedStatuses.push(filter.value);
+        }
+
+        if (filter.type === 'authors')
+        {
+          $scope.selectedUsers.push(filter.value);
+        }
+
+        if (filter.type === 'fields')
+        {
+          $scope.fields.push(filter.value);
+        }
+
+        if (filter.type === 'beginDate')
+        {
+          $scope.beginDate = filter.value;
+        }
+
+        if (filter.type === 'endDate')
+        {
+          $scope.endDate = filter.value;
+        }
+
+        if (filter.type === 'area')
+        {
+          $scope.selectedAreas.push(filter.value);
+        }
+      }
+
+      loadFilters();
+    }
+  }, true);
+
+  if (typeof $location.search().filters !== 'undefined')
+  {
+    $scope.advancedSearch = true;
+    $scope.activeAdvancedFilters = JSON.parse($location.search().filters);
+  }
 
   // Return right promise
   var generateItemsPromise = function() {
@@ -257,59 +326,6 @@ angular.module('zupPainelApp')
       loadFilters();
     }
   });
-
-  $scope.$watch('activeAdvancedFilters', function() {
-    if ($scope.advancedSearch === true)
-    {
-      resetFilters();
-
-      for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
-        var filter = $scope.activeAdvancedFilters[i];
-
-        if (filter.type === 'query')
-        {
-          $scope.searchText = filter.value;
-        }
-
-        if (filter.type === 'categories')
-        {
-          $scope.selectedCategories.push(filter.value);
-        }
-
-        if (filter.type === 'statuses')
-        {
-          $scope.selectedStatuses.push(filter.value);
-        }
-
-        if (filter.type === 'authors')
-        {
-          $scope.selectedUsers.push(filter.value);
-        }
-
-        if (filter.type === 'fields')
-        {
-          $scope.fields.push(filter.value);
-        }
-
-        if (filter.type === 'beginDate')
-        {
-          $scope.beginDate = filter.value;
-        }
-
-        if (filter.type === 'endDate')
-        {
-          $scope.endDate = filter.value;
-        }
-
-        if (filter.type === 'area')
-        {
-          $scope.selectedAreas.push(filter.value);
-        }
-      }
-
-      loadFilters();
-    }
-  }, true);
 
   $scope.removeFilter = function(filter) {
     $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
