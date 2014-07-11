@@ -94,6 +94,7 @@ angular.module('zupPainelApp', [
     .when('/reports', {
       templateUrl: 'views/reports/index.html',
       controller: 'ReportsCtrl',
+      reloadOnSearch: false,
       resolve: {
         'isMap': function() {
           return false;
@@ -106,6 +107,7 @@ angular.module('zupPainelApp', [
     .when('/reports/map', {
       templateUrl: 'views/reports/map.html',
       controller: 'ReportsCtrl',
+      reloadOnSearch: false,
       resolve: {
         'isMap': function() {
           return true;
@@ -147,6 +149,7 @@ angular.module('zupPainelApp', [
     .when('/inventories', {
       templateUrl: 'views/inventories/index.html',
       controller: 'InventoriesCtrl',
+      reloadOnSearch: false,
       resolve: {
         'isMap': function() {
           return false;
@@ -159,6 +162,7 @@ angular.module('zupPainelApp', [
     .when('/inventories/map', {
       templateUrl: 'views/inventories/map.html',
       controller: 'InventoriesCtrl',
+      reloadOnSearch: false,
       resolve: {
         'isMap': function() {
           return true;
