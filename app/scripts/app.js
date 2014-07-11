@@ -249,10 +249,26 @@ angular.module('zupPainelApp', [
     // casos
     .when('/cases', {
       templateUrl: 'views/cases/index.html',
+      controller: 'CasesCtrl',
       access: {
         logged: true
       }
     })
+    .when('/cases/:id/flow/:flowId', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/new/flow/:flowId', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    /*
     .when('/cases/show', {
       templateUrl: 'views/cases/show.html',
       access: {
@@ -283,7 +299,7 @@ angular.module('zupPainelApp', [
       access: {
         logged: true
       }
-    })
+    })*/
     .otherwise({
       redirectTo: '/'
     });
