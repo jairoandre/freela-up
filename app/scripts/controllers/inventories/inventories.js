@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location) {
+.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location, $window) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total, searchText = '';
