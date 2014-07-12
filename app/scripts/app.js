@@ -25,6 +25,10 @@ angular.module('zupPainelApp', [
       templateUrl: 'views/login.html',
       controller: 'MainCtrl'
     })
+    .when('/logout', {
+      templateUrl: 'views/login.html',
+      controller: 'LogoutCtrl'
+    })
     // groups
     .when('/groups', {
       templateUrl: 'views/groups/index.html',

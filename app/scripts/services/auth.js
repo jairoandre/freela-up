@@ -70,6 +70,10 @@ angular.module('zupPainelApp')
 
     isLogged: function() {
       return user !== null && this.getToken() !== null;
+    },
+
+    logout: function() {
+      this.clearToken();
     }
 
   };
