@@ -382,6 +382,10 @@ angular.module('zupPainelApp')
     return null;
   };
 
+  $scope.share = function () {
+    AdvancedFilters.share();
+  };
+
   $scope.deleteReport = function (report) {
     $modal.open({
       templateUrl: 'views/reports/removeReport.html',

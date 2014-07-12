@@ -3,7 +3,7 @@
 angular.module('zupPainelApp')
 
 /* This file contains common filters used by inventory/reports */
-.factory('AdvancedFilters', function ($modal, Restangular) {
+.factory('AdvancedFilters', function ($modal, Restangular, $q, $location) {
   return {
     // advanced filter by category
     category: function (categories, activeAdvancedFilters) {
@@ -361,6 +361,39 @@ angular.module('zupPainelApp')
             }
 
             $modalInstance.close();
+          };
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    },
+
+    share: function() {
+      $modal.open({
+        templateUrl: 'views/layout/share.html',
+        windowClass: 'shareModal',
+        resolve: {
+          url: function() {
+            var deferred = $q.defer();
+
+            var request = gapi.client.urlshortener.url.insert({
+              'resource': {'longUrl': $location.absUrl()}
+            });
+
+            request.execute(function(response) {
+              deferred.resolve(response.id);
+            });
+
+            return deferred.promise;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'url', function($scope, $modalInstance, url) {
+          $scope.url = url;
+
+          $scope.copy = function() {
+            return url;
           };
 
           $scope.close = function() {
