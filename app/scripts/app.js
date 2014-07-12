@@ -439,6 +439,3 @@ angular.module('zupPainelApp', [
     }
   };
 }]);
-
-
-

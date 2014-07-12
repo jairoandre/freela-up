@@ -67,6 +67,15 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry"></script>
 
+    <script type="text/javascript">
+    function load() {
+      gapi.client.setApiKey('AIzaSyBSEPWhyMJOCOiIAfYgQ_Siw8ijfsPKhkI');
+      gapi.client.load('urlshortener', 'v1');
+    }
+    </script>
+
+    <script src="https://apis.google.com/js/client.js?onload=load"></script>
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
 

@@ -402,6 +402,39 @@ angular.module('zupPainelApp')
     return null;
   };
 
+  $scope.share = function () {
+    $modal.open({
+      templateUrl: 'views/layout/share.html',
+      windowClass: 'shareModal',
+      resolve: {
+        url: function() {
+          var deferred = $q.defer();
+
+          var request = gapi.client.urlshortener.url.insert({
+            'resource': {'longUrl': $location.absUrl()}
+          });
+
+          request.execute(function(response) {
+            deferred.resolve(response.id);
+          });
+
+          return deferred.promise;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'url', function($scope, $modalInstance, url) {
+        $scope.url = url;
+
+        $scope.copy = function() {
+          return url;
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
   $scope.deleteItem = function (item, category) {
     $modal.open({
       templateUrl: 'views/inventories/items/removeItem.html',

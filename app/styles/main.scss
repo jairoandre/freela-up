@@ -1994,6 +1994,24 @@ p {
   }
 }
 
+.shareModal {
+  .modal-dialog {
+    width: 500px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+
+  .form-control {
+    padding: 18px 14px;
+  }
+
+  .btn-custom {
+    padding: 9px 26px;
+  }
+}
+
 .removeModal {
   .modal-dialog {
     width: 500px;
@@ -4690,4 +4708,3 @@ colorpicker-preview {
 .select-tree .default-link {
   color: #7EBA27;
 }
-
