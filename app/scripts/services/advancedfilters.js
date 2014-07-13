@@ -392,10 +392,6 @@ angular.module('zupPainelApp')
         controller: ['$scope', '$modalInstance', 'url', function($scope, $modalInstance, url) {
           $scope.url = url;
 
-          $scope.copy = function() {
-            return url;
-          };
-
           $scope.close = function() {
             $modalInstance.close();
           };

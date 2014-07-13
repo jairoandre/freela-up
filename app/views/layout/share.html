@@ -4,11 +4,13 @@
 </div>
 
 <div class="modal-body">
-  <div class="input-group">
-    <input type="text" class="form-control" ng-value="url">
+  <div class="form-group" copy-text>
+    <div class="input-group">
+      <input type="text" class="form-control" ng-value="url">
 
-    <span class="input-group-btn">
-      <button class="btn btn-info btn-custom" type="button" clip-copy="copy()" clip-click="copied = true;"><span ng-hide="copied">Copiar</span><span ng-show="copied"><i class="glyphicon glyphicon-ok"></i></span></button>
-    </span>
+      <span class="input-group-btn">
+        <button class="btn btn-info btn-custom" type="button" data-clipboard-text="{{ url }}"><span ng-hide="copied">Copiar</span><span ng-show="copied"><i class="glyphicon glyphicon-ok"></i></span></button>
+      </span>
+    </div>
   </div>
 </div>
