@@ -45,11 +45,6 @@ angular.module('zupPainelApp')
     return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
   };
 
-  // watch for filter type changes
-  $scope.$watchCollection('[advancedSearch, activeAdvancedFilters]', function() {
-    resetFilters();
-  });
-
   $scope.availableFilters = [
     {name: 'Com as categorias...', action: 'category'},
     {name: 'Com os estados...', action: 'status'},
@@ -62,71 +57,67 @@ angular.module('zupPainelApp')
   $scope.activeAdvancedFilters = [];
 
   $scope.$watch('activeAdvancedFilters', function() {
-    if ($scope.advancedSearch === true)
+    resetFilters();
+
+    // save filters into hash
+    if ($scope.activeAdvancedFilters.length !== 0)
     {
-      resetFilters();
-
-      // save filters into hash
-      if ($scope.activeAdvancedFilters.length !== 0)
-      {
-        $location.search('filters', $window.btoa(JSON.stringify($scope.activeAdvancedFilters)));
-      }
-      else
-      {
-        $location.search('filters', null);
-      }
-
-      for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
-        var filter = $scope.activeAdvancedFilters[i];
-
-        if (filter.type === 'query')
-        {
-          $scope.searchText = filter.value;
-        }
-
-        if (filter.type === 'categories')
-        {
-          $scope.selectedCategories.push(filter.value);
-        }
-
-        if (filter.type === 'statuses')
-        {
-          $scope.selectedStatuses.push(filter.value);
-        }
-
-        if (filter.type === 'authors')
-        {
-          $scope.selectedUsers.push(filter.value);
-        }
-
-        if (filter.type === 'fields')
-        {
-          $scope.fields.push(filter.value);
-        }
-
-        if (filter.type === 'beginDate')
-        {
-          $scope.beginDate = filter.value;
-        }
-
-        if (filter.type === 'endDate')
-        {
-          $scope.endDate = filter.value;
-        }
-
-        if (filter.type === 'area')
-        {
-          $scope.selectedAreas.push(filter.value);
-        }
-      }
-
-      loadFilters();
+      $location.search('filters', $window.btoa(JSON.stringify($scope.activeAdvancedFilters)));
     }
+    else
+    {
+      $location.search('filters', null);
+    }
+
+    for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
+      var filter = $scope.activeAdvancedFilters[i];
+
+      if (filter.type === 'query')
+      {
+        $scope.searchText = filter.value;
+      }
+
+      if (filter.type === 'categories')
+      {
+        $scope.selectedCategories.push(filter.value);
+      }
+
+      if (filter.type === 'statuses')
+      {
+        $scope.selectedStatuses.push(filter.value);
+      }
+
+      if (filter.type === 'authors')
+      {
+        $scope.selectedUsers.push(filter.value);
+      }
+
+      if (filter.type === 'fields')
+      {
+        $scope.fields.push(filter.value);
+      }
+
+      if (filter.type === 'beginDate')
+      {
+        $scope.beginDate = filter.value;
+      }
+
+      if (filter.type === 'endDate')
+      {
+        $scope.endDate = filter.value;
+      }
+
+      if (filter.type === 'area')
+      {
+        $scope.selectedAreas.push(filter.value);
+      }
+    }
+
+    loadFilters();
   }, true);
 
   if (typeof $location.search().filters !== 'undefined')
   {
-    $scope.advancedSearch = true;
     $scope.activeAdvancedFilters = JSON.parse($window.atob($location.search().filters));
   }
 
@@ -314,18 +305,6 @@ angular.module('zupPainelApp')
       $scope.$broadcast('updateMap', true);
     }
   };
-
-  $scope.$watchCollection('[selectedCategories, selectedStatuses, beginDate, endDate]', function() {
-    loadFilters();
-  });
-
-  // We watch for changes in the advanced filter to set it's variables
-  $scope.$watch('advancedSearch', function() {
-    if ($scope.advancedSearch === true)
-    {
-      loadFilters();
-    }
-  });
 
   $scope.removeFilter = function(filter) {
     $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
