@@ -29,11 +29,11 @@ angular.module('zupPainelApp')
             }
           },
           receive: function(event, ui) {
-            var inputType = ui.item.attr('name');
+            var inputType = ui.item.attr('name'), inputName = ui.item.find('p').html();
 
             var newInput = {
               kind: inputType,
-              label: 'Novo ' + inputType,
+              label: 'Novo "' + inputName + '"',
               title: null,
               location: false,
               maximum: null,
