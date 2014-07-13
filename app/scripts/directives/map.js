@@ -208,12 +208,13 @@ angular.module('zupPainelApp')
 
               var infowindow = mapProvider.infoWindow;
 
-              var category, iconSize, viewAction, visibility = false;
+              var category, iconSize, iconImg, viewAction, visibility = false;
 
               if (attrs.mapCategory === 'report')
               {
                 category = scope.getReportCategory(item.category_id); // jshint ignore:line
                 iconSize = new google.maps.Size(54, 51);
+                iconImg = category.marker.retina.web;
 
                 var pos = mapProvider.hiddenReportsCategories.indexOf(item.category_id); // jshint ignore:line
 
@@ -225,8 +226,9 @@ angular.module('zupPainelApp')
               else
               {
                 category = scope.getInventoryCategory(item.inventory_category_id); // jshint ignore:line
-                //iconSize = new google.maps.Size(15, 15);
-                iconSize = new google.maps.Size(54, 51);
+                iconSize = new google.maps.Size(15, 15);
+                iconImg = category.pin.retina.web;
+                //iconSize = new google.maps.Size(54, 51);
 
                 var pos = mapProvider.hiddenInventoryCategories.indexOf(item.inventory_category_id); // jshint ignore:line
 
@@ -236,7 +238,7 @@ angular.module('zupPainelApp')
                 }
               }
 
-              var categoryIcon = new google.maps.MarkerImage(category.marker.retina.web, null, null, null, iconSize);
+              var categoryIcon = new google.maps.MarkerImage(iconImg, null, null, null, iconSize);
 
               var pinOptions = {
                 position: LatLng,
