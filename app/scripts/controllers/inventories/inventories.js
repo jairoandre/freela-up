@@ -385,7 +385,6 @@ angular.module('zupPainelApp')
   $scope.changeToMap = function() {
     if ($scope.filtersHash !== null)
     {
-      console.log('/inventories/map?filters=' + $scope.filtersHash);
       $location.url('/inventories/map?filters=' + $scope.filtersHash);
     }
     else
