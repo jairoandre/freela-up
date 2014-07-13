@@ -298,7 +298,8 @@ module.exports = function (grunt) {
             'views/{,*/}*.html',
             'views/**/**/*.html',
             'images/*',
-            'fonts/*'
+            'fonts/*',
+            'scripts/ZeroClipboard.swf'
           ]
         }, {
           expand: true,
