@@ -8,6 +8,7 @@ angular.module('zupPainelApp')
   var page = 1, perPage = 30, total, searchText = '';
 
   $scope.loadingPagination = false;
+  $scope.filtersHash = null;
 
   // Basic filters
   var resetFilters = function() {
@@ -62,7 +63,8 @@ angular.module('zupPainelApp')
     // save filters into hash
     if ($scope.activeAdvancedFilters.length !== 0)
     {
-      $location.search('filters', $window.btoa(JSON.stringify($scope.activeAdvancedFilters)));
+      $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
+      $location.search('filters', $scope.filtersHash);
     }
     else
     {
@@ -118,7 +120,8 @@ angular.module('zupPainelApp')
 
   if (typeof $location.search().filters !== 'undefined')
   {
-    $scope.activeAdvancedFilters = JSON.parse($window.atob($location.search().filters));
+    $scope.filtersHash = $location.search().filters;
+    $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
   }
 
   // Return right promise
@@ -383,6 +386,29 @@ angular.module('zupPainelApp')
 
   $scope.share = function () {
     AdvancedFilters.share();
+  };
+
+  $scope.changeToMap = function() {
+    if ($scope.filtersHash !== null)
+    {
+      console.log('/inventories/map?filters=' + $scope.filtersHash);
+      $location.url('/inventories/map?filters=' + $scope.filtersHash);
+    }
+    else
+    {
+      $location.url('/inventories/map');
+    }
+  };
+
+  $scope.changeToList = function() {
+    if ($scope.filtersHash !== null)
+    {
+      $location.url('/inventories?filters=' + $scope.filtersHash);
+    }
+    else
+    {
+      $location.url('/inventories');
+    }
   };
 
   $scope.deleteItem = function (item, category) {
