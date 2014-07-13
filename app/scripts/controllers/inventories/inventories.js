@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location, $window) {
+.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total, searchText = '';
@@ -204,9 +204,6 @@ angular.module('zupPainelApp')
     return url.getList(options);
   };
 
-  // Get groups for filters
-  var categories = Restangular.one('inventory').all('categories').getList();
-
   // One every change of page or search, we create generate a new request based on current values
   var getData = $scope.getData = function(paginate, mapOptions) {
     if ($scope.loadingPagination === false)
@@ -221,12 +218,10 @@ angular.module('zupPainelApp')
 
       var itemsPromise = generateItemsPromise(searchText);
 
-      $q.all([itemsPromise, categories]).then(function(responses) {
-        $scope.categories = responses[1].data;
-
+      itemsPromise.then(function(response) {
         if (paginate !== true)
         {
-          $scope.items = responses[0].data;
+          $scope.items = response.data;
         }
         else
         {
@@ -235,15 +230,15 @@ angular.module('zupPainelApp')
             $scope.items = [];
           }
 
-          for (var i = 0; i < responses[0].data.length; i++) {
-            $scope.items.push(responses[0].data[i]);
+          for (var i = 0; i < response.data.length; i++) {
+            $scope.items.push(response.data[i]);
           }
 
           // add up one page
           page++;
         }
 
-        total = parseInt(responses[0].headers().total);
+        total = parseInt(response.headers().total);
 
         var lastPage = Math.ceil(total / perPage);
 
@@ -264,28 +259,27 @@ angular.module('zupPainelApp')
   };
 
   // create statuses array
-  categories.then(function(response) {
-    $scope.statuses = [];
+  $scope.categories = categoriesResponse.data;
+  $scope.statuses = [];
 
-    // merge all categories statuses in one array with no duplicates
-    for (var i = response.data.length - 1; i >= 0; i--) {
-      for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
-        var found = false;
+  // merge all categories statuses in one array with no duplicates
+  for (var i = $scope.categories.length - 1; i >= 0; i--) {
+    for (var j = $scope.categories[i].statuses.length - 1; j >= 0; j--) {
+      var found = false;
 
-        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === response.data[i].statuses[j].id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
+      for (var k = $scope.statuses.length - 1; k >= 0; k--) {
+        if ($scope.statuses[k].id === $scope.categories[i].statuses[j].id)
         {
-          $scope.statuses.push(response.data[i].statuses[j]);
+          found = true;
         }
       }
+
+      if (!found)
+      {
+        $scope.statuses.push($scope.categories[i].statuses[j]);
+      }
     }
-  });
+  }
 
   var loadFilters = $scope.reload = function() {
     if (!isMap)

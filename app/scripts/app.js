@@ -155,6 +155,10 @@ angular.module('zupPainelApp', [
       controller: 'InventoriesCtrl',
       reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': function(Restangular) {
+          return Restangular.one('inventory').all('categories').getList();
+        },
+
         'isMap': function() {
           return false;
         }
@@ -168,6 +172,10 @@ angular.module('zupPainelApp', [
       controller: 'InventoriesCtrl',
       reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': function(Restangular) {
+          return Restangular.one('inventory').all('categories').getList();
+        },
+
         'isMap': function() {
           return true;
         }
