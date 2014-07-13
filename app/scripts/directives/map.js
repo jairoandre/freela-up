@@ -46,8 +46,6 @@ angular.module('zupPainelApp')
           currentReportFilterStatus: null,
 
           start: function() {
-            mapProvider.resize();
-
             // create map and set specific listeners
             this.createMap();
             this.setListeners();
@@ -69,10 +67,6 @@ angular.module('zupPainelApp')
             }, 80);
           },
 
-          resize: function() {
-            element.css({'height': $(window).height() - 362});
-          },
-
           setListeners: function() {
             // Set listener for when bounds changes
             google.maps.event.addListener(this.map, 'bounds_changed', function() {
@@ -81,10 +75,6 @@ angular.module('zupPainelApp')
 
             scope.$on('updateMap', function() {
               mapProvider.boundsChanged(true);
-            });
-
-            $(window).resize(function() {
-              mapProvider.resize();
             });
           },
 
