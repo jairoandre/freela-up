@@ -69,6 +69,7 @@ angular.module('zupPainelApp')
     else
     {
       $location.search('filters', null);
+      $scope.filtersHash = null;
     }
 
     for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {

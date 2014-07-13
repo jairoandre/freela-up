@@ -2,12 +2,13 @@
 
 angular.module('zupPainelApp')
 
-.controller('ReportsCtrl', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window) {
+.controller('ReportsCtrl', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, categoriesResponse) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total;
 
   $scope.loadingPagination = false;
+  $scope.filtersHash = null;
 
   // Basic filters
   var resetFilters = function() {
@@ -44,11 +45,6 @@ angular.module('zupPainelApp')
     return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
   };
 
-  // watch for filter type changes
-  $scope.$watchCollection('[advancedSearch, activeAdvancedFilters]', function() {
-    resetFilters();
-  });
-
   // Advanced filters
   //$scope.advancedSearch = true;
 
@@ -63,67 +59,66 @@ angular.module('zupPainelApp')
   $scope.activeAdvancedFilters = [];
 
   $scope.$watch('activeAdvancedFilters', function() {
-    if ($scope.advancedSearch === true)
+    resetFilters();
+
+    // save filters into hash
+    if ($scope.activeAdvancedFilters.length !== 0)
     {
-      resetFilters();
-
-      // save filters into hash
-      if ($scope.activeAdvancedFilters.length !== 0)
-      {
-        $location.search('filters', $window.btoa(JSON.stringify($scope.activeAdvancedFilters)));
-      }
-      else
-      {
-        $location.search('filters', null);
-      }
-
-      for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
-        var filter = $scope.activeAdvancedFilters[i];
-
-        if (filter.type === 'query')
-        {
-          $scope.searchText = filter.value;
-        }
-
-        if (filter.type === 'categories')
-        {
-          $scope.selectedCategories.push(filter.value);
-        }
-
-        if (filter.type === 'statuses')
-        {
-          $scope.selectedStatuses.push(filter.value);
-        }
-
-        if (filter.type === 'authors')
-        {
-          $scope.selectedUsers.push(filter.value);
-        }
-
-        if (filter.type === 'beginDate')
-        {
-          $scope.beginDate = filter.value;
-        }
-
-        if (filter.type === 'endDate')
-        {
-          $scope.endDate = filter.value;
-        }
-
-        if (filter.type === 'area')
-        {
-          $scope.selectedAreas.push(filter.value);
-        }
-      }
-
-      loadFilters();
+      $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
+      $location.search('filters', $scope.filtersHash);
     }
+    else
+    {
+      $scope.filtersHash = null;
+      $location.search('filters', null);
+    }
+
+    for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
+      var filter = $scope.activeAdvancedFilters[i];
+
+      if (filter.type === 'query')
+      {
+        $scope.searchText = filter.value;
+      }
+
+      if (filter.type === 'categories')
+      {
+        $scope.selectedCategories.push(filter.value);
+      }
+
+      if (filter.type === 'statuses')
+      {
+        $scope.selectedStatuses.push(filter.value);
+      }
+
+      if (filter.type === 'authors')
+      {
+        $scope.selectedUsers.push(filter.value);
+      }
+
+      if (filter.type === 'beginDate')
+      {
+        $scope.beginDate = filter.value;
+      }
+
+      if (filter.type === 'endDate')
+      {
+        $scope.endDate = filter.value;
+      }
+
+      if (filter.type === 'area')
+      {
+        $scope.selectedAreas.push(filter.value);
+      }
+    }
+
+    loadFilters();
   }, true);
 
   if (typeof $location.search().filters !== 'undefined')
   {
-    $scope.advancedSearch = true;
-    $scope.activeAdvancedFilters = JSON.parse($window.atob($location.search().filters));
+    $scope.filtersHash = $location.search().filters;
+    $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
   }
 
   // Return right promise
@@ -196,9 +191,6 @@ angular.module('zupPainelApp')
     return url.getList(options);
   };
 
-  // Get groups for filters
-  var categories = Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
-
   // One every change of page or search, we create generate a new request based on current values
   var getData = $scope.getData = function(paginate, mapOptions) {
     if ($scope.loadingPagination === false)
@@ -213,12 +205,10 @@ angular.module('zupPainelApp')
 
       var reportsPromise = generateReportsPromise();
 
-      $q.all([reportsPromise, categories]).then(function(responses) {
-        $scope.categories = responses[1].data;
-
+      reportsPromise.then(function(response) {
         if (paginate !== true)
         {
-          $scope.reports = responses[0].data;
+          $scope.reports = response.data;
         }
         else
         {
@@ -227,15 +217,15 @@ angular.module('zupPainelApp')
             $scope.reports = [];
           }
 
-          for (var i = 0; i < responses[0].data.length; i++) {
-            $scope.reports.push(responses[0].data[i]);
+          for (var i = 0; i < response.data.length; i++) {
+            $scope.reports.push(response.data[i]);
           }
 
           // add up one page
           page++;
         }
 
-        total = parseInt(responses[0].headers().total);
+        total = parseInt(response.headers().total);
 
         var lastPage = Math.ceil(total / perPage);
 
@@ -256,28 +246,27 @@ angular.module('zupPainelApp')
   };
 
   // create statuses array
-  categories.then(function(response) {
-    $scope.statuses = [];
+  $scope.categories = categoriesResponse.data;
+  $scope.statuses = [];
 
-    // merge all categories statuses in one array with no duplicates
-    for (var i = response.data.length - 1; i >= 0; i--) {
-      for (var j = response.data[i].statuses.length - 1; j >= 0; j--) {
-        var found = false;
+  // merge all categories statuses in one array with no duplicates
+  for (var i = $scope.categories.length - 1; i >= 0; i--) {
+    for (var j = $scope.categories[i].statuses.length - 1; j >= 0; j--) {
+      var found = false;
 
-        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === response.data[i].statuses[j].id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
+      for (var k = $scope.statuses.length - 1; k >= 0; k--) {
+        if ($scope.statuses[k].id === $scope.categories[i].statuses[j].id)
         {
-          $scope.statuses.push(response.data[i].statuses[j]);
+          found = true;
         }
       }
+
+      if (!found)
+      {
+        $scope.statuses.push($scope.categories[i].statuses[j]);
+      }
     }
-  });
+  }
 
   var loadFilters = $scope.reload = function() {
     if (!isMap)
@@ -300,18 +289,6 @@ angular.module('zupPainelApp')
       $scope.$broadcast('updateMap', true);
     }
   };
-
-  $scope.$watchCollection('[selectedCategories, selectedStatuses, beginDate, endDate]', function() {
-    loadFilters();
-  });
-
-  // We watch for changes in the advanced filter to set it's variables
-  $scope.$watch('advancedSearch', function() {
-    if ($scope.advancedSearch === true)
-    {
-      loadFilters();
-    }
-  });
 
   $scope.removeFilter = function(filter) {
     $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
@@ -384,6 +361,28 @@ angular.module('zupPainelApp')
 
   $scope.share = function () {
     AdvancedFilters.share();
+  };
+
+  $scope.changeToMap = function() {
+    if ($scope.filtersHash !== null)
+    {
+      $location.url('/reports/map?filters=' + $scope.filtersHash);
+    }
+    else
+    {
+      $location.url('/reports/map');
+    }
+  };
+
+  $scope.changeToList = function() {
+    if ($scope.filtersHash !== null)
+    {
+      $location.url('/reports?filters=' + $scope.filtersHash);
+    }
+    else
+    {
+      $location.url('/reports');
+    }
   };
 
   $scope.deleteReport = function (report) {

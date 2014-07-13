@@ -100,6 +100,10 @@ angular.module('zupPainelApp', [
       controller: 'ReportsCtrl',
       reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': function(Restangular) {
+          return Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
+        },
+
         'isMap': function() {
           return false;
         }
@@ -113,6 +117,10 @@ angular.module('zupPainelApp', [
       controller: 'ReportsCtrl',
       reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': function(Restangular) {
+          return Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
+        },
+
         'isMap': function() {
           return true;
         }

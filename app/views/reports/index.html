@@ -1,5 +1,5 @@
 <div id="main_layout">
-  <div id="sidebar" hack-sidebar-height>
+  <div id="sidebar">
     <!-- Include views/layouts/menu.html -->
     <div ng-include="'views/layout/menu.html'"></div>
   </div>
@@ -11,11 +11,11 @@
     <div class="loading" ng-show="loading"></div>
     <div class="loading" ng-show="loadingContent"></div>
 
-    <div ng-hide="loading" class="pages-animation">
+    <div style-results-table>
       <div class="title">
         <div class="links">
-          <a href="#/reports" class="active"><span class="glyphicon glyphicon-list"></span> <p>Explorar em lista</p></a>
-          <a href="#/reports/map"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
+          <a href="" class="active"><span class="glyphicon glyphicon-list"></span> <p>Explorar em lista</p></a>
+          <a href="" ng-click="changeToMap()"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
         </div>
 
         <a href="#/reports/categories" class="btn btn-info btn-custom">Gerenciar categorias</a>
@@ -24,8 +24,8 @@
         <a href="" ng-click="share()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-link"></i></a>
       </div>
 
-      <div class="advancedSearch" id="advancedSearch" ng-show="advancedSearch">
-        <div class="col-xs-9 search_column1">
+      <div class="advancedSearch" id="advancedSearch">
+        <div class="col-xs-12 search_column1">
           <span class="glyphicon glyphicon-search search_icon"></span>
           <input type="text" placeholder="Busque um filtro..." on-focus="show_availableFilters = true" on-blur="show_availableFilters = false" on-blur-delay="200" ng-model="filterQuery" style="width: 80%;" />
 
@@ -45,69 +45,10 @@
           <a href="" class="clear_filters" ng-show="activeAdvancedFilters.length !== 0" ng-click="resetFilters()"><span class="glyphicon glyphicon-remove"></span> Limpar todos os filtros</a>
         </div>
 
-        <div class="col-xs-3 filter_change">
-          <a href="" ng-click="advancedSearch = false">Utilizar busca simples</a>
-        </div>
-
         <div class="clearfix"></div>
       </div>
 
-      <div class="simple_search" ng-hide="advancedSearch">
-        <div class="col-xs-9 search_column1">
-          <span class="glyphicon glyphicon-search search_icon"></span>
-          <input type="text" placeholder="Busque pelo endereço" keyboard-poster="search" style="width: 80%;" />
-        </div>
-
-        <div class="col-xs-3 filter_change">
-          <a href="" ng-click="advancedSearch = true">Utilizar busca avançada</a>
-        </div>
-      </div>
-
-      <div class="simple_filters" ng-hide="advancedSearch">
-        <div class="col-xs-4">
-          <div class="form-group">
-            <label>Nas categorias</label>
-
-            <select class="multiple-select" ui-select2 ng-model="selectedCategories" data-placeholder="Digite uma categoria" multiple>
-              <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.title }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xs-4">
-          <div class="form-group">
-            <label>Com status</label>
-
-            <select class="multiple-select" ui-select2 ng-model="selectedStatuses" data-placeholder="Digite um status" multiple>
-              <option ng-repeat="status in statuses" value="{{ status.id }}">{{ status.title }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xs-4">
-          <div class="col-xs-6">
-            <div class="form-group">
-              <label>No periódo</label>
-
-              <div class="datepicker-popup">
-                <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="beginDate" show-weeks="false" datepicker-options="dateOptions" show-button-bar="false" placeholder="20/03/2013" />
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xs-6">
-            <label>Até</label>
-
-            <div class="datepicker-popup">
-              <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="endDate" show-weeks="false" datepicker-options="dateOptions" show-button-bar="false" placeholder="23/03/2013" />
-            </div>
-          </div>
-        </div>
-
-        <div class="clearfix"></div>
-      </div>
-
-      <table class="table custom_table reports" infinite-scroll="getData(true)" infinite-scroll-distance="3" ng-class="{'advanced-filters-margin': advancedSearch == true}" style-results-table>
+      <table class="table custom_table" infinite-scroll="getData(true)" infinite-scroll-distance="3" ng-class="{'advanced-filters-margin': advancedSearch == true}">
         <thead>
           <tr>
             <td ng-click="changeSorting('protocol')"
