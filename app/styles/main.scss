@@ -1580,19 +1580,23 @@ p {
       }
 
       .multipleValues {
-        label {
-          margin-right: 10px;
+        .checkbox-v {
+          margin: 2px 18px 6px 11px;
           font-weight: normal;
           display: block;
+          float: left;
         }
 
         .newItem {
           font-weight: bold;
           white-space: nowrap;
+          display: block;
+          margin-top: 7px;
         }
 
         .edit_label {
           float: left;
+          margin-left: -4px;
         }
 
         .value {
@@ -1615,7 +1619,7 @@ p {
         }
 
         .remove_value {
-          margin-left: 5px;
+          margin: 4px 0 0 5px;
           display: block;
           float: left;
         }

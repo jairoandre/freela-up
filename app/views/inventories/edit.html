@@ -229,7 +229,12 @@
 
                   <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
                     <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
-                      <input type="checkbox" class="value">
+                      <div class="checkbox-v">
+                        <input type="checkbox" class="input-choice" id="{{field.id}}-{{$index}}-default" checked="checked" />
+                        <label for="{{field.id}}-{{$index}}-default" class="label-choice">
+                          <span>Opção 1</span>
+                        </label>
+                      </div>
 
                       <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
 
