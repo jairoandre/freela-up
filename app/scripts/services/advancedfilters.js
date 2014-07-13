@@ -174,6 +174,7 @@ angular.module('zupPainelApp')
 
             change: function() {
               $scope.field.text = '';
+              $scope.$broadcast('focusField', true);
             }
           };
 
