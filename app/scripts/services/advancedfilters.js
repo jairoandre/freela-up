@@ -335,11 +335,27 @@ angular.module('zupPainelApp')
             }
 
             $scope.newField.category = category;
+            $scope.newField.condition = null;
+            $scope.newField.field = null;
+            $scope.newField.value = null;
+            $scope.newField.fieldId = null;
           };
 
           $scope.selectCondition = function(condition) {
             $scope.newField.condition = condition;
           };
+
+          $scope.$watch('newField.fieldId', function() {
+            if ($scope.newField.category !== null && $scope.newField.fieldId !== null)
+            {
+              for (var i = $scope.newField.category.fields.length - 1; i >= 0; i--) {
+                if ($scope.newField.category.fields[i].id == $scope.newField.fieldId)
+                {
+                  $scope.newField.field = $scope.newField.category.fields[i];
+                }
+              };
+            }
+          });
 
           $scope.selectField = function(field) {
             $scope.newField.field = field;

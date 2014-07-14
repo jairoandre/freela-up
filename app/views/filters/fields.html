@@ -17,15 +17,9 @@
 
     <div class="row" ng-class="{'disabled': newField.category === null}">
       <div class="col col-xs-4">
-        <div class="btn-group btn-group-block">
-          <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
-            <span ng-show="newField.field">{{ newField.field.label && newField.field.label || newField.field.title }}</span> <span ng-hide="newField.field">Selecione o campo</span> <span class="caret"></span>
-          </button>
-
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="field in newField.category.fields"><a href="" ng-click="selectField(field)">{{ field.label && field.label || field.title }}</a></li>
-          </ul>
-        </div>
+        <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.fieldId" data-placeholder="Selecione uma opção">
+          <option ng-repeat="field in newField.category.fields" ng-value="field.id">{{ field.label && field.label || field.title }}</option>
+        </select>
       </div>
 
       <div class="col col-xs-3">
@@ -40,8 +34,14 @@
         </div>
       </div>
 
-      <div class="col col-xs-4">
+      <div class="col col-xs-4" ng-show="newField.field.kind !== 'radio' && newField.field.kind !== 'checkbox'">
         <input type="text" class="form-control" placeholder="Digite o valor" ng-model="newField.value" />
+      </div>
+
+      <div class="col col-xs-4" ng-show="newField.field.kind === 'radio' || newField.field.kind === 'checkbox'">
+        <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.value" data-placeholder="Selecione uma opção" multiple>
+          <option ng-repeat="value in newField.field.available_values" value="{{ value }}">{{ value }}</option>
+        </select>
       </div>
 
       <div class="col col-xs-1">
@@ -64,15 +64,9 @@
 
     <tr ng-repeat="item in items" fields-filter-item>
       <td>
-        <div class="btn-group btn-group-block">
-          <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
-            <span ng-show="item.field">{{ item.field.label && item.field.label || item.field.title }}</span> <span ng-hide="item.field">Selecione o campo</span> <span class="caret"></span>
-          </button>
-
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="field in item.category.fields"><a href="" ng-click="changeField(field)">{{ field.label && field.label || field.title }}</a></li>
-          </ul>
-        </div>
+        <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.fieldId" data-placeholder="Selecione uma opção">
+          <option ng-repeat="field in item.category.fields" ng-value="field.id">{{ field.label && field.label || field.title }}</option>
+        </select>
       </td>
 
       <td>
@@ -87,8 +81,14 @@
         </div>
       </td>
 
-      <td>
+      <td ng-show="item.field.kind !== 'radio' && item.field.kind !== 'checkbox'">
         <input type="text" class="form-control" placeholder="Digite o valor" ng-model="item.value" />
+      </td>
+
+      <td ng-show="item.field.kind === 'radio' || item.field.kind === 'checkbox'">
+        <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.value" data-placeholder="Selecione uma opção" multiple>
+          <option ng-repeat="value in item.field.available_values" value="{{ value }}">{{ value }}</option>
+        </select>
       </td>
 
       <td class="actions">
