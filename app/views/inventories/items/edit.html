@@ -6,7 +6,7 @@
     <div class="title" ng-show="updating">Editar item: {{ item.title }}</div>
 
     <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
-      <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
+      <p><span class="glyphicon" ng-class="glyphicons[systemMessage.icon]"></span> {{ systemMessage.text }}</p>
     </div>
 
     <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>

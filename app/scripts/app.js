@@ -443,6 +443,12 @@ angular.module('zupPainelApp', [
     }
   });
 
+  // available glyphicons
+  $rootScope.glyphicons = {
+    'exclamation-sign': 'glyphicon-exclamation-sign',
+    'ok': 'glyphicon-ok',
+  };
+
   $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {
     $rootScope.systemMessage = {icon: icon, text: text, messageClass: messageClass};
     $rootScope.showSystemMessage = true;
