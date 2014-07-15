@@ -76,8 +76,6 @@ angular.module('zupPainelApp')
             {
               if (status === google.maps.GeocoderStatus.OK)
               {
-                scope.formattedAddress = results[0].formatted_address; // jshint ignore:line
-
                 scope.$apply();
               }
             });
