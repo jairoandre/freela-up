@@ -289,18 +289,28 @@ angular.module('zupPainelApp')
     }
   }
 
-  var loadFilters = $scope.reload = function() {
+  var loadFilters = $scope.reload = function(reloading) {
     if (!isMap)
     {
       // reset pagination
       page = 1;
       $scope.loadingPagination = false;
 
+      if (reloading === true)
+      {
+        $scope.reloading = true;
+      }
+
       $scope.loadingContent = true;
       $scope.items = [];
 
       getData().then(function() {
         $scope.loadingContent = false;
+
+        if (reloading === true)
+        {
+          $scope.reloading = false;
+        }
 
         page++;
       });
