@@ -98,7 +98,8 @@ angular.module('zupPainelApp')
           if (section.fields[j].kind === 'images')
           {
             itemData[section.fields[j].id] = $fileUploader.create({
-              scope: $scope
+              scope: $scope,
+              fieldId: section.fields[j].id
             });
 
             // Images only
@@ -108,6 +109,16 @@ angular.module('zupPainelApp')
               var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
               type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
               return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            });
+
+            // only accept files from the the uploader that the image was selected in
+            uploader.bind('afteraddingfile', function(event, item) {
+              if (item.fieldId !== item.uploader.fieldId)
+              {
+                this.removeFromQueue(item);
+              }
+
+              return;
             });
           }
         }
