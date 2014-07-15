@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse) {
+.controller('InventoriesCtrl', function ($scope, $modal, Inventories, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies) {
   $scope.loading = true;
 
   var page = 1, perPage = 30, total, searchText = '';
@@ -65,11 +65,13 @@ angular.module('zupPainelApp')
     {
       $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
       $location.search('filters', $scope.filtersHash);
+      $cookies.inventoryFiltersHash = $scope.filtersHash;
     }
     else
     {
       $location.search('filters', null);
       $scope.filtersHash = null;
+      delete $cookies.inventoryFiltersHash;
     }
 
     for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
@@ -118,6 +120,11 @@ angular.module('zupPainelApp')
 
     loadFilters();
   }, true);
+
+  if (typeof $cookies.inventoryFiltersHash !== 'undefined')
+  {
+    $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.inventoryFiltersHash));
+  }
 
   if (typeof $location.search().filters !== 'undefined')
   {
