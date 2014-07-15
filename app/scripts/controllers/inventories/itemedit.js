@@ -18,21 +18,9 @@ angular.module('zupPainelApp')
 
   $scope.loading = true;
   $scope.hiddenFields = [];
-  $scope.imagesFieldId = null;
   var locationFieldsIds = $scope.locationFieldsIds = [];
 
   $scope.item = {inventory_status_id: null}; // jshint ignore:line
-
-  var uploader = $scope.uploader = $fileUploader.create({
-    scope: $scope
-  });
-
-  // Images only
-  uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
-    var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-    type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-    return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-  });
 
   var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'}); // jshint ignore:line
 
@@ -109,7 +97,18 @@ angular.module('zupPainelApp')
 
           if (section.fields[j].kind === 'images')
           {
-            $scope.imagesFieldId = section.fields[j].id;
+            itemData[section.fields[j].id] = $fileUploader.create({
+              scope: $scope
+            });
+
+            // Images only
+            var uploader = itemData[section.fields[j].id];
+
+            uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+              var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+              type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+              return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            });
           }
         }
       }
@@ -123,12 +122,12 @@ angular.module('zupPainelApp')
     $q.all([itemPromise, categoryPromise]).then(function(responses) {
       $scope.item = responses[0].data;
 
-      var getDataByInventoryFieldId = function(id) {
+      var getFieldById = function(id) {
         for (var i = $scope.item.data.length - 1; i >= 0; i--) {
 
           if ($scope.item.data[i].field.id == id) // jshint ignore:line
           {
-            return $scope.item.data[i].content;
+            return $scope.item.data[i];
           }
         }
       };
@@ -136,18 +135,25 @@ angular.module('zupPainelApp')
       // populate itemData with item information
       for (var x in itemData)
       {
-        var data = getDataByInventoryFieldId(x);
+        var data = getFieldById(x);
 
-        // we detect if it's a checkbox by checking if the value is an array
-        if (data instanceof Array)
+        if (typeof data !== 'undefined')
         {
-          for (var i = data.length - 1; i >= 0; i--) {
-            itemData[x][data[i]] = true;
+          // we detect if it's a checkbox by checking if the value is an array
+          if (data.field.kind === 'checkbox' && data.content !== null)
+          {
+            for (var i = data.content.length - 1; i >= 0; i--) {
+              itemData[x][data.content[i]] = true;
+            }
           }
-        }
-        else
-        {
-          itemData[x] = data;
+          else if (data.field.kind === 'images' && data.content !== null)
+          {
+            itemData[x].existingImages = data.content;
+          }
+          else
+          {
+            itemData[x] = data.content;
+          }
         }
       }
 
@@ -267,10 +273,12 @@ angular.module('zupPainelApp')
 
   $scope.send = function() {
     $scope.processingForm = true;
-    var images = [], promises = [];
+    var imagesFieldsPromises = [];
+
+    var formattedData = {inventory_status_id: $scope.item.inventory_status_id, data: {}}; // jshint ignore:line
 
     // process images
-    function addAsync(file) {
+    function addAsyncImage(img) {
       var deferred = $q.defer();
 
       var picReader = new FileReader();
@@ -278,29 +286,52 @@ angular.module('zupPainelApp')
       picReader.addEventListener('load', function(event) {
         var picFile = event.target;
 
-        images.push(picFile.result.replace(/^data:image\/[^;]+;base64,/, ''));
-        deferred.resolve();
+        deferred.resolve(picFile.result.replace(/^data:image\/[^;]+;base64,/, ''));
       });
 
       // pass as base64 and strip data:image
-      picReader.readAsDataURL(file);
+      picReader.readAsDataURL(img);
 
       return deferred.promise;
     }
 
-    for (var i = uploader.queue.length - 1; i >= 0; i--) {
-      promises.push(addAsync(uploader.queue[i].file));
+    var addAsyncImagesField = function(item, id) {
+      var deferred = $q.defer();
+
+      var imagesPromises = [];
+
+      for (var i = item.queue.length - 1; i >= 0; i--) {
+        imagesPromises.push(addAsyncImage(item.queue[i].file));
+      }
+
+      $q.all(imagesPromises).then(function(images) {
+        var imagesObj = [];
+
+        for (var i = images.length - 1; i >= 0; i--) {
+          imagesObj.push({'content': images[i]});
+        };
+
+        formattedData.data[id] = imagesObj;
+
+        // we processed all the images for this field! :-D
+        deferred.resolve();
+      });
+
+      return deferred.promise;
     }
 
-    $q.all(promises).then(function() {
-      var formattedData = {inventory_status_id: $scope.item.inventory_status_id, data: {}}; // jshint ignore:line
-
-      // we need to format our data
-      for (var x in itemData)
+    // we need to format our data
+    for (var x in itemData)
+    {
+      if (itemData[x] !== null)
       {
-        if (itemData[x] !== null)
+        if (typeof itemData[x] === 'object')
         {
-          if (typeof itemData[x] === 'object')
+          if (typeof itemData[x].queue !== 'undefined')
+          {
+            imagesFieldsPromises.push(addAsyncImagesField(itemData[x], x));
+          }
+          else
           {
             var selectedItems = [];
 
@@ -314,18 +345,15 @@ angular.module('zupPainelApp')
 
             formattedData.data[x] = selectedItems;
           }
-          else
-          {
-            formattedData.data[x] = itemData[x];
-          }
+        }
+        else
+        {
+          formattedData.data[x] = itemData[x];
         }
       }
+    }
 
-      if ($scope.imagesFieldId !== null)
-      {
-        formattedData.data[$scope.imagesFieldId] = images;
-      }
-
+    $q.all(imagesFieldsPromises).then(function() {
       if (updating)
       {
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);

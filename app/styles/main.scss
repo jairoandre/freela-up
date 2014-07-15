@@ -1779,49 +1779,90 @@ p {
   }
 
   &.items-edit {
-    .queue {
-      text-align: center;
-      padding: 0 50px 30px 50px;
+    .upload {
+      width: 100%;
+      background: #F2F2F2;
+      padding: 20px;
+      border-radius: 4px;
 
-      .image {
-        display: inline-block;
-        width: 150px;
-        height: 150px;
-        border: 0px;
-        margin-right: 10px;
+      .btn-upload {
+        display: block;
         position: relative;
+        overflow: hidden;
+        width: 170px;
+        margin: 0 auto;
+        margin-top: 10px;
 
-        button {
+        input[type="file"] {
           position: absolute;
-          bottom: 0px;
-          right: 0px;
-          width: 30px;
-          height: 30px;
-          border: 0px;
-          color: #FFF;
-          background: rgba(0, 0, 0, 0.8);
+          top: 0;
+          right: 0;
+          margin: 0;
+          padding: 10px 0;
+          font-size: 20px;
+          opacity: 0;
+          filter: alpha(opacity=0);
+          cursor: pointer;
         }
       }
-    }
 
-    .drop-zone {
-      display: inline-block;
-      width: 150px;
-      height: 150px;
-      border: dashed 14px #F3F3F3;
-      vertical-align: top;
+      .queue {
+        text-align: center;
 
-      span {
-        font-size: 14px;
-        font-weight: 400;
-        color: #CECECE;
-        margin-top: 40px;
-        display: inline-block;
+        .image {
+          display: inline-block;
+          width: 100px;
+          height: 100px;
+          border: 1px #D9D9D9;
+          margin-right: 10px;
+          position: relative;
+          background: #FFF;
+
+          img {
+            vertical-align: bottom;
+          }
+
+          button {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            width: 30px;
+            height: 30px;
+            border: 0px;
+            color: #FFF;
+            background: rgba(0, 0, 0, 0.8);
+          }
+        }
       }
-    }
 
-    .ng-file-over {
-      border: dashed 14px #CCC;
+      .or {
+        text-align: center;
+        display: block;
+        color: #7A7A7A;
+        font-size: 12px;
+        margin: 10px 0;
+      }
+
+      .drop-zone {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: dashed 2px #D9D9D9;
+        vertical-align: top;
+
+        span {
+          font-size: 12px;
+          font-weight: 400;
+          color: #CECECE;
+          margin: 28px 8px;
+          display: inline-block;
+        }
+      }
+
+      .ng-file-over {
+        background: #F7F7F7;
+        border: dashed 2px #CCC;
+      }
     }
   }
 }

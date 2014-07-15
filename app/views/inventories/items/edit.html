@@ -175,31 +175,38 @@
             </div>
 
             <!-- field type: images -->
-            <!--
-            <div ng-show="field.kind == 'images'">
-              <div class="upload btn btn-default btn-upload">
-                  <span>Selecione o arquivo</span>
-
-                  <input ng-file-select type="file" multiple  />
-              </div>
-
+            <div ng-show="field.kind == 'images'" class="upload" ng-file-drop>
               <div class="queue">
-                <div class="image" ng-repeat="item in uploader.queue">
-                  <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, width: 150, height: 150 }"></div>
+                <div class="image" ng-repeat="image in itemData[field.id].existingImages">
+                  <img ng-src="{{image.url}}" width="100" height="100" />
+                  <!--<button type="button" ng-click="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>-->
+                </div>
 
-                  <span ng-show="!uploader.isHTML5">{{ item.file.name }}</span>
+                <div class="image" ng-repeat="item in itemData[field.id].queue">
+                  <div ng-show="itemData[field.id].isHTML5" ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>
+
+                  <span ng-show="!itemData[field.id].isHTML5">{{ item.file.name }}</span>
 
                   <button type="button" ng-click="item.remove()">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
                 </div>
 
-                <div ng-show="uploader.isHTML5" class="drop-zone" ng-file-over>
-                  <span>Ou arraste a imagem aqui</span>
+                <div ng-show="itemData[field.id].isHTML5" class="drop-zone" ng-file-over>
+                  <span>Arraste imagem aqui</span>
                 </div>
               </div>
+
+              <span class="or">ou</span>
+
+              <div class="btn btn-info btn-custom btn-upload">
+                  <span>Selecione os arquivos</span>
+
+                  <input ng-file-select type="file" multiple  />
+              </div>
             </div>
-            -->
 
           </div>
         </div>
