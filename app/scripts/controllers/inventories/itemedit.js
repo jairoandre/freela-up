@@ -19,7 +19,7 @@ angular.module('zupPainelApp')
   $scope.loading = true;
   $scope.hiddenFields = [];
   $scope.imagesFieldId = null;
-  var latLngIds = $scope.latLngIds = [];
+  var locationFieldsIds = $scope.locationFieldsIds = [];
 
   $scope.item = {inventory_status_id: null}; // jshint ignore:line
 
@@ -71,14 +71,39 @@ angular.module('zupPainelApp')
           {
             if (section.fields[j].title === 'latitude')
             {
-              $scope.latLngIds[0] = section.fields[j].id;
+              $scope.locationFieldsIds[0] = section.fields[j].id;
               $scope.hiddenFields.push(section.fields[j].id);
             }
 
             if (section.fields[j].title === 'longitude')
             {
-              $scope.latLngIds[1] = section.fields[j].id;
+              $scope.locationFieldsIds[1] = section.fields[j].id;
               $scope.hiddenFields.push(section.fields[j].id);
+            }
+
+            if (section.fields[j].title === 'address')
+            {
+              $scope.locationFieldsIds[2] = section.fields[j].id;
+            }
+
+            if (section.fields[j].title === 'postal_code')
+            {
+              $scope.locationFieldsIds[3] = section.fields[j].id;
+            }
+
+            if (section.fields[j].title === 'district')
+            {
+              $scope.locationFieldsIds[4] = section.fields[j].id;
+            }
+
+            if (section.fields[j].title === 'city')
+            {
+              $scope.locationFieldsIds[5] = section.fields[j].id;
+            }
+
+            if (section.fields[j].title === 'state')
+            {
+              $scope.locationFieldsIds[6] = section.fields[j].id;
             }
           }
 
@@ -158,15 +183,75 @@ angular.module('zupPainelApp')
         $scope.updating = updating;
         $scope.category = category;
 
-        $scope.latLng = [itemData[latLngIds[0]], itemData[latLngIds[1]]];
+        $scope.latLng = [itemData[locationFieldsIds[0]], itemData[locationFieldsIds[1]]];
 
         $scope.close = function() {
           $modalInstance.close();
         };
 
         $scope.save = function() {
-          itemData[latLngIds[0]] = $scope.latLng[0];
-          itemData[latLngIds[1]] = $scope.latLng[1];
+
+          var address, number, neighborhood, city, state, zipcode;
+
+          itemData[locationFieldsIds[0]] = $scope.latLng[0];
+          itemData[locationFieldsIds[1]] = $scope.latLng[1];
+          itemData[locationFieldsIds[2]] = null;
+          itemData[locationFieldsIds[3]] = null;
+          itemData[locationFieldsIds[4]] = null;
+          itemData[locationFieldsIds[5]] = null;
+          itemData[locationFieldsIds[6]] = null;
+
+          for (var i = $scope.addressComponents.length - 1; i >= 0; i--) {
+            // complete address
+            if ($scope.addressComponents[i].types[0] === 'route')
+            {
+              if (itemData[locationFieldsIds[2]] !== null)
+              {
+                itemData[locationFieldsIds[2]] = $scope.addressComponents[i].long_name + ', ' + itemData[locationFieldsIds[2]];
+              }
+              else
+              {
+                itemData[locationFieldsIds[2]] = $scope.addressComponents[i].long_name;
+              }
+            }
+
+            // street number
+            if ($scope.addressComponents[i].types[0] === 'street_number')
+            {
+              if (itemData[locationFieldsIds[2]] !== null)
+              {
+                itemData[locationFieldsIds[2]] = itemData[locationFieldsIds[2]] + ', ' + $scope.addressComponents[i].long_name;
+              }
+              else
+              {
+                itemData[locationFieldsIds[2]] = $scope.addressComponents[i].long_name;
+              }
+            }
+
+            // neighborhood
+            if ($scope.addressComponents[i].types[0] === 'neighborhood')
+            {
+              itemData[locationFieldsIds[4]] = $scope.addressComponents[i].long_name;
+            }
+
+            // city
+            if ($scope.addressComponents[i].types[0] === 'locality')
+            {
+              itemData[locationFieldsIds[5]] = $scope.addressComponents[i].long_name;
+            }
+
+            // state
+            if ($scope.addressComponents[i].types[0] === 'administrative_area_level_1')
+            {
+              itemData[locationFieldsIds[6]] = $scope.addressComponents[i].long_name;
+            }
+
+            // zip code
+            if ($scope.addressComponents[i].types[0] === 'postal_code' || $scope.addressComponents[i].types[0] ===  'postal_code_prefix')
+            {
+              itemData[locationFieldsIds[3]] = $scope.addressComponents[i].long_name;
+            }
+          };
 
           $modalInstance.close();
         };

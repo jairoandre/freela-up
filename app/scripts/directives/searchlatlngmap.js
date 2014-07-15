@@ -33,7 +33,7 @@ angular.module('zupPainelApp')
               }
 
               $rootScope.selectLatLngMap.mainMarker.setPosition(place.geometry.location);
-              $rootScope.selectLatLngMap.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng());
+              $rootScope.selectLatLngMap.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng(), place.address_components);
             });
           }
         });

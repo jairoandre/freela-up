@@ -64,10 +64,17 @@ angular.module('zupPainelApp')
             });
           },
 
-          changedMarkerPosition: function(lat, lng) {
+          changedMarkerPosition: function(lat, lng, addressComponents) {
             var geocoder = new google.maps.Geocoder();
 
             scope.$parent.latLng = [lat, lng];
+
+            scope.$parent.addressComponents = null;
+
+            if (typeof addressComponents !== 'undefined')
+            {
+              scope.$parent.addressComponents = addressComponents;
+            }
 
             geocoder.geocode({
               latLng: new google.maps.LatLng(lat, lng)
@@ -76,6 +83,12 @@ angular.module('zupPainelApp')
             {
               if (status === google.maps.GeocoderStatus.OK)
               {
+                if (typeof addressComponents === 'undefined')
+                {
+                  scope.$parent.addressComponents = results[0].address_components;
+                  scope.formattedAddress = results[0].formatted_address; // jshint ignore:line
+                }
+
                 scope.$apply();
               }
             });
