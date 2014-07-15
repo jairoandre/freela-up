@@ -1,6 +1,6 @@
     <div id="header">
       <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
-        <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
+        <p><span class="glyphicon" ng-class="glyphicons[systemMessage.icon]"></span> {{ systemMessage.text }}</p>
       </div>
 
       <div class="pull-right">
