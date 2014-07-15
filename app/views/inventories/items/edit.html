@@ -12,6 +12,10 @@
     <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>
   </div>
 
+  <div class="saving" ng-show="processingForm">
+    <div class="loading"></div>
+  </div>
+
   <div class="spacing"></div>
 
   <div class="loading" ng-show="loading"></div>
