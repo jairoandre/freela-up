@@ -66,13 +66,13 @@ angular.module('zupPainelApp')
     {
       $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
       $location.search('filters', $scope.filtersHash);
-      $cookies.inventoryFiltersHash = $scope.filtersHash;
+      $cookies.reportsFiltersHash = $scope.filtersHash;
     }
     else
     {
       $scope.filtersHash = null;
       $location.search('filters', null);
-      delete $cookies.inventoryFiltersHash;
+      delete $cookies.reportsFiltersHash;
     }
 
     for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
@@ -117,9 +117,9 @@ angular.module('zupPainelApp')
     loadFilters();
   }, true);
 
-  if (typeof $cookies.inventoryFiltersHash !== 'undefined')
+  if (typeof $cookies.reportsFiltersHash !== 'undefined')
   {
-    $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.inventoryFiltersHash));
+    $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
   }
 
   if (typeof $location.search().filters !== 'undefined')
