@@ -260,26 +260,6 @@ angular.module('zupPainelApp')
     }
   };
 
-  // modal for editing and adding a new status
-  $scope.editStatus = function (status) {
-    $modal.open({
-      templateUrl: 'views/inventories/editStatus.html',
-      windowClass: 'editInventoryStatusesModal',
-      resolve: {
-        status: function() {
-          return status;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'status', function($scope, $modalInstance, status) {
-        $scope.status = status;
-
-        $scope.close = function() {
-          $modalInstance.close();
-        };
-      }]
-    });
-  };
-
   $scope.newSection = function() {
     var newSection = {title: 'Nova seção sem título', required: false, location: false, fields: []};
 
@@ -297,11 +277,97 @@ angular.module('zupPainelApp')
 
     var newStatus = $scope.category.statuses.push(status);
 
-    $scope.editStatus($scope.category.statuses[newStatus - 1]);
+    $modal.open({
+      templateUrl: 'views/inventories/editStatus.html',
+      windowClass: 'editInventoryStatusesModal',
+      resolve: {
+        statuses: function() {
+          return $scope.category.statuses;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'statuses', function($scope, $modalInstance, statuses) {
+        $scope.status = status;
+
+        var newStatus = {title: $scope.title, color: $scope.color};
+
+        var save = function() {
+          if (updating)
+          {
+            var newStatusPromise = Restangular.one('inventories').one('categories', categoryId).post('statuses', newStatus);
+
+            newStatusPromise.then(function(response) {
+              $scope.category.statuses.push(Restangular.stripRestangular(response.data));
+
+              $modalInstance.close();
+            });
+          }
+          else
+          {
+            $scope.category.statuses.push(newStatus);
+
+            $modalInstance.close();
+          }
+        }
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
+  // modal for editing and adding a new status
+  $scope.editStatus = function (status) {
+    $modal.open({
+      templateUrl: 'views/inventories/editStatus.html',
+      windowClass: 'editInventoryStatusesModal',
+      resolve: {
+        status: function() {
+          return status;
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'status', function($scope, $modalInstance, status) {
+        $scope.status = angular.copy(status);
+
+        var save = function() {
+          if (updating)
+          {
+            var updateStatusPromise = Restangular.one('inventories').one('categories', categoryId).customPUT('statuses', $scope.status);
+
+            updateStatusPromise.then(function() {
+              status = $scope.status;
+
+              $modalInstance.close();
+            });
+          }
+          else
+          {
+            status = $scope.status;
+
+            $modalInstance.close();
+          }
+        }
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
   };
 
   $scope.removeStatus = function(status) {
-    $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+    if (typeof status.id !== 'undefined')
+    {
+      var deletePromise = Restangular.one('inventories').one('categories', categoryId).one('statuses', status.id).remove();
+
+      deletePromise.then(function() {
+        $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+      });
+    }
+    else
+    {
+      $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
+    }
   };
 
   $scope.$on('hidePopovers', function(event, data) {
@@ -406,6 +472,7 @@ angular.module('zupPainelApp')
       if (updating)
       {
         // we don't need to update 'statuses' when doing PUT
+        // /\ SMART BOY!!!!
         delete formattedData.statuses;
 
         if (icon)
