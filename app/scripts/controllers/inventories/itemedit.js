@@ -384,10 +384,10 @@ angular.module('zupPainelApp')
       {
         var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
 
-        postCategoryPromise.then(function() {
+        postCategoryPromise.then(function(response) {
           $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
 
-          $location.path('/inventories');
+          $location.path('/inventories/categories/' + response.data.inventory_category_id + '/item/' + response.data.id);
         }, function(response) {
           $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
 
