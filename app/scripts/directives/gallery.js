@@ -66,7 +66,6 @@ angular.module('zupPainelApp')
 
         link: function(scope, element) {
           element.find('.zoomableImage').bind('load', function() {
-
             // as soon as the image loads, let's calculate the proportions based on the user screen
             var loadLightbox = function(smartZoomImg) {
               if (smartZoomImg.smartZoom('isPluginActive'))
@@ -91,6 +90,10 @@ angular.module('zupPainelApp')
 
             // reset the zoom if user clicks prev/next
             var that = $(this);
+
+            scope.$watch('showModal', function() {
+              loadLightbox(that);
+            });
 
             element.find('.lightbox-next, .lightbox-prev').click(function() {
               loadLightbox(that);
