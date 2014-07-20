@@ -29,7 +29,13 @@
               <h5 ng-show="field.label !== null">{{ field.label }}</h5>
               <h5 ng-show="field.label == null">{{ field.title }}</h5>
 
-              <p>{{ getDataByInventoryFieldId(field.id) }}</p>
+              <div ng-show="field.kind == 'images'">
+                <gallery images="getDataByInventoryFieldId(field.id)"></gallery>
+              </div>
+
+              <p ng-hide="field.kind == 'images'">{{ getDataByInventoryFieldId(field.id) }}</p>
+
+              <div class="cleafix"></div>
           </div>
 
           <hr />
