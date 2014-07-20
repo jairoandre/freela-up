@@ -356,7 +356,7 @@ angular.module('zupPainelApp', [
       // if not, show generic system error
       'responseError': function(rejection) {
 
-        var expectedErrors = [400];
+        var expectedErrors = [400, 401];
 
         if (!(typeof expectedErrors !== 'undefined' && expectedErrors.indexOf(rejection.status) !== -1))
         {
