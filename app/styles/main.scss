@@ -683,9 +683,6 @@ p {
         position: fixed;
         top: 50%;
         left: 50%;
-        width: 800px;
-        margin-top: -230px;
-        margin-left: -350px;
         z-index: 1000;
 
         .lightbox-header {
@@ -723,6 +720,7 @@ p {
           border: 0px;
           background: rgba(0, 0, 0, 0.5);
           outline: none;
+          z-index: 1000;
 
           i {
             vertical-align: middle;
@@ -740,13 +738,33 @@ p {
           right: 0px;
         }
 
+        .lightbox-zoom {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          z-index: 1000;
+
+          .zoomInButton, .zoomOutButton {
+            background: #1693C6;
+            color: #FFF;
+            border: 0px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            border-radius: 25px;
+            display: inline-block;
+            font-family: arial;
+            padding-top: 1px;
+            outline: none;
+          }
+        }
+
         .lightbox-image {
-          border-radius: 20px;
-          overflow: auto;
-          max-height: 400px;
+          .zoomContainer {
+            background-color: transparent !important;
+          }
 
           img {
-            width: 800px;
             border-radius: 20px;
           }
         }

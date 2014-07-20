@@ -1,7 +1,7 @@
 <div class="gallery">
     <div class="titles">
         <span ng-repeat="i in images" ng-click="displayImage(i)">
-            <a href="" class="image" ng-style="{'background-image': 'url(' + source(i) + ')' }"></a>
+            <a href="" class="image" ng-style="{'background-image': 'url(' + thumb(i) + ')' }"></a>
         </span>
     </div>
 
@@ -16,8 +16,15 @@
 
         <div class="lightbox-image">
             <button class="lightbox-prev pages-animation" ng-show="hasPrev()" ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i></button>
+
             <button class="lightbox-next pages-animation" ng-show="hasNext()" ng-click="next()"><i class="glyphicon glyphicon-chevron-right"></i></button>
-            <img ng-src="{{ source(selectedImg)}}">
+
+            <div class="lightbox-zoom">
+              <input class="zoomInButton" type="button" value="+" />
+              <input class="zoomOutButton" type="button" value="-" />
+            </div>
+
+            <img class="zoomableImage" ng-src="{{ source(selectedImg)}}">
         </div>
 
         <div class="lightbox-description">
