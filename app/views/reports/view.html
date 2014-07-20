@@ -56,8 +56,6 @@
             <div ng-hide="report.images.length == 0">
               <h5>Imagens</h5>
 
-              {{ images }}
-
               <gallery images="images"></gallery>
 
               <div class="clearfix"></div>
@@ -89,11 +87,7 @@
           <div ng-hide="feedback.images.length == 0">
             <h5>Imagens</h5>
 
-            {{feedback.images}}
-
-            <div class="gallery">
-              <gallery images="feedback.images"></gallery>
-            </div>
+            <gallery images="feedback.images"></gallery>
 
             <div class="clearfix"></div>
           </div>
