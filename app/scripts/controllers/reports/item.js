@@ -27,7 +27,7 @@ angular.module('zupPainelApp')
     $scope.images = [];
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {
-      $scope.images.push({src: $scope.report.images[c].high});
+      $scope.images.push({versions: $scope.report.images[c]});
     }
 
     $scope.loading = false;
