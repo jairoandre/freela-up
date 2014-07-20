@@ -273,10 +273,6 @@ angular.module('zupPainelApp')
 
   // we add a new status and open the edit modal
   $scope.newStatus = function() {
-    var status = {title: 'Novo estado sem título', color: '#259ECB'};
-
-    var newStatus = $scope.category.statuses.push(status);
-
     $modal.open({
       templateUrl: 'views/inventories/editStatus.html',
       windowClass: 'editInventoryStatusesModal',
@@ -286,24 +282,22 @@ angular.module('zupPainelApp')
         }
       },
       controller: ['$scope', '$modalInstance', 'statuses', function($scope, $modalInstance, statuses) {
-        $scope.status = status;
+        $scope.status = {};
 
-        var newStatus = {title: $scope.title, color: $scope.color};
-
-        var save = function() {
+        $scope.save = function() {
           if (updating)
           {
-            var newStatusPromise = Restangular.one('inventories').one('categories', categoryId).post('statuses', newStatus);
+            var newStatusPromise = Restangular.one('inventory').one('categories', categoryId).post('statuses', {title: $scope.status.title, color: $scope.status.color});
 
             newStatusPromise.then(function(response) {
-              $scope.category.statuses.push(Restangular.stripRestangular(response.data));
+              statuses.push(Restangular.stripRestangular(response.data));
 
               $modalInstance.close();
             });
           }
           else
           {
-            $scope.category.statuses.push(newStatus);
+            statuses.push({title: $scope.status.title, color: $scope.status.color});
 
             $modalInstance.close();
           }
@@ -329,20 +323,22 @@ angular.module('zupPainelApp')
       controller: ['$scope', '$modalInstance', 'status', function($scope, $modalInstance, status) {
         $scope.status = angular.copy(status);
 
-        var save = function() {
+        $scope.save = function() {
           if (updating)
           {
-            var updateStatusPromise = Restangular.one('inventories').one('categories', categoryId).customPUT('statuses', $scope.status);
+            var updateStatusPromise = Restangular.one('inventory').one('categories', categoryId).one('statuses', status.id).customPUT($scope.status);
 
             updateStatusPromise.then(function() {
-              status = $scope.status;
+              status.title = $scope.status.title;
+              status.color = $scope.status.color;
 
               $modalInstance.close();
             });
           }
           else
           {
-            status = $scope.status;
+            status.title = $scope.status.title;
+            status.color = $scope.status.color;
 
             $modalInstance.close();
           }
@@ -358,7 +354,7 @@ angular.module('zupPainelApp')
   $scope.removeStatus = function(status) {
     if (typeof status.id !== 'undefined')
     {
-      var deletePromise = Restangular.one('inventories').one('categories', categoryId).one('statuses', status.id).remove();
+      var deletePromise = Restangular.one('inventory').one('categories', categoryId).one('statuses', status.id).remove();
 
       deletePromise.then(function() {
         $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
