@@ -22,6 +22,8 @@ angular.module('zupPainelApp')
         return $scope.item.data[i].content;
       }
     }
+
+    return null;
   };
 
   $scope.deleteItem = function (item, category) {

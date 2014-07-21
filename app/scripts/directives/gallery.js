@@ -13,7 +13,7 @@ angular.module('zupPainelApp')
 
         controller: function ($rootScope, $scope) {
             $scope.$watch('images', function() {
-              if (typeof $scope.images == 'undefined')
+              if (typeof $scope.images == 'undefined' || $scope.images == null)
               {
                 return false;
               }
