@@ -33,14 +33,15 @@ angular.module('zupPainelApp')
 
             var position;
 
-            if (scope.$parent.updating === false)
+            console.log(scope.$parent.latLng[0], scope.$parent.latLng[1]);
+
+            if (scope.$parent.latLng[0] === null && scope.$parent.latLng[1] === null)
             {
               position = mapProvider.options.homeLatlng;
             }
             else
             {
               position = new google.maps.LatLng(scope.$parent.latLng[0], scope.$parent.latLng[1]);
-
               mapProvider.changedMarkerPosition(scope.$parent.latLng[0], scope.$parent.latLng[1]);
             }
 
