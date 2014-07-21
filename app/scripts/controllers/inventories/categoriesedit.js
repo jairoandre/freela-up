@@ -282,7 +282,7 @@ angular.module('zupPainelApp')
         }
       },
       controller: ['$scope', '$modalInstance', 'statuses', function($scope, $modalInstance, statuses) {
-        $scope.status = {};
+        $scope.status = {color: '#2FB4E6'};
 
         $scope.save = function() {
           if (updating)
