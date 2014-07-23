@@ -80,11 +80,11 @@
             </tr>
           </thead>
 
-          <tr>
-            <td><a href="#/cases/show">Nome de um caso</a></td>
+          <tr ng-repeat="case in cases">
+            <td><a href="#/cases/{{ case.id }}">Caso #{{ case.id }}</a></td>
             <td>12/10/2014</td>
-            <td><a href="">Thiago Miqueias</a></td>
-            <td>1 de 5</td>
+            <td><a href="#/users/{{ case.get_responsible_user.id }}">{{ case.get_responsible_user.name }}</a></td>
+            <td>{{ case.current_step.my_step.title }}</td>
             <td class="actions">
               <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
             </td>

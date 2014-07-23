@@ -13,10 +13,10 @@ angular.module('zupPainelApp')
   var generateCasesPromise = function() {
     var url = Restangular.all('cases');
 
-    return url.getList();
+    return url.getList({'display_type': 'full'});
   };
 
-  var flowsPromise = Restangular.all('flows').getList();
+  var flowsPromise = Restangular.all('flows').getList({'initial': 'true'});
 
   var getData = $scope.getData = function(paginate) {
     if ($scope.loadingPagination === false)
