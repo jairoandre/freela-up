@@ -4,19 +4,13 @@ angular.module('zupPainelApp')
 
 .controller('CasesEditCtrl', function ($scope, Restangular, $modal, $routeParams) {
   var id = $routeParams.id, flowId = $routeParams.flowId;
-  $scope.editing = false;
 
-  if (typeof id !== 'undefined')
-  {
-    $scope.editing = true;
-  }
+  var casePromise = Restangular.one('cases', id).get({'display_type': 'full'});
 
-  var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
+  casePromise.then(function(response) {
+    $scope.case = response.data;
 
-  flowPromise.then(function(response) {
-    $scope.flow = response.data;
-
-    console.log(Restangular.stripRestangular($scope.flow));
+    console.log(Restangular.stripRestangular($scope.case));
   });
 
   $scope.selectConductor = function () {

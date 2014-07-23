@@ -82,8 +82,22 @@
      </div>
 
       <ul class="aside-tree">
-        <li ng-repeat="step in flow.steps">
-          <a href="" class="tree-link" ng-class="{'active-link': editing ? step.order_number == 1 : false}">
+        <li ng-repeat="step in case.previous_steps">
+          <a href="" class="tree-link">
+            <span class="tree-icon icon-form" ng-class="{'icon-flow': step.my_step.step_type == 'flow'}"></span>
+            <span class="tree-text">{{ step.my_step.title }}</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="" class="tree-link active-link">
+            <span class="tree-icon icon-form" ng-class="{'icon-flow': step.my_step.step_type == 'flow'}"></span>
+            <span class="tree-text">{{ case.current_step.my_step.title }}</span>
+          </a>
+        </li>
+
+        <li ng-repeat="step in case.next_steps">
+          <a href="" class="tree-link other-link">
             <span class="tree-icon icon-form" ng-class="{'icon-flow': step.step_type == 'flow'}"></span>
             <span class="tree-text">{{ step.title }}</span>
           </a>
@@ -98,15 +112,15 @@
 
     <div class="case-content principal">
       <div class="case-header edit-case clearfix">
-        <h2>Etapa formulário</h2>
+        <h2>Etapa {{ case.current_step.my_step.title }}</h2>
         <p>Condutor: <span>Thiago Miqueias</span> <a ng-click="changeConductor()">(Alterar)</a></p>
       </div>
 
       <form action="#">
         <fieldset>
 
-          <div class="form-group">
-            <label>Data*</label>
+          <div class="form-group" ng-repeat="field in case.current_step.my_step.fields | orderBy:'order_number'">
+            <label>{{ field.title }} <span ng-show="field.requirements.presence == true"> *</span></label>
             <input type="text" class="form-control date-field" placeholder="selecione">
           </div>
 

@@ -278,14 +278,14 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/cases/:id/flow/:flowId', {
+    .when('/cases/:id', {
       templateUrl: 'views/cases/edit.html',
       controller: 'CasesEditCtrl',
       access: {
         logged: true
       }
     })
-    .when('/cases/new/flow/:flowId', {
+    .when('/cases/new', {
       templateUrl: 'views/cases/edit.html',
       controller: 'CasesEditCtrl',
       access: {
