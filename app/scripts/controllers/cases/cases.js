@@ -6,7 +6,7 @@ angular.module('zupPainelApp')
   $scope.currentTab = 'progress';
   $scope.loading = true;
 
-  var page = 1, perPage = 30, total, searchText = '';
+  var page = 1, perPage = 30, total;
 
   $scope.loadingPagination = false;
 
@@ -75,7 +75,7 @@ angular.module('zupPainelApp')
     }
   };
 
-  var loadFilters = $scope.reload = function(reloading) {
+  $scope.reload = function(reloading) {
     // reset pagination
     page = 1;
     $scope.loadingPagination = false;
