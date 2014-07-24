@@ -3,7 +3,7 @@
 angular.module('zupPainelApp')
 
 .controller('CasesEditCtrl', function ($scope, Restangular, $modal, $routeParams) {
-  var id = $routeParams.id, flowId = $routeParams.flowId;
+  var id = $routeParams.id;
 
   var casePromise = Restangular.one('cases', id).get({'display_type': 'full'});
 
