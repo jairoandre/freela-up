@@ -246,7 +246,7 @@ angular.module('zupPainelApp')
   $scope.goBack = function() {
     if ($scope.unsavedCategory === true)
     {
-      if (confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) // jshint ignore:line
+      if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.'))
       {
         $scope.unsavedCategory = false;
         $scope.loading = true;
