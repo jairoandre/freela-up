@@ -79,7 +79,7 @@ angular.module('zupPainelApp')
   };
 
   // Triggers helpers
-  $scope.action_types = [
+  $scope.action_types = [ // jshint ignore:line
     {action: 'enable_steps', name: 'Ativar etapa(s)'},
     {action: 'disable_steps', name: 'Desativar etapa(s)'},
     {action: 'finish_flow', name: 'Finalizar fluxo(s)'},
@@ -89,9 +89,9 @@ angular.module('zupPainelApp')
   $scope.newTrigger = function() {
     var newTrigger = {
       title: 'Novo gatilho',
-      trigger_conditions: [],
-      action_type: 'disable_steps',
-      action_values: [],
+      trigger_conditions: [], // jshint ignore:line
+      action_type: 'disable_steps', // jshint ignore:line
+      action_values: [], // jshint ignore:line
       description: '',
       isNew: true
     };
