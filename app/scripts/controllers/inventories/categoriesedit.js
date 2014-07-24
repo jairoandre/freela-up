@@ -246,7 +246,7 @@ angular.module('zupPainelApp')
   $scope.goBack = function() {
     if ($scope.unsavedCategory === true)
     {
-      if (confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.'))
+      if (confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) // jshint ignore:line
       {
         $scope.unsavedCategory = false;
         $scope.loading = true;
@@ -301,7 +301,7 @@ angular.module('zupPainelApp')
 
             $modalInstance.close();
           }
-        }
+        };
 
         $scope.close = function() {
           $modalInstance.close();
@@ -342,7 +342,7 @@ angular.module('zupPainelApp')
 
             $modalInstance.close();
           }
-        }
+        };
 
         $scope.close = function() {
           $modalInstance.close();
