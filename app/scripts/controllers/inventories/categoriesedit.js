@@ -231,6 +231,50 @@ angular.module('zupPainelApp')
     }, true);
   }
 
+  $scope.editFieldOptions = function(field) {
+    $modal.open({
+      templateUrl: 'views/inventories/editFieldOptions.html',
+      windowClass: 'editFieldOptions',
+      controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+        $scope.field = field;
+
+        $scope.value = {importing: false};
+
+        $scope.toggleImport = function() {
+          if ($scope.value.importing === true)
+          {
+            $scope.value.importing = false;
+          }
+          else
+          {
+            $scope.value.importing = true;
+          }
+        };
+
+        $scope.newValue = function() {
+          if ($scope.value.importing === true)
+          {
+            var newValues = $scope.value.multipleOptionsText.split(/\n/);
+
+            field.available_values = field.available_values.concat(newValues);
+
+            $scope.value.multipleOptionsText = null;
+          }
+          else
+          {
+            field.available_values.push($scope.value.text);
+          }
+
+          $scope.value.text = null;
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
+  };
+
   // send alert to user before leaving the page that modifications are not saved
   $window.onbeforeunload = function() {
     if ($scope.unsavedCategory === true)

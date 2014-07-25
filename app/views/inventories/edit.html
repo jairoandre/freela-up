@@ -228,29 +228,15 @@
                   </div>
 
                   <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
-                    <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
-                      <div class="checkbox-v">
-                        <input type="checkbox" class="input-choice" id="{{field.id}}-{{$index}}-default" checked="checked" />
-                        <label for="{{field.id}}-{{$index}}-default" class="label-choice">
-                          <span>Opção 1</span>
-                        </label>
+                    <div class="row">
+                      <div class="col-xs-10 selectList">
+                        <input class="form-control" type="text" disabled="disabled" placeholder="Selecione um item"><span class="caret"></span>
                       </div>
 
-                      <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
-
-                      <div class="edit_label" ng-show="editingValue">
-                        <input type="text" class="editValue" ng-model="editValue" />
-                        <a href="" ng-click="saveValue()">Ok</a>
-
-                        <div class="clearfix"></div>
+                      <div class="col-xs-2 editOptionsLink">
+                        <a href="" ng-click="editFieldOptions(field)">Gerenciar opções</a>
                       </div>
-
-                      <a href="" class="remove_value" ng-click="removeValue(value)"><span class="glyphicon glyphicon-remove"></span></a>
-
-                      <div class="clearfix"></div>
                     </div>
-
-                    <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
                   </div>
                 </div>
 
