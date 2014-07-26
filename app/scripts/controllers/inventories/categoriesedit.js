@@ -22,6 +22,7 @@ angular.module('zupPainelApp')
     {kind: 'decimal', name: 'Campo decimal', multipleOptions: false},
     {kind: 'checkbox', name: 'Campo de múltipla escolha', multipleOptions: true},
     {kind: 'radio', name: 'Campo de escolha única', multipleOptions: true},
+    {kind: 'select', name: 'Campo de lista', multipleOptions: true},
     {kind: 'meters', name: 'Campo em metros', multipleOptions: false},
     {kind: 'centimeters', name: 'Campo em centímetros', multipleOptions: false},
     {kind: 'kilometers', name: 'Campo em quilômetros', multipleOptions: false},
