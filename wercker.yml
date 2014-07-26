@@ -13,6 +13,8 @@ build:
 # deploy to heroku
 deploy:
   steps:
+    - wercker/grunt:
+        tasks: string-replace
     - script:
         name: create empty composer.json for cedar support
         code: touch dist/composer.json
