@@ -163,71 +163,71 @@
                   <div class="clearfix"></div>
 
                   <!-- input type: text, url, email -->
-                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
+                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
 
                   <!-- input type date, time, cpf, cnpj -->
-                  <div class="custom_size col-xs-3" ng-show="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
+                  <div class="custom_size col-xs-3" ng-if="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
                     <input class="form-control" id="generic_input_{{ field.id }}" type="text" disabled="disabled">
                   </div>
 
                   <!-- input type: integer, decimal -->
-                  <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
+                  <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
 
                   <!-- input type: meters -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'meters'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'meters'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">metros</span>
                   </div>
 
                   <!-- input type: centimeters -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'centimeters'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'centimeters'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">cm</span>
                   </div>
 
                   <!-- input type: kilometers -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'kilometers'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'kilometers'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">km</span>
                   </div>
 
                   <!-- input type: years -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'years'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'years'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">anos</span>
                   </div>
 
                   <!-- input type: months -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'months'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'months'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">meses</span>
                   </div>
 
                   <!-- input type: days -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'days'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'days'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">dias</span>
                   </div>
 
                   <!-- input type: hours -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'hours'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'hours'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">horas</span>
                   </div>
 
                   <!-- input type: seconds -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'seconds'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'seconds'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">segundos</span>
                   </div>
 
                   <!-- input type: angle -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'angle'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'angle'">
                     <span class="input-group-addon">ângulo</span>
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                   </div>
 
-                  <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
+                  <div ng-if="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
                     <div class="row">
                       <div class="col-xs-10 selectList">
                         <input class="form-control" type="text" disabled="disabled" placeholder="Selecione um item"><span class="caret"></span>
