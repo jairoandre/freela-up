@@ -336,7 +336,6 @@ angular.module('zupPainelApp', [
     return {
       // change URL on external requests
       'request': function(config) {
-        // temparary fix -- replace with http://staging.zup.sapience.io later
         config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
 
         // get token and pass to the server with header X-App-Token
