@@ -263,6 +263,20 @@ module.exports = function (grunt) {
       }
     },
 
+    'string-replace': {
+      kit: {
+        files: {
+          '<%= yeoman.dist %>/scripts/': '<%= yeoman.dist %>/scripts/*.js'
+        },
+        options: {
+          replacements: [{
+            pattern: 'http://staging.zup.sapience.io',
+            replacement: process.env.API_URL || 'http://staging.zup.sapience.io'
+          }]
+        }
+      }
+    },
+
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
     ngmin: {
@@ -415,7 +429,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'string-replace'
   ]);
 
   grunt.registerTask('default', [
