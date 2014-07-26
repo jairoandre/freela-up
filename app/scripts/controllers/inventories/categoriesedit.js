@@ -269,6 +269,10 @@ angular.module('zupPainelApp')
           $scope.value.text = null;
         };
 
+        $scope.clear = function() {
+          field.available_values = [];
+        };
+
         $scope.close = function() {
           $modalInstance.close();
         };
