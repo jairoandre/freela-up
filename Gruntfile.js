@@ -271,7 +271,7 @@ module.exports = function (grunt) {
         options: {
           replacements: [{
             pattern: 'http://staging.zup.sapience.io',
-            replacement: process.env.API_URL || 'http://staging.zup.sapience.io'
+            replacement: process.env.API_URL
           }]
         }
       }
