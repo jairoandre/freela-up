@@ -227,6 +227,12 @@
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                   </div>
 
+                  <!-- input type: images -->
+                  <div ng-if="field.kind == 'images'" class="imagesField">
+                    <p>Campo de imagens</p>
+                  </div>
+
+                  <!-- inputs that have multiple options -->
                   <div ng-if="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
                     <div class="row">
                       <div class="col-xs-10 selectList">
