@@ -4,22 +4,25 @@ angular.module('zupPainelApp')
 
 .controller('CasesCtrl', function ($scope, Restangular, $modal, $q) {
   $scope.currentTab = 'progress';
-  $scope.loading = true;
 
-  var page = 1, perPage = 30, total;
-
-  $scope.loadingPagination = false;
+  var page = 1, perPage = 30, total, lastPage;
 
   $scope.selectedFlows = [];
   $scope.selectedSteps = [];
 
   var generateCasesPromise = function() {
-    var url = Restangular.all('cases'), options = {'display_type': 'full'};
+    var url = Restangular.all('cases'), options = {'display_type': 'full', 'page': page, 'per_page': perPage};
 
     // check if we have categories selected
     if ($scope.selectedFlows.length !== 0)
     {
       options.initial_flow_id = $scope.selectedFlows.join(); // jshint ignore:line
+    }
+
+    // check if we have steps selected
+    if ($scope.selectedSteps.length !== 0)
+    {
+      options.step_id = $scope.selectedSteps.join(); // jshint ignore:line
     }
 
     if ($scope.currentTab === 'finished')
@@ -30,86 +33,89 @@ angular.module('zupPainelApp')
     return url.getList(options);
   };
 
-  var flowsPromise = Restangular.all('flows').getList({'display_type': 'full', 'initial': 'true'});
+  var getRequiredData = function() {
+    var flowsPromise =  Restangular.all('flows').getList({'display_type': 'full', 'initial': 'true'});
+    var casesPromise = generateCasesPromise();
 
-  var getData = $scope.getData = function(paginate) {
-    if ($scope.loadingPagination === false)
+    var promise = $q.all([casesPromise, flowsPromise]);
+
+    promise.then(function(responses) {
+      $scope.flows = responses[1].data;
+      $scope.cases = responses[0].data;
+
+      total = parseInt(responses[0].headers().total);
+      lastPage = Math.ceil(total / perPage);
+
+      // we need to have a $scope.steps with every step from all flows
+      $scope.steps = [];
+
+      for (var i = $scope.flows.length - 1; i >= 0; i--) {
+        for (var j = $scope.flows[i].steps.length - 1; j >= 0; j--) {
+          $scope.steps.push($scope.flows[i].steps[j]);
+        };
+      };
+
+      console.log($scope.steps);
+
+      page++;
+    });
+
+    return promise;
+  };
+
+  $scope.paginate = function()
+  {
+    if ((page !== (lastPage + 1)) && $scope.loadingPagination === false)
     {
       $scope.loadingPagination = true;
 
       var casesPromise = generateCasesPromise();
 
-      $q.all([casesPromise, flowsPromise]).then(function(responses) {
-        $scope.flows = responses[1].data;
-
-        if (paginate !== true)
-        {
-          $scope.cases = responses[0].data;
-        }
-        else
-        {
-          if (typeof $scope.cases === 'undefined')
-          {
-            $scope.cases = [];
-          }
-
-          for (var i = 0; i < responses[0].data.length; i++) {
-            $scope.cases.push(responses[0].data[i]);
-          }
-
-          // add up one page
-          page++;
+      casesPromise.then(function(response) {
+        // we add our results to $scope.cases
+        for (var i = 0; i < response.data.length; i++) {
+          $scope.cases.push(response.data[i]);
         }
 
-        total = parseInt(responses[0].headers().total);
+        // add up one page
+        page++;
 
-        var lastPage = Math.ceil(total / perPage);
-
-        if (page === (lastPage + 1))
-        {
-          $scope.loadingPagination = null;
-        }
-        else
-        {
-          $scope.loadingPagination = false;
-        }
-
-        $scope.loading = false;
+        // hide pagination loader
+        $scope.loadingPagination = false;
       });
 
       return casesPromise;
     }
+    else
+    {
+      // (loadingPagination === null) means all items were loaded
+      $scope.loadingPagination = null;
+    }
   };
 
-  var loadFilters = $scope.reload = function(reloading) {
-    // reset pagination
-    page = 1;
-    $scope.loadingPagination = false;
-
-    if (reloading === true)
-    {
-      $scope.reloading = true;
-    }
-
-    $scope.loadingContent = true;
+  $scope.reload = function() {
     $scope.cases = [];
+    $scope.loadingPagination = false;
+    $scope.loadingContent = true;
+    page = 1;
 
-    getData().then(function() {
+    $scope.paginate().then(function() {
       $scope.loadingContent = false;
-
-      if (reloading === true)
-      {
-        $scope.reloading = false;
-      }
-
-      page++;
     });
   };
 
-  $scope.$watch('currentTab', function(newValue, oldValue) {
-    if (newValue !== oldValue)
+  $scope.$watchCollection('[currentTab, selectedFlows, selectedSteps]', function(newValue, oldValue) {
+    if (angular.equals(newValue, oldValue) === false)
     {
-      loadFilters();
+      $scope.reload();
     }
+  });
+
+  // get required data to start loading page
+  $scope.loading = true;
+  $scope.loadingPagination = false;
+
+  getRequiredData().then(function() {
+    $scope.loading = false;
   });
 });
