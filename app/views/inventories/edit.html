@@ -276,7 +276,7 @@
                         <div class="form-group">
                           <label>Grupos que podem visualizar:</label>
 
-                          <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_view" data-placeholder="Digite um grupo" multiple>
+                          <select class="multiple-select" ui-select2 ng-model="field.groups_can_view" data-placeholder="Digite um grupo" multiple>
                             <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
                           </select>
                         </div>
@@ -284,7 +284,7 @@
                         <div class="form-group">
                           <label>Grupos que podem editar:</label>
 
-                          <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_edit" data-placeholder="Digite um grupo" multiple>
+                          <select class="multiple-select" ui-select2 ng-model="field.groups_can_edit" data-placeholder="Digite um grupo" multiple>
                             <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
                           </select>
                         </div>
