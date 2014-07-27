@@ -11,6 +11,7 @@ angular.module('zupPainelApp')
   $scope.loadingPagination = false;
 
   $scope.selectedFlows = [];
+  $scope.selectedSteps = [];
 
   var generateCasesPromise = function() {
     var url = Restangular.all('cases'), options = {'display_type': 'full'};
@@ -19,6 +20,11 @@ angular.module('zupPainelApp')
     if ($scope.selectedFlows.length !== 0)
     {
       options.initial_flow_id = $scope.selectedFlows.join(); // jshint ignore:line
+    }
+
+    if ($scope.currentTab === 'finished')
+    {
+      options.completed = true;
     }
 
     return url.getList(options);
@@ -38,7 +44,7 @@ angular.module('zupPainelApp')
 
         if (paginate !== true)
         {
-          $scope.cases = responses[0].date;
+          $scope.cases = responses[0].data;
         }
         else
         {
@@ -75,7 +81,7 @@ angular.module('zupPainelApp')
     }
   };
 
-  $scope.reload = function(reloading) {
+  var loadFilters = $scope.reload = function(reloading) {
     // reset pagination
     page = 1;
     $scope.loadingPagination = false;
@@ -100,10 +106,10 @@ angular.module('zupPainelApp')
     });
   };
 
-  $scope.$watch('selectedFlows', function(newValue, oldValue) {
+  $scope.$watch('currentTab', function(newValue, oldValue) {
     if (newValue !== oldValue)
     {
-      $scope.reload();
+      loadFilters();
     }
   });
 });
