@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('CasesCtrl', function ($scope, Restangular, $modal, $q) {
+.controller('CasesCtrl', function ($scope, Restangular, $modal, $q, $location) {
   $scope.currentTab = 'progress';
 
   var page = 1, perPage = 30, total, lastPage;
@@ -118,4 +118,13 @@ angular.module('zupPainelApp')
   getRequiredData().then(function() {
     $scope.loading = false;
   });
+
+  // create case
+  $scope.createCase = function(flow) {
+    var postCasePromise = Restangular.all('cases').post({initial_flow_id: flow.id, step_id: flow.steps[0].id});
+
+    postCasePromise.then(function(response) {
+      $location.path('/cases/' + response.data.id);
+    });
+  };
 });
