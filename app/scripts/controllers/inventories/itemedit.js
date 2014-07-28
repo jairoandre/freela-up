@@ -2,13 +2,37 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope, $fileUploader) {
+.controller('InventoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope, $fileUploader, $localStorage) {
   var updating = $scope.updating = false;
 
   var categoryId = $routeParams.categoryId;
   var itemId = $routeParams.id;
 
   var itemData = $scope.itemData = {};
+  var tempSavedItem;
+
+  // set up localStore to save items that are being written (and future restored)
+  $scope.storage = $localStorage;
+
+  // if category doesn't exist in localStorage, create a null object for it
+  if (typeof $scope.storage[categoryId] === 'undefined')
+  {
+    $scope.storage[categoryId] = null;
+  }
+
+  // if we have data store into currentItem we have to name it as previousItem, since it was used before the controller was requested
+  if ($scope.storage[categoryId] !== null)
+  {
+    tempSavedItem = angular.copy($scope.storage[categoryId]);
+
+    $scope.hasPreviousItem = true;
+  }
+
+  $scope.restore = function() {
+    itemData = $scope.itemData = angular.copy(tempSavedItem);
+
+    $scope.hasPreviousItem = null;
+  };
 
   if (typeof itemId !== 'undefined')
   {
@@ -123,6 +147,17 @@ angular.module('zupPainelApp')
           }
         }
       }
+    }
+
+    // we save the item data everytime user changes something
+    if (!updating)
+    {
+      $scope.$watch('itemData', function(newValue, oldValue) {
+        if (!angular.equals(newValue, oldValue))
+        {
+          $scope.storage[categoryId] = angular.copy(newValue);
+        }
+      }, true);
     }
   });
 
@@ -385,6 +420,8 @@ angular.module('zupPainelApp')
         var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
 
         postCategoryPromise.then(function(response) {
+          $scope.storage.currentItem = null;
+
           $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
 
           $location.path('/inventories/categories/' + response.data.inventory_category_id + '/item/' + response.data.id);

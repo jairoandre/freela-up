@@ -29,6 +29,12 @@
         </div>
       </div>
 
+      <div class="rounder_wrapper_alert alert alert-warning alert-dismissible" role="alert" ng-show="hasPreviousItem && !updating">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+
+        <strong>Atenção!</strong> Há dados do item previamente salvos no sistema. Clique <a href="" ng-click="restore()">aqui</a> para restaurar.
+      </div>
+
       <div class="rounder_wrapper">
         <div class="title"><h1>Status de item *</h1></div>
 

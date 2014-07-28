@@ -14,7 +14,8 @@ angular.module('zupPainelApp', [
   'frapontillo.bootstrap-switch',
   'angularFileUpload',
   'ui.autocomplete',
-  'ngAnimate'
+  'ngAnimate',
+  'ngStorage'
 ])
 
 .config(function ($routeProvider, $httpProvider, RestangularProvider) {
