@@ -2,42 +2,108 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope, $fileUploader, $localStorage) {
+.controller('InventoriesItemEditCtrl', function ($routeParams, $scope, Restangular, $q, $location, $modal, $rootScope, FileUploader, $localStorage) {
   var updating = $scope.updating = false;
 
   var categoryId = $routeParams.categoryId;
   var itemId = $routeParams.id;
 
   var itemData = $scope.itemData = {};
-  var tempSavedItem;
+  var tempSavedItem, hasPreviousItem = false;
 
-  // set up localStore to save items that are being written (and future restored)
-  $scope.storage = $localStorage;
-
-  // if category doesn't exist in localStorage, create a null object for it
-  if (typeof $scope.storage[categoryId] === 'undefined')
-  {
-    $scope.storage[categoryId] = null;
-  }
-
-  // if we have data store into currentItem we have to name it as previousItem, since it was used before the controller was requested
-  if ($scope.storage[categoryId] !== null)
-  {
-    tempSavedItem = angular.copy($scope.storage[categoryId]);
-
-    $scope.hasPreviousItem = true;
-  }
-
-  $scope.restore = function() {
-    itemData = $scope.itemData = angular.copy(tempSavedItem);
-
-    $scope.hasPreviousItem = null;
-  };
+  $scope.uploaders = {};
 
   if (typeof itemId !== 'undefined')
   {
     updating = true;
     $scope.updating = true;
+  }
+
+  // set up localStore to save items that are being written (and future restored)
+  $scope.storage = $localStorage;
+
+  // if category doesn't exist in localStorage, create a null object for it
+  if (!updating)
+  {
+    if (typeof $scope.storage.creating === 'undefined')
+    {
+      $scope.storage.creating = {};
+      $scope.storage.creating[categoryId] = null;
+    }
+    else
+    {
+      // check if category exists in $scope.storage.creating
+      if (typeof $scope.storage.creating[categoryId] === 'undefined')
+      {
+        $scope.storage.creating[categoryId] = null;
+      }
+    }
+
+    if ($scope.storage.creating[categoryId] !== null)
+    {
+      tempSavedItem = angular.copy($scope.storage.creating[categoryId]);
+
+      hasPreviousItem = true;
+    }
+  }
+  else
+  {
+    // we first check if we have $scope.storage.updating
+    if (typeof $scope.storage.updating === 'undefined')
+    {
+      $scope.storage.updating = {};
+      $scope.storage.updating[categoryId] = {};
+      $scope.storage.updating[categoryId][itemId] = null;
+    }
+    else
+    {
+      // if we do have it then let's check if we have the category object
+      if (typeof $scope.storage.updating[categoryId] === 'undefined')
+      {
+        $scope.storage.updating[categoryId] = {};
+        $scope.storage.updating[categoryId][itemId] = null;
+      }
+      else
+      {
+        if (typeof $scope.storage.updating[categoryId][itemId] === 'undefined')
+        {
+          $scope.storage.updating[categoryId][itemId] = null;
+        }
+      }
+    }
+
+    console.log($scope.storage.updating[categoryId][itemId]);
+
+    if ($scope.storage.updating[categoryId][itemId] !== null)
+    {
+      tempSavedItem = angular.copy($scope.storage.updating[categoryId][itemId]);
+
+      hasPreviousItem = true;
+    }
+  }
+
+  if (hasPreviousItem === true)
+  {
+    $modal.open({
+      templateUrl: 'views/inventories/items/restore.html',
+      windowClass: 'removeModal',
+      resolve: {
+        setItemData: function() {
+          return function() { itemData = $scope.itemData = angular.copy(tempSavedItem) };
+        }
+      },
+      controller: ['$scope', '$modalInstance', 'setItemData', function($scope, $modalInstance, setItemData) {
+        $scope.restore = function() {
+          setItemData();
+
+          $modalInstance.close();
+        };
+
+        $scope.close = function() {
+          $modalInstance.close();
+        };
+      }]
+    });
   }
 
   $scope.loading = true;
@@ -121,29 +187,20 @@ angular.module('zupPainelApp')
 
           if (section.fields[j].kind === 'images')
           {
-            itemData[section.fields[j].id] = $fileUploader.create({
-              scope: $scope,
-              fieldId: section.fields[j].id
-            });
+            var uploader = new FileUploader();
 
-            // Images only
-            var uploader = itemData[section.fields[j].id];
-
-            uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
-              var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-              type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-              return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-            });
-
-            // only accept files from the the uploader that the image was selected in
-            uploader.bind('afteraddingfile', function(event, item) {
-              if (item.fieldId !== item.uploader.fieldId)
-              {
-                this.removeFromQueue(item);
+            uploader.filters.push({
+              name: 'onlyImages',
+              fn: function(item, options) {
+                var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+                type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
               }
-
-              return;
             });
+
+            $scope.uploaders[section.fields[j].id] = uploader;
+
+            itemData[section.fields[j].id] = {areImages: true};
           }
         }
       }
@@ -155,7 +212,7 @@ angular.module('zupPainelApp')
       $scope.$watch('itemData', function(newValue, oldValue) {
         if (!angular.equals(newValue, oldValue))
         {
-          $scope.storage[categoryId] = angular.copy(newValue);
+          $scope.storage.creating[categoryId] = angular.copy(newValue);
         }
       }, true);
     }
@@ -204,6 +261,14 @@ angular.module('zupPainelApp')
       }
 
       $scope.loading = false;
+
+      // we save the item data everytime user changes something
+      $scope.$watch('itemData', function(newValue, oldValue) {
+        if (!angular.equals(newValue, oldValue))
+        {
+          $scope.storage.updating[categoryId][itemId] = angular.copy(newValue);
+        }
+      }, true);
     });
   }
   else
@@ -347,7 +412,7 @@ angular.module('zupPainelApp')
       var imagesPromises = [];
 
       for (var i = item.queue.length - 1; i >= 0; i--) {
-        imagesPromises.push(addAsyncImage(item.queue[i].file));
+        imagesPromises.push(addAsyncImage(item.queue[i]._file));
       }
 
       $q.all(imagesPromises).then(function(images) {
@@ -373,9 +438,9 @@ angular.module('zupPainelApp')
       {
         if (typeof itemData[x] === 'object')
         {
-          if (typeof itemData[x].queue !== 'undefined')
+          if (itemData[x].areImages === true)
           {
-            imagesFieldsPromises.push(addAsyncImagesField(itemData[x], x));
+            imagesFieldsPromises.push(addAsyncImagesField($scope.uploaders[x], x));
           }
           else
           {
@@ -405,6 +470,8 @@ angular.module('zupPainelApp')
         var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
 
         putCategoryPromise.then(function() {
+          $scope.storage.updating[categoryId][itemId] = null;
+
           $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
 
           $scope.processingForm = false;

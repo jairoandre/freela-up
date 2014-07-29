@@ -4,7 +4,7 @@
   "dependencies": {
     "angular": "1.2.6",
     "json3": "~3.2.6",
-    "es5-shim": "~2.1.0",
+    "es5-shim": "*",
     "jquery": "2.1.1",
     "sass-bootstrap": "~3.0.2",
     "angular-bootstrap": "~0.9.0",
@@ -17,7 +17,7 @@
     "ngInfiniteScroll": "~1.0.0",
     "angular-bootstrap-colorpicker": "~3.0.5",
     "angular-bootstrap-switch": "~0.2.1",
-    "angular-file-upload": "~0.4.0",
+    "angular-file-upload": "~1.0.2",
     "jquery-ui": "~1.10.4",
     "angular-ui-utils": "bower-mask",
     "ui-autocomplete": "~0.5.5",

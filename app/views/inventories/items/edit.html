@@ -29,12 +29,6 @@
         </div>
       </div>
 
-      <div class="rounder_wrapper_alert alert alert-warning alert-dismissible" role="alert" ng-show="hasPreviousItem && !updating">
-        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-
-        <strong>Atenção!</strong> Há dados do item previamente salvos no sistema. Clique <a href="" ng-click="restore()">aqui</a> para restaurar.
-      </div>
-
       <div class="rounder_wrapper">
         <div class="title"><h1>Status de item *</h1></div>
 
@@ -192,26 +186,26 @@
             </div>
 
             <!-- field type: images -->
-            <div ng-if="field.kind == 'images'" class="upload" ng-file-drop="{fieldId: field.id}">
+            <div ng-if="field.kind == 'images'" class="upload" nv-file-drop uploader="uploaders[field.id]">
               <div class="queue">
-                <div class="image" ng-repeat="image in itemData[field.id].existingImages">
+                <div class="image" ng-repeat="image in uploaders[field.id].existingImages">
                   <img ng-src="{{image.url}}" width="100" height="100" />
                   <!--<button type="button" ng-click="item.remove()">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>-->
                 </div>
 
-                <div class="image" ng-repeat="item in itemData[field.id].queue">
-                  <div ng-show="itemData[field.id].isHTML5" ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>
+                <div class="image" ng-repeat="item in uploaders[field.id].queue">
+                  <div ng-show="uploaders[field.id].isHTML5" ng-thumb="{ file: item._file, width: 100, height: 100 }"></div>
 
-                  <span ng-show="!itemData[field.id].isHTML5">{{ item.file.name }}</span>
+                  <span ng-show="!uploaders[field.id].isHTML5">{{ item.file.name }}</span>
 
                   <button type="button" ng-click="item.remove()">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
                 </div>
 
-                <div ng-show="itemData[field.id].isHTML5" class="drop-zone" ng-file-over>
+                <div ng-show="uploaders[field.id].isHTML5" class="drop-zone" nv-file-over uploader="uploaders[field.id]">
                   <span>Arraste imagem aqui</span>
                 </div>
               </div>
@@ -221,7 +215,7 @@
               <div class="btn btn-info btn-custom btn-upload">
                   <span>Selecione os arquivos</span>
 
-                  <input ng-file-select="{fieldId: field.id}" type="file" multiple  />
+                  <input type="file" nv-file-select uploader="uploaders[field.id]" multiple  />
               </div>
             </div>
 
