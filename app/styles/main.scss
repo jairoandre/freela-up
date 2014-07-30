@@ -991,6 +991,112 @@ p {
         text-align: center;
       }
 
+      .reportMap {
+        position: relative;
+
+        .loadingMap {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          z-index: 2000;
+          background: rgba(255, 255, 255, 0.5);
+          text-align: center;
+
+          p {
+            font-size: 24px;
+            color: #666;
+            margin-top: 180px;
+          }
+        }
+
+        .searchField {
+            position: absolute;
+            top: 10px;
+            left: 310px;
+            padding: 13px;
+            width: 390px;
+            height: 50px;
+            border: 2px solid #fff;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            background-color: #fff;
+            -webkit-background-clip: padding-box;
+            -moz-background-clip: padding;
+            background-clip: padding-box;
+            -webkit-box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+            -moz-box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+            box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 1;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition:    all 0.2s ease;
+            -ms-transition:     all 0.2s ease;
+            -o-transition:      all 0.2s ease;
+            transition:         all 0.2s ease;
+            z-index: 1000;
+          }
+
+        .search_map:focus {
+            outline: none;
+            border: 2px solid #2ab4dc;
+            -webkit-transition: all 0.15s ease;
+            -moz-transition:    all 0.15s ease;
+            -ms-transition:     all 0.15s ease;
+            -o-transition:      all 0.15s ease;
+            transition:         all 0.15s ease; }
+
+        .reset_map {
+            position: absolute;
+            top: 20px;
+            left: 663px;
+            border: none;
+            background: #FFF;
+            color: #c7c7cb;
+            text-transform: lowercase;
+            font-size: 20px;
+            line-height: 1; }
+
+        .gm-style img { max-width: none; }
+
+        .gm-style label { display: inline; width: auto; }
+
+        .pac-icon-marker { display: none !important; }
+
+        .pac-item {
+            padding: 18px 15px !important;
+            height: 50px !important;
+            border-top: none !important;
+            border-bottom: 0.5px solid #b2b2b2 !important;
+            font-weight: 300;
+            font-size: 14px !important;
+            font-family: "Open Sans", sans-serif;
+            line-height: 1 !important;
+            cursor: pointer;
+
+            .pac-item-query > .pac-matched { font-weight: 600 !important; }
+        }
+
+        .pac-item:nth-child(4), .pac-item:nth-child(5), .pac-item:nth-child(6) { display: none !important; }
+
+        .pac-container:after { display: none !important; }
+
+        .pac-container {
+            min-width: 387px;
+            border-radius: 5px !important;
+            background: #fff !important;
+            z-index: 10000 !important;
+            margin-top: 10px;
+        }
+
+        .roundedMap {
+          height: 400px;
+        }
+      }
+
       .categoryIcon {
         display: inline-block;
         width: 70px;

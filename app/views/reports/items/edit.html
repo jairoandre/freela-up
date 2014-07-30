@@ -24,6 +24,18 @@
             <div class="col-xs-9">
               <h3>Criar novo relato</h3>
 
+              <div class="form-group reportMap">
+                <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" search-report-map>
+
+                <div class="loadingMap" ng-show="!categoryData">
+                  <p>Selecione uma categoria ao lado</p>
+                </div>
+
+                <div class="loadingMap" ng-show="isLoadingItems"></div>
+
+                <div class="roundedMap" map-new-report></div>
+              </div>
+
               <div class="form-group">
                 <label name="statuses">Descrição</label>
 
@@ -71,7 +83,7 @@
               </div>
             </div>
 
-            <div class="col-xs-3">
+            <div class="col-xs-3 ">
 
               <h3>Selecione a categoria</h3>
 
