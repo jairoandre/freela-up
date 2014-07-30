@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $fileUploader, $q, $location, $modal) {
+.controller('ReportsCategoriesEditCtrl', function ($scope, $routeParams, Restangular, FileUploader, $q, $location, $modal) {
   var updating = $scope.updating = false;
   var categoryId = $routeParams.id;
 
@@ -218,21 +218,16 @@ angular.module('zupPainelApp')
   };
 
   // Image uploader
-  var uploader = $scope.uploader = $fileUploader.create({
-    scope: $scope,
-    filters: [
-      function() {
-        uploader.queue = [];
-        return true;
-      }
-    ]
-  });
+  var uploader = $scope.uploader = new FileUploader();
 
   // Images only
-  uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
-    var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-    type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-    return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+  uploader.filters.push({
+    name: 'onlyImages',
+    fn: function(item, options) {
+      var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+      type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+      return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+    }
   });
 
   $scope.send = function() {
@@ -260,7 +255,7 @@ angular.module('zupPainelApp')
     }
 
     for (var i = uploader.queue.length - 1; i >= 0; i--) {
-      promises.push(addAsync(uploader.queue[i].file));
+      promises.push(addAsync(uploader.queue[i]._file));
     }
 
     // wait for images to process as base64
