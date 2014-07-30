@@ -151,8 +151,22 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/reports/categories/item/add', {
+      templateUrl: 'views/reports/items/edit.html',
+      controller: 'ReportsItemEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/reports/categories/:categoryId/item/:id/edit', {
+      templateUrl: 'views/reports/items/edit.html',
+      controller: 'ReportsItemEditCtrl',
+      access: {
+        logged: true
+      }
+    })
     .when('/reports/categories/:categoryId/item/:id', {
-      templateUrl: 'views/reports/view.html',
+      templateUrl: 'views/reports/items/view.html',
       controller: 'ReportsItemCtrl',
       access: {
         logged: true

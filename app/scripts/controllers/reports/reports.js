@@ -404,7 +404,7 @@ angular.module('zupPainelApp')
 
   $scope.deleteReport = function (report) {
     $modal.open({
-      templateUrl: 'views/reports/removeReport.html',
+      templateUrl: 'views/reports/items/remove.html',
       windowClass: 'removeModal',
       resolve: {
         reportsList: function() {
