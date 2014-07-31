@@ -462,4 +462,36 @@ angular.module('zupPainelApp')
       }]
     });
   };
+
+  $scope.export = function() {
+      $modal.open({
+        templateUrl: 'views/inventories/export.html',
+        windowClass: 'filterCategoriesModal',
+        resolve: {
+          categories: function() {
+            return $scope.categories;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'categories', function($scope, $modalInstance, categories) {
+          $scope.categories = categories;
+
+          $scope.updateCategory = function(category) {
+            var i = $scope.categories.indexOf(category);
+
+            if ($scope.categories[i].selected === true)
+            {
+              $scope.categories[i].selected = false;
+            }
+            else
+            {
+              $scope.categories[i].selected = true;
+            }
+          };
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    };
 });
