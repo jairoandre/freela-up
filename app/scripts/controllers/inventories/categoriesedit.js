@@ -2,7 +2,7 @@
 
 angular.module('zupPainelApp')
 
-.controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window, $location, $fileUploader) {
+.controller('InventoriesCategoriesEditCtrl', function ($scope, $routeParams, Restangular, $q, $modal, $window, $location, FileUploader) {
   var updating = $scope.updating = false;
 
   var categoryId = $routeParams.categoryId;
@@ -441,29 +441,24 @@ angular.module('zupPainelApp')
 
         $scope.icon = category.original_icon; // jshint ignore:line
 
-        // image uploader
-        var uploader = $scope.uploader = $fileUploader.create({
-          scope: $scope,
-          filters: [
-            function() {
-              uploader.queue = [];
-              return true;
-            }
-          ]
-        });
+        // Image uploader
+        var uploader = $scope.uploader = new FileUploader();
 
         // Images only
-        uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
-          var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-          type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-          return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        uploader.filters.push({
+          name: 'onlyImages',
+          fn: function(item, options) {
+            var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+            type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
         });
 
-        uploader.bind('afteraddingfile', function() {
+        uploader.onAfterAddingFile = function() {
           $scope.$apply(function() {
             $scope.uploaderQueue.items = uploader.queue;
           });
-        });
+        };
 
         $scope.close = function() {
           $modalInstance.close();
@@ -497,7 +492,7 @@ angular.module('zupPainelApp')
     }
 
     for (var i = $scope.uploaderQueue.items.length - 1; i >= 0; i--) {
-      promises.push(addAsync($scope.uploaderQueue.items[i].file));
+      promises.push(addAsync($scope.uploaderQueue.items[i]._file));
     }
 
     if ($scope.category.plot_format === false) // jshint ignore:line
