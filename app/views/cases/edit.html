@@ -1,0 +1,192 @@
+<div class="loadingRequest" ng-show="processingForm"><img src="images/loading.gif" /></div>
+<div class="blockContent" ng-show="processingForm"></div>
+
+<div id="full_page" ng-show="loading">
+  <div class="loading"></div>
+</div>
+
+<div id="full_page" ng-hide="loading">
+  <div class="header">
+    <a href="#/cases" class="back">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+
+    <div class="title">
+      Caso #{{ case.id }}
+    </div>
+
+    <div class="updated-msg case">
+      <span class="header-msg">Estado do caso</span>
+      <span class="status-msg">Em andamento</span>
+    </div>
+  </div>
+
+  <div class="spacing"></div>
+
+  <div class="tabs case">
+    <a href="" ng-click="currentTab = 'steps'" ng-class="{'active': currentTab == 'steps'}">Etapas</a>
+    <a href="" ng-click="currentTab = 'history'" class="tab-last" ng-class="{'active': currentTab == 'history'}">Histórico</a>
+  </div>
+
+  <div ng-show="currentTab == 'steps'" class="edit-triggers clearfix">
+    <div class="case-content aside">
+      <div class="case-header">
+        <h2>
+          <a href="" ng-click="toggleTree()" class="clearfix" ng-class="{'case-header-active': viewTree}">
+            <span class="case-header-text">Etapa {{ case.current_step.title }}</span>
+            <span class="case-header-icon"></span>
+          </a>
+        </h2>
+      </div>
+
+     <div class="content-select-tree" ng-show="viewTree">
+        <!--<ul class="select-tree">
+         <li>
+           <a href="#" class="default-link">Etapa nível 1</a>
+           <ul>
+             <li>
+               <a href="#" class="default-link">Etapa nível 2</a>
+             </li>
+             <li>
+               <a href="#" class="default-link">Etapa nível 2</a>
+               <ul>
+                 <li>
+                   <a href="#" class="default-link">Etapa nível 3</a>
+                 </li>
+                 <li>
+                   <a href="#" class="default-link">Etapa nível 3</a>
+                 </li>
+                 <li>
+                   <a href="#" class="active-link">Etapa fluxo</a>
+                 </li>
+                 <li>
+                   <a href="#">Etapa nível 3</a>
+                 </li>
+               </ul>
+             </li>
+             <li>
+               <a href="#">Etapa nível 2</a>
+             </li>
+           </ul>
+         </li>
+         <li>
+           <a href="#">Etapa nível 1</a>
+           <ul>
+             <li>
+               <a href="#">Etapa nível 2</a>
+             </li>
+             <li>
+               <a href="#">Etapa nível 2</a>
+             </li>
+           </ul>
+         </li>
+         <li>
+           <a href="#">Etapa nível 1</a>
+         </li>
+       </ul>-->
+
+        <script type="text/ng-template" id="tree_item_renderer.html">
+          {{ step.title }}
+
+          <ul ng-show="step.child_flow !== null">
+            <li ng-repeat="step in step.child_flow.steps" ng-include="'tree_item_renderer.html'"></li>
+          </ul>
+        </script>
+
+        <ul class="select-tree">
+          <li ng-repeat="step in case.next_steps" ng-include="'tree_item_renderer.html'"></li>
+        </ul>
+
+     </div>
+
+      <ul class="aside-tree">
+        <li ng-repeat="step in case.previous_steps">
+          <a href="" class="tree-link">
+            <span class="tree-icon icon-form" ng-class="{'icon-flow': step.my_step.step_type == 'flow'}"></span>
+            <span class="tree-text">{{ step.my_step.title }}</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="" class="tree-link active-link">
+            <span class="tree-icon icon-form" ng-class="{'icon-flow': step.my_step.step_type == 'flow'}"></span>
+            <span class="tree-text">{{ case.current_step.my_step.title }}</span>
+          </a>
+        </li>
+
+        <li ng-repeat="step in case.next_steps">
+          <a href="" class="tree-link other-link">
+            <span class="tree-icon icon-form" ng-class="{'icon-flow': step.step_type == 'flow'}"></span>
+            <span class="tree-text">{{ step.title }}</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="case-aside-bottom-list">
+        <li><a href=""><span class="glyphicon glyphicon-ok"></span>Finalizar caso</a></li>
+        <li><a href="" class="error"><span class="glyphicon glyphicon-trash"></span>Excluir caso</a></li>
+      </ul>
+    </div>
+
+    <div class="case-content principal">
+      <div class="case-header edit-case clearfix">
+        <h2>Etapa {{ case.current_step.my_step.title }}</h2>
+        <p>Condutor: <span>Thiago Miqueias</span> <a ng-click="changeConductor()">(Alterar)</a></p>
+      </div>
+
+      <form action="#">
+        <fieldset>
+
+          <div class="form-group" ng-repeat="field in case.current_step.my_step.fields | orderBy:'order_number'">
+            <label>{{ field.title }} <span ng-show="field.requirements.presence == true"> *</span></label>
+            <input type="text" class="form-control date-field" placeholder="selecione">
+          </div>
+
+
+          <div class="form-group last-group clearfix">
+            <a class="btn btn-info btn-custom" ng-click="selectConductor()">
+              <span class="glyphicon glyphicon-ok"></span> Concluir etapa
+            </a>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="clearfix"></div>
+  </div>
+
+  <div ng-show="currentTab == 'history'" class="edit-triggers clearfix">
+    <ul class="history-list">
+      <li class="history-list-item">
+        <h3>30 de março de 2014</h3>
+        <ul class="history-sub-list">
+          <li>
+            <span class="item-separator"></span><span class="item-time">14h e 30min</span> Thiago Miqueias executou a Etapa 3
+          </li>
+          <li>
+            <span class="item-separator"></span><span class="item-time">14h e 30min</span> Thiago Miqueias executou a Etapa 2
+          </li>
+          <li>
+            <span class="item-separator"></span><span class="item-time">14h e 30min</span> Thiago Miqueias executou a Etapa 1
+          </li>
+        </ul>
+      </li>
+      <li class="history-list-item">
+        <h3>24 de março de 2014</h3>
+        <ul class="history-sub-list">
+          <li>
+            <span class="item-separator"></span><span class="item-time">14h e 30min</span> Nathan executou a Etapa 1
+          </li>
+        </ul>
+      </li>
+      <li class="history-list-item">
+        <h3>21 de março de 2014</h3>
+        <ul class="history-sub-list">
+          <li>
+            <span class="item-separator"></span><span class="item-time">14h e 30min</span> Thiago Miqueias criou o caso.
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

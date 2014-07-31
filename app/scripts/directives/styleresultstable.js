@@ -6,19 +6,10 @@ angular.module('zupPainelApp')
       restrict: 'A',
       link: function postLink(scope, element) {
         var changeMargin = function() {
-          if (scope.advancedSearch === true)
-          {
-            element.css({'margin-top': $('#advancedSearch').height()});
-          }
-          else
-          {
-            element.removeAttr('style');
-          }
+          element.find('.custom_table').css({'margin-top': element.find('.advancedSearch').height()});
         };
 
-        scope.$watch('advancedSearch', function() {
-          changeMargin();
-        });
+        changeMargin();
 
         scope.$watch('activeAdvancedFilters', function() {
           changeMargin();

@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()">&times;</button>
+  <h4 class="modal-title">Pesquise pelo nome...</h4>
+</div>
+
+<div class="modal-body">
+  <div class="selectUsers">
+    <div class="user_search">
+      <span class="glyphicon glyphicon-search search_icon"></span>
+      <input type="text" placeholder="Buscar usuários..." ng-model="field.text" ui-autocomplete="usersAutocomplete" focus-on-event="focusField">
+    </div>
+
+    <ul>
+      <li ng-repeat="user in users">{{ user.name }} <button type="button" class="remove" ng-click="removeUser(user)">×</button></li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal-footer">
+   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Criar filtro</button>
+</div>

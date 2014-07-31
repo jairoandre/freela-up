@@ -1,0 +1,234 @@
+<div id="main_layout">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+
+    <div class="loading" ng-show="loading"></div>
+
+    <div ng-hide="loading" class="pages-animation">
+      <div class="title">
+        <ul>
+          <li><a href="#/groups">Grupos</a></li>
+          <li><span ng-hide="updating">Novo grupo</span><span ng-show="updating">{{ group.name }}</span></li>
+        </ul>
+      </div>
+
+      <div class="content">
+        <div class="alert alert-danger fade-animation" ng-show="inputErrors">
+          <p ng-bind-html="inputErrors | formatErrors"></p>
+        </div>
+
+        <form ng-submit="send()">
+          <div class="form-group">
+            <label for="form_groupname">Nome do grupo</label>
+            <input type="text" class="form-control input-lg" id="form_groupname" ng-model="group.name" generic-input name="name">
+          </div>
+
+          <div class="form-group">
+            <label>Selecione as permissões do grupo</label>
+
+            <div class="selectPermissions">
+              <div class="column1">
+                <ul>
+                  <li ng-class="{active: tab == 'groups_can_edit'}"><a href="" ng-click="tab = 'groups_can_edit'">Grupos que podem editar</a></li>
+
+                  <li ng-class="{active: tab == 'groups_can_view'}"><a href="" ng-click="tab = 'groups_can_view'">Grupos que podem ver</a></li>
+
+                  <li ng-class="{active: tab == 'reports_categories_can_edit'}"><a href="" ng-click="tab = 'reports_categories_can_edit'">Categorias de relato que podem editar</a></li>
+
+                  <li ng-class="{active: tab == 'reports_categories_can_view'}"><a href="" ng-click="tab = 'reports_categories_can_view'">Categorias de relato que podem ver</a></li>
+
+                  <li ng-class="{active: tab == 'inventory_categories_can_edit'}"><a href="" ng-click="tab = 'inventory_categories_can_edit'">Categorias de inventário que podem editar</a></li>
+
+                  <li ng-class="{active: tab == 'inventory_categories_can_view'}"><a href="" ng-click="tab = 'inventory_categories_can_view'">Categorias de inventário que podem ver</a></li>
+
+                  <li ng-class="{active: tab == 'inventory_sections_can_view'}"><a href="" ng-click="tab = 'inventory_sections_can_view'">Seções de inventário que podem ver</a></li>
+
+                  <li ng-class="{active: tab == 'inventory_sections_can_edit'}"><a href="" ng-click="tab = 'inventory_sections_can_edit'">Seções de inventário que podem editar</a></li>
+
+                  <li ng-class="{active: tab == 'inventory_fields_can_view'}"><a href="" ng-click="tab = 'inventory_fields_can_view'">Campos de inventário que podem ver</a></li>
+
+                  <li ng-class="{active: tab == 'inventory_fields_can_edit'}"><a href="" ng-click="tab = 'inventory_fields_can_edit'">Campos de inventário que podem editar</a></li>
+
+                  <li ng-class="{active: tab == 'flow_can_view_all_steps'}"><a href="" ng-click="tab = 'flow_can_view_all_steps'">flow_can_view_all_steps</a></li>
+
+                  <li ng-class="{active: tab == 'flow_can_execute_all_steps'}"><a href="" ng-click="tab = 'flow_can_execute_all_steps'">flow_can_execute_all_steps</a></li>
+
+                  <li ng-class="{active: tab == 'flow_can_delete_own_cases'}"><a href="" ng-click="tab = 'flow_can_delete_own_cases'">flow_can_delete_own_cases</a></li>
+
+                  <li ng-class="{active: tab == 'flow_can_delete_all_cases'}"><a href="" ng-click="tab = 'flow_can_delete_all_cases'">flow_can_delete_all_cases</a></li>
+
+                  <li ng-class="{active: tab == 'can_view_step'}"><a href="" ng-click="tab = 'can_view_step'">can_view_step</a></li>
+
+                  <li ng-class="{active: tab == 'can_execute_step'}"><a href="" ng-click="tab = 'can_execute_step'">can_execute_step</a></li>
+                </ul>
+              </div>
+
+              <div class="column2">
+
+                <!-- groups_can_view -->
+                <div ng-show="tab == 'groups_can_edit'">
+                  <ul>
+                    <li ng-repeat="group in data.groups">
+                      {{ group.name }} <input bs-switch type="checkbox" ng-model="permissions.groups_can_edit[group.id]" switch-on-label="Sim" switch-off-label="Não">
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- groups_can_edit -->
+                <div ng-show="tab == 'groups_can_view'">
+                  <ul>
+                    <li ng-repeat="group in data.groups">
+                      {{ group.name }} <input bs-switch type="checkbox" ng-model="permissions.groups_can_view[group.id]" switch-on-label="Sim" switch-off-label="Não">
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- reports_categories_can_edit -->
+                <div ng-show="tab == 'reports_categories_can_edit'">
+                  <ul>
+                    <li ng-repeat="category in data.reportsCategories">
+                      {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- reports_categories_can_view -->
+                <div ng-show="tab == 'reports_categories_can_view'">
+                  <ul>
+                    <li ng-repeat="category in data.reportsCategories">
+                      {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar usuários?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_users" ng-model="permissions.manage_users" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_users" ng-model="permissions.manage_users" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar grupos?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_groups" ng-model="permissions.manage_groups" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_groups" ng-model="permissions.manage_groups" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar categorias de inventário?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_inventory_categories" ng-model="permissions.manage_inventory_categories" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_inventory_categories" ng-model="permissions.manage_inventory_categories" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar items de inventário?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_inventory_items" ng-model="permissions.manage_inventory_items" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_inventory_items" ng-model="permissions.manage_inventory_items" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar categorias de relato?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_reports_categories" ng-model="permissions.manage_reports_categories" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_reports_categories" ng-model="permissions.manage_reports_categories" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar relatos?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_reports" ng-model="permissions.manage_reports" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_reports" ng-model="permissions.manage_reports" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Este grupo pode gerenciar fluxos?</label>
+            <br />
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_flows" ng-model="permissions.manage_flows" ng-value="true"> Sim
+            </label>
+
+            <label class="radio-inline">
+              <input type="radio" name="manage_flows" ng-model="permissions.manage_flows" ng-value="false"> Não
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Insira usuários para participar do grupo</label>
+
+            <div class="selectUsers">
+              <div class="simple_search">
+                <span class="glyphicon glyphicon-search search_icon"></span>
+                <input type="text" placeholder="Buscar usuários..." ng-model="user" ui-autocomplete="usersAutocomplete" />
+              </div>
+
+              <ul>
+                <li ng-repeat="user in users">{{ user.name }} <button type="button" class="remove" ng-click="removeUser(user)">×</button></li>
+              </ul>
+            </div>
+
+          </div>
+
+          <hr />
+
+          <button type="submit" class="btn btn-info btn-custom btn-lg-custom pull-right" ng-hide="updating">Criar grupo</button>
+          <button type="submit" class="btn btn-info btn-custom btn-lg-custom pull-right" ng-show="updating">Atualizar grupo</button>
+
+          <div class="clearfix"></div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

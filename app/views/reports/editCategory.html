@@ -1,4 +1,4 @@
-<div id="main_layout" ng-file-drop>
+<div id="main_layout" nv-file-drop uploader="uploader">
   <div id="sidebar" hack-sidebar-height>
     <!-- Include views/layouts/menu.html -->
     <div ng-include="'views/layout/menu.html'"></div>
@@ -57,7 +57,7 @@
               <label>Ícone da categoria <span>(60x60px)</span></label>
 
               <div class="queue">
-                <div ng-show="uploader.isHTML5" class="drop-zone" ng-file-over ng-style="{'background-color': category.color}">
+                <div ng-show="uploader.isHTML5" class="drop-zone" nv-file-over uploader="uploader" ng-style="{'background-color': category.color}">
                   <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste o ícone</span>
 
                   <div class="image" ng-show="icon && uploader.queue.length == 0">
@@ -65,7 +65,7 @@
                   </div>
 
                   <div class="image" ng-repeat="item in uploader.queue">
-                    <div ng-thumb="{ file: item.file, width: 60, height: 60 }"></div>
+                    <div ng-thumb="{ file: item._file, width: 60, height: 60 }"></div>
                   </div>
                 </div>
               </div>
@@ -73,7 +73,7 @@
               <div class="btn btn-default btn-upload">
                   <span>Selecione um arquivo</span>
 
-                  <input ng-file-select type="file" multiple  />
+                  <input nv-file-select uploader="uploader" type="file" multiple  />
               </div>
             </div>
 

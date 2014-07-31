@@ -14,156 +14,160 @@
     <div ng-hide="loading" class="pages-animation">
       <div class="title">
         <div class="links">
-          <a href="#/cases" class="active">
+          <a href="" ng-click="currentTab = 'progress'" ng-class="{'active': currentTab == 'progress'}">
             <span class="glyphicon glyphicon-pencil"></span> <p>Casos em andamento</p>
           </a>
-          <a href="#/cases/new">
+          <a href="" ng-click="currentTab = 'start'" ng-class="{'active': currentTab == 'start'}">
             <span class="glyphicon glyphicon-file"></span> <p>Iniciar novo caso</p>
           </a>
-          <a href="#/cases/finished">
+          <a href="" ng-click="currentTab = 'finished'" ng-class="{'active': currentTab == 'finished'}">
             <span class="glyphicon glyphicon-ok"></span> <p>Casos concluídos</p>
           </a>
         </div>
       </div>
 
-      <div class="simple_search" ng-hide="advancedSearch">
-        <div class="col-xs-9 search_column1">
-          <span class="glyphicon glyphicon-search search_icon"></span>
-          <input type="text" placeholder="Buscar" keyboard-poster="search" style="width: 80%;" />
-        </div>
-      </div>
-
-      <div class="simple_filters" ng-hide="advancedSearch">
-        <div class="col-xs-6">
-          <div class="form-group">
-            <label>Fluxos</label>
-
-            <div class="select2-container select2-container-multi multiple-select ng-valid ng-dirty" id="s2id_autogen1">
-              <ul class="select2-choices">
-                <li class="select2-search-choice">
-                  <div>Instalação de antena</div>
-                  <a href="#" class="select2-search-choice-close remove-icon" tabindex="-1">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </a>
-                </li>
-                <li class="select2-search-field">
-                  <label for="s2id_autogen2" class="select2-offscreen"></label>
-                  <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" id="s2id_autogen2" placeholder="" style="width: 20px;" aria-activedescendant="select2-result-label-8">
-                </li>
-              </ul>
-            </div>
+      <!-- in progress cases tab -->
+      <div ng-show="currentTab == 'progress'">
+        <div class="simple_search">
+          <div class="col-xs-9 search_column1">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar" keyboard-poster="search" style="width: 80%;" />
           </div>
         </div>
 
-        <div class="col-xs-6">
-          <div class="form-group">
-            <label>Nas etapas</label>
+        <div class="simple_filters">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Fluxos</label>
 
-            <select class="multiple-select" ui-select2 ng-model="selectedCategories" data-placeholder="Digite uma etapa" multiple>
-              <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.title }}</option>
-            </select>
+              <select class="multiple-select" ui-select2 ng-model="selectedFlows" data-placeholder="Digite um fluxo" multiple>
+                <option ng-repeat="flow in flows" value="{{ flow.id }}">{{ flow.title }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Nas etapas</label>
+
+              <select class="multiple-select" ui-select2 ng-model="selectedSteps" data-placeholder="Digite uma etapa" multiple>
+                <option ng-repeat="step in steps" value="{{ step.id }}">{{ step.title }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <table class="table custom_table reports" infinite-scroll="paginate()" infinite-scroll-distance="3" infinite-scroll-disabled="loading">
+          <thead>
+            <tr>
+              <td>Nome</td>
+              <td>Iniciado em</td>
+              <td>Condutor</td>
+              <td>Etapa atual</td>
+              <td></td>
+            </tr>
+          </thead>
+
+          <tr ng-repeat="case in cases">
+            <td><a href="#/cases/{{ case.id }}">Caso #{{ case.id }}</a></td>
+            <td>12/10/2014</td>
+            <td><a href="#/users/{{ case.get_responsible_user.id }}">{{ case.get_responsible_user.name }}</a></td>
+            <td>{{ case.current_step.my_step.title }}</td>
+            <td class="actions">
+              <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+          </tr>
+        </table>
+
+        <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
+      </div>
+
+      <!-- start case tab -->
+      <div ng-show="currentTab == 'start'">
+        <div class="simple_search">
+          <div class="col-xs-9 search_column1">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar" keyboard-poster="search" style="width: 80%;" />
           </div>
         </div>
 
         <div class="clearfix"></div>
+
+        <table class="table custom_table" style="margin-top: 44px;">
+          <thead>
+            <tr>
+              <td>
+                <span>Nome do fluxo inicial</span><span class="arrow"></span>
+              </td>
+            </tr>
+          </thead>
+
+          <tr ng-repeat="flow in flows">
+            <td><a href="" ng-click="createCase(flow)">{{ flow.title }}</a></td>
+          </tr>
+        </table>
       </div>
 
-      <table class="table custom_table reports" infinite-scroll="getData(true)" infinite-scroll-distance="3" ng-class="{'advanced-filters-margin': advancedSearch == true}" style-results-table>
-        <thead>
-          <tr>
-            <td ng-click="changeSorting('')"
-                ng-class="selectedCls('')" width="50%" class="sort-table">
-              <span>Nome</span><span class="arrow"></span>
+      <!-- finished cases tab -->
+      <div ng-show="currentTab == 'finished'">
+        <div class="simple_search">
+          <div class="col-xs-9 search_column1">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar" keyboard-poster="search" style="width: 80%;" />
+          </div>
+        </div>
+
+        <div class="simple_filters">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Fluxos</label>
+
+              <select class="multiple-select" ui-select2 ng-model="selectedFlows" data-placeholder="Digite um fluxo" multiple>
+                <option ng-repeat="flow in flows" value="{{ flow.id }}">{{ flow.title }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Nas etapas</label>
+
+              <select class="multiple-select" ui-select2 ng-model="selectedSteps" data-placeholder="Digite uma etapa" multiple>
+                <option ng-repeat="step in steps" value="{{ step.id }}">{{ step.title }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <table class="table custom_table reports" infinite-scroll="getDatad(true)" infinite-scroll-distance="3">
+          <thead>
+            <tr>
+              <td>Nome</td>
+              <td>Iniciado em</td>
+              <td>Condutor</td>
+              <td>Etapa atual</td>
+              <td></td>
+            </tr>
+          </thead>
+
+          <tr ng-repeat="case in cases">
+            <td><a href="#/cases/{{ case.id }}">Caso #{{ case.id }}</a></td>
+            <td>12/10/2014</td>
+            <td><a href="#/users/{{ case.get_responsible_user.id }}">{{ case.get_responsible_user.name }}</a></td>
+            <td>{{ case.current_step.my_step.title }}</td>
+            <td class="actions">
+              <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
             </td>
-            <td ng-click="changeSorting('')"
-                ng-class="selectedCls('')" class="sort-table">
-              <span>Iniciado em</span><span class="arrow"></span>
-            </td>
-            <td ng-click="changeSorting('')"
-                ng-class="selectedCls('')" class="sort-table">
-              <span>Condutor</span><span class="arrow"></span>
-            </td>
-            <td ng-click="changeSorting('')"
-                ng-class="selectedCls('')" class="sort-table">
-              <span>Etapa atual</span><span class="arrow"></span>
-            </td>
-            <td></td>
           </tr>
-        </thead>
 
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
+        </table>
 
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a href="">Nome de um caso</a></td>
-          <td>12/10/2014</td>
-          <td><a href="">Thiago Miqueias</a></td>
-          <td>1 de 5</td>
-          <td class="actions">
-            <a class="icon_action" href="" ng-click=""><span class="glyphicon glyphicon-trash"></span></a>
-          </td>
-        </tr>
-
-      </table>
-
-      <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
+        <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
+      </div>
     </div>
 
   </div>

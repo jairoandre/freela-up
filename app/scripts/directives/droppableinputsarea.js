@@ -29,11 +29,11 @@ angular.module('zupPainelApp')
             }
           },
           receive: function(event, ui) {
-            var inputType = ui.item.attr('name');
+            var inputType = ui.item.attr('name'), inputName = ui.item.find('p').html();
 
             var newInput = {
               kind: inputType,
-              label: 'Novo ' + inputType,
+              label: 'Novo "' + inputName + '"',
               title: null,
               location: false,
               maximum: null,
@@ -42,6 +42,7 @@ angular.module('zupPainelApp')
               size: 'M',
               inventory_fields_can_view: [], // jshint ignore:line
               inventory_fields_can_edit: [], // jshint ignore:line
+              available_values: [], // jshint ignore:line
               position: null
             };
 

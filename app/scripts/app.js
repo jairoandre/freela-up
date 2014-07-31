@@ -14,7 +14,8 @@ angular.module('zupPainelApp', [
   'frapontillo.bootstrap-switch',
   'angularFileUpload',
   'ui.autocomplete',
-  'ngAnimate'
+  'ngAnimate',
+  'ngStorage'
 ])
 
 .config(function ($routeProvider, $httpProvider, RestangularProvider) {
@@ -25,6 +26,10 @@ angular.module('zupPainelApp', [
       templateUrl: 'views/login.html',
       controller: 'MainCtrl'
     })
+    .when('/logout', {
+      templateUrl: 'views/login.html',
+      controller: 'LogoutCtrl'
+    })
     // groups
     .when('/groups', {
       templateUrl: 'views/groups/index.html',
@@ -34,15 +39,22 @@ angular.module('zupPainelApp', [
       }
     })
     .when('/groups/add', {
-      templateUrl: 'views/groups/add.html',
-      controller: 'GroupsCtrl',
+      templateUrl: 'views/groups/edit.html',
+      controller: 'GroupsEditCtrl',
       access: {
         logged: true
       }
     })
     .when('/groups/:id', {
       templateUrl: 'views/groups/list.html',
-      controller: 'ViewGroupsCtrl',
+      controller: 'GroupsViewCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/groups/:id/edit', {
+      templateUrl: 'views/groups/edit.html',
+      controller: 'GroupsEditCtrl',
       access: {
         logged: true
       }
@@ -87,7 +99,12 @@ angular.module('zupPainelApp', [
     .when('/reports', {
       templateUrl: 'views/reports/index.html',
       controller: 'ReportsCtrl',
+      reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': ['Restangular', function(Restangular) {
+          return Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
+        }],
+
         'isMap': function() {
           return false;
         }
@@ -99,7 +116,12 @@ angular.module('zupPainelApp', [
     .when('/reports/map', {
       templateUrl: 'views/reports/map.html',
       controller: 'ReportsCtrl',
+      reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': ['Restangular', function(Restangular) {
+          return Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
+        }],
+
         'isMap': function() {
           return true;
         }
@@ -129,9 +151,23 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/reports/categories/item/add', {
+      templateUrl: 'views/reports/items/edit.html',
+      controller: 'ReportsItemEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/reports/categories/:categoryId/item/:id/edit', {
+      templateUrl: 'views/reports/items/edit.html',
+      controller: 'ReportsItemEditCtrl',
+      access: {
+        logged: true
+      }
+    })
     .when('/reports/categories/:categoryId/item/:id', {
-      templateUrl: 'views/reports/view.html',
-      controller: 'ReportsCategoriesItemCtrl',
+      templateUrl: 'views/reports/items/view.html',
+      controller: 'ReportsItemCtrl',
       access: {
         logged: true
       }
@@ -140,7 +176,12 @@ angular.module('zupPainelApp', [
     .when('/inventories', {
       templateUrl: 'views/inventories/index.html',
       controller: 'InventoriesCtrl',
+      reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': ['Restangular', function(Restangular) {
+          return Restangular.one('inventory').all('categories').getList();
+        }],
+
         'isMap': function() {
           return false;
         }
@@ -152,7 +193,12 @@ angular.module('zupPainelApp', [
     .when('/inventories/map', {
       templateUrl: 'views/inventories/map.html',
       controller: 'InventoriesCtrl',
+      reloadOnSearch: false,
       resolve: {
+        'categoriesResponse': ['Restangular', function(Restangular) {
+          return Restangular.one('inventory').all('categories').getList();
+        }],
+
         'isMap': function() {
           return true;
         }
@@ -191,21 +237,21 @@ angular.module('zupPainelApp', [
     })
     .when('/inventories/categories/:categoryId/item/add', {
       templateUrl: 'views/inventories/items/edit.html',
-      controller: 'InventoriesCategoriesItemEditCtrl',
+      controller: 'InventoriesItemEditCtrl',
       access: {
         logged: true
       }
     })
     .when('/inventories/categories/:categoryId/item/:id/edit', {
       templateUrl: 'views/inventories/items/edit.html',
-      controller: 'InventoriesCategoriesItemEditCtrl',
+      controller: 'InventoriesItemEditCtrl',
       access: {
         logged: true
       }
     })
     .when('/inventories/categories/:categoryId/item/:id', {
       templateUrl: 'views/inventories/items/view.html',
-      controller: 'InventoriesCategoriesItemCtrl',
+      controller: 'InventoriesItemCtrl',
       access: {
         logged: true
       }
@@ -225,38 +271,16 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
-    .when('/flows/steps', {
-      templateUrl: 'views/flows/steps.html',
+    .when('/flows/:id', {
+      templateUrl: 'views/flows/view.html',
+      controller: 'FlowsViewCtrl',
       access: {
         logged: true
       }
     })
-    .when('/flows/permissions', {
-      templateUrl: 'views/flows/permissions.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/permissions/edit', {
-      templateUrl: 'views/flows/editPermissions.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/forms/edit', {
-      templateUrl: 'views/flows/editForm.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/triggers/edit', {
-      templateUrl: 'views/flows/editTriggers.html',
-      access: {
-        logged: true
-      }
-    })
-    .when('/flows/versions', {
-      templateUrl: 'views/flows/versions.html',
+    .when('/flows/:flowId/steps/:id', {
+      templateUrl: 'views/flows/steps/edit.html',
+      controller: 'FlowsStepsCtrl',
       access: {
         logged: true
       }
@@ -264,6 +288,34 @@ angular.module('zupPainelApp', [
     // casos
     .when('/cases', {
       templateUrl: 'views/cases/index.html',
+      controller: 'CasesCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/:id', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/new', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesEditCtrl',
+      access: {
+        logged: true
+      }
+    })
+    /*
+    .when('/cases/show', {
+      templateUrl: 'views/cases/show.html',
+      access: {
+        logged: true
+      }
+    })
+    .when('/cases/history', {
+      templateUrl: 'views/cases/history.html',
       access: {
         logged: true
       }
@@ -274,12 +326,19 @@ angular.module('zupPainelApp', [
         logged: true
       }
     })
+    .when('/cases/edit', {
+      templateUrl: 'views/cases/edit.html',
+      controller: 'CasesCtrl',
+      access: {
+        logged: true
+      }
+    })
     .when('/cases/finished', {
       templateUrl: 'views/cases/finished.html',
       access: {
         logged: true
       }
-    })
+    })*/
     .otherwise({
       redirectTo: '/'
     });
@@ -292,7 +351,6 @@ angular.module('zupPainelApp', [
     return {
       // change URL on external requests
       'request': function(config) {
-        // temparary fix -- replace with http://staging.zup.sapience.io later
         config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
 
         // get token and pass to the server with header X-App-Token
@@ -312,7 +370,7 @@ angular.module('zupPainelApp', [
       // if not, show generic system error
       'responseError': function(rejection) {
 
-        var expectedErrors = [400];
+        var expectedErrors = [400, 401];
 
         if (!(typeof expectedErrors !== 'undefined' && expectedErrors.indexOf(rejection.status) !== -1))
         {
@@ -336,14 +394,24 @@ angular.module('zupPainelApp', [
 
   // Return what is being requested
   RestangularProvider.setResponseExtractor(function(response, operation, what) {
+    // we first check if what we want do exist
     if (typeof response[what] !== 'undefined')
     {
       return response[what];
     }
 
+    // then return the first object in the response
     for (var key in response)
     {
-      return response[key];
+      if (typeof response[key] === 'object')
+      {
+        return response[key];
+      }
+    }
+
+    for (var x in response)
+    {
+      return response[x];
     }
 
     return response;
@@ -388,6 +456,12 @@ angular.module('zupPainelApp', [
       $rootScope.isLoading = false;
     }
   });
+
+  // available glyphicons
+  $rootScope.glyphicons = {
+    'exclamation-sign': 'glyphicon-exclamation-sign',
+    'ok': 'glyphicon-ok',
+  };
 
   $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {
     $rootScope.systemMessage = {icon: icon, text: text, messageClass: messageClass};

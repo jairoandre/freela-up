@@ -1,0 +1,107 @@
+<div id="main_layout">
+  <div id="sidebar" hack-sidebar-height>
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'views/layout/menu.html'"></div>
+  </div>
+
+  <div id="main_content">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'views/layout/header.html'"></div>
+    <div class="loading" ng-show="loading"></div>
+
+    <div ng-hide="loading" class="pages-animation">
+      <div class="title">
+        <ul>
+          <li><a href="#/reports">Relatos</a></li>
+          <li>{{ report.address }}</li>
+        </ul>
+      </div>
+
+      <div class="status-bar" ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">
+        <div class="background" ng-style="{ 'background-color': status.color }"></div>
+        <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
+        <a class="pull-right" ng-click="editReportStatus(report, category)" href="">Alterar status</a>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="content">
+        <div class="row">
+          <div class="col-xs-8">
+            <h5>Protocolo</h5>
+            <p>{{ report.protocol }}</p>
+
+            <h5>Endereço</h5>
+            <p>{{ report.address }}</p>
+
+            <div ng-hide="report.reference == null || report.reference == ''">
+              <h5>Referência</h5>
+              <p>{{ report.reference }}</p>
+            </div>
+
+            <div ng-hide="report.description == null || report.description == ''">
+              <h5>Descrição</h5>
+              <p>{{ report.description }}</p>
+            </div>
+
+            <h5>Categoria</h5>
+            <p>{{ category.title }}</p>
+
+            <h5>Data de cadastro</h5>
+            <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
+
+            <h5>Status</h5>
+            <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
+
+            <div ng-hide="report.images.length == 0">
+              <h5>Imagens</h5>
+
+              <gallery images="images"></gallery>
+
+              <div class="clearfix"></div>
+            </div>
+          </div>
+
+          <div class="col-xs-4">
+            <h5>Nome completo do municipante</h5>
+            <p><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
+
+            <h5>Email</h5>
+            <p>{{ report.user.email }}</p>
+
+            <h5>Telefone</h5>
+            <p>{{ report.user.phone }}</p>
+          </div>
+        </div>
+
+        <div ng-show="feedback">
+          <hr />
+
+          <h5>Feedback do usuário</h5>
+          <p ng-show="feedback.kind == 'positive'">Positivo</p>
+          <p ng-show="feedback.kind != 'positive'">Negativo</p>
+
+          <h5>Comentário</h5>
+          <p>{{ feedback.content }}</p>
+
+          <div ng-hide="feedback.images.length == 0">
+            <h5>Imagens</h5>
+
+            <gallery images="feedback.images"></gallery>
+
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="roundedMap" style="margin-top: 20px;" map-show-report></div>
+
+        <hr />
+
+        <a href="#/reports" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+      </div>
+    </div>
+
+  </div>
+</div>

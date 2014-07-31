@@ -25,5 +25,11 @@ angular.module('zupPainelApp')
       }
     });
   };
-});
+})
 
+.controller('LogoutCtrl', function ($location, Auth) {
+
+  Auth.logout();
+  $location.path('/');
+
+});

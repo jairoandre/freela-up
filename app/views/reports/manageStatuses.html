@@ -31,34 +31,40 @@
         </thead>
 
         <tbody>
-            <tr ng-repeat="status in category.statuses">
+            <tr ng-repeat="status in category.statuses" report-status>
                 <td style="text-align: left;">
                   <a href="" class="edit_title" ng-click="edit_title = true">{{ status.title }}</a> <div class="edit_status_title" ng-show="edit_title">
                     <input type="text" ng-model="status.title" />
                     <a href="" ng-click="edit_title = false">Pronto</a>
                   </div>
                 </td>
+
                 <td>
-                  <input type="checkbox" ng-change="changeInitial(status)" ng-model="status.initial" class="input-choice" id="{{ status.id }}-initial" />
-                  <label for="{{ status.id }}-initial" class="label-choice">
+                  <input type="checkbox" ng-change="changeInitial(status)" ng-model="status.initial" class="input-choice" id="{{ $index }}-initial" />
+                  <label for="{{ $index }}-initial" class="label-choice">
                     <span>initial</span>
                   </label>
                 </td>
+
                 <td>
-                  <input type="checkbox" ng-model="status.final" class="input-choice" id="{{ status.id }}-final" />
-                  <label for="{{ status.id }}-final" class="label-choice">
+                  <input type="checkbox" ng-model="status.final" class="input-choice" id="{{ $index }}-final" />
+                  <label for="{{ $index }}-final" class="label-choice">
                     <span>final</span>
                   </label>
                 </td>
+
                 <td>
-                  <input type="checkbox" ng-model="status.active" class="input-choice" id="{{ status.id }}-active" />
-                  <label for="{{ status.id }}-active" class="label-choice">
+                  <input type="checkbox" ng-model="status.active" class="input-choice" id="{{ $index }}-active" />
+                  <label for="{{ $index }}-active" class="label-choice">
                     <span>active</span>
                   </label>
                 </td>
+
                 <td><button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker btn-colorpicker-small" ng-model="status.color" colorpicker-fixed-position="true" ng-style="{'background-color': status.color}"></button></td>
+
                 <td>
                   <button type="button" class="remove" ng-click="remove_status = true">x</button>
+
                   <div class="edit_status_title remove-div" ng-show="remove_status">
                     <p class="remove-message">
                       Você tem certeza que deseja excluir?
@@ -75,5 +81,5 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()">Fechar</button>
+    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()">Salvar</button>
 </div>

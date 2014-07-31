@@ -1,9 +1,26 @@
-<div id="full_page">
-  <div class="header">
-    <a href="#/inventories/categories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<div class="loadingRequest" ng-show="processingForm"><img src="images/loading.gif" /></div>
+<div class="blockContent" ng-show="processingForm"></div>
 
-    <div class="title" ng-show="!updating">Nova categoria de inventário</div>
-    <div class="title" ng-show="updating">{{ category.title }}</div>
+<div id="full_page" ng-show="loading">
+  <div class="loading"></div>
+</div>
+
+<div id="full_page" ng-hide="loading">
+  <div class="header">
+    <a href="" ng-click="goBack()" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+    <a class="title" href="" ng-hide="editingCategoryTitle" ng-click="editingCategoryTitle = true">{{ category.title }}</a>
+
+    <div class="edit_label" ng-show="editingCategoryTitle">
+      <input type="text" ng-model="category.title" />
+      <a href="" ng-click="editingCategoryTitle = false">Salvar</a>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <a href="" ng-click="editCategoryOptions()" class="edit-information"><span class="glyphicon glyphicon-edit"></span>Alterar ícone e cor</a>
 
     <div ng-show="showSystemMessage" class="message-status fade-animation" ng-class="systemMessage.messageClass">
       <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
@@ -21,9 +38,7 @@
     <a href="" ng-click="currentTab = 'configs'" ng-class="{'active': currentTab == 'configs'}">Configurações</a>
   </div>
 
-  <div class="loading" ng-show="loading"></div>
-
-  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'fields'">
+  <div class="big_content" class="pages-animation" ng-hide="currentTab !== 'fields'">
     <div class="left_column">
 
       <div sortable-sections class="sortableSections">
@@ -45,7 +60,7 @@
                 <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
               </div>
 
-              <div class="option trash">
+              <div class="option trash" ng-hide="section.location === true">
                 <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
                   <div class="arrow"></div>
                   <h3 class="popover-title">Remover seção {{ section.title }}</h3>
@@ -132,105 +147,104 @@
 
               <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
                 <div class="type">
-                  <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editingLabel = true">
-                    <span ng-show="field.label !== null">{{ field.label }}</span>
-                    <span ng-show="field.label == null">{{ field.title }}</span>
-                    <span ng-show="field.required == true"> *</span>
-                  </label>
+                  <div edit-label>
+                    <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editLabel()">
+                      <span ng-show="field.label !== null">{{ field.label }}</span>
+                      <span ng-show="field.label == null">{{ field.title }}</span>
+                      <span ng-show="field.required == true"> *</span>
+                    </label>
 
-                  <div class="edit_label" ng-show="editingLabel">
-                    <input type="text" ng-model="field.label" />
-                    <a href="" ng-click="editingLabel = false">Salvar</a>
+                    <div class="edit_label" ng-show="editingLabel">
+                      <input type="text" class="editLabelField" ng-model="label" />
+                      <a href="" ng-click="saveLabel()">Salvar</a>
 
-                    <div class="clearfix"></div>
+                      <div class="clearfix"></div>
+                    </div>
                   </div>
 
                   <div class="clearfix"></div>
 
                   <!-- input type: text, url, email -->
-                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
+                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
 
                   <!-- input type date, time, cpf, cnpj -->
-                  <div class="custom_size col-xs-3" ng-show="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
+                  <div class="custom_size col-xs-3" ng-if="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
                     <input class="form-control" id="generic_input_{{ field.id }}" type="text" disabled="disabled">
                   </div>
 
                   <!-- input type: integer, decimal -->
-                  <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-show="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
+                  <input class="form-control integer" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'integer' || field.kind == 'decimal'" disabled="disabled">
 
                   <!-- input type: meters -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'meters'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'meters'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">metros</span>
                   </div>
 
                   <!-- input type: centimeters -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'centimeters'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'centimeters'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">cm</span>
                   </div>
 
                   <!-- input type: kilometers -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'kilometers'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'kilometers'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">km</span>
                   </div>
 
                   <!-- input type: years -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'years'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'years'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">anos</span>
                   </div>
 
                   <!-- input type: months -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'months'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'months'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">meses</span>
                   </div>
 
                   <!-- input type: days -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'days'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'days'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">dias</span>
                   </div>
 
                   <!-- input type: hours -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'hours'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'hours'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">horas</span>
                   </div>
 
                   <!-- input type: seconds -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'seconds'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'seconds'">
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                     <span class="input-group-addon">segundos</span>
                   </div>
 
                   <!-- input type: angle -->
-                  <div class="input-group col-xs-3" ng-show="field.kind == 'angle'">
+                  <div class="input-group col-xs-3" ng-if="field.kind == 'angle'">
                     <span class="input-group-addon">ângulo</span>
                     <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" disabled="disabled">
                   </div>
 
-                  <div ng-show="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
-                    <div ng-repeat="value in field.available_values track by $index" inventory-single-value>
-                      <input type="checkbox" class="value">
+                  <!-- input type: images -->
+                  <div ng-if="field.kind == 'images'" class="imagesField">
+                    <p>Campo de imagens</p>
+                  </div>
 
-                      <a href="" class="edit_value" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
-
-                      <div class="edit_label" ng-show="editingValue">
-                        <input type="text" ng-model="value" />
-                        <a href="" ng-click="editingValue = false">Ok</a>
-
-                        <div class="clearfix"></div>
+                  <!-- inputs that have multiple options -->
+                  <div ng-if="kindHasMultipleOptions(field.kind) === true" class="multipleValues">
+                    <div class="row">
+                      <div class="col-xs-10 selectList">
+                        <input class="form-control" type="text" disabled="disabled" placeholder="Selecione um item"><span class="caret"></span>
                       </div>
 
-                      <a href="" class="remove_value" ng-click="removeValue(value)"><span class="glyphicon glyphicon-remove"></span></a>
-
-                      <div class="clearfix"></div>
+                      <div class="col-xs-2 editOptionsLink">
+                        <a href="" ng-click="editFieldOptions(field)">Gerenciar opções</a>
+                      </div>
                     </div>
-
-                    <a href="" ng-click="newValue()" class="newItem" inventory-create-value>+ Novo item</a>
                   </div>
                 </div>
 
@@ -239,7 +253,7 @@
                     <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
                   </div>
 
-                  <div class="option trash">
+                  <div class="option trash" ng-hide="field.location === true">
                     <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
                       <div class="arrow"></div>
                       <h3 class="popover-title">Remover campo {{ field.label }}</h3>
@@ -264,7 +278,7 @@
                         <div class="form-group">
                           <label>Grupos que podem visualizar:</label>
 
-                          <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_view" data-placeholder="Digite um grupo" multiple>
+                          <select class="multiple-select" ui-select2 ng-model="field.groups_can_view" data-placeholder="Digite um grupo" multiple>
                             <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
                           </select>
                         </div>
@@ -272,7 +286,7 @@
                         <div class="form-group">
                           <label>Grupos que podem editar:</label>
 
-                          <select class="multiple-select" ui-select2 ng-model="field.inventory_fields_can_edit" data-placeholder="Digite um grupo" multiple>
+                          <select class="multiple-select" ui-select2 ng-model="field.groups_can_edit" data-placeholder="Digite um grupo" multiple>
                             <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
                           </select>
                         </div>
@@ -363,7 +377,7 @@
     <div class="clearfix"></div>
   </div>
 
-  <div class="big_content" class="pages-animation" ng-hide="loading || currentTab !== 'statuses'">
+  <div class="big_content" class="pages-animation" ng-hide="currentTab !== 'statuses'">
     <div class="toolbar">
       <div class="pull-left">Obrigatório o uso de estados <input bs-switch type="checkbox" class="pull-right" ng-model="category.require_item_status"></div>
 

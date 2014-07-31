@@ -11,7 +11,7 @@ angular.module('zupPainelApp')
             styles: [{}, {'featureType': 'poi.business', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] },{ 'featureType': 'poi.government', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.medical', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.place_of_worship', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.school', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.sports_complex', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'transit', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }, { 'saturation': -100 }, { 'lightness': 42 }] }, { 'featureType': 'road.highway', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': -100 }, { 'lightness': 47 }] }, { 'featureType': 'landscape', 'stylers': [{ 'lightness': 82 }, { 'saturation': -100 }] }, { 'featureType': 'water', 'stylers': [{ 'hue': '#00b2ff' }, { 'saturation': -21 }, { 'lightness': -4 }] }, { 'featureType': 'poi', 'stylers': [{ 'lightness': 19 }, { 'weight': 0.1 }, { 'saturation': -22 }] }, { 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 18 }] }, { 'elementType': 'labels.text', 'stylers': [{ 'saturation': -100 }, { 'lightness': 28 }] }, { 'featureType': 'poi.attraction', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.park', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': 12 }, { 'lightness': 25 }] }, { 'featureType': 'road', 'elementType': 'labels.icon', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road', 'elementType': 'labels.text', 'stylers': [{ 'lightness': 30 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road.highway', 'elementType': 'geometry', 'stylers': [{ 'saturation': -100 }, { 'lightness': 56 }] }, { 'featureType': 'road.local', 'elementType': 'geometry.fill', 'stylers': [{ 'lightness': 62 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'off' }] }],
             homeLatlng: new google.maps.LatLng(-23.549671, -46.6321713),
             map: {
-              zoom: 11,
+              zoom: 15,
               mapTypeControl: false,
               panControl: true,
               panControlOptions: {
@@ -33,7 +33,7 @@ angular.module('zupPainelApp')
           },
 
           zoomLevels: {},
-          currentZoom: 11,
+          currentZoom: 15,
           map: null,
           getNewItemsTimeout: null,
           hideNotVisibleMarkersTimeout: null,
@@ -46,8 +46,6 @@ angular.module('zupPainelApp')
           currentReportFilterStatus: null,
 
           start: function() {
-            mapProvider.resize();
-
             // create map and set specific listeners
             this.createMap();
             this.setListeners();
@@ -61,10 +59,12 @@ angular.module('zupPainelApp')
             this.map.mapTypes.set('zup', styledMap);
             this.map.setMapTypeId('zup');
             this.map.setCenter(this.options.homeLatlng);
-          },
 
-          resize: function() {
-            element.css({'height': $(window).height() - 362});
+            setTimeout(function() {
+              google.maps.event.trigger(mapProvider.map, 'resize');
+              google.maps.event.trigger(mapProvider.map, 'bounds_changed');
+              mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+            }, 80);
           },
 
           setListeners: function() {
@@ -75,10 +75,6 @@ angular.module('zupPainelApp')
 
             scope.$on('updateMap', function() {
               mapProvider.boundsChanged(true);
-            });
-
-            $(window).resize(function() {
-              mapProvider.resize();
             });
           },
 
@@ -212,12 +208,13 @@ angular.module('zupPainelApp')
 
               var infowindow = mapProvider.infoWindow;
 
-              var category, iconSize, viewAction, visibility = false;
+              var category, iconSize, iconImg, viewAction, visibility = false;
 
               if (attrs.mapCategory === 'report')
               {
                 category = scope.getReportCategory(item.category_id); // jshint ignore:line
                 iconSize = new google.maps.Size(54, 51);
+                iconImg = category.marker.retina.web;
 
                 var pos = mapProvider.hiddenReportsCategories.indexOf(item.category_id); // jshint ignore:line
 
@@ -229,8 +226,9 @@ angular.module('zupPainelApp')
               else
               {
                 category = scope.getInventoryCategory(item.inventory_category_id); // jshint ignore:line
-                //iconSize = new google.maps.Size(15, 15);
-                iconSize = new google.maps.Size(54, 51);
+                iconSize = new google.maps.Size(15, 15);
+                iconImg = category.pin.retina.web;
+                //iconSize = new google.maps.Size(54, 51);
 
                 var pos = mapProvider.hiddenInventoryCategories.indexOf(item.inventory_category_id); // jshint ignore:line
 
@@ -240,7 +238,7 @@ angular.module('zupPainelApp')
                 }
               }
 
-              var categoryIcon = new google.maps.MarkerImage(category.marker.retina.web, null, null, null, iconSize);
+              var categoryIcon = new google.maps.MarkerImage(iconImg, null, null, null, iconSize);
 
               var pinOptions = {
                 position: LatLng,

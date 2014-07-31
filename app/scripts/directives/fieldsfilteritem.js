@@ -9,6 +9,18 @@ angular.module('zupPainelApp')
           scope.item.condition = condition;
         };
 
+        scope.$watch('item.fieldId', function() {
+          if (scope.item.fieldId !== null)
+          {
+            for (var i = scope.item.category.fields.length - 1; i >= 0; i--) {
+              if (scope.item.category.fields[i].id == scope.item.fieldId)
+              {
+                scope.item.field = scope.item.category.fields[i];
+              }
+            };
+          }
+        });
+
         scope.changeField = function(field) {
           scope.item.field = field;
         };

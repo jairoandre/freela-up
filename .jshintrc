@@ -21,6 +21,7 @@
   "globals": {
     "angular": false,
     "$": true,
-    "google": true
+    "google": true,
+    "ZeroClipboard": true
   }
 }

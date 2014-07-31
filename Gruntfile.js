@@ -28,7 +28,7 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/**/*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: true
@@ -52,7 +52,6 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
           '<%= yeoman.app %>/views/**/*.html',
-          '<%= yeoman.app %>/views/**/**/*.html',
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
@@ -101,7 +100,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%= yeoman.app %>/scripts/**/*.js'
       ],
       test: {
         options: {
@@ -208,7 +207,7 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/views/**/*.html', '<%= yeoman.dist %>/views/**/**/*.html'],
+      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/views/**/*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: '<%= yeoman.dist %>/scripts/*.js',
       options: {
@@ -258,9 +257,23 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/**/*.html', 'views/**/**/*.html'],
+          src: ['*.html', 'views/**/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
+      }
+    },
+
+    'string-replace': {
+      kit: {
+        files: {
+          '<%= yeoman.dist %>/scripts/': '<%= yeoman.dist %>/scripts/*.js'
+        },
+        options: {
+          replacements: [{
+            pattern: 'http://staging.zup.sapience.io',
+            replacement: process.env.API_URL
+          }]
+        }
       }
     },
 
@@ -298,10 +311,9 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'views/**/**/*.html',
-            'bower_components/**/*',
             'images/*',
             'fonts/*',
-            'bower_components/sass-bootstrap/fonts/*.*'
+            'scripts/ZeroClipboard.swf'
           ]
         }, {
           expand: true,

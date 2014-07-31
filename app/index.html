@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
@@ -32,17 +32,6 @@
     <!-- Add your site or application content here -->
     <div ng-view="" class="ng-main-view" ng-hide="isLoading"></div>
     <div ng-show='isLoading'>Carregando...</div>
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -73,37 +62,81 @@
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/select2/select2.js"></script>
     <script src="bower_components/angular-ui-select2/src/select2.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
+    <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
     <!-- endbuild -->
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry"></script>
 
+    <script type="text/javascript">
+    function load() {
+      gapi.client.setApiKey('AIzaSyBSEPWhyMJOCOiIAfYgQ_Siw8ijfsPKhkI');
+      gapi.client.load('urlshortener', 'v1');
+    }
+    </script>
+
+    <script src="https://apis.google.com/js/client.js?onload=load"></script>
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+
     <script src="scripts/controllers/main.js"></script>
-    <script src="scripts/controllers/groups.js"></script>
-    <script src="scripts/controllers/users.js"></script>
-    <script src="scripts/controllers/reports.js"></script>
-    <script src="scripts/controllers/inventories.js"></script>
-    <script src="scripts/controllers/flows.js"></script>
-    <script src="scripts/directives/bootstrapswitch.js"></script>
-    <script src="scripts/controllers/tags.js"></script>
+
+    <script src="scripts/controllers/groups/groups.js"></script>
+    <script src="scripts/controllers/groups/view.js"></script>
+    <script src="scripts/controllers/groups/edit.js"></script>
+
+    <script src="scripts/controllers/users/users.js"></script>
+    <script src="scripts/controllers/users/view.js"></script>
+    <script src="scripts/controllers/users/edit.js"></script>
+
+    <script src="scripts/controllers/reports/reports.js"></script>
+    <script src="scripts/controllers/reports/item.js"></script>
+    <script src="scripts/controllers/reports/itemedit.js"></script>
+    <script src="scripts/controllers/reports/categories.js"></script>
+    <script src="scripts/controllers/reports/categoriesedit.js"></script>
+
+    <script src="scripts/controllers/inventories/inventories.js"></script>
+    <script src="scripts/controllers/inventories/categories.js"></script>
+    <script src="scripts/controllers/inventories/categoriesedit.js"></script>
+    <script src="scripts/controllers/inventories/categoriesselect.js"></script>
+    <script src="scripts/controllers/inventories/item.js"></script>
+    <script src="scripts/controllers/inventories/itemedit.js"></script>
+
+    <script src="scripts/controllers/flows/flows.js"></script>
+    <script src="scripts/controllers/flows/view.js"></script>
+    <script src="scripts/controllers/flows/steps.js"></script>
+
+    <script src="scripts/controllers/tags/tags.js"></script>
+
+    <script src="scripts/controllers/cases/cases.js"></script>
+    <script src="scripts/controllers/cases/edit.js"></script>
+
     <script src="scripts/services/user.js"></script>
     <script src="scripts/services/auth.js"></script>
     <script src="scripts/services/error.js"></script>
     <script src="scripts/services/groups.js"></script>
     <script src="scripts/services/users.js"></script>
-    <script src="scripts/directives/hacksidebarheight.js"></script>
     <script src="scripts/services/reports.js"></script>
-    <script src="scripts/directives/keyboardposter.js"></script>
     <script src="scripts/services/inventories.js"></script>
+    <script src="scripts/services/advancedfilters.js"></script>
+
+    <script src="scripts/filters/formaterrors.js"></script>
+    <script src="scripts/filters/translateerrors.js"></script>
+    <script src="scripts/filters/replacedotwithcomma.js"></script>
+
+    <script src="scripts/directives/hacksidebarheight.js"></script>
+    <script src="scripts/directives/keyboardposter.js"></script>
     <script src="scripts/directives/mapshowitem.js"></script>
     <script src="scripts/directives/genericinput.js"></script>
-    <script src="scripts/filters/formaterrors.js"></script>
     <script src="scripts/directives/ngthumb.js"></script>
     <script src="scripts/directives/map.js"></script>
+    <script src="scripts/directives/searchreportmap.js"></script>
+    <script src="scripts/directives/mapnewreport.js"></script>
     <script src="scripts/directives/searchmap.js"></script>
-    <script src="scripts/filters/translateerrors.js"></script>
+    <script src="scripts/directives/bootstrapswitch.js"></script>
     <script src="scripts/directives/mapshowreport.js"></script>
     <script src="scripts/directives/navitem.js"></script>
     <script src="scripts/directives/detectscrolltop.js"></script>
@@ -117,16 +150,24 @@
     <script src="scripts/directives/draggableinput.js"></script>
     <script src="scripts/directives/inputssidebar.js"></script>
     <script src="scripts/directives/inventorypopover.js"></script>
-    <script src="scripts/directives/inventorypopoverLink.js"></script>
-    <script src="scripts/directives/inventorysinglevalue.js"></script>
-    <script src="scripts/directives/inventorycreateValue.js"></script>
+    <script src="scripts/directives/inventorypopoverlink.js"></script>
+    <script src="scripts/directives/editlabel.js"></script>
+    <script src="scripts/directives/inventorycreatevalue.js"></script>
     <script src="scripts/directives/sortablesections.js"></script>
-    <script src="scripts/directives/fieldsFilterItem.js"></script>
+    <script src="scripts/directives/fieldsfilteritem.js"></script>
+    <script src="scripts/directives/areamap.js"></script>
+    <script src="scripts/directives/reportstatus.js"></script>
+    <script src="scripts/directives/addareacircleform.js"></script>
+    <script src="scripts/directives/flowresolutionstate.js"></script>
+    <script src="scripts/directives/flowdroppableinputsarea.js"></script>
+    <script src="scripts/directives/flowstepfield.js"></script>
+    <script src="scripts/directives/flowcreatevalue.js"></script>
+    <script src="scripts/directives/flowsinglevalue.js"></script>
+    <script src="scripts/directives/flowtrigger.js"></script>
+    <script src="scripts/directives/flowstepsorder.js"></script>
+    <script src="scripts/directives/copytext.js"></script>
+    <script src="scripts/directives/stylemap.js"></script>
+     <script src="scripts/directives/focusonevent.js"></script>
     <!-- endbuild -->
-
-    <!-- NOTE: arquivos da lib -->
-    <script src="scripts/libs/progress-button/modernizr.custom.js"></script>
-    <script src="scripts/libs/progress-button/classie.js"></script>
-    <script src="scripts/libs/progress-button/progressButton.js"></script>
 </body>
 </html>
