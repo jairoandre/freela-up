@@ -346,12 +346,14 @@ angular.module('zupPainelApp', [
   // Not supported on github :-(
   //$locationProvider.html5Mode(true);
 
+  var BASE_URL = 'http://staging.zup.sapience.io';
+
   // register the interceptor via an anonymous factory
   $httpProvider.interceptors.push(['$q', '$injector', function($q, $injector) {
     return {
       // change URL on external requests
       'request': function(config) {
-        config.url = config.url.replace('{base_url}', 'http://staging.zup.sapience.io');
+        config.url = config.url.replace('{base_url}', BASE_URL);
 
         // get token and pass to the server with header X-App-Token
         var token = null;
@@ -388,7 +390,7 @@ angular.module('zupPainelApp', [
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
   // Configure Restangular
-  RestangularProvider.setBaseUrl('http://staging.zup.sapience.io');
+  RestangularProvider.setBaseUrl(BASE_URL);
   RestangularProvider.setFullResponse(true);
   //Restangular.setDefaultRequestParams({'X-App-Token': "secret key"});
 
