@@ -354,7 +354,7 @@ angular.module('zupPainelApp')
 
     if (status === 'status')
     {
-      AdvancedFilters.status($scope.statuses, $scope.activeAdvancedFilters);
+      AdvancedFilters.status($scope.categories, $scope.statuses, $scope.activeAdvancedFilters);
     }
 
     if (status === 'author')

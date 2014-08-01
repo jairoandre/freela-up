@@ -2751,6 +2751,16 @@ p {
   .modal-body {
     padding: 0px;
 
+    .categoryName {
+      width: 100%;
+      padding: 8px 19px;
+      display: block;
+      background: #E2E2E2;
+      border-bottom: 1px solid #D9D9D9;
+      color: #666666;
+      border-top: 1px solid #D9D9D9;
+    }
+
     ul {
       list-style: none;
       padding: 0px;

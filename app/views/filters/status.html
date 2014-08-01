@@ -4,16 +4,20 @@
 </div>
 
 <div class="modal-body">
-  <ul>
-    <li ng-repeat="status in statuses">
-      <a ng-class="{'selected': status.selected == true}" class="status" ng-click="updateStatus(status)">
-        <span ng-style="{'background-color': status.color}" ng-class="{'not-selected': status.selected != true}"></span>
-        <b ng-style="{'background-color': status.color}"></b>
-        <i class="glyphicon glyphicon-ok" ng-show="status.selected"></i>
-        {{ status.title }}
-      </a>
-    </li>
-  </ul>
+  <div ng-repeat="category in categories" ng-hide="category.statuses.length === 0">
+    <span class="categoryName">{{ category.title }}</span>
+
+    <ul>
+      <li ng-repeat="status in category.statuses">
+        <a ng-class="{'selected': status.selected == true}" class="status" ng-click="updateStatus(status)">
+          <span ng-style="{'background-color': status.color}" ng-class="{'not-selected': status.selected != true}"></span>
+          <b ng-style="{'background-color': status.color}"></b>
+          <i class="glyphicon glyphicon-ok" ng-show="status.selected"></i>
+          {{ status.title }}
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
 
 <div class="modal-footer">
