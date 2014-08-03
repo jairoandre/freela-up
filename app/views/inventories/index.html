@@ -38,7 +38,6 @@
           <div class="clearfix"></div>
 
           <div class="availableFilters" ng-show="show_availableFilters">
-            <a href="" ng-click="loadFilter('query')">Protocolo ou endereço contém...</a>
             <a href="" ng-click="loadFilter(filter.action)" ng-repeat="filter in availableFilters | filter:filterQuery">{{ filter.name }}</a>
           </div>
 

@@ -6,6 +6,40 @@ angular.module('zupPainelApp')
 .factory('AdvancedFilters', function ($modal, Restangular, $q, $location) {
   return {
     // advanced filter by category
+    query: function (activeAdvancedFilters) {
+      $modal.open({
+        templateUrl: 'views/filters/query.html',
+        windowClass: 'filterQueryModal',
+        resolve: {
+          activeAdvancedFilters: function() {
+            return activeAdvancedFilters;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
+
+          $scope.input = {};
+
+          $scope.save = function() {
+            var filter = {
+              title: 'Título ou endereço',
+              desc: $scope.input.query,
+              type: 'query',
+              value: $scope.input.query
+            };
+
+            activeAdvancedFilters.push(filter);
+
+            $modalInstance.close();
+          };
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    },
+
+    // advanced filter by category
     category: function (categories, activeAdvancedFilters) {
       $modal.open({
         templateUrl: 'views/filters/category.html',

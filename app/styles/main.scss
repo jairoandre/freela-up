@@ -2491,6 +2491,24 @@ p {
   }
 }
 
+.filterQueryModal {
+  .modal-dialog {
+    width: 460px;
+  }
+
+  .modal-body {
+    padding-top: 10px;
+
+    textarea {
+      min-height: 100px;
+    }
+  }
+
+  .modal-footer {
+    margin-top: 0px;
+  }
+}
+
 .fieldsCategoriesModal {
   .modal-dialog {
     width: 700px;

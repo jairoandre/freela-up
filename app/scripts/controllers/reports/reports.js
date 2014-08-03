@@ -49,6 +49,7 @@ angular.module('zupPainelApp')
   //$scope.advancedSearch = true;
 
   $scope.availableFilters = [
+    {name: 'Protocolo ou endereço contém...', action: 'query'},
     {name: 'Com as categorias...', action: 'category'},
     {name: 'Com os estados...', action: 'status'},
     {name: 'Criado pelos munícipes...', action: 'author'},
@@ -315,22 +316,10 @@ angular.module('zupPainelApp')
     $scope.activeAdvancedFilters = [];
   };
 
-  // All available filters
-  var advancedFilterQuery = function(query) {
-    var filter = {
-      title: 'Título ou endereço',
-      desc: query,
-      type: 'query',
-      value: query
-    };
-
-    $scope.activeAdvancedFilters.push(filter);
-  };
-
   $scope.loadFilter = function(status) {
     if (status === 'query')
     {
-      advancedFilterQuery($scope.filterQuery);
+      AdvancedFilters.query($scope.activeAdvancedFilters);
     }
 
     if (status === 'category')
