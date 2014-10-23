@@ -12,7 +12,7 @@ angular.module('zupPainelApp')
   var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();
   var fieldsPromise = Restangular.one('flows', flowId).one('steps', stepId).all('fields').getList();
   var triggersPromise = Restangular.one('flows', flowId).one('steps', stepId).all('triggers').getList();
-  var flowsPromise = Restangular.all('flows').getList();
+  var flowsPromise = Restangular.all('flows').getList({'display_type': 'full'});
 
   $q.all([flowPromise, stepPromise, fieldsPromise, triggersPromise, flowsPromise]).then(function(responses) {
     $scope.loading = false;

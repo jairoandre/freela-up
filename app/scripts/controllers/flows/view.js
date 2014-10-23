@@ -15,44 +15,17 @@ angular.module('zupPainelApp')
     $scope.loading = false;
 
     $scope.flow = response.data;
+
+    console.log(Restangular.stripRestangular($scope.flow));
   });
 
   $scope.getAncestor = function(stepId) {
-    for (var i = $scope.flow.list_tree_steps.length - 1; i >= 0; i--) { // jshint ignore:line
-      if ($scope.flow.list_tree_steps[i].step.id === stepId) // jshint ignore:line
+    for (var i = $scope.flow.steps.length - 1; i >= 0; i--) { // jshint ignore:line
+      if ($scope.flow.steps[i].id === stepId) // jshint ignore:line
       {
-        return $scope.flow.list_tree_steps[i]; // jshint ignore:line
+        return $scope.flow.steps[i]; // jshint ignore:line
       }
     }
-  };
-
-  $scope.editStep = function (step) {
-    $modal.open({
-      templateUrl: 'views/flows/steps/editBasic.html',
-      windowClass: 'editStepModal',
-      resolve: {
-        flow: function() {
-          return $scope.flow;
-        }
-      },
-      controller: ['$scope', '$modalInstance', 'flow', function($scope, $modalInstance, flow) {
-        $scope.step = angular.copy(step);
-
-        $scope.save = function()
-        {
-          var putStepPromise = Restangular.one('flows', flow.id).one('steps', step.id).customPUT({title: $scope.step.title});
-
-          putStepPromise.then(function() {
-            step.title = $scope.step.title;
-            $modalInstance.close();
-          });
-        };
-
-        $scope.close = function() {
-          $modalInstance.close();
-        };
-      }]
-    });
   };
 
   $scope.addStep = function () {
@@ -73,7 +46,7 @@ angular.module('zupPainelApp')
         };
 
         var flowsAncestorsPromise = Restangular.one('flows', flow.id).all('ancestors').getList();
-        var flowsPromise = Restangular.all('flows').getList();
+        var flowsPromise = Restangular.all('flows').getList({'display_type': 'full'});
 
         $q.all([flowsPromise, flowsAncestorsPromise]).then(function(responses) {
           $scope.flows = responses[0].data;
