@@ -30,7 +30,7 @@ angular.module('zupPainelApp')
               $scope.source = function (img) {
                 if (typeof img !== 'undefined' && typeof img.versions !== 'undefined' && typeof img.versions.high !== 'undefined')
                 {
-                  return img.versions.high;
+                  return img.url;
                 }
 
                 return '';
