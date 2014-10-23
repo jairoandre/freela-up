@@ -41,7 +41,20 @@
                 <gallery images="getDataByInventoryFieldId(field.id)"></gallery>
               </div>
 
-              <p ng-hide="field.kind == 'images'">{{ getDataByInventoryFieldId(field.id) }}</p>
+              <p ng-hide="field.kind == 'images'">
+                {{ getDataByInventoryFieldId(field.id) }}
+
+                <span ng-if="field.kind == 'meters'">metros</span>
+                <span ng-if="field.kind == 'centimeters'">cm</span>
+                <span ng-if="field.kind == 'kilometers'">km</span>
+                <span ng-if="field.kind == 'years'">anos</span>
+                <span ng-if="field.kind == 'months'">meses</span>
+                <span ng-if="field.kind == 'days'">dias</span>
+                <span ng-if="field.kind == 'hours'">horas</span>
+                <span ng-if="field.kind == 'seconds'">segundos</span>
+                <span ng-if="field.kind == 'angle'">ângulo</span>
+
+              </p>
 
               <div class="cleafix"></div>
           </div>
