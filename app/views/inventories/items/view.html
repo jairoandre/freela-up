@@ -20,28 +20,57 @@
         <a href="#/inventories/categories/{{ item.inventory_category_id }}/item/{{ item.id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
       </div>
 
-      <div class="content">
+      <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">
+        <div class="background" ng-style="{ 'background-color': status.color }"></div>
+        <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
+        <a class="pull-right" ng-click="editItemStatus(item, category)" href="">Alterar status</a>
 
-        <div ng-repeat="section in category.sections | orderBy:'position'">
-          <h3>{{ section.title }}</h3>
+        <div class="clearfix"></div>
+      </div>
 
-          <div ng-repeat="field in section.fields | orderBy:'position'">
-              <h5 ng-show="field.label !== null">{{ field.label }}</h5>
-              <h5 ng-show="field.label == null">{{ field.title }}</h5>
+      <div class="content wrappers">
 
-              <div ng-show="field.kind == 'images'">
-                <gallery images="getDataByInventoryFieldId(field.id)"></gallery>
-              </div>
+        <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'">
+          <div class="wrapper_title"><h1>{{ section.title }}</h1></div>
 
-              <p ng-hide="field.kind == 'images'">{{ getDataByInventoryFieldId(field.id) }}</p>
+          <div class="fields">
+            <div class="field" ng-repeat="field in section.fields | orderBy:'position'">
+                <h5 ng-show="field.label !== null">{{ field.label }}</h5>
+                <h5 ng-show="field.label == null">{{ field.title }}</h5>
 
-              <div class="cleafix"></div>
+                <div ng-show="field.kind == 'images'">
+                  <p ng-hide="getDataByInventoryFieldId(field.id).length == 0"><gallery images="getDataByInventoryFieldId(field.id)"></gallery></p>
+
+                  <p ng-show="getDataByInventoryFieldId(field.id).length == 0">Sem imagens.</p>
+                </div>
+
+                <p ng-hide="field.kind == 'images'">
+                  {{ getDataByInventoryFieldId(field.id) || 'Não preenchido.' }}
+
+                  <span ng-if="field.kind == 'meters'">metros</span>
+                  <span ng-if="field.kind == 'centimeters'">cm</span>
+                  <span ng-if="field.kind == 'kilometers'">km</span>
+                  <span ng-if="field.kind == 'years'">anos</span>
+                  <span ng-if="field.kind == 'months'">meses</span>
+                  <span ng-if="field.kind == 'days'">dias</span>
+                  <span ng-if="field.kind == 'hours'">horas</span>
+                  <span ng-if="field.kind == 'seconds'">segundos</span>
+                  <span ng-if="field.kind == 'angle'">ângulo</span>
+
+                </p>
+
+                <div class="cleafix"></div>
+            </div>
           </div>
-
-          <hr />
         </div>
 
-        <div class="roundedMap" map-show-item></div>
+        <div class="rounder_wrapper">
+          <div class="wrapper_title"><h1>Mapa</h1></div>
+
+          <div class="fields">
+            <div class="roundedMap" map-show-item></div>
+          </div>
+        </div>
 
         <hr />
 

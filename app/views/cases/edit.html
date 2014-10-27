@@ -86,15 +86,15 @@
        </ul>-->
 
         <script type="text/ng-template" id="tree_item_renderer.html">
-          {{ step.title }}
+          <a href="" ng-click="showStep()">{{ stepInfos.step.title }}</a>
 
-          <ul ng-show="step.child_flow !== null">
-            <li ng-repeat="step in step.child_flow.steps" ng-include="'tree_item_renderer.html'"></li>
+          <ul ng-show="stepInfos.steps.length !== 0">
+            <li ng-repeat="stepInfos in stepInfos.steps" ng-include="'tree_item_renderer.html'"></li>
           </ul>
         </script>
 
         <ul class="select-tree">
-          <li ng-repeat="step in case.next_steps" ng-include="'tree_item_renderer.html'"></li>
+          <li ng-repeat="stepInfos in case.steps" ng-include="'tree_item_renderer.html'"></li>
         </ul>
 
      </div>

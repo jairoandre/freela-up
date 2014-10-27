@@ -14,7 +14,7 @@ angular.module('zupPainelApp')
   }
 
   $scope.unsavedCategory = false;
-  $scope.currentTab = 'fields';
+  $scope.currentTab = 'triggers';
 
   $scope.availableInputs = [
     {kind: 'text', name: 'Campo de texto', multipleOptions: false},

@@ -6,6 +6,40 @@ angular.module('zupPainelApp')
 .factory('AdvancedFilters', function ($modal, Restangular, $q, $location) {
   return {
     // advanced filter by category
+    query: function (activeAdvancedFilters) {
+      $modal.open({
+        templateUrl: 'views/filters/query.html',
+        windowClass: 'filterQueryModal',
+        resolve: {
+          activeAdvancedFilters: function() {
+            return activeAdvancedFilters;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'activeAdvancedFilters', function($scope, $modalInstance, activeAdvancedFilters) {
+
+          $scope.input = {};
+
+          $scope.save = function() {
+            var filter = {
+              title: 'Título ou endereço',
+              desc: $scope.input.query,
+              type: 'query',
+              value: $scope.input.query
+            };
+
+            activeAdvancedFilters.push(filter);
+
+            $modalInstance.close();
+          };
+
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    },
+
+    // advanced filter by category
     category: function (categories, activeAdvancedFilters) {
       $modal.open({
         templateUrl: 'views/filters/category.html',
@@ -62,11 +96,15 @@ angular.module('zupPainelApp')
     },
 
     // advanced filter by status
-    status: function(statuses, activeAdvancedFilters) {
+    status: function(categories, statuses, activeAdvancedFilters) {
       $modal.open({
         templateUrl: 'views/filters/status.html',
         windowClass: 'filterStatusesModal',
         resolve: {
+          categories: function() {
+            return categories;
+          },
+
           statuses: function() {
             return statuses;
           },
@@ -75,36 +113,43 @@ angular.module('zupPainelApp')
             return activeAdvancedFilters;
           }
         },
-        controller: ['$scope', '$modalInstance', 'statuses', 'activeAdvancedFilters', function($scope, $modalInstance, statuses, activeAdvancedFilters) {
+        controller: ['$scope', '$modalInstance', 'categories', 'statuses', 'activeAdvancedFilters', function($scope, $modalInstance, categories, statuses, activeAdvancedFilters) {
+          $scope.categories = categories;
           $scope.statuses = statuses;
-          $scope.activeAdvancedFilters = activeAdvancedFilters;
 
           $scope.updateStatus = function(status) {
-            var i = $scope.statuses.indexOf(status);
-
-            if ($scope.statuses[i].selected === true)
+            if (typeof status.selected === 'undefined' || status.selected === false)
             {
-              $scope.statuses[i].selected = false;
+              status.selected = true;
             }
             else
             {
-              $scope.statuses[i].selected = true;
+              status.selected = false;
             }
           };
 
           $scope.save = function() {
-            for (var i = $scope.statuses.length - 1; i >= 0; i--) {
-              if ($scope.statuses[i].selected === true)
-              {
-                var filter = {
-                  title: 'Estado',
-                  type: 'statuses',
-                  desc: $scope.statuses[i].title,
-                  value: $scope.statuses[i].id
-                };
+            var statuses = {};
 
-                $scope.activeAdvancedFilters.push(filter);
-              }
+            for (var i = $scope.categories.length - 1; i >= 0; i--) {
+              for (var j = $scope.categories[i].statuses.length - 1; j >= 0; j--) {
+                if ($scope.categories[i].statuses[j].selected === true)
+                {
+                  statuses[$scope.categories[i].statuses[j].id] = $scope.categories[i].statuses[j];
+                }
+              };
+            }
+
+            for (var x in statuses)
+            {
+              var filter = {
+                title: 'Estado',
+                type: 'statuses',
+                desc: statuses[x].title,
+                value: statuses[x].id
+              };
+
+              activeAdvancedFilters.push(filter);
             }
 
             $modalInstance.close();

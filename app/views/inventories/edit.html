@@ -34,7 +34,7 @@
   <div class="tabs">
     <a href="" ng-click="currentTab = 'fields'" ng-class="{'active': currentTab == 'fields'}">Campos</a>
     <a href="" ng-click="currentTab = 'statuses'" ng-class="{'active': currentTab == 'statuses'}">Estados</a>
-    <a href="" ng-click="currentTab = 'formulas'" ng-class="{'active': currentTab == 'formulas'}">Fórmulas</a>
+    <a href="" ng-click="currentTab = 'triggers'" ng-class="{'active': currentTab == 'triggers'}">Fórmulas</a>
     <a href="" ng-click="currentTab = 'configs'" ng-class="{'active': currentTab == 'configs'}">Configurações</a>
   </div>
 
@@ -395,5 +395,140 @@
         </td>
       </tr>
     </table>
+  </div>
+
+  <div class="big_content pages-animation edit-triggers" ng-hide="currentTab !== 'triggers'">
+    <div class="edit-triggers-header clearfix">
+      <p>{{ triggers.length }} gatilhos criados</p>
+      <a href="" ng-click="newTrigger()" class="btn btn-info btn-custom">+ Novo gatilho</a>
+    </div>
+
+    <ul>
+      <li ng-repeat="trigger in triggers" inventory-trigger>
+        <div class="saving" ng-show="processingForm"></div>
+
+        <div class="list-triggers-item" ng-class="{'active': editing == true}">
+          <div class="item-content">
+            <p class="name" ng-hide="editing">{{ trigger.title }}</p>
+            <input class="edit-trigger-title form-control" ng-show="editing" ng-model="trigger.title" placeholder="Título do gatilho" />
+
+            <div class="actions">
+              <a href="" ng-click="removeTrigger()"><span class="glyphicon glyphicon-trash"></span></a>
+
+              <a href="" class="middle-link" ng-click=""><span class="glyphicon glyphicon-resize-vertical"></span></a>
+
+              <a href="" class="right-link" ng-click="editing = false" ng-show="editing"><span class="arrow_icon"></span></a>
+
+               <a href="" class="right-link" ng-click="editing = true" ng-hide="editing"><span class="arrow_icon"></span></a>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+          <table class="item-table" ng-show="editing">
+            <thead ng-hide="trigger.trigger_conditions.length == 0">
+              <tr>
+                <td width="35%">Campo</td>
+                <td width="25%">Condição</td>
+                <td width="35%">Campo</td>
+                <td width="5%"></td>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="condition in trigger.trigger_conditions">
+                <td>
+                  <label class="select-trigger">
+                    <select class="form-control" ng-model="condition.field.id" ng-options="field.id as field.title for field in fields"></select>
+                  </label>
+                </td>
+
+                <td>
+                  <label class="select-trigger">
+                    <select class="form-control" ng-model="condition.condition_type" ng-options="type.id as type.name for type in types"></select>
+                  </label>
+                </td>
+
+                <td>
+                  <input type="text" class="form-control" ng-model="condition.values[0]">
+                </td>
+
+                <td class="remove-condition">
+                  <button type="button" class="remove" ng-click="removeCondition(condition)">x</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="4" class="new-condition">
+                  <a href="" ng-click="newCondition()" class="btn btn-info btn-custom">+ Nova condição</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="item-conditions" ng-show="editing">
+            <h3>Caso as condições sejam verdadeiras</h3>
+            <form>
+              <div class="form-group clearfix">
+                <div class="item-conditions-content content-first">
+                  <label for="">Selecione uma ação</label>
+
+                  <label class="select-trigger">
+                    <select class="form-control" ng-model="trigger.action_type" ng-options="type.action as type.name for type in action_types"></select>
+                  </label>
+                </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'disable_steps'">
+                  <label for="">Desativar as etapa(s)</label>
+
+                  <div class="clearfix"></div>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
+                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    </select>
+                </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'enable_steps'">
+                  <label for="">Ativar as etapa(s)</label>
+
+                  <div class="clearfix"></div>
+                    <select class="multiple-select" ui-select2 ng-model="trigger.action_values" data-placeholder="Digite uma etapa" multiple>
+                      <option ng-repeat="step in flow.steps" value="{{ step.id }}">{{ step.title }}</option>
+                    </select>
+                </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'finish_flow'">
+                  <label for="">Finalizar o caso com o estado</label>
+
+                  <label class="select-trigger">
+                    <select class="form-control" ng-model="trigger.action_values[0]" ng-options="state.id as state.title for state in flow.resolution_states"></select>
+                  </label>
+                </div>
+
+                <div class="item-conditions-content" ng-show="trigger.action_type == 'transfer_flow'">
+                  <label for="">Transferir para o fluxo</label>
+
+                  <label class="select-trigger">
+                    <select class="form-control" ng-model="trigger.action_values[0]" ng-options="flow.id as flow.title for flow in flows"></select>
+                  </label>
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <label for="">Descrição</label>
+
+                <textarea class="form-control" rows="4" placeholder="Caso finalizado devido a impossibilidade técnica" ng-model="trigger.description"></textarea>
+              </div>
+
+              <div class="save-trigger">
+                <button href="" ng-click="saveTrigger()" class="btn btn-info btn-custom">Salvar gatilho</button>
+              </div>
+
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>

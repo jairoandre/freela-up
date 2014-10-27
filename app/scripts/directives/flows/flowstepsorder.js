@@ -10,10 +10,10 @@ angular.module('zupPainelApp')
         scope.updateFieldsOrder = function() {
           var ids = [], cancel = false;
 
-          for (var i = scope.fields.length - 1; i >= 0; i--) {
-            if (typeof scope.fields[i].id !== 'undefined')
+          for (var i = scope.flow.steps.length - 1; i >= 0; i--) {
+            if (typeof scope.flow.steps[i].id !== 'undefined')
             {
-              ids[scope.fields[i].position] = scope.fields[i].id;
+              ids[scope.flow.steps[i].position] = scope.flow.steps[i].id;
             }
           };
 
@@ -27,13 +27,16 @@ angular.module('zupPainelApp')
 
           if (!cancel)
           {
-            Restangular.one('flows', scope.flow.id).one('steps', scope.step.id).all('fields').customPUT({ids: ids});
+            Restangular.one('flows', scope.flow.id).all('steps').customPUT({ids: ids});
           }
         };
 
         var updateInputsPosition = function(stop) {
-          element.find('.input').each(function() {
-            $(this).scope().field.position = $(this).index();
+          element.find('tbody').each(function() {
+            if (typeof $(this).scope().step !== 'undefined')
+            {
+              $(this).scope().step.position = $(this).index();
+            }
           });
 
           scope.$apply();
@@ -61,12 +64,12 @@ angular.module('zupPainelApp')
           start: function(event, ui) {
             $(ui.helper).addClass('helper');
 
-            //updateInputsPosition();
+            updateInputsPosition();
           },
           stop: function(event, ui) {
             $(ui.item).removeClass('helper');
 
-            //updateInputsPosition(true);
+            updateInputsPosition(true);
           }
         });
       }
