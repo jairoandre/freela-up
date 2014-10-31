@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
-    <!-- build:css styles/vendor.css -->
+    <!-- build:css assets/styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-switch/build/css/bootstrap3/bootstrap-switch.css" />
@@ -19,9 +19,10 @@
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css({.tmp,app}) styles/main.css -->
+    <!-- build:css({.tmp,app}) assets/styles/main.css -->
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.css" />
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="assets/styles/animate.css">
+    <link rel="stylesheet" href="assets/styles/main.css">
     <!-- endbuild -->
   </head>
   <body ng-app="zupPainelApp" detect-scroll-top>
@@ -30,15 +31,16 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-view="" class="ng-main-view" ng-hide="isLoading"></div>
-    <div ng-show='isLoading'>Carregando...</div>
+    <div ui-view class="pages-animation"></div>
+
+    <div class="resolvingRoute" ng-show="resolvingRoute"></div>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- build:js scripts/vendor.js -->
+    <!-- build:js assets/scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -64,6 +66,7 @@
     <script src="bower_components/ui-autocomplete/autocomplete.js"></script>
     <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
     <!-- endbuild -->
@@ -79,97 +82,65 @@
 
     <script src="https://apis.google.com/js/client.js?onload=load"></script>
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
+    <!-- build:js({.tmp,app}) assets/scripts/scripts.js -->
+    <script src="main.js"></script>
 
-    <script src="scripts/controllers/main.js"></script>
+    <script src="config/main.config.js"></script>
 
-    <script src="scripts/controllers/groups/groups.js"></script>
-    <script src="scripts/controllers/groups/view.js"></script>
-    <script src="scripts/controllers/groups/edit.js"></script>
+    <script src="services/auth/auth.js"></script>
+    <script src="services/user/user.js"></script>
+    <script src="services/advanced-filters/advanced-filters.js"></script>
+    <script src="services/full-response-restangular/full-response-restangular.js"></script>
 
-    <script src="scripts/controllers/users/users.js"></script>
-    <script src="scripts/controllers/users/view.js"></script>
-    <script src="scripts/controllers/users/edit.js"></script>
+    <script src="routes/user/user.route.js"></script>
+    <script src="routes/user/login/user-login.route.js"></script>
+    <script src="routes/user/login/user-login.controller.js"></script>
+    <script src="routes/user/logout/user-logout.route.js"></script>
+    <script src="routes/user/logout/user-logout.controller.js"></script>
 
-    <script src="scripts/controllers/reports/reports.js"></script>
-    <script src="scripts/controllers/reports/item.js"></script>
-    <script src="scripts/controllers/reports/itemedit.js"></script>
-    <script src="scripts/controllers/reports/categories.js"></script>
-    <script src="scripts/controllers/reports/categoriesedit.js"></script>
+    <script src="routes/index.route.js"></script>
+    <script src="routes/index.controller.js"></script>
 
-    <script src="scripts/controllers/inventories/inventories.js"></script>
-    <script src="scripts/controllers/inventories/categories.js"></script>
-    <script src="scripts/controllers/inventories/categoriesedit.js"></script>
-    <script src="scripts/controllers/inventories/categoriesselect.js"></script>
-    <script src="scripts/controllers/inventories/item.js"></script>
-    <script src="scripts/controllers/inventories/itemedit.js"></script>
+    <script src="routes/reports/reports.route.js"></script>
+    <script src="routes/reports/index/reports-index.route.js"></script>
+    <script src="routes/reports/index/reports-index.controller.js"></script>
+    <script src="routes/reports/index/map/reports-index-map.route.js"></script>
+    <script src="routes/reports/show/reports-show.route.js"></script>
+    <script src="routes/reports/show/reports-show.controller.js"></script>
+    <script src="routes/reports/edit/reports-edit.route.js"></script>
+    <script src="routes/reports/edit/reports-edit.controller.js"></script>
+    <script src="routes/reports/categories/index/reports-categories-index.route.js"></script>
+    <script src="routes/reports/categories/index/reports-categories-index.controller.js"></script>
+    <script src="routes/reports/categories/edit/reports-categories-edit.route.js"></script>
+    <script src="routes/reports/categories/edit/reports-categories-edit.controller.js"></script>
 
-    <script src="scripts/controllers/flows/flows.js"></script>
-    <script src="scripts/controllers/flows/view.js"></script>
-    <script src="scripts/controllers/flows/steps.js"></script>
+    <script src="components/nav-item/nav-item.directive.js"></script>
+    <script src="components/map/map.directive.js"></script>
+    <script src="components/style-map/style-map.directive.js"></script>
+    <script src="components/style-results-table/style-results-table.directive.js"></script>
+    <script src="components/on-blur/on-blur.directive.js"></script>
+    <script src="components/on-focus/on-focus.directive.js"></script>
+    <script src="components/focus-on-event/focus-on-event.directive.js"></script>
+    <script src="components/add-area-circle-form/add-area-circle-form.directive.js"></script>
+    <script src="components/area-map/area-map.directive.js"></script>
+    <script src="components/fields-filter-item/fields-filter-item.directive.js"></script>
 
-    <script src="scripts/controllers/tags/tags.js"></script>
+    <script src="modals/reports/destroy/reports-destroy.controller.js"></script>
+    <script src="modals/reports/edit-status/reports-edit-status.controller.js"></script>
 
-    <script src="scripts/controllers/cases/cases.js"></script>
-    <script src="scripts/controllers/cases/edit.js"></script>
+    <script src="modals/advanced-filters/area/advanced-filters-area.controller.js"></script>
+    <script src="modals/advanced-filters/author/advanced-filters-author.controller.js"></script>
+    <script src="modals/advanced-filters/category/advanced-filters-category.controller.js"></script>
+    <script src="modals/advanced-filters/fields/advanced-filters-fields.controller.js"></script>
+    <script src="modals/advanced-filters/period/advanced-filters-period.controller.js"></script>
+    <script src="modals/advanced-filters/query/advanced-filters-query.controller.js"></script>
+    <script src="modals/advanced-filters/share/advanced-filters-share.controller.js"></script>
+    <script src="modals/advanced-filters/status/advanced-filters-status.controller.js"></script>
 
-    <script src="scripts/services/user.js"></script>
-    <script src="scripts/services/auth.js"></script>
-    <script src="scripts/services/error.js"></script>
-    <script src="scripts/services/groups.js"></script>
-    <script src="scripts/services/users.js"></script>
-    <script src="scripts/services/reports.js"></script>
-    <script src="scripts/services/inventories.js"></script>
-    <script src="scripts/services/advancedfilters.js"></script>
+    <script src="helpers/format-errors/format-errors.filter.js"></script>
+    <script src="helpers/replace-dot-with-comma/replace-dot-with-comma.filter.js"></script>
+    <script src="helpers/translate-errors/translate-errors.filter.js"></script>
 
-    <script src="scripts/filters/formaterrors.js"></script>
-    <script src="scripts/filters/translateerrors.js"></script>
-    <script src="scripts/filters/replacedotwithcomma.js"></script>
-
-    <script src="scripts/directives/keyboardposter.js"></script>
-    <script src="scripts/directives/genericinput.js"></script>
-    <script src="scripts/directives/ngthumb.js"></script>
-    <script src="scripts/directives/map.js"></script>
-    <script src="scripts/directives/navitem.js"></script>
-    <script src="scripts/directives/detectscrolltop.js"></script>
-    <script src="scripts/directives/gallery.js"></script>
-    <script src="scripts/directives/onfocus.js"></script>
-    <script src="scripts/directives/onblur.js"></script>
-    <script src="scripts/directives/styleresultstable.js"></script>
-    <script src="scripts/directives/inputssidebar.js"></script>
-    <script src="scripts/directives/copytext.js"></script>
-    <script src="scripts/directives/stylemap.js"></script>
-    <script src="scripts/directives/focusonevent.js"></script>
-
-    <script src="scripts/directives/inventories/inventorypopover.js"></script>
-    <script src="scripts/directives/inventories/inventorypopoverlink.js"></script>
-    <script src="scripts/directives/inventories/editlabel.js"></script>
-    <script src="scripts/directives/inventories/inventorycreatevalue.js"></script>
-    <script src="scripts/directives/inventories/mapshowitem.js"></script>
-    <script src="scripts/directives/inventories/searchlatlngmap.js"></script>
-    <script src="scripts/directives/inventories/draggableinput.js"></script>
-    <script src="scripts/directives/inventories/droppableinputsarea.js"></script>
-    <script src="scripts/directives/inventories/selectlatlngmap.js"></script>
-    <script src="scripts/directives/inventories/sortablesections.js"></script>
-    <script src="scripts/directives/inventories/inventorytrigger.js"></script>
-
-    <script src="scripts/directives/reports/reportstatus.js"></script>
-    <script src="scripts/directives/reports/mapnewreport.js"></script>
-    <script src="scripts/directives/reports/mapshowreport.js"></script>
-    <script src="scripts/directives/reports/searchreportmap.js"></script>
-
-    <script src="scripts/directives/filters/addareacircleform.js"></script>
-    <script src="scripts/directives/filters/areamap.js"></script>
-    <script src="scripts/directives/filters/fieldsfilteritem.js"></script>
-
-    <script src="scripts/directives/flows/flowresolutionstate.js"></script>
-    <script src="scripts/directives/flows/flowdroppableinputsarea.js"></script>
-    <script src="scripts/directives/flows/flowstepfield.js"></script>
-    <script src="scripts/directives/flows/flowcreatevalue.js"></script>
-    <script src="scripts/directives/flows/flowsinglevalue.js"></script>
-    <script src="scripts/directives/flows/flowtrigger.js"></script>
-    <script src="scripts/directives/flows/flowstepsorder.js"></script>
     <!-- endbuild -->
 </body>
 </html>
