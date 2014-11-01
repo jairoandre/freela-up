@@ -28,4 +28,5 @@ angular
     'IndexModule',
     'UserModule',
     'ReportsModule',
+    'ItemsModule'
   ]);
