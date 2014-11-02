@@ -12,10 +12,10 @@ angular
     $q.all([itemPromise, categoryPromise]).then(function(responses) {
       $scope.item = responses[0].data;
 
-      for (var i = responses[1].length - 1; i >= 0; i--) {
-        if (responses[1][i].id === $scope.item.inventory_status_id)
+      for (var i = responses[1].data.length - 1; i >= 0; i--) {
+        if (responses[1].data[i].id === $scope.item.inventory_category_id)
         {
-          $scope.category = responses[1][i];
+          $scope.category = responses[1].data[i];
         }
       }
 
