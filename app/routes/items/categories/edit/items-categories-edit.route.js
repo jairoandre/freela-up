@@ -13,6 +13,15 @@ angular
           templateUrl: 'routes/items/categories/edit/items-categories-edit.template.html',
           controller: 'ItemsCategoriesEditController',
           controllerAs: 'ctrl',
+          resolve: {
+            'categoryResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+              return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
+            }],
+
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
+            }],
+          }
         }
       }
     }).state('items.categories.add', {
@@ -23,6 +32,15 @@ angular
           templateUrl: 'routes/items/categories/edit/items-categories-edit.template.html',
           controller: 'ItemsCategoriesEditController',
           controllerAs: 'ctrl',
+          resolve: {
+            'categoryResponse': function() {
+              return false;
+            },
+
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
+            }],
+          }
         }
       }
     });

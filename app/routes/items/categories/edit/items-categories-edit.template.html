@@ -1,11 +1,7 @@
 <div class="loadingRequest" ng-show="processingForm"><img src="assets/images/loading.gif" /></div>
 <div class="blockContent" ng-show="processingForm"></div>
 
-<div id="full_page" ng-show="loading">
-  <div class="loading"></div>
-</div>
-
-<div id="full_page" ng-hide="loading">
+<div id="full_page">
   <div class="header">
     <a href="" ng-click="goBack()" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
@@ -41,7 +37,7 @@
   <div class="big_content" class="pages-animation" ng-hide="currentTab !== 'fields'">
     <div class="left_column">
 
-      <div sortable-sections class="sortableSections">
+      <div inventory-sortable-sections class="sortableSections">
         <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy">
           <div class="top_part">
             <div class="type">
@@ -142,12 +138,12 @@
 
           <div class="middle">
             <!-- text field -->
-            <div droppable-inputs-area class="droppableInputsArea">
+            <div inventory-droppable-inputs-area class="droppableInputsArea">
               <div class="empty_section" ng-show="section.fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta seção</p></div>
 
               <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
                 <div class="type">
-                  <div edit-label>
+                  <div inventory-edit-label>
                     <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editLabel()">
                       <span ng-show="field.label !== null">{{ field.label }}</span>
                       <span ng-show="field.label == null">{{ field.title }}</span>
@@ -369,7 +365,7 @@
         </div>
 
         <div class="list">
-          <div class="item" ng-repeat="input in availableInputs | filter: searchInputs" name="{{ input.kind }}" draggable-input><p>{{ input.name }}</p></div>
+          <div class="item" ng-repeat="input in availableInputs | filter: searchInputs" name="{{ input.kind }}" inventory-draggable-input><p>{{ input.name }}</p></div>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ angular
   .module('ItemsEditControllerModule', [
     'ItemsRestoreModalControllerModule',
     'ItemsSelectAddressModalControllerModule',
+    'NgThumbComponentModule',
     'TranslateErrorsHelperModule'
   ])
 

@@ -1,47 +1,27 @@
 'use strict';
 
 angular
-  .module('ItemsCategoriesIndexControllerModule', [])
+  .module('ItemsCategoriesIndexControllerModule', [
+    'ItemsCategoriesDestroyModalControllerModule'
+  ])
 
-  .controller('ItemsCategoriesIndexController', function ($scope, Restangular, $modal) {
-    $scope.loading = true;
-
-    var categoriesPromise = Restangular.one('inventory').all('categories').getList();
-
-    categoriesPromise.then(function(response) {
-      $scope.categories = response.data;
-
-      $scope.loading = false;
-    });
+  .controller('ItemsCategoriesIndexController', function ($scope, categoriesResponse, $modal) {
+    $scope.categories = categoriesResponse.data;
 
     $scope.deleteCategory = function (category) {
       $modal.open({
-        templateUrl: 'views/inventories/removeCategory.html',
+        templateUrl: 'modals/items/categories/destroy/items-categories-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          inventoriesCategoriesList: function(){
+          inventoriesCategoriesList: function() {
             return $scope.categories;
+          },
+
+          category: function() {
+            return category;
           }
         },
-        controller: ['$scope', '$modalInstance', 'inventoriesCategoriesList', function($scope, $modalInstance, inventoriesCategoriesList) {
-          $scope.category = category;
-
-          // delete user from server
-          $scope.confirm = function() {
-            var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).remove();
-
-            deletePromise.then(function() {
-              $modalInstance.close();
-
-              // remove user from list
-              inventoriesCategoriesList.splice(inventoriesCategoriesList.indexOf($scope.category), 1);
-            });
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsCategoriesDestroyModalController'
       });
     };
   });

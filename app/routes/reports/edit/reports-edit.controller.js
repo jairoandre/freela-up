@@ -1,7 +1,10 @@
 'use strict';
 
 angular
-  .module('ReportsEditControllerModule', [])
+  .module('ReportsEditControllerModule', [
+    'NgThumbComponentModule'
+  ])
+
   .controller('ReportsEditController', function ($scope, Restangular, $q, $modal, FileUploader) {
     $scope.uploader = new FileUploader();
 

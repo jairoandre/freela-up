@@ -3,6 +3,7 @@
 angular
   .module('ReportsCategoriesEditControllerModule', [
     'FormatErrorsHelperModule',
+    'NgThumbComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 

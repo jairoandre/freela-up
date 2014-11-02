@@ -1,17 +1,30 @@
 'use strict';
 
 angular.
-  module('ItemsCategoriesEditControllerModule', [])
+  module('ItemsCategoriesEditControllerModule', [
+    'ItemsCategoriesEditOptionsModalControllerModule',
+    'ItemsCategoriesEditFieldValuesModalControllerModule',
+    'InventorySortableSectionsComponentModule',
+    'InventoryPopoverComponentModule',
+    'InventoryPopoverLinkComponentModule',
+    'InventoryDroppableInputsAreaComponentModule',
+    'InventoryEditLabelComponentModule',
+    'InputsSidebarComponentModule',
+    'InventoryDraggableInputComponentModule'
+  ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, Restangular, $q, $modal, $window, $state, FileUploader) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader) {
     var updating = $scope.updating = false;
 
-    var categoryId = $stateParams.id;
-
-    if (typeof categoryId !== 'undefined')
+    if (categoryResponse)
     {
       updating = true;
       $scope.updating = true;
+
+      $scope.groups = groupsResponse.data;
+      $scope.category = categoryResponse.data;
+
+      var categoryId = $scope.category.id;
     }
 
     $scope.unsavedCategory = false;
@@ -53,42 +66,20 @@ angular.
       return false;
     };
 
-    $scope.loading = true;
-
-    $scope.category = {};
-
     if (updating)
     {
-      var categoryPromise = Restangular.one('inventory').one('categories', categoryId).get({display_type: 'full'}); // jshint ignore:line
-      var groupsPromise = Restangular.all('groups').getList();
-
-      $q.all([groupsPromise, categoryPromise]).then(function(responses) {
-        $scope.groups = responses[0].data;
-        $scope.category = responses[1].data;
-
-        if ($scope.category.plot_format === 'pin') // jshint ignore:line
-        {
-          $scope.category.plot_format = false; // jshint ignore:line
-        }
-        else
-        {
-          $scope.category.plot_format = true; // jshint ignore:line
-        }
-
-        // watch for modifications in $scope.category
-        $scope.$watch('category', function(newValue, oldValue) {
-          if (newValue !== oldValue)
-          {
-            $scope.unsavedCategory = true;
-          }
-        }, true);
-
-        $scope.loading = false;
-      });
+      if ($scope.category.plot_format === 'pin') // jshint ignore:line
+      {
+        $scope.category.plot_format = false; // jshint ignore:line
+      }
+      else
+      {
+        $scope.category.plot_format = true; // jshint ignore:line
+      }
     }
     else
     {
-      $scope.loading = false;
+      $scope.category = {};
 
       // added fake fields
       $scope.category.title = 'Nova categoria sem título';
@@ -223,61 +214,26 @@ angular.
             }
           ]
         }];
-
-      // watch for modifications in $scope.category
-      $scope.$watch('category', function(newValue, oldValue) {
-        if (newValue !== oldValue)
-        {
-          $scope.unsavedCategory = true;
-        }
-      }, true);
     }
+
+    // watch for modifications in $scope.category
+    $scope.$watch('category', function(newValue, oldValue) {
+      if (newValue !== oldValue)
+      {
+        $scope.unsavedCategory = true;
+      }
+    }, true);
 
     $scope.editFieldOptions = function(field) {
       $modal.open({
-        templateUrl: 'views/inventories/editFieldOptions.html',
+        templateUrl: 'modals/items/categories/edit-field-values/items-categories-edit-field-values.template.html',
         windowClass: 'editFieldOptions',
-        controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
-          $scope.field = field;
-
-          $scope.value = {importing: false};
-
-          $scope.toggleImport = function() {
-            if ($scope.value.importing === true)
-            {
-              $scope.value.importing = false;
-            }
-            else
-            {
-              $scope.value.importing = true;
-            }
-          };
-
-          $scope.newValue = function() {
-            if ($scope.value.importing === true)
-            {
-              var newValues = $scope.value.multipleOptionsText.split(/\n/);
-
-              field.available_values = field.available_values.concat(newValues);
-
-              $scope.value.multipleOptionsText = null;
-            }
-            else
-            {
-              field.available_values.push($scope.value.text);
-            }
-
-            $scope.value.text = null;
-          };
-
-          $scope.clear = function() {
-            field.available_values = [];
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsCategoriesEditFieldValuesModalController',
+        resolve: {
+          field: function() {
+            return field;
+          }
+        }
       });
     };
 
@@ -425,7 +381,7 @@ angular.
 
     $scope.editCategoryOptions = function () {
       $modal.open({
-        templateUrl: 'views/inventories/editCategoryOptions.html',
+        templateUrl: 'modals/items/categories/edit-options/items-categories-edit-options.template.html',
         windowClass: 'editCategory',
         resolve: {
           category: function() {
@@ -436,35 +392,7 @@ angular.
             return $scope.uploaderQueue;
           }
         },
-        controller: ['$scope', '$modalInstance', 'category', 'uploaderQueue', function($scope, $modalInstance, category, uploaderQueue) {
-          $scope.category = category;
-          $scope.uploaderQueue = uploaderQueue;
-
-          $scope.icon = category.original_icon; // jshint ignore:line
-
-          // Image uploader
-          var uploader = $scope.uploader = new FileUploader();
-
-          // Images only
-          uploader.filters.push({
-            name: 'onlyImages',
-            fn: function(item, options) {
-              var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-              type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-              return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-            }
-          });
-
-          uploader.onAfterAddingFile = function() {
-            $scope.$apply(function() {
-              $scope.uploaderQueue.items = uploader.queue;
-            });
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsCategoriesEditOptionsModalController'
       });
     };
 
@@ -564,8 +492,6 @@ angular.
               }
             }
 
-            console.log(updateFieldsIds);
-
             // now we update our array of fields with the new ids
             for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
               var section = $scope.category.sections[x];
@@ -583,7 +509,7 @@ angular.
             var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
 
             putCategoryFormsPromise.then(function() {
-              $state.go('/inventories/categories/' + newCategory.id + '/edit');
+              $state.go('items.categories.edit', {id: newCategory.id});
             });
           });
         }
