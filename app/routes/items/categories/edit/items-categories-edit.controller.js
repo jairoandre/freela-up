@@ -4,6 +4,9 @@ angular.
   module('ItemsCategoriesEditControllerModule', [
     'ItemsCategoriesEditOptionsModalControllerModule',
     'ItemsCategoriesEditFieldValuesModalControllerModule',
+    'ItemsCategoriesNewStatusModalControllerModule',
+    'ItemsCategoriesEditStatusModalControllerModule',
+
     'InventorySortableSectionsComponentModule',
     'InventoryPopoverComponentModule',
     'InventoryPopoverLinkComponentModule',
@@ -280,80 +283,44 @@ angular.
     // we add a new status and open the edit modal
     $scope.newStatus = function() {
       $modal.open({
-        templateUrl: 'views/inventories/editStatus.html',
+        templateUrl: 'modals/items/categories/new-status/items-categories-new-status.template.html',
         windowClass: 'editInventoryStatusesModal',
         resolve: {
           statuses: function() {
             return $scope.category.statuses;
+          },
+
+          updating: function() {
+            return updating;
+          },
+
+          categoryId: function() {
+            return categoryId;
           }
         },
-        controller: ['$scope', '$modalInstance', 'statuses', function($scope, $modalInstance, statuses) {
-          $scope.status = {color: '#2FB4E6'};
-
-          $scope.save = function() {
-            if (updating)
-            {
-              var newStatusPromise = Restangular.one('inventory').one('categories', categoryId).post('statuses', {title: $scope.status.title, color: $scope.status.color});
-
-              newStatusPromise.then(function(response) {
-                statuses.push(Restangular.stripRestangular(response.data));
-
-                $modalInstance.close();
-              });
-            }
-            else
-            {
-              statuses.push({title: $scope.status.title, color: $scope.status.color});
-
-              $modalInstance.close();
-            }
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsCategoriesNewStatusModalController'
       });
     };
 
     // modal for editing and adding a new status
     $scope.editStatus = function (status) {
       $modal.open({
-        templateUrl: 'views/inventories/editStatus.html',
+        templateUrl: 'modals/items/categories/edit-status/items-categories-edit-status.template.html',
         windowClass: 'editInventoryStatusesModal',
         resolve: {
           status: function() {
             return status;
+          },
+
+          updating: function() {
+            return updating;
+          },
+
+          categoryId: function() {
+            return categoryId;
           }
         },
-        controller: ['$scope', '$modalInstance', 'status', function($scope, $modalInstance, status) {
-          $scope.status = angular.copy(status);
-
-          $scope.save = function() {
-            if (updating)
-            {
-              var updateStatusPromise = Restangular.one('inventory').one('categories', categoryId).one('statuses', status.id).customPUT($scope.status);
-
-              updateStatusPromise.then(function() {
-                status.title = $scope.status.title;
-                status.color = $scope.status.color;
-
-                $modalInstance.close();
-              });
-            }
-            else
-            {
-              status.title = $scope.status.title;
-              status.color = $scope.status.color;
-
-              $modalInstance.close();
-            }
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsCategoriesEditStatusModalController'
       });
     };
 
