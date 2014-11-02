@@ -8,7 +8,7 @@
     </ul>
 
     <a class="icon_action" href="" ng-click="deleteItem(item, category)"><span class="glyphicon glyphicon-trash"></span></a>
-    <a href="#/items/{{ item.id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
+    <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
   </div>
 
   <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">

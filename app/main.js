@@ -15,6 +15,7 @@ angular
     'angularFileUpload',
     'colorpicker.module',
     'frapontillo.bootstrap-switch',
+    'ngStorage',
 
     // Core services
     'AuthServiceModule',
