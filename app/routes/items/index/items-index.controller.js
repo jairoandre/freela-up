@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('ItemsIndexControllerModule', [])
+  .module('ItemsIndexControllerModule', [
+    'ItemsDestroyModalControllerModule'
+  ])
 
   .controller('ItemsIndexController', function ($scope, $modal, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies) {
     $scope.loading = true;
@@ -414,7 +416,7 @@ angular
 
     $scope.deleteItem = function (item, category) {
       $modal.open({
-        templateUrl: 'views/inventories/items/removeItem.html',
+        templateUrl: 'modals/items/destroy/items-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
           itemsList: function() {
@@ -429,27 +431,7 @@ angular
             return category;
           }
         },
-        controller: ['$scope', '$modalInstance', 'itemsList', 'item', 'category', function($scope, $modalInstance, itemsList, item, category) {
-          $scope.item = item;
-          $scope.category = category;
-
-          // delete user from server
-          $scope.confirm = function() {
-            var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).one('items', $scope.item.id).remove();
-
-            deletePromise.then(function() {
-              $modalInstance.close();
-              $scope.showMessage('ok', 'O Inventário ' + $scope.item.title + ' foi removido com sucesso', 'success', true);
-
-              // remove user from list
-              itemsList.splice(itemsList.indexOf($scope.item), 1);
-            });
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsDestroyModalController'
       });
     };
 

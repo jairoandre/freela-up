@@ -55,4 +55,22 @@ angular
         $rootScope.resolvingRoute = false;
       }, 150);
     });
+
+    // FIXME let's put this in a directive, please, Mr. Gabriel? :-D
+    $rootScope.glyphicons = {
+      'exclamation-sign': 'glyphicon-exclamation-sign',
+      'ok': 'glyphicon-ok',
+    };
+
+    $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {
+      $rootScope.systemMessage = {icon: icon, text: text, messageClass: messageClass};
+      $rootScope.showSystemMessage = true;
+
+      $timeout(function() { $rootScope.showSystemMessage = false; }, 3500);
+
+      if (scrollTop === true)
+      {
+        $rootScope.scrollTop = true;
+      }
+    };
   }]);

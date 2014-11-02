@@ -1,26 +1,20 @@
 'use strict';
 
 angular
-  .module('ItemsShowControllerModule', [])
+  .module('ItemsShowControllerModule', [
+    'MapShowItemComponentModule',
+    'MapViewStreetviewComponentModule'
+  ])
 
-  .controller('ItemsShowController', function ($scope, Restangular, $stateParams, $q, $state, $modal) {
-    $scope.loading = true;
+  .controller('ItemsShowController', function ($scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse) {
+    $scope.item = itemResponse.data;
 
-    var itemPromise = Restangular.one('inventory').one('items', $stateParams.id).get();
-    var categoryPromise = Restangular.one('inventory').one('categories').get({display_type: 'full'}); // jshint ignore:line
-
-    $q.all([itemPromise, categoryPromise]).then(function(responses) {
-      $scope.item = responses[0].data;
-
-      for (var i = responses[1].data.length - 1; i >= 0; i--) {
-        if (responses[1].data[i].id === $scope.item.inventory_category_id)
-        {
-          $scope.category = responses[1].data[i];
-        }
+    for (var i = categoriesResponse.data.length - 1; i >= 0; i--) {
+      if (categoriesResponse.data[i].id === $scope.item.inventory_category_id)
+      {
+        $scope.category = categoriesResponse.data[i];
       }
-
-      $scope.loading = false;
-    });
+    }
 
     $scope.getDataByInventoryFieldId = function(id) {
       for (var i = $scope.item.data.length - 1; i >= 0; i--) {
@@ -73,9 +67,13 @@ angular
 
     $scope.deleteItem = function (item, category) {
       $modal.open({
-        templateUrl: 'views/inventories/items/removeItem.html',
+        templateUrl: 'modals/items/destroy/items-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
+          itemsList: function() {
+            return false;
+          },
+
           item: function() {
             return item;
           },
@@ -84,25 +82,7 @@ angular
             return category;
           }
         },
-        controller: ['$scope', '$modalInstance', 'item', 'category', function($scope, $modalInstance, item, category) {
-          $scope.item = item;
-          $scope.category = category;
-
-          // delete user from server
-          $scope.confirm = function() {
-            var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).one('items', $scope.item.id).remove();
-
-            deletePromise.then(function() {
-              $modalInstance.close();
-
-              $state.go('items.list');
-            });
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ItemsDestroyModalController'
       });
     };
   });
