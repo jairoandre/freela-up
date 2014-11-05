@@ -32,7 +32,7 @@
             <div ng-show="field.kind == 'images'">
               <p ng-hide="getDataByInventoryFieldId(field.id).length == 0"><gallery images="getDataByInventoryFieldId(field.id)"></gallery></p>
 
-              <p ng-show="getDataByInventoryFieldId(field.id).length == 0">Sem imagens.</p>
+              <p ng-show="getDataByInventoryFieldId(field.id).length == 0 || !getDataByInventoryFieldId(field.id)">Sem imagens.</p>
             </div>
 
             <p ng-hide="field.kind == 'images'">

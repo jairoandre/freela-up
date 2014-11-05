@@ -3,7 +3,8 @@
 angular
   .module('ItemsShowControllerModule', [
     'MapShowItemComponentModule',
-    'MapViewStreetviewComponentModule'
+    'MapViewStreetviewComponentModule',
+    'GalleryComponentModule'
   ])
 
   .controller('ItemsShowController', function ($scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse) {
