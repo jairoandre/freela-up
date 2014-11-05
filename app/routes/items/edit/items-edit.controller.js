@@ -8,7 +8,7 @@ angular
     'TranslateErrorsHelperModule'
   ])
 
-  .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, $localStorage, itemResponse, categoryResponse) {
+  .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, $localStorage, itemResponse, categoryResponse, $timeout) {
     var updating = $scope.updating = false;
 
     var categoryId = categoryResponse.data.id;
@@ -253,6 +253,20 @@ angular
           $scope.storage.updating[categoryId][itemId] = angular.copy(newValue);
         }
       }, true);
+
+      // we are updating an item, so every 45 seconds we make a new PATCH /inventory/categories/:category_id/items/:id/update_access to lock the item
+      var lockItem = function() {
+        Restangular.all('inventory').one('categories', categoryId).one('items', itemId).all('update_access').patch();
+
+        $timeout(function() {
+          lockItem();
+        }, 45000);
+      };
+
+      if (!$scope.item.locked)
+      {
+        lockItem();
+      }
     }
 
     $scope.openMapModal = function () {
