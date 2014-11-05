@@ -251,6 +251,7 @@ angular
           }
 
           total = parseInt(response.headers().total);
+          $scope.total = total;
 
           var lastPage = Math.ceil(total / perPage);
 

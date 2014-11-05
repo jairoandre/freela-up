@@ -324,6 +324,13 @@ p {
         }
       }
 
+      p.total {
+        float: right;
+        color: #909090;
+        text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.77);
+        margin: 17px 15px 0 0px;
+      }
+
       ul {
         float: left;
         list-style: none;
