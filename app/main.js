@@ -29,5 +29,6 @@ angular
     'IndexModule',
     'UserModule',
     'ReportsModule',
-    'ItemsModule'
+    'ItemsModule',
+    'ConfigModule'
   ]);
