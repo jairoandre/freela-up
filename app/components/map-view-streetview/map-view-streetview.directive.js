@@ -22,7 +22,8 @@ angular
         function computePano(panoData, status) {
           if (status != google.maps.StreetViewStatus.OK)
           {
-            scope.hide = true;
+            scope.$parent.hideStreetview = true;
+            scope.$apply();
 
             return;
           }
