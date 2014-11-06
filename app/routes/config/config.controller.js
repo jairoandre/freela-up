@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('ConfigControllerModule', [])
+  .module('ConfigControllerModule', [
+    'FeatureFlagComponentModule'
+  ])
   .controller('ConfigController', function($scope, flagsResponse) {
     var availableFlags = {
       'explore': {name: 'Explorar o mapa', desc: 'Permite visualizar os relatos publicados por outros usuário em um mapa. As informações pessoais destes usuários não são exibidas nos relatos.', mobileConfig: true},
@@ -28,6 +30,7 @@ angular
         flags[i].name = availableFlags[originalName].name; // translate name
         flags[i].desc = availableFlags[originalName].desc;
         flags[i].mobileConfig = availableFlags[originalName].mobileConfig;
+        flags[i].enabled = flags[i].status_name === 'disabled' ? false : true;
       }
     };
 

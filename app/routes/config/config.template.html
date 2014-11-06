@@ -23,12 +23,14 @@
             <p>As opções abaixo permite ativar ou desativar determinada funcionalidades diretamente nos aplicativos mobile e web.</p>
 
             <div class="config-list">
-              <div class="item" ng-repeat="flag in flags | filter: { mobileConfig: true }" feature-flag>
+              <div class="item" ng-repeat="flag in flags | filter: { mobileConfig: true } | orderBy: 'name'" feature-flag>
                   <h2>{{ flag.name }}</h2>
 
                   <p>{{ flag.desc }}</p>
 
-                  <input type="checkbox" bs-switch ng-model="flag">
+                  <input type="checkbox" bs-switch ng-model="flag.enabled">
+
+                  <img src="assets/images/loading.gif" class="saving" ng-show="loading">
 
                 <div class="clearfix"></div>
               </div>
@@ -40,12 +42,14 @@
             <p>As opções abaixo permite ativar ou desativar determinada funcionalidades no painel administrativo</p>
 
             <div class="config-list">
-              <div class="item" ng-repeat="flag in flags | filter: { mobileConfig: false }" feature-flag>
+              <div class="item" ng-repeat="flag in flags | filter: { mobileConfig: false } | orderBy: 'name'" feature-flag>
                 <h2>{{ flag.name }}</h2>
 
                 <p>{{ flag.desc }}</p>
 
-                <input type="checkbox" bs-switch ng-model="flag">
+                <input type="checkbox" bs-switch ng-model="flag.enabled">
+
+                <img src="assets/images/loading.gif" class="saving" ng-show="loading">
 
                 <div class="clearfix"></div>
               </div>
