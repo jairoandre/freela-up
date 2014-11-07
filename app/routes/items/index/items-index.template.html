@@ -49,8 +49,12 @@
     <thead>
       <tr>
         <td ng-click="changeSorting('title')"
-            ng-class="selectedCls('title')" width="60%" class="sort-table">
+            ng-class="selectedCls('title')" class="sort-table">
           <span>Nome</span><span class="arrow"></span>
+        </td>
+        <td ng-click="changeSorting('address')"
+            ng-class="selectedCls('address')" class="sort-table">
+          <span>Endereço</span><span class="arrow"></span>
         </td>
         <td ng-click="changeSorting('inventory_category_id')"
             ng-class="selectedCls('inventory_category_id')" class="sort-table">
@@ -66,6 +70,7 @@
 
     <tr ng-repeat="item in items | orderBy:sort.column:sort.descending">
       <td class="status_color"><span ng-repeat="status in getInventoryCategory(item.inventory_category_id).statuses" ng-style="{'background-color': status.color}" ng-show="status.id == item.inventory_status_id"></span><a href="#/items/{{ item.id }}">{{ item.title }}</a></td>
+      <td>{{ item.address }}</td>
       <td>{{ getInventoryCategory(item.inventory_category_id).title }}</td>
       <td>{{ item.created_at | date:'dd/MM/yy HH:mm'}}</td>
       <td class="actions">
