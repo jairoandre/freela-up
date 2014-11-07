@@ -255,7 +255,7 @@ angular
 
           var lastPage = Math.ceil(total / perPage);
 
-          if (page === (lastPage + 1))
+          if (page === (lastPage + 1) && paginate === true)
           {
             $scope.loadingPagination = null;
           }

@@ -12,7 +12,7 @@ angular
       views: {
         '@items': {
           templateUrl: 'routes/items/index/map/items-index-map.template.html',
-          controller: 'ReportsIndexController',
+          controller: 'ItemsIndexController',
           controllerAs: 'ctrl',
           resolve: {
             'categoriesResponse': ['Restangular', function(Restangular) {

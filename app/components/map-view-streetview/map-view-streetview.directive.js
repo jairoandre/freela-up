@@ -32,8 +32,8 @@ angular
 
           var panoOptions = {
             position: addLatLng,
-            addressControl: false,
-            linksControl: false,
+            addressControl: true,
+            linksControl: true,
             panControl: false,
             zoomControlOptions: {
               style: google.maps.ZoomControlStyle.SMALL
@@ -73,7 +73,38 @@ angular
           }
 
           return angle;
-        }
+        };
+
+        var addMarker = function(item, category) {
+          var LatLng = new google.maps.LatLng(item.position.latitude, item.position.longitude);
+
+          var iconSize, iconImg;
+
+          if (category.plot_format === "marker")
+          {
+            iconSize = new google.maps.Size(54, 51);
+            iconImg = category.marker.retina.web;
+          }
+          else
+          {
+            iconSize = new google.maps.Size(15, 15);
+            iconImg = category.pin.retina.web;
+          }
+
+          var categoryIcon = new google.maps.MarkerImage(iconImg, null, null, null, iconSize);
+
+          var pinOptions = {
+            position: LatLng,
+            map: panorama,
+            icon: categoryIcon,
+            category: category,
+            item: item
+          };
+
+          var pin = new google.maps.Marker(pinOptions);
+        };
+
+        addMarker(scope.$parent.item, scope.$parent.category);
 
       }
     };
