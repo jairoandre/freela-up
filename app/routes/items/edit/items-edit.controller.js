@@ -8,7 +8,7 @@ angular
     'TranslateErrorsHelperModule'
   ])
 
-  .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, $localStorage, itemResponse, categoryResponse, $timeout) {
+  .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, $localStorage, itemResponse, categoryResponse, $timeout, User) {
     var updating = $scope.updating = false;
 
     var categoryId = categoryResponse.data.id;
@@ -211,6 +211,11 @@ angular
     {
       $scope.item = itemResponse.data;
 
+      if ($scope.item.locked === true && ($scope.item.locker_id !== User.id))
+      {
+        $scope.locked = true;
+      }
+
       var getFieldById = function(id) {
         for (var i = $scope.item.data.length - 1; i >= 0; i--) {
 
@@ -263,7 +268,7 @@ angular
         }, 45000);
       };
 
-      if (!$scope.item.locked)
+      if (!$scope.item.locked || ($scope.item.locked === true && ($scope.item.locker_id == User.id)))
       {
         lockItem();
       }
