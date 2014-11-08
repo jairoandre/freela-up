@@ -7,7 +7,7 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $stateParams, Restangular, FileUploader, $q, $location, $modal) {
+  .controller('ReportsCategoriesEditController', function ($scope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -16,6 +16,9 @@ angular
       updating = true;
       $scope.updating = true;
     }
+
+    $scope.mainColors = ['#59B1DF', '#7DDCE2', '#64D2AF', '#5CB466', '#99C450', '#EACD31', '#F3AC2E', '#F18058', '#EF4D3E', '#E984FC', '#A37FE1', '#7A7AF2'];
+    $scope.alternativeColors = ['#4383A6', '#5CAFB5', '#4D9F88', '#3E7148', '#73943D', '#AC9827', '#B78226', '#C45C35', '#A23463', '#A938BE', '#7340C1', '#5051BB', '#28344E', '#465366', '#677B86', '#8195A0', '#A0B2BCv', '#B9CDD8'];
 
     // Start loading & get necessary requests
     $scope.loading = true;
@@ -96,6 +99,28 @@ angular
       };
     }
 
+    // Image uploader
+    var uploader = $scope.uploader = new FileUploader();
+
+    // Images only
+    uploader.filters.push({
+      name: 'onlyImages',
+      fn: function(item, options) {
+        var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+        type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+      }
+    });
+
+    $scope.pickColor = function(color) {
+      $scope.category.color = color;
+    };
+
+    $scope.pickIcon = function(icon) {
+      $scope.selectedIcon = icon;
+      uploader.queue = [];
+    };
+
     $scope.categoriesAutocomplete = {
       options: {
         source: function( request, uiResponse ) {
@@ -151,23 +176,10 @@ angular
       });
     };
 
-    // Image uploader
-    var uploader = $scope.uploader = new FileUploader();
-
-    // Images only
-    uploader.filters.push({
-      name: 'onlyImages',
-      fn: function(item, options) {
-        var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-        type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-      }
-    });
-
     $scope.send = function() {
       $scope.inputErrors = null;
       $scope.processingForm = true;
-      var icon, promises = [];
+      var promises = [];
 
       // Add images to queue for processing it's dataUrl
       function addAsync(file) {
@@ -178,8 +190,8 @@ angular
         picReader.addEventListener('load', function(event) {
           var picFile = event.target;
 
-          icon = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
-          deferred.resolve();
+          var icon = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
+          deferred.resolve(icon);
         });
 
         // pass as base64 and strip data:image
@@ -188,12 +200,49 @@ angular
         return deferred.promise;
       }
 
-      for (var i = uploader.queue.length - 1; i >= 0; i--) {
-        promises.push(addAsync(uploader.queue[i]._file));
+      // if our upload queue is empty and we have a selectedIcon, we shall get it's base64 contents
+      if (uploader.queue.length == 0 && $scope.selectedIcon)
+      {
+        var promise = (function() {
+          var deferred = $q.defer();
+
+          var canvas = $document[0].createElement('CANVAS');
+          var ctx = canvas.getContext('2d');
+          var img = new Image;
+
+          img.crossOrigin = 'Anonymous';
+
+          img.onload = function() {
+            canvas.height = img.height;
+            canvas.width = img.width;
+
+            ctx.drawImage(img, 0, 0);
+
+            var dataURL = canvas.toDataURL('image/png');
+
+            deferred.resolve(dataURL.replace(/^data:image\/[^;]+;base64,/, ''));
+
+            canvas = null;
+          };
+
+          img.src = 'assets/images/icons/' + $scope.selectedIcon + '.png';
+
+          return deferred.promise;
+        })();
+
+        promises.push(promise);
+      }
+      else
+      {
+        for (var i = uploader.queue.length - 1; i >= 0; i--) {
+          promises.push(addAsync(uploader.queue[i]._file));
+        }
       }
 
       // wait for images to process as base64
-      $q.all(promises).then(function() {
+      $q.all(promises).then(function(results) {
+        var icon = results[0];
+
         var editedCategory = angular.copy(category);
 
         // change category.statuses to acceptable format for the API
