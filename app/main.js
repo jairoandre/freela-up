@@ -11,6 +11,7 @@ angular
     'ui.bootstrap',
     'ui.autocomplete',
     'ui.select2',
+    'ui.mask',
     'infinite-scroll',
     'angularFileUpload',
     'colorpicker.module',
@@ -30,5 +31,6 @@ angular
     'UserModule',
     'ReportsModule',
     'ItemsModule',
-    'ConfigModule'
+    'ConfigModule',
+    'UsersModule'
   ]);
