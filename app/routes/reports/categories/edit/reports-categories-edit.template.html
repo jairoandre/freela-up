@@ -9,7 +9,7 @@
     </ul>
   </div>
 
-  <div class="content">
+  <div class="content bigPadding">
     <h3>Informações da categoria</h3>
 
     <div class="alert alert-danger fade-animation" ng-show="inputErrors">
@@ -18,7 +18,7 @@
 
     <form ng-submit="send()">
 
-      <div style="width: 80%">
+      <div style="width: 90%">
         <div class="form-group">
           <label for="form_name">Nome da categoria</label>
           <input type="text" class="form-control input-lg" id="form_name" ng-model="category.title" generic-input name="title">
@@ -43,7 +43,148 @@
           </select>-->
         </div>
 
-        <div class="form-group upload">
+        <div class="form-group">
+          <label>Ícone de categoria</label>
+
+          <div class="icons">
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A1.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A10.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A11.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A12.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A13.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A14.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A15.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A16.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A2.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A3.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A4.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A5.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A6.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A7.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A8.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_A9.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B1.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B10.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B2.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B3.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B4.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B5.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B6.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B7.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B8.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_B9.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C1.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C2.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C3.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C4.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C5.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C6.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C7.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C8.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_C9.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D1.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D10.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D11.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D2.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D3.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D4.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D5.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D6.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D7.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D8.png" /></a>
+            <a href="" ng-click=""><img src="assets/images/icons/icon_D9.png" /></a>
+
+            <a href="" class="no-animation" ng-click="showMoreIcons = true" ng-show="!showMoreIcons"><p>Ver mais</p></a>
+
+            <span ng-if="showMoreIcons">
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E1.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E2.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E3.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E4.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E5.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E6.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_E7.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_F1.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_F2.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_F3.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_F4.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_F5.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G1.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G10.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G11.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G12.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G2.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G3.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G4.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G5.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G6.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G7.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G8.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_G9.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H1.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H10.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H11.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H12.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H13.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H14.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H15.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H16.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H17.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H18.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H19.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H2.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H20.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H3.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H4.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H5.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H6.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H7.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H8.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_H9.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I1.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I10.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I11.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I12.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I13.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I14.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I2.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I3.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I4.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I5.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I6.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I7.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I8.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_I9.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J1.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J2.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J3.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J4.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J5.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J6.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J7.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J8.png" /></a>
+              <a href="" ng-click=""><img src="assets/images/icons/icon_J9.png" /></a>
+            </span>
+
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="btn btn-default btn-upload">
+                  <span><i class="glyphicon glyphicon-open"></i> Enviar ícone</span>
+
+                  <input nv-file-select uploader="uploader" type="file"  />
+              </div>
+            </div>
+
+            <div class="col-md-10">
+              <p>Caso não tenha encontrado nenhum ícone que sirva a sua categoria, você pode enviar um arquivo de 60x60 px, na cor branca com fundo transparente e no formato PNG.</p>
+            </div>
+          </div>
+        </div>
+
+        <!--<div class="form-group upload">
           <label>Ícone da categoria <span>(60x60px)</span></label>
 
           <div class="queue">
@@ -75,7 +216,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
 
       <hr />
 
