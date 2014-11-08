@@ -25,6 +25,7 @@ angular
 
     // Core components
     'NavItemComponentModule',
+    'DetectScrollTopComponentModule',
 
     // Routes
     'IndexModule',
