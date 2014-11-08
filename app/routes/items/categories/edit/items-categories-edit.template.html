@@ -73,7 +73,7 @@
               </div>
 
               <div class="option permissions">
-                <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
+                <div class="popover bottom" inventory-popover="permissions" ng-if="popover.permissions">
                   <div class="arrow"></div>
                   <h3 class="popover-title">Permissões da seção {{ section.label }}</h3>
 
@@ -94,7 +94,7 @@
                       </select>
                     </div>
 
-                    <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+                    <a href="" ng-click="$parent.popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
 
                     <div class="clearfix"></div>
                   </div>
@@ -250,7 +250,7 @@
                   </div>
 
                   <div class="option trash" ng-hide="field.location === true">
-                    <div class="popover bottom" inventory-popover="remove" ng-show="popover.remove">
+                    <div class="popover bottom" inventory-popover="remove" ng-if="popover.remove === true">
                       <div class="arrow"></div>
                       <h3 class="popover-title">Remover campo {{ field.label }}</h3>
 
@@ -266,7 +266,7 @@
                   </div>
 
                   <div class="option permissions">
-                    <div class="popover bottom" inventory-popover="permissions" ng-show="popover.permissions">
+                    <div class="popover bottom" inventory-popover="permissions" ng-if="popover.permissions === true">
                       <div class="arrow"></div>
                       <h3 class="popover-title">Permissões do campo {{ field.label }}</h3>
 
@@ -287,7 +287,7 @@
                           </select>
                         </div>
 
-                        <a href="" ng-click="popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
+                        <a href="" ng-click="$parent.popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
 
                         <div class="clearfix"></div>
                       </div>
@@ -373,7 +373,7 @@
     <div class="clearfix"></div>
   </div>
 
-  <div class="big_content" class="pages-animation" ng-hide="currentTab !== 'statuses'">
+  <div class="big_content" class="pages-animation" ng-if="currentTab === 'statuses'">
     <div class="toolbar">
       <div class="pull-left">Obrigatório o uso de estados <input bs-switch type="checkbox" class="pull-right" ng-model="category.require_item_status"></div>
 
@@ -393,7 +393,7 @@
     </table>
   </div>
 
-  <div class="big_content pages-animation edit-triggers" ng-hide="currentTab !== 'triggers'">
+  <div class="big_content pages-animation edit-triggers" ng-if="currentTab === 'triggers'">
     <div class="edit-triggers-header clearfix">
       <p>{{ triggers.length }} gatilhos criados</p>
       <a href="" ng-click="newTrigger()" class="btn btn-info btn-custom">+ Novo gatilho</a>
