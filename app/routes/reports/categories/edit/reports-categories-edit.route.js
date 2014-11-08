@@ -13,6 +13,11 @@ angular
           templateUrl: 'routes/reports/categories/edit/reports-categories-edit.template.html',
           controller: 'ReportsCategoriesEditController',
           controllerAs: 'ctrl',
+          resolve: {
+            'reportCategoriesResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('reports').all('categories').getList();
+            }]
+          }
         }
       }
     }).state('reports.categories.add', {
@@ -23,6 +28,11 @@ angular
           templateUrl: 'routes/reports/categories/edit/reports-categories-edit.template.html',
           controller: 'ReportsCategoriesEditController',
           controllerAs: 'ctrl',
+          resolve: {
+            'reportCategoriesResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('reports').all('categories').getList();
+            }]
+          }
         }
       }
     });

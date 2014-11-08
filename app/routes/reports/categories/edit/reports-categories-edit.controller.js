@@ -7,7 +7,7 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document) {
+  .controller('ReportsCategoriesEditController', function ($scope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -25,6 +25,8 @@ angular
 
     $scope.defaultResolutionTimeSelection = 60;
     $scope.defaultUserResponseTimeSelection = 60;
+
+    $scope.reportCategories = reportCategoriesResponse.data;
 
     var categoriesPromise = Restangular.one('inventory').all('categories').getList(), category;
 

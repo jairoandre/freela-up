@@ -25,6 +25,14 @@
         </div>
 
         <div class="form-group">
+          <label>Categoria de relato vinculada </label>
+
+          <select class="form-control" ng-model="category.parent_id" ng-options="category.id as category.title for category in reportCategories">
+            <option value=""></option>
+          </select>
+        </div>
+
+        <div class="form-group">
           <label>Categoria de inventário relacionada</label>
 
           <div class="selectUsers">
