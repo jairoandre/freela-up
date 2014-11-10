@@ -27,6 +27,9 @@ angular
     'NavItemComponentModule',
     'DetectScrollTopComponentModule',
 
+    // Constants
+    'config',
+
     // Routes
     'IndexModule',
     'UserModule',

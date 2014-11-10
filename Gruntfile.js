@@ -18,6 +18,8 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    API_URL: process.env.API_URL,
+
     // Project settings
     yeoman: {
       // configurable paths
@@ -195,6 +197,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/**/*.controller.js',
             '<%= yeoman.dist %>/**/*.directive.js',
             '<%= yeoman.dist %>/**/*.filter.js',
+            '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= yeoman.dist %>/assets/fonts/*',
@@ -323,6 +326,42 @@ module.exports = function (grunt) {
       }
     },
 
+    ngconstant: {
+      options: {
+        name: 'config'
+      },
+
+      angularLocal: {
+        options: {
+          dest: '<%= yeoman.app %>/config/main.constants.js',
+          space: '  ',
+          wrap: '"use strict";\n\n {%= __ngModule %}',
+          name: 'config'
+        },
+        constants: {
+          ENV: {
+            name: 'development',
+            apiEndpoint: '<%= API_URL %>'
+          }
+        }
+      },
+
+      angularBuild: {
+        options: {
+          dest: '<%= yeoman.dist %>/config/main.constants.js',
+          space: '  ',
+          wrap: '"use strict";\n\n {%= __ngModule %}',
+          name: 'config'
+        },
+        constants: {
+          ENV: {
+            name: 'production',
+            apiEndpoint: '<%= API_URL %>'
+          }
+        }
+      }
+    },
+
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -382,6 +421,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bower-install',
+      'ngconstant:angularLocal',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -409,6 +449,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant:angularBuild',
     'bower-install',
     'useminPrepare',
     'concurrent:dist',

@@ -2,12 +2,10 @@
 
 angular
   .module('zupPainelApp')
-  .config(['$urlRouterProvider', 'RestangularProvider', function($urlRouterProvider, RestangularProvider) {
+  .config(['$urlRouterProvider', 'RestangularProvider', function($urlRouterProvider, RestangularProvider, ENV) {
     $urlRouterProvider.otherwise('/');
 
-    var BASE_URL = 'http://staging.zup.sapience.io';
-
-    RestangularProvider.setBaseUrl(BASE_URL);
+    RestangularProvider.setBaseUrl(ENV.apiEndpoint);
     RestangularProvider.setFullResponse(true);
 
     RestangularProvider.setRequestInterceptor(function(elem, operation) {
