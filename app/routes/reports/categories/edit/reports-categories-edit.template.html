@@ -70,15 +70,11 @@
             <div class="clearfix"></div>
           </div>
 
-          <div class="row">
-            <div class="col-md-2">
-              <button colorpicker type="button" colorpicker-position="top" class="btn btn-default" ng-model="category.color">Escolher outra cor</button>
-            </div>
+          <button colorpicker type="button" colorpicker-position="top" class="btn btn-default pull-left" ng-model="category.color">Escolher outra cor</button>
 
-            <div class="col-md-2">
-              <span class="color" ng-style="{ 'background-color': category.color }"></span>
-            </div>
-          </div>
+          <span class="color" ng-style="{ 'background-color': category.color }"></span>
+
+          <div class="clearfix"></div>
         </div>
 
         <div class="form-group">
@@ -338,14 +334,6 @@
         <div class="clearfix"></div>
 
         <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
-      </div>
-
-      <div class="form-group">
-        <label>Categoria privada</label>
-
-        <div class="clearfix"></div>
-
-        <input type="checkbox" bs-switch ng-model="category.private">
       </div>
 
       <div class="form-group">

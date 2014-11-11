@@ -200,6 +200,7 @@ module.exports = function (grunt) {
             '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= yeoman.dist %>/assets/fonts/*',
           ]
         }
@@ -307,7 +308,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             '**/*.template.html',
-            'assets/images/*',
+            'assets/images/**/*',
             'assets/fonts/*',
             'scripts/ZeroClipboard.swf'
           ]

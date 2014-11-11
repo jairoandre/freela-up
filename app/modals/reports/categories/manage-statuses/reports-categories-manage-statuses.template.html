@@ -25,6 +25,7 @@
                 <td>Estado inicial</td>
                 <td>Estado final</td>
                 <td>Ativado</td>
+                <td>Privado</td>
                 <td>Cor</td>
                 <td>Remover</td>
             </tr>
@@ -56,6 +57,13 @@
                 <td>
                   <input type="checkbox" ng-model="status.active" class="input-choice" id="{{ $index }}-active" />
                   <label for="{{ $index }}-active" class="label-choice">
+                    <span>active</span>
+                  </label>
+                </td>
+
+                <td>
+                  <input type="checkbox" ng-model="status.private" class="input-choice" id="{{ $index }}-private" />
+                  <label for="{{ $index }}-private" class="label-choice">
                     <span>active</span>
                   </label>
                 </td>

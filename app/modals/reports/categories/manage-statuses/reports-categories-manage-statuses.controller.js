@@ -12,7 +12,7 @@ angular
     $scope.createStatus = function() {
       if ($scope.newStatus.title !== '')
       {
-        var newStatus = {title: $scope.newStatus.title, color: '#FFFFFF', initial: 'false', final: 'false', active: 'true'};
+        var newStatus = {title: $scope.newStatus.title, color: '#FFFFFF', initial: 'false', final: 'false', active: 'true', private: 'false'};
 
         if (updating)
         {
@@ -70,6 +70,7 @@ angular
           tempStatus.initial = tempStatus.initial.toString();
           tempStatus.final = tempStatus.final.toString();
           tempStatus.active = tempStatus.active.toString();
+          tempStatus.private = tempStatus.private.toString();
 
           var updateStatusPromise = Restangular.one('reports').one('categories', categoryId).one('statuses', tempStatus.id).customPUT(tempStatus);
 
