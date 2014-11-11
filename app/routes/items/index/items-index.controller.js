@@ -31,8 +31,8 @@ angular
 
     // sorting the tables
     $scope.sort = {
-      column: '',
-      descending: false
+      column: 'title',
+      descending: true
     };
 
     $scope.changeSorting = function (column) {
