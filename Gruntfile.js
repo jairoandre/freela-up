@@ -200,7 +200,7 @@ module.exports = function (grunt) {
             '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
             '<%= yeoman.dist %>/assets/fonts/*',
           ]
         }
@@ -227,11 +227,7 @@ module.exports = function (grunt) {
         patterns: {
           // FIXME While usemin won't have full support for revved files we have to put all references manually here
           js: [
-            [/(map_pin_boca-lobo\.png)/g, 'Replacing reference to map_pin_boca-lobo.png'],
-            [/(map_pin_entulho\.png)/g, 'Replacing reference to map_pin_entulho.png'],
-            [/(ponto_bocalobo\.png)/g, 'Replacing reference to ponto_bocalobo.png'],
-            [/(ponto_floresta-urbana\.png)/g, 'Replacing reference to ponto_floresta-urbana.png'],
-            [/(ponto_praca-wifi\.png)/g, 'Replacing reference to ponto_praca-wifi.png'],
+            [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
           ]
         }
       }
