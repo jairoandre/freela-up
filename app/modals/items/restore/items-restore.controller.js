@@ -3,7 +3,7 @@
 angular
   .module('ItemsRestoreModalControllerModule', [])
 
-  .controller('ItemsRestoreModalController', function($scope, $modalInstance, setItemData) {
+  .controller('ItemsRestoreModalController', function($scope, $modalInstance, setItemData, clearData) {
     $scope.restore = function() {
       setItemData();
 
@@ -11,6 +11,7 @@ angular
     };
 
     $scope.close = function() {
+      clearData();
       $modalInstance.close();
     };
   });

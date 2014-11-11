@@ -94,6 +94,19 @@ angular
         resolve: {
           setItemData: function() {
             return function() { itemData = $scope.itemData = angular.copy(tempSavedItem) };
+          },
+
+          clearData: function() {
+            return function() {
+              if (updating)
+              {
+                $scope.storage.updating[categoryId][itemId] = null;
+              }
+              else
+              {
+                $scope.storage.creating[categoryId] = null;
+              }
+            };
           }
         },
         controller: 'ItemsRestoreModalController'
@@ -410,7 +423,7 @@ angular
           var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
 
           postCategoryPromise.then(function(response) {
-            $scope.storage.creating = {};
+            $scope.storage.creating[categoryId] = null;
 
             $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
 
