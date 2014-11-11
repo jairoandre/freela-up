@@ -2,7 +2,7 @@
 
 angular
   .module('zupPainelApp')
-  .config(['$urlRouterProvider', 'RestangularProvider', function($urlRouterProvider, RestangularProvider, ENV) {
+  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', function($urlRouterProvider, RestangularProvider, ENV) {
     $urlRouterProvider.otherwise('/');
 
     RestangularProvider.setBaseUrl(ENV.apiEndpoint);
