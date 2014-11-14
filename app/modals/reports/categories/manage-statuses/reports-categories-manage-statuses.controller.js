@@ -1,7 +1,10 @@
 'use strict';
 
 angular
-  .module('ReportsCategoriesManageStatusesModalControllerModule', [])
+  .module('ReportsCategoriesManageStatusesModalControllerModule', [
+    'ReportStatusComponentModule'
+  ])
+
   .controller('ReportsCategoriesManageStatusesModalController', function($scope, $modalInstance, category, updating, categoryId) {
     $scope.category = category;
     $scope.newStatus = {};

@@ -2,6 +2,8 @@
 
 angular
   .module('ReportsEditControllerModule', [
+    'ReportSearchMapComponentModule',
+    'MapNewReportComponentModule',
     'NgThumbComponentModule'
   ])
 
