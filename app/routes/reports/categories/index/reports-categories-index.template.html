@@ -11,12 +11,22 @@
   </div>
 
   <table class="table custom_table big_text">
-    <tr ng-repeat="category in categories">
-      <td><a href="#/reports/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
-      <td width="90">
-        <a href="#/reports/categories/{{ category.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-        <a href="" ng-click="deleteCategory(category)"><span class="glyphicon glyphicon-trash"></span></a>
-      </td>
-    </tr>
+    <tbody ng-repeat="category in categories">
+      <tr>
+        <td><a href="#/reports/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
+        <td width="90">
+          <a href="#/reports/categories/{{ category.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+          <a href="" ng-click="deleteCategory(category)"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+      </tr>
+
+      <tr ng-repeat="subCategory in category.subcategories" class="subrow">
+        <td><span class="sub-tag"></span>  <a href="#/reports/categories/{{ subCategory.id }}/edit">{{ subCategory.title }}</a></td>
+        <td width="90">
+          <a href="#/reports/categories/{{ subCategory.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+          <a href="" ng-click="deleteCategory(subCategory)"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>

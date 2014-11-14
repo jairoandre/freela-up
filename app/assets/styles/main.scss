@@ -588,6 +588,23 @@ p {
             height: 100%;
           }
         }
+
+        .subrow {
+          background-color: #F2F2F2;
+          font-size: 14px;
+
+          td {
+            padding: 15px 27px;
+
+            span.sub-tag {
+              width: 9px;
+              height: 9px;
+              background: url(../images/sub_tag.png);
+              display: inline-block;
+              margin-right: 5px;
+            }
+          }
+        }
       }
 
       &.big_text {

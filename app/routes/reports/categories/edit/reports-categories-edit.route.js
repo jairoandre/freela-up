@@ -15,7 +15,7 @@ angular
           controllerAs: 'ctrl',
           resolve: {
             'reportCategoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('reports').all('categories').getList();
+              return Restangular.all('reports').all('categories').getList({ 'display_type': 'full' });
             }]
           }
         }
