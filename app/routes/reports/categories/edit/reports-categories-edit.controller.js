@@ -256,6 +256,7 @@ angular
           tempStatuses[i].initial = tempStatuses[i].initial.toString();
           tempStatuses[i].final = tempStatuses[i].final.toString();
           tempStatuses[i].active = tempStatuses[i].active.toString();
+          tempStatuses[i].private = tempStatuses[i].private.toString();
 
           editedCategory.statuses[i] = tempStatuses[i];
         }
