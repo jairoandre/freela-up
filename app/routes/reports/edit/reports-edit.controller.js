@@ -7,7 +7,7 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ReportsEditController', function ($scope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
+  .controller('ReportsEditController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
     $scope.categories = reportCategoriesResponse.data;
     $scope.inventoryCategories = inventoriesCategoriesResponse.data;
 
@@ -75,6 +75,8 @@ angular
     };
 
     $scope.send = function() {
+      $rootScope.resolvingRoute = true;
+
       var imagesPromises = [];
 
       for (var i = $scope.uploader.queue.length - 1; i >= 0; i--) {
