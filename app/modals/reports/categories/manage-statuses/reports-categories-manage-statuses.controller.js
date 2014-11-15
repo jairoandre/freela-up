@@ -5,7 +5,7 @@ angular
     'ReportStatusComponentModule'
   ])
 
-  .controller('ReportsCategoriesManageStatusesModalController', function($scope, $modalInstance, category, updating, categoryId) {
+  .controller('ReportsCategoriesManageStatusesModalController', function($scope, $modalInstance, category, updating, categoryId, Restangular) {
     $scope.category = category;
     $scope.newStatus = {};
     $scope.updating = updating;
