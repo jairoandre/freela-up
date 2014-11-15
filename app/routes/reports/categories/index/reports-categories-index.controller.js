@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('ReportsCategoriesIndexControllerModule', [])
+  .module('ReportsCategoriesIndexControllerModule', [
+    'ReportsCategoriesDestroyModalControllerModule'
+  ])
 
   .controller('ReportsCategoriesIndexController', function ($scope, Restangular, $modal) {
     $scope.loading = true;
@@ -16,33 +18,18 @@ angular
 
     $scope.deleteCategory = function (category) {
       $modal.open({
-        templateUrl: 'views/reports/removeCategory.html',
+        templateUrl: 'modals/reports/categories/destroy/reports-categories-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
           reportsCategoriesList: function(){
             return $scope.categories;
+          },
+
+          category: function() {
+            return category;
           }
         },
-        controller: ['$scope', '$modalInstance', 'reportsCategoriesList', function($scope, $modalInstance, reportsCategoriesList) {
-          $scope.category = category;
-
-          // delete user from server
-          $scope.confirm = function() {
-            var deletePromise = Restangular.one('reports').one('categories', $scope.category.id).remove();
-
-            deletePromise.then(function() {
-              $modalInstance.close();
-              $scope.showMessage('ok', 'A categoria de relato foi removida com sucesso', 'success', true);
-
-              // remove user from list
-              reportsCategoriesList.splice(reportsCategoriesList.indexOf($scope.category), 1);
-            });
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'ReportsCategoriesDestroyModalController'
       });
     };
   });
