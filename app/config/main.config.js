@@ -2,7 +2,7 @@
 
 angular
   .module('zupPainelApp')
-  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', function($urlRouterProvider, RestangularProvider, ENV) {
+  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', 'uiSelectConfig', function($urlRouterProvider, RestangularProvider, ENV, uiSelectConfig) {
     $urlRouterProvider.otherwise('/');
 
     RestangularProvider.setBaseUrl(ENV.apiEndpoint);
@@ -15,6 +15,9 @@ angular
 
       return elem;
     });
+
+    // ui-select config
+    uiSelectConfig.theme = 'bootstrap';
   }])
   .run(['Restangular', 'Auth', '$rootScope', '$timeout', function(Restangular, Auth, $rootScope, $timeout) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});

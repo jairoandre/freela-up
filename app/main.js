@@ -10,7 +10,8 @@ angular
     'ngSanitize',
     'ui.bootstrap',
     'ui.autocomplete',
-    'ui.select2',
+    'ui.select2', // old version MOTHAFU#@
+    'ui.select',
     'ui.mask',
     'infinite-scroll',
     'angularFileUpload',

@@ -13,14 +13,13 @@
 
       <h3>1. Selecione a categoria</h3>
 
-      <select class="multiple-select" style="width: 33%;" ui-select2 ng-model="selectedCategory" data-placeholder="Selecione uma categoria">
-        <option value="">Selecione uma categoria</option>
+      <ui-select ng-model="$parent.selectedCategory" theme="select2" style="width: 33%;">
+        <ui-select-match placeholder="Selecione uma categoria...">{{$select.selected.title}}</ui-select-match>
 
-        <optgroup ng-repeat="category in categories" label="{{ category.title }}">
-          <option ng-value="category.id" ng-value="category.id">{{ category.title }}</option>
-          <option ng-repeat="subcategory in category.subcategories" ng-value="subcategory.id">{{ subcategory.title }}</option>
-        </optgroup>
-      </select>
+        <ui-select-choices group-by="subCategories" repeat="category.id as category in categories | filter: {title: $select.search}">
+          <div ng-bind-html="category.title | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
 
       <hr />
 

@@ -8,7 +8,34 @@ angular
   ])
 
   .controller('ReportsEditController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
-    $scope.categories = reportCategoriesResponse.data;
+    var categories = reportCategoriesResponse.data;
+
+    $scope.categories = [];
+
+    for (var i = categories.length - 1; i >= 0; i--) {
+      $scope.categories.push(categories[i]);
+
+      if (categories[i].subcategories.length !== 0)
+      {
+        for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
+          $scope.categories.push(categories[i].subcategories[j]);
+        };
+      }
+    };
+
+    // grouping function for ui-select2
+    $scope.subCategories = function(item) {
+      if (item.parent_id == null)
+      {
+        return 'Categorias principais';
+      }
+
+      if (item.parent_id !== null)
+      {
+        return 'Subcategorias';
+      }
+    };
+
     $scope.inventoryCategories = inventoriesCategoriesResponse.data;
 
     $scope.uploader = new FileUploader();

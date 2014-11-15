@@ -185,11 +185,13 @@
             </div>
 
             <!-- field type: select -->
-            <div ng-if="field.kind == 'select'">
-              <select class="multiple-select" style="width: 33%;" ui-select2 ng-model="itemData[field.id]" data-placeholder="Selecione uma opção">
-                <option ng-repeat="value in field.available_values track by $index" ng-value="value">{{ value }}</option>
-              </select>
-            </div>
+            <ui-select ng-model="$parent.itemData[field.id]" style="width: 33%;" ng-if="field.kind == 'select'">
+              <ui-select-match placeholder="Selecione...">{{$select.selected}}</ui-select-match>
+
+              <ui-select-choices repeat="value in field.available_values | filter: $select.search track by $index">
+                <div ng-bind-html="value | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
 
             <!-- field type: images -->
             <div ng-if="field.kind == 'images'" class="upload" nv-file-drop uploader="uploaders[field.id]">
