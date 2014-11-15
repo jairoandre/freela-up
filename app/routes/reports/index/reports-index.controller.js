@@ -264,13 +264,12 @@ angular
     $scope.categories = categoriesResponse.data;
     $scope.statuses = [];
 
-    // merge all categories statuses in one array with no duplicates
-    for (var i = $scope.categories.length - 1; i >= 0; i--) {
-      for (var j = $scope.categories[i].statuses.length - 1; j >= 0; j--) {
+    var findStatusesInCategory = function(category) {
+      for (var j = category.statuses.length - 1; j >= 0; j--) {
         var found = false;
 
         for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === $scope.categories[i].statuses[j].id)
+          if ($scope.statuses[k].id === category.statuses[j].id)
           {
             found = true;
           }
@@ -278,8 +277,21 @@ angular
 
         if (!found)
         {
-          $scope.statuses.push($scope.categories[i].statuses[j]);
+          $scope.statuses.push(category.statuses[j]);
         }
+      }
+    };
+
+    // merge all categories statuses in one array with no duplicates
+    for (var i = $scope.categories.length - 1; i >= 0; i--) {
+
+      findStatusesInCategory($scope.categories[i]);
+
+      if ($scope.categories[i].subcategories.length !== 0)
+      {
+        for (var j = $scope.categories[i].subcategories.length - 1; j >= 0; j--) {
+          findStatusesInCategory($scope.categories[i].subcategories[j]);
+        };
       }
     }
 
@@ -366,6 +378,16 @@ angular
         if ($scope.categories[i].id === id)
         {
           return $scope.categories[i];
+        }
+
+        if ($scope.categories[i].subcategories.length !== 0)
+        {
+          for (var j = $scope.categories[i].subcategories.length - 1; j >= 0; j--) {
+            if ($scope.categories[i].subcategories[j].id === id)
+            {
+              return $scope.categories[i].subcategories[j];
+            }
+          };
         }
       }
 

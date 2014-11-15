@@ -22,7 +22,7 @@ angular
             }],
 
             'categoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-              return Restangular.one('reports').all('categories').getList();
+              return Restangular.one('reports').all('categories').getList({ 'display_type': 'full' });
             }],
 
           }

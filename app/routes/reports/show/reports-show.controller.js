@@ -13,12 +13,26 @@ angular
     var categories = categoriesResponse.data;
 
     // find category
-    for (var i = categories.length - 1; i >= 0; i--) {
-      if (categories[i].id === $scope.report.category.id)
-      {
-        $scope.category = categories[i];
+    var findCategory = function() {
+      for (var i = categories.length - 1; i >= 0; i--) {
+        if (categories[i].id === $scope.report.category.id)
+        {
+          return $scope.category = categories[i];
+        }
+
+        if (categories[i].subcategories.length !== 0)
+        {
+          for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
+            if (categories[i].subcategories[j].id === $scope.report.category.id)
+            {
+              return $scope.category = categories[i].subcategories[j];
+            }
+          };
+        }
       }
-    }
+    };
+
+    findCategory();
 
     $scope.images = [];
 
