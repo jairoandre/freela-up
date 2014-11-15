@@ -420,8 +420,11 @@ angular
         templateUrl: 'modals/items/destroy/items-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          itemsList: function() {
-            return $scope.items;
+          removeItemFromList: function() {
+            return function(item) {
+              $scope.total--;
+              $scope.items.splice($scope.items.indexOf(item), 1);
+            }
           },
 
           item: function() {

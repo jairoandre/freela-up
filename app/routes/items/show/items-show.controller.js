@@ -71,7 +71,7 @@ angular
         templateUrl: 'modals/items/destroy/items-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          itemsList: function() {
+          removeItemFromList: function() {
             return false;
           },
 

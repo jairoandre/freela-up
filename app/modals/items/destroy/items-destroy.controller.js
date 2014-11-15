@@ -2,7 +2,7 @@
 
 angular
   .module('ItemsDestroyModalControllerModule', [])
-  .controller('ItemsDestroyModalController', function($scope, $modalInstance, itemsList, item, category, Restangular, $state) {
+  .controller('ItemsDestroyModalController', function($scope, $modalInstance, removeItemFromList, item, category, Restangular, $state) {
     $scope.item = item;
     $scope.category = category;
 
@@ -14,9 +14,9 @@ angular
         $modalInstance.close();
         $scope.showMessage('ok', 'O Inventário ' + $scope.item.title + ' foi removido com sucesso', 'success', true);
 
-        if (itemsList)
+        if (removeItemFromList)
         {
-          itemsList.splice(itemsList.indexOf($scope.item), 1);
+          removeItemFromList($scope.item);
         }
         else
         {

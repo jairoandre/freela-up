@@ -239,10 +239,9 @@ angular
             page++;
           }
 
-          total = parseInt(response.headers().total);
-          $scope.total = total;
+          $scope.total = parseInt(response.headers().total);
 
-          var lastPage = Math.ceil(total / perPage);
+          var lastPage = Math.ceil($scope.total / perPage);
 
           if (page === (lastPage + 1))
           {
@@ -425,8 +424,11 @@ angular
         templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          reportsList: function() {
-            return $scope.reports;
+          removeReportFromList: function() {
+            return function(report) {
+              $scope.total--;
+              $scope.reports.splice($scope.reports.indexOf(report), 1);
+            }
           },
 
           report: function() {
