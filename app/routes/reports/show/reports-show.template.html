@@ -62,6 +62,12 @@
 
         <h5>Telefone</h5>
         <p>{{ report.user.phone }}</p>
+
+        <div ng-show="report.inventory_item">
+          <h5>Item relacionado</h5>
+
+          <p><a href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
+        </div>
       </div>
     </div>
 
