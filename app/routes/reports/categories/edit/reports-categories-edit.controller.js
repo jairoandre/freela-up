@@ -7,7 +7,7 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -181,7 +181,7 @@ angular
 
     $scope.send = function() {
       $scope.inputErrors = null;
-      $scope.processingForm = true;
+      $rootScope.resolvingRoute = true;
       var promises = [];
 
       // Add images to queue for processing it's dataUrl
@@ -288,12 +288,12 @@ angular
           putCategoryPromise.then(function() {
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
-            $scope.processingForm = false;
+            $rootScope.resolvingRoute = false;
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
             $scope.inputErrors = response.data.error;
-            $scope.processingForm = false;
+            $rootScope.resolvingRoute = false;
           });
         }
         else
@@ -306,12 +306,12 @@ angular
           postCategoryPromise.then(function() {
             $location.path('/reports/categories');
 
-            $scope.processingForm = false;
+            $rootScope.resolvingRoute = false;
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
             $scope.inputErrors = response.data.error;
-            $scope.processingForm = false;
+            $rootScope.resolvingRoute = false;
           });
         }
       });
