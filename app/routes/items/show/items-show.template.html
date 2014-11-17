@@ -1,0 +1,88 @@
+<div class="loading" ng-show="loading"></div>
+
+<div ng-hide="loading" class="pages-animation">
+  <div class="title">
+    <ul>
+      <li><a href="#/items">Inventário</a></li>
+      <li>{{ item.title }}</li>
+    </ul>
+
+    <a class="icon_action" href="" ng-click="deleteItem(item, category)"><span class="glyphicon glyphicon-trash"></span></a>
+    <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
+  </div>
+
+  <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">
+    <div class="background" ng-style="{ 'background-color': status.color }"></div>
+    <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
+    <a class="pull-right" ng-click="editItemStatus(item, category)" href="">Alterar status</a>
+
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="content wrappers">
+
+    <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'">
+      <div class="wrapper_title"><h1>{{ section.title }}</h1></div>
+
+      <div class="fields">
+        <div class="field" ng-repeat="field in section.fields | orderBy:'position'">
+            <h5 ng-show="field.label !== null">{{ field.label }}</h5>
+            <h5 ng-show="field.label == null">{{ field.title }}</h5>
+
+            <div ng-show="field.kind == 'images'">
+              <p ng-hide="getDataByInventoryFieldId(field.id).length == 0"><gallery images="getDataByInventoryFieldId(field.id)"></gallery></p>
+
+              <p ng-show="getDataByInventoryFieldId(field.id).length == 0 || !getDataByInventoryFieldId(field.id)">Sem imagens.</p>
+            </div>
+
+            <p ng-hide="field.kind == 'images' || !getDataByInventoryFieldId(field.id) || getDataByInventoryFieldId(field.id).length == 0">
+              <div ng-if="field.kind === 'checkbox' || field.kind === 'radio'">
+                <ul>
+                  <li ng-repeat="value in getDataByInventoryFieldId(field.id)">{{ value }}</li>
+                </ul>
+              </div>
+
+              <div ng-if="field.kind !== 'checkbox' && field.kind !== 'radio'">{{ getDataByInventoryFieldId(field.id) }}</div>
+
+              <span ng-if="field.kind == 'meters'">metros</span>
+              <span ng-if="field.kind == 'centimeters'">cm</span>
+              <span ng-if="field.kind == 'kilometers'">km</span>
+              <span ng-if="field.kind == 'years'">anos</span>
+              <span ng-if="field.kind == 'months'">meses</span>
+              <span ng-if="field.kind == 'days'">dias</span>
+              <span ng-if="field.kind == 'hours'">horas</span>
+              <span ng-if="field.kind == 'seconds'">segundos</span>
+              <span ng-if="field.kind == 'angle'">ângulo</span>
+
+            </p>
+
+            <p ng-show="field.kind !== 'images' && (!getDataByInventoryFieldId(field.id) || getDataByInventoryFieldId(field.id).length == 0)">
+              Não preenchido.
+            </p>
+
+            <div class="cleafix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounder_wrapper">
+      <div class="wrapper_title"><h1>Mapa</h1></div>
+
+      <div class="fields">
+        <div class="roundedMap" map-show-item></div>
+      </div>
+    </div>
+
+    <div class="rounder_wrapper" map-view-streetview latitude="item.position.latitude" longitude="item.position.longitude" ng-hide="hideStreetview">
+      <div class="wrapper_title"><h1>Streetview {{hide}}</h1></div>
+
+      <div class="fields">
+        <div class="roundedMap"></div>
+      </div>
+    </div>
+
+    <hr />
+
+    <a href="#/items" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+  </div>
+</div>

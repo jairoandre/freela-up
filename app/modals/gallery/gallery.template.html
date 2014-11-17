@@ -1,0 +1,10 @@
+<a href="" ng-click="close()" class="close-modal"><i class="glyphicon glyphicon-remove"></i></a>
+
+<div class="zoom-content">
+  <panzoomwidget panzoom-id="PanZoom" class="panzoomwidget"></panzoomwidget>
+  <panzoom id="PanZoom" config="panzoomConfig" model="panzoomModel" style="width:100%; height: 100%;">
+    <img ng-src="{{ image.url }}" class="pages-loading" style="position:absolute" ng-hide="loading" gallery-image-on-load />
+
+    <svg style="position:absolute" width="100%" height="100%"></svg>
+  </panzoom>
+</div>

@@ -1,0 +1,9 @@
+<div class="gallery">
+    <div class="titles">
+        <span ng-repeat="image in images track by $index" ng-click="show(image)">
+            <a href="" class="image" ng-style="{'background-image': 'url(' + image.versions.thumb + ')' }"></a>
+        </span>
+
+        <div class="clearfix"></div>
+    </div>
+</div>

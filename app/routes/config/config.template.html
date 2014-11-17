@@ -1,0 +1,62 @@
+<div id="main_layout">
+  <div id="sidebar">
+    <!-- Include views/layouts/menu.html -->
+    <div ng-include="'layout/menu.template.html'"></div>
+  </div>
+
+  <div id="main_content" class="config-container">
+    <!-- Include views/layouts/header.html -->
+    <div ng-include="'layout/header.template.html'"></div>
+
+    <div class="title">
+      <ul>
+        <li><a href="#/config">Configurações</a></li>
+        <li>Editar configurações</li>
+      </ul>
+    </div>
+
+    <div class="content">
+
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Aplicativos de relato (iOS, Android e Web)</h3>
+            <p>As opções abaixo permite ativar ou desativar determinada funcionalidades diretamente nos aplicativos mobile e web.</p>
+
+            <div class="config-list">
+              <div class="item" ng-repeat="flag in flags | filter: { mobileConfig: true } | orderBy: 'name'" feature-flag>
+                  <h2>{{ flag.name }}</h2>
+
+                  <p>{{ flag.desc }}</p>
+
+                  <input type="checkbox" bs-switch ng-model="flag.enabled">
+
+                  <img src="assets/images/loading.gif" class="saving" ng-show="loading">
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <h3>Painel Administrativo</h3>
+            <p>As opções abaixo permite ativar ou desativar determinada funcionalidades no painel administrativo</p>
+
+            <div class="config-list">
+              <div class="item" ng-repeat="flag in flags | filter: { mobileConfig: false } | orderBy: 'name'" feature-flag>
+                <h2>{{ flag.name }}</h2>
+
+                <p>{{ flag.desc }}</p>
+
+                <input type="checkbox" bs-switch ng-model="flag.enabled">
+
+                <img src="assets/images/loading.gif" class="saving" ng-show="loading">
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>

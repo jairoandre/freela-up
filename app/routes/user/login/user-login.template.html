@@ -1,0 +1,56 @@
+<div id="login">
+  <div class="login-container">
+    <div class="logo">
+      <img src="assets/images/logo-zup-black.png" alt="ZUP"/>
+      <p>Zeladoria<br/>Urbana Participativa</p>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div ng-show="loginError" class="loginError" class="fade-animation">Dados incorretos. Por favor, tente novamente.</div>
+
+    <hr/>
+
+    <form ng-submit="login()">
+      <div class="form-group">
+        <label for="input_email">Email</label>
+        <input type="text" class="form-control" id="input_email" ng-model="email" />
+      </div>
+
+      <div class="form-group">
+        <label for="input_password">Senha</label>
+        <input type="password" class="form-control" id="input_password" ng-model="password" />
+      </div>
+
+      <button type="submit" class="btn btn-info btn-block progress-button" data-style="top-line" data-horizontal>
+        <span class="content">Entrar</span>
+        <span class="progress">
+          <span class="progress-inner"></span>
+        </span>
+      </button>
+    </form>
+  </div>
+
+  <a class="forgot_password" href="#">Esqueceu sua senha?</a>
+</div>
+
+<!--script>
+  // Deixei comentado para não atrapalhar a ação de login
+
+  var button = document.querySelector('button.progress-button');
+
+  new ProgressButton(button, {
+    callback: function(instance) {
+      var progress = 0;
+      var interval = setInterval(function() {
+        progress = Math.min(progress + Math.random() * 0.1, 1);
+        instance._setProgress(progress);
+
+        if (progress === 1) {
+          instance._stop(1);
+          clearInterval(interval);
+        }
+      }, 200);
+    }
+  });
+</script-->

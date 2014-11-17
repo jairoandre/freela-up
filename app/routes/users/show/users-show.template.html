@@ -1,0 +1,67 @@
+<div class="custom-users">
+<div class="title">
+  <ul>
+    <li><a href="#/users">Usuários</a></li>
+    <li>{{ user.name }}</li>
+  </ul>
+
+  <a class="icon_action" href="" ng-click="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></a>
+  <a href="#/users/{{ user.id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
+</div>
+
+<div class="content">
+  <div class="user-box">
+    <div class="avatar"></div>
+
+    <div class="info">
+      <h1>{{ user.name }}</h1>
+      <h2>({{ user.email }})</h2>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-xs-8">
+      <h5>Endereço</h5>
+      <p>{{ user.address }}</p>
+
+      <h5>Complemento</h5>
+      <p>{{ user.address_additional }}</p>
+
+      <h5>Cidade</h5>
+      <p>{{ user.district }}</p>
+
+      <h5>CEP</h5>
+      <p>{{ user.postal_code }}</p>
+
+      <h5>Telefone</h5>
+      <p>{{ user.phone }}</p>
+
+      <h5>Documento</h5>
+      <p>{{ user.document }}</p>
+    </div>
+
+    <div class="col-xs-4">
+      <h5>Grupos</h5>
+
+      <ul ng-hide="user.groups.length == 0" class="groups-list">
+          <li ng-repeat="group in user.groups"><a href="#/groups/{{ group.id }}"><i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}</a></li>
+      </ul>
+
+      <p ng-show="user.groups.length == 0">Usuário não está vinculado a um grupo.</p>
+
+      <div class="clearfix"></div>
+
+      <h5>Usuário cadastrado em</h5>
+      <p>{{ user.created_at | date:'dd/MM/yy HH:mm'}}</p>
+    </div>
+  </div>
+
+  <hr />
+
+  <a href="#/users" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+</div>
+</div>
