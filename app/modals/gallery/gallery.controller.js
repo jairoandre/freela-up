@@ -7,15 +7,22 @@ angular
     'GalleryImageOnLoadComponentModule'
   ])
 
-  .controller('GalleryModalController', function($scope, $modalInstance, image) {
+  .controller('GalleryModalController', function($scope, $modalInstance, $window, image) {
     $scope.loading = true;
     $scope.image = image;
 
-    $scope.panzoomConfig = {
-      zoomLevels: 12,
-      neutralZoomLevel: 5,
-      scalePerZoomLevel: 1.5
-    };
+    $scope.$watch('imageDimensions', function(newValue, oldValue) {
+      if (newValue !== oldValue)
+      {
+        $scope.panzoomConfig = {
+          zoomLevels: 12,
+          neutralZoomLevel: 5,
+          scalePerZoomLevel: 1.5,
+          initialPanX: ($($window).width() / 2) - ($scope.imageDimensions.width / 2),
+          initialPanY: ($($window).height() / 2) - ($scope.imageDimensions.height / 2)
+        };
+      }
+    });
 
     $scope.panzoomModel = {};
 
