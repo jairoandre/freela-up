@@ -10,7 +10,7 @@
     "angular-sanitize": "1.2.6",
     "angular-route": "1.2.6",
     "angular-bootstrap-colorpicker": "~3.0.5",
-    "angular-bootstrap-switch": "~0.2.1",
+    "angular-bootstrap-switch": "0.3.0",
     "angular-file-upload": "~1.0.2",
     "angular-animate": "~1.2.22",
     "angular-ui-select2": "~0.0.5",
@@ -19,7 +19,6 @@
     "es5-shim": "*",
     "jquery": "2.0.3",
     "sass-bootstrap": "~3.0.2",
-    "bootstrap-switch": "~2.0.0",
     "ngInfiniteScroll": "~1.0.0",
     "jquery-ui": "~1.10.4",
     "ui-autocomplete": "~0.5.5",
@@ -38,6 +37,7 @@
   },
   "resolutions": {
     "angular": "1.2.26",
-    "hamsterjs": ">=1.0.2"
+    "hamsterjs": ">=1.0.2",
+    "bootstrap-switch": "~3.0.2"
   }
 }

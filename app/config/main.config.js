@@ -18,6 +18,10 @@ angular
 
     // ui-select config
     uiSelectConfig.theme = 'bootstrap';
+
+    // translate bs-switch
+    $.fn.bootstrapSwitch.defaults.onText = 'Sim';
+    $.fn.bootstrapSwitch.defaults.offText = 'Não';
   }])
   .run(['Restangular', 'Auth', '$rootScope', '$timeout', function(Restangular, Auth, $rootScope, $timeout) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
