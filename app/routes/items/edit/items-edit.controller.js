@@ -319,6 +319,12 @@ angular
     };
 
     $scope.send = function() {
+      if ($scope.form.$invalid)
+      {
+        $scope.showValidationError = true;
+        return false;
+      }
+
       $scope.processingForm = true;
       var imagesFieldsPromises = [];
 

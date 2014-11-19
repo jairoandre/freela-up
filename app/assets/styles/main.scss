@@ -1350,6 +1350,10 @@ p {
       &:hover {
         text-decoration: none;
       }
+
+      &.disabled {
+        @include opacity(0.4);
+      }
     }
   }
 
