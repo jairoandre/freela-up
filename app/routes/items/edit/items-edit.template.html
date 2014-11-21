@@ -220,11 +220,12 @@
             <!-- field type: images -->
             <div ng-if="field.kind == 'images'" class="upload" nv-file-drop uploader="uploaders[field.id]">
               <div class="queue">
-                <div class="image" ng-repeat="image in itemData[field.id].existingImages">
+                <div class="image" ng-repeat="image in itemData[field.id].existingImages" ng-hide="image.destroy">
                   <img ng-src="{{image.url}}" width="100" height="100" />
-                  <!--<button type="button" ng-click="item.remove()">
+
+                  <button type="button" ng-click="image.destroy = true">
                     <span class="glyphicon glyphicon-trash"></span>
-                  </button>-->
+                  </button>
                 </div>
 
                 <div class="image" ng-repeat="item in uploaders[field.id].queue">

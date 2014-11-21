@@ -364,7 +364,17 @@ angular
             imagesObj.push({'content': images[i]});
           };
 
-          formattedData.data[id] = imagesObj;
+          // we add the images with the other field's images, if any were to be destroyed
+          if (typeof formattedData.data[x] === 'undefined')
+          {
+            formattedData.data[id] = imagesObj;
+          }
+          else
+          {
+            for (var i = imagesObj.length - 1; i >= 0; i--) {
+              formattedData.data[id].push(imagesObj[i]);
+            };
+          }
 
           // we processed all the images for this field! :-D
           deferred.resolve();
@@ -383,6 +393,25 @@ angular
             if (itemData[x].areImages === true)
             {
               imagesFieldsPromises.push(addAsyncImagesField($scope.uploaders[x], x));
+
+              console.log(itemData[x].existingImages);
+
+              if (typeof itemData[x].existingImages !== 'undefined')
+              {
+                for (var i = itemData[x].existingImages.length - 1; i >= 0; i--) {
+                  if (itemData[x].existingImages[i].destroy === true)
+                  {
+                    if (typeof formattedData.data[x] === 'undefined')
+                    {
+                      formattedData.data[x] = [{ id: itemData[x].existingImages[i].id, destroy: true }];
+                    }
+                    else
+                    {
+                      formattedData.data[x].push({ id: itemData[x].existingImages[i].id, destroy: true });
+                    }
+                  }
+                };
+              }
             }
             else
             {
