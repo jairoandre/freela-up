@@ -81,17 +81,25 @@
                     <div class="form-group">
                       <label>Grupos que podem visualizar:</label>
 
-                      <select class="multiple-select" ui-select2 ng-model="section.inventory_sections_can_view" data-placeholder="Digite um grupo" multiple>
-                        <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
-                      </select>
+                      <ui-select multiple ng-model="section.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
+                        <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
+
+                        <ui-select-choices repeat="group.id as group in groups | filter:$select.search">
+                          {{group.name}}
+                        </ui-select-choices>
+                      </ui-select>
                     </div>
 
                     <div class="form-group">
                       <label>Grupos que podem editar:</label>
 
-                      <select class="multiple-select" ui-select2 ng-model="section.inventory_sections_can_edit" data-placeholder="Digite um grupo" multiple>
-                        <option ng-repeat="group in groups" value="{{ group.id }}">{{ group.name }}</option>
-                      </select>
+                      <ui-select multiple ng-model="section.permissions.groups_can_edit" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
+                        <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
+
+                        <ui-select-choices repeat="group.id as group in groups | filter:$select.search">
+                          {{group.name}}
+                        </ui-select-choices>
+                      </ui-select>
                     </div>
 
                     <a href="" ng-click="$parent.popover.permissions = false" class="btn btn-info btn-fat-custom btn-custom pull-right">Pronto</a>
@@ -274,7 +282,7 @@
                         <div class="form-group">
                           <label>Grupos que podem visualizar:</label>
 
-                          <ui-select multiple ng-model="field.permissions.groups_can_view" theme="bootstrap" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
+                          <ui-select multiple ng-model="field.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                             <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
 
                             <ui-select-choices repeat="group.id as group in groups | filter:$select.search">
@@ -286,7 +294,7 @@
                         <div class="form-group">
                           <label>Grupos que podem editar:</label>
 
-                          <ui-select multiple ng-model="field.permissions.groups_can_edit" theme="bootstrap" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
+                          <ui-select multiple ng-model="field.permissions.groups_can_edit" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                             <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
 
                             <ui-select-choices repeat="group.id as group in groups | filter:$select.search">
