@@ -129,26 +129,31 @@
               <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required" ui-mask="99.999.999/9999-99" model-view-value="true">
             </div>
 
-            <!-- field type: integer, decimal -->
-            <div class="custom_size col-xs-2" ng-if="field.kind == 'integer' || field.kind == 'decimal'">
+            <!-- field type: integer -->
+            <div class="custom_size col-xs-2" ng-if="field.kind == 'integer'">
               <input class="form-control" id="generic_input_{{ field.id }}" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" min="{{field.minimum}}" max="{{ field.maximum }}" ng-required="field.required">
+            </div>
+
+            <!-- field type: decimal -->
+            <div class="custom_size col-xs-2" ng-if="field.kind == 'decimal'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" min="{{field.minimum}}" max="{{ field.maximum }}" ng-required="field.required" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
             </div>
 
             <!-- input type: meters -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'meters'">
-              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
               <span class="input-group-addon">metros</span>
             </div>
 
             <!-- input type: centimeters -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'centimeters'">
-              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
               <span class="input-group-addon">cm</span>
             </div>
 
             <!-- input type: kilometers -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'kilometers'">
-              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
               <span class="input-group-addon">km</span>
             </div>
 

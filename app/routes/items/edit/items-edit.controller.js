@@ -394,8 +394,6 @@ angular
             {
               imagesFieldsPromises.push(addAsyncImagesField($scope.uploaders[x], x));
 
-              console.log(itemData[x].existingImages);
-
               if (typeof itemData[x].existingImages !== 'undefined')
               {
                 for (var i = itemData[x].existingImages.length - 1; i >= 0; i--) {
