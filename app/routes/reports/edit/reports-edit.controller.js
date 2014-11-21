@@ -2,6 +2,8 @@
 
 angular
   .module('ReportsEditControllerModule', [
+    'ReportsSelectUserModalControllerModule',
+    'ReportsCreateUserModalControllerModule',
     'ReportSearchMapComponentModule',
     'MapNewReportComponentModule',
     'NgThumbComponentModule'
@@ -84,6 +86,36 @@ angular
       }
     });
 
+    $scope.selectUser = function() {
+      $modal.open({
+        templateUrl: 'modals/reports/select-user/reports-select-user.template.html',
+        windowClass: 'modal-reports-select-user',
+        resolve: {
+          setUser: function() {
+            return function(user) {
+              $scope.user = user;
+            }
+          },
+        },
+        controller: 'ReportsSelectUserModalController'
+      });
+    };
+
+    $scope.registerUser = function() {
+      $modal.open({
+        templateUrl: 'modals/reports/create-user/reports-create-user.template.html',
+        windowClass: 'modal-reports-create-user',
+        resolve: {
+          setUser: function() {
+            return function(user) {
+              $scope.user = user;
+            }
+          },
+        },
+        controller: 'ReportsCreateUserModalController'
+      });
+    };
+
     var addAsyncImage = function(img) {
       var deferred = $q.defer();
 
@@ -119,6 +151,11 @@ angular
           address: $scope.formattedAddress,
           images: images
         };
+
+        if ($scope.user)
+        {
+          newReport.user_id = $scope.user.id;
+        }
 
         var newReportPromise = Restangular.one('reports', $scope.selectedCategory).customPOST(newReport, 'items');
 
