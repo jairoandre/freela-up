@@ -400,6 +400,8 @@ angular.
         $scope.category.plot_format = 'marker'; // jshint ignore:line
       }
 
+      console.log($scope.category.sections);
+
       // wait for images to process as base64
       $q.all(promises).then(function() {
         var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format}; // jshint ignore:line
