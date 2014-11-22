@@ -402,7 +402,7 @@ angular.
 
       // wait for images to process as base64
       $q.all(promises).then(function() {
-        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format}; // jshint ignore:line
+        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, private: $scope.category.private}; // jshint ignore:line
         var formattedFormData = {sections: $scope.category.sections};
 
         if (updating)
