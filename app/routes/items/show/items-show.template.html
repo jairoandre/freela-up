@@ -7,6 +7,7 @@
       <li>{{ item.title }}</li>
     </ul>
 
+    <a href="#/items/select-category" class="btn btn-info btn-custom">+ Novo item</a>
     <a class="icon_action" href="" ng-click="deleteItem(item, category)"><span class="glyphicon glyphicon-trash"></span></a>
     <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
   </div>
