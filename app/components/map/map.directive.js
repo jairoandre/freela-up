@@ -214,6 +214,12 @@ angular
               if (attrs.mapCategory === 'report')
               {
                 category = scope.getReportCategory(item.category_id); // jshint ignore:line
+
+                if (!category)
+                {
+                  return;
+                }
+
                 iconSize = new google.maps.Size(54, 51);
                 iconImg = category.marker.retina.web;
 
@@ -227,6 +233,11 @@ angular
               else
               {
                 category = scope.getInventoryCategory(item.inventory_category_id); // jshint ignore:line
+
+                if (!category)
+                {
+                  return;
+                }
 
                 // check icon by category.plot_format
                 if (category.plot_format === "marker")
