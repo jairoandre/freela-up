@@ -292,7 +292,7 @@ angular
                 }
                 else
                 {
-                  html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
+                  html = '<div class="pinTooltip"><h1>{{ item.title }}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
                 }
 
                 var newScope = scope.$new(true);
