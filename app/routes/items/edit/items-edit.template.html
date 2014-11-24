@@ -9,7 +9,7 @@
       <p><span class="glyphicon" ng-class="glyphicons[systemMessage.icon]"></span> {{ systemMessage.text }}</p>
     </div>
 
-    <a href="" ng-click="send()" class="submit_button" ng-hide="locked"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>
+    <a href="" ng-click="send()" class="submit_button" ng-hide="locked" ng-class="{'disabled': form.$invalid}"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>
   </div>
 
   <div class="saving" ng-show="processingForm">
@@ -20,7 +20,7 @@
 
   <div class="loading" ng-show="loading"></div>
 
-  <form class="pages-animation" ng-hide="loading">
+  <form class="pages-animation" name="form" ng-hide="loading" novalidate>
     <div class="big_content_darker">
 
       <div class="rounder_wrapper errors" ng-show="locked">
@@ -36,7 +36,7 @@
       </div>
 
       <div class="rounder_wrapper" ng-show="category.statuses.length !== 0">
-        <div class="title"><h1>Status de item *</h1></div>
+        <div class="title"><h1>Status de item <span ng-show="category.require_item_status">*</span></h1></div>
 
         <div class="fields">
           <div class="form-group">
@@ -62,23 +62,23 @@
             <div class="row">
               <!-- latitude field -->
               <div class="col-xs-4">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': (form.latitude.$dirty && form.latitude.$invalid) || (showValidationError && form.latitude.$invalid)}">
                   <label for="generic_input_{{ locationFieldsIds[0] }}">
-                    Latitude
+                    Latitude *
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ locationFieldsIds[0] }}" type="text" ng-model="itemData[locationFieldsIds[0]]" generic-input name="latitude">
+                  <input class="form-control" id="generic_input_{{ locationFieldsIds[0] }}" type="text" ng-model="itemData[locationFieldsIds[0]]" generic-input name="latitude" required>
                 </div>
               </div>
 
               <!-- longitude field -->
               <div class="col-xs-4">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': (form.longitude.$dirty && form.longitude.$invalid) || (showValidationError && form.longitude.$invalid)}">
                   <label for="generic_input_{{ locationFieldsIds[1] }}">
-                    Longitude
+                    Longitude *
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ locationFieldsIds[1] }}" type="text" ng-model="itemData[locationFieldsIds[1]]" generic-input name="longitude">
+                  <input class="form-control" id="generic_input_{{ locationFieldsIds[1] }}" type="text" ng-model="itemData[locationFieldsIds[1]]" generic-input name="longitude" required>
                 </div>
               </div>
 
@@ -90,85 +90,114 @@
           </div>
 
           <!-- show normal fields -->
-          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1">
+          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1" ng-class="{'has-error': (form[field.title].$dirty && form[field.title].$invalid) || (showValidationError && form[field.title].$invalid)}">
             <label for="generic_input_{{ field.id }}">
-              <span ng-show="field.label !== null">{{ field.label }}</span>
-              <span ng-show="field.label == null">{{ field.title }}</span>
-              <span ng-show="field.required == true"> *</span>
+              <span ng-if="field.label !== null">{{ field.label }}</span>
+              <span ng-if="field.label == null">{{ field.title }}</span>
+              <span ng-if="field.maximum && field.minimum">(entre {{field.minimum}} a {{field.maximum}}<b ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email' || field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'"> caracteres</b>)</span>
+              <span ng-if="field.minimum && !field.maximum">(de {{field.minimum}}<b ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email' || field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'"> caracteres</b>)</span>
+              <span ng-if="!field.minimum && field.maximum">(até {{field.minimum}}<b ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email' || field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'"> caracteres</b>)</span>
+              <span ng-if="field.required == true"> *</span>
             </label>
 
-            <!-- field type: text, url, email -->
-            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+            <!-- field type: text -->
+            <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required">
 
-            <!-- input type date, time, cpf, cnpj -->
-            <div class="custom_size col-xs-3" ng-if="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">
-              <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+            <!-- field type: url -->
+            <input class="form-control" id="generic_input_{{ field.id }}" type="url" ng-if="field.kind == 'url'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required">
+
+            <!-- field type: email -->
+            <input class="form-control" id="generic_input_{{ field.id }}" type="email" ng-if="field.kind == 'email'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required">
+
+            <!-- input type date -->
+            <div class="custom_size col-xs-3" ng-if="field.kind == 'date'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required" ui-mask="99/99/9999" model-view-value="true">
             </div>
 
-            <!-- field type: integer, decimal -->
-            <div class="custom_size col-xs-2" ng-if="field.kind == 'integer' || field.kind == 'decimal'">
-              <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+            <!-- input type time -->
+            <div class="custom_size col-xs-3" ng-if="field.kind == 'time'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required">
+            </div>
+
+            <!-- input type cpf -->
+            <div class="custom_size col-xs-3" ng-if="field.kind == 'cpf'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required" ui-mask="999.999.999-99" model-view-value="true">
+            </div>
+
+            <!-- input type cnpj -->
+            <div class="custom_size col-xs-3" ng-if="field.kind == 'cnpj'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required" ui-mask="99.999.999/9999-99" model-view-value="true">
+            </div>
+
+            <!-- field type: integer -->
+            <div class="custom_size col-xs-2" ng-if="field.kind == 'integer'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" min="{{field.minimum}}" max="{{ field.maximum }}" ng-required="field.required">
+            </div>
+
+            <!-- field type: decimal -->
+            <div class="custom_size col-xs-2" ng-if="field.kind == 'decimal'">
+              <input class="form-control" id="generic_input_{{ field.id }}" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" min="{{field.minimum}}" max="{{ field.maximum }}" ng-required="field.required" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
             </div>
 
             <!-- input type: meters -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'meters'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
               <span class="input-group-addon">metros</span>
             </div>
 
             <!-- input type: centimeters -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'centimeters'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
               <span class="input-group-addon">cm</span>
             </div>
 
             <!-- input type: kilometers -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'kilometers'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}" pattern="[0-9]+([\.|,][0-9]+)?" placeholder="_._">
               <span class="input-group-addon">km</span>
             </div>
 
             <!-- input type: years -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'years'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
               <span class="input-group-addon">anos</span>
             </div>
 
             <!-- input type: months -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'months'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
               <span class="input-group-addon">meses</span>
             </div>
 
             <!-- input type: days -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'days'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
               <span class="input-group-addon">dias</span>
             </div>
 
             <!-- input type: hours -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'hours'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
               <span class="input-group-addon">horas</span>
             </div>
 
             <!-- input type: seconds -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'seconds'">
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum }}" max="{{ field.maximum }}">
               <span class="input-group-addon">segundos</span>
             </div>
 
             <!-- input type: angle -->
             <div class="input-group custom_size col-xs-3" ng-if="field.kind == 'angle'">
               <span class="input-group-addon">ângulo</span>
-              <input type="text" id="generic_input_{{ field.id }}" class="form-control" type="text" type="text" ng-model="itemData[field.id]" generic-input name="{{ field.title }}">
+              <input id="generic_input_{{ field.id }}" class="form-control" type="number" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-required="field.required" min="{{ field.minimum || -360}}" max="{{ field.maximum || 360 }}">
             </div>
 
             <!-- field type: checkbox -->
             <div ng-if="field.kind == 'checkbox'">
               <div class="checkbox" ng-repeat="value in field.available_values track by $index">
                 <label>
-                  <input type="checkbox" ng-model="itemData[field.id][value]">
+                  <input type="checkbox" ng-model="itemData[field.id][value]" ng-required="field.required">
                   {{ value }}
                 </label>
               </div>
@@ -178,14 +207,14 @@
             <div ng-if="field.kind == 'radio'">
               <div class="radio" ng-repeat="value in field.available_values track by $index">
                 <label>
-                  <input type="radio" ng-model="itemData[field.id]" ng-value="value">
+                  <input type="radio" ng-model="itemData[field.id]" ng-value="value" ng-required="field.required">
                   {{ value }}
                 </label>
               </div>
             </div>
 
             <!-- field type: select -->
-            <ui-select ng-model="$parent.itemData[field.id]" style="width: 33%;" ng-if="field.kind == 'select'">
+            <ui-select ng-model="$parent.itemData[field.id]" style="width: 33%;" ng-if="field.kind == 'select'" ng-required="field.required">
               <ui-select-match placeholder="Selecione...">{{$select.selected}}</ui-select-match>
 
               <ui-select-choices repeat="value in field.available_values | filter: $select.search track by $index">
@@ -196,11 +225,12 @@
             <!-- field type: images -->
             <div ng-if="field.kind == 'images'" class="upload" nv-file-drop uploader="uploaders[field.id]">
               <div class="queue">
-                <div class="image" ng-repeat="image in itemData[field.id].existingImages">
+                <div class="image" ng-repeat="image in itemData[field.id].existingImages" ng-hide="image.destroy">
                   <img ng-src="{{image.url}}" width="100" height="100" />
-                  <!--<button type="button" ng-click="item.remove()">
+
+                  <button type="button" ng-click="image.destroy = true">
                     <span class="glyphicon glyphicon-trash"></span>
-                  </button>-->
+                  </button>
                 </div>
 
                 <div class="image" ng-repeat="item in uploaders[field.id].queue">

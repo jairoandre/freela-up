@@ -7,6 +7,7 @@
       <li>{{ item.title }}</li>
     </ul>
 
+    <a href="#/items/select-category" class="btn btn-info btn-custom">+ Novo item</a>
     <a class="icon_action" href="" ng-click="deleteItem(item, category)"><span class="glyphicon glyphicon-trash"></span></a>
     <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
   </div>
@@ -29,20 +30,21 @@
             <h5 ng-show="field.label !== null">{{ field.label }}</h5>
             <h5 ng-show="field.label == null">{{ field.title }}</h5>
 
-            <div ng-show="field.kind == 'images'">
-              <p ng-hide="getDataByInventoryFieldId(field.id).length == 0"><gallery images="getDataByInventoryFieldId(field.id)"></gallery></p>
-
-              <p ng-show="getDataByInventoryFieldId(field.id).length == 0 || !getDataByInventoryFieldId(field.id)">Sem imagens.</p>
+            <!-- special field rendering: images -->
+            <div ng-if="field.kind == 'images'">
+              <gallery images="getDataByInventoryFieldId(field.id)"></gallery>
             </div>
 
-            <p ng-hide="field.kind == 'images' || !getDataByInventoryFieldId(field.id) || getDataByInventoryFieldId(field.id).length == 0">
-              <div ng-if="field.kind === 'checkbox' || field.kind === 'radio'">
-                <ul>
-                  <li ng-repeat="value in getDataByInventoryFieldId(field.id)">{{ value }}</li>
-                </ul>
-              </div>
+            <!-- special field rendering: checkbox -->
+            <div ng-if="field.kind === 'checkbox'">
+              <ul>
+                <li ng-repeat="value in getDataByInventoryFieldId(field.id)">{{ value }}</li>
+              </ul>
+            </div>
 
-              <div ng-if="field.kind !== 'checkbox' && field.kind !== 'radio'">{{ getDataByInventoryFieldId(field.id) }}</div>
+            <!-- all other fields -->
+            <div ng-if="field.kind !== 'checkbox' && field.kind !== 'images' && getDataByInventoryFieldId(field.id) && getDataByInventoryFieldId(field.id).length != 0">
+              <p>{{ getDataByInventoryFieldId(field.id) }}
 
               <span ng-if="field.kind == 'meters'">metros</span>
               <span ng-if="field.kind == 'centimeters'">cm</span>
@@ -52,12 +54,15 @@
               <span ng-if="field.kind == 'days'">dias</span>
               <span ng-if="field.kind == 'hours'">horas</span>
               <span ng-if="field.kind == 'seconds'">segundos</span>
-              <span ng-if="field.kind == 'angle'">ângulo</span>
-
-            </p>
+              <span ng-if="field.kind == 'angle'">ângulo</span></p>
+            </div>
 
             <p ng-show="field.kind !== 'images' && (!getDataByInventoryFieldId(field.id) || getDataByInventoryFieldId(field.id).length == 0)">
               Não preenchido.
+            </p>
+
+            <p ng-show="field.kind == 'images' && (!getDataByInventoryFieldId(field.id) || getDataByInventoryFieldId(field.id).length == 0)">
+              Sem imagens.
             </p>
 
             <div class="cleafix"></div>

@@ -941,6 +941,12 @@ p {
           padding: 0 0 0 20px;
         }
       }
+
+      .custom-private-option-column {
+        width: 120px;
+        float: left;
+        padding: 10px 0 0 15px;
+      }
     }
 
     &.custom-users {
@@ -1343,6 +1349,10 @@ p {
 
       &:hover {
         text-decoration: none;
+      }
+
+      &.disabled {
+        @include opacity(0.4);
       }
     }
   }

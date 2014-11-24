@@ -14,7 +14,7 @@
     <!-- build:css assets/styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-switch/build/css/bootstrap3/bootstrap-switch.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
     <link rel="stylesheet" href="bower_components/select2/select2.css" />
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
@@ -60,8 +60,8 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script>
     <script src="bower_components/bootstrap/docs/assets/js/bootstrap.js"></script>
-    <script src="bower_components/bootstrap-switch/build/js/bootstrap-switch.js"></script>
-    <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
+    <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+    <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
     <script src="bower_components/angular-file-upload/angular-file-upload.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/select2/select2.js"></script>
@@ -86,7 +86,7 @@
 
     <script type="text/javascript">
     function load() {
-      gapi.client.setApiKey('AIzaSyBSEPWhyMJOCOiIAfYgQ_Siw8ijfsPKhkI');
+      gapi.client.setApiKey('AIzaSyCsgDC7RbPvhfSCDQgC1R4NXWaT9Rw2VHE');
       gapi.client.load('urlshortener', 'v1');
     }
     </script>
@@ -188,6 +188,8 @@
     <script src="components/report-status/report-status.directive.js"></script>
     <script src="components/report-search-map/report-search-map.directive.js"></script>
     <script src="components/gallery-image-on-load/gallery-image-on-load.directive.js"></script>
+    <script src="components/copy-text/copy-text.directive.js"></script>
+
 
     <script src="modals/reports/destroy/reports-destroy.controller.js"></script>
     <script src="modals/reports/edit-status/reports-edit-status.controller.js"></script>
@@ -211,6 +213,8 @@
     <script src="modals/items/categories/edit-status/items-categories-edit-status.controller.js"></script>
     <script src="modals/users/destroy/users-destroy.controller.js"></script>
     <script src="modals/gallery/gallery.controller.js"></script>
+    <script src="modals/reports/select-user/reports-select-user.controller.js"></script>
+    <script src="modals/reports/create-user/reports-create-user.controller.js"></script>
 
     <script src="helpers/format-errors/format-errors.filter.js"></script>
     <script src="helpers/replace-dot-with-comma/replace-dot-with-comma.filter.js"></script>

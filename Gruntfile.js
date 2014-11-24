@@ -306,7 +306,7 @@ module.exports = function (grunt) {
             '**/*.template.html',
             'assets/images/**/*',
             'assets/fonts/*',
-            'scripts/ZeroClipboard.swf'
+            'assets/scripts/*'
           ]
         }, {
           expand: true,

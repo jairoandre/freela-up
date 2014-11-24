@@ -214,6 +214,12 @@ angular
               if (attrs.mapCategory === 'report')
               {
                 category = scope.getReportCategory(item.category_id); // jshint ignore:line
+
+                if (!category)
+                {
+                  return;
+                }
+
                 iconSize = new google.maps.Size(54, 51);
                 iconImg = category.marker.retina.web;
 
@@ -227,6 +233,11 @@ angular
               else
               {
                 category = scope.getInventoryCategory(item.inventory_category_id); // jshint ignore:line
+
+                if (!category)
+                {
+                  return;
+                }
 
                 // check icon by category.plot_format
                 if (category.plot_format === "marker")
@@ -281,7 +292,7 @@ angular
                 }
                 else
                 {
-                  html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
+                  html = '<div class="pinTooltip"><h1>{{ item.title }}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
                 }
 
                 var newScope = scope.$new(true);

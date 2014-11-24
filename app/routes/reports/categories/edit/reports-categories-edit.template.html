@@ -300,6 +300,7 @@
 
       <div class="form-group">
         <label>Tempo de resolução do relato</label>
+
         <div class="row">
           <div class="col-md-1">
             <input type="text" class="form-control input-lg" ng-model="category.resolution_time" generic-input name="resolution_time">
@@ -318,6 +319,8 @@
             </div>
           </div>
         </div>
+
+        <span class="help-block" style="margin-top: 15px;">Se ativado, o tempo de resolução permite controlar o estado do tempo de resolução que é o tempo em que o relato foi aberto até o seu fechamento. Se passar do período setado aqui, o chamado entrará em atraso automaticamente.</span>
       </div>
 
       <div class="form-group">
@@ -333,22 +336,57 @@
 
         <div class="clearfix"></div>
 
-        <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, o usuário poderá arrastar o marcador em qualquer lugar do mapa da cidade.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Categoria sigilosa</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.confidential">
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, será exibido ao usuário um aviso que as informações pessoais são mantidas em sigilo.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Categoria privada</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.private">
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Ao tornar a categoria de relato pública o sistema ZUP irá exibir o relato para todos os usuários dos aplicativos mobile e web, ao tornar privado, somente através do painel ZUP será possível criar um relato nesta categoria.</span>
       </div>
 
       <div class="form-group">
         <label>Feedback do usuário</label>
+
         <div class="row">
-          <div class="col-md-2" style="padding-top: 9px;">
+          <div class="custom-private-option-column">
             <input type="checkbox" class="pull-right" bs-switch ng-model="enabledUserResponseTime">
           </div>
 
-          <div class="col-md-1" style="padding: 0px;">
-            <input type="text" class="form-control input-lg" ng-model="category.user_response_time" generic-input name="user_response_time" ng-show="enabledUserResponseTime">
+          <div class="col-md-1" ng-show="enabledUserResponseTime">
+            <input type="text" class="form-control input-lg" ng-model="category.user_response_time" generic-input name="user_response_time">
           </div>
 
-          <div class="col-md-2">
-            <div class="btn-group" ng-show="enabledUserResponseTime">
+          <div class="col-md-2" ng-show="enabledUserResponseTime">
+            <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
               <span ng-show="defaultUserResponseTimeSelection == 60">Minutos</span> <span ng-show="defaultUserResponseTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
               </button>
@@ -360,6 +398,8 @@
             </div>
           </div>
         </div>
+
+        <span class="help-block" style="margin-top: 15px;">Se ativado, quando o chamado for finalizado, o usuário receberá um e-mail com um link para fazer uma avaliação do chamado. O usuário pode dar uma posição positiva ou negativa, inserir um texto e também imagem. É necessário inserir um tempo para que ele tenha a chance de fazer a avaliação, caso o tempo expire, ele não poderá mais a avaliação.</span>
       </div>
 
       <hr />

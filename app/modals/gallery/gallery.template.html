@@ -1,10 +1,16 @@
-<a href="" ng-click="close()" class="close-modal"><i class="glyphicon glyphicon-remove"></i></a>
+<a href="" ng-click="close()" class="modal-icon"><i class="glyphicon glyphicon-remove"></i></a>
+<a href="" ng-href="{{ image.url }}" download class="modal-icon save-image"><i class="glyphicon glyphicon-save"></i></a>
 
-<div class="zoom-content">
+<img ng-src="{{ image.url }}" class="image-to-be-loaded" ng-show="loading" gallery-image-on-load />
+
+<img src="assets/images/loading_white.gif" class="loading-image" ng-show="loading">
+
+<div class="zoom-content" ng-if="!loading">
   <panzoomwidget panzoom-id="PanZoom" class="panzoomwidget"></panzoomwidget>
-  <panzoom id="PanZoom" config="panzoomConfig" model="panzoomModel" style="width:100%; height: 100%;">
-    <img ng-src="{{ image.url }}" class="pages-loading" style="position:absolute" ng-hide="loading" gallery-image-on-load />
 
-    <svg style="position:absolute" width="100%" height="100%"></svg>
+  <panzoom id="PanZoom" config="panzoomConfig" model="panzoomModel" style="width:100%; height: 100%;">
+    <img ng-src="{{ image.url }}" style="position:absolute" />
+
+    <svg style="position:absolute" ng-attr-width="{{ imageDimensions.width }}" ng-attr-height="{{ imageDimensions.height }}"></svg>
   </panzoom>
 </div>

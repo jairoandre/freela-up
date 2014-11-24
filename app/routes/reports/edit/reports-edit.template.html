@@ -89,6 +89,13 @@
 
         <h3>5. Vincule a um usuário (opcional)</h3>
 
+        <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-info btn-custom btn-lg-custom" href="" ng-click="selectUser()"><span ng-show="!user">Selecionar usuário</span><span ng-show="user">Alterar usuário</span></button>
+          <button type="button" class="btn btn-info btn-custom btn-lg-custom" href="" ng-click="registerUser()">+ Cadastrar novo usuário</button>
+        </div>
+
         <hr />
 
         <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar relato</button>
