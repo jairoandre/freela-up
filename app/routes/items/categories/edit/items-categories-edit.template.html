@@ -40,12 +40,12 @@
       <div inventory-sortable-sections class="sortableSections">
         <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy">
           <div class="top_part">
-            <div class="type">
-              <a class="name" href="" ng-click="editingSectionLabel = true" ng-hide="editingSectionLabel">{{ section.title }} <span ng-show="section.required == true">*</span></a>
+            <div class="type" inventory-edit-label="section">
+              <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">{{ section.title }} <span ng-show="section.required == true">*</span></a>
 
               <div class="edit_label" ng-show="editingSectionLabel">
-                <input type="text" ng-model="section.title" />
-                <a href="" ng-click="editingSectionLabel = false">Salvar</a>
+                <input type="text" ng-model="section.title" class="editLabelField" />
+                <a href="" ng-click="saveLabel()">Salvar</a>
 
                 <div class="clearfix"></div>
               </div>
