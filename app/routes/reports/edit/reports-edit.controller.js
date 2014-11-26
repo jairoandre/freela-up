@@ -134,7 +134,7 @@ angular
     };
 
     $scope.send = function() {
-      $rootScope.resolvingRoute = true;
+      $rootScope.resolvingRequest = true;
 
       var imagesPromises = [];
 

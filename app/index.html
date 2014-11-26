@@ -39,7 +39,11 @@
     <!-- Add your site or application content here -->
     <div ui-view class="pages-animation"></div>
 
-    <div class="resolvingRoute" ng-show="resolvingRoute"></div>
+    <div class="resolving-route" ng-show="resolvingRoute"></div>
+
+    <div class="resolving-route with-loading" ng-show="resolvingRequest">
+      <img src="assets/images/loading.gif">
+    </div>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>

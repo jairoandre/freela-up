@@ -182,7 +182,7 @@ angular
 
     $scope.send = function() {
       $scope.inputErrors = null;
-      $rootScope.resolvingRoute = true;
+      $rootScope.resolvingRequest = true;
       var promises = [];
 
       // Add images to queue for processing it's dataUrl
@@ -289,12 +289,12 @@ angular
           putCategoryPromise.then(function() {
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
-            $rootScope.resolvingRoute = false;
+            $rootScope.resolvingRequest = false;
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
             $scope.inputErrors = response.data.error;
-            $rootScope.resolvingRoute = false;
+            $rootScope.resolvingRequest = false;
           });
         }
         else
@@ -307,12 +307,12 @@ angular
           postCategoryPromise.then(function() {
             $location.path('/reports/categories');
 
-            $rootScope.resolvingRoute = false;
+            $rootScope.resolvingRequest = false;
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
             $scope.inputErrors = response.data.error;
-            $rootScope.resolvingRoute = false;
+            $rootScope.resolvingRequest = false;
           });
         }
       });

@@ -89,6 +89,7 @@ angular
     $rootScope.$on('$stateChangeSuccess', function() {
       $timeout(function() {
         $rootScope.resolvingRoute = false;
+        $rootScope.resolvingRequest = false;
       }, 150);
     });
 
