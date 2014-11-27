@@ -14,6 +14,39 @@ angular
         deferred.resolve(user);
 
         $rootScope.me = user;
+
+        /**
+        *   hasPermission() checks if a user has a permission inside `user`.
+        *
+        *   To check permissions that contains id's like `inventory_fields_can_edit` use:
+        *   hasPermission('inventory_fields_can_edit', 32)
+        *
+        *   it will return true if user can edit it.
+        **/
+
+        $rootScope.hasPermission = function(permission, id) {
+          for (var permissionName in user.permissions)
+          {
+            if (permissionName === permission)
+            {
+              if (typeof user.permissions[permissionName] === 'boolean')
+              {
+                return user.permissions[permissionName] === true;
+              }
+              else if (typeof user.permissions[permissionName] === 'object')
+              {
+                for (var i = user.permissions[permissionName].length - 1; i >= 0; i--) {
+                  if (id == user.permissions[permissionName][i])
+                  {
+                    return true;
+                  }
+                };
+              }
+            }
+          }
+
+          return false;
+        };
       }, function() {
         // user is not logged
         deferred.resolve(null);
