@@ -38,5 +38,6 @@ angular
     'ItemsModule',
     'ConfigModule',
     'UsersModule',
-    'GroupsModule'
+    'GroupsModule',
+    'HelpModule'
   ]);

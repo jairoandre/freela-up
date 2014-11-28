@@ -306,7 +306,8 @@ module.exports = function (grunt) {
             '**/*.template.html',
             'assets/images/**/*',
             'assets/fonts/*',
-            'assets/scripts/*'
+            'assets/scripts/*',
+            'assets/documents/*'
           ]
         }, {
           expand: true,
