@@ -3,7 +3,7 @@
 angular
   .module('UsersEditControllerModule', [])
 
-  .controller('UsersEditController', function ($scope, Restangular, $stateParams, $location) {
+  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
 
@@ -32,6 +32,7 @@ angular
     $scope.send = function() {
       $scope.inputErrors = null;
       $scope.processingForm = true;
+      $rootScope.resolvingRequest = true;
 
       // PUT if updating and POST if creating a new user
       if (updating)
@@ -42,11 +43,13 @@ angular
           $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
 
           $scope.processingForm = false;
+          $rootScope.resolvingRequest = false;
         }, function(response) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser salvo', 'error', true);
 
           $scope.inputErrors = response.data.error;
           $scope.processingForm = false;
+          $rootScope.resolvingRequest = false;
         });
       }
       else
@@ -59,11 +62,13 @@ angular
           $location.path('/users');
 
           $scope.processingForm = false;
+          $rootScope.resolvingRequest = false;
         }, function(response) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser criado', 'error', true);
 
           $scope.inputErrors = response.data.error;
           $scope.processingForm = false;
+          $rootScope.resolvingRequest = false;
         });
       }
     };

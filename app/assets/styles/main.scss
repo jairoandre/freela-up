@@ -604,6 +604,14 @@ p {
               margin-right: 5px;
             }
           }
+
+          .category-icon {
+            margin-left: 2px;
+          }
+        }
+
+        .category-icon {
+          margin-right: 15px;
         }
       }
 
@@ -3435,7 +3443,7 @@ colorpicker-preview {
   opacity:0;
 }
 
-.resolvingRoute {
+.resolving-route {
   background: rgba(255, 255, 255, 0.3);
   position: fixed;
   top: 0px;
@@ -3458,6 +3466,14 @@ colorpicker-preview {
 
   &.ng-hide {
     opacity: 0;
+  }
+
+  &.with-loading img {
+    position: fixed;
+    top: 50%;
+    width: 84px;
+    height: 84px;
+    margin-top: -42px;
   }
 }
 
@@ -5178,4 +5194,8 @@ colorpicker-preview {
 
 .rotating {
     -webkit-animation: rotating 2s linear infinite;
+}
+
+.bootstrap-switch-big-buttons {
+  min-width: 200px;
 }

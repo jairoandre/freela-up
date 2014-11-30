@@ -29,7 +29,8 @@
     "angular-ui-select": "~0.8.3",
     "hamsterjs": "~1.0.5",
     "angular-mousewheel": "~1.0.4",
-    "angular-pan-zoom": "~1.0.2"
+    "angular-pan-zoom": "~1.0.2",
+    "angular-md": "~1.0.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
@@ -38,6 +39,7 @@
   "resolutions": {
     "angular": "1.2.26",
     "hamsterjs": ">=1.0.2",
-    "bootstrap-switch": "~3.0.2"
+    "bootstrap-switch": "~3.0.2",
+    "angular-mocks": "1.2.10"
   }
 }

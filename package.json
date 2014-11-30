@@ -6,7 +6,8 @@
     "express": "~4.4.1",
     "grunt-string-replace": "~0.2.7",
     "grunt-cli": "~0.1.13",
-    "grunt-ng-constant": "~1.0.0"
+    "grunt-ng-constant": "~1.0.0",
+    "marked": "~0.3.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

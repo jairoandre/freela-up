@@ -14,6 +14,7 @@
     <!-- build:css assets/styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
     <link rel="stylesheet" href="bower_components/select2/select2.css" />
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
@@ -39,7 +40,11 @@
     <!-- Add your site or application content here -->
     <div ui-view class="pages-animation"></div>
 
-    <div class="resolvingRoute" ng-show="resolvingRoute"></div>
+    <div class="resolving-route" ng-show="resolvingRoute"></div>
+
+    <div class="resolving-route with-loading" ng-show="resolvingRequest">
+      <img src="assets/images/loading.gif">
+    </div>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -59,7 +64,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script>
-    <script src="bower_components/bootstrap/docs/assets/js/bootstrap.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
     <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
     <script src="bower_components/angular-file-upload/angular-file-upload.js"></script>
@@ -80,6 +85,8 @@
     <script src="bower_components/angular-pan-zoom/bin/panzoom.min.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
+    <script src="bower_components/marked/lib/marked.js"></script>
+    <script src="bower_components/angular-md/dist/angular-md.js"></script>
     <!-- endbuild -->
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry&language=pt-br"></script>
@@ -150,8 +157,19 @@
     <script src="routes/users/edit/users-edit.route.js"></script>
     <script src="routes/users/edit/users-edit.controller.js"></script>
 
+    <script src="routes/groups/groups.route.js"></script>
+    <script src="routes/groups/index/groups-index.route.js"></script>
+    <script src="routes/groups/index/groups-index.controller.js"></script>
+    <script src="routes/groups/show/groups-show.route.js"></script>
+    <script src="routes/groups/show/groups-show.controller.js"></script>
+    <script src="routes/groups/edit/groups-edit.route.js"></script>
+    <script src="routes/groups/edit/groups-edit.controller.js"></script>
+
     <script src="routes/config/config.route.js"></script>
     <script src="routes/config/config.controller.js"></script>
+
+    <script src="routes/help/help.route.js"></script>
+    <script src="routes/help/help.controller.js"></script>
 
     <script src="components/nav-item/nav-item.directive.js"></script>
     <script src="components/map/map.directive.js"></script>

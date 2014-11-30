@@ -365,7 +365,7 @@ angular
           };
 
           // we add the images with the other field's images, if any were to be destroyed
-          if (typeof formattedData.data[x] === 'undefined')
+          if (typeof formattedData.data[id] === 'undefined')
           {
             formattedData.data[id] = imagesObj;
           }

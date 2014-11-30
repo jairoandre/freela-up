@@ -37,5 +37,7 @@ angular
     'ReportsModule',
     'ItemsModule',
     'ConfigModule',
-    'UsersModule'
+    'UsersModule',
+    'GroupsModule',
+    'HelpModule'
   ]);
