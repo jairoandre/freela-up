@@ -232,7 +232,7 @@ angular
       var getFieldById = function(id) {
         for (var i = $scope.item.data.length - 1; i >= 0; i--) {
 
-          if ($scope.item.data[i].field.id == id) // jshint ignore:line
+          if (typeof $scope.item.data[i].field !== 'undefined' && $scope.item.data[i].field !== null && $scope.item.data[i].field.id == id) // jshint ignore:line
           {
             return $scope.item.data[i];
           }
