@@ -31,7 +31,7 @@ angular
 
     // sorting the tables
     $scope.sort = {
-      column: 'title',
+      column: '',
       descending: true
     };
 
@@ -138,7 +138,7 @@ angular
 
     // Return right promise
     var generateItemsPromise = function() {
-      var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, display_type: 'basic' }; // jshint ignore:line
+      var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, display_type: 'basic', sort: 'title', order: 'desc' }; // jshint ignore:line
 
       // if we searching, hit search/users
       if ($scope.searchText !== null)
