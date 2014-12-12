@@ -35,6 +35,13 @@ angular
               }
               else if (typeof user.permissions[permissionName] === 'object')
               {
+                // if there is not `id` specified, we just check if the permission is empty
+                if (typeof id === 'undefined')
+                {
+                  return (user.permissions[permissionName].length !== 0);
+                }
+
+                // in case there is a `id` specified, we need to look into the array
                 for (var i = user.permissions[permissionName].length - 1; i >= 0; i--) {
                   if (id == user.permissions[permissionName][i])
                   {

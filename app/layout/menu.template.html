@@ -5,8 +5,8 @@
     <ul>
       <li nav-item><a href="#/items"><span class="glyphicon glyphicon-list"></span> <p>Inventário</p></a></li>
       <li nav-item><a href="#/reports"><span class="glyphicon glyphicon-list-alt"></span> <p>Relatos</p></a></li>
-      <li nav-item><a href="#/groups"><span class="ico-groups"></span> <p>Grupos</p></a></li>
-      <li nav-item><a href="#/users"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
+      <li nav-item><a href="#/groups" ng-show="hasPermission('manage_groups') || hasPermission('groups_can_view') || hasPermission('groups_can_edit')"><span class="ico-groups"></span> <p>Grupos</p></a></li>
+      <li nav-item><a href="#/users" ng-hide="!hasPermission('manage_users')"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
       <li nav-item><a href="#/config"><span class="glyphicon glyphicon-cog"></span> <p>Configurações</p></a></li>
       <li nav-item><a href="#/help"><span class="glyphicon glyphicon-question-sign"></span> <p>Ajuda</p></a></li>
     </ul>
