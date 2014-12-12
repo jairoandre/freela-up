@@ -37,14 +37,6 @@
 
               <li ng-class="{active: tab == 'inventory_categories_can_view'}"><a href="" ng-click="tab = 'inventory_categories_can_view'">Categorias de inventário que podem ver</a></li>
 
-              <li ng-class="{active: tab == 'inventory_sections_can_view'}"><a href="" ng-click="tab = 'inventory_sections_can_view'">Seções de inventário que podem ver</a></li>
-
-              <li ng-class="{active: tab == 'inventory_sections_can_edit'}"><a href="" ng-click="tab = 'inventory_sections_can_edit'">Seções de inventário que podem editar</a></li>
-
-              <li ng-class="{active: tab == 'inventory_fields_can_view'}"><a href="" ng-click="tab = 'inventory_fields_can_view'">Campos de inventário que podem ver</a></li>
-
-              <li ng-class="{active: tab == 'inventory_fields_can_edit'}"><a href="" ng-click="tab = 'inventory_fields_can_edit'">Campos de inventário que podem editar</a></li>
-
               <li ng-class="{active: tab == 'flow_can_view_all_steps'}"><a href="" ng-click="tab = 'flow_can_view_all_steps'">flow_can_view_all_steps</a></li>
 
               <li ng-class="{active: tab == 'flow_can_execute_all_steps'}"><a href="" ng-click="tab = 'flow_can_execute_all_steps'">flow_can_execute_all_steps</a></li>
@@ -96,6 +88,24 @@
                 </li>
               </ul>
             </div>
+
+            <!-- inventory_categories_can_edit -->
+            <div ng-show="tab == 'inventory_categories_can_edit'">
+              <ul>
+                <li ng-repeat="category in data.inventoryCategories">
+                  {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+              </ul>
+            </div>
+
+            <!-- inventory_categories_can_view -->
+            <div ng-show="tab == 'inventory_categories_can_view'">
+              <ul>
+                <li ng-repeat="category in data.inventoryCategories">
+                  {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div class="clearfix"></div>
@@ -142,6 +152,19 @@
       </div>
 
       <div class="form-group">
+        <label>Este grupo pode gerenciar fórmulas de categorias de inventário?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="manage_inventory_formulas" ng-model="permissions.manage_inventory_formulas" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="manage_inventory_formulas" ng-model="permissions.manage_inventory_formulas" ng-value="false"> Não
+        </label>
+      </div>
+
+      <div class="form-group">
         <label>Este grupo pode gerenciar items de inventário?</label>
         <br />
 
@@ -177,6 +200,32 @@
 
         <label class="radio-inline">
           <input type="radio" name="manage_reports" ng-model="permissions.manage_reports" ng-value="false"> Não
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Este grupo pode remover relatos?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="delete_reports" ng-model="permissions.delete_reports" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="delete_reports" ng-model="permissions.delete_reports" ng-value="false"> Não
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Este grupo pode editar relatos?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="edit_reports" ng-model="permissions.edit_reports" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="edit_reports" ng-model="permissions.edit_reports" ng-value="false"> Não
         </label>
       </div>
 
