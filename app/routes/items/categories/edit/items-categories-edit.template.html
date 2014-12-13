@@ -546,12 +546,39 @@
 
   <div class="big_content pages-animation" ng-if="currentTab === 'configs'" style="padding: 40px">
       <div class="form-group">
-        <label>Categoria privada</label>
+        <label>Grupos com permissões para editar</label>
 
-        <div class="clearfix"></div>
+        <div class="selectGroups">
+          <div class="simple_search">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar grupos..." ng-model="category.groups_can_edit" ui-autocomplete="groupsCanEditAutocomplete" />
+          </div>
 
-        <input type="checkbox" bs-switch ng-model="category.private">
+          <ul>
+            <li ng-repeat="group in category.groups_can_edit">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
+          </ul>
+        </div>
 
       </div>
+
+      <hr />
+
+      <div class="form-group">
+        <label>Grupos com permissões para ver</label>
+
+        <div class="selectGroups">
+          <div class="simple_search">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar grupos..." ng-model="category.groups_can_view" ui-autocomplete="groupsCanViewAutocomplete" />
+          </div>
+
+          <ul>
+            <li ng-repeat="group in category.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <hr />
   </div>
 </div>
