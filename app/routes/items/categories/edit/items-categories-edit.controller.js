@@ -93,6 +93,9 @@ angular.
       $scope.category.plot_format = false; // jshint ignore:line
       $scope.category.statuses = [];
 
+      $scope.category.groups_can_edit = [];
+      $scope.category.groups_can_view = [];
+
       $scope.category.sections = [{
           'title': 'Localização',
           'required': true,
@@ -226,6 +229,105 @@ angular.
         $scope.unsavedCategory = true;
       }
     }, true);
+
+    // groups autocomplete
+    $scope.groupsCanEditAutocomplete = {
+      options: {
+        onlySelect: true,
+        source: function( request, uiResponse ) {
+          var categoriesPromise = Restangular.all('groups').getList({ name: request.term });
+
+          categoriesPromise.then(function(response) {
+            uiResponse( $.map( response.data, function( group ) {
+              return {
+                label: group.name,
+                value: group.name,
+                group: {id: group.id, name: group.name}
+              };
+            }));
+          });
+        },
+        messages: {
+          noResults: '',
+          results: function() {}
+        }
+      }
+    };
+
+    $scope.groupsCanViewAutocomplete = {
+      options: {
+        onlySelect: true,
+        source: function( request, uiResponse ) {
+          var categoriesPromise = Restangular.all('groups').getList({ name: request.term });
+
+          categoriesPromise.then(function(response) {
+            uiResponse( $.map( response.data, function( group ) {
+              return {
+                label: group.name,
+                value: group.name,
+                group: {id: group.id, name: group.name}
+              };
+            }));
+          });
+        },
+        messages: {
+          noResults: '',
+          results: function() {}
+        }
+      }
+    };
+
+    $scope.groupsCanEditAutocomplete.events = {
+      select: function( event, ui ) {
+        var found = false;
+
+        for (var i = $scope.category.groups_can_edit.length - 1; i >= 0; i--) {
+          if ($scope.category.groups_can_edit[i].id === ui.item.group.id)
+          {
+            found = true;
+          }
+        }
+
+        if (!found)
+        {
+          $scope.category.groups_can_edit.push(ui.item.group);
+        }
+      },
+
+      change: function() {
+        $scope.group = '';
+      }
+    };
+
+    $scope.groupsCanViewAutocomplete.events = {
+      select: function( event, ui ) {
+        var found = false;
+
+        for (var i = $scope.category.groups_can_view.length - 1; i >= 0; i--) {
+          if ($scope.category.groups_can_view[i].id === ui.item.group.id)
+          {
+            found = true;
+          }
+        }
+
+        if (!found)
+        {
+          $scope.category.groups_can_view.push(ui.item.group);
+        }
+      },
+
+      change: function() {
+        $scope.group = '';
+      }
+    };
+
+    $scope.removeGroupCanView = function(group) {
+      $scope.category.groups_can_view.splice($scope.category.groups_can_view.indexOf(group), 1);
+    };
+
+    $scope.removeGroupCanEdit = function(group) {
+      $scope.category.groups_can_edit.splice($scope.category.groups_can_edit.indexOf(group), 1);
+    };
 
     $scope.editFieldOptions = function(field) {
       $modal.open({
@@ -402,7 +504,7 @@ angular.
 
       // wait for images to process as base64
       $q.all(promises).then(function() {
-        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, private: $scope.category.private}; // jshint ignore:line
+        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, groups_can_view: $scope.category.groups_can_view, groups_can_edit: $scope.category.groups_can_edit}; // jshint ignore:line
         var formattedFormData = {sections: $scope.category.sections};
 
         if (updating)

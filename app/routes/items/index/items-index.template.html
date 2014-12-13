@@ -8,10 +8,14 @@
       <a href="#/items/map"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
     </div>
 
-    <div class="btn-group">
+    <div class="btn-group" ng-show="hasPermission('manage_inventory_categories') && hasPermission('manage_inventory_items')">
       <a href="#/items/select-category" class="btn btn-info btn-custom-group">+ Novo item</a>
-      <a href="#/items/categories" class="btn btn-info btn-custom-group" ng-hide="!hasPermission('manage_inventory_categories')">Gerenciar categorias</a>
+      <a href="#/items/categories" class="btn btn-info btn-custom-group">Gerenciar categorias</a>
     </div>
+
+    <a href="#/items/categories" class="btn btn-info btn-custom" ng-show="hasPermission('manage_inventory_categories') && !hasPermission('manage_inventory_items')">Gerenciar categorias</a>
+
+    <a href="#/items/select-category" class="btn btn-info btn-custom" ng-show="!hasPermission('manage_inventory_categories') && hasPermission('manage_inventory_items')">+ Novo item</a>
 
     <a href="" ng-click="reload(true)" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': reloading}"></i></a>
 
@@ -68,7 +72,7 @@
             ng-class="selectedCls('updated_at')" class="sort-table">
           <span>Última modificação</span><span class="arrow"></span>
         </td>
-        <td></td>
+        <td ng-hide="!hasPermission('manage_inventory_items')"></td>
       </tr>
     </thead>
 
@@ -78,7 +82,7 @@
       <td>{{ getInventoryCategory(item.inventory_category_id).title }}</td>
       <td>{{ item.created_at | date:'dd/MM/yy HH:mm'}}</td>
       <td>{{ item.updated_at | date:'dd/MM/yy HH:mm'}}</td>
-      <td class="actions">
+      <td class="actions" ng-hide="!hasPermission('manage_inventory_items')">
         <a class="icon_action" href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit">
           <span class="glyphicon glyphicon-edit"></span>
         </a>

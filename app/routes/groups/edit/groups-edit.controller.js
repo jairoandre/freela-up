@@ -27,6 +27,8 @@ angular
       'manage_reports_categories': false,
       'manage_reports': false,
       'manage_flows': false,
+      'delete_reports': false,
+      'edit_reports': false,
       'flow_can_view_all_steps': {},
       'flow_can_execute_all_steps': {},
       'flow_can_delete_own_cases': {},
@@ -39,21 +41,23 @@ angular
       'reports_categories_can_view': {},
       'inventory_categories_can_edit': {},
       'inventory_categories_can_view': {},
-      'inventory_sections_can_view': {},
-      'inventory_sections_can_edit': {},
-      'inventory_fields_can_view': {},
-      'inventory_fields_can_edit': {},
+      //'inventory_sections_can_view': {},
+      //'inventory_sections_can_edit': {},
+      //'inventory_fields_can_view': {},
+      //'inventory_fields_can_edit': {},
     };
 
     // we get all data that is necessary for each permission
     var groupsPromise = Restangular.all('groups').getList();
     var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList();
+    var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList();
 
-    var promises = [groupsPromise, reportsCategoriesPromise];
+    var promises = [groupsPromise, reportsCategoriesPromise, inventoryCategoriesPromise];
 
     $q.all(promises).then(function(responses) {
       $scope.data.groups = responses[0].data;
       $scope.data.reportsCategories = responses[1].data;
+      $scope.data.inventoryCategories = responses[2].data;
     });
 
     if (updating)

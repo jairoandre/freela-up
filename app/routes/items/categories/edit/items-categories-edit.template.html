@@ -30,7 +30,7 @@
   <div class="tabs">
     <a href="" ng-click="currentTab = 'fields'" ng-class="{'active': currentTab == 'fields'}">Campos</a>
     <a href="" ng-click="currentTab = 'statuses'" ng-class="{'active': currentTab == 'statuses'}">Estados</a>
-    <a href="" ng-click="currentTab = 'triggers'" ng-class="{'active': currentTab == 'triggers'}">Fórmulas</a>
+    <a href="" ng-click="currentTab = 'triggers'" ng-class="{'active': currentTab == 'triggers'}" ng-hide="!hasPermission('manage_inventory_formulas')">Fórmulas</a>
     <a href="" ng-click="currentTab = 'configs'" ng-class="{'active': currentTab == 'configs'}">Configurações</a>
   </div>
 
@@ -264,7 +264,7 @@
 
                       <div class="popover-content">
                         <div class="row">
-                          <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
+                          <div class="col-xs-6"><a href="" ng-click="$parent.popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
                           <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
                         </div>
                       </div>
@@ -546,12 +546,39 @@
 
   <div class="big_content pages-animation" ng-if="currentTab === 'configs'" style="padding: 40px">
       <div class="form-group">
-        <label>Categoria privada</label>
+        <label>Grupos com permissões para editar</label>
 
-        <div class="clearfix"></div>
+        <div class="selectGroups">
+          <div class="simple_search">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar grupos..." ng-model="category.groups_can_edit" ui-autocomplete="groupsCanEditAutocomplete" />
+          </div>
 
-        <input type="checkbox" bs-switch ng-model="category.private">
+          <ul>
+            <li ng-repeat="group in category.groups_can_edit">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
+          </ul>
+        </div>
 
       </div>
+
+      <hr />
+
+      <div class="form-group">
+        <label>Grupos com permissões para ver</label>
+
+        <div class="selectGroups">
+          <div class="simple_search">
+            <span class="glyphicon glyphicon-search search_icon"></span>
+            <input type="text" placeholder="Buscar grupos..." ng-model="category.groups_can_view" ui-autocomplete="groupsCanViewAutocomplete" />
+          </div>
+
+          <ul>
+            <li ng-repeat="group in category.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <hr />
   </div>
 </div>
