@@ -23,6 +23,7 @@ angular
       'manage_users': false,
       'manage_groups': false,
       'manage_inventory_categories': false,
+      'manage_inventory_formulas': false,
       'manage_inventory_items': false,
       'manage_reports_categories': false,
       'manage_reports': false,
