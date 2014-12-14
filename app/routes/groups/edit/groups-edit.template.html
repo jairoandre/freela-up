@@ -74,18 +74,26 @@
 
             <!-- reports_categories_can_edit -->
             <div ng-show="tab == 'reports_categories_can_edit'">
-              <ul>
-                <li ng-repeat="category in data.reportsCategories">
+              <ul ng-repeat="category in data.reportsCategories">
+                <li>
                   {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+
+                <li ng-repeat="subCategory in category.subcategories">
+                  {{ subCategory.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[subCategory.id]" switch-on-label="Sim" switch-off-label="Não">
                 </li>
               </ul>
             </div>
 
             <!-- reports_categories_can_view -->
             <div ng-show="tab == 'reports_categories_can_view'">
-              <ul>
-                <li ng-repeat="category in data.reportsCategories">
+              <ul ng-repeat="category in data.reportsCategories">
+                <li>
                   {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+
+                <li ng-repeat="subCategory in category.subcategories">
+                  {{ subCategory.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[subCategory.id]" switch-on-label="Sim" switch-off-label="Não">
                 </li>
               </ul>
             </div>

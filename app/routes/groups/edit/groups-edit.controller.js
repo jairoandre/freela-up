@@ -51,7 +51,7 @@ angular
 
     // we get all data that is necessary for each permission
     var groupsPromise = Restangular.all('groups').getList();
-    var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList();
+    var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({ display_type: 'full' });
     var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList();
 
     var promises = [groupsPromise, reportsCategoriesPromise, inventoryCategoriesPromise];
