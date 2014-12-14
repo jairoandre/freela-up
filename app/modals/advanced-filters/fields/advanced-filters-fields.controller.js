@@ -15,7 +15,7 @@ angular
       { condition: 'lesser_than', text: 'Menor que', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle'] },
       { condition: 'equal_to', text: 'Igual a', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
       { condition: 'different', text: 'Diferente de', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
-      { condition: 'like', text: 'Parecido com', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
+      { condition: 'like', text: 'Parecido com', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
       { condition: 'includes', text: 'Inclui', availableKinds: ['checkbox', 'radio', 'select'] },
       { condition: 'excludes', text: 'Não inclui', availableKinds: ['checkbox', 'radio', 'select'] },
     ];
@@ -55,6 +55,8 @@ angular
           if ($scope.newField.category.fields[i].id == $scope.newField.fieldId)
           {
             $scope.newField.field = $scope.newField.category.fields[i];
+
+            $scope.selectCondition(null);
           }
         };
       }
