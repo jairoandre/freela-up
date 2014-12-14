@@ -27,6 +27,14 @@ angular
       return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
     };
 
+    $scope.removeUserFromGroup = function(user) {
+      var deletePromise = Restangular.one('groups', groupId).all('users').remove({ user_id: user.id });
+
+      deletePromise.then(function() {
+        $scope.users.splice($scope.users.indexOf(user), 1);
+      });
+    };
+
     var groupsPromise = Restangular.one('groups', groupId).get();
     var usersPromise = Restangular.one('groups', groupId).one('users').getList();
 

@@ -37,6 +37,7 @@
 
               <li ng-class="{active: tab == 'inventory_categories_can_view'}"><a href="" ng-click="tab = 'inventory_categories_can_view'">Categorias de inventário que podem ver</a></li>
 
+              <!--
               <li ng-class="{active: tab == 'flow_can_view_all_steps'}"><a href="" ng-click="tab = 'flow_can_view_all_steps'">flow_can_view_all_steps</a></li>
 
               <li ng-class="{active: tab == 'flow_can_execute_all_steps'}"><a href="" ng-click="tab = 'flow_can_execute_all_steps'">flow_can_execute_all_steps</a></li>
@@ -47,7 +48,7 @@
 
               <li ng-class="{active: tab == 'can_view_step'}"><a href="" ng-click="tab = 'can_view_step'">can_view_step</a></li>
 
-              <li ng-class="{active: tab == 'can_execute_step'}"><a href="" ng-click="tab = 'can_execute_step'">can_execute_step</a></li>
+              <li ng-class="{active: tab == 'can_execute_step'}"><a href="" ng-click="tab = 'can_execute_step'">can_execute_step</a></li>-->
             </ul>
           </div>
 
@@ -73,18 +74,26 @@
 
             <!-- reports_categories_can_edit -->
             <div ng-show="tab == 'reports_categories_can_edit'">
-              <ul>
-                <li ng-repeat="category in data.reportsCategories">
+              <ul ng-repeat="category in data.reportsCategories">
+                <li>
                   {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+
+                <li ng-repeat="subCategory in category.subcategories">
+                  {{ subCategory.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[subCategory.id]" switch-on-label="Sim" switch-off-label="Não">
                 </li>
               </ul>
             </div>
 
             <!-- reports_categories_can_view -->
             <div ng-show="tab == 'reports_categories_can_view'">
-              <ul>
-                <li ng-repeat="category in data.reportsCategories">
+              <ul ng-repeat="category in data.reportsCategories">
+                <li>
                   {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                </li>
+
+                <li ng-repeat="subCategory in category.subcategories">
+                  {{ subCategory.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[subCategory.id]" switch-on-label="Sim" switch-off-label="Não">
                 </li>
               </ul>
             </div>
@@ -230,6 +239,20 @@
       </div>
 
       <div class="form-group">
+        <label>Este grupo pode gerenciar as configurações do sistema?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="manage_config" ng-model="permissions.manage_config" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="manage_config" ng-model="permissions.manage_config" ng-value="false"> Não
+        </label>
+      </div>
+
+      <!--
+      <div class="form-group">
         <label>Este grupo pode gerenciar fluxos?</label>
         <br />
 
@@ -240,7 +263,7 @@
         <label class="radio-inline">
           <input type="radio" name="manage_flows" ng-model="permissions.manage_flows" ng-value="false"> Não
         </label>
-      </div>
+      </div>-->
 
       <div class="form-group">
         <label>Insira usuários para participar do grupo</label>

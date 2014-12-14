@@ -15,36 +15,37 @@
       </ul>
     </div>
 
-    <div class="row" ng-class="{'disabled': newField.category === null}">
+    <div class="row" class="pages-animation" ng-show="newField.category !== null">
       <div class="col col-xs-4">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.fieldId" data-placeholder="Selecione uma opção">
+          <option value="">Selecione um campo...</option>
           <option ng-repeat="field in newField.category.fields" ng-value="field.id">{{ field.label && field.label || field.title }}</option>
         </select>
       </div>
 
-      <div class="col col-xs-3">
+      <div class="col col-xs-3" ng-hide="newField.field === null">
         <div class="btn-group btn-group-block">
           <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
             <span ng-show="newField.condition">{{ newField.condition.text }}</span> <span ng-hide="newField.condition">Selecione</span> <span class="caret"></span>
           </button>
 
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="method in methods"><a href="" ng-click="selectCondition(method)">{{ method.text }}</a></li>
+            <li ng-repeat="method in methods | filter: { availableKinds: newField.field.kind }"><a href="" ng-click="selectCondition(method)">{{ method.text }}</a></li>
           </ul>
         </div>
       </div>
 
-      <div class="col col-xs-4" ng-show="newField.field.kind !== 'radio' && newField.field.kind !== 'checkbox'">
+      <div class="col col-xs-4" ng-show="newField.field.kind !== 'radio' && newField.field.kind !== 'checkbox' && newField.field.kind !== 'select' && newField.field !== null">
         <input type="text" class="form-control" placeholder="Digite o valor" ng-model="newField.value" />
       </div>
 
-      <div class="col col-xs-4" ng-show="newField.field.kind === 'radio' || newField.field.kind === 'checkbox'">
+      <div class="col col-xs-4" ng-show="(newField.field.kind === 'radio' || newField.field.kind === 'checkbox' || newField.field.kind === 'select') && newField.field !== null">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.value" data-placeholder="Selecione uma opção" multiple>
           <option ng-repeat="value in newField.field.available_values" value="{{ value }}">{{ value }}</option>
         </select>
       </div>
 
-      <div class="col col-xs-1">
+      <div class="col col-xs-1" ng-show="newField.field !== null">
         <button type="button" class="btn btn-info btn-custom" ng-click="addItem()">Ok</button>
       </div>
 
@@ -76,16 +77,16 @@
           </button>
 
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="method in methods"><a href="" ng-click="changeCondition(method)">{{ method.text }}</a></li>
+            <li ng-repeat="method in methods | filter: { availableKinds: item.field.kind }"><a href="" ng-click="changeCondition(method)">{{ method.text }}</a></li>
           </ul>
         </div>
       </td>
 
-      <td ng-show="item.field.kind !== 'radio' && item.field.kind !== 'checkbox'">
+      <td ng-show="item.field.kind !== 'radio' && item.field.kind !== 'checkbox' && item.field.kind !== 'select'">
         <input type="text" class="form-control" placeholder="Digite o valor" ng-model="item.value" />
       </td>
 
-      <td ng-show="item.field.kind === 'radio' || item.field.kind === 'checkbox'">
+      <td ng-show="item.field.kind === 'radio' || item.field.kind === 'checkbox' || item.field.kind === 'select'">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.value" data-placeholder="Selecione uma opção" multiple>
           <option ng-repeat="value in item.field.available_values" value="{{ value }}">{{ value }}</option>
         </select>

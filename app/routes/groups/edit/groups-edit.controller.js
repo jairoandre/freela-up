@@ -23,12 +23,14 @@ angular
       'manage_users': false,
       'manage_groups': false,
       'manage_inventory_categories': false,
+      'manage_inventory_formulas': false,
       'manage_inventory_items': false,
       'manage_reports_categories': false,
       'manage_reports': false,
       'manage_flows': false,
       'delete_reports': false,
       'edit_reports': false,
+      'manage_config': false,
       'flow_can_view_all_steps': {},
       'flow_can_execute_all_steps': {},
       'flow_can_delete_own_cases': {},
@@ -49,7 +51,7 @@ angular
 
     // we get all data that is necessary for each permission
     var groupsPromise = Restangular.all('groups').getList();
-    var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList();
+    var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({ display_type: 'full' });
     var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList();
 
     var promises = [groupsPromise, reportsCategoriesPromise, inventoryCategoriesPromise];

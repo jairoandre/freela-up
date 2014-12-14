@@ -31,6 +31,7 @@
             ng-class="selectedCls('phone')" class="sort-table">
           <span>Telefone</span><span class="arrow"></span>
         </td>
+        <td>Remover usuário</td>
       </tr>
     </thead>
 
@@ -38,6 +39,7 @@
       <td><a href="#/users/{{ user.id }}">{{ user.name }}</a></td>
       <td>{{ user.email }}</td>
       <td>{{ user.phone }}</td>
+      <td><a href="" ng-click="removeUserFromGroup(user)">Remover <span class="glyphicon glyphicon-remove"></span></a></td>
     </tr>
 
   </table>
