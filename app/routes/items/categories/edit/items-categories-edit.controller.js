@@ -69,6 +69,15 @@ angular.
       return false;
     };
 
+    var getGroupById = function(id) {
+      for (var i = $scope.groups.length - 1; i >= 0; i--) {
+        if ($scope.groups[i].id == id)
+        {
+          return $scope.groups[i];
+        }
+      };
+    };
+
     if (updating)
     {
       if ($scope.category.plot_format === 'pin') // jshint ignore:line
@@ -79,6 +88,14 @@ angular.
       {
         $scope.category.plot_format = true; // jshint ignore:line
       }
+
+      for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
+        $scope.category.permissions.groups_can_edit[i] = getGroupById($scope.category.permissions.groups_can_edit[i]);
+      };
+
+      for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
+        $scope.category.permissions.groups_can_view[i] = getGroupById($scope.category.permissions.groups_can_view[i]);
+      };
     }
     else
     {
@@ -93,8 +110,12 @@ angular.
       $scope.category.plot_format = false; // jshint ignore:line
       $scope.category.statuses = [];
 
-      $scope.category.groups_can_edit = [];
-      $scope.category.groups_can_view = [];
+      $scope.category.permissions = {groups_can_edit: [], groups_can_view: []};
+
+      // we add all of our current groups into the `can_edit` array.
+      for (var i = $scope.me.groups.length - 1; i >= 0; i--) {
+        $scope.category.permissions.groups_can_edit.push($scope.me.groups[i]);
+      };
 
       $scope.category.sections = [{
           'title': 'Localização',
@@ -281,8 +302,8 @@ angular.
       select: function( event, ui ) {
         var found = false;
 
-        for (var i = $scope.category.groups_can_edit.length - 1; i >= 0; i--) {
-          if ($scope.category.groups_can_edit[i].id === ui.item.group.id)
+        for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
+          if ($scope.category.permissions.groups_can_edit[i].id === ui.item.group.id)
           {
             found = true;
           }
@@ -290,7 +311,7 @@ angular.
 
         if (!found)
         {
-          $scope.category.groups_can_edit.push(ui.item.group);
+          $scope.category.permissions.groups_can_edit.push(ui.item.group);
         }
       },
 
@@ -303,8 +324,8 @@ angular.
       select: function( event, ui ) {
         var found = false;
 
-        for (var i = $scope.category.groups_can_view.length - 1; i >= 0; i--) {
-          if ($scope.category.groups_can_view[i].id === ui.item.group.id)
+        for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
+          if ($scope.category.permissions.groups_can_view[i].id === ui.item.group.id)
           {
             found = true;
           }
@@ -312,7 +333,7 @@ angular.
 
         if (!found)
         {
-          $scope.category.groups_can_view.push(ui.item.group);
+          $scope.category.permissions.groups_can_view.push(ui.item.group);
         }
       },
 
@@ -504,8 +525,20 @@ angular.
 
       // wait for images to process as base64
       $q.all(promises).then(function() {
-        var formattedData = {title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, groups_can_view: $scope.category.groups_can_view, groups_can_edit: $scope.category.groups_can_edit}; // jshint ignore:line
-        var formattedFormData = {sections: $scope.category.sections};
+
+        // the permissions object should be only made of id's
+        var formattedPermissions = {groups_can_edit: [], groups_can_view: []};
+
+        for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
+          formattedPermissions.groups_can_edit.push($scope.category.permissions.groups_can_edit[i].id);
+        };
+
+        for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
+          formattedPermissions.groups_can_view.push($scope.category.permissions.groups_can_view[i].id);
+        };
+
+        var formattedData = { title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, permissions: formattedPermissions }; // jshint ignore:line
+        var formattedFormData = { sections: $scope.category.sections };
 
         if (updating)
         {
