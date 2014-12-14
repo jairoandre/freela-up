@@ -37,6 +37,7 @@
 
               <li ng-class="{active: tab == 'inventory_categories_can_view'}"><a href="" ng-click="tab = 'inventory_categories_can_view'">Categorias de inventário que podem ver</a></li>
 
+              <!--
               <li ng-class="{active: tab == 'flow_can_view_all_steps'}"><a href="" ng-click="tab = 'flow_can_view_all_steps'">flow_can_view_all_steps</a></li>
 
               <li ng-class="{active: tab == 'flow_can_execute_all_steps'}"><a href="" ng-click="tab = 'flow_can_execute_all_steps'">flow_can_execute_all_steps</a></li>
@@ -47,7 +48,7 @@
 
               <li ng-class="{active: tab == 'can_view_step'}"><a href="" ng-click="tab = 'can_view_step'">can_view_step</a></li>
 
-              <li ng-class="{active: tab == 'can_execute_step'}"><a href="" ng-click="tab = 'can_execute_step'">can_execute_step</a></li>
+              <li ng-class="{active: tab == 'can_execute_step'}"><a href="" ng-click="tab = 'can_execute_step'">can_execute_step</a></li>-->
             </ul>
           </div>
 
@@ -230,6 +231,20 @@
       </div>
 
       <div class="form-group">
+        <label>Este grupo pode gerenciar as configurações do sistema?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="manage_config" ng-model="permissions.manage_config" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="manage_config" ng-model="permissions.manage_config" ng-value="false"> Não
+        </label>
+      </div>
+
+      <!--
+      <div class="form-group">
         <label>Este grupo pode gerenciar fluxos?</label>
         <br />
 
@@ -240,7 +255,7 @@
         <label class="radio-inline">
           <input type="radio" name="manage_flows" ng-model="permissions.manage_flows" ng-value="false"> Não
         </label>
-      </div>
+      </div>-->
 
       <div class="form-group">
         <label>Insira usuários para participar do grupo</label>

@@ -30,6 +30,7 @@ angular
       'manage_flows': false,
       'delete_reports': false,
       'edit_reports': false,
+      'manage_config': false,
       'flow_can_view_all_steps': {},
       'flow_can_execute_all_steps': {},
       'flow_can_delete_own_cases': {},

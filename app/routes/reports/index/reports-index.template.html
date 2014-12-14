@@ -8,10 +8,12 @@
       <a href="#/reports/map"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
     </div>
 
-    <div class="btn-group">
-      <a href="#/reports/add" class="btn btn-info btn-custom-group">+ Novo item</a>
-      <a href="#/reports/categories" class="btn btn-info btn-custom-group" ng-hide="!hasPermission('manage_reports_categories')">Gerenciar categorias</a>
+    <div class="btn-group" ng-show="hasPermission('manage_reports_categories')">
+      <a href="#/reports/add" class="btn btn-info btn-custom-group">+ Novo relato</a>
+      <a href="#/reports/categories" class="btn btn-info btn-custom-group">Gerenciar categorias</a>
     </div>
+
+    <a href="#/reports/add" class="btn btn-info btn-custom" ng-show="!hasPermission('manage_reports_categories')">+ Novo relato</a>
 
     <a href="" ng-click="reload(true)" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': reloading}"></i></a>
 
