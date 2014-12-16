@@ -35,6 +35,7 @@ angular.
 
     $scope.availableInputs = [
       {kind: 'text', name: 'Campo de texto', multipleOptions: false},
+      {kind: 'textarea', name: 'Campo de parágrafo', multipleOptions: false},
       {kind: 'integer', name: 'Campo numérico', multipleOptions: false},
       {kind: 'decimal', name: 'Campo decimal', multipleOptions: false},
       {kind: 'checkbox', name: 'Campo de múltipla escolha', multipleOptions: true},

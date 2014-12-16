@@ -288,11 +288,11 @@ angular
 
                 if (attrs.mapCategory === 'report')
                 {
-                  html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/{{ item.id }}">Ver detalhes</a></div>';
+                  html = '<div class="pinTooltip"><h1>{{category.title}}</h1><p>Enviado em {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/{{ item.id }}">Ver detalhes</a></div>';
                 }
                 else
                 {
-                  html = '<div class="pinTooltip"><h1>{{ item.title }}</h1><p>Enviada {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
+                  html = '<div class="pinTooltip"><h1>{{ item.title }}</h1><p>Criado em {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
                 }
 
                 var newScope = scope.$new(true);

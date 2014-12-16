@@ -168,8 +168,8 @@
 
                   <div class="clearfix"></div>
 
-                  <!-- input type: text, url, email -->
-                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email'" disabled="disabled">
+                  <!-- input type: text, url, email, textarea -->
+                  <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text' || field.kind == 'url' || field.kind == 'email' || field.kind == 'textarea'" disabled="disabled">
 
                   <!-- input type date, time, cpf, cnpj -->
                   <div class="custom_size col-xs-3" ng-if="field.kind == 'date' || field.kind == 'time' || field.kind == 'cpf' || field.kind == 'cnpj'">

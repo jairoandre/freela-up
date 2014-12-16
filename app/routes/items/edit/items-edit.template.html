@@ -103,6 +103,9 @@
             <!-- field type: text -->
             <input class="form-control" id="generic_input_{{ field.id }}" type="text" ng-if="field.kind == 'text'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required">
 
+            <!-- field type: textarea -->
+            <textarea class="form-control" id="generic_input_{{ field.id }}" ng-if="field.kind == 'textarea'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required"></textarea>
+
             <!-- field type: url -->
             <input class="form-control" id="generic_input_{{ field.id }}" type="url" ng-if="field.kind == 'url'" ng-model="itemData[field.id]" generic-input name="{{ field.title }}" ng-minlength="{{ field.minimum }}" ng-maxlength="{{ field.maximum }}" ng-required="field.required">
 

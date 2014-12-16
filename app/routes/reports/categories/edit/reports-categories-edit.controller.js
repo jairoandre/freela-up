@@ -43,7 +43,6 @@ angular
         // ...and we populate $scope.category with the data from the server =)
         category.title = responses[1].data.title;
         category.color = responses[1].data.color;
-        category.private = responses[1].data.private;
         category.confidential = responses[1].data.confidential;
         category.parent_id = responses[1].data.parent_id;
         category.allows_arbitrary_position = responses[1].data.allows_arbitrary_position; // jshint ignore:line
