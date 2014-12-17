@@ -305,26 +305,48 @@
       <div class="form-group">
         <label>Tempo de resolução do relato</label>
 
+        <div class="clearfix"></div>
+
         <div class="row">
-          <div class="col-md-1">
-            <input type="text" class="form-control input-lg" ng-model="category.resolution_time" generic-input name="resolution_time">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.resolution_time_enabled">
           </div>
 
-          <div class="col-md-2" style="padding: 0px;">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
-              <span ng-show="defaultResolutionTimeSelection == 60">Minutos</span> <span ng-show="defaultResolutionTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
-              </button>
+          <div ng-show="category.resolution_time_enabled">
+            <div class="col-md-1">
+              <input type="text" class="form-control input-lg" ng-model="category.resolution_time" generic-input name="resolution_time">
+            </div>
 
-              <ul class="dropdown-menu" role="menu">
-                <li ng-class="{active: defaultResolutionTimeSelection == 60}"><a href="" ng-click="defaultResolutionTimeSelection = 60">Minutos</a></li>
-                <li ng-class="{active: defaultResolutionTimeSelection == 3600}"><a href="" ng-click="defaultResolutionTimeSelection = 3600">Horas</a></li>
-              </ul>
+            <div class="col-md-2" style="padding: 0px;">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
+                <span ng-show="defaultResolutionTimeSelection == 60">Minutos</span> <span ng-show="defaultResolutionTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-class="{active: defaultResolutionTimeSelection == 60}"><a href="" ng-click="defaultResolutionTimeSelection = 60">Minutos</a></li>
+                  <li ng-class="{active: defaultResolutionTimeSelection == 3600}"><a href="" ng-click="defaultResolutionTimeSelection = 3600">Horas</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <span class="help-block" style="margin-top: 15px;">Se ativado, o tempo de resolução permite controlar o estado do tempo de resolução que é o tempo em que o relato foi aberto até o seu fechamento. Se passar do período setado aqui, o chamado entrará em atraso automaticamente.</span>
+      </div>
+
+      <div class="form-group" ng-show="category.resolution_time_enabled">
+        <label>Tempo de resolução privado</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.private_resolution_time">
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Se selecionado não, o tempo para resolução será exibido para os usuários no momento em que o relato esta sendo criado. Se sim, apenas será usado dentro do painel ZUP. Caso o chamado entre em atraso, o atraso não será exibido nos aplicativos.</span>
       </div>
 
       <div class="form-group">

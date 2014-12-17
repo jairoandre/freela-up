@@ -47,6 +47,8 @@ angular
         category.parent_id = responses[1].data.parent_id;
         category.allows_arbitrary_position = responses[1].data.allows_arbitrary_position; // jshint ignore:line
         category.statuses = responses[1].data.statuses;
+        category.private_resolution_time = responses[1].data.private_resolution_time;
+        category.resolution_time_enabled = responses[1].data.resolution_time_enabled;
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {

@@ -26,18 +26,70 @@ angular
     else
     {
       $scope.loading = false;
-      $scope.user = {};
+      $scope.user = { groups: [] };
     }
+
+    // groups autocomplete
+    $scope.groupsAutocomplete = {
+      options: {
+        onlySelect: true,
+        source: function( request, uiResponse ) {
+          var categoriesPromise = Restangular.all('groups').getList({ name: request.term });
+
+          categoriesPromise.then(function(response) {
+            uiResponse( $.map( response.data, function( group ) {
+              return {
+                label: group.name,
+                value: group.name,
+                group: {id: group.id, name: group.name}
+              };
+            }));
+          });
+        },
+        messages: {
+          noResults: '',
+          results: function() {}
+        }
+      }
+    };
+
+    $scope.groupsAutocomplete.events = {
+      select: function( event, ui ) {
+        var found = false;
+
+        for (var i = $scope.user.groups.length - 1; i >= 0; i--) {
+          if ($scope.user.groups[i].id === ui.item.group.id)
+          {
+            found = true;
+          }
+        }
+
+        if (!found)
+        {
+          $scope.user.groups.push(ui.item.group);
+        }
+      },
+
+      change: function() {
+        $scope.group = '';
+      }
+    };
+
+    $scope.removeGroup = function(group) {
+      $scope.user.groups.splice($scope.user.groups.indexOf(group), 1);
+    };
 
     $scope.send = function() {
       $scope.inputErrors = null;
       $scope.processingForm = true;
       $rootScope.resolvingRequest = true;
 
+      var user = angular.copy($scope.user);
+
       // PUT if updating and POST if creating a new user
       if (updating)
       {
-        var putUserPromise = Restangular.one('users', userId).customPUT($scope.user);
+        var putUserPromise = Restangular.one('users', userId).customPUT(user);
 
         putUserPromise.then(function() {
           $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
@@ -54,7 +106,19 @@ angular
       }
       else
       {
-        var postUserPromise = Restangular.one('users').post(null, $scope.user);
+        if (user.groups.length !== 0)
+        {
+          user.groups_ids = [];
+
+          for (var i = user.groups.length - 1; i >= 0; i--) {
+            user.groups_ids.push(user.groups[i].id);
+          };
+        }
+
+        // remove unecessary data from the request
+        delete user.groups;
+
+        var postUserPromise = Restangular.one('users').post(null, user);
 
         postUserPromise.then(function() {
           $scope.showMessage('ok', 'O usuário foi criado com sucesso', 'success', true);
