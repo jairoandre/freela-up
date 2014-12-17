@@ -58,7 +58,7 @@
             <div ng-show="tab == 'groups_can_edit'">
               <ul>
                 <li ng-repeat="group in data.groups">
-                  {{ group.name }} <input bs-switch type="checkbox" ng-model="permissions.groups_can_edit[group.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ group.name }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.groups_can_edit[group.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
@@ -67,7 +67,7 @@
             <div ng-show="tab == 'groups_can_view'">
               <ul>
                 <li ng-repeat="group in data.groups">
-                  {{ group.name }} <input bs-switch type="checkbox" ng-model="permissions.groups_can_view[group.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ group.name }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.groups_can_view[group.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
@@ -76,11 +76,11 @@
             <div ng-show="tab == 'reports_categories_can_edit'">
               <ul ng-repeat="category in data.reportsCategories">
                 <li>
-                  {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ category.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
 
                 <li ng-repeat="subCategory in category.subcategories">
-                  {{ subCategory.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[subCategory.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ subCategory.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_edit[subCategory.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
@@ -89,11 +89,11 @@
             <div ng-show="tab == 'reports_categories_can_view'">
               <ul ng-repeat="category in data.reportsCategories">
                 <li>
-                  {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ category.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
 
                 <li ng-repeat="subCategory in category.subcategories">
-                  {{ subCategory.title }} <input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[subCategory.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ subCategory.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.reports_categories_can_view[subCategory.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
@@ -102,7 +102,7 @@
             <div ng-show="tab == 'inventory_categories_can_edit'">
               <ul>
                 <li ng-repeat="category in data.inventoryCategories">
-                  {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ category.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_edit[category.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
@@ -111,7 +111,7 @@
             <div ng-show="tab == 'inventory_categories_can_view'">
               <ul>
                 <li ng-repeat="category in data.inventoryCategories">
-                  {{ category.title }} <input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não">
+                  {{ category.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
