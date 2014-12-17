@@ -67,6 +67,27 @@
 
     <hr />
 
+    <div ng-show="hasPermission('manage_groups') && !updating">
+      <p>Por padrão, todos os usuários são adicionados ao grupo <b>Público</b>. Se desejar, você pode especificar abaixo quais grupos este novo usuário deve pertencer.</p>
+
+      <div class="form-group">
+        <label>Grupos do usuário</label>
+
+        <div class="selectGroups">
+          <div class="simpleSearch">
+            <span class="glyphicon glyphicon-search searchIcon"></span>
+            <input type="text" placeholder="Buscar grupos..." ng-model="user.groups" ui-autocomplete="groupsAutocomplete" />
+          </div>
+
+          <ul>
+            <li ng-repeat="group in user.groups">{{ group.name }} <button type="button" class="remove" ng-click="removeGroup(group)">×</button></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr />
+    </div>
+
     <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar usuário</button>
 
     <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar usuário</button>
