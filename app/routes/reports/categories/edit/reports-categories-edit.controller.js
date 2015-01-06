@@ -26,6 +26,23 @@ angular
     $scope.defaultResolutionTimeSelection = 60;
     $scope.defaultUserResponseTimeSelection = 60;
 
+    var DAY = 60 * 60 * 24, HOUR = 60 * 60, MINUTE = 60;
+
+    var checkTimeFormat = function(timeInSeconds) {
+      if (timeInSeconds % DAY == 0)
+      {
+        return DAY;
+      }
+      else if (timeInSeconds % HOUR == 0)
+      {
+        return HOUR;
+      }
+      else
+      {
+        return MINUTE;
+      }
+    };
+
     $scope.reportCategories = reportCategoriesResponse.data;
 
     var categoriesPromise = Restangular.one('inventory').all('categories').getList(), category;
@@ -53,13 +70,19 @@ angular
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
           $scope.enabledUserResponseTime = true;
-          category.user_response_time = Math.round(responses[1].data.user_response_time / 60); // jshint ignore:line
+          category.user_response_time = responses[1].data.user_response_time; // jshint ignore:line
+
+          $scope.defaultUserResponseTimeSelection = checkTimeFormat(category.user_response_time);
+          $scope.preferedUserResponseTime = category.user_response_time / $scope.defaultUserResponseTimeSelection;
         }
 
         if (responses[1].data.resolution_time !== null) // jshint ignore:line
         {
           // ...and convert resolution_time to minutes
-          category.resolution_time = Math.round(responses[1].data.resolution_time  / 60); // jshint ignore:line
+          category.resolution_time = responses[1].data.resolution_time; // jshint ignore:line
+
+          $scope.defaultResolutionTimeSelection = checkTimeFormat(category.resolution_time);
+          $scope.preferedResolutionTime = category.resolution_time / $scope.defaultResolutionTimeSelection;
         }
 
         category.inventory_categories = []; // jshint ignore:line
@@ -181,6 +204,24 @@ angular
       });
     };
 
+    $scope.$watch('preferedResolutionTime', function() {
+      category.resolution_time = $scope.preferedResolutionTime * $scope.defaultResolutionTimeSelection;
+    });
+
+    $scope.changeDefaultResolutionTimeSelection = function(seconds) {
+      $scope.preferedResolutionTime = Math.round(category.resolution_time / seconds);
+      $scope.defaultResolutionTimeSelection = seconds;
+    };
+
+    $scope.$watch('preferedUserResponseTime', function() {
+      category.user_response_time = $scope.preferedUserResponseTime * $scope.defaultUserResponseTimeSelection;
+    });
+
+    $scope.changeDefaultUserResponseTimeSelection = function(seconds) {
+      $scope.preferedUserResponseTime = Math.round(category.user_response_time / seconds);
+      $scope.defaultUserResponseTimeSelection = seconds;
+    };
+
     $scope.send = function() {
       $scope.inputErrors = null;
       $rootScope.resolvingRequest = true;
@@ -265,12 +306,12 @@ angular
         }
 
         // And we convert the user selection to seconds
-        editedCategory.resolution_time = Math.round(editedCategory.resolution_time * $scope.defaultResolutionTimeSelection); // jshint ignore:line
+        editedCategory.resolution_time = editedCategory.resolution_time; // jshint ignore:line
 
         // also the user feedback time we convert it to seconds
         if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabledUserResponseTime == true) // jshint ignore:line
         {
-          editedCategory.user_response_time = Math.round(editedCategory.user_response_time * $scope.defaultUserResponseTimeSelection); // jshint ignore:line
+          editedCategory.user_response_time = editedCategory.user_response_time; // jshint ignore:line
         }
         else
         {
