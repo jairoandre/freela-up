@@ -383,13 +383,13 @@ angular.
         {
           $scope.unsavedCategory = false;
           $scope.loading = true;
-          $state.go('items.categories');
+          $state.transitionTo('items.categories', null, {'reload': true});
         }
       }
       else
       {
         $scope.loading = true;
-        $state.go('items.categories');
+        $state.transitionTo('items.categories', null, {'reload': true});
       }
     };
 
