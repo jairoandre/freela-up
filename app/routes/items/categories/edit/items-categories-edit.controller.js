@@ -555,6 +555,10 @@ angular.
           var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
           var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
 
+          putCategoryFormsPromise.then(function(response) {
+            $scope.category.sections = response.data.sections;
+          });
+
           $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
             $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
 
