@@ -2,7 +2,7 @@ angular
   .module('ReportsModule', [
     'ReportsIndexModule',
     'ReportsShowModule',
-    'ReportsEditModule',
+    'ReportsAddModule',
     'ReportsCategoriesIndexModule',
     'ReportsCategoriesEditModule'
   ])
