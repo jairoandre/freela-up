@@ -8,14 +8,6 @@ angular
     RestangularProvider.setBaseUrl(ENV.apiEndpoint);
     RestangularProvider.setFullResponse(true);
 
-    RestangularProvider.setRequestInterceptor(function(elem, operation) {
-      if (operation === 'remove') {
-        return null;
-      }
-
-      return elem;
-    });
-
     // ui-select config
     uiSelectConfig.theme = 'bootstrap';
 
@@ -54,7 +46,7 @@ angular
         return $delegate;
     }]);
   }])
-  .run(['Restangular', 'Auth', '$rootScope', '$timeout', function(Restangular, Auth, $rootScope, $timeout) {
+  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', function(Restangular, Auth, $rootScope, $timeout, Error, $http) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
 
     // Return what is being requested
@@ -80,6 +72,33 @@ angular
       }
 
       return response;
+    });
+
+    // FIXME THIS IS WHATEVER FOLKS
+    // https://github.com/angular/angular.js/issues/10349
+    // :@
+    function transformResponse(data) {
+      var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+
+      if (typeof data === 'string') {
+        data = data.replace(PROTECTION_PREFIX, '');
+
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          return data;
+        }
+      }
+
+      return data;
+    }
+
+    $http.defaults.transformResponse = [transformResponse];
+
+    Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
+      Error.show(response);
+
+      return true;
     });
 
     $rootScope.$on('$stateChangeStart', function() {

@@ -23,6 +23,7 @@ angular
     'AuthServiceModule',
     'UserServiceModule',
     'FullResponseRestangularServiceModule',
+    'ErrorServiceModule',
 
     // Core components
     'NavItemComponentModule',
