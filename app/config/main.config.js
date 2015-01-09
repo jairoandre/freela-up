@@ -96,7 +96,10 @@ angular
     $http.defaults.transformResponse = [transformResponse];
 
     Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
-      Error.show(response);
+      if (typeof response.config.treatingErrors === 'undefined' || response.config.treatingErrors === false)
+      {
+        Error.show(response);
+      }
 
       return true;
     });

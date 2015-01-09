@@ -3,10 +3,10 @@
 angular
   .module('ErrorModalControllerModule', [])
 
-  .controller('ErrorModalController', function($scope, response) {
+  .controller('ErrorModalController', function($scope, $modalInstance, response) {
     $scope.response = response;
 
     $scope.ok = function () {
-      window.location.reload();
+      $modalInstance.close();
     };
   });
