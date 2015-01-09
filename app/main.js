@@ -18,6 +18,7 @@ angular
     'colorpicker.module',
     'frapontillo.bootstrap-switch',
     'ngStorage',
+    'ngRaven',
 
     // Core services
     'AuthServiceModule',
