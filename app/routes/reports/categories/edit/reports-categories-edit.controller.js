@@ -7,7 +7,7 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, Error) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -326,7 +326,7 @@ angular
             editedCategory.icon = icon;
           }
 
-          var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
+          var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).withHttpConfig({ treatingErrors: true }).customPUT(editedCategory);
 
           putCategoryPromise.then(function() {
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
@@ -335,7 +335,15 @@ angular
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
-            $scope.inputErrors = response.data.error;
+            if (typeof response.data.error !== 'object')
+            {
+              Error.show(response);
+            }
+            else
+            {
+              $scope.inputErrors = response.data.error;
+            }
+
             $rootScope.resolvingRequest = false;
           });
         }
@@ -344,7 +352,7 @@ angular
           editedCategory.icon = icon;
           editedCategory.marker = icon;
 
-          var postCategoryPromise = Restangular.one('reports').post('categories', editedCategory);
+          var postCategoryPromise = Restangular.one('reports').withHttpConfig({ treatingErrors: true }).post('categories', editedCategory);
 
           postCategoryPromise.then(function() {
             $location.path('/reports/categories');
@@ -353,7 +361,15 @@ angular
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
-            $scope.inputErrors = response.data.error;
+            if (typeof response.data.error !== 'object')
+            {
+              Error.show(response);
+            }
+            else
+            {
+              $scope.inputErrors = response.data.error;
+            }
+
             $rootScope.resolvingRequest = false;
           });
         }
