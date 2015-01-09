@@ -41,6 +41,7 @@
     "angular": "1.2.26",
     "hamsterjs": ">=1.0.2",
     "bootstrap-switch": "~3.0.2",
-    "angular-mocks": "1.2.10"
+    "angular-mocks": "1.2.10",
+    "jquery": ">= 1.9.1"
   }
 }
