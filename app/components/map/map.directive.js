@@ -117,7 +117,7 @@ angular
               var items = scope.getData(false, {
                 position: {'latitude': mapProvider.map.getCenter().lat(), 'longitude': mapProvider.map.getCenter().lng(), 'distance': mapProvider.getDistance()},
                 zoom: mapProvider.map.getZoom(),
-                limit: 100
+                limit: 400
               });
 
               items.then(function(response) {
