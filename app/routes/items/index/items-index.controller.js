@@ -8,7 +8,7 @@ angular
   .controller('ItemsIndexController', function ($scope, $modal, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies) {
     $scope.loading = true;
 
-    var page = 1, perPage = 30, total, searchText = '';
+    var page = 1, perPage = 100, total, searchText = '';
 
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
