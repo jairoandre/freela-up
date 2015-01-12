@@ -117,7 +117,6 @@ angular
         inventory_categories: [], // jshint ignore:line
         allows_arbitrary_position: true, // jshint ignore:line
         color: '#2AB4DC',
-        private: false,
         statuses: [
           {'title': 'Em andamento', 'color': '#f8b01d', 'initial': false, 'final': false, 'active': true, 'created_at': '2014-03-05T01: 12: 34.181-03: 00', 'updated_at': '2014-03-05T01: 12: 34.181-03: 00', 'private': false},
           {'title': 'Resolvidas', 'color': '#78c953', 'initial': false, 'final': true, 'active': true, 'created_at': '2014-03-05T01: 12: 34.195-03: 00', 'updated_at': '2014-03-05T01: 12: 34.195-03: 00', 'private': false},
