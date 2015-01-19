@@ -42,5 +42,6 @@ angular
     'UsersModule',
     'GroupsModule',
     'HelpModule',
-    'FlowsModule'
+    'FlowsModule',
+    'CasesModule'
   ]);
