@@ -484,8 +484,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin',
-    'string-replace'
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
