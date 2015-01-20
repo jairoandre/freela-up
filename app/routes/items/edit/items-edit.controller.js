@@ -272,12 +272,14 @@ angular
         }
       }, true);
 
+      var repeatTimeout = true;
+
       // we are updating an item, so every 45 seconds we make a new PATCH /inventory/categories/:category_id/items/:id/update_access to lock the item
       var lockItem = function() {
         Restangular.all('inventory').one('categories', categoryId).one('items', itemId).all('update_access').patch();
 
-        $timeout(function() {
-          lockItem();
+        var timeout = $timeout(function() {
+          if (repeatTimeout) lockItem();
         }, 45000);
       };
 
@@ -285,6 +287,10 @@ angular
       {
         lockItem();
       }
+
+      $scope.$on('$destroy', function() {
+        repeatTimeout = false;
+      });
     }
 
     $scope.openMapModal = function () {

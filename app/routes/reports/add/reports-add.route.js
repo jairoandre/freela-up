@@ -1,25 +1,16 @@
 angular
-  .module('ReportsEditModule', [
-    'ReportsEditControllerModule'
+  .module('ReportsAddModule', [
+    'ReportsAddControllerModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
 
-    $stateProvider.state('reports.show.edit', {
-      url: '/edit',
-      views: {
-        '@reports': {
-          templateUrl: 'routes/reports/edit/reports-edit.template.html',
-          controller: 'ReportsEditController',
-          controllerAs: 'ctrl',
-        }
-      }
-    }).state('reports.add', {
+    $stateProvider.state('reports.add', {
       url: '/add',
       views: {
         '': {
-          templateUrl: 'routes/reports/edit/reports-edit.template.html',
-          controller: 'ReportsEditController',
+          templateUrl: 'routes/reports/add/reports-add.template.html',
+          controller: 'ReportsAddController',
           controllerAs: 'ctrl',
           resolve: {
             'inventoriesCategoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
@@ -28,7 +19,7 @@ angular
 
             'reportCategoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
               return Restangular.all('reports').all('categories').getList({'display_type': 'full'});
-            }],
+            }]
           }
         }
       }

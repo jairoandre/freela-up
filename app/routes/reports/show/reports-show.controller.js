@@ -3,7 +3,8 @@
 angular
   .module('ReportsShowControllerModule', [
     'MapShowReportComponentModule',
-    'ReportsEditStatusModalControllerModule'
+    'ReportsEditStatusModalControllerModule',
+    'ReportsEditModalControllerModule'
   ])
 
   .controller('ReportsShowController', function ($scope, Restangular, $stateParams, $q, $modal, reportResponse, feedbackResponse, categoriesResponse) {
@@ -54,6 +55,19 @@ angular
           }
         },
         controller: 'ReportsEditStatusModalController'
+      });
+    };
+
+    $scope.edit = function () {
+      $modal.open({
+        templateUrl: 'modals/reports/edit/reports-edit.template.html',
+        windowClass: 'editReportModal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          }
+        },
+        controller: 'ReportsEditModalController'
       });
     };
   });

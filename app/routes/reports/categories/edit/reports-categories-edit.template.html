@@ -313,19 +313,20 @@
           </div>
 
           <div ng-show="category.resolution_time_enabled">
-            <div class="col-md-1">
-              <input type="text" class="form-control input-lg" ng-model="category.resolution_time" generic-input name="resolution_time">
+            <div class="custom-time-column">
+              <input type="text" class="form-control" ng-model="preferedResolutionTime" generic-input name="resolution_time">
             </div>
 
-            <div class="col-md-2" style="padding: 0px;">
+            <div class="custom-time-select-column">
               <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
+                <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle" data-toggle="dropdown">
                 <span ng-show="defaultResolutionTimeSelection == 60">Minutos</span> <span ng-show="defaultResolutionTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
                 </button>
 
                 <ul class="dropdown-menu" role="menu">
-                  <li ng-class="{active: defaultResolutionTimeSelection == 60}"><a href="" ng-click="defaultResolutionTimeSelection = 60">Minutos</a></li>
-                  <li ng-class="{active: defaultResolutionTimeSelection == 3600}"><a href="" ng-click="defaultResolutionTimeSelection = 3600">Horas</a></li>
+                  <li ng-class="{active: defaultResolutionTimeSelection == 60}"><a href="" ng-click="changeDefaultResolutionTimeSelection(60)">Minutos</a></li>
+                  <li ng-class="{active: defaultResolutionTimeSelection == 3600}"><a href="" ng-click="changeDefaultResolutionTimeSelection(3600)">Horas</a></li>
+                  <li ng-class="{active: defaultResolutionTimeSelection == 86400}"><a href="" ng-click="changeDefaultResolutionTimeSelection(86400)">Dias</a></li>
                 </ul>
               </div>
             </div>
@@ -393,19 +394,20 @@
             <input type="checkbox" class="pull-right" bs-switch ng-model="enabledUserResponseTime">
           </div>
 
-          <div class="col-md-1" ng-show="enabledUserResponseTime">
-            <input type="text" class="form-control input-lg" ng-model="category.user_response_time" generic-input name="user_response_time">
+          <div class="custom-time-column" ng-show="enabledUserResponseTime">
+            <input type="text" class="form-control" ng-model="preferedUserResponseTime" generic-input name="user_response_time">
           </div>
 
-          <div class="col-md-2" ng-show="enabledUserResponseTime">
+          <div class="custom-time-select-column" ng-show="enabledUserResponseTime">
             <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle input-lg" data-toggle="dropdown">
+              <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle" data-toggle="dropdown">
               <span ng-show="defaultUserResponseTimeSelection == 60">Minutos</span> <span ng-show="defaultUserResponseTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">
-                <li ng-class="{active: defaultUserResponseTimeSelection == 60}"><a href="" ng-click="defaultUserResponseTimeSelection = 60">Minutos</a></li>
-                <li ng-class="{active: defaultUserResponseTimeSelection == 3600}"><a href="" ng-click="defaultUserResponseTimeSelection = 3600">Horas</a></li>
+                <li ng-class="{active: defaultUserResponseTimeSelection == 60}"><a href="" ng-click="changeDefaultUserResponseTimeSelection(60)">Minutos</a></li>
+                <li ng-class="{active: defaultUserResponseTimeSelection == 3600}"><a href="" ng-click="changeDefaultUserResponseTimeSelection(3600)">Horas</a></li>
+                <li ng-class="{active: defaultUserResponseTimeSelection == 86400}"><a href="" ng-click="changeDefaultUserResponseTimeSelection(86400)">Dias</a></li>
               </ul>
             </div>
           </div>

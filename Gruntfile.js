@@ -22,6 +22,7 @@ module.exports = function (grunt) {
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
     MAP_ZOOM: process.env.MAP_ZOOM,
+    SENTRY_DSN: process.env.SENTRY_DSN,
 
     // Project settings
     yeoman: {
@@ -369,6 +370,20 @@ module.exports = function (grunt) {
       }
     },
 
+    'string-replace': {
+      kit: {
+        files: {
+          '<%= yeoman.dist %>/': '<%= yeoman.dist %>/index.html'
+        },
+        options: {
+          replacements: [{
+            pattern: 'https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327',
+            replacement: '<%= SENTRY_DSN %>'
+          }]
+        }
+      }
+    },
+
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -418,7 +433,6 @@ module.exports = function (grunt) {
       }
     }
   });
-
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
