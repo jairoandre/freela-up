@@ -37,18 +37,9 @@
 
               <li ng-class="{active: tab == 'inventory_categories_can_view'}"><a href="" ng-click="tab = 'inventory_categories_can_view'">Categorias de inventário que podem ver</a></li>
 
-              <!--
-              <li ng-class="{active: tab == 'flow_can_view_all_steps'}"><a href="" ng-click="tab = 'flow_can_view_all_steps'">flow_can_view_all_steps</a></li>
+              <li ng-class="{active: tab == 'flow_can_execute_all_steps'}"><a href="" ng-click="tab = 'flow_can_execute_all_steps'">Fluxos que podem executar todas as etapas</a></li>
 
-              <li ng-class="{active: tab == 'flow_can_execute_all_steps'}"><a href="" ng-click="tab = 'flow_can_execute_all_steps'">flow_can_execute_all_steps</a></li>
-
-              <li ng-class="{active: tab == 'flow_can_delete_own_cases'}"><a href="" ng-click="tab = 'flow_can_delete_own_cases'">flow_can_delete_own_cases</a></li>
-
-              <li ng-class="{active: tab == 'flow_can_delete_all_cases'}"><a href="" ng-click="tab = 'flow_can_delete_all_cases'">flow_can_delete_all_cases</a></li>
-
-              <li ng-class="{active: tab == 'can_view_step'}"><a href="" ng-click="tab = 'can_view_step'">can_view_step</a></li>
-
-              <li ng-class="{active: tab == 'can_execute_step'}"><a href="" ng-click="tab = 'can_execute_step'">can_execute_step</a></li>-->
+              <li ng-class="{active: tab == 'flow_can_view_all_steps'}"><a href="" ng-click="tab = 'flow_can_view_all_steps'">Fluxos que podem visualizar todas as etapas</a></li>
             </ul>
           </div>
 
@@ -112,6 +103,24 @@
               <ul>
                 <li ng-repeat="category in data.inventoryCategories">
                   {{ category.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.inventory_categories_can_view[category.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- flow_can_execute_all_steps -->
+            <div ng-show="tab == 'flow_can_execute_all_steps'">
+              <ul>
+                <li ng-repeat="flow in data.flows">
+                  {{ flow.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.flow_can_execute_all_steps[flow.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- flow_can_view_all_steps -->
+            <div ng-show="tab == 'flow_can_view_all_steps'">
+              <ul>
+                <li ng-repeat="flow in data.flows">
+                  {{ flow.title }} <span class="pull-right"><input bs-switch type="checkbox" ng-model="permissions.flow_can_view_all_steps[flow.id]" switch-on-label="Sim" switch-off-label="Não"></span> <div class="clearfix"></div>
                 </li>
               </ul>
             </div>
@@ -251,7 +260,6 @@
         </label>
       </div>
 
-      <!--
       <div class="form-group">
         <label>Este grupo pode gerenciar fluxos?</label>
         <br />
@@ -263,7 +271,33 @@
         <label class="radio-inline">
           <input type="radio" name="manage_flows" ng-model="permissions.manage_flows" ng-value="false"> Não
         </label>
-      </div>-->
+      </div>
+
+      <div class="form-group">
+        <label>Este grupo pode pode deletar/restaurar qualquer caso?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="flow_can_delete_all_cases" ng-model="permissions.flow_can_delete_all_cases" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="flow_can_delete_all_cases" ng-model="permissions.flow_can_delete_all_cases" ng-value="false"> Não
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Este grupo pode pode deletar/restaurar casos próprios?</label>
+        <br />
+
+        <label class="radio-inline">
+          <input type="radio" name="flow_can_delete_own_cases" ng-model="permissions.flow_can_delete_own_cases" ng-value="true"> Sim
+        </label>
+
+        <label class="radio-inline">
+          <input type="radio" name="flow_can_delete_own_cases" ng-model="permissions.flow_can_delete_own_cases" ng-value="false"> Não
+        </label>
+      </div>
 
       <div class="form-group">
         <label>Insira usuários para participar do grupo</label>
