@@ -377,8 +377,8 @@ module.exports = function (grunt) {
         },
         options: {
           replacements: [{
-            pattern: 'https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327',
-            replacement: '<%= SENTRY_DSN %>'
+            pattern: /Raven\.config\('.+', {}\)\.install\(\);/,
+            replacement: 'Raven.config(\'<%= SENTRY_DSN %>\', {}).install();'
           }]
         }
       }
