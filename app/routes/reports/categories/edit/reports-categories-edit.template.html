@@ -318,16 +318,10 @@
             </div>
 
             <div class="custom-time-select-column">
-              <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle" data-toggle="dropdown">
-                <span ng-show="defaultResolutionTimeSelection == 60">Minutos</span> <span ng-show="defaultResolutionTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
-                </button>
-
-                <ul class="dropdown-menu" role="menu">
-                  <li ng-class="{active: defaultResolutionTimeSelection == 60}"><a href="" ng-click="changeDefaultResolutionTimeSelection(60)">Minutos</a></li>
-                  <li ng-class="{active: defaultResolutionTimeSelection == 3600}"><a href="" ng-click="changeDefaultResolutionTimeSelection(3600)">Horas</a></li>
-                  <li ng-class="{active: defaultResolutionTimeSelection == 86400}"><a href="" ng-click="changeDefaultResolutionTimeSelection(86400)">Dias</a></li>
-                </ul>
+              <div class="btn-group" role="group">
+                <button type="button" ng-class="{active: defaultResolutionTimeSelection == 60}" class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(60)">Min.</button>
+                <button type="button" ng-class="{active: defaultResolutionTimeSelection == 3600}" class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(3600)">Horas</button>
+                <button type="button" ng-class="{active: defaultResolutionTimeSelection == 86400}" class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(86400)">Dias</button>
               </div>
             </div>
           </div>
@@ -399,16 +393,10 @@
           </div>
 
           <div class="custom-time-select-column" ng-show="enabledUserResponseTime">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-custom-small dropdown-toggle" data-toggle="dropdown">
-              <span ng-show="defaultUserResponseTimeSelection == 60">Minutos</span> <span ng-show="defaultUserResponseTimeSelection == 3600">Horas</span> <span class="pull-right"><span class="caret"></span></span>
-              </button>
-
-              <ul class="dropdown-menu" role="menu">
-                <li ng-class="{active: defaultUserResponseTimeSelection == 60}"><a href="" ng-click="changeDefaultUserResponseTimeSelection(60)">Minutos</a></li>
-                <li ng-class="{active: defaultUserResponseTimeSelection == 3600}"><a href="" ng-click="changeDefaultUserResponseTimeSelection(3600)">Horas</a></li>
-                <li ng-class="{active: defaultUserResponseTimeSelection == 86400}"><a href="" ng-click="changeDefaultUserResponseTimeSelection(86400)">Dias</a></li>
-              </ul>
+            <div class="btn-group" role="group">
+              <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 60}" class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(60)">Min.</button>
+              <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 3600}" class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(3600)">Horas</button>
+              <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 86400}" class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(86400)">Dias</button>
             </div>
           </div>
         </div>
