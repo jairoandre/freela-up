@@ -10,7 +10,7 @@ angular
       $scope.inputErrors = null;
       $scope.processingForm = true;
 
-      var postUserPromise = Restangular.one('users').post(null, $scope.user);
+      var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, $scope.user);
 
       postUserPromise.then(function(response) {
         setUser(Restangular.stripRestangular(response.data));
