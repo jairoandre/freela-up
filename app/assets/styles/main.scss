@@ -559,6 +559,12 @@ p {
           vertical-align: middle;
         }
 
+        tr.late_report {
+          background: #FFE9EF;
+          border-top-color: #E5CED4;
+          border-bottom-color: #E5CED4;
+        }
+
         .custom_label {
           padding: 0.6em .6em 0.7em;
           margin-left: 5px;
