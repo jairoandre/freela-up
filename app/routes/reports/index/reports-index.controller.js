@@ -24,6 +24,7 @@ angular
       $scope.beginDate = null;
       $scope.endDate = null;
       $scope.searchText = null;
+      $scope.overdueOnly = null;
 
       // map options
       $scope.position = null;
@@ -61,6 +62,7 @@ angular
       {name: 'Criado pelos munícipes...', action: 'author'},
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
+      {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
     ];
 
     $scope.activeAdvancedFilters = [];
@@ -118,6 +120,11 @@ angular
         if (filter.type === 'area')
         {
           $scope.selectedAreas.push(filter.value);
+        }
+
+        if (filter.type === 'overdueOnly')
+        {
+          $scope.overdueOnly = true;
         }
       }
 
@@ -200,6 +207,11 @@ angular
       if ($scope.zoom !== null)
       {
         options.zoom = $scope.zoom;
+      }
+
+      if ($scope.overdueOnly !== null)
+      {
+        options.overdue = $scope.overdueOnly;
       }
 
       return url.getList(options);
@@ -362,6 +374,17 @@ angular
       if (status === 'area')
       {
         AdvancedFilters.area($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'overdueOnly')
+      {
+        var overdueFilter = {
+          title: 'Atraso',
+          type: 'overdueOnly',
+          desc: 'Apenas relatos atrasados'
+        };
+
+        $scope.activeAdvancedFilters.push(overdueFilter);
       }
     };
 
