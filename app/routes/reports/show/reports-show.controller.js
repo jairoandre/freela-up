@@ -7,10 +7,12 @@ angular
     'ReportsEditModalControllerModule'
   ])
 
-  .controller('ReportsShowController', function ($scope, Restangular, $stateParams, $q, $modal, reportResponse, feedbackResponse, categoriesResponse) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
+    $scope.comments = commentsResponse.data;
+
     var categories = categoriesResponse.data;
 
     // find category
@@ -39,7 +41,42 @@ angular
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {
       $scope.images.push({versions: $scope.report.images[c]});
-    }
+    };
+
+    $scope.newUserResponse = { message: null, privateComment: false, typing: false };
+    $scope.newSystemComment = { message: null, typing: false };
+
+    $scope.filterByUserMessages = function(comment) {
+      return (comment.visibility === 0 || comment.visibility === 1);
+    };
+
+    var sendComment = function(message, visibility) {
+      return Restangular.one('reports', $scope.report.id).customPOST({ message: message, visibility: visibility }, 'comments');
+    };
+
+    $scope.submitUserResponse = function() {
+      var visibility = 0;
+
+      if ($scope.newUserResponse.privateComment) visibility = 1;
+
+      var postCommentResponse = sendComment($scope.newUserResponse.message, visibility);
+
+      postCommentResponse.then(function(response) {
+        $scope.newUserResponse.message = null;
+
+        $scope.comments.push(response.data);
+      });
+    };
+
+    $scope.submitSystemComment = function() {
+      var postCommentResponse = sendComment($scope.newSystemComment.message, 2);
+
+      postCommentResponse.then(function(response) {
+        $scope.newSystemComment.message = null;
+
+        $scope.comments.push(response.data);
+      });
+    };
 
     $scope.editReportStatus = function (report, category) {
       $modal.open({

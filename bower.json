@@ -31,7 +31,8 @@
     "angular-mousewheel": "~1.0.4",
     "angular-pan-zoom": "~1.0.2",
     "angular-md": "~1.0.0",
-    "angular-raven": "~0.5.9"
+    "angular-raven": "~0.5.9",
+    "angular-elastic": "~2.4.2"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

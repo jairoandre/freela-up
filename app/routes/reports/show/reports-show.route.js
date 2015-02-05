@@ -20,6 +20,10 @@ angular
           return Restangular.one('reports').all('categories').getList({ 'display_type': 'full' });
         }],
 
+        'commentsResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+          return Restangular.one('reports', $stateParams.id).all('comments').getList();
+        }],
+
       },
       views: {
         '': {
