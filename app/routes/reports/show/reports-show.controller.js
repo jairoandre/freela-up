@@ -4,10 +4,11 @@ angular
   .module('ReportsShowControllerModule', [
     'MapShowReportComponentModule',
     'ReportsEditStatusModalControllerModule',
-    'ReportsEditModalControllerModule'
+    'ReportsEditModalControllerModule',
+    'ReportsEditCategoryModalControllerModule'
   ])
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse, $rootScope) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
@@ -55,6 +56,8 @@ angular
     };
 
     $scope.submitUserResponse = function() {
+      $scope.processingComment = true;
+
       var visibility = 0;
 
       if ($scope.newUserResponse.privateComment) visibility = 1;
@@ -63,18 +66,45 @@ angular
 
       postCommentResponse.then(function(response) {
         $scope.newUserResponse.message = null;
+        $scope.processingComment = false;
 
         $scope.comments.push(response.data);
       });
     };
 
     $scope.submitSystemComment = function() {
+      $scope.processingSystemComment = true;
+
       var postCommentResponse = sendComment($scope.newSystemComment.message, 2);
 
       postCommentResponse.then(function(response) {
+        $scope.processingSystemComment = false;
         $scope.newSystemComment.message = null;
 
         $scope.comments.push(response.data);
+      });
+    };
+
+    $scope.editCategory = function () {
+      $rootScope.resolvingRequest = true;
+
+      $modal.open({
+        templateUrl: 'modals/reports/edit-category/reports-edit-category.template.html',
+        windowClass: 'report-edit-category-modal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          },
+
+          category: function() {
+            return $scope.category;
+          },
+
+          categories: function() {
+            return Restangular.all('reports').all('categories').getList({'display_type': 'full'});
+          }
+        },
+        controller: 'ReportsEditCategoryModalController'
       });
     };
 

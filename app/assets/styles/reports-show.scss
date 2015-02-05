@@ -86,6 +86,10 @@
           @include animation-name(flipOutX);
         }
 
+        .processing-comment {
+          @include animation(pulse 3s infinite);
+        }
+
         .bootstrap-switch {
           min-width: 140px;
           float: left;
@@ -123,5 +127,42 @@
       @include animation-name(fadeInDown);
     }
 
+  }
+}
+
+.report-edit-category-modal {
+  .modal-dialog {
+    width: 580px;
+  }
+
+  .modal-header, .modal-body, .modal-footer {
+    padding: 30px;
+  }
+
+  p {
+    margin: 0px;
+  }
+
+  .spacing {
+    height: 30px;
+  }
+
+  .color-ball {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+  }
+
+  .ui-select-bootstrap .ui-select-match {
+    height: 50px;
+    padding: 6px 20px;
+    box-shadow: none;
+  }
+
+  .ui-select-bootstrap .ui-select-search {
+    height: 50px;
+    padding: 6px 20px;
   }
 }
