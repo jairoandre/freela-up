@@ -173,7 +173,7 @@
             <div class="options" ng-show="newUserResponse.typing">
               <input type="checkbox" bs-switch switch-on-text="Privado" switch-off-text="Público" ng-model="newUserResponse.privateComment">
 
-              <span class="help">Respostas públicas podem ser visualizadas por todos os usuários.</span>
+              <span class="help">{{ newUserResponse.privateComment == 0 ? 'Respostas públicas podem ser visualizadas por todos os usuários.' : 'Respostas privadas podem ser visualizadas apenas pelo munícipe solicitante.' }}</span>
 
               <button href="" class="btn btn-info btn-fat-custom btn-custom pull-right" ng-click="submitUserResponse()" ng-class="{'processing-comment': processingComment }">Enviar</button>
             </div>

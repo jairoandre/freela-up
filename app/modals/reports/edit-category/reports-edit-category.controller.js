@@ -66,6 +66,7 @@ angular
       var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'new_category_id': $scope.transfer.toCategory, 'new_status_id': $scope.transfer.toStatus }, 'change_category'); // jshint ignore:line
 
       changeStatusPromise.then(function() {
+        $scope.showMessage('ok', 'A categoria do relato foi alterada com sucesso!', 'success', true);
 
         // refresh page because we change crucial information about our report
         $state.go($state.current, {}, {reload: true});
