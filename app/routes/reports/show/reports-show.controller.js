@@ -4,7 +4,7 @@ angular
   .module('ReportsShowControllerModule', [
     'MapShowReportComponentModule',
     'ReportsEditStatusModalControllerModule',
-    'ReportsEditModalControllerModule',
+    'ReportsEditDescriptionModalControllerModule',
     'ReportsEditCategoryModalControllerModule',
     'ReportsSelectAddressModalControllerModule'
   ])
@@ -149,16 +149,16 @@ angular
       });
     };
 
-    $scope.edit = function () {
+    $scope.editDescription = function () {
       $modal.open({
-        templateUrl: 'modals/reports/edit/reports-edit.template.html',
+        templateUrl: 'modals/reports/edit-description/reports-edit-description.template.html',
         windowClass: 'editReportModal',
         resolve: {
           report: function() {
             return $scope.report;
           }
         },
-        controller: 'ReportsEditModalController'
+        controller: 'ReportsEditDescriptionModalController'
       });
     };
   });
