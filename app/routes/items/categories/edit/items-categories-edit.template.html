@@ -79,7 +79,7 @@
 
                   <div class="popover-content">
                     <div class="form-group">
-                      <label>Grupos que podem visualizar:</label>
+                      <label>Grupos que podem apenas:</label>
 
                       <ui-select multiple ng-model="section.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                         <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -91,7 +91,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label>Grupos que podem editar:</label>
+                      <label>Grupos que podem editar/visualizar:</label>
 
                       <ui-select multiple ng-model="section.permissions.groups_can_edit" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                         <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -283,7 +283,7 @@
 
                       <div class="popover-content">
                         <div class="form-group">
-                          <label>Grupos que podem visualizar:</label>
+                          <label>Grupos que podem apenas visualizar:</label>
 
                           <ui-select multiple ng-model="field.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                             <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -295,7 +295,7 @@
                         </div>
 
                         <div class="form-group">
-                          <label>Grupos que podem editar:</label>
+                          <label>Grupos que podem editar/visualizar:</label>
 
                           <ui-select multiple ng-model="field.permissions.groups_can_edit" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                             <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
