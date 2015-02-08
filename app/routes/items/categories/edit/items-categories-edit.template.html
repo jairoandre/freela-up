@@ -38,7 +38,7 @@
     <div class="left_column">
 
       <div inventory-sortable-sections class="sortableSections">
-        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy">
+        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy" inventory-edit-section>
           <div class="top_part">
             <div class="type" inventory-edit-label="section">
               <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">{{ section.title }} <span ng-show="section.required == true">*</span></a>

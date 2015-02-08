@@ -13,7 +13,8 @@ angular.
     'InventoryDroppableInputsAreaComponentModule',
     'InventoryEditLabelComponentModule',
     'InputsSidebarComponentModule',
-    'InventoryDraggableInputComponentModule'
+    'InventoryDraggableInputComponentModule',
+    'InventoryEditSectionComponentModule'
   ])
 
   .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader) {
