@@ -5,7 +5,8 @@ angular
     'MapShowReportComponentModule',
     'ReportsEditStatusModalControllerModule',
     'ReportsEditModalControllerModule',
-    'ReportsEditCategoryModalControllerModule'
+    'ReportsEditCategoryModalControllerModule',
+    'ReportsSelectAddressModalControllerModule'
   ])
 
   .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse, $rootScope) {
@@ -122,6 +123,29 @@ angular
           }
         },
         controller: 'ReportsEditStatusModalController'
+      });
+    };
+
+    $scope.editAddress = function () {
+      var mapModalInstance =  $modal.open({
+        templateUrl: 'modals/reports/select-address/reports-select-address.template.html',
+        windowClass: 'mapModal',
+        resolve: {
+          category: function() {
+            return $scope.category;
+          },
+
+          report: function() {
+            return $scope.report;
+          }
+        },
+        controller: 'ReportsSelectAddressModalController'
+      });
+
+      mapModalInstance.opened.then(function () {
+        setTimeout(function() {
+          $rootScope.selectLatLngMap.start();
+        }, 80);
       });
     };
 
