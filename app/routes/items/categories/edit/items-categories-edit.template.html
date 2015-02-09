@@ -149,9 +149,9 @@
             <div inventory-droppable-inputs-area class="droppableInputsArea">
               <div class="empty_section" ng-show="section.fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta seção</p></div>
 
-              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
+              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.disabled">
                 <div class="type">
-                  <div inventory-edit-label>
+                  <div inventory-edit-label ng-hide="field.disabled || field.destroy">
                     <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editLabel()">
                       <span ng-show="field.label !== null">{{ field.label }}</span>
                       <span ng-show="field.label == null">{{ field.title }}</span>
@@ -165,6 +165,12 @@
                       <div class="clearfix"></div>
                     </div>
                   </div>
+
+                  <label for="generic_input_{{ field.id }}" ng-show="field.destroy">
+                    <span ng-show="field.label !== null">{{ field.label }}</span>
+                    <span ng-show="field.label == null">{{ field.title }}</span>
+                    <span class="label label-warning">Campo será removido</span>
+                  </label>
 
                   <div class="clearfix"></div>
 
@@ -248,7 +254,7 @@
                         <input class="form-control" type="text" disabled="disabled" placeholder="Selecione um item"><span class="caret"></span>
                       </div>
 
-                      <div class="col-xs-2 editOptionsLink">
+                      <div class="col-xs-2 editOptionsLink" ng-hide="field.disabled || field.destroy">
                         <a href="" ng-click="editFieldOptions(field)">Gerenciar opções</a>
                       </div>
                     </div>
@@ -268,12 +274,12 @@
                       <div class="popover-content">
                         <div class="row">
                           <div class="col-xs-6"><a href="" ng-click="$parent.popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
-                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true;$parent.popover.remove = false" class="btn btn-danger btn-block">Remover</a></div>
                         </div>
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link ng-hide="field.destroy"><span class="glyphicon glyphicon-trash"></span></a>
                   </div>
 
                   <div class="option permissions">
@@ -312,7 +318,7 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link ng-hide="field.destroy"><span class="glyphicon glyphicon-lock"></span></a>
                   </div>
 
                   <div class="option edit">
@@ -357,7 +363,11 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link ng-hide="field.destroy"><span class="glyphicon glyphicon-edit"></span></a>
+                  </div>
+
+                  <div class="option">
+                    <a href="" ng-click="field.destroy = false" class="icon" ng-show="field.destroy"><span class="glyphicon glyphicon-pencil"></span></a>
                   </div>
                 </div>
 
