@@ -7,7 +7,6 @@ angular
     'ReportsEditDescriptionModalControllerModule',
     'ReportsEditCategoryModalControllerModule',
     'ReportsSelectAddressModalControllerModule',
-    'ReportsMenuComponentModule',
     'duScroll'
   ])
 
