@@ -518,15 +518,6 @@ angular.
         promises.push(addAsync($scope.uploaderQueue.items[i]._file));
       }
 
-      if ($scope.category.plot_format === false) // jshint ignore:line
-      {
-        $scope.category.plot_format = 'pin'; // jshint ignore:line
-      }
-      else
-      {
-        $scope.category.plot_format = 'marker'; // jshint ignore:line
-      }
-
       // wait for images to process as base64
       $q.all(promises).then(function() {
 
@@ -543,6 +534,15 @@ angular.
 
         var formattedData = { title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, permissions: formattedPermissions }; // jshint ignore:line
         var formattedFormData = { sections: $scope.category.sections };
+
+        if ($scope.category.plot_format === false) // jshint ignore:line
+        {
+          formattedData.plot_format = 'pin'; // jshint ignore:line
+        }
+        else
+        {
+          formattedData.plot_format = 'marker'; // jshint ignore:line
+        }
 
         if (updating)
         {
