@@ -320,7 +320,7 @@ angular.
       },
 
       change: function() {
-        $scope.group = '';
+        $scope.groupCanEdit = '';
       }
     };
 
@@ -342,16 +342,16 @@ angular.
       },
 
       change: function() {
-        $scope.group = '';
+        $scope.groupCanView = '';
       }
     };
 
     $scope.removeGroupCanView = function(group) {
-      $scope.category.groups_can_view.splice($scope.category.groups_can_view.indexOf(group), 1);
+      $scope.category.permissions.groups_can_view.splice($scope.category.permissions.groups_can_view.indexOf(group), 1);
     };
 
     $scope.removeGroupCanEdit = function(group) {
-      $scope.category.groups_can_edit.splice($scope.category.groups_can_edit.indexOf(group), 1);
+      $scope.category.permissions.groups_can_edit.splice($scope.category.permissions.groups_can_edit.indexOf(group), 1);
     };
 
     $scope.editFieldOptions = function(field) {

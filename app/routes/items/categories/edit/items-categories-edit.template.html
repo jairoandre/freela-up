@@ -586,7 +586,7 @@
         <div class="selectGroups">
           <div class="simple_search">
             <span class="glyphicon glyphicon-search search_icon"></span>
-            <input type="text" placeholder="Buscar grupos..." ng-model="category.permissions.groups_can_edit" ui-autocomplete="groupsCanEditAutocomplete" />
+            <input type="text" placeholder="Buscar grupos..." ng-model="groupCanEdit" ui-autocomplete="groupsCanEditAutocomplete" />
           </div>
 
           <ul>
@@ -604,11 +604,11 @@
         <div class="selectGroups">
           <div class="simple_search">
             <span class="glyphicon glyphicon-search search_icon"></span>
-            <input type="text" placeholder="Buscar grupos..." ng-model="category.permissions.groups_can_view" ui-autocomplete="groupsCanViewAutocomplete" />
+            <input type="text" placeholder="Buscar grupos..." ng-model="groupCanView" ui-autocomplete="groupsCanViewAutocomplete" />
           </div>
 
           <ul>
-            <li ng-repeat="group in category.permissions.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
+            <li ng-repeat="group in category.permissions.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanView(group)">×</button></li>
           </ul>
         </div>
       </div>
