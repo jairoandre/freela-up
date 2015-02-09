@@ -1,7 +1,47 @@
 @import "compass/css3/transition";
 @import "compass/css3/animation";
 
+ul.report-menu {
+  background: #FFF;
+  width: 100%;
+  list-style: none;
+  border-bottom: 1px solid #CCCCCC;
+  margin: 0px;
+  padding: 0px;
+  z-index: 1000;
+  position: fixed;
+
+  li {
+    float: left;
+    border-bottom: 4px solid #FFF;
+    padding: 15px 0px;
+
+    &.active {
+      border-bottom: 4px solid #469CCD;
+
+      a {
+        color: #000;
+      }
+    }
+
+    a {
+      display: block;
+      padding: 0px 22px;
+      color: #999;
+      border-right: 1px solid #CCCCCC;
+      font-weight: bold;
+      text-decoration: none;
+
+      &:hover, &:active {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
 .reports-show {
+  padding-top: 70px;
+
   .status-bar {
     border-top: 1px solid #CCC;
   }

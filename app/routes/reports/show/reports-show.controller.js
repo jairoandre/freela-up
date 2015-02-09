@@ -6,8 +6,12 @@ angular
     'ReportsEditStatusModalControllerModule',
     'ReportsEditDescriptionModalControllerModule',
     'ReportsEditCategoryModalControllerModule',
-    'ReportsSelectAddressModalControllerModule'
+    'ReportsSelectAddressModalControllerModule',
+    'ReportsMenuComponentModule',
+    'duScroll'
   ])
+
+  .value('duScrollOffset', 200)
 
   .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse, $rootScope) {
     $scope.report = reportResponse.data;

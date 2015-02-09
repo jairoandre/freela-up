@@ -8,9 +8,18 @@
     </ul>
   </div>
 
-  <div class="content wrappers reports-show">
+  <ul class="report-menu" reports-menu>
+    <li du-scrollspy="report-data"><a href="#report-data" du-smooth-scroll>Dados do relato</a></li>
+    <li ng-if="report.images.length != 0" du-scrollspy="report-images"><a href="#report-images" du-smooth-scroll>Imagens</a></li>
+    <li du-scrollspy="report-map"><a href="#report-map" du-smooth-scroll>Mapa</a></li>
+    <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Dados do munícipe</a></li>
+    <li du-scrollspy="report-comments"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
 
-    <div class="rounder_wrapper">
+    <div class="clearfix"></div>
+  </ul>
+
+  <div class="content wrappers reports-show">
+    <div class="rounder_wrapper" id="report-data">
       <div class="wrapper_title"><h1>Dados do relato</h1></div>
 
       <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == report.status_id">
@@ -93,7 +102,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" ng-hide="report.images.length == 0">
+    <div class="rounder_wrapper" ng-hide="report.images.length == 0" id="report-images">
       <div class="wrapper_title"><h1>Imagens</h1></div>
 
       <div class="fields">
@@ -103,7 +112,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper">
+    <div class="rounder_wrapper" id="report-map">
       <div class="wrapper_title"><h1>Mapa</h1></div>
 
       <div class="fields">
@@ -111,7 +120,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper">
+    <div class="rounder_wrapper" id="report-author">
       <div class="wrapper_title"><h1>Informações do munícipe</h1></div>
 
       <div class="fields">
@@ -203,7 +212,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper">
+    <div class="rounder_wrapper" id="report-comments">
       <div class="wrapper_title"><h1>Observações internas</h1></div>
 
       <div class="fields">
