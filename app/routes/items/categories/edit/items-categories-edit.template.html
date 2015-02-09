@@ -149,7 +149,7 @@
             <div inventory-droppable-inputs-area class="droppableInputsArea">
               <div class="empty_section" ng-show="section.fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta seção</p></div>
 
-              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.disabled">
+              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.disabled && !category.showDisabledFields">
                 <div class="type">
                   <div inventory-edit-label ng-hide="field.disabled || field.destroy">
                     <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editLabel()">
@@ -165,6 +165,12 @@
                       <div class="clearfix"></div>
                     </div>
                   </div>
+
+                  <label for="generic_input_{{ field.id }}" ng-show="field.disabled">
+                    <span ng-show="field.label !== null">{{ field.label }}</span>
+                    <span ng-show="field.label == null">{{ field.title }}</span>
+                    <span class="label label-danger">Campo removido</span>
+                  </label>
 
                   <label for="generic_input_{{ field.id }}" ng-show="field.destroy">
                     <span ng-show="field.label !== null">{{ field.label }}</span>
@@ -279,7 +285,7 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link ng-hide="field.destroy"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link ng-hide="field.disabled || field.destroy"><span class="glyphicon glyphicon-trash"></span></a>
                   </div>
 
                   <div class="option permissions">
@@ -318,7 +324,7 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link ng-hide="field.destroy"><span class="glyphicon glyphicon-lock"></span></a>
+                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link ng-hide="field.disabled || field.destroy"><span class="glyphicon glyphicon-lock"></span></a>
                   </div>
 
                   <div class="option edit">
@@ -363,7 +369,7 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link ng-hide="field.destroy"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link ng-hide="field.disabled || field.destroy"><span class="glyphicon glyphicon-edit"></span></a>
                   </div>
 
                   <div class="option">
@@ -563,6 +569,18 @@
       <hr />
 
       <div class="form-group">
+        <label>Exibir campos removidos</label>
+
+        <p>Ao ativar esta opção, o sistema irá exibir todos os campos já removidos do sistema. Você não poderá alterar as configurações do campo ou suas opções.</p>
+
+        <div class="clearfix"></div>
+
+        <input type="checkbox" bs-switch ng-model="category.showDisabledFields">
+      </div>
+
+      <hr />
+
+      <div class="form-group">
         <label>Grupos com permissões para editar</label>
 
         <div class="selectGroups">
@@ -593,7 +611,6 @@
             <li ng-repeat="group in category.permissions.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
           </ul>
         </div>
-
       </div>
   </div>
 </div>

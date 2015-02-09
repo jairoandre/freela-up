@@ -98,10 +98,12 @@ angular.
       for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_view[i] = getGroupById($scope.category.permissions.groups_can_view[i]);
       };
+
+      $scope.showDisabledFields = false;
     }
     else
     {
-      $scope.category = {};
+      $scope.category = { showDisabledFields: false };
 
       // added fake fields
       $scope.category.title = 'Nova categoria sem título';
