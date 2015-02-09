@@ -31,7 +31,7 @@ angular
             {
               if (typeof user.permissions[permissionName] === 'boolean')
               {
-                return user.permissions[permissionName] === true;
+                return (user.permissions[permissionName] === true);
               }
               else if (typeof user.permissions[permissionName] === 'object')
               {
