@@ -48,6 +48,19 @@ angular
               position: null
             };
 
+            // We need to check if there are any other fields with the same label. No labels can be the same.
+            for (var j = scope.$parent.category.sections.length - 1; j >= 0; j--) {
+              for (var i = scope.$parent.category.sections[j].fields.length - 1; i >= 0; i--) {
+                if (scope.$parent.category.sections[j].fields[i].label == newInput.label)
+                {
+                  scope.showMessage('exclamation-sign', 'Campo ' + newInput.label + ' já existente.', 'error');
+                  $(this).find('.item').remove();
+
+                  return;
+                }
+              };
+            };
+
             pendingNewInput = newInput;
           },
           update: function(event, ui) {
