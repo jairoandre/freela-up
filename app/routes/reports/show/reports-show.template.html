@@ -12,7 +12,8 @@
     <li du-scrollspy="report-data"><a href="#report-data" du-smooth-scroll>Dados do relato</a></li>
     <li ng-if="report.images.length != 0" du-scrollspy="report-images"><a href="#report-images" du-smooth-scroll>Imagens</a></li>
     <li du-scrollspy="report-map"><a href="#report-map" du-smooth-scroll>Mapa</a></li>
-    <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Dados do munícipe</a></li>
+    <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Informações do munícipe</a></li>
+    <li du-scrollspy="report-responses"><a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a></li>
     <li du-scrollspy="report-comments"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
 
     <div class="clearfix"></div>
@@ -165,7 +166,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper">
+    <div class="rounder_wrapper" id="report-responses">
       <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
 
       <div class="fields">
