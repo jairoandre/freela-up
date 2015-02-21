@@ -166,16 +166,12 @@ angular
 
       if ($scope.beginDate !== null)
       {
-        var beginDate = new Date($scope.beginDate);
-
-        options['created_at[begin]'] = beginDate.toISOString();
+        options['created_at[begin]'] = $scope.beginDate;
       }
 
       if ($scope.endDate !== null)
       {
-        var endDate = new Date($scope.endDate);
-
-        options['created_at[end]'] = endDate.toISOString();
+        options['created_at[end]'] = $scope.endDate;
       }
 
       // fields
