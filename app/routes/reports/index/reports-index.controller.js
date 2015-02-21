@@ -172,16 +172,12 @@ angular
 
       if ($scope.beginDate !== null)
       {
-        var beginDate = new Date($scope.beginDate);
-
-        options.begin_date = beginDate.toISOString(); // jshint ignore:line
+        options.begin_date = $scope.beginDate; // jshint ignore:line
       }
 
       if ($scope.endDate !== null)
       {
-        var endDate = new Date($scope.endDate);
-
-        options.end_date = endDate.toISOString(); // jshint ignore:line
+        options.end_date = $scope.endDate; // jshint ignore:line
       }
 
       // map options
