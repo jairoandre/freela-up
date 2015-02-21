@@ -38,10 +38,14 @@
     <div class="left_column">
 
       <div inventory-sortable-sections class="sortableSections">
-        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy" inventory-edit-section>
+        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" inventory-edit-section ng-hide="section.disabled && !category.showDisabledFields">
           <div class="top_part">
             <div class="type" inventory-edit-label="section">
-              <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">{{ section.title }} <span ng-show="section.required == true">*</span></a>
+              <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">
+                {{ section.title }} <span ng-show="section.required == true">*</span>
+                <span class="label label-danger" ng-show="section.disabled">Seção removida</span>
+                <span class="label label-warning" ng-show="section.destroy">Seção será removida</span>
+              </a>
 
               <div class="edit_label" ng-show="editingSectionLabel">
                 <input type="text" ng-model="section.title" class="editLabelField" />
@@ -64,12 +68,12 @@
                   <div class="popover-content">
                     <div class="row">
                       <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
-                      <div class="col-xs-6"><a href="" ng-click="section.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                      <div class="col-xs-6"><a href="" ng-click="section.destroy = true; popover.remove = false" class="btn btn-danger btn-block">Remover</a></div>
                     </div>
                   </div>
                 </div>
 
-                <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
+                <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link ng-hide="section.disabled || section.destroy"><span class="glyphicon glyphicon-trash"></span></a>
               </div>
 
               <div class="option permissions">
@@ -108,7 +112,7 @@
                   </div>
                 </div>
 
-                <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+                <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link ng-hide="section.disabled || section.destroy"><span class="glyphicon glyphicon-lock"></span></a>
               </div>
 
               <div class="option edit">
@@ -137,7 +141,11 @@
                   </div>
                 </div>
 
-                <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
+                <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link ng-hide="section.disabled || section.destroy"><span class="glyphicon glyphicon-edit"></span></a>
+              </div>
+
+              <div class="option">
+                <a href="" ng-click="section.destroy = false" class="icon" ng-show="section.destroy"><span class="glyphicon glyphicon-pencil"></span></a>
               </div>
             </div>
 
