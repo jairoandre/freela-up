@@ -5,7 +5,7 @@ angular
     'InventorySingleValueComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditFieldValuesModalController', function($scope, $modalInstance, field) {
+  .controller('ItemsCategoriesEditFieldValuesModalController', function($scope, $modalInstance, field, Restangular) {
     $scope.field = angular.copy(field);
     $scope.value = {importing: false};
 
@@ -20,7 +20,13 @@ angular
       }
     };
 
+    var createField = function(value) {
+      return Restangular.all('inventory').one('fields', field.id).post('options', { value: value });
+    };
+
     $scope.newValue = function() {
+      $scope.loadingValue = true;
+
       if ($scope.value.importing === true)
       {
         var newValues = $scope.value.multipleOptionsText.split(/\n/);
@@ -31,7 +37,11 @@ angular
       }
       else
       {
-        $scope.field.available_values.push($scope.value.text);
+        createField($scope.value.text).then(function() {
+          $scope.loadingValue = false;
+
+          $scope.field.available_values.push($scope.value.text);
+        });
       }
 
       $scope.value.text = null;
