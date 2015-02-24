@@ -39,12 +39,14 @@
 
       <div inventory-sortable-sections class="sortableSections">
         <div class="section" ng-repeat="section in category.sections | orderBy:'position'" inventory-edit-section ng-hide="section.disabled && !showDisabledFields.active">
+          <div class="pending-removal" ng-show="section.destroy">
+            <div class="alert">Atenção! A seção e todos os campos pertencentes a ela serão removidos.</div>
+          </div>
           <div class="top_part">
             <div class="type" inventory-edit-label="section">
               <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">
                 {{ section.title }} <span ng-show="section.required == true">*</span>
                 <span class="label label-danger" ng-show="section.disabled">Seção removida</span>
-                <span class="label label-warning" ng-show="section.destroy">Seção será removida</span>
               </a>
 
               <div class="edit_label" ng-show="editingSectionLabel">
