@@ -14,14 +14,5 @@ angular
           controllerAs: 'ctrl'
         }
       }
-    }).state('groups.add', {
-      url: '/add',
-      views: {
-        '': {
-          templateUrl: 'routes/groups/edit/groups-edit.template.html',
-          controller: 'GroupsEditController',
-          controllerAs: 'ctrl'
-        }
-      }
     });
   }]);

@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('GroupsIndexControllerModule', [])
+  .module('GroupsIndexControllerModule', [
+    'GroupsEditModalControllerModule'
+  ])
 
   .controller('GroupsIndexController', function ($scope, $modal, Restangular) {
 
@@ -15,6 +17,19 @@ angular
 
       $scope.loading = false;
     });
+
+    $scope.addGroup = function () {
+      $modal.open({
+        templateUrl: 'modals/groups/edit/groups-edit.template.html',
+        windowClass: 'editStatusModal',
+        resolve: {
+          group: function() {
+            return null;
+          }
+        },
+        controller: 'GroupsEditModalController'
+      });
+    };
 
     $scope.deleteGroup = function (group) {
       $modal.open({
