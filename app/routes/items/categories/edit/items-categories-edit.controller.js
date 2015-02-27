@@ -102,6 +102,8 @@ angular.
     }
     else
     {
+      $scope.category = {};
+
       // added fake fields
       $scope.category.title = 'Nova categoria sem título';
       $scope.category.color = '#2AB4DC';
