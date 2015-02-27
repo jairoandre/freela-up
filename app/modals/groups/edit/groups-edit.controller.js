@@ -3,12 +3,12 @@
 angular
   .module('GroupsEditModalControllerModule', [])
   .controller('GroupsEditModalController', function(Restangular, $scope, $modalInstance, $state, group) {
-    $scope.group = group || { name: '', permissions: {} };
+    $scope.group = angular.copy(group) || { name: '', permissions: {} };
 
     $scope.save = function() {
       $scope.processingForm = true;
 
-      var groupPromise = group === null ? Restangular.one('groups').post(null, $scope.group) : Restangular.one('groups', groupId).customPUT($scope.group);
+      var groupPromise = group === null ? Restangular.one('groups').post(null, $scope.group) : Restangular.one('groups', group.id).customPUT({ name: $scope.group.name });
 
       groupPromise.then(function(response) {
         $scope.processingForm = false;
@@ -16,6 +16,7 @@ angular
         if (group)
         {
           $scope.showMessage('ok', 'O grupo foi editado.', 'success', true);
+          group.name = $scope.group.name;
         }
         else
         {
