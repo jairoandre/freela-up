@@ -13,7 +13,7 @@ angular
           title: 'A partir da data',
           type: 'beginDate',
           desc: $scope.period.beginDate.getDate() + '/' + ($scope.period.beginDate.getMonth() + 1) + '/' + $scope.period.beginDate.getFullYear(),
-          value: moment($scope.period.beginDate).format()
+          value: moment($scope.period.beginDate).startOf('day').format()
         };
 
         $scope.activeAdvancedFilters.push(beginDateFilter);
@@ -25,7 +25,7 @@ angular
           title: 'Até a data',
           type: 'endDate',
           desc: $scope.period.endDate.getDate() + '/' + ($scope.period.endDate.getMonth() + 1) + '/' + $scope.period.endDate.getFullYear(),
-          value: moment($scope.period.endDate).format()
+          value: moment($scope.period.endDate).endOf('day').format()
         };
 
         $scope.activeAdvancedFilters.push(endDateFilter);
