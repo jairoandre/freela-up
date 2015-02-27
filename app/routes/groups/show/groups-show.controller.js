@@ -1,9 +1,12 @@
 'use strict';
 
 angular
-  .module('GroupsShowControllerModule', [])
+  .module('GroupsShowControllerModule', [
+    'GroupsEditModalControllerModule',
+    'GroupsAddUsersModalControllerModule'
+  ])
 
-  .controller('GroupsShowController', function ($scope, Restangular, $stateParams, $q) {
+  .controller('GroupsShowController', function ($scope, Restangular, $stateParams, $q, $modal) {
     var groupId = $stateParams.id;
 
     $scope.loading = true;
@@ -45,5 +48,31 @@ angular
 
       $scope.loading = false;
     });
+
+    $scope.editGroup = function () {
+      $modal.open({
+        templateUrl: 'modals/groups/edit/groups-edit.template.html',
+        windowClass: 'editStatusModal',
+        resolve: {
+          group: function() {
+            return $scope.group;
+          }
+        },
+        controller: 'GroupsEditModalController'
+      });
+    };
+
+    $scope.addUsers = function () {
+      $modal.open({
+        templateUrl: 'modals/groups/add-users/groups-add-users.template.html',
+        windowClass: 'modal-groups-select-user',
+        resolve: {
+          group: function() {
+            return $scope.group;
+          }
+        },
+        controller: 'GroupsAddUsersModalController'
+      });
+    };
 
   });
