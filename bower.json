@@ -35,7 +35,8 @@
     "angular-elastic": "~2.4.2",
     "underscore": "~1.7.0",
     "angular-scroll": "~0.6.4",
-    "moment": "~2.9.0"
+    "moment": "~2.9.0",
+    "js-marker-clusterer": "git@github.com:googlemaps/js-marker-clusterer.git#gh-pages"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

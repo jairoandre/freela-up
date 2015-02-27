@@ -117,6 +117,7 @@ angular
               var items = scope.getData(false, {
                 position: {'latitude': mapProvider.map.getCenter().lat(), 'longitude': mapProvider.map.getCenter().lng(), 'distance': mapProvider.getDistance()},
                 zoom: mapProvider.map.getZoom(),
+                clusterize: true,
                 limit: 100
               });
 
@@ -134,8 +135,24 @@ angular
                 }
 
                 // add item
-                for (var i = response.data.length - 1; i >= 0; i--) {
-                  mapProvider.addMarker(response.data[i], mapProvider.doAnimation);
+                for (var i = response.data.reports.length - 1; i >= 0; i--) {
+                  mapProvider.addMarker(response.data.reports[i], mapProvider.doAnimation);
+                }
+
+                // add clusters
+                for (var i = response.data.clusters.length - 1; i >= 0; i--) {
+
+                  var markers = [];
+
+                  for (var j = 0; j < response.data.clusters[i].count; j++) {
+                    var latLng = new google.maps.LatLng(response.data.clusters[i].position[0], response.data.clusters[i].position[1]);
+                    var marker = new google.maps.Marker({'position': latLng});
+
+                    markers.push(marker);
+                  };
+
+                   var mc = new MarkerClusterer(mapProvider.map, markers, {maxZoom: mapProvider.currentZoom});
+                  //mapProvider.addMarker(response.data.reports[i], mapProvider.doAnimation);
                 }
 
                 // after first request we will deactive animation
