@@ -361,6 +361,12 @@ angular.
         resolve: {
           field: function() {
             return field;
+          },
+
+          setFieldOptions: function() {
+            return function(options) {
+              field.field_options = options;
+            }
           }
         }
       });

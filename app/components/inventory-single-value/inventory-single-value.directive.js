@@ -3,26 +3,46 @@
 angular
   .module('InventorySingleValueComponentModule', [])
 
-  .directive('inventorySingleValue', function () {
+  .directive('inventorySingleValue', function (Restangular) {
     return {
       restrict: 'A',
       link: function postLink(scope) {
-        scope.editValue = angular.copy(scope.value);
+        scope.newValue = angular.copy(scope.option.value);
 
-        scope.saveValue = function() {
+        scope.saveOption = function() {
           scope.editingValue = false;
 
-          var index = scope.$parent.field.available_values.indexOf(scope.value); // jshint ignore:line
-          scope.$parent.field.available_values[index] = scope.editValue; // jshint ignore:line
+          if (scope.isExistingField)
+          {
+            scope.updating = true;
 
+            var updateOptionPromise = Restangular.all('inventory').one('fields', scope.field.id).one('options', scope.option.id).customPUT({ value: scope.newValue });
+
+            updateOptionPromise.then(function() {
+              scope.updating = false;
+            });
+          }
+
+          scope.option.value = scope.newValue;
         };
 
-        scope.removeValue = function(value) {
-          var index = scope.$parent.field.available_values.indexOf(value); // jshint ignore:line
+        scope.removeOption = function() {
+          var index = scope.$parent.field.field_options.indexOf(scope.option); // jshint ignore:line
+
+          if (scope.isExistingField)
+          {
+            scope.updating = true;
+
+            var updateOptionPromise = Restangular.all('inventory').one('fields', scope.field.id).one('options', scope.option.id).remove();
+
+            updateOptionPromise.then(function() {
+              scope.updating = false;
+            });
+          }
 
           if (index !== -1)
           {
-            scope.$parent.field.available_values.splice(index, 1); // jshint ignore:line
+            scope.$parent.field.field_options.splice(index, 1); // jshint ignore:line
           }
         };
       }

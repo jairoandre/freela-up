@@ -44,7 +44,7 @@ angular
               size: 'M',
               inventory_fields_can_view: [], // jshint ignore:line
               inventory_fields_can_edit: [], // jshint ignore:line
-              available_values: [], // jshint ignore:line
+              field_options: [], // jshint ignore:line
               position: null
             };
 
