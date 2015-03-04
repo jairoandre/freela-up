@@ -19,7 +19,7 @@
       <div class="col col-xs-4">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.fieldId" data-placeholder="Selecione uma opção">
           <option value="">Selecione um campo...</option>
-          <option ng-repeat="field in newField.category.fields" ng-value="field.id">{{ field.label && field.label || field.title }}</option>
+          <option ng-repeat="field in newField.category.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
         </select>
       </div>
 
@@ -41,7 +41,7 @@
 
       <div class="col col-xs-4" ng-show="(newField.field.kind === 'radio' || newField.field.kind === 'checkbox' || newField.field.kind === 'select') && newField.field !== null">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.value" data-placeholder="Selecione uma opção" multiple>
-          <option ng-repeat="value in newField.field.available_values" value="{{ value }}">{{ value }}</option>
+          <option ng-repeat="option in newField.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
         </select>
       </div>
 
@@ -65,8 +65,8 @@
 
     <tr ng-repeat="item in items" fields-filter-item>
       <td>
-        <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.fieldId" data-placeholder="Selecione uma opção">
-          <option ng-repeat="field in item.category.fields" ng-value="field.id">{{ field.label && field.label || field.title }}</option>
+        <select class="multiple-select" style="width: 180px;" ui-select2 ng-model="item.fieldId" data-placeholder="Selecione uma opção">
+          <option ng-repeat="field in item.category.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
         </select>
       </td>
 
@@ -88,7 +88,7 @@
 
       <td ng-show="item.field.kind === 'radio' || item.field.kind === 'checkbox' || item.field.kind === 'select'">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.value" data-placeholder="Selecione uma opção" multiple>
-          <option ng-repeat="value in item.field.available_values" value="{{ value }}">{{ value }}</option>
+          <option ng-repeat="option in newField.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
         </select>
       </td>
 
