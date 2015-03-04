@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('UsersEditControllerModule', [])
+  .module('UsersEditControllerModule', [
+    'ngCpfCnpj'
+  ])
 
   .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location) {
     var updating = $scope.updating = false;

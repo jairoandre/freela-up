@@ -60,7 +60,7 @@
 
     <div class="form-group" ng-class="{'has-error': form.document.$dirty && form.document.$invalid}">
       <label for="form_document">Documento CPF</label>
-      <input type="text" class="form-control custom_form" id="form_document" ng-model="user.document" generic-input name="document" ui-mask="999.999.999-99" required>
+      <input type="text" class="form-control custom_form" id="form_document" ng-model="user.document" generic-input name="document" ui-mask="999.999.999-99" ng-cpf required>
     </div>
 
   </form>

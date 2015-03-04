@@ -1,7 +1,10 @@
 'use strict';
 
 angular
-  .module('ReportsCreateUserModalControllerModule', [])
+  .module('ReportsCreateUserModalControllerModule', [
+    'ngCpfCnpj'
+  ])
+
   .controller('ReportsCreateUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser) {
     $scope.user = {};
     $scope.inputErrors = null;
