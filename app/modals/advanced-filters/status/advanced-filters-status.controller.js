@@ -13,7 +13,7 @@ angular
     for (var i = categories.length - 1; i >= 0; i--) {
       $scope.categories.push(categories[i]);
 
-      if (categories[i].subcategories.length !== 0)
+      if (typeof categories[i].subcategories !== 'undefined' && categories[i].subcategories.length !== 0)
       {
         for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
           $scope.categories.push(categories[i].subcategories[j]);
