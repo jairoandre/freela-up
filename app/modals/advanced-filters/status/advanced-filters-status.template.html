@@ -4,10 +4,15 @@
 </div>
 
 <div class="modal-body">
-  <div ng-repeat="category in categories" ng-hide="category.statuses.length === 0">
-    <span class="categoryName">{{ category.title }}</span>
+  <div class="categories_search">
+    <span class="glyphicon glyphicon-search search_icon"></span>
+    <input type="text" placeholder="Busque por categorias ou estados..." ng-model="search.value">
+  </div>
 
-    <ul>
+  <div ng-repeat="category in categories | filter: search.value" ng-hide="category.statuses.length === 0">
+    <a href="" class="categoryName" ng-click="showStatuses = !showStatuses">{{ category.title }} <b class="glyphicon glyphicon-chevron-down" ng-class="{'active': showStatuses }"></b></a>
+
+    <ul class="slide" ng-show="showStatuses">
       <li ng-repeat="status in category.statuses">
         <a ng-class="{'selected': status.selected == true}" class="status" ng-click="updateStatus(status)">
           <span ng-style="{'background-color': status.color}" ng-class="{'not-selected': status.selected != true}"></span>
