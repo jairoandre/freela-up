@@ -16,7 +16,8 @@
         <td><img ng-src="{{ category.icon.default.web.active }}" width="50" class="category-icon"> <a href="#/reports/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
         <td width="90">
           <a href="#/reports/categories/{{ category.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-          <a href="" ng-click="deleteCategory(category)"><span class="glyphicon glyphicon-trash"></span></a>
+          <a href="" ng-click="deleteCategory(category)" ng-show="category.subcategories.length === 0"><span class="glyphicon glyphicon-trash">
+          </span></a>
         </td>
       </tr>
 
