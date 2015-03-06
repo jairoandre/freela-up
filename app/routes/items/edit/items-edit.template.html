@@ -200,20 +200,20 @@
 
             <!-- field type: checkbox -->
             <div ng-if="field.kind == 'checkbox'">
-              <div class="checkbox" ng-repeat="value in field.available_values track by $index">
+              <div class="checkbox" ng-repeat="option in field.field_options track by $index">
                 <label>
-                  <input type="checkbox" ng-model="itemData[field.id][value]" ng-required="field.required && !field.disabled">
-                  {{ value }}
+                  <input type="checkbox" ng-model="itemData[field.id][option.value]" ng-required="field.required && !field.disabled">
+                  {{ option.value }}
                 </label>
               </div>
             </div>
 
             <!-- field type: radio -->
             <div ng-if="field.kind == 'radio'">
-              <div class="radio" ng-repeat="value in field.available_values track by $index">
+              <div class="radio" ng-repeat="option in field.field_options track by $index">
                 <label>
-                  <input type="radio" ng-model="itemData[field.id]" ng-value="value" ng-required="field.required && !field.disabled">
-                  {{ value }}
+                  <input type="radio" ng-model="itemData[field.id]" ng-value="option.value" ng-required="field.required && !field.disabled">
+                  {{ option.value }}
                 </label>
               </div>
             </div>
@@ -222,8 +222,8 @@
             <ui-select ng-model="$parent.itemData[field.id]" style="width: 33%;" ng-if="field.kind == 'select'" ng-required="field.required && !field.disabled">
               <ui-select-match placeholder="Selecione...">{{$select.selected}}</ui-select-match>
 
-              <ui-select-choices repeat="value in field.available_values | filter: $select.search track by $index">
-                <div ng-bind-html="value | highlight: $select.search"></div>
+              <ui-select-choices repeat="field.value as field in option.field_options | filter: $select.search track by $index">
+                <div ng-bind-html="option.value | highlight: $select.search"></div>
               </ui-select-choices>
             </ui-select>
 
