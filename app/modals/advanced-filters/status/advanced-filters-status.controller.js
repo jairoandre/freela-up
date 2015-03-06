@@ -1,10 +1,25 @@
 'use strict';
 
 angular
-  .module('AdvancedFiltersStatusModalControllerModule', [])
+  .module('AdvancedFiltersStatusModalControllerModule', [
+    'SlideComponent'
+  ])
+
   .controller('AdvancedFiltersStatusModalController', function($scope, $modalInstance, categories, statuses, activeAdvancedFilters) {
-    $scope.categories = categories;
+    $scope.categories = [];
     $scope.statuses = statuses;
+    $scope.search = {};
+
+    for (var i = categories.length - 1; i >= 0; i--) {
+      $scope.categories.push(categories[i]);
+
+      if (typeof categories[i].subcategories !== 'undefined' && categories[i].subcategories.length !== 0)
+      {
+        for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
+          $scope.categories.push(categories[i].subcategories[j]);
+        };
+      }
+    };
 
     $scope.updateStatus = function(status) {
       if (typeof status.selected === 'undefined' || status.selected === false)

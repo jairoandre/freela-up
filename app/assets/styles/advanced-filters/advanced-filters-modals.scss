@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .filterCategoriesModal, .filterStatusesModal, .filterAuthorModal {
   .modal-dialog {
     width: 500px;
@@ -14,6 +16,40 @@
       border-bottom: 1px solid #D9D9D9;
       color: #666666;
       border-top: 1px solid #D9D9D9;
+      text-decoration: none;
+
+      .glyphicon-chevron-down {
+        @include transition(all 400ms ease-in-out);
+        float: right;
+
+        &.active {
+          @include transform(rotate(-180deg));
+        }
+      }
+    }
+
+    .categories_search {
+      background: #E6E6E6;
+      border: 1px solid #CCCCCC;
+      border-right: 0px;
+      border-left: 0px;
+      position: relative;
+      color: #999;
+      margin-bottom: 15px;
+
+      .search_icon {
+        position: absolute;
+        margin: 12px 0 0 13px;
+        color: #999;
+      }
+
+      input {
+        width: 100%;
+        background: #E6E6E6;
+        padding: 10px 38px;
+        border: 0px;
+        outline: none;
+      }
     }
 
     ul {
