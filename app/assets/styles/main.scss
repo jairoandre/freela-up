@@ -2254,6 +2254,44 @@ p {
   }
 }
 
+/* map markers */
+.mapItems {
+  .marker {
+      width: 54px;
+      height: 51px;
+      background-size: contain;
+      cursor: pointer;
+
+      &.pin {
+        width: 11px;
+        height: 11px;
+
+        span {
+          height: 26px;
+          padding: 0 8px;
+          margin-top: 0px;
+          line-height: 23px;
+        }
+      }
+  }
+
+  .marker span {
+      display: block;
+      min-width: 10px;
+      height: 22px;
+      padding: 0 6px;
+      background: #F27064;
+      float: right;
+      border-radius: 20px;
+      border: 2pt solid #FFF;
+      color: #FFF;
+      text-align: center;
+      margin-top: -4px;
+      line-height: 19px;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+
 .loading {
   width: 64px;
   height: 64px;

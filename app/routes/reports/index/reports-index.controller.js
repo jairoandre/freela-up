@@ -353,6 +353,8 @@ angular
 
     $scope.resetFilters = function() {
       $scope.activeAdvancedFilters = [];
+
+      if (isMap) $scope.$broadcast('updateMap', true);
     };
 
     $scope.loadFilter = function(status) {
