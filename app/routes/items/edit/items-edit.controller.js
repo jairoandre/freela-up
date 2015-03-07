@@ -425,7 +425,7 @@ angular
               {
                 if (itemData[x][z] === true)
                 {
-                  selectedItems.push(z);
+                  selectedItems.push(parseInt(z));
                 }
               }
 
