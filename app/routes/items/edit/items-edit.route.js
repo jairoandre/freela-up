@@ -6,7 +6,7 @@ angular
   .config(['$stateProvider', function($stateProvider) {
 
     $stateProvider.state('items.show.edit', {
-      url: '/category/{categoryId:[0-9]{1,4}}/edit',
+      url: '/category/{categoryId:[0-9]{1,9}}/edit',
       views: {
         '@': {
           templateUrl: 'routes/items/edit/items-edit.template.html',
@@ -20,7 +20,7 @@ angular
         }
       }
     }).state('items.add', {
-      url: '/category/{categoryId:[0-9]{1,4}}/add',
+      url: '/category/{categoryId:[0-9]{1,9}}/add',
       views: {
         '@': {
           templateUrl: 'routes/items/edit/items-edit.template.html',
