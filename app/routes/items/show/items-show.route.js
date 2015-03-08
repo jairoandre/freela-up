@@ -6,7 +6,7 @@ angular
   .config(['$stateProvider', function($stateProvider) {
 
     $stateProvider.state('items.show', {
-      url: '/{id:[0-9]{1,4}}',
+      url: '/{id:[0-9]{1,9}}',
       resolve: {
         'itemResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           return Restangular.one('inventory').one('items', $stateParams.id).get();
