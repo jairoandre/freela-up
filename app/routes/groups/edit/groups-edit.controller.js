@@ -31,10 +31,10 @@ angular
       'delete_reports': false,
       'edit_reports': false,
       'manage_config': false,
-      'flow_can_view_all_steps': {},
+      'flow_can_delete_own_cases': false,
+      'flow_can_delete_all_cases': false,
       'flow_can_execute_all_steps': {},
-      'flow_can_delete_own_cases': {},
-      'flow_can_delete_all_cases': {},
+      'flow_can_view_all_steps': {},
       'can_view_step': {},
       'can_execute_step': {},
       'groups_can_edit': {},
@@ -53,13 +53,15 @@ angular
     var groupsPromise = Restangular.all('groups').getList();
     var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({ display_type: 'full' });
     var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList();
+    var flowsPromise = Restangular.all('flows').getList();
 
-    var promises = [groupsPromise, reportsCategoriesPromise, inventoryCategoriesPromise];
+    var promises = [groupsPromise, reportsCategoriesPromise, inventoryCategoriesPromise, flowsPromise];
 
     $q.all(promises).then(function(responses) {
       $scope.data.groups = responses[0].data;
       $scope.data.reportsCategories = responses[1].data;
       $scope.data.inventoryCategories = responses[2].data;
+      $scope.data.flows = responses[3].data;
     });
 
     if (updating)

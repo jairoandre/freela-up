@@ -7,7 +7,7 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, Error) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -25,6 +25,23 @@ angular
 
     $scope.defaultResolutionTimeSelection = 60;
     $scope.defaultUserResponseTimeSelection = 60;
+
+    var DAY = 60 * 60 * 24, HOUR = 60 * 60, MINUTE = 60;
+
+    var checkTimeFormat = function(timeInSeconds) {
+      if (timeInSeconds % DAY == 0)
+      {
+        return DAY;
+      }
+      else if (timeInSeconds % HOUR == 0)
+      {
+        return HOUR;
+      }
+      else
+      {
+        return MINUTE;
+      }
+    };
 
     $scope.reportCategories = reportCategoriesResponse.data;
 
@@ -53,13 +70,19 @@ angular
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
           $scope.enabledUserResponseTime = true;
-          category.user_response_time = Math.round(responses[1].data.user_response_time / 60); // jshint ignore:line
+          category.user_response_time = responses[1].data.user_response_time; // jshint ignore:line
+
+          $scope.defaultUserResponseTimeSelection = checkTimeFormat(category.user_response_time);
+          $scope.preferedUserResponseTime = category.user_response_time / $scope.defaultUserResponseTimeSelection;
         }
 
         if (responses[1].data.resolution_time !== null) // jshint ignore:line
         {
           // ...and convert resolution_time to minutes
-          category.resolution_time = Math.round(responses[1].data.resolution_time  / 60); // jshint ignore:line
+          category.resolution_time = responses[1].data.resolution_time; // jshint ignore:line
+
+          $scope.defaultResolutionTimeSelection = checkTimeFormat(category.resolution_time);
+          $scope.preferedResolutionTime = category.resolution_time / $scope.defaultResolutionTimeSelection;
         }
 
         category.inventory_categories = []; // jshint ignore:line
@@ -94,7 +117,6 @@ angular
         inventory_categories: [], // jshint ignore:line
         allows_arbitrary_position: true, // jshint ignore:line
         color: '#2AB4DC',
-        private: false,
         statuses: [
           {'title': 'Em andamento', 'color': '#f8b01d', 'initial': false, 'final': false, 'active': true, 'created_at': '2014-03-05T01: 12: 34.181-03: 00', 'updated_at': '2014-03-05T01: 12: 34.181-03: 00', 'private': false},
           {'title': 'Resolvidas', 'color': '#78c953', 'initial': false, 'final': true, 'active': true, 'created_at': '2014-03-05T01: 12: 34.195-03: 00', 'updated_at': '2014-03-05T01: 12: 34.195-03: 00', 'private': false},
@@ -181,6 +203,24 @@ angular
       });
     };
 
+    $scope.$watch('preferedResolutionTime', function() {
+      category.resolution_time = $scope.preferedResolutionTime * $scope.defaultResolutionTimeSelection;
+    });
+
+    $scope.changeDefaultResolutionTimeSelection = function(seconds) {
+      $scope.preferedResolutionTime = Math.round(category.resolution_time / seconds);
+      $scope.defaultResolutionTimeSelection = seconds;
+    };
+
+    $scope.$watch('preferedUserResponseTime', function() {
+      category.user_response_time = $scope.preferedUserResponseTime * $scope.defaultUserResponseTimeSelection;
+    });
+
+    $scope.changeDefaultUserResponseTimeSelection = function(seconds) {
+      $scope.preferedUserResponseTime = Math.round(category.user_response_time / seconds);
+      $scope.defaultUserResponseTimeSelection = seconds;
+    };
+
     $scope.send = function() {
       $scope.inputErrors = null;
       $rootScope.resolvingRequest = true;
@@ -265,12 +305,12 @@ angular
         }
 
         // And we convert the user selection to seconds
-        editedCategory.resolution_time = Math.round(editedCategory.resolution_time * $scope.defaultResolutionTimeSelection); // jshint ignore:line
+        editedCategory.resolution_time = editedCategory.resolution_time; // jshint ignore:line
 
         // also the user feedback time we convert it to seconds
         if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabledUserResponseTime == true) // jshint ignore:line
         {
-          editedCategory.user_response_time = Math.round(editedCategory.user_response_time * $scope.defaultUserResponseTimeSelection); // jshint ignore:line
+          editedCategory.user_response_time = editedCategory.user_response_time; // jshint ignore:line
         }
         else
         {
@@ -285,7 +325,7 @@ angular
             editedCategory.icon = icon;
           }
 
-          var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).customPUT(editedCategory);
+          var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).withHttpConfig({ treatingErrors: true }).customPUT(editedCategory);
 
           putCategoryPromise.then(function() {
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
@@ -294,7 +334,15 @@ angular
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
-            $scope.inputErrors = response.data.error;
+            if (typeof response.data.error !== 'object')
+            {
+              Error.show(response);
+            }
+            else
+            {
+              $scope.inputErrors = response.data.error;
+            }
+
             $rootScope.resolvingRequest = false;
           });
         }
@@ -303,7 +351,7 @@ angular
           editedCategory.icon = icon;
           editedCategory.marker = icon;
 
-          var postCategoryPromise = Restangular.one('reports').post('categories', editedCategory);
+          var postCategoryPromise = Restangular.one('reports').withHttpConfig({ treatingErrors: true }).post('categories', editedCategory);
 
           postCategoryPromise.then(function() {
             $location.path('/reports/categories');
@@ -312,7 +360,15 @@ angular
           }, function(response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 
-            $scope.inputErrors = response.data.error;
+            if (typeof response.data.error !== 'object')
+            {
+              Error.show(response);
+            }
+            else
+            {
+              $scope.inputErrors = response.data.error;
+            }
+
             $rootScope.resolvingRequest = false;
           });
         }

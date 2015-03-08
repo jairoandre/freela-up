@@ -89,7 +89,7 @@ angular
       // PUT if updating and POST if creating a new user
       if (updating)
       {
-        var putUserPromise = Restangular.one('users', userId).customPUT(user);
+        var putUserPromise = Restangular.one('users', userId).withHttpConfig({ treatingErrors: true }).customPUT(user);
 
         putUserPromise.then(function() {
           $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
@@ -99,7 +99,15 @@ angular
         }, function(response) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser salvo', 'error', true);
 
-          $scope.inputErrors = response.data.error;
+          if (typeof response.data.error !== 'object')
+          {
+            Error.show(response);
+          }
+          else
+          {
+            $scope.inputErrors = response.data.error;
+          }
+
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
         });
@@ -118,7 +126,7 @@ angular
         // remove unecessary data from the request
         delete user.groups;
 
-        var postUserPromise = Restangular.one('users').post(null, user);
+        var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, user);
 
         postUserPromise.then(function() {
           $scope.showMessage('ok', 'O usuário foi criado com sucesso', 'success', true);
@@ -130,7 +138,15 @@ angular
         }, function(response) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser criado', 'error', true);
 
-          $scope.inputErrors = response.data.error;
+          if (typeof response.data.error !== 'object')
+          {
+            Error.show(response);
+          }
+          else
+          {
+            $scope.inputErrors = response.data.error;
+          }
+
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
         });

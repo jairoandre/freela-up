@@ -955,6 +955,28 @@ p {
         float: left;
         padding: 10px 0 0 15px;
       }
+
+      .custom-time-column {
+        width: 90px;
+        float: left;
+        padding: 10px 0 0 20px;
+
+        .form-control {
+          height: 30px;
+        }
+      }
+
+      .custom-time-select-column {
+        width: 130px;
+        float: left;
+        padding: 10px 0 0 10px;
+
+        .btn {
+          width: 130px;
+          height: 30px;
+          padding: 4px 6px;
+        }
+      }
     }
 
     &.custom-users {

@@ -18,11 +18,13 @@ angular
     'colorpicker.module',
     'frapontillo.bootstrap-switch',
     'ngStorage',
+    'ngRaven',
 
     // Core services
     'AuthServiceModule',
     'UserServiceModule',
     'FullResponseRestangularServiceModule',
+    'ErrorServiceModule',
 
     // Core components
     'NavItemComponentModule',
@@ -39,5 +41,7 @@ angular
     'ConfigModule',
     'UsersModule',
     'GroupsModule',
-    'HelpModule'
+    'HelpModule',
+    'FlowsModule',
+    'CasesModule'
   ]);

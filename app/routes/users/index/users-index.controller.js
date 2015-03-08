@@ -3,7 +3,8 @@
 angular
   .module('UsersIndexControllerModule', [
     'KeyboardPosterComponentModule',
-    'GenericInputComponentModule'
+    'GenericInputComponentModule',
+    'UsersDestroyModalControllerModule'
   ])
 
   .controller('UsersIndexController', function ($scope, $q, $stateParams, $modal, Restangular) {
@@ -129,32 +130,18 @@ angular
 
     $scope.deleteUser = function (user) {
       $modal.open({
-        templateUrl: 'views/users/removeUser.html',
+        templateUrl: 'modals/users/destroy/users-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          usersList: function(){
+          usersList: function() {
             return $scope.users;
+          },
+
+          user: function() {
+            return user;
           }
         },
-        controller: ['$scope', '$modalInstance', 'Users', 'usersList', function($scope, $modalInstance, Users, usersList) {
-          $scope.user = user;
-
-          // delete user from server
-          $scope.confirm = function() {
-            var user = Users.get({ id: $scope.user.id }, function() {
-              user.$delete({ id: $scope.user.id }, function() {
-                $modalInstance.close();
-
-                // remove user from list
-                usersList.splice(usersList.indexOf($scope.user), 1);
-              });
-            });
-          };
-
-          $scope.close = function() {
-            $modalInstance.close();
-          };
-        }]
+        controller: 'UsersDestroyModalController'
       });
     };
   });

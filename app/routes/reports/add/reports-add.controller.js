@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('ReportsEditControllerModule', [
+  .module('ReportsAddControllerModule', [
     'ReportsSelectUserModalControllerModule',
     'ReportsCreateUserModalControllerModule',
     'ReportSearchMapComponentModule',
@@ -9,7 +9,7 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ReportsEditController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
+  .controller('ReportsAddController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
 
     $scope.categories = [];

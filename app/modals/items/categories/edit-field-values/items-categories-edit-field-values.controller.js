@@ -6,7 +6,7 @@ angular
   ])
 
   .controller('ItemsCategoriesEditFieldValuesModalController', function($scope, $modalInstance, field) {
-    $scope.field = field;
+    $scope.field = angular.copy(field);
     $scope.value = {importing: false};
 
     $scope.toggleImport = function() {
@@ -25,23 +25,29 @@ angular
       {
         var newValues = $scope.value.multipleOptionsText.split(/\n/);
 
-        field.available_values = field.available_values.concat(newValues);
+        $scope.field.available_values = $scope.field.available_values.concat(newValues);
 
         $scope.value.multipleOptionsText = null;
       }
       else
       {
-        field.available_values.push($scope.value.text);
+        $scope.field.available_values.push($scope.value.text);
       }
 
       $scope.value.text = null;
     };
 
     $scope.clear = function() {
-      field.available_values = [];
+      $scope.field.available_values = [];
     };
 
     $scope.close = function() {
+      $modalInstance.close();
+    };
+
+    $scope.save = function() {
+      field.available_values = $scope.field.available_values;
+
       $modalInstance.close();
     };
   });
