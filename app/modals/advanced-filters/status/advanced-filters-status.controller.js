@@ -7,7 +7,7 @@ angular
 
   .controller('AdvancedFiltersStatusModalController', function($scope, $modalInstance, categories, statuses, activeAdvancedFilters) {
     $scope.categories = [];
-    $scope.statuses = statuses;
+    $scope.statuses = angular.copy(statuses);
     $scope.search = {};
 
     for (var i = categories.length - 1; i >= 0; i--) {
@@ -41,6 +41,8 @@ angular
           {
             statuses[$scope.categories[i].statuses[j].id] = $scope.categories[i].statuses[j];
           }
+
+          $scope.categories[i].statuses[j].selected = false;
         };
       }
 
