@@ -11,6 +11,10 @@ angular
         'itemResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           return Restangular.one('inventory').one('items', $stateParams.id).get();
         }],
+
+        'itemHistoryResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+          return Restangular.one('inventory').one('items', $stateParams.id).one('history').getList();
+        }],
       },
       views: {
         '': {

@@ -86,8 +86,108 @@
       </div>
     </div>
 
-    <hr />
+    <div class="rounder_wrapper" map-view-streetview latitude="item.position.latitude" longitude="item.position.longitude" ng-hide="hideStreetview">
+      <div class="wrapper_title"><h1>Histórico</h1></div>
 
-    <a href="#/items" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+      <div class="item-history">
+
+        <div class="filters">
+          <div class="filter">
+            <b>Exibindo</b>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              Tipos <span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="filter in availableHistoryFilters"><a href="" ng-click="toggleOption(filter)"> <b class="glyphicon glyphicon-ok"></b> {{ filter.name }}</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Marcar todos</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="filter">
+            <b>Período</b>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              Tipos <span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="filter in availableHistoryFilters"><a href="" ng-click="toggleOption(filter)"> <b class="glyphicon glyphicon-ok"></b> {{ filter.name }}</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Marcar todos</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="filter datepicker">
+            <input type="text" class="form-control" datepicker-popup ng-model="dt" show-weeks="false" show-button-bar="false" />
+          </div>
+
+          <span class="until">até</span>
+
+          <div class="filter">
+            <input type="text" class="form-control" datepicker-popup ng-model="ds" show-weeks="false" show-button-bar="false" />
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <ul class="timeline">
+
+          <li>
+
+            <div class="date">
+              <div class="line"></div>
+              <span>16/11/2013</span>
+            </div>
+
+            <div class="action">
+              <p><a href="#">Rodrigo Silva</a> adicionou novas fotos.</p>
+            </div>
+
+            <div class="clearfix"></div>
+
+          </li>
+
+          <li>
+
+            <div class="date">
+              <div class="line"></div>
+              <span>16/11/2013</span>
+            </div>
+
+            <div class="action">
+              <p><a href="#">Rodrigo Silva</a> adicionou novas fotos.</p>
+            </div>
+
+            <div class="clearfix"></div>
+
+          </li>
+
+          <li>
+
+            <div class="date">
+              <div class="line"></div>
+              <span>16/11/2013</span>
+            </div>
+
+            <div class="action">
+              <p><a href="#">Rodrigo Silva</a> adicionou novas fotos.</p>
+            </div>
+
+            <div class="clearfix"></div>
+
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+
   </div>
 </div>

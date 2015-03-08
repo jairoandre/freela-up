@@ -1,0 +1,86 @@
+@import "compass/css3";
+
+.item-history {
+  margin: 40px 60px 60px;
+
+  .filter {
+    float: left;
+
+    .btn-group {
+      display: block;
+      width: 200px;
+    }
+  }
+
+  .datepicker {
+    .dropdown-menu {
+      padding: 10px 15px;
+    }
+
+    .btn-default {
+      border: none;
+    }
+
+    .btn-sm {
+      padding: 4px 6px;
+      font-size: 14px
+    }
+
+    .btn-info {
+      background: #0047C8;
+      @include background(linear-gradient(color-stops(#0085C9, #0047C8)));
+    }
+  }
+
+  ul.timeline {
+    width: 100%;
+    list-style: none;
+    padding: 0px;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 15px;
+
+    li .date {
+      width: 15%;
+      float: left;
+      text-align: center;
+      min-width: 180px;
+      position: relative;
+
+      .line {
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        background: #D9D9D9;
+        left: 50%;
+        z-index: 1;
+      }
+
+      span {
+        display: inline-block;
+        padding: 7px 12px;
+        background: #F2F2F2;
+        border: 1px solid #D9D9D9;
+        border-radius: 8px;
+        color: #999;
+        font-weight: bold;
+        margin: 16px 0px;
+        z-index: 2;
+        position: relative;
+      }
+    }
+
+    li .action {
+      width: 75%;
+      border-bottom: 1px solid #E5E5E5;
+      float: left;
+
+      p {
+        margin-bottom: 19px;
+
+        a {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
