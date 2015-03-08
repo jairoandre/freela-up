@@ -33,13 +33,14 @@ angular
     };
 
     $scope.save = function() {
-      var statuses = {};
+      var statuses = {}, selectedCategories = [];
 
       for (var i = $scope.categories.length - 1; i >= 0; i--) {
         for (var j = $scope.categories[i].statuses.length - 1; j >= 0; j--) {
           if ($scope.categories[i].statuses[j].selected === true)
           {
             statuses[$scope.categories[i].statuses[j].id] = $scope.categories[i].statuses[j];
+            selectedCategories.push($scope.categories[i]);
           }
 
           $scope.categories[i].statuses[j].selected = false;
@@ -53,6 +54,17 @@ angular
           type: 'statuses',
           desc: statuses[x].title,
           value: statuses[x].id
+        };
+
+        activeAdvancedFilters.push(filter);
+      }
+
+      for (var i = selectedCategories.length - 1; i >= 0; i--) {
+        var filter = {
+          title: 'Categoria',
+          type: 'categories',
+          desc: selectedCategories[i].title,
+          value: selectedCategories[i].id
         };
 
         activeAdvancedFilters.push(filter);
