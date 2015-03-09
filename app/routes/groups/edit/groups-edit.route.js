@@ -11,7 +11,12 @@ angular
         '@groups': {
           templateUrl: 'routes/groups/edit/groups-edit.template.html',
           controller: 'GroupsEditController',
-          controllerAs: 'ctrl'
+          controllerAs: 'ctrl',
+          resolve: {
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
+            }]
+          }
         }
       }
     });
