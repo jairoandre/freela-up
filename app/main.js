@@ -19,6 +19,7 @@ angular
     'frapontillo.bootstrap-switch',
     'ngStorage',
     'ngRaven',
+    'monospaced.elastic',
 
     // Core services
     'AuthServiceModule',

@@ -78,6 +78,7 @@ angular
           that.saveToken(response.data.token);
 
           Restangular.setDefaultHeaders({'X-App-Token': response.data.token});
+          FullResponseRestangular.setDefaultHeaders({'X-App-Token': response.data.token});
 
           deferred.resolve();
         }, function() {

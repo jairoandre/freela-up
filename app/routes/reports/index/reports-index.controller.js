@@ -8,7 +8,7 @@ angular
     'AdvancedFiltersServiceModule'
   ])
 
-  .controller('ReportsIndexController', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies) {
+  .controller('ReportsIndexController', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies, FullResponseRestangular) {
     $scope.loading = true;
 
     var page = 1, perPage = 30, total;
@@ -24,11 +24,13 @@ angular
       $scope.beginDate = null;
       $scope.endDate = null;
       $scope.searchText = null;
+      $scope.overdueOnly = null;
 
       // map options
       $scope.position = null;
       $scope.selectedAreas = [];
       $scope.zoom = null;
+      $scope.clusterize = null;
     };
 
     // sorting the tables
@@ -61,6 +63,7 @@ angular
       {name: 'Criado pelos munícipes...', action: 'author'},
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
+      {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
     ];
 
     $scope.activeAdvancedFilters = [];
@@ -119,6 +122,11 @@ angular
         {
           $scope.selectedAreas.push(filter.value);
         }
+
+        if (filter.type === 'overdueOnly')
+        {
+          $scope.overdueOnly = true;
+        }
       }
 
       loadFilters();
@@ -137,7 +145,13 @@ angular
 
     // Return right promise
     var generateReportsPromise = function() {
-      var url = Restangular.one('search').all('reports').all('items'), options = { page: page, per_page: perPage }; // jshint ignore:line
+      var url = FullResponseRestangular.one('search').all('reports').all('items'), options = { }; // jshint ignore:line
+
+      if (!$scope.position)
+      {
+        options.page = page;
+        options.per_page = perPage;
+      }
 
       // if we searching, hit search/users
       if ($scope.searchText !== null)
@@ -165,16 +179,12 @@ angular
 
       if ($scope.beginDate !== null)
       {
-        var beginDate = new Date($scope.beginDate);
-
-        options.begin_date = beginDate.toISOString(); // jshint ignore:line
+        options.begin_date = $scope.beginDate; // jshint ignore:line
       }
 
       if ($scope.endDate !== null)
       {
-        var endDate = new Date($scope.endDate);
-
-        options.end_date = endDate.toISOString(); // jshint ignore:line
+        options.end_date = $scope.endDate; // jshint ignore:line
       }
 
       // map options
@@ -202,7 +212,17 @@ angular
         options.zoom = $scope.zoom;
       }
 
-      return url.getList(options);
+      if ($scope.clusterize !== null)
+      {
+        options.clusterize = true;
+      }
+
+      if ($scope.overdueOnly !== null)
+      {
+        options.overdue = $scope.overdueOnly;
+      }
+
+      return url.customGET(null, options);
     };
 
     // One every change of page or search, we create generate a new request based on current values
@@ -215,6 +235,7 @@ angular
         {
           $scope.position = mapOptions.position;
           $scope.zoom = mapOptions.zoom;
+          $scope.clusterize = mapOptions.clusterize;
         }
 
         var reportsPromise = generateReportsPromise();
@@ -222,7 +243,7 @@ angular
         reportsPromise.then(function(response) {
           if (paginate !== true)
           {
-            $scope.reports = response.data;
+            $scope.reports = response.data.reports;
           }
           else
           {
@@ -231,8 +252,8 @@ angular
               $scope.reports = [];
             }
 
-            for (var i = 0; i < response.data.length; i++) {
-              $scope.reports.push(response.data[i]);
+            for (var i = 0; i < response.data.reports.length; i++) {
+              $scope.reports.push(response.data.reports[i]);
             }
 
             // add up one page
@@ -332,6 +353,8 @@ angular
 
     $scope.resetFilters = function() {
       $scope.activeAdvancedFilters = [];
+
+      if (isMap) $scope.$broadcast('updateMap', true);
     };
 
     $scope.loadFilter = function(status) {
@@ -362,6 +385,17 @@ angular
       if (status === 'area')
       {
         AdvancedFilters.area($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'overdueOnly')
+      {
+        var overdueFilter = {
+          title: 'Atraso',
+          type: 'overdueOnly',
+          desc: 'Apenas relatos atrasados'
+        };
+
+        $scope.activeAdvancedFilters.push(overdueFilter);
       }
     };
 

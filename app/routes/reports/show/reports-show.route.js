@@ -6,7 +6,7 @@ angular
   .config(['$stateProvider', function($stateProvider) {
 
     $stateProvider.state('reports.show', {
-      url: '/{id:[0-9]{1,4}}',
+      url: '/{id:[0-9]{1,9}}',
       resolve: {
         'reportResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           return Restangular.one('reports').one('items', $stateParams.id).get();
@@ -18,6 +18,10 @@ angular
 
         'categoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           return Restangular.one('reports').all('categories').getList({ 'display_type': 'full' });
+        }],
+
+        'commentsResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+          return Restangular.one('reports', $stateParams.id).all('comments').getList();
         }],
 
       },

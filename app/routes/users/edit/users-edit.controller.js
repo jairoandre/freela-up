@@ -1,9 +1,11 @@
 'use strict';
 
 angular
-  .module('UsersEditControllerModule', [])
+  .module('UsersEditControllerModule', [
+    'ngCpfCnpj'
+  ])
 
-  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location) {
+  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
 
@@ -25,8 +27,17 @@ angular
     }
     else
     {
+      var groups = Restangular.stripRestangular(groupsResponse.data);
+
       $scope.loading = false;
       $scope.user = { groups: [] };
+
+      for (var i = groups.length - 1; i >= 0; i--) {
+        if (groups[i].name === 'Público')
+        {
+          $scope.user.groups.push(groups[i]);
+        }
+      };
     }
 
     // groups autocomplete

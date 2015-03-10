@@ -13,7 +13,8 @@ angular.
     'InventoryDroppableInputsAreaComponentModule',
     'InventoryEditLabelComponentModule',
     'InputsSidebarComponentModule',
-    'InventoryDraggableInputComponentModule'
+    'InventoryDraggableInputComponentModule',
+    'InventoryEditSectionComponentModule'
   ])
 
   .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader) {
@@ -31,6 +32,7 @@ angular.
     }
 
     $scope.unsavedCategory = false;
+    $scope.showDisabledFields = {active: true};
     $scope.currentTab = 'fields';
 
     $scope.availableInputs = [
@@ -317,7 +319,7 @@ angular.
       },
 
       change: function() {
-        $scope.group = '';
+        $scope.groupCanEdit = '';
       }
     };
 
@@ -339,16 +341,16 @@ angular.
       },
 
       change: function() {
-        $scope.group = '';
+        $scope.groupCanView = '';
       }
     };
 
     $scope.removeGroupCanView = function(group) {
-      $scope.category.groups_can_view.splice($scope.category.groups_can_view.indexOf(group), 1);
+      $scope.category.permissions.groups_can_view.splice($scope.category.permissions.groups_can_view.indexOf(group), 1);
     };
 
     $scope.removeGroupCanEdit = function(group) {
-      $scope.category.groups_can_edit.splice($scope.category.groups_can_edit.indexOf(group), 1);
+      $scope.category.permissions.groups_can_edit.splice($scope.category.permissions.groups_can_edit.indexOf(group), 1);
     };
 
     $scope.editFieldOptions = function(field) {
@@ -359,6 +361,12 @@ angular.
         resolve: {
           field: function() {
             return field;
+          },
+
+          setFieldOptions: function() {
+            return function(options) {
+              field.field_options = options;
+            }
           }
         }
       });
@@ -515,15 +523,6 @@ angular.
         promises.push(addAsync($scope.uploaderQueue.items[i]._file));
       }
 
-      if ($scope.category.plot_format === false) // jshint ignore:line
-      {
-        $scope.category.plot_format = 'pin'; // jshint ignore:line
-      }
-      else
-      {
-        $scope.category.plot_format = 'marker'; // jshint ignore:line
-      }
-
       // wait for images to process as base64
       $q.all(promises).then(function() {
 
@@ -540,6 +539,15 @@ angular.
 
         var formattedData = { title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, permissions: formattedPermissions }; // jshint ignore:line
         var formattedFormData = { sections: $scope.category.sections };
+
+        if ($scope.category.plot_format === false) // jshint ignore:line
+        {
+          formattedData.plot_format = 'pin'; // jshint ignore:line
+        }
+        else
+        {
+          formattedData.plot_format = 'marker'; // jshint ignore:line
+        }
 
         if (updating)
         {

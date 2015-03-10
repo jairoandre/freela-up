@@ -5,7 +5,7 @@ angular
     'ItemsDestroyModalControllerModule'
   ])
 
-  .controller('ItemsIndexController', function ($scope, $modal, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies) {
+  .controller('ItemsIndexController', function ($scope, $modal, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies, FullResponseRestangular) {
     $scope.loading = true;
 
     var page = 1, perPage = 300, total, searchText = '';
@@ -27,6 +27,7 @@ angular
       $scope.position = null;
       $scope.selectedAreas = [];
       $scope.zoom = null;
+      $scope.clusterize = null;
     };
 
     // sorting the tables
@@ -138,7 +139,7 @@ angular
 
     // Return right promise
     var generateItemsPromise = function() {
-      var url = Restangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, display_type: 'basic', sort: 'title', order: 'desc' }; // jshint ignore:line
+      var url = FullResponseRestangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, display_type: 'full', sort: 'title', order: 'desc' }; // jshint ignore:line
 
       // if we searching, hit search/users
       if ($scope.searchText !== null)
@@ -166,16 +167,12 @@ angular
 
       if ($scope.beginDate !== null)
       {
-        var beginDate = new Date($scope.beginDate);
-
-        options['created_at[begin]'] = beginDate.toISOString();
+        options['created_at[begin]'] = $scope.beginDate;
       }
 
       if ($scope.endDate !== null)
       {
-        var endDate = new Date($scope.endDate);
-
-        options['created_at[end]'] = endDate.toISOString();
+        options['created_at[end]'] = $scope.endDate;
       }
 
       // fields
@@ -213,7 +210,12 @@ angular
         options.zoom = $scope.zoom;
       }
 
-      return url.getList(options);
+      if ($scope.clusterize !== null)
+      {
+        options.clusterize = true;
+      }
+
+      return url.customGET(null, options);
     };
 
     // One every change of page or search, we create generate a new request based on current values
@@ -226,6 +228,7 @@ angular
         {
           $scope.position = mapOptions.position;
           $scope.zoom = mapOptions.zoom;
+          $scope.clusterize = mapOptions.clusterize;
         }
 
         var itemsPromise = generateItemsPromise(searchText);
@@ -233,7 +236,7 @@ angular
         itemsPromise.then(function(response) {
           if (paginate !== true)
           {
-            $scope.items = response.data;
+            $scope.items = response.data.items;
           }
           else
           {
@@ -242,8 +245,8 @@ angular
               $scope.items = [];
             }
 
-            for (var i = 0; i < response.data.length; i++) {
-              $scope.items.push(response.data[i]);
+            for (var i = 0; i < response.data.items.length; i++) {
+              $scope.items.push(response.data.items[i]);
             }
 
             // add up one page

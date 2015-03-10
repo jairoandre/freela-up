@@ -7,7 +7,12 @@
       <li>{{ group.name }}</li>
     </ul>
 
-    <a href="#/groups/{{ group.id }}/edit" class="btn btn-info btn-custom">Editar grupo</a>
+    <div class="btn-group">
+      <a href="#/groups/{{ group.id }}/edit" class="btn btn-info btn-custom-group">Gerenciar permissões</a>
+      <a href="" ng-click="editGroup()" class="btn btn-info btn-custom-group">Editar nome</a>
+    </div>
+
+    <a href="" ng-click="addUsers()" class="btn btn-info btn-custom">Adicionar usuários</a>
   </div>
 
   <div class="simple_search">
@@ -39,7 +44,7 @@
       <td><a href="#/users/{{ user.id }}">{{ user.name }}</a></td>
       <td>{{ user.email }}</td>
       <td>{{ user.phone }}</td>
-      <td><a href="" ng-click="removeUserFromGroup(user)">Remover <span class="glyphicon glyphicon-remove"></span></a></td>
+      <td><a href="" ng-click="removeUserFromGroup(user)" tooltip="Remover usuário do grupo"><span class="glyphicon glyphicon-trash"> Remover</span></a></td>
     </tr>
 
   </table>

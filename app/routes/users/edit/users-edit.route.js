@@ -12,6 +12,11 @@
           templateUrl: 'routes/users/edit/users-edit.template.html',
           controller: 'UsersEditController',
           controllerAs: 'ctrl',
+          resolve: {
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
+            }]
+          }
         }
       }
     }).state('users.add', {
@@ -21,6 +26,11 @@
           templateUrl: 'routes/users/edit/users-edit.template.html',
           controller: 'UsersEditController',
           controllerAs: 'ctrl',
+          resolve: {
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
+            }]
+          }
         }
       }
     });

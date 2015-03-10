@@ -9,101 +9,98 @@
   </div>
 
   <div class="content bigPadding">
-    <form ng-submit="send()">
+    <h3>1. Selecione a categoria</h3>
 
-      <h3>1. Selecione a categoria</h3>
+    <ui-select ng-model="$parent.selectedCategory" theme="select2" style="width: 33%;">
+      <ui-select-match placeholder="Selecione uma categoria...">{{$select.selected.title}}</ui-select-match>
 
-      <ui-select ng-model="$parent.selectedCategory" theme="select2" style="width: 33%;">
-        <ui-select-match placeholder="Selecione uma categoria...">{{$select.selected.title}}</ui-select-match>
+      <ui-select-choices group-by="subCategories" repeat="category.id as category in categories | filter: {title: $select.search}">
+        <div ng-bind-html="category.title | highlight: $select.search"></div>
+      </ui-select-choices>
+    </ui-select>
 
-        <ui-select-choices group-by="subCategories" repeat="category.id as category in categories | filter: {title: $select.search}">
-          <div ng-bind-html="category.title | highlight: $select.search"></div>
-        </ui-select-choices>
-      </ui-select>
+    <hr />
+
+    <div ng-show="selectedCategory" class="pages-animation">
+      <h3>2. Selecione o endereço</h3>
+
+      <p>Digite o endereço, ou arraste o pino até a posição exata.</p>
+
+      <div class="search-map">
+        <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" report-search-map>
+      </div>
+
+      <div class="form-group reportMap">
+        <div class="loadingMap" ng-show="isLoadingItems">
+          <div class="loadingScrolling"></div>
+        </div>
+
+        <div class="roundedMap" map-new-report></div>
+      </div>
 
       <hr />
 
-      <div ng-show="selectedCategory" class="pages-animation">
-        <h3>2. Selecione o endereço</h3>
+      <h3>3. Adicione imagens (opcional)</h3>
 
-        <p>Digite o endereço, ou arraste o pino até a posição exata.</p>
-
-        <div class="search-map">
-          <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" report-search-map>
-        </div>
-
-        <div class="form-group reportMap">
-          <div class="loadingMap" ng-show="isLoadingItems">
-            <div class="loadingScrolling"></div>
-          </div>
-
-          <div class="roundedMap" map-new-report></div>
-        </div>
-
-        <hr />
-
-        <h3>3. Adicione imagens (opcional)</h3>
-
-        <div class="form-group">
-          <div class="upload" nv-file-drop uploader="uploader">
-            <div class="queue">
-              <div class="image" ng-repeat="image in uploader.existingImages">
-                <img ng-src="{{image.url}}" width="100" height="100" />
-                <!--<button type="button" ng-click="item.remove()">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>-->
-              </div>
-
-              <div class="image" ng-repeat="item in uploader.queue">
-                <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, width: 100, height: 100 }"></div>
-
-                <span ng-show="!uploader.isHTML5">{{ item.file.name }}</span>
-
-                <button type="button" ng-click="item.remove()">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
-              </div>
-
-              <div ng-show="uploader.isHTML5" class="drop-zone" nv-file-over uploader="uploader">
-                <span>Arraste imagem aqui</span>
-              </div>
+      <div class="form-group">
+        <div class="upload" nv-file-drop uploader="uploader">
+          <div class="queue">
+            <div class="image" ng-repeat="image in uploader.existingImages">
+              <img ng-src="{{image.url}}" width="100" height="100" />
+              <!--<button type="button" ng-click="item.remove()">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>-->
             </div>
 
-            <span class="or">ou</span>
+            <div class="image" ng-repeat="item in uploader.queue">
+              <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, width: 100, height: 100 }"></div>
 
-            <div class="btn btn-info btn-custom btn-upload">
-                <span>Selecione os arquivos</span>
+              <span ng-show="!uploader.isHTML5">{{ item.file.name }}</span>
 
-                <input type="file" nv-file-select uploader="uploader" multiple  />
+              <button type="button" ng-click="item.remove()">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </div>
+
+            <div ng-show="uploader.isHTML5" class="drop-zone" nv-file-over uploader="uploader">
+              <span>Arraste imagem aqui</span>
             </div>
           </div>
-        </div>
 
-        <hr />
+          <span class="or">ou</span>
 
-        <h3>4. Descreva a situação (opcional)</h3>
+          <div class="btn btn-info btn-custom btn-upload">
+              <span>Selecione os arquivos</span>
 
-        <textarea class="form-control" placeholder="Descreva o problema aqui..." ng-model="description"></textarea>
-
-        <hr />
-
-        <div ng-hide="!hasPermission('edit_reports')">
-          <h3>5. Vincule a um usuário (opcional)</h3>
-
-          <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
-
-          <div class="btn-group">
-            <button type="button" class="btn btn-info btn-custom btn-lg-custom" href="" ng-click="selectUser()"><span ng-show="!user">Selecionar usuário</span><span ng-show="user">Alterar usuário</span></button>
-            <button type="button" class="btn btn-info btn-custom btn-lg-custom" href="" ng-click="registerUser()">+ Cadastrar novo usuário</button>
+              <input type="file" nv-file-select uploader="uploader" multiple  />
           </div>
         </div>
-
-        <hr />
-
-        <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar relato</button>
-
-        <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar relato</button>
       </div>
-    </form>
+
+      <hr />
+
+      <h3>4. Descreva a situação (opcional)</h3>
+
+      <textarea class="form-control" placeholder="Descreva o problema aqui..." ng-model="description"></textarea>
+
+      <hr />
+
+      <div ng-hide="!hasPermission('edit_reports')">
+        <h3>5. Vincule a um usuário (opcional)</h3>
+
+        <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-info btn-custom btn-lg-custom" href="" ng-click="selectUser()"><span ng-show="!user">Selecionar usuário</span><span ng-show="user">Alterar usuário</span></button>
+          <button type="button" class="btn btn-info btn-custom btn-lg-custom" href="" ng-click="registerUser()">+ Cadastrar novo usuário</button>
+        </div>
+      </div>
+
+      <hr />
+
+      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar relato</button>
+
+      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar relato</button>
+    </div>
   </div>
 </div>

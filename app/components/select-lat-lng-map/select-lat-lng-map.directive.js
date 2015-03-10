@@ -34,8 +34,6 @@ angular
 
             var position;
 
-            console.log(scope.$parent.latLng[0], scope.$parent.latLng[1]);
-
             if (scope.$parent.latLng[0] === null && scope.$parent.latLng[1] === null)
             {
               position = mapProvider.options.homeLatlng;
@@ -62,20 +60,29 @@ angular
             mapProvider.map.setCenter(position);
 
             google.maps.event.addListener(marker, 'dragend', function() {
+              scope.$parent.latLng[0] = mapProvider.mainMarker.getPosition().lat();
+              scope.$parent.latLng[1] = mapProvider.mainMarker.getPosition().lng();
+
               mapProvider.changedMarkerPosition(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
             });
           },
 
-          changedMarkerPosition: function(lat, lng, addressComponents) {
+          changedMarkerPosition: function(lat, lng, addressComponents, formattedAddress) {
             var geocoder = new google.maps.Geocoder();
 
             scope.$parent.latLng = [lat, lng];
 
             scope.$parent.addressComponents = null;
+            scope.$parent.formattedAddress = null;
 
             if (typeof addressComponents !== 'undefined')
             {
               scope.$parent.addressComponents = addressComponents;
+            }
+
+            if (typeof formattedAddress !== 'undefined')
+            {
+              scope.$parent.formattedAddress = formattedAddress;
             }
 
             geocoder.geocode({
@@ -88,7 +95,8 @@ angular
                 if (typeof addressComponents === 'undefined')
                 {
                   scope.$parent.addressComponents = results[0].address_components;
-                  scope.formattedAddress = results[0].formatted_address; // jshint ignore:line
+                  scope.$parent.formattedAddress = results[0].formatted_address;
+                  scope.formattedAddress = results[0].formatted_address;
                 }
 
                 scope.$apply();

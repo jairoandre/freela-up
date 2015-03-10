@@ -46,8 +46,9 @@ angular
         return $delegate;
     }]);
   }])
-  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', function(Restangular, Auth, $rootScope, $timeout, Error, $http) {
+  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', function(Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
+    FullResponseRestangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
 
     // Return what is being requested
     Restangular.addResponseInterceptor(function(response, operation, what) {

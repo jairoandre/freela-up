@@ -16,17 +16,27 @@
         <td><img ng-src="{{ category.icon.default.web.active }}" width="50" class="category-icon"> <a href="#/reports/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
         <td width="90">
           <a href="#/reports/categories/{{ category.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-          <a href="" ng-click="deleteCategory(category)"><span class="glyphicon glyphicon-trash"></span></a>
+          <a href="" ng-click="deleteCategory(category)" ng-show="category.subcategories.length === 0"><span class="glyphicon glyphicon-trash">
+          </span></a>
         </td>
       </tr>
 
       <tr ng-repeat="subCategory in category.subcategories" class="subrow">
-        <td><img ng-src="{{ subCategory.icon.default.web.active }}" width="30" class="category-icon"> <span class="sub-tag"></span>  <a href="#/reports/categories/{{ subCategory.id }}/edit" ng-hide="!hasPermission('reports_categories_can_edit', subCategory.id)">{{ subCategory.title }}</a><span ng-show="!hasPermission('reports_categories_can_edit', subCategory.id)">{{ subCategory.title }}</span></td>
-        <td width="90" ng-hide="!hasPermission('reports_categories_can_edit', subCategory.id)">
+        <td>
+          <img ng-src="{{ subCategory.icon.default.web.active }}" width="30" class="category-icon"> <span class="sub-tag"></span>
+
+          <a href="#/reports/categories/{{ subCategory.id }}/edit" ng-show="hasPermission('reports_categories_can_edit', subCategory.id) || hasPermission('manage_reports_categories')">{{ subCategory.title }}</a>
+
+          <span ng-hide="hasPermission('reports_categories_can_edit', subCategory.id) || hasPermission('manage_reports_categories')">{{ subCategory.title }}</span>
+        </td>
+
+        <td width="90" ng-show="hasPermission('reports_categories_can_edit', subCategory.id) || hasPermission('manage_reports_categories')">
           <a href="#/reports/categories/{{ subCategory.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+
           <a href="" ng-click="deleteCategory(subCategory)"><span class="glyphicon glyphicon-trash"></span></a>
         </td>
-        <td ng-show="!hasPermission('reports_categories_can_edit', subCategory.id)"></td>
+
+        <td ng-hide="hasPermission('reports_categories_can_edit', subCategory.id) || hasPermission('manage_reports_categories')"></td>
       </tr>
     </tbody>
   </table>

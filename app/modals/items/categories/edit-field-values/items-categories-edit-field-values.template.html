@@ -22,17 +22,17 @@
     </div>
 
     <ul class="fieldOptions">
-      <li ng-repeat="value in field.available_values track by $index" inventory-single-value>
-        <a class="edit_value" href="" ng-click="editingValue = true" ng-hide="editingValue">{{ value }}</a>
+      <li ng-repeat="option in field.field_options track by $index" inventory-single-value>
+        <a class="edit_value" href="" ng-click="editingValue = true" ng-hide="editingValue">{{ option.value }}</a>
 
         <div class="edit_label" ng-show="editingValue">
-          <input type="text" class="editValue" ng-model="editValue" />
-          <a href="" ng-click="saveValue()">Ok</a>
+          <input type="text" class="editValue" ng-model="newValue" />
+          <a href="" ng-click="saveOption()">Ok</a>
 
           <div class="clearfix"></div>
         </div>
 
-        <a href="" class="remove_value" ng-click="removeValue(value)">x</a>
+        <a href="" class="remove_value" ng-click="removeOption()">x</a>
 
         <div class="clearfix"></div>
       </li>
@@ -40,6 +40,7 @@
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger btn-danger-inverse pull-left" ng-click="clear()">Limpar opções</button>
-  <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Salvar</button>
+  <button type="button" class="btn btn-danger btn-danger-inverse pull-left" ng-click="clear()" ng-if="!isExistingField">Limpar opções</button>
+  <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()" ng-if="isExistingField">Fechar</button>
+  <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()" ng-if="!isExistingField">Salvar</button>
 </div>

@@ -11,6 +11,11 @@ angular
     $scope.loading = true;
     $scope.image = image;
 
+    if (typeof image.url === 'undefined')
+    {
+      $scope.image.url = image.versions.original;
+    }
+
     $scope.$watch('imageDimensions', function(newValue, oldValue) {
       if (newValue !== oldValue)
       {

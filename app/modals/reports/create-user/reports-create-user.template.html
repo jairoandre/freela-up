@@ -4,27 +4,27 @@
 </div>
 
 <div class="modal-body">
-  <div class="alert alert-danger fade-animation" ng-show="inputErrors">
+  <div class="alert alert-danger" ng-show="inputErrors">
     <p ng-bind-html="inputErrors | formatErrors"></p>
   </div>
 
-  <form ng-submit="send()">
-    <div class="form-group">
-      <label for="form_username">Nome completo</label>
-      <input type="text" class="form-control input-lg" id="form_username" ng-model="user.name" generic-input name="name">
+  <form ng-submit="send()" name="form" novalidate>
+    <div class="form-group" ng-class="{'has-error': form.name.$dirty && form.name.$invalid}">
+      <label for="form_username">Nome completo *</label>
+      <input type="text" class="form-control input-lg" id="form_username" ng-model="user.name" generic-input name="name" required>
     </div>
 
-    <div class="form-group">
-      <label for="form_email">Email</label>
-      <input type="email" class="form-control custom_form" id="form_email" ng-model="user.email" generic-input name="email">
+    <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid}">
+      <label for="form_email">Email *</label>
+      <input type="email" class="form-control custom_form" id="form_email" ng-model="user.email" generic-input name="email" required>
     </div>
 
-    <div class="form-group" ng-show="!updating">
-      <label for="form_email">Senha</label>
+    <div class="form-group" ng-show="!updating" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
+      <label for="form_email">Senha *</label>
 
       <div class="row">
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password">
+          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" ng-required="!updating">
         </div>
 
         <div class="col-xs-6">
@@ -33,39 +33,39 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="form_address">Endereço</label>
-      <input type="text" class="form-control custom_form" id="form_address" ng-model="user.address" generic-input name="address">
+    <div class="form-group" ng-class="{'has-error': form.address.$dirty && form.address.$invalid}">
+      <label for="form_address">Endereço *</label>
+      <input type="text" class="form-control custom_form" id="form_address" ng-model="user.address" generic-input name="address" required>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': form.address_additional.$dirty && form.address_additional.$invalid}">
       <label for="form_address_additional">Complemento</label>
       <input type="text" class="form-control custom_form" id="form_address_additional" ng-model="user.address_additional" generic-input name="address_additional">
     </div>
 
-    <div class="form-group">
-      <label for="form_district">Cidade</label>
-      <input type="text" class="form-control custom_form" id="form_district" ng-model="user.district" generic-input name="district">
+    <div class="form-group" ng-class="{'has-error': form.district.$dirty && form.district.$invalid}">
+      <label for="form_district">Cidade *</label>
+      <input type="text" class="form-control custom_form" id="form_district" ng-model="user.district" generic-input name="district" required>
     </div>
 
-    <div class="form-group">
-      <label for="form_postal_code">CEP</label>
-      <input type="text" class="form-control custom_form" id="form_postal_code" ng-model="user.postal_code" generic-input name="postal_code" ui-mask="99999-999">
+    <div class="form-group" ng-class="{'has-error': form.postal_code.$dirty && form.postal_code.$invalid}">
+      <label for="form_postal_code">CEP *</label>
+      <input type="text" class="form-control custom_form" id="form_postal_code" ng-model="user.postal_code" generic-input name="postal_code" ui-mask="99999-999" required>
     </div>
 
-    <div class="form-group">
-      <label for="form_phone">Telefone</label>
-      <input type="text" class="form-control custom_form" id="form_phone" ng-model="user.phone" generic-input name="phone" ui-mask="(99) 99999999?9">
+    <div class="form-group" ng-class="{'has-error': form.phone.$dirty && form.phone.$invalid}">
+      <label for="form_phone">Telefone *</label>
+      <input type="text" class="form-control custom_form" id="form_phone" ng-model="user.phone" generic-input name="phone" ui-mask="(99) 99999999?9" required>
     </div>
 
-    <div class="form-group">
-      <label for="form_document">Documento CPF</label>
-      <input type="text" class="form-control custom_form" id="form_document" ng-model="user.document" generic-input name="document" ui-mask="999.999.999-99">
+    <div class="form-group" ng-class="{'has-error': form.document.$dirty && form.document.$invalid}">
+      <label for="form_document">Documento CPF *</label>
+      <input type="text" class="form-control custom_form" id="form_document" ng-model="user.document" generic-input name="document" ui-mask="999.999.999-99" ng-cpf required>
     </div>
 
   </form>
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="create()">Criar usuário</button>
+    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="create()" ng-disabled="form.$invalid">Criar usuário</button>
 </div>

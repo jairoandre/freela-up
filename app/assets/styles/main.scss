@@ -559,6 +559,12 @@ p {
           vertical-align: middle;
         }
 
+        tr.late_report {
+          background: #FFE9EF;
+          border-top-color: #E5CED4;
+          border-bottom-color: #E5CED4;
+        }
+
         .custom_label {
           padding: 0.6em .6em 0.7em;
           margin-left: 5px;
@@ -967,12 +973,12 @@ p {
       }
 
       .custom-time-select-column {
-        width: 130px;
+        width: 300px;
         float: left;
         padding: 10px 0 0 10px;
 
         .btn {
-          width: 130px;
+          width: 80px;
           height: 30px;
           padding: 4px 6px;
         }
@@ -1543,16 +1549,36 @@ p {
     border: 1px solid #E1E1E1;
     border-radius: 5px;
     margin-bottom: 20px;
+    position: relative;
 
     &.helper {
       box-shadow: 0 0 8px #000;
       border-radius: 4px;
     }
 
+    .pending-removal {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      z-index: 2;
+
+      .alert {
+        margin-top: 84px;
+        background: #F0AD4E;
+        border-radius: 0px;
+        color: #FFF;
+        border-top: 1px solid #F0A130;
+        border-bottom: 1px solid #F0A130;
+      }
+    }
+
     .top_part {
       background: #F0F0F0;
       border-bottom: 1px solid #E1E1E1;
       padding: 18px 19px;
+      position: relative;
+      z-index: 3;
 
       .type {
         @include make-xs-column(9.5);
@@ -2176,276 +2202,9 @@ p {
   border-radius: 25px;
 }
 
-// tag modal
-.tagModal .modal-dialog {
-  width: 400px;
-}
-
-.mapModal {
-  .modal-dialog {
-    width: 700px;
-  }
-
-  .map {
-    width: 100%;
-    height: 400px;
-  }
-
-  .search-bar {
-    padding: 15px 15px 0 15px;
-
-    input {
-      width: 78%;
-      float: left;
-    }
-
-    button {
-      width: 20%;
-      margin-left: 2%;
-      float: left;
-    }
-  }
-
-  .buttons {
-    padding: 15px;
-
-    span {
-      display: block;
-      float: left;
-      margin-top: 8px;
-    }
-  }
-}
-
-.editCategory {
-  .modal-dialog {
-    width: 500px;
-  }
-
-  .form-group.upload {
-    .drop-zone {
-      width: 260px;
-      height: 80px;
-      background: #F2F2F2;
-      border-radius: 5px;
-      display: table;
-
-      &.nv-file-over {
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.47);
-        border: 4px solid #FFF;
-      }
-
-      span {
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-        color: #FFF;
-      }
-    }
-
-    .image {
-      width: 60px;
-      height: 60px;
-      vertical-align: middle;
-      margin: 0 auto;
-      margin-top: 10px;
-    }
-
-    .btn-upload {
-      width: 200px;
-      margin-top: 10px;
-      position: relative;
-      overflow: hidden;
-
-      input {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        font-size: 20px;
-        cursor: pointer;
-        @include opacity(0);
-      }
-    }
-  }
-
-  .has-switch {
-    min-width: 130px;
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.shareModal {
-  .modal-dialog {
-    width: 500px;
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-
-  .form-control {
-    padding: 18px 14px;
-  }
-
-  .has-success .btn-custom {
-    background: #468847;
-  }
-
-  .has-success .form-control {
-    color: #468847;
-  }
-
-  .btn-custom {
-    padding: 9px 26px;
-  }
-}
-
 .removeModal {
   .modal-dialog {
     width: 500px;
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.editFieldOptions {
-  .modal-dialog {
-    width: 600px;
-  }
-
-  .modal-body {
-    padding: 0px !important;
-  }
-
-  .new-value {
-    border-bottom: 1px solid #E5E5E5;
-    background: #F2F2F2;
-    padding: 7px 0 7px 0;
-
-    input, textarea {
-      width: 100%;
-      color: #ADABAB;
-      background: #F2F2F2;
-      border: 0px;
-      padding: 8px 20px;
-      outline: none;
-    }
-
-    textarea {
-      height: 110px;
-      resize: none;
-    }
-
-    .buttons {
-      padding: 0px;
-    }
-
-    button.btn {
-      outline: none;
-      padding: 8px 20px;
-      border: 1px solid transparent;
-
-      &.btn-disabled {
-        color: #1693C6;
-        border: 1px dashed #1693C6;
-        background: transparent;
-      }
-
-      &.insert {
-        padding: 8px 15px;
-      }
-    }
-  }
-
-  ul {
-    width: 100%;
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-    height: 209px;
-    overflow: auto;
-
-    li {
-      border-bottom: 1px solid #CCC;
-      padding: 10px 8px;
-
-      .edit_value {
-        border-radius: 4px;
-        padding: 2px 6px;
-        color: #000;
-        float: left;
-
-        &:hover {
-          background: #E5E5E5;
-          text-decoration: none;
-        }
-      }
-
-      .edit_label {
-        float: left;
-
-        input {
-          width: 150px;
-          border: 1px solid #D9D9D9;
-          border-radius: 4px 0 0 4px;
-          padding: 2px 6px;
-          background: #FFF;
-          outline: 0px;
-          font-weight: normal;
-          color: #666;
-          float: left;
-        }
-
-        a {
-          border: 1px solid #D9D9D9;
-          border-left: none;
-          display: block;
-          border-radius: 0 4px 4px 0;
-          padding: 2px 6px;
-          background: #F3F3F3;
-          color: #259DCB;
-          float: left;
-          font-weight: normal;
-
-          &:hover {
-            text-decoration: none;
-          }
-        }
-      }
-
-      .remove_value {
-        float: right;
-        background: #1693C6;
-        color: #FFF;
-        border: 0px;
-        width: 25px;
-        height: 25px;
-        text-align: center;
-        border-radius: 25px;
-      }
-    }
-  }
-
-  .btn-danger-inverse {
-    background: #FFF;
-    color: #D2322D;
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.editInventoryStatusesModal {
-  .modal-dialog {
-    width: 400px;
   }
 
   .modal-footer {
@@ -2460,687 +2219,6 @@ p {
 
   .modal-body {
     padding-top: 10px;
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.filterQueryModal {
-  .modal-dialog {
-    width: 460px;
-  }
-
-  .modal-body {
-    padding-top: 10px;
-
-    textarea {
-      min-height: 100px;
-    }
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.fieldsCategoriesModal {
-  .modal-dialog {
-    width: 700px;
-  }
-
-  .modal-body {
-    padding: 0px;
-  }
-
-  .new_field {
-    background: #F2F2F2;
-    border-bottom: 1px solid #E5E5E5;
-    padding: 15px 15px;
-
-    .row {
-      position: relative;
-      margin-top: 10px;
-      padding: 0 8px 0 8px;
-
-      &.disabled {
-        opacity: 0.6;
-      }
-
-      .block-disabled {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-      }
-
-      .col {
-        padding-right: 7px;
-        padding-left: 7px;
-      }
-    }
-  }
-
-  .btn-group-block {
-    width: 100%;
-  }
-
-  .btn-block {
-    width: 100%;
-    text-align: left;
-    padding-left: 7px;
-
-    .caret {
-      float: right;
-      margin: 8px 12px 0 0;
-    }
-  }
-
-  .custom_table {
-    thead {
-      font-size: 12px;
-      color: #666666;
-
-      td {
-        padding: 7px 7px 7px 15px;
-      }
-    }
-
-    td {
-      padding: 15px;
-      vertical-align: middle;
-    }
-
-    .icon_action {
-      font-size: 18px;
-    }
-
-    .actions {
-      text-align: center;
-    }
-  }
-}
-
-.filterPeriodModal {
-  .modal-dialog {
-    width: 530px;
-  }
-
-  .modal-body {
-    padding-top: 10px;
-    padding: 0px;
-
-    .tabs {
-      margin: 0px;
-      margin-bottom: 10px;
-
-      .tab {
-        display: block;
-        height: 50px;
-        background: #F2F2F2;
-        color: #000;
-        border-bottom: 1px solid #E5E5E5;
-        border-right: 1px solid #E5E5E5;
-
-        &.active {
-          background: #FFF;
-          border-bottom: 0px;
-        }
-
-        &:hover {
-          text-decoration: none;
-        }
-
-        p {
-          text-align: center;
-          line-height: 45px;
-        }
-      }
-    }
-
-    .dates {
-      margin: 0px;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-
-      h2 {
-        color: #259ECB;
-        font-size: 20px;
-        margin: 0 0 15px 0;
-      }
-
-      .col-xs-6 {
-        padding: 0px;
-        position: relative;
-        display: inline-block;
-
-        table {
-          display: inline-block;
-        }
-
-        .block {
-          position: absolute;
-          top: 0px;
-          width: 100%;
-          height: 100%;
-          background: rgba(255, 255, 255, 0.8);
-        }
-      }
-
-      .col-xs-6:first-child {
-        border-right: 1px solid #E5E5E5;
-      }
-    }
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.filterAreaModal {
-  .modal-dialog {
-    width: 900px;
-  }
-
-  .modal-body {
-    height: 440px;
-    padding: 0px;
-
-    .area-map {
-      width: 70%;
-      height: 100%;
-      float: left;
-      border-right: 1px solid #CCCCCC;
-      padding-right: 1px;
-
-      .map {
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .info {
-      width: 30%;
-      height: 100%;
-      float: left;
-      background: #F3F3F3;
-      padding: 15px;
-
-      textarea {
-        width: 100%;
-        resize: none;
-        box-shadow: none;
-      }
-
-      .lat-lng-inputs {
-        margin-top: 10px;
-
-        input {
-          box-shadow: none;
-          border-top: 0px;
-          border-radius: 0 0 4px 4px;
-
-          &.lat {
-            border-radius: 4px 4px 0 0;
-            border-top: 1px solid #CCC;
-          }
-
-          &.form-error {
-            border-color: #a94442;
-          }
-        }
-      }
-
-      .btn-default {
-        margin: 10px 0 20px 0;
-        color: #22ACD7;
-      }
-
-      h2 {
-        font-size: 16px;
-        font-weight: bold;
-        margin: 7px 0 5px 0;
-      }
-
-      span {
-        font-size: 16px;
-      }
-    }
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-    position: relative;
-
-    .btn-default:after {
-      content: '';
-      border-right: 1px solid #D9D9D9;
-      width: 1px;
-      height: 100%;
-      position: absolute;
-      top: 0px;
-      margin: 0 0 0 35px;
-    }
-
-    .btn-group {
-      margin-left: 45px;
-
-      .btn-danger-inverse {
-        background: #FFF;
-        color: #D2322D;
-      }
-    }
-  }
-}
-
-.filterCategoriesModal, .filterStatusesModal, .filterAuthorModal {
-  .modal-dialog {
-    width: 500px;
-  }
-
-  .modal-body {
-    padding: 0px;
-
-    .categoryName {
-      width: 100%;
-      padding: 8px 19px;
-      display: block;
-      background: #E2E2E2;
-      border-bottom: 1px solid #D9D9D9;
-      color: #666666;
-      border-top: 1px solid #D9D9D9;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0px;
-
-      a {
-        display: block;
-        width: 100%;
-        background: #F2F2F2;
-        padding: 9px 16px;
-        cursor: pointer;
-        color: #000;
-        text-decoration: none;
-        padding-left: 42px;
-        border-bottom: 1px solid #E5E5E5;
-        position: relative;
-
-        i {
-          margin-right: 8px;
-        }
-
-        &.selected {
-          background: #E6E6E6;
-          padding-left: 16px;
-        }
-
-        &.status span {
-          display: block;
-          content: '';
-          width: 100%;
-          top: 0px;
-          left: 0px;
-          height: 100%;
-          float: left;
-          position: absolute;
-          opacity: 0.3;
-
-          &.not-selected {
-            background: #F2F2F2 !important;
-          }
-        }
-
-        &.status b {
-          display: block;
-          content: '';
-          width: 4px;
-          top: 0px;
-          left: 0px;
-          height: 100%;
-          float: left;
-          position: absolute;
-          background: #000;
-        }
-      }
-    }
-
-    .selectUsers {
-      width: 100%;
-
-      .user_search {
-        background: #E6E6E6;
-        border: 1px solid #CCCCCC;
-        border-right: 0px;
-        border-left: 0px;
-        position: relative;
-        color: #999;
-
-        .search_icon {
-          position: absolute;
-          margin: 12px 0 0 13px;
-          color: #999;
-        }
-
-        input {
-          width: 100%;
-          background: #E6E6E6;
-          padding: 10px 38px;
-          border: 0px;
-          outline: none;
-        }
-      }
-
-      ul {
-        list-style: none;
-        padding: 0px;
-        margin: 0px;
-
-        li {
-          padding: 7px 18px;
-          background: #F0F0F0;
-          border-bottom: 1px solid #CCCCCC;
-        }
-      }
-    }
-  }
-}
-
-.addFlowModal {
-  .modal-dialog {
-    width: 700px;
-  }
-
-  .modal-body {
-    padding: 0px !important;
-  }
-
-  .new-status {
-    border-bottom: 1px solid #E5E5E5;
-    background: #F2F2F2;
-    padding: 7px 0 7px 0;
-
-    .col-md-3 {
-      text-align: right;
-      padding-right: 25px;
-    }
-
-    input {
-      width: 100%;
-      color: #ADABAB;
-      background: #F2F2F2;
-      border: 0px;
-      padding: 8px 20px;
-      outline: none;
-    }
-
-    button.btn {
-      padding: 8px 20px;
-    }
-  }
-
-  table {
-    width: 100%;
-    margin-top: 10px;
-
-    thead {
-      font-size: 11px;
-      color: #666;
-      text-align: center;
-
-      tr td {
-        padding-bottom: 5px;
-
-        &:first-child {
-          padding-left: 20px;
-        }
-      }
-    }
-
-    tbody {
-      text-align: center;
-
-      tr {
-        border-top: 1px solid #E5E5E5;
-
-        td {
-          padding: 10px 0 10px 0;
-          position: relative;
-
-          &:first-child {
-            padding-left: 20px;
-          }
-
-          .edit_title {
-            color: #000;
-            padding: 5px 7px;
-
-            &:hover {
-              background: #E5E5E5;
-              text-decoration: none;
-              border-radius: 5px;
-            }
-          }
-
-          .edit_status_title {
-            position: absolute;
-            width: 677px;
-            height: 100%;
-            background: #F2F2F2;
-            top: 0px;
-            left: 0px;
-            z-index: 1000;
-            text-align: right;
-            padding-right: 20px;
-
-            input {
-              height: 100%;
-              border: 0px;
-              outline: none;
-              background: #F2F2F2;
-              padding-left: 27px;
-              float: left;
-            }
-
-            a {
-              display: inline-block;
-              margin-top: 12px;
-              margin-right: 10px;
-              font-weight: bold;
-            }
-
-            &.remove-div {
-              left: -573px;
-            }
-
-            .remove-message {
-              text-align: left;
-              margin-left: 27px;
-              span {
-                margin-left: 200px;
-              }
-              .cancel-link {
-                color: #1E1E1E;
-                margin-right: 60px;
-              }
-              .remove-link {
-                color: #D65452;
-              }
-            }
-          }
-        }
-      }
-
-      .colorpicker_input {
-        width: 80px;
-        border: 0px;
-        border-bottom: 1px solid #E5E5E5;
-        background: #F2F2F2;
-        text-align: center;
-        padding: 5px 12px;
-        float: left;
-      }
-
-      .show_status_color {
-        width: 20px;
-        height: 31px;
-        box-shadow: 1px 0 0 rgba(000, 000, 000, 0.5);
-        float: left;
-      }
-    }
-  }
-
-  .modal-footer {
-    margin-top: 0px;
-  }
-}
-
-.manageStatuses {
-  .modal-dialog {
-    width: 600px;
-  }
-
-  .modal-body {
-    padding: 0px !important;
-  }
-
-  .new-status {
-    border-bottom: 1px solid #E5E5E5;
-    background: #F2F2F2;
-    padding: 7px 0 7px 0;
-
-    .col-md-3 {
-      text-align: right;
-      padding-right: 25px;
-    }
-
-    input {
-      width: 100%;
-      color: #ADABAB;
-      background: #F2F2F2;
-      border: 0px;
-      padding: 8px 20px;
-      outline: none;
-    }
-
-    button.btn {
-      padding: 8px 20px;
-    }
-  }
-
-  table {
-    width: 100%;
-    margin-top: 10px;
-
-    thead {
-      font-size: 11px;
-      color: #666;
-      text-align: center;
-
-      tr td {
-        padding-bottom: 5px;
-
-        &:first-child {
-          padding-left: 20px;
-        }
-      }
-    }
-
-    tbody {
-      text-align: center;
-
-      tr {
-        border-top: 1px solid #E5E5E5;
-
-        td {
-          padding: 10px 0 10px 0;
-          position: relative;
-
-          &:first-child {
-            padding-left: 20px;
-          }
-
-          .edit_title {
-            color: #000;
-            padding: 5px 7px;
-
-            &:hover {
-              background: #E5E5E5;
-              text-decoration: none;
-              border-radius: 5px;
-            }
-          }
-
-          .edit_status_title {
-            position: absolute;
-            width: 578px;
-            height: 100%;
-            background: #F2F2F2;
-            top: 0px;
-            left: 0px;
-            z-index: 1000;
-            text-align: right;
-            padding-right: 20px;
-
-            input {
-              height: 100%;
-              border: 0px;
-              outline: none;
-              background: #F2F2F2;
-              padding-left: 27px;
-              float: left;
-            }
-
-            a {
-              display: inline-block;
-              margin-top: 12px;
-              font-weight: bold;
-            }
-
-            &.remove-div {
-              left: -516px;
-            }
-
-            .remove-message {
-              text-align: left;
-              margin-left: 27px;
-              span {
-                margin-left: 140px;
-              }
-              .cancel-link {
-                color: #1E1E1E;
-                margin-right: 25px;
-              }
-              .remove-link {
-                color: #D65452;
-              }
-            }
-          }
-        }
-      }
-
-      .colorpicker_input {
-        width: 80px;
-        border: 0px;
-        border-bottom: 1px solid #E5E5E5;
-        background: #F2F2F2;
-        text-align: center;
-        padding: 5px 12px;
-        float: left;
-      }
-
-      .show_status_color {
-        width: 20px;
-        height: 31px;
-        box-shadow: 1px 0 0 rgba(000, 000, 000, 0.5);
-        float: left;
-      }
-    }
   }
 
   .modal-footer {
@@ -3173,6 +2251,44 @@ p {
     text-transform: uppercase;
     font-weight: 600 !important;
     font-size: 13px;
+  }
+}
+
+/* map markers */
+.mapItems {
+  .marker {
+      width: 54px;
+      height: 51px;
+      background-size: contain;
+      cursor: pointer;
+
+      &.pin {
+        width: 11px;
+        height: 11px;
+
+        span {
+          height: 26px;
+          padding: 0 8px;
+          margin-top: 0px;
+          line-height: 23px;
+        }
+      }
+  }
+
+  .marker span {
+      display: block;
+      min-width: 10px;
+      height: 22px;
+      padding: 0 6px;
+      background: #F27064;
+      float: right;
+      border-radius: 20px;
+      border: 2pt solid #FFF;
+      color: #FFF;
+      text-align: center;
+      margin-top: -4px;
+      line-height: 19px;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -5265,4 +4381,8 @@ colorpicker-preview {
 
 .bootstrap-switch-big-buttons {
   min-width: 200px;
+}
+
+.dropdown-toggle span.ng-binding {
+  float: left;
 }

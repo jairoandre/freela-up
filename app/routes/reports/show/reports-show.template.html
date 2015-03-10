@@ -6,66 +6,96 @@
       <li><a href="#/reports">Relatos</a></li>
       <li>{{ report.address }}</li>
     </ul>
-
-    <a href="" ng-click="edit()" class="btn btn-info btn-custom">Editar relato</a>
   </div>
 
-  <div class="status-bar" ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">
-    <div class="background" ng-style="{ 'background-color': status.color }"></div>
-    <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
-    <a class="pull-right" ng-click="editReportStatus(report, category)" href="">Alterar status</a>
+  <ul class="report-menu" reports-menu>
+    <li du-scrollspy="report-data"><a href="#report-data" du-smooth-scroll>Dados do relato</a></li>
+    <li ng-if="report.images.length != 0" du-scrollspy="report-images"><a href="#report-images" du-smooth-scroll>Imagens</a></li>
+    <li du-scrollspy="report-map"><a href="#report-map" du-smooth-scroll>Mapa</a></li>
+    <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Informações do munícipe</a></li>
+    <li du-scrollspy="report-responses"><a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a></li>
+    <li du-scrollspy="report-comments"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
 
     <div class="clearfix"></div>
-  </div>
+  </ul>
 
-  <div class="content">
-    <div class="row">
-      <div class="col-xs-8">
+  <div class="content wrappers reports-show">
+    <div class="rounder_wrapper" id="report-data">
+      <div class="wrapper_title"><h1>Dados do relato</h1></div>
+
+      <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == report.status_id">
+        <div class="background" ng-style="{ 'background-color': status.color }"></div>
+
+        <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
+
+        <a class="pull-right" ng-click="editReportStatus(report, category)" href="">Alterar status</a>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="fields">
         <h5>Protocolo</h5>
-        <p>{{ report.protocol }}</p>
+        <p>{{ report.protocol }} <span class="label label-danger" ng-show="report.overdue">ATRASADO</span></p>
 
-        <h5>Endereço</h5>
-        <p>{{ report.address }}</p>
+        <hr />
+
+        <div class="report-data">
+          <h5>Endereço</h5>
+          <p>{{ report.address }}</p>
+
+          <a href="" class="link" ng-click="editAddress()">Editar</a>
+
+          <div class="clearfix"></div>
+        </div>
 
         <div ng-hide="report.reference == null || report.reference == ''">
+          <hr />
+
           <h5>Referência</h5>
           <p>{{ report.reference }}</p>
         </div>
 
-        <div ng-hide="report.description == null || report.description == ''">
+        <div class="report-data" ng-hide="report.description == null || report.description == ''">
+          <hr />
+
           <h5>Descrição</h5>
           <p>{{ report.description }}</p>
+
+          <a href="" class="link" ng-click="editDescription()">Editar</a>
+
+          <div class="clearfix"></div>
         </div>
 
-        <h5>Categoria</h5>
-        <p>{{ category.title }}</p>
+        <hr />
+
+        <div class="report-data">
+          <h5>Categoria</h5>
+          <p>{{ category.title }}</p>
+
+          <a href="" class="link" ng-click="editCategory()">Alterar</a>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <hr />
 
         <h5>Data de cadastro</h5>
         <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
 
-        <h5>Status</h5>
-        <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
+        <hr />
 
-        <div ng-hide="report.images.length == 0">
-          <h5>Imagens</h5>
+        <div class="report-data">
+          <h5>Status</h5>
+          <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
 
-          <gallery images="images"></gallery>
+          <a href="" class="link" ng-click="editReportStatus(report, category)">Alterar</a>
 
           <div class="clearfix"></div>
         </div>
-      </div>
-
-      <div class="col-xs-4">
-        <h5>Nome completo do municipante</h5>
-        <p><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
-
-        <h5>Email</h5>
-        <p>{{ report.user.email }}</p>
-
-        <h5>Telefone</h5>
-        <p>{{ report.user.phone }}</p>
 
         <div ng-show="report.inventory_item">
+          <hr />
+
           <h5>Item relacionado</h5>
 
           <p><a href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
@@ -73,31 +103,158 @@
       </div>
     </div>
 
-    <div ng-show="feedback">
-      <hr />
+    <div class="rounder_wrapper" ng-hide="report.images.length == 0" id="report-images">
+      <div class="wrapper_title"><h1>Imagens</h1></div>
 
-      <h5>Feedback do usuário</h5>
-      <p ng-show="feedback.kind == 'positive'">Positivo</p>
-      <p ng-show="feedback.kind != 'positive'">Negativo</p>
-
-      <h5>Comentário</h5>
-      <p>{{ feedback.content }}</p>
-
-      <div ng-hide="feedback.images.length == 0">
-        <h5>Imagens</h5>
-
-        <gallery images="feedback.images"></gallery>
+      <div class="fields">
+        <gallery images="images"></gallery>
 
         <div class="clearfix"></div>
       </div>
     </div>
 
-    <hr />
+    <div class="rounder_wrapper" id="report-map">
+      <div class="wrapper_title"><h1>Mapa</h1></div>
 
-    <div class="roundedMap" style="margin-top: 20px;" map-show-report></div>
+      <div class="fields">
+        <div class="roundedMap" map-show-report></div>
+      </div>
+    </div>
 
-    <hr />
+    <div class="rounder_wrapper" id="report-author">
+      <div class="wrapper_title"><h1>Informações do munícipe</h1></div>
 
-    <a href="#/reports" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+      <div class="fields">
+        <h5>Nome completo do municipante</h5>
+        <p><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
+
+        <hr />
+
+        <h5>Email</h5>
+        <p>{{ report.user.email }}</p>
+
+        <hr />
+
+        <h5>Telefone</h5>
+        <p>{{ report.user.phone }}</p>
+      </div>
+    </div>
+
+    <div class="rounder_wrapper" ng-show="feedback">
+      <div class="wrapper_title"><h1>Feedback do usuário</h1></div>
+
+      <div class="fields">
+        <h5>Feedback do usuário</h5>
+
+        <p ng-show="feedback.kind == 'positive'">Positivo</p>
+        <p ng-show="feedback.kind != 'positive'">Negativo</p>
+
+        <hr />
+
+        <h5>Comentário</h5>
+        <p>{{ feedback.content }}</p>
+
+        <hr />
+
+        <div ng-hide="feedback.images.length == 0">
+          <h5>Imagens</h5>
+
+          <gallery images="feedback.images"></gallery>
+
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounder_wrapper" id="report-responses">
+      <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
+
+      <div class="fields">
+        <div class="user-message">
+          <div class="avatar">
+            <img src="assets/images/avatar_default.jpg" />
+          </div>
+
+          <div class="infos">
+            <h2>{{ me.name }}</h2>
+
+            <textarea class="form-control" msd-elastic placeholder="Digite aqui uma resposta..." ng-focus="newUserResponse.typing = true" ng-model="newUserResponse.message" ng-disabled="processingComment"></textarea>
+
+            <div class="options" ng-show="newUserResponse.typing">
+              <input type="checkbox" bs-switch switch-on-text="Privado" switch-off-text="Público" ng-model="newUserResponse.privateComment">
+
+              <span class="help">{{ newUserResponse.privateComment == 0 ? 'Respostas públicas podem ser visualizadas por todos os usuários.' : 'Respostas privadas podem ser visualizadas apenas pelo munícipe solicitante.' }}</span>
+
+              <button href="" class="btn btn-info btn-fat-custom btn-custom pull-right" ng-click="submitUserResponse()" ng-class="{'processing-comment': processingComment }" ng-disabled="processingComment">Enviar</button>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <hr />
+
+        <div class="user-message animate-repeat" ng-repeat="comment in comments | orderBy:'created_at':true | filter: filterByUserMessages">
+          <div class="avatar">
+            <img src="assets/images/avatar_default.jpg" />
+          </div>
+
+          <div class="infos">
+            <h2><a ng-href="#/users/{{ comment.author.id }}">{{ comment.author.name }}</a> <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}} &middot; {{ comment.visibility == 1 ? 'Resposta privada' : 'Resposta pública' }}</span></h2>
+
+            <p>{{ comment.message }}</p>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <hr />
+        </div>
+
+      </div>
+    </div>
+
+    <div class="rounder_wrapper" id="report-comments">
+      <div class="wrapper_title"><h1>Observações internas</h1></div>
+
+      <div class="fields">
+        <div class="user-message system-comment">
+          <div class="avatar">
+            <img src="assets/images/avatar_default.jpg" />
+          </div>
+
+          <div class="infos">
+            <h2>{{ me.name }}</h2>
+
+            <textarea class="form-control" msd-elastic placeholder="Digite aqui uma resposta..." ng-focus="newSystemComment.typing = true" ng-model="newSystemComment.message" ng-disabled="processingSystemComment"></textarea>
+
+            <div class="options" ng-show="newSystemComment.typing">
+              <button href="" class="btn btn-info btn-fat-custom btn-custom pull-right" ng-click="submitSystemComment()" ng-class="{'processing-comment': processingSystemComment }" ng-disabled="processingSystemComment">Publicar internamente</button>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <hr />
+
+        <div class="user-message animate-repeat system-comment" ng-repeat="comment in comments | orderBy:'created_at':true | filter: {visibility: 2}">
+          <div class="avatar">
+            <img src="assets/images/avatar_default.jpg" />
+          </div>
+
+          <div class="infos">
+            <h2><a ng-href="#/users/{{ comment.author.id }}">{{ comment.author.name }}</a> <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}}</span></h2>
+
+            <p>{{ comment.message }}</p>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <hr />
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>

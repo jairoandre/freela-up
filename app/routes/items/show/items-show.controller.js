@@ -7,7 +7,7 @@ angular
     'GalleryComponentModule'
   ])
 
-  .controller('ItemsShowController', function ($scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse) {
+  .controller('ItemsShowController', function ($scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse, itemHistoryResponse) {
     $scope.item = itemResponse.data;
 
     for (var i = categoriesResponse.data.length - 1; i >= 0; i--) {

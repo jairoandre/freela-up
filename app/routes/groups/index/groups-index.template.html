@@ -7,7 +7,7 @@
       <li>Grupos</li>
     </ul>
 
-    <a href="#/groups/add" class="btn btn-info btn-custom">+ Novo grupo</a>
+    <a href="" ng-click="addGroup()" class="btn btn-info btn-custom">+ Novo grupo</a>
   </div>
 
   <div class="simple_search">
@@ -19,7 +19,7 @@
     <tr ng-repeat="group in groups | filter: search">
       <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
       <td class="actions" ng-show="hasPermission('manage_groups') || hasPermission('groups_can_edit', group.id)">
-        <a class="icon_action" href="#/groups/{{ group.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+        <a class="icon_action" href="#/groups/{{ group.id }}"><span class="glyphicon glyphicon glyphicon-list"></span></a>
         <a href="" ng-click="deleteGroup(group)"><span class="glyphicon glyphicon-trash"></span></a>
       </td>
     </tr>

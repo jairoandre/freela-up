@@ -1,7 +1,10 @@
 'use strict';
 
 angular
-  .module('ReportsCreateUserModalControllerModule', [])
+  .module('ReportsCreateUserModalControllerModule', [
+    'ngCpfCnpj'
+  ])
+
   .controller('ReportsCreateUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser) {
     $scope.user = {};
     $scope.inputErrors = null;
@@ -10,7 +13,7 @@ angular
       $scope.inputErrors = null;
       $scope.processingForm = true;
 
-      var postUserPromise = Restangular.one('users').post(null, $scope.user);
+      var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, $scope.user);
 
       postUserPromise.then(function(response) {
         setUser(Restangular.stripRestangular(response.data));

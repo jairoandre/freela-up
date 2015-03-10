@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()">&times;</button>
+  <h4 class="modal-title">Alterar categoria do relato</h4>
+</div>
+
+<div class="modal-body">
+  <h4>Da categoria</h4>
+  <p>{{ category.title }}</p>
+
+  <div class="spacing"></div>
+
+  <h4>Para a categoria</h4>
+  <ui-select ng-model="transfer.toCategory" theme="bootstrap" style="width: 100%;">
+    <ui-select-match placeholder="Selecione uma categoria...">{{$select.selected.title}}</ui-select-match>
+
+    <ui-select-choices group-by="subCategories" repeat="category.id as category in categories | filter: {title: $select.search}">
+      <div ng-bind-html="category.title | highlight: $select.search"></div>
+    </ui-select-choices>
+  </ui-select>
+
+  <div class="spacing"></div>
+
+  <div ng-show="categoryData">
+    <h4>Do estado atual</h4>
+    <p><span class="color-ball" ng-style="{'background-color': report.status.color}"></span> {{ report.status.title }}</p>
+
+    <div class="spacing"></div>
+
+    <h4>Para o estado</h4>
+
+    <ui-select ng-model="transfer.toStatus" theme="bootstrap" style="width: 100%;">
+      <ui-select-match placeholder="Selecione um estado...">{{$select.selected.title}}</ui-select-match>
+
+      <ui-select-choices repeat="status.id as status in categoryData.statuses | filter: {title: $select.search}">
+        <div ng-bind-html="status.title | highlight: $select.search"></div>
+      </ui-select-choices>
+    </ui-select>
+  </div>
+</div>
+
+<div class="modal-footer">
+   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-show="transfer.toCategory && transfer.toStatus" ng-click="confirm()">Confirmar</button>
+</div>

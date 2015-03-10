@@ -21,8 +21,10 @@ angular
         templateUrl: 'modals/reports/categories/destroy/reports-categories-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          reportsCategoriesList: function(){
-            return $scope.categories;
+          destroyCategory: function(){
+            return function(category) {
+              $scope.categories.splice($scope.categories.indexOf(category), 1);
+            }
           },
 
           category: function() {

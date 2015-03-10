@@ -4,13 +4,20 @@ angular
   .module('ReportsShowControllerModule', [
     'MapShowReportComponentModule',
     'ReportsEditStatusModalControllerModule',
-    'ReportsEditModalControllerModule'
+    'ReportsEditDescriptionModalControllerModule',
+    'ReportsEditCategoryModalControllerModule',
+    'ReportsSelectAddressModalControllerModule',
+    'duScroll'
   ])
 
-  .controller('ReportsShowController', function ($scope, Restangular, $stateParams, $q, $modal, reportResponse, feedbackResponse, categoriesResponse) {
+  .value('duScrollOffset', 200)
+
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse, $rootScope) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
+    $scope.comments = commentsResponse.data;
+
     var categories = categoriesResponse.data;
 
     // find category
@@ -39,7 +46,71 @@ angular
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {
       $scope.images.push({versions: $scope.report.images[c]});
-    }
+    };
+
+    $scope.newUserResponse = { message: null, privateComment: false, typing: false };
+    $scope.newSystemComment = { message: null, typing: false };
+
+    $scope.filterByUserMessages = function(comment) {
+      return (comment.visibility === 0 || comment.visibility === 1);
+    };
+
+    var sendComment = function(message, visibility) {
+      return Restangular.one('reports', $scope.report.id).customPOST({ message: message, visibility: visibility }, 'comments');
+    };
+
+    $scope.submitUserResponse = function() {
+      $scope.processingComment = true;
+
+      var visibility = 0;
+
+      if ($scope.newUserResponse.privateComment) visibility = 1;
+
+      var postCommentResponse = sendComment($scope.newUserResponse.message, visibility);
+
+      postCommentResponse.then(function(response) {
+        $scope.newUserResponse.message = null;
+        $scope.processingComment = false;
+
+        $scope.comments.push(response.data);
+      });
+    };
+
+    $scope.submitSystemComment = function() {
+      $scope.processingSystemComment = true;
+
+      var postCommentResponse = sendComment($scope.newSystemComment.message, 2);
+
+      postCommentResponse.then(function(response) {
+        $scope.processingSystemComment = false;
+        $scope.newSystemComment.message = null;
+
+        $scope.comments.push(response.data);
+      });
+    };
+
+    $scope.editCategory = function () {
+      $rootScope.resolvingRequest = true;
+
+      $modal.open({
+        templateUrl: 'modals/reports/edit-category/reports-edit-category.template.html',
+        windowClass: 'report-edit-category-modal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          },
+
+          category: function() {
+            return $scope.category;
+          },
+
+          categories: function() {
+            return Restangular.all('reports').all('categories').getList({'display_type': 'full'});
+          }
+        },
+        controller: 'ReportsEditCategoryModalController'
+      });
+    };
 
     $scope.editReportStatus = function (report, category) {
       $modal.open({
@@ -58,16 +129,39 @@ angular
       });
     };
 
-    $scope.edit = function () {
+    $scope.editAddress = function () {
+      var mapModalInstance =  $modal.open({
+        templateUrl: 'modals/reports/select-address/reports-select-address.template.html',
+        windowClass: 'mapModal',
+        resolve: {
+          category: function() {
+            return $scope.category;
+          },
+
+          report: function() {
+            return $scope.report;
+          }
+        },
+        controller: 'ReportsSelectAddressModalController'
+      });
+
+      mapModalInstance.opened.then(function () {
+        setTimeout(function() {
+          $rootScope.selectLatLngMap.start();
+        }, 80);
+      });
+    };
+
+    $scope.editDescription = function () {
       $modal.open({
-        templateUrl: 'modals/reports/edit/reports-edit.template.html',
+        templateUrl: 'modals/reports/edit-description/reports-edit-description.template.html',
         windowClass: 'editReportModal',
         resolve: {
           report: function() {
             return $scope.report;
           }
         },
-        controller: 'ReportsEditModalController'
+        controller: 'ReportsEditDescriptionModalController'
       });
     };
   });

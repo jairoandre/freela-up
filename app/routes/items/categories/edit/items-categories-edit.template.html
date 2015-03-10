@@ -38,10 +38,16 @@
     <div class="left_column">
 
       <div inventory-sortable-sections class="sortableSections">
-        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.destroy">
+        <div class="section" ng-repeat="section in category.sections | orderBy:'position'" inventory-edit-section ng-hide="section.disabled && !showDisabledFields.active">
+          <div class="pending-removal" ng-show="section.destroy">
+            <div class="alert">Atenção! A seção e todos os campos pertencentes a ela serão removidos.</div>
+          </div>
           <div class="top_part">
             <div class="type" inventory-edit-label="section">
-              <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">{{ section.title }} <span ng-show="section.required == true">*</span></a>
+              <a class="name" href="" ng-click="editLabel()" ng-hide="editingSectionLabel">
+                {{ section.title }} <span ng-show="section.required == true">*</span>
+                <span class="label label-danger" ng-show="section.disabled">Seção removida</span>
+              </a>
 
               <div class="edit_label" ng-show="editingSectionLabel">
                 <input type="text" ng-model="section.title" class="editLabelField" />
@@ -64,12 +70,12 @@
                   <div class="popover-content">
                     <div class="row">
                       <div class="col-xs-6"><a href="" ng-click="popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
-                      <div class="col-xs-6"><a href="" ng-click="section.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                      <div class="col-xs-6"><a href="" ng-click="section.destroy = true; popover.remove = false" class="btn btn-danger btn-block">Remover</a></div>
                     </div>
                   </div>
                 </div>
 
-                <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
+                <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link ng-hide="section.disabled || section.destroy"><span class="glyphicon glyphicon-trash"></span></a>
               </div>
 
               <div class="option permissions">
@@ -79,7 +85,7 @@
 
                   <div class="popover-content">
                     <div class="form-group">
-                      <label>Grupos que podem visualizar:</label>
+                      <label>Grupos que podem apenas:</label>
 
                       <ui-select multiple ng-model="section.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                         <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -91,7 +97,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label>Grupos que podem editar:</label>
+                      <label>Grupos que podem editar/visualizar:</label>
 
                       <ui-select multiple ng-model="section.permissions.groups_can_edit" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                         <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -108,7 +114,7 @@
                   </div>
                 </div>
 
-                <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+                <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link ng-hide="section.disabled || section.destroy"><span class="glyphicon glyphicon-lock"></span></a>
               </div>
 
               <div class="option edit">
@@ -137,7 +143,11 @@
                   </div>
                 </div>
 
-                <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
+                <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link ng-hide="section.disabled || section.destroy"><span class="glyphicon glyphicon-edit"></span></a>
+              </div>
+
+              <div class="option">
+                <a href="" ng-click="section.destroy = false" class="icon" ng-show="section.destroy"><span class="glyphicon glyphicon-pencil"></span></a>
               </div>
             </div>
 
@@ -149,9 +159,9 @@
             <div inventory-droppable-inputs-area class="droppableInputsArea">
               <div class="empty_section" ng-show="section.fields.length === 0"><p>Arreste os campos que você deseje adicionar a esta seção</p></div>
 
-              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.destroy">
+              <div class="input pages-animation" ng-repeat="field in section.fields | orderBy:'position'" id="input_{{ field.id }}" ng-hide="field.disabled && !showDisabledFields.active">
                 <div class="type">
-                  <div inventory-edit-label>
+                  <div inventory-edit-label ng-hide="field.disabled || field.destroy">
                     <label for="generic_input_{{ field.id }}" class="input_name" ng-hide="editingLabel" ng-click="editLabel()">
                       <span ng-show="field.label !== null">{{ field.label }}</span>
                       <span ng-show="field.label == null">{{ field.title }}</span>
@@ -165,6 +175,18 @@
                       <div class="clearfix"></div>
                     </div>
                   </div>
+
+                  <label for="generic_input_{{ field.id }}" ng-show="field.disabled">
+                    <span ng-show="field.label !== null">{{ field.label }}</span>
+                    <span ng-show="field.label == null">{{ field.title }}</span>
+                    <span class="label label-danger">Campo removido</span>
+                  </label>
+
+                  <label for="generic_input_{{ field.id }}" ng-show="field.destroy">
+                    <span ng-show="field.label !== null">{{ field.label }}</span>
+                    <span ng-show="field.label == null">{{ field.title }}</span>
+                    <span class="label label-warning">Campo será removido</span>
+                  </label>
 
                   <div class="clearfix"></div>
 
@@ -248,7 +270,7 @@
                         <input class="form-control" type="text" disabled="disabled" placeholder="Selecione um item"><span class="caret"></span>
                       </div>
 
-                      <div class="col-xs-2 editOptionsLink">
+                      <div class="col-xs-2 editOptionsLink" ng-hide="field.disabled || field.destroy">
                         <a href="" ng-click="editFieldOptions(field)">Gerenciar opções</a>
                       </div>
                     </div>
@@ -268,12 +290,12 @@
                       <div class="popover-content">
                         <div class="row">
                           <div class="col-xs-6"><a href="" ng-click="$parent.popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
-                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true" class="btn btn-danger btn-block">Remover</a></div>
+                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true;$parent.popover.remove = false" class="btn btn-danger btn-block">Remover</a></div>
                         </div>
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="" ng-click="openPopover('remove')" class="icon" inventory-popover-link ng-hide="field.disabled || field.destroy"><span class="glyphicon glyphicon-trash"></span></a>
                   </div>
 
                   <div class="option permissions">
@@ -283,7 +305,7 @@
 
                       <div class="popover-content">
                         <div class="form-group">
-                          <label>Grupos que podem visualizar:</label>
+                          <label>Grupos que podem apenas visualizar:</label>
 
                           <ui-select multiple ng-model="field.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                             <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -295,7 +317,7 @@
                         </div>
 
                         <div class="form-group">
-                          <label>Grupos que podem editar:</label>
+                          <label>Grupos que podem editar/visualizar:</label>
 
                           <ui-select multiple ng-model="field.permissions.groups_can_edit" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                             <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
@@ -312,7 +334,7 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-lock"></span></a>
+                    <a href="" ng-click="openPopover('permissions')" class="icon" inventory-popover-link ng-hide="field.disabled || field.destroy"><span class="glyphicon glyphicon-lock"></span></a>
                   </div>
 
                   <div class="option edit">
@@ -357,7 +379,11 @@
                       </div>
                     </div>
 
-                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="" ng-click="openPopover('options')" class="icon" inventory-popover-link ng-hide="field.disabled || field.destroy"><span class="glyphicon glyphicon-edit"></span></a>
+                  </div>
+
+                  <div class="option">
+                    <a href="" ng-click="field.destroy = false" class="icon" ng-show="field.destroy"><span class="glyphicon glyphicon-pencil"></span></a>
                   </div>
                 </div>
 
@@ -553,12 +579,24 @@
       <hr />
 
       <div class="form-group">
+        <label>Exibir campos removidos</label>
+
+        <p>Ao ativar esta opção, o sistema irá exibir todos os campos já removidos do sistema. Você não poderá alterar as configurações do campo ou suas opções.</p>
+
+        <div class="clearfix"></div>
+
+        <input type="checkbox" bs-switch ng-model="showDisabledFields.active">
+      </div>
+
+      <hr />
+
+      <div class="form-group">
         <label>Grupos com permissões para editar</label>
 
         <div class="selectGroups">
           <div class="simple_search">
             <span class="glyphicon glyphicon-search search_icon"></span>
-            <input type="text" placeholder="Buscar grupos..." ng-model="category.permissions.groups_can_edit" ui-autocomplete="groupsCanEditAutocomplete" />
+            <input type="text" placeholder="Buscar grupos..." ng-model="groupCanEdit" ui-autocomplete="groupsCanEditAutocomplete" />
           </div>
 
           <ul>
@@ -576,14 +614,13 @@
         <div class="selectGroups">
           <div class="simple_search">
             <span class="glyphicon glyphicon-search search_icon"></span>
-            <input type="text" placeholder="Buscar grupos..." ng-model="category.permissions.groups_can_view" ui-autocomplete="groupsCanViewAutocomplete" />
+            <input type="text" placeholder="Buscar grupos..." ng-model="groupCanView" ui-autocomplete="groupsCanViewAutocomplete" />
           </div>
 
           <ul>
-            <li ng-repeat="group in category.permissions.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanEdit(group)">×</button></li>
+            <li ng-repeat="group in category.permissions.groups_can_view">{{ group.name }} <button type="button" class="remove" ng-click="removeGroupCanView(group)">×</button></li>
           </ul>
         </div>
-
       </div>
   </div>
 </div>

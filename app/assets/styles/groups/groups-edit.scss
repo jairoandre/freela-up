@@ -1,0 +1,59 @@
+.groups-permissions {
+  padding: 60px;
+}
+
+.add-permission {
+  margin-top: 45px;
+
+  .option .btn-group, .option .dropdown-toggle {
+    width: 100%;
+    text-align: left;
+  }
+
+  .option .dropdown-toggle {
+    padding: 12px 18px;
+  }
+
+  .option .dropdown-menu {
+    width: 100%;
+    margin-top: 10px;
+
+    a {
+      padding: 7px 20px;
+    }
+
+    a:hover {
+      background: #4293CA;
+      color: #FFF;
+    }
+  }
+}
+
+.permissions-list {
+  margin-top: 40px;
+  border: 1px solid #CCCCCC;
+  border-radius: 6px;
+
+  h1 {
+    display: block;
+    background: #F2F2F2;
+    width: 100%;
+    padding: 20px 25px;
+    margin: 0px;
+    font-size: 15px;
+  }
+}
+
+.permission-name {
+  padding: 5px 8px;
+  background: #F2F2F2;
+  border-radius: 3px;
+  float: left;
+  margin: 5px;
+
+  a {
+    color: #818181;
+    font-size: 12px;
+    text-decoration: none;
+  }
+}

@@ -3,8 +3,8 @@
 angular
   .module('CasesEditControllerModule', [])
 
-  .controller('CasesEditController', function ($scope, Restangular, $modal, $routeParams) {
-    var id = $routeParams.id;
+  .controller('CasesEditController', function ($scope, Restangular, $modal, $stateParams) {
+    var id = $stateParams.id;
 
     $scope.loading = true;
     $scope.currentTab = 'steps';

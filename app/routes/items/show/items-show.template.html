@@ -26,9 +26,9 @@
       <div class="wrapper_title"><h1>{{ section.title }}</h1></div>
 
       <div class="fields">
-        <div class="field" ng-repeat="field in section.fields | orderBy:'position'">
-            <h5 ng-show="field.label !== null">{{ field.label }}</h5>
-            <h5 ng-show="field.label == null">{{ field.title }}</h5>
+        <div class="field" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="field.disabled === true && !getDataByInventoryFieldId(field.id)">
+            <h5 ng-show="field.label !== null">{{ field.label }} <span class="label label-danger" ng-if="field.disabled === true">Campo removido</span></h5>
+            <h5 ng-show="field.label == null">{{ field.title }} <span class="label label-danger" ng-if="field.disabled === true">Campo removido</span></h5>
 
             <!-- special field rendering: images -->
             <div ng-if="field.kind == 'images'">

@@ -20,10 +20,10 @@
 
   <div ng-show="currentTab == 'steps'">
     <table class="table custom_table big_text steps" id="tags" flows-steps-order>
-      <tbody ng-repeat="step in flow.steps">
+      <tbody ng-repeat="step in flow.my_steps_flows">
         <tr class="root">
           <td>
-            <a href="#/flows/{{ flow.id }}/steps/{{ step.id }}/edit">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo de {{ getAncestor(step.id).flow.title }})</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
+            <a href="#/flows/{{ flow.id }}/steps/{{ step.id }}/edit">{{ step.title }} <span ng-show="step.step_type == 'flow'">(tipo fluxo de {{ step.my_child_flow.title }})</span><span ng-show="step.step_type == 'form'">(tipo formulário)</span></a>
           </td>
 
           <td class="links">
@@ -41,9 +41,9 @@
           </td>
         </tr>
 
-        <tr ng-show="step.step_type === 'flow'" ng-repeat="flowStep in getAncestor(step.id).flow_steps" class="secondLevel">
+        <tr ng-show="step.step_type === 'flow'" ng-repeat="flowStep in step.my_child_flow.my_steps" class="secondLevel">
           <td colspan="3">
-            <span></span> <a href="#/flows/{{ getAncestor(step.id).flow.id }}/steps/{{ flowStep.step.id }}/edit">{{ flowStep.step.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step.step_type == 'form'">(tipo formulário)</b></a></a>
+            <span></span> <a href="#/flows/{{ step.my_child_flow.id }}/steps/{{ flowStep.id }}/edit">{{ flowStep.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step_type == 'form'">(tipo formulário)</b></a></a>
           </td>
         </tr>
       </tbody>

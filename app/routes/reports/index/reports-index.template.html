@@ -70,7 +70,7 @@
       </tr>
     </thead>
 
-    <tr ng-repeat="report in reports | orderBy:sort.column:sort.descending">
+    <tr ng-repeat="report in reports | orderBy:sort.column:sort.descending" ng-class="{'late_report': report.overdue }">
       <td class="status_color"><span ng-repeat="status in getReportCategory(report.category_id).statuses" ng-style="{'background-color': status.color}" ng-show="status.id == report.status_id"></span><a href="#/reports/{{ report.id }}">{{ report.protocol }}</a></td>
       <td>{{ report.address }}</td>
       <td><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></td>

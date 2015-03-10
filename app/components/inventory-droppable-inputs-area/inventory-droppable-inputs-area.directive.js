@@ -44,8 +44,21 @@ angular
               size: 'M',
               inventory_fields_can_view: [], // jshint ignore:line
               inventory_fields_can_edit: [], // jshint ignore:line
-              available_values: [], // jshint ignore:line
+              field_options: [], // jshint ignore:line
               position: null
+            };
+
+            // We need to check if there are any other fields with the same label. No labels can be the same.
+            for (var j = scope.$parent.category.sections.length - 1; j >= 0; j--) {
+              for (var i = scope.$parent.category.sections[j].fields.length - 1; i >= 0; i--) {
+                if ((scope.$parent.category.sections[j].fields[i].label == newInput.label) && scope.$parent.category.sections[j].fields[i].disabled !== true)
+                {console.log(scope.$parent.category.sections[j].fields[i]);
+                  scope.showMessage('exclamation-sign', 'Campo ' + newInput.label + ' já existente.', 'error');
+                  $(this).find('.item').remove();
+
+                  return;
+                }
+              };
             };
 
             pendingNewInput = newInput;
