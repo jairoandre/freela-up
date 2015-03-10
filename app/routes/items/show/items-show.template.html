@@ -36,14 +36,14 @@
             </div>
 
             <!-- special field rendering: checkbox -->
-            <div ng-if="field.kind === 'checkbox'">
+            <div ng-if="field.kind === 'checkbox' || field.kind === 'select' || field.kind === 'radio'">
               <ul>
-                <li ng-repeat="value in getDataByInventoryFieldId(field.id)">{{ value }}</li>
+                <li ng-repeat="option in getSelectedOptionsByFieldId(field.id)">{{ option.value }}</li>
               </ul>
             </div>
 
             <!-- all other fields -->
-            <div ng-if="field.kind !== 'checkbox' && field.kind !== 'images' && getDataByInventoryFieldId(field.id) !== null && getDataByInventoryFieldId(field.id).length != 0">
+            <div ng-if="field.kind !== 'checkbox' && field.kind !== 'select' && field.kind !== 'radio' && field.kind !== 'images' && getDataByInventoryFieldId(field.id) !== null && getDataByInventoryFieldId(field.id).length != 0">
               <p>{{ getDataByInventoryFieldId(field.id) }}
 
               <span ng-if="field.kind == 'meters'">metros</span>
