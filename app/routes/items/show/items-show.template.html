@@ -92,7 +92,7 @@
       <div class="item-history">
 
         <div class="filters">
-          <div class="filter">
+          <div class="filter col-xs-3">
             <b>Exibindo</b>
 
             <div class="btn-group">
@@ -108,12 +108,12 @@
             </div>
           </div>
 
-          <div class="filter">
+          <div class="filter col-xs-3 col-md-offset-1">
             <b>Período</b>
 
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              Tipos <span class="caret"></span>
+              Tipos <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">
@@ -124,67 +124,40 @@
             </div>
           </div>
 
-          <div class="filter datepicker">
+          <div class="filter datepicker col-xs-2">
             <input type="text" class="form-control" datepicker-popup ng-model="dt" show-weeks="false" show-button-bar="false" />
           </div>
 
-          <span class="until">até</span>
+          <span class="until col-xs-1">até</span>
 
-          <div class="filter">
+          <div class="filter datepicker col-xs-2">
             <input type="text" class="form-control" datepicker-popup ng-model="ds" show-weeks="false" show-button-bar="false" />
           </div>
 
           <div class="clearfix"></div>
         </div>
 
-        <ul class="timeline">
+        <div class="timeline">
 
-          <li>
+          <div class="line"><span></span></div>
 
+          <div class="log" ng-repeat="log in historyLogs">
             <div class="date">
-              <div class="line"></div>
-              <span>16/11/2013</span>
+              <span>{{ log.created_at | date:'dd/MM/yy'}}</span>
             </div>
 
             <div class="action">
-              <p><a href="#">Rodrigo Silva</a> adicionou novas fotos.</p>
+              <p>
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> {{ log.action.toLowerCase() }}<span ng-if="log.kind === 'fields'">: <span ng-repeat="field in log.objects"><span ng-show="$index > 1">,</span> {{ field.label }}</span>.</span>
+              </p>
+
+              <div class="divider"></div>
             </div>
 
             <div class="clearfix"></div>
+          </div>
 
-          </li>
-
-          <li>
-
-            <div class="date">
-              <div class="line"></div>
-              <span>16/11/2013</span>
-            </div>
-
-            <div class="action">
-              <p><a href="#">Rodrigo Silva</a> adicionou novas fotos.</p>
-            </div>
-
-            <div class="clearfix"></div>
-
-          </li>
-
-          <li>
-
-            <div class="date">
-              <div class="line"></div>
-              <span>16/11/2013</span>
-            </div>
-
-            <div class="action">
-              <p><a href="#">Rodrigo Silva</a> adicionou novas fotos.</p>
-            </div>
-
-            <div class="clearfix"></div>
-
-          </li>
-
-        </ul>
+        </div>
 
       </div>
     </div>

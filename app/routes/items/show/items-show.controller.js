@@ -101,4 +101,7 @@ angular
     $scope.toggleOption = function(option) {
       option.selected = !option.selected;
     };
+
+    $scope.historyLogs = itemHistoryResponse.data;
+
   });

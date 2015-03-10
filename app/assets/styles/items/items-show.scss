@@ -3,12 +3,21 @@
 .item-history {
   margin: 40px 60px 60px;
 
+  .filters {
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
   .filter {
     float: left;
 
     .btn-group {
-      display: block;
-      width: 200px;
+      width: 100%;
+
+      button.dropdown-toggle {
+        width: 100%;
+      }
     }
   }
 
@@ -32,28 +41,40 @@
     }
   }
 
-  ul.timeline {
+  .timeline {
     width: 100%;
     list-style: none;
     padding: 0px;
-    border-top: 1px solid #E5E5E5;
-    margin-top: 15px;
+    position: relative;
 
-    li .date {
+    .line {
+      position: absolute;
+      width: 15%;
+      height: 100%;
+
+      span {
+        display: block;
+        width: 1px;
+        border-right: 1px solid #E5E5E5;
+        height: 100%;
+        left: 50%;
+        position: relative;
+      }
+    }
+
+    .log {
+      margin-top: 15px;
+
+      &:last-child {
+        background: #FFF;
+        position: relative;
+      }
+    }
+
+    .log .date {
       width: 15%;
       float: left;
       text-align: center;
-      min-width: 180px;
-      position: relative;
-
-      .line {
-        position: absolute;
-        height: 100%;
-        width: 1px;
-        background: #D9D9D9;
-        left: 50%;
-        z-index: 1;
-      }
 
       span {
         display: inline-block;
@@ -63,23 +84,28 @@
         border-radius: 8px;
         color: #999;
         font-weight: bold;
-        margin: 16px 0px;
         z-index: 2;
         position: relative;
       }
     }
 
-    li .action {
+    .log .action {
       width: 75%;
-      border-bottom: 1px solid #E5E5E5;
       float: left;
+      margin-bottom: 15px;
+      padding-left: 15px;
 
       p {
-        margin-bottom: 19px;
+        margin: 5px 0 20px 0;
 
         a {
           font-weight: bold;
         }
+      }
+
+      .divider {
+        width: 100%;
+        border-bottom: 1px solid #E5E5E5;
       }
     }
   }
