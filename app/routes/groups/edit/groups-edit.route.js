@@ -13,8 +13,16 @@ angular
           controller: 'GroupsEditController',
           controllerAs: 'ctrl',
           resolve: {
+            'groupResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+              return Restangular.one('groups', $stateParams.id).get();
+            }],
+
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
+            }],
+
+            'groupsPermissionsResponse': ['FullResponseRestangular', '$stateParams', function(FullResponseRestangular, $stateParams) {
+              return FullResponseRestangular.one('groups', $stateParams.id).all('permissions').customGET();
             }]
           }
         }
