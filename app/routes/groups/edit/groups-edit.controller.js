@@ -3,54 +3,277 @@
 angular
   .module('GroupsEditControllerModule', [])
 
-  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $q) {
-    var updating = $scope.updating = false;
-    var groupId = $stateParams.id;
+  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $q, groupResponse, groupsPermissionsResponse) {
+    $scope.group = groupResponse.data;
+    $scope.permissions = groupsPermissionsResponse.data;
 
-    if (typeof groupId !== 'undefined')
-    {
-      updating = true;
-      $scope.updating = true;
-    }
+    $scope.isString = function(variable) {
+      return typeof variable === 'string';
+    };
 
-    $scope.loading = true;
-    $scope.data = {};
-    $scope.group = {};
-    $scope.tab = 'groups_can_edit';
+    // available types
+    $scope.availablePermissionTypes = [
+      {
+        type: 'flow',
+        name: 'Fluxos',
+        permissionsNames: [
+          {
+            slug: 'flow_can_delete_own_cases',
+            name: 'flow_can_delete_own_cases',
+            needsObject: true
+          },
 
-    // available permissions in it's default
-    $scope.permissions = {
-      'manage_users': false,
-      'manage_groups': false,
-      'manage_inventory_categories': false,
-      'manage_inventory_formulas': false,
-      'manage_inventory_items': false,
-      'manage_reports_categories': false,
-      'manage_reports': false,
-      'manage_flows': false,
-      'delete_reports': false,
-      'edit_reports': false,
-      'manage_config': false,
-      'flow_can_delete_own_cases': false,
-      'flow_can_delete_all_cases': false,
-      'flow_can_execute_all_steps': {},
-      'flow_can_view_all_steps': {},
-      'can_view_step': {},
-      'can_execute_step': {},
-      'groups_can_edit': {},
-      'groups_can_view': {},
-      'reports_categories_can_edit': {},
-      'reports_categories_can_view': {},
-      'inventory_categories_can_edit': {},
-      'inventory_categories_can_view': {},
-      //'inventory_sections_can_view': {},
-      //'inventory_sections_can_edit': {},
-      //'inventory_fields_can_view': {},
-      //'inventory_fields_can_edit': {},
+          {
+            slug: 'flow_can_execute_all_steps',
+            name: 'flow_can_execute_all_steps',
+            needsObject: true
+          },
+
+          {
+            slug: 'flow_can_view_all_steps',
+            name: 'flow_can_view_all_steps',
+            needsObject: true
+          },
+
+          {
+            slug: 'can_execute_step',
+            name: 'can_execute_step',
+            needsObject: true
+          },
+
+          {
+            slug: 'can_view_step',
+            name: 'can_view_step',
+            needsObject: true
+          },
+
+          {
+            slug: 'manage_flows',
+            name: 'manage_flows',
+            needsObject: false
+          },
+
+          {
+            slug: 'flow_can_delete_all_cases',
+            name: 'flow_can_delete_all_cases',
+            needsObject: false
+          }
+        ]
+      },
+
+      {
+        type: 'user',
+        name: 'Usuários',
+        permissionsNames: [
+          {
+            slug: 'manage_users',
+            name: 'manage_users',
+            needsObject: false
+          }
+        ]
+      },
+
+      {
+        type: 'group',
+        name: 'Grupos',
+        permissionsNames: [
+          {
+            slug: 'manage_groups',
+            name: 'manage_groups',
+            needsObject: false
+          },
+
+          {
+            slug: 'groups_can_edit',
+            name: 'groups_can_edit',
+            needsObject: true
+          },
+
+          {
+            slug: 'groups_can_view',
+            name: 'groups_can_view',
+            needsObject: true
+          }
+        ]
+      },
+
+      {
+        type: 'other',
+        name: 'Outros',
+        permissionsNames: [
+          {
+            slug: 'panel_access',
+            name: 'panel_access',
+            needsObject: false
+          },
+
+          {
+            slug: 'manage_config',
+            name: 'manage_config',
+            needsObject: false
+          }
+        ]
+      },
+
+      {
+        type: 'inventory',
+        name: 'Inventário',
+        permissionsNames: [
+          {
+            slug: 'manage_inventory_items',
+            name: 'manage_inventory_items',
+            needsObject: false
+          },
+
+          {
+            slug: 'edit_inventory_items',
+            name: 'edit_inventory_items',
+            needsObject: false
+          },
+
+          {
+            slug: 'manage_inventory_formulas',
+            name: 'manage_inventory_formulas',
+            needsObject: false
+          },
+
+          {
+            slug: 'manage_inventory_categories',
+            name: 'manage_inventory_categories',
+            needsObject: false
+          },
+
+          {
+            slug: 'inventory_categories_can_edit',
+            name: 'inventory_categories_can_edit',
+            needsObject: true
+          },
+
+          {
+            slug: 'inventory_categories_can_view',
+            name: 'inventory_categories_can_view',
+            needsObject: true
+          }
+        ]
+      },
+
+      {
+        type: 'report',
+        name: 'Relatos',
+        permissionsNames: [
+          {
+            slug: 'manage_reports',
+            name: 'manage_reports',
+            needsObject: false
+          },
+
+          {
+            slug: 'manage_reports_categories',
+            name: 'manage_reports_categories',
+            needsObject: false
+          },
+
+          {
+            slug: 'delete_reports',
+            name: 'delete_reports',
+            needsObject: false
+          },
+
+          {
+            slug: 'edit_reports',
+            name: 'edit_reports',
+            needsObject: false
+          },
+
+          {
+            slug: 'create_reports_from_panel',
+            name: 'create_reports_from_panel',
+            needsObject: false
+          },
+
+          {
+            slug: 'reports_categories_can_edit',
+            name: 'reports_categories_can_edit',
+            needsObject: true
+          },
+
+          {
+            slug: 'reports_categories_can_view',
+            name: 'reports_categories_can_view',
+            needsObject: true
+          }
+        ]
+      }
+    ];
+
+    // getters
+    var getType = function(type) {
+      for (var i = $scope.availablePermissionTypes.length - 1; i >= 0; i--) {
+        if ($scope.availablePermissionTypes[i].type === type) return $scope.availablePermissionTypes[i];
+      };
+
+      return null;
+    };
+
+    $scope.getTypeName = function(type) {
+      return getType(type) ? getType(type).name : type;
+    };
+
+    $scope.getTypePermissions = function(type) {
+      return getType(type) ? getType(type).permissionsNames : null;
+    };
+
+    var getPermission = function(type, slug) {
+      var type = getType(type);
+
+      if (!type) return null;
+
+      for (var i = type.permissionsNames.length - 1; i >= 0; i--) {
+        if (type.permissionsNames[i].slug === slug)
+        {
+          return type.permissionsNames[i];
+        }
+      };
+
+      return null;
+    };
+
+    $scope.isObjectNeeded = function(type, slug) {
+      if (!type || !slug) return false;
+
+      return getPermission(type, slug).needsObject;
+    };
+
+    $scope.getPermissionName = function(type, slug) {
+      if (!type || !slug) return false;
+
+      return getPermission(type, slug) ? getPermission(type, slug).name : slug;
+    };
+
+    $scope.newPermission = { type: null, object: null, slug: null };
+
+    $scope.setNewPermissionType = function(type) {
+      $scope.newPermission.type = type;
+      $scope.newPermission.objectId = null;
+      $scope.newPermission.slug = null;
+    };
+
+    $scope.createPermission = function() {
+      var type = $scope.newPermission.type,
+          slug = $scope.newPermission.slug,
+          objectIds = $scope.newPermission.object !== null ? [$scope.newPermission.object.id] : undefined;
+
+      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': [slug], 'objects_ids': objectIds });
+
+      postPermissionPromise.then(function(response) {
+        $scope.permissions.unshift({ permission_type: type, permission_names: slug, object: $scope.newPermission.object });
+
+        $scope.newPermission = { type: null, object: null, slug: null };
+      });
     };
 
     // we get all data that is necessary for each permission
-    var groupsPromise = Restangular.all('groups').getList();
+    /*var groupsPromise = Restangular.all('groups').getList();
     var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({ display_type: 'full' });
     var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList();
     var flowsPromise = Restangular.all('flows').getList();
@@ -62,163 +285,5 @@ angular
       $scope.data.reportsCategories = responses[1].data;
       $scope.data.inventoryCategories = responses[2].data;
       $scope.data.flows = responses[3].data;
-    });
-
-    if (updating)
-    {
-      var groupPromise = Restangular.one('groups', groupId).get();
-
-      $q.all([groupPromise].concat(promises)).then(function(responses) {
-        $scope.group = responses[0].data;
-
-        // update permissions with existing ones
-        for (var permission in $scope.group.permissions)
-        {
-          if ($scope.group.permissions[permission] instanceof Array)
-          {
-            var valuesObj = {};
-
-            for (var p = $scope.group.permissions[permission].length - 1; p >= 0; p--) {
-              valuesObj[$scope.group.permissions[permission][p]] = true;
-            }
-
-            $scope.permissions[permission] = valuesObj;
-          }
-          else
-          {
-            $scope.permissions[permission] = $scope.group.permissions[permission];
-          }
-        }
-
-        $scope.loading = false;
-      });
-    }
-    else
-    {
-      $q.all(promises).then(function() {
-        $scope.loading = false;
-      });
-    }
-
-    // users autocomplete
-    $scope.users = [];
-
-    $scope.usersAutocomplete = {
-      options: {
-        onlySelect: true,
-        source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
-
-          categoriesPromise.then(function(response) {
-            uiResponse( $.map( response.data, function( user ) {
-              return {
-                label: user.name,
-                value: user.name,
-                user: {id: user.id, name: user.name}
-              };
-            }));
-          });
-        },
-        messages: {
-          noResults: '',
-          results: function() {}
-        }
-      }
-    };
-
-    $scope.usersAutocomplete.events = {
-      select: function( event, ui ) {
-        var found = false;
-
-        for (var i = $scope.users.length - 1; i >= 0; i--) {
-          if ($scope.users[i].id === ui.item.user.id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
-        {
-          $scope.users.push(ui.item.user);
-        }
-      },
-
-      change: function() {
-        $scope.user = '';
-      }
-    };
-
-    $scope.removeUser = function(user) {
-      $scope.users.splice($scope.users.indexOf(user), 1);
-    };
-
-    $scope.send = function() {
-      $scope.inputErrors = null;
-      $scope.processingForm = true;
-
-      // we transform our $scope.permissions object to pass only id's
-      $scope.group.permissions = {};
-
-      for (var key in $scope.permissions)
-      {
-        if ($scope.permissions[key] === true)
-        {
-          $scope.group.permissions[key] = true;
-        }
-
-        if (typeof $scope.permissions[key] === 'object')
-        {
-          $scope.group.permissions[key] = [];
-
-          for (var id in $scope.permissions[key])
-          {
-            if ($scope.permissions[key][id] === true)
-            {
-              $scope.group.permissions[key].push(id);
-            }
-          }
-        }
-      }
-
-      // let's create an array with the users id's
-      $scope.group.users = [];
-
-      for (var i = $scope.users.length - 1; i >= 0; i--) {
-        $scope.group.users.push($scope.users[i].id);
-      }
-
-      // PUT if updating and POST if creating a new group
-      if (updating)
-      {
-        var putUserPromise = Restangular.one('groups', groupId).customPUT($scope.group);
-
-        putUserPromise.then(function() {
-          $scope.showMessage('ok', 'O grupo foi atualizado com sucesso', 'success', true);
-
-          $scope.processingForm = false;
-        }, function(response) {
-          $scope.showMessage('exclamation-sign', 'O grupo não pode ser salvo', 'error', true);
-
-          $scope.inputErrors = response.data.error;
-          $scope.processingForm = false;
-        });
-      }
-      else
-      {
-        var postUserPromise = Restangular.one('groups').post(null, $scope.group);
-
-        postUserPromise.then(function() {
-          $scope.showMessage('ok', 'O grupo foi criado com sucesso', 'success', true);
-
-          $location.path('/groups');
-
-          $scope.processingForm = false;
-        }, function(response) {
-          $scope.showMessage('exclamation-sign', 'O grupo não pode ser criado', 'error', true);
-
-          $scope.inputErrors = response.data.error;
-          $scope.processingForm = false;
-        });
-      }
-    };
+    });*/
   });
