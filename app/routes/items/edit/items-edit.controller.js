@@ -429,7 +429,7 @@ angular
                 }
               }
 
-              formattedData.data[x] = selectedItems;
+              if (selectedItems.length !== 0) formattedData.data[x] = selectedItems;
             }
           }
           else
