@@ -42,21 +42,30 @@
       <div class="option col-xs-3 pages-animation" ng-show="isObjectNeeded(newPermission.type, newPermission.slug)">
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            Selecione a categoria <span class="pull-right"><span class="caret"></span></span>
+            {{ (newPermission.object.name || newPermission.object.title) || 'Selecione a categoria' }} <span class="pull-right"><span class="caret"></span></span>
           </button>
 
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+          <ul class="dropdown-menu" role="menu" ng-if="newPermission.type === 'flow'">
+            <li ng-repeat="flow in flows" ng-class="{ 'active': newPermission.object == flow.id }"><a href="" ng-click="newPermission.object = flow">{{ flow.title }}</a></li>
           </ul>
+
+          <ul class="dropdown-menu" role="menu" ng-if="newPermission.type === 'group'">
+            <li ng-repeat="group in groups" ng-class="{ 'active': newPermission.object == group.id }"><a href="" ng-click="newPermission.object = group">{{ group.name }}</a></li>
+          </ul>
+
+          <ul class="dropdown-menu" role="menu" ng-if="newPermission.type === 'report'">
+            <li ng-repeat="category in reportsCategories" ng-class="{ 'active': newPermission.object == category.id }"><a href="" ng-click="newPermission.object = category">{{ category.title }}</a></li>
+          </ul>
+
+          <ul class="dropdown-menu" role="menu" ng-if="newPermission.type === 'inventory'">
+            <li ng-repeat="category in inventoriesCategories" ng-class="{ 'active': newPermission.object == category.id }"><a href="" ng-click="newPermission.object = category">{{ category.title }}</a></li>
+          </ul>
+
         </div>
       </div>
 
       <div class="option col-xs-2">
-        <button type="button" class="btn btn-info btn-custom" ng-disabled="!(newPermission.type && newPermission.slug)" ng-click="createPermission()">Adicionar</button>
+        <button type="button" class="btn btn-info btn-custom" ng-disabled="!(newPermission.type && newPermission.slug) || creatingPermission" ng-click="createPermission()">Adicionar <i class="refresh glyphicon glyphicon-refresh rotating" ng-show="creatingPermission"></i></button>
       </div>
 
     </div>
@@ -74,12 +83,13 @@
         </thead>
 
         <tbody>
-          <tr ng-repeat="permission in permissions">
+          <tr ng-repeat="permission in permissions" class="pages-animation">
             <td>{{ getTypeName(permission.permission_type) }}</td>
-            <td>{{ permission.object.title || 'Todos' }}</td>
+            <td>{{ (permission.object.title || permission.object.name) || 'Todos' }}</td>
             <td>
-              <span ng-if="isString(permission.permission_names)" class="permission-name">{{ getPermissionName(permission.permission_type, permission.permission_names) }} <a href=""><i class="glyphicon glyphicon-remove"></i></a></span>
-              <span ng-if="!isString(permission.permission_names)" ng-repeat="name in permission.permission_names track by $index" class="permission-name">{{ getPermissionName(permission.permission_type, name) }} <a href=""><i class="glyphicon glyphicon-remove"></i></span>
+              <span ng-if="isString(permission.permission_names)" class="permission-name">{{ getPermissionName(permission.permission_type, permission.permission_names) }} <a href="" ng-click="removePermission(permission, permission.permission_names)"><i class="glyphicon glyphicon-remove"></i></a></span>
+              <span ng-if="!isString(permission.permission_names)" ng-repeat="name in permission.permission_names track by $index" class="permission-name">{{ getPermissionName(permission.permission_type, name) }} <a href="" ng-click="removePermission(permission, name)"><i class="glyphicon glyphicon-remove"></i></span>
+              <i class="refresh glyphicon glyphicon-refresh rotating refresh" ng-show="permission.removingPermission"></i>
             </td>
           </tr>
         </tbody>

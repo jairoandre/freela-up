@@ -3,9 +3,13 @@
 angular
   .module('GroupsEditControllerModule', [])
 
-  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $q, groupResponse, groupsPermissionsResponse) {
+  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $q, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
     $scope.group = groupResponse.data;
     $scope.permissions = groupsPermissionsResponse.data;
+    $scope.groups = groupsResponse.data;
+    $scope.flows = flowsResponse.data;
+    $scope.inventoriesCategories = inventoriesCategoriesResponse.data;
+    $scope.reportsCategories = reportsCategoriesResponse.data;
 
     $scope.isString = function(variable) {
       return typeof variable === 'string';
@@ -67,7 +71,7 @@ angular
         permissionsNames: [
           {
             slug: 'manage_users',
-            name: 'manage_users',
+            name: 'Gerenciar todos os usuários',
             needsObject: false
           }
         ]
@@ -79,19 +83,19 @@ angular
         permissionsNames: [
           {
             slug: 'manage_groups',
-            name: 'manage_groups',
+            name: 'Gerenciar todos os grupos',
             needsObject: false
           },
 
           {
             slug: 'groups_can_edit',
-            name: 'groups_can_edit',
+            name: 'Editar e visualizar',
             needsObject: true
           },
 
           {
             slug: 'groups_can_view',
-            name: 'groups_can_view',
+            name: 'Visualizar',
             needsObject: true
           }
         ]
@@ -103,13 +107,13 @@ angular
         permissionsNames: [
           {
             slug: 'panel_access',
-            name: 'panel_access',
+            name: 'Acesso ao painel permitido',
             needsObject: false
           },
 
           {
             slug: 'manage_config',
-            name: 'manage_config',
+            name: 'Gerenciar configurações do sistema',
             needsObject: false
           }
         ]
@@ -121,37 +125,37 @@ angular
         permissionsNames: [
           {
             slug: 'manage_inventory_items',
-            name: 'manage_inventory_items',
+            name: 'Gerenciar todos os itens',
             needsObject: false
           },
 
           {
             slug: 'edit_inventory_items',
-            name: 'edit_inventory_items',
+            name: 'Editar todos os itens',
             needsObject: false
           },
 
           {
             slug: 'manage_inventory_formulas',
-            name: 'manage_inventory_formulas',
+            name: 'Gerenciar fórmulas',
             needsObject: false
           },
 
           {
             slug: 'manage_inventory_categories',
-            name: 'manage_inventory_categories',
+            name: 'Gerenciar todas as categorias',
             needsObject: false
           },
 
           {
             slug: 'inventory_categories_can_edit',
-            name: 'inventory_categories_can_edit',
+            name: 'Editar e visualizar a categoria',
             needsObject: true
           },
 
           {
             slug: 'inventory_categories_can_view',
-            name: 'inventory_categories_can_view',
+            name: 'Visualizar a categoria',
             needsObject: true
           }
         ]
@@ -163,43 +167,43 @@ angular
         permissionsNames: [
           {
             slug: 'manage_reports',
-            name: 'manage_reports',
+            name: 'Gerenciar todos os relatos',
             needsObject: false
           },
 
           {
             slug: 'manage_reports_categories',
-            name: 'manage_reports_categories',
+            name: 'Gerenciar todas as categorias',
             needsObject: false
           },
 
           {
             slug: 'delete_reports',
-            name: 'delete_reports',
+            name: 'Remover todos os relatos',
             needsObject: false
           },
 
           {
             slug: 'edit_reports',
-            name: 'edit_reports',
+            name: 'Editar todos os relatos',
             needsObject: false
           },
 
           {
             slug: 'create_reports_from_panel',
-            name: 'create_reports_from_panel',
+            name: 'Pode criar relatos pelo painel',
             needsObject: false
           },
 
           {
             slug: 'reports_categories_can_edit',
-            name: 'reports_categories_can_edit',
+            name: 'Editar',
             needsObject: true
           },
 
           {
             slug: 'reports_categories_can_view',
-            name: 'reports_categories_can_view',
+            name: 'Visualizar',
             needsObject: true
           }
         ]
@@ -254,11 +258,13 @@ angular
 
     $scope.setNewPermissionType = function(type) {
       $scope.newPermission.type = type;
-      $scope.newPermission.objectId = null;
+      $scope.newPermission.object = null;
       $scope.newPermission.slug = null;
     };
 
     $scope.createPermission = function() {
+      $scope.creatingPermission = true;
+
       var type = $scope.newPermission.type,
           slug = $scope.newPermission.slug,
           objectIds = $scope.newPermission.object !== null ? [$scope.newPermission.object.id] : undefined;
@@ -266,24 +272,32 @@ angular
       var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': [slug], 'objects_ids': objectIds });
 
       postPermissionPromise.then(function(response) {
-        $scope.permissions.unshift({ permission_type: type, permission_names: slug, object: $scope.newPermission.object });
+        $scope.creatingPermission = false;
+
+        $scope.permissions.push({ permission_type: type, permission_names: slug, object: $scope.newPermission.object });
 
         $scope.newPermission = { type: null, object: null, slug: null };
       });
     };
 
-    // we get all data that is necessary for each permission
-    /*var groupsPromise = Restangular.all('groups').getList();
-    var reportsCategoriesPromise = Restangular.one('reports').all('categories').getList({ display_type: 'full' });
-    var inventoryCategoriesPromise = Restangular.one('inventory').all('categories').getList();
-    var flowsPromise = Restangular.all('flows').getList();
+    $scope.removePermission = function(permissionObj, slug) {
+      permissionObj.removingPermission = true;
 
-    var promises = [groupsPromise, reportsCategoriesPromise, inventoryCategoriesPromise, flowsPromise];
+      var objectId = permissionObj.object ? permissionObj.object.id : undefined;
 
-    $q.all(promises).then(function(responses) {
-      $scope.data.groups = responses[0].data;
-      $scope.data.reportsCategories = responses[1].data;
-      $scope.data.inventoryCategories = responses[2].data;
-      $scope.data.flows = responses[3].data;
-    });*/
+      var deletePermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', permissionObj.permission_type).customDELETE(null, { permission: slug, object_id: objectId });
+
+      deletePermissionPromise.then(function() {
+        if (typeof permissionObj.permission_names === 'string' || (typeof permissionObj.permission_names === 'object' && permissionObj.permission_names.length === 1))
+        {
+          $scope.permissions.splice($scope.permissions.indexOf(permissionObj), 1);
+        }
+        else
+        {
+          permissionObj.permission_names.splice(permissionObj.permission_names.indexOf(slug), 1);
+        }
+
+        permissionObj.removingPermission = false;
+      });
+    };
   });
