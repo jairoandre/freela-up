@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'">
+      <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.disabled === true">
         <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
 
         <div class="fields">
@@ -90,7 +90,7 @@
           </div>
 
           <!-- show normal fields -->
-          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1 || (field.disabled === true && !itemData[field.id] && !field.focused)" ng-class="{'has-error': (form[field.title].$dirty && form[field.title].$invalid) || (showValidationError && form[field.title].$invalid)}">
+          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1 || (field.disabled === true && (!itemData[field.id] || (itemData[field.id].areImages && !itemData[field.id].existingImages)) && !field.focused)" ng-class="{'has-error': (form[field.title].$dirty && form[field.title].$invalid) || (showValidationError && form[field.title].$invalid)}">
             <label for="generic_input_{{ field.id }}">
               <span ng-if="field.label !== null">{{ field.label }}</span>
               <span ng-if="field.label == null">{{ field.title }}</span>

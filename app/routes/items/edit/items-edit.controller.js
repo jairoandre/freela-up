@@ -144,7 +144,14 @@ angular
             }
             /* jshint ignore:end */
 
-            itemData[section.fields[j].id] = optionsObj;
+            if ($.isEmptyObject(optionsObj))
+            {
+              itemData[section.fields[j].id] = null;
+            }
+            else
+            {
+              itemData[section.fields[j].id] = optionsObj;
+            }
           }
 
           // detect location fields
