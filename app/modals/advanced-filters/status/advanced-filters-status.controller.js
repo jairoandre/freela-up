@@ -12,13 +12,12 @@ angular
 
     $scope.statuses = [];
 
-    // merge all categories statuses in one array with no duplicates
-    for (var i = categories.length - 1; i >= 0; i--) {
-      for (var j = categories[i].statuses.length - 1; j >= 0; j--) {
+    var findStatusesInCategory = function(category) {
+      for (var j = category.statuses.length - 1; j >= 0; j--) {
         var found = false;
 
         for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === categories[i].statuses[j].id)
+          if ($scope.statuses[k].id === category.statuses[j].id)
           {
             found = true;
           }
@@ -26,8 +25,21 @@ angular
 
         if (!found)
         {
-          $scope.statuses.push(categories[i].statuses[j]);
+          $scope.statuses.push(category.statuses[j]);
         }
+      }
+    };
+
+    // merge all categories statuses in one array with no duplicates
+    for (var i = categories.length - 1; i >= 0; i--) {
+
+      findStatusesInCategory(categories[i]);
+
+      if (typeof categories[i].subcategories !== 'undefined' && categories[i].subcategories.length !== 0)
+      {
+        for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
+          findStatusesInCategory(categories[i].subcategories[j]);
+        };
       }
     }
 
