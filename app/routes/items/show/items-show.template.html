@@ -35,8 +35,12 @@
               <gallery images="getDataByInventoryFieldId(field.id)"></gallery>
             </div>
 
-            <!-- special field rendering: checkbox -->
-            <div ng-if="field.kind === 'checkbox' || field.kind === 'select' || field.kind === 'radio'">
+            <!-- special field rendering: select or radio -->
+            <div ng-if="field.kind === 'select' || field.kind === 'radio'">
+              <p>{{ getSelectedOptionsByFieldId(field.id)[0].value }}</p>
+            </div>
+
+            <div ng-if="field.kind === 'checkbox'">
               <ul>
                 <li ng-repeat="option in getSelectedOptionsByFieldId(field.id)">{{ option.value }}</li>
               </ul>
