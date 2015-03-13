@@ -5,9 +5,33 @@ angular
     'SlideComponent'
   ])
 
-  .controller('AdvancedFiltersStatusModalController', function($scope, $modalInstance, categories, statuses, activeAdvancedFilters) {
+  .controller('AdvancedFiltersStatusModalController', function($scope, $rootScope, $modalInstance, activeAdvancedFilters, categoriesResponse) {
+    $rootScope.resolvingRequest = false;
+
+    var categories = categoriesResponse.data;
+
+    $scope.statuses = [];
+
+    // merge all categories statuses in one array with no duplicates
+    for (var i = categories.length - 1; i >= 0; i--) {
+      for (var j = categories[i].statuses.length - 1; j >= 0; j--) {
+        var found = false;
+
+        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
+          if ($scope.statuses[k].id === categories[i].statuses[j].id)
+          {
+            found = true;
+          }
+        }
+
+        if (!found)
+        {
+          $scope.statuses.push(categories[i].statuses[j]);
+        }
+      }
+    }
+
     $scope.categories = [];
-    $scope.statuses = angular.copy(statuses);
     $scope.search = {};
 
     for (var i = categories.length - 1; i >= 0; i--) {

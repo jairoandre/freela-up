@@ -81,7 +81,7 @@
     </thead>
 
     <tr ng-repeat="item in items | orderBy:sort.column:sort.descending">
-      <td class="status_color"><span ng-repeat="status in getInventoryCategory(item.inventory_category_id).statuses" ng-style="{'background-color': status.color}" ng-show="status.id == item.inventory_status_id"></span><a href="#/items/{{ item.id }}">{{ item.title }}</a></td>
+      <td class="status_color"><span ng-show="item.status" ng-style="{'background-color': item.status.color}"></span><a href="#/items/{{ item.id }}">{{ item.title }}</a></td>
       <td>{{ item.address }}</td>
       <td>{{ item.user.name }}</td>
       <td>{{ item.category.title }}</td>
@@ -91,7 +91,7 @@
         <a class="icon_action" href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit">
           <span class="glyphicon glyphicon-edit"></span>
         </a>
-        <a class="icon_action" href="" ng-click="deleteItem(item, getInventoryCategory(item.inventory_category_id))">
+        <a class="icon_action" href="" ng-click="deleteItem(item, item.category)">
           <span class="glyphicon glyphicon-trash"></span>
         </a>
       </td>

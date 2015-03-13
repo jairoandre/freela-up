@@ -2,9 +2,12 @@
 
 angular
   .module('AdvancedFiltersCategoryModalControllerModule', [])
-  .controller('AdvancedFiltersCategoryModalController', function($scope, $modalInstance, categories, activeAdvancedFilters) {
+  .controller('AdvancedFiltersCategoryModalController', function($scope, $rootScope, $modalInstance, activeAdvancedFilters, categoriesResponse) {
+    $rootScope.resolvingRequest = false;
     $scope.categories = [];
     $scope.activeAdvancedFilters = activeAdvancedFilters;
+
+    var categories = categoriesResponse.data;
 
     for (var i = categories.length - 1; i >= 0; i--) {
       $scope.categories.push(categories[i]);

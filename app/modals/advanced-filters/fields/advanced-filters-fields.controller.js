@@ -4,8 +4,11 @@ angular
   .module('AdvancedFiltersFieldsModalControllerModule', [
     'FieldsFilterItemComponentModule'
   ])
-  .controller('AdvancedFiltersFieldsModalController', function($scope, $modalInstance, activeAdvancedFilters, categories) {
-    $scope.categories = categories;
+  .controller('AdvancedFiltersFieldsModalController', function($scope, $rootScope, $modalInstance, activeAdvancedFilters, categoriesResponse) {
+    $rootScope.resolvingRequest = false;
+
+    $scope.categories = categoriesResponse.data;
+
     $scope.activeAdvancedFilters = activeAdvancedFilters;
 
     $scope.items = [];
