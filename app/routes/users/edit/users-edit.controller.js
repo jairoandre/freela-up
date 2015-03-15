@@ -2,7 +2,8 @@
 
 angular
   .module('UsersEditControllerModule', [
-    'ngCpfCnpj'
+    'ngCpfCnpj',
+    'EqualsComponentModule'
   ])
 
   .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse) {
