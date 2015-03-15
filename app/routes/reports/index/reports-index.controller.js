@@ -11,10 +11,12 @@ angular
   .controller('ReportsIndexController', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, FullResponseRestangular) {
     $scope.loading = true;
 
-    var page = 1, perPage = 30;
+    var page = 1, perPage = 15;
 
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
+    $scope.categories = {};
+    $scope.categoriesStatuses = {};
 
     // Basic filters
     var resetFilters = function() {
@@ -32,6 +34,8 @@ angular
       $scope.zoom = null;
       $scope.clusterize = null;
     };
+
+    resetFilters();
 
     // sorting the tables
     $scope.sort = {
@@ -54,8 +58,6 @@ angular
     };
 
     // Advanced filters
-    //$scope.advancedSearch = true;
-
     $scope.availableFilters = [
       {name: 'Protocolo ou endereço contém...', action: 'query'},
       {name: 'Com as categorias...', action: 'category'},
@@ -68,6 +70,18 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
+    if (typeof $cookies.reportsFiltersHash !== 'undefined')
+    {
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
+    }
+
+    if (typeof $location.search().filters !== 'undefined')
+    {
+      $scope.filtersHash = $location.search().filters;
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
+    }
+
+    // Entrypoint / Fires initial load
     $scope.$watch('activeAdvancedFilters', function() {
       resetFilters();
 
@@ -132,25 +146,13 @@ angular
       loadFilters();
     }, true);
 
-    if (typeof $cookies.reportsFiltersHash !== 'undefined')
-    {
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
-    }
-
-    if (typeof $location.search().filters !== 'undefined')
-    {
-      $scope.filtersHash = $location.search().filters;
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
-    }
-
     // Return right promise
     var generateReportsItemsPromise = function() {
       var url = FullResponseRestangular.one('search').all('reports').all('items'), options = { }; // jshint ignore:line
 
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
       options.return_fields = [
-        'id', 'protocol', 'address', 'status.color', 'created_at', // Report properties
-        'category.id', 'category.title', // Report Category properties
+        'id', 'protocol', 'address', 'reports_category_id', 'reports_status_id', 'created_at', // Report properties
         'user.name', 'user.id' // User properties
       ].join();
 
@@ -232,6 +234,44 @@ angular
       return url.customGET(null, options);
     };
 
+    var generateReportsCategoriesPromise = function() {
+      var url = FullResponseRestangular.all('reports').all('categories'), options = { }; // jshint ignore:line
+
+      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
+      options.return_fields = ['id', 'title', 'statuses.id', 'statuses.color'].join();
+
+      return url.customGET(null, options);
+    };
+
+    // Since we are fetching categories separately for great performance improvement, this is the small price we pay
+    var hookCategoryFieldsOnReports = function(){
+      if(_.size($scope.categories) < 1) {
+        return;
+      }
+      _.each($scope.reports, function(report){
+        report.category = $scope.categories[report.category_id];
+        if(typeof report.category === 'undefined') {
+          console.log('Report with unknown category', report);
+        }
+        report.status = $scope.categoriesStatuses[report.status_id];
+      })
+    };
+
+    generateReportsCategoriesPromise().then(function(response){
+      _.each(response.data.categories, function(category){
+        if(typeof $scope.categories[category.id] === 'undefined') {
+          $scope.categories[category.id] = category;
+        }
+        _.each(category.statuses, function(status){
+          if(typeof $scope.categoriesStatuses[status.id] === 'undefined') {
+            $scope.categoriesStatuses[status.id] = status
+          }
+        });
+      });
+
+      hookCategoryFieldsOnReports(); // by calling this here we dont have to bother about fetching order
+    });
+
     // One every change of page or search, we create generate a new request based on current values
     var getData = $scope.getData = function(paginate, mapOptions) {
       if ($scope.loadingPagination === false)
@@ -280,6 +320,7 @@ angular
             $scope.loadingPagination = false;
           }
 
+          hookCategoryFieldsOnReports();
           $scope.loading = false;
         });
 
