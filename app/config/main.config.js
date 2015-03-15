@@ -105,6 +105,8 @@ angular
       return true;
     });
 
+    NProgress.configure({ showSpinner: false });
+
     $rootScope.$on('$stateChangeStart', function() {
       $rootScope.resolvingRoute = true;
     });

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="bower_components/select2/select2.css" />
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/nprogress/nprogress.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) assets/styles/main.css -->
@@ -55,7 +56,9 @@
     <!-- Add your site or application content here -->
     <div ui-view class="pages-animation"></div>
 
-    <div class="resolving-route" ng-show="resolvingRoute"></div>
+    <div class="resolving-route with-loading" ng-show="resolvingRoute">
+      <img src="assets/images/loading.gif">
+    </div>
 
     <div class="resolving-route with-loading" ng-show="resolvingRequest">
       <img src="assets/images/loading.gif">
@@ -113,6 +116,7 @@
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/cpf_cnpj/build/cpf_cnpj.js"></script>
     <script src="bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>
+    <script src="bower_components/nprogress/nprogress.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
     <script src="bower_components/marked/lib/marked.js"></script>
