@@ -24,11 +24,11 @@
 
       <div class="row">
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" ng-required="!updating">
+          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" ng-required="!updating" equals="{{ user.password_confirmation }}">
         </div>
 
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input name="password_confirmation">
+          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input name="password_confirmation" equals="{{ user.password }}">
         </div>
       </div>
     </div>
