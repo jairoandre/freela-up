@@ -139,7 +139,14 @@ angular
 
     // Return right promise
     var generateItemsPromise = function() {
-      var url = FullResponseRestangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, display_type: 'basic', sort: 'title', order: 'desc' }; // jshint ignore:line
+      var url = FullResponseRestangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, sort: 'title', order: 'desc' }; // jshint ignore:line
+
+      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
+      options.return_fields = [
+        'id', 'title', 'address', 'created_at', 'updated_at', // Report properties
+        'category.id', 'category.title', // Report Category properties
+        'user.name', 'user.id' // User properties
+      ].join();
 
       // if we searching, hit search/users
       if ($scope.searchText !== null)

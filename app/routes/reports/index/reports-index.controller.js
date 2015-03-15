@@ -11,7 +11,7 @@ angular
   .controller('ReportsIndexController', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, FullResponseRestangular) {
     $scope.loading = true;
 
-    var page = 1, perPage = 30, total;
+    var page = 1, perPage = 30;
 
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
@@ -144,8 +144,15 @@ angular
     }
 
     // Return right promise
-    var generateReportsPromise = function() {
+    var generateReportsItemsPromise = function() {
       var url = FullResponseRestangular.one('search').all('reports').all('items'), options = { }; // jshint ignore:line
+
+      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
+      options.return_fields = [
+        'id', 'protocol', 'address', 'status.color', 'created_at', // Report properties
+        'category.id', 'category.title', // Report Category properties
+        'user.name', 'user.id' // User properties
+      ].join();
 
       if (!$scope.position)
       {
@@ -238,7 +245,7 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var reportsPromise = generateReportsPromise();
+        var reportsPromise = generateReportsItemsPromise();
 
         reportsPromise.then(function(response) {
           if (paginate !== true)
