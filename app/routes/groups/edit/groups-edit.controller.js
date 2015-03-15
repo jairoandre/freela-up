@@ -3,13 +3,15 @@
 angular
   .module('GroupsEditControllerModule', [])
 
-  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $q, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
+  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
     $scope.group = groupResponse.data;
     $scope.permissions = groupsPermissionsResponse.data;
     $scope.groups = groupsResponse.data;
     $scope.flows = flowsResponse.data;
     $scope.inventoriesCategories = inventoriesCategoriesResponse.data;
     $scope.reportsCategories = reportsCategoriesResponse.data;
+
+    $scope.newPermission = { type: null, objects: [], slugs: [] };
 
     $scope.isString = function(variable) {
       return typeof variable === 'string';
@@ -242,10 +244,100 @@ angular
       return null;
     };
 
-    $scope.isObjectNeeded = function(type, slug) {
-      if (!type || !slug) return false;
+    $scope.getPermissionsExcerpt = function() {
+      switch ($scope.newPermission.slugs.length)
+      {
+        case 0:
+          return 'Selecione a permissão';
+        break;
 
-      return getPermission(type, slug).needsObject;
+        case 1:
+          return $scope.getPermissionName($scope.newPermission.type, $scope.newPermission.slugs[0]);
+        break;
+
+        default:
+          return $scope.newPermission.slugs.length + ' permissões selecionadas';
+      }
+    };
+
+    $scope.isPermissionSelected = function(slug) {
+      var i = $scope.newPermission.slugs.indexOf(slug);
+
+      return i !== -1;
+    };
+
+    $scope.togglePermission = function(slug) {
+      var i = $scope.newPermission.slugs.indexOf(slug);
+
+      if (i === -1)
+      {
+        $scope.newPermission.slugs.push(slug);
+      }
+      else
+      {
+        $scope.newPermission.slugs.splice(i, 1);
+      }
+    };
+
+    $scope.getObjectsExcerpt = function() {
+      switch ($scope.newPermission.objects.length)
+      {
+        case 0:
+          return 'Selecione uma categoria';
+        break;
+
+        case 1:
+          return $scope.newPermission.objects[0].name || $scope.newPermission.objects[0].title;
+        break;
+
+        default:
+          return $scope.newPermission.objects.length + ' categorias selecionadas';
+      }
+    };
+
+    $scope.isObjectSelected = function(objectId) {
+      for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
+        if ($scope.newPermission.objects[i].id === objectId) return true;
+      };
+
+      return false;
+    };
+
+    $scope.toggleObject = function(object) {
+      var x = false;
+
+      for (var i = 0 ; i < $scope.newPermission.objects.length; i++) {
+        if ($scope.newPermission.objects[i].id == object.id)
+        {
+          x = i;
+        }
+      };
+
+      if (x !== false)
+      {
+        $scope.newPermission.objects.splice(x, 1);
+      }
+      else
+      {
+        $scope.newPermission.objects.push(object);
+      }
+    };
+
+    // We need to hide all permissions that a
+    $scope.isObjectNeeded = function() {
+      if ($scope.newPermission.slugs.length === 0)
+      {
+        return null;
+      }
+
+      for (var i = $scope.newPermission.slugs.length - 1; i >= 0; i--) {
+        if (getPermission($scope.newPermission.type, $scope.newPermission.slugs[i]).needsObject)
+        {
+          return true;
+        }
+      };
+
+      return false;
     };
 
     $scope.getPermissionName = function(type, slug) {
@@ -254,29 +346,49 @@ angular
       return getPermission(type, slug) ? getPermission(type, slug).name : slug;
     };
 
-    $scope.newPermission = { type: null, object: null, slug: null };
-
     $scope.setNewPermissionType = function(type) {
-      $scope.newPermission.type = type;
-      $scope.newPermission.object = null;
-      $scope.newPermission.slug = null;
+      $timeout(function() {
+        $scope.newPermission.objects = [];
+        $scope.newPermission.slugs = [];
+
+        $scope.showPermissionsMenu = false;
+        $scope.showObjectsMenu = false;
+
+        $scope.newPermission.type = type;
+      });
     };
 
     $scope.createPermission = function() {
       $scope.creatingPermission = true;
 
-      var type = $scope.newPermission.type,
-          slug = $scope.newPermission.slug,
-          objectIds = $scope.newPermission.object !== null ? [$scope.newPermission.object.id] : undefined;
+      var type = $scope.newPermission.type, slugs = $scope.newPermission.slugs;
 
-      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': [slug], 'objects_ids': objectIds });
+      if ($scope.newPermission.objects.length !== 0)
+      {
+        var objectIds = [];
+
+        for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
+          objectIds.push($scope.newPermission.objects[i].id);
+        };
+      }
+
+      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': slugs, 'objects_ids': objectIds });
 
       postPermissionPromise.then(function(response) {
         $scope.creatingPermission = false;
 
-        $scope.permissions.push({ permission_type: type, permission_names: slug, object: $scope.newPermission.object });
+        if ($scope.newPermission.objects.length === 0)
+        {
+          $scope.permissions.push({ permission_type: type, permission_names: slugs, object: null });
+        }
+        else
+        {
+          for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
+            $scope.permissions.push({ permission_type: type, permission_names: slugs, object: $scope.newPermission.objects[i] });
+          };
+        }
 
-        $scope.newPermission = { type: null, object: null, slug: null };
+        $scope.setNewPermissionType(null);
       });
     };
 
