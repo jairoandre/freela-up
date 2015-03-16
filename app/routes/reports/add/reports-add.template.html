@@ -27,7 +27,8 @@
       <p>Digite o endereço, ou arraste o pino até a posição exata.</p>
 
       <div class="search-map">
-        <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" report-search-map>
+        <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
+        <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" report-search-map ng-keypress="showLoading()">
       </div>
 
       <div class="form-group reportMap">

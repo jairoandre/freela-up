@@ -4,7 +4,7 @@
 angular
   .module('ReportSearchMapComponentModule', [])
 
-  .directive('reportSearchMap', function () {
+  .directive('reportSearchMap', function ($timeout) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -20,6 +20,24 @@ angular
 
             var autocomplete = new google.maps.places.Autocomplete(element[0], options);
             autocomplete.bindTo('bounds', scope.mapProvider.map);
+
+            var callback = function(predictions, status) {
+              if (status != google.maps.places.PlacesServiceStatus.OK) {
+                $timeout(function() {
+                  scope.showLoadingForAutocompleteRequest = false;
+                });
+
+                return;
+              }
+            };
+
+            scope.showLoading = function() {
+              scope.showLoadingForAutocompleteRequest = true;
+
+              var service = new google.maps.places.AutocompleteService();
+
+              service.getQueryPredictions({ input: element[0] }, callback);
+            };
 
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
               var place = autocomplete.getPlace();
