@@ -39,14 +39,24 @@ angular
         if (fetchingCategories) {
           fetchingCategoriesPromise.then(function () {
             hookCategoryFieldsOnReports();
-            $rootScope.$emit('reportsItemsFetched', self.reports);
+            $rootScope.$emit('reportsItemsUpdated', self.reports);
             deferred.resolve(self.reports);
           });
         } else {
           hookCategoryFieldsOnReports();
-          $rootScope.$emit('reportsItemsFetched', self.reports);
+          $rootScope.$emit('reportsItemsUpdated', self.reports);
           deferred.resolve(self.reports);
         }
+      });
+
+      return deferred.promise;
+    };
+
+    self.remove = function(report_id) {
+      var promise = FullResponseRestangular.one('reports').one('items', report_id).remove(), deferred = $q.defer();
+      promise.then(function(){
+        delete self.reports[report_id];
+        deferred.resolve();
       });
 
       return deferred.promise;

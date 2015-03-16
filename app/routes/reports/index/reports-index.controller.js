@@ -205,6 +205,10 @@ angular
       return options;
     };
 
+    $rootScope.$on('reportsItemsUpdated', function(reports){
+      $scope.reports = reports;
+    });
+
     // One every change of page or search, we create generate a new request based on current values
     var getData = $scope.getData = function (paginate, mapOptions) {
       if ($scope.loadingPagination === false) {
