@@ -151,6 +151,15 @@
         overflow: auto;
         padding: 0px;
 
+        li ul {
+          height: auto;
+          padding-left: 10px;
+
+          a {
+            font-weight: normal;
+          }
+        }
+
         li a {
           color: #000;
           font-size: 14px;
