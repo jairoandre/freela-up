@@ -39,12 +39,12 @@ angular
         if (fetchingCategories) {
           fetchingCategoriesPromise.then(function () {
             hookCategoryFieldsOnReports();
-            $rootScope.$emit('reportsItemsUpdated', self.reports);
+            $rootScope.$emit('reportsItemsFetched', self.reports);
             deferred.resolve(self.reports);
           });
         } else {
           hookCategoryFieldsOnReports();
-          $rootScope.$emit('reportsItemsUpdated', self.reports);
+          $rootScope.$emit('reportsItemsFetched', self.reports);
           deferred.resolve(self.reports);
         }
       });
