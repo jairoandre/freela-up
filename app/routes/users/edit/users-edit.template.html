@@ -22,15 +22,15 @@
     </div>
 
     <div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
-      <label for="form_email">Senha *</label>
+      <label for="form_email">Senha <span ng-hide="updating">*</span></label>
 
       <div class="row">
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" required>
+          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" ng-required="!updating">
         </div>
 
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" name="password_confirmation">
+          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" name="password_confirmation" ng-required="!updating">
         </div>
       </div>
     </div>
