@@ -46,13 +46,15 @@ angular
           var newValues = $scope.value.multipleOptionsText.split(/\n/), fieldToBeCreated = [];
 
           for (var i = newValues.length - 1; i >= 0; i--) {
-            fieldToBeCreated.push({ value: newValues[i] });
+            fieldToBeCreated.push(newValues[i]);
           };
 
-          createField(fieldToBeCreated).then(function(response) {
+          createField({ value: fieldToBeCreated }).then(function(response) {
             $scope.loadingValue = false;
 
             $scope.field.field_options.concat(response.data);
+
+            setFieldOptions($scope.field.field_options);
           });
         }
         else
@@ -61,6 +63,8 @@ angular
             $scope.loadingValue = false;
 
             $scope.field.field_options.push(response.data);
+
+            setFieldOptions($scope.field.field_options);
           });
         }
       }
@@ -78,7 +82,7 @@ angular
         {
           $scope.loadingValue = false;
 
-          $scope.field.field_options.push({ value: $scope.value.text });
+          $scope.field.field_options.push({ value: $scope.value.text, disabled: false });
         }
       }
 

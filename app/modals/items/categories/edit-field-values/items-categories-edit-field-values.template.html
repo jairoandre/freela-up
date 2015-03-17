@@ -13,8 +13,8 @@
                 </div>
 
                 <div class="col-md-4 buttons">
-                    <button href="" type="submit" class="btn btn-info btn-custom" ng-show="value.importing === false">Criar</button>
-                    <button href="" type="submit" class="btn btn-info btn-custom insert" ng-show="value.importing === true">Inserir</button>
+                    <button href="" type="submit" class="btn btn-info btn-custom" ng-show="value.importing === false" ng-disabled="loadingValue">Criar</button>
+                    <button href="" type="submit" class="btn btn-info btn-custom insert" ng-show="value.importing === true" ng-disabled="loadingValue">Inserir</button>
                     <button href="" type="button" class="btn btn-info btn-custom" ng-class="{'btn-disabled': value.importing === false}" ng-click="toggleImport()">Importar</button>
                 </div>
             </div>
@@ -40,6 +40,8 @@
 </div>
 
 <div class="modal-footer">
+  <span ng-show="loadingValue" class="pull-left"><i class="refresh glyphicon glyphicon-refresh rotating refresh"></i></span>
+
   <button type="button" class="btn btn-danger btn-danger-inverse pull-left" ng-click="clear()" ng-if="!isExistingField">Limpar opções</button>
   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()" ng-if="isExistingField">Fechar</button>
   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()" ng-if="!isExistingField">Salvar</button>
