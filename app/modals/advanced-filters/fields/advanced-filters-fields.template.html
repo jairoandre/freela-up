@@ -88,7 +88,7 @@
 
       <td ng-show="item.field.kind === 'radio' || item.field.kind === 'checkbox' || item.field.kind === 'select'">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.value" data-placeholder="Selecione uma opção" multiple>
-          <option ng-repeat="option in newField.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
+          <option ng-repeat="option in item.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
         </select>
       </td>
 
