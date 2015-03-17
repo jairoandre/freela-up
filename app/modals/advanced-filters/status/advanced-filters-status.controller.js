@@ -8,11 +8,12 @@ angular
   .controller('AdvancedFiltersStatusModalController', function($scope, $rootScope, $modalInstance, activeAdvancedFilters, categoriesResponse) {
     $rootScope.resolvingRequest = false;
 
-    var categories = categoriesResponse.data;
+    // TODO Simplify this when inventory categories get its own API Client service
+    var categories = typeof categoriesResponse.data !== 'undefined' ? categoriesResponse.data : categoriesResponse;
 
     $scope.statuses = [];
 
-    var findStatusesInCategory = function(category) {
+    var addStatusesFromCategory = function(category) {
       for (var j = category.statuses.length - 1; j >= 0; j--) {
         var found = false;
 
@@ -33,15 +34,16 @@ angular
     // merge all categories statuses in one array with no duplicates
     for (var i = categories.length - 1; i >= 0; i--) {
 
-      findStatusesInCategory(categories[i]);
+      addStatusesFromCategory(categories[i]);
 
       if (typeof categories[i].subcategories !== 'undefined' && categories[i].subcategories.length !== 0)
       {
         for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
-          findStatusesInCategory(categories[i].subcategories[j]);
-        };
+          addStatusesFromCategory(categories[i].subcategories[j]);
+        }
       }
     }
+
 
     $scope.categories = [];
     $scope.search = {};
@@ -53,9 +55,12 @@ angular
       {
         for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
           $scope.categories.push(categories[i].subcategories[j]);
-        };
+        }
       }
-    };
+    }
+
+    // TODO Remove after the loops above have been cleared on the InventoryItemsService refactor
+    $scope.categories = _.uniq($scope.categories);
 
     $scope.updateStatus = function(status) {
       if (typeof status.selected === 'undefined' || status.selected === false)

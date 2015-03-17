@@ -15,6 +15,16 @@ angular
 
   /* This file contains common filters used by inventory/reports */
   .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService) {
+    var categoryResolver = function(type){
+      var list;
+      if(type === 'items') {
+        list = Restangular.one('inventory').all('categories').getList();
+      } else {
+        list = ReportsCategoriesService.loadedBasicInfo ? _.values(ReportsCategoriesService.categories) : ReportsCategoriesService.fetchAllBasicInfo();
+      }
+      return list;
+    };
+
     return {
       // advanced filter by category
       query: function (activeAdvancedFilters) {
@@ -38,15 +48,9 @@ angular
           templateUrl: 'modals/advanced-filters/category/advanced-filters-category.template.html',
           windowClass: 'filterCategoriesModal',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              var list;
-              if(type === 'items') {
-                list = Restangular.one('inventory').all('categories').getList();
-              } else {
-                list = ReportsCategoriesService.loadedBasicInfo ? _.values(ReportsCategoriesService.categories) : ReportsCategoriesService.fetchAllBasicInfo();
-              }
-              return list;
-            }],
+            'categoriesResponse': function(){
+              return categoryResolver(type);
+            },
 
             activeAdvancedFilters: function() {
               return activeAdvancedFilters;
@@ -64,9 +68,9 @@ angular
           templateUrl: 'modals/advanced-filters/status/advanced-filters-status.template.html',
           windowClass: 'filterStatusesModal',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              return type === 'items' ? Restangular.one('inventory').all('categories').getList() : Restangular.one('reports').all('categories').getList();
-            }],
+            'categoriesResponse': function() {
+              return categoryResolver(type);
+            },
 
             activeAdvancedFilters: function() {
               return activeAdvancedFilters;
