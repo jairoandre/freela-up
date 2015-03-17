@@ -5,10 +5,12 @@ angular
     'ReportsDestroyModalControllerModule',
     'OnFocusComponentModule',
     'OnBlurComponentModule',
-    'AdvancedFiltersServiceModule'
+    'AdvancedFiltersServiceModule',
+    'ReportsItemsServiceModule',
+    'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexController', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, FullResponseRestangular) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
     $scope.loading = true;
 
     var page = 1, perPage = 15;
@@ -19,7 +21,7 @@ angular
     $scope.categoriesStatuses = {};
 
     // Basic filters
-    var resetFilters = function() {
+    var resetFilters = function () {
       $scope.selectedCategories = [];
       $scope.selectedStatuses = [];
       $scope.selectedUsers = [];
@@ -39,18 +41,22 @@ angular
 
     // sorting the tables
     $scope.sort = {
-      column: '',
-      descending: false
+      column: 'created_at',
+      descending: true
     };
 
     $scope.changeSorting = function (column) {
       var sort = $scope.sort;
+
       if (sort.column === column) {
         sort.descending = !sort.descending;
       } else {
         sort.column = column;
         sort.descending = false;
       }
+
+      ReportsItemsService.resetCache();
+      $scope.reload();
     };
 
     $scope.selectedCls = function (column) {
@@ -70,30 +76,26 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
-    if (typeof $cookies.reportsFiltersHash !== 'undefined')
-    {
+    if (typeof $cookies.reportsFiltersHash !== 'undefined') {
       $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
     }
 
-    if (typeof $location.search().filters !== 'undefined')
-    {
+    if (typeof $location.search().filters !== 'undefined') {
       $scope.filtersHash = $location.search().filters;
       $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
     }
 
     // Entrypoint / Fires initial load
-    $scope.$watch('activeAdvancedFilters', function() {
+    $scope.$watch('activeAdvancedFilters', function () {
       resetFilters();
 
       // save filters into hash
-      if ($scope.activeAdvancedFilters.length !== 0)
-      {
+      if ($scope.activeAdvancedFilters.length !== 0) {
         $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
         $location.search('filters', $scope.filtersHash);
         $cookies.reportsFiltersHash = $scope.filtersHash;
       }
-      else
-      {
+      else {
         $scope.filtersHash = null;
         $location.search('filters', null);
         delete $cookies.reportsFiltersHash;
@@ -102,43 +104,35 @@ angular
       for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
         var filter = $scope.activeAdvancedFilters[i];
 
-        if (filter.type === 'query')
-        {
+        if (filter.type === 'query') {
           $scope.searchText = filter.value;
         }
 
-        if (filter.type === 'categories')
-        {
+        if (filter.type === 'categories') {
           $scope.selectedCategories.push(filter.value);
         }
 
-        if (filter.type === 'statuses')
-        {
+        if (filter.type === 'statuses') {
           $scope.selectedStatuses.push(filter.value);
         }
 
-        if (filter.type === 'authors')
-        {
+        if (filter.type === 'authors') {
           $scope.selectedUsers.push(filter.value);
         }
 
-        if (filter.type === 'beginDate')
-        {
+        if (filter.type === 'beginDate') {
           $scope.beginDate = filter.value;
         }
 
-        if (filter.type === 'endDate')
-        {
+        if (filter.type === 'endDate') {
           $scope.endDate = filter.value;
         }
 
-        if (filter.type === 'area')
-        {
+        if (filter.type === 'area') {
           $scope.selectedAreas.push(filter.value);
         }
 
-        if (filter.type === 'overdueOnly')
-        {
+        if (filter.type === 'overdueOnly') {
           $scope.overdueOnly = true;
         }
       }
@@ -147,64 +141,54 @@ angular
     }, true);
 
     // Return right promise
-    var generateReportsItemsPromise = function() {
-      var url = FullResponseRestangular.one('search').all('reports').all('items'), options = { }; // jshint ignore:line
+    var generateReportsFetchingOptions = function () {
+      var options = {};
 
-      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
-      options.return_fields = [
-        'id', 'protocol', 'address', 'reports_category_id', 'reports_status_id', 'created_at', // Report properties
-        'user.name', 'user.id' // User properties
-      ].join();
-
-      if (!$scope.position)
-      {
+      if (!$scope.position) {
         options.page = page;
         options.per_page = perPage;
       }
 
       // if we searching, hit search/users
-      if ($scope.searchText !== null)
-      {
+      if ($scope.searchText !== null) {
         options.query = $scope.searchText;
       }
 
       // check if we have categories selected
-      if ($scope.selectedCategories.length !== 0)
-      {
+      if ($scope.selectedCategories.length !== 0) {
         options.reports_categories_ids = $scope.selectedCategories.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
-      if ($scope.selectedStatuses.length !== 0)
-      {
+      if ($scope.selectedStatuses.length !== 0) {
         options.statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
-      if ($scope.selectedUsers.length !== 0)
-      {
+      if ($scope.selectedUsers.length !== 0) {
         options.users_ids = $scope.selectedUsers.join(); // jshint ignore:line
       }
 
-      if ($scope.beginDate !== null)
-      {
+      if ($scope.beginDate !== null) {
         options.begin_date = $scope.beginDate; // jshint ignore:line
       }
 
-      if ($scope.endDate !== null)
-      {
+      if ($scope.endDate !== null) {
         options.end_date = $scope.endDate; // jshint ignore:line
       }
 
+      if ($scope.sort.column !== '') {
+        options.sort = $scope.sort.column;
+        options.order = $scope.sort.descending ? 'desc' : 'asc';
+      }
+
       // map options
-      if ($scope.selectedAreas.length === 0 && $scope.position !== null)
-      {
+      if ($scope.selectedAreas.length === 0 && $scope.position !== null) {
         options['position[latitude]'] = $scope.position.latitude;
         options['position[longitude]'] = $scope.position.longitude;
         options['position[distance]'] = $scope.position.distance;
       }
-      else if ($scope.selectedAreas.length !== 0)
-      {
+      else if ($scope.selectedAreas.length !== 0) {
         for (var i = $scope.selectedAreas.length - 1; i >= 0; i--) {
           var latKey = 'position[' + i + '][latitude]';
           var lngKey = 'position[' + i + '][longitude]';
@@ -216,192 +200,121 @@ angular
         }
       }
 
-      if ($scope.zoom !== null)
-      {
+      if ($scope.zoom !== null) {
         options.zoom = $scope.zoom;
       }
 
-      if ($scope.clusterize !== null)
-      {
+      if ($scope.clusterize !== null) {
         options.clusterize = true;
       }
 
-      if ($scope.overdueOnly !== null)
-      {
+      if ($scope.overdueOnly !== null) {
         options.overdue = $scope.overdueOnly;
       }
 
-      return url.customGET(null, options);
+      return options;
     };
-
-    var generateReportsCategoriesPromise = function() {
-      var url = FullResponseRestangular.all('reports').all('categories'), options = { }; // jshint ignore:line
-
-      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
-      options.return_fields = ['id', 'title', 'statuses.id', 'statuses.color'].join();
-
-      return url.customGET(null, options);
-    };
-
-    // Since we are fetching categories separately for great performance improvement, this is the small price we pay
-    var hookCategoryFieldsOnReports = function(){
-      if(_.size($scope.categories) < 1) {
-        return;
-      }
-      _.each($scope.reports, function(report){
-        report.category = $scope.categories[report.category_id];
-        if(typeof report.category === 'undefined') {
-          console.log('Report with unknown category', report);
-        }
-        report.status = $scope.categoriesStatuses[report.status_id];
-      })
-    };
-
-    generateReportsCategoriesPromise().then(function(response){
-      _.each(response.data.categories, function(category){
-        if(typeof $scope.categories[category.id] === 'undefined') {
-          $scope.categories[category.id] = category;
-        }
-        _.each(category.statuses, function(status){
-          if(typeof $scope.categoriesStatuses[status.id] === 'undefined') {
-            $scope.categoriesStatuses[status.id] = status
-          }
-        });
-      });
-
-      hookCategoryFieldsOnReports(); // by calling this here we dont have to bother about fetching order
-    });
 
     // One every change of page or search, we create generate a new request based on current values
-    var getData = $scope.getData = function(paginate, mapOptions) {
-      if ($scope.loadingPagination === false)
-      {
+    var getData = $scope.getData = function (paginate, mapOptions) {
+      if ($scope.loadingPagination === false) {
         $scope.loadingPagination = true;
 
-        if (typeof mapOptions !== 'undefined')
-        {
+        if (typeof mapOptions !== 'undefined') {
           $scope.position = mapOptions.position;
           $scope.zoom = mapOptions.zoom;
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var reportsPromise = generateReportsItemsPromise();
+        var promise = ReportsItemsService.fetchAll(generateReportsFetchingOptions());
 
-        reportsPromise.then(function(response) {
-          if (paginate !== true)
-          {
-            $scope.reports = response.data.reports;
-          }
-          else
-          {
-            if (typeof $scope.reports === 'undefined')
-            {
-              $scope.reports = [];
-            }
+        promise.then(function (reports) {
+          page++;
+          $scope.reports = reports;
 
-            for (var i = 0; i < response.data.reports.length; i++) {
-              $scope.reports.push(response.data.reports[i]);
-            }
-
-            // add up one page
-            page++;
-          }
-
-          $scope.total = parseInt(response.headers().total);
+          $scope.total = ReportsItemsService.total;
 
           var lastPage = Math.ceil($scope.total / perPage);
 
-          if (page === (lastPage + 1))
-          {
+          if (page === (lastPage + 1)) {
             $scope.loadingPagination = null;
           }
-          else
-          {
+          else {
             $scope.loadingPagination = false;
           }
 
-          hookCategoryFieldsOnReports();
           $scope.loading = false;
         });
 
-        return reportsPromise;
+        return promise;
       }
     };
 
-    var loadFilters = $scope.reload = function(reloading) {
-      if (!isMap)
-      {
+    var loadFilters = $scope.reload = function (reloading) {
+      if (!isMap) {
         // reset pagination
+        ReportsItemsService.resetCache();
         page = 1;
         $scope.loadingPagination = false;
 
-        if (reloading === true)
-        {
+        if (reloading === true) {
           $scope.reloading = true;
         }
 
         $scope.loadingContent = true;
         $scope.reports = [];
 
-        getData().then(function() {
+        getData().then(function (reports) {
           $scope.loadingContent = false;
+          $scope.reports = reports;
 
-          if (reloading === true)
-          {
+          if (reloading === true) {
             $scope.reloading = false;
           }
 
           page++;
         });
       }
-      else
-      {
+      else {
         $scope.$broadcast('updateMap', true);
       }
     };
 
-    $scope.removeFilter = function(filter) {
+    $scope.removeFilter = function (filter) {
       $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
     };
 
-    $scope.resetFilters = function() {
+    $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
 
       if (isMap) $scope.$broadcast('updateMap', true);
     };
 
-    $scope.loadFilter = function(status) {
-      if (status === 'query')
-      {
+    $scope.loadFilter = function (status) {
+      if (status === 'query') {
         AdvancedFilters.query($scope.activeAdvancedFilters);
       }
 
-      if (status === 'category')
-      {
+      if (status === 'category') {
         AdvancedFilters.category($scope.activeAdvancedFilters, 'reports');
       }
 
-      if (status === 'status')
-      {
+      if (status === 'status') {
         AdvancedFilters.status($scope.activeAdvancedFilters, 'reports');
       }
 
-      if (status === 'author')
-      {
+      if (status === 'author') {
         AdvancedFilters.author($scope.activeAdvancedFilters);
       }
-      if (status === 'date')
-      {
+      if (status === 'date') {
         AdvancedFilters.period($scope.activeAdvancedFilters);
       }
 
-      if (status === 'area')
-      {
+      if (status === 'area') {
         AdvancedFilters.area($scope.activeAdvancedFilters);
       }
 
-      if (status === 'overdueOnly')
-      {
+      if (status === 'overdueOnly') {
         var overdueFilter = {
           title: 'Atraso',
           type: 'overdueOnly',
@@ -413,7 +326,7 @@ angular
     };
 
     // Search function
-    $scope.search = function(text) {
+    $scope.search = function (text) {
       $scope.searchText = text;
 
       loadFilters();
@@ -423,24 +336,20 @@ angular
       AdvancedFilters.share();
     };
 
-    $scope.changeToMap = function() {
-      if ($scope.filtersHash !== null)
-      {
+    $scope.changeToMap = function () {
+      if ($scope.filtersHash !== null) {
         $location.url('/reports/map?filters=' + $scope.filtersHash);
       }
-      else
-      {
+      else {
         $location.url('/reports/map');
       }
     };
 
-    $scope.changeToList = function() {
-      if ($scope.filtersHash !== null)
-      {
+    $scope.changeToList = function () {
+      if ($scope.filtersHash !== null) {
         $location.url('/reports?filters=' + $scope.filtersHash);
       }
-      else
-      {
+      else {
         $location.url('/reports');
       }
     };
@@ -450,14 +359,14 @@ angular
         templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          removeReportFromList: function() {
-            return function(report) {
+          removeReportFromList: function () {
+            return function (report) {
               $scope.total--;
               $scope.reports.splice($scope.reports.indexOf(report), 1);
             }
           },
 
-          report: function() {
+          report: function () {
             return report;
           }
         },
@@ -470,11 +379,11 @@ angular
         templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
         windowClass: 'editStatusModal',
         resolve: {
-          report: function() {
+          report: function () {
             return report;
           },
 
-          category: function() {
+          category: function () {
             return category;
           }
         },
