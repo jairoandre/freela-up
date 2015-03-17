@@ -55,12 +55,19 @@
     <!-- Add your site or application content here -->
     <div ui-view class="pages-animation"></div>
 
-    <div class="resolving-route with-loading" ng-show="resolvingRoute">
+    <div class="resolving-route with-loading" ng-hide="!resolvingRoute">
       <img src="assets/images/loading.gif">
     </div>
 
     <div class="resolving-route with-loading" ng-show="resolvingRequest">
       <img src="assets/images/loading.gif">
+    </div>
+
+    <div class="initial-loading-page pages-loading" ng-hide="hideInitialLoading">
+      <div class="center">
+        <div class="logo"></div>
+        <div class="initial-loading"></div>
+      </div>
     </div>
 
     <!--[if lt IE 9]>

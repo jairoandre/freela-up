@@ -105,11 +105,25 @@ angular
       return true;
     });
 
-    $rootScope.$on('$stateChangeStart', function() {
-      $rootScope.resolvingRoute = true;
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+      console.log(fromState);
+
+      if (fromState.name.length !== 0)
+      {
+        $rootScope.resolvingRoute = true;
+      }
+
+      console.log('resolving está', $rootScope.resolvingRoute);
     });
 
-    $rootScope.$on('$stateChangeSuccess', function() {
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      if (fromState.name.length === 0)
+      {
+        $rootScope.hideInitialLoading = true;
+      }
+
+      console.log('resolving está', $rootScope.resolvingRoute);
+
       $timeout(function() {
         $rootScope.resolvingRoute = false;
         $rootScope.resolvingRequest = false;
