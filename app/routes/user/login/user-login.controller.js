@@ -1,7 +1,9 @@
 angular
-  .module('UserLoginControllerModule', [])
+  .module('UserLoginControllerModule', [
+    'UserPasswordRecoverModalControllerModule'
+  ])
 
-  .controller('UserLoginController', function($scope, $state, Auth) {
+  .controller('UserLoginController', function($scope, $state, Auth, $modal) {
     $scope.login = function() {
       $scope.loginError = false;
       $scope.processingRequest = true;
@@ -11,6 +13,14 @@ angular
       }, function(response) {
         $scope.loginError = true;
         $scope.processingRequest = false;
+      });
+    };
+
+    $scope.recoverPassword = function() {
+      $modal.open({
+        templateUrl: 'modals/user/password-recovery/user-password-recovery.template.html',
+        windowClass: 'removeModal',
+        controller: 'UserPasswordRecoveryModalController'
       });
     };
   });
