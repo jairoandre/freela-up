@@ -19,18 +19,13 @@ angular
     var updateCache = function (response) {
       _.each(response.data.categories, function (category) {
         _.each(category.subcategories, function (subcategory) {
-          if (typeof self.categories[subcategory.id] === 'undefined') {
-            self.categories[subcategory.id] = subcategory;
-          }
+          self.categories[subcategory.id] = subcategory;
         });
 
-        if (typeof self.categories[category.id] === 'undefined') {
-          self.categories[category.id] = category;
-        }
+        self.categories[category.id] = category;
+
         _.each(category.statuses, function (status) {
-          if (typeof self.categoriesStatuses[status.id] === 'undefined') {
-            self.categoriesStatuses[status.id] = status
-          }
+          self.categoriesStatuses[status.id] = status
         });
       });
 
@@ -39,6 +34,7 @@ angular
 
     /**
      * Fetches basic information for all categories
+     * This function is safe to call multiple times and will not duplicate categories in the cache
      * @returns {Object} Restangular promise for basic category fields fetching
      */
     self.fetchAllBasicInfo = function () {
@@ -52,7 +48,7 @@ angular
 
       var promise = url.customGET(null, options);
 
-      promise.then(function(response){
+      promise.then(function (response) {
         self.loadedBasicInfo = true;
         updateCache(response);
       });

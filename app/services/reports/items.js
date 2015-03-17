@@ -27,27 +27,23 @@ angular
         'user.name', 'user.id' // User properties
       ].join();
 
-      var fetchingCategories = false, fetchingCategoriesPromise;
-      if (_.size(ReportsCategoriesService.categories) < 1) {
-        fetchingCategoriesPromise = ReportsCategoriesService.fetchAllBasicInfo();
-        fetchingCategories = true;
-      }
+      var categoryFetchPromise = ReportsCategoriesService.fetchAllBasicInfo();
 
       var promise = url.customGET(null, options);
 
       var deferred = $q.defer();
 
       promise.then(function (response) {
-        _.each(response.data.reports, function(report){
-          if(typeof self.reports[report.id] === 'undefined') {
+        _.each(response.data.reports, function (report) {
+          if (typeof self.reports[report.id] === 'undefined') {
             self.reports[report.id] = report;
             report.order = reportsOrder++;
           }
         });
 
         self.total = parseInt(response.headers().total, 10);
-        if (fetchingCategories) {
-          fetchingCategoriesPromise.then(function () {
+        if (_.size(ReportsCategoriesService.categories) < 1) {
+          categoryFetchPromise.then(function () {
             hookCategoryFieldsOnReports();
             $rootScope.$emit('reportsItemsFetched', self.reports);
             deferred.resolve(self.reports);
@@ -65,7 +61,7 @@ angular
     /**
      * Clear current reports
      */
-    self.resetCache = function(){
+    self.resetCache = function () {
       self.reports = {};
       reportsOrder = 0;
     };
@@ -75,9 +71,9 @@ angular
      * @param {Integer|String} report_id - The report ID to remove
      * @returns {*}
      */
-    self.remove = function(report_id) {
+    self.remove = function (report_id) {
       var promise = FullResponseRestangular.one('reports').one('items', report_id).remove(), deferred = $q.defer();
-      promise.then(function(){
+      promise.then(function () {
         delete self.reports[report_id];
         deferred.resolve();
       });
