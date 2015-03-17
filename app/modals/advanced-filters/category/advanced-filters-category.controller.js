@@ -7,7 +7,8 @@ angular
     $scope.categories = [];
     $scope.activeAdvancedFilters = activeAdvancedFilters;
 
-    var categories = categoriesResponse.data;
+    // TODO Simplify this when inventory categories get its own API Client service
+    var categories = typeof categoriesResponse.data !== 'undefined' ? categoriesResponse.data : categoriesResponse;
 
     for (var i = categories.length - 1; i >= 0; i--) {
       $scope.categories.push(categories[i]);
@@ -16,9 +17,12 @@ angular
       {
         for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
           $scope.categories.push(categories[i].subcategories[j]);
-        };
+        }
       }
-    };
+    }
+
+    // TODO Remove after the loops above have been cleared on the InventoryItemsService update
+    $scope.categories = _.uniq($scope.categories);
 
     $scope.updateCategory = function(category) {
       var i = $scope.categories.indexOf(category);

@@ -9,11 +9,12 @@ angular
     'AdvancedFiltersPeriodModalControllerModule',
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
-    'AdvancedFiltersShareModalControllerModule'
+    'AdvancedFiltersShareModalControllerModule',
+    'ReportsCategoriesServiceModule'
   ])
 
   /* This file contains common filters used by inventory/reports */
-  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope) {
+  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService) {
     return {
       // advanced filter by category
       query: function (activeAdvancedFilters) {
@@ -38,7 +39,13 @@ angular
           windowClass: 'filterCategoriesModal',
           resolve: {
             'categoriesResponse': ['Restangular', function(Restangular) {
-              return type === 'items' ? Restangular.one('inventory').all('categories').getList() : Restangular.one('reports').all('categories').getList();
+              var list;
+              if(type === 'items') {
+                list = Restangular.one('inventory').all('categories').getList();
+              } else {
+                list = ReportsCategoriesService.loadedBasicInfo ? _.values(ReportsCategoriesService.categories) : ReportsCategoriesService.fetchAllBasicInfo();
+              }
+              return list;
             }],
 
             activeAdvancedFilters: function() {

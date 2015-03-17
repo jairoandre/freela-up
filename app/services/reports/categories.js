@@ -1,12 +1,21 @@
 'use strict';
 
+/**
+ * Provides an API client for the reports categories from ZUP API
+ * @module ReportsCategoriesService
+ */
 angular
   .module('ReportsCategoriesServiceModule', [])
   .factory('ReportsCategoriesService', function ($rootScope, FullResponseRestangular) {
     var self = {};
     self.categories = {};
     self.categoriesStatuses = {};
+    self.loadedBasicInfo = false;
 
+    /**
+     * Process local categories and statuses refreshing
+     * @param {Object} response - FullResponseRestangular response object
+     */
     var updateCache = function (response) {
       _.each(response.data.categories, function (category) {
         _.each(category.subcategories, function (subcategory) {
@@ -28,6 +37,10 @@ angular
       $rootScope.$emit('reportsCategoriesFetched', self.categories);
     };
 
+    /**
+     * Fetches basic information for all categories
+     * @returns {Object} Restangular promise for basic category fields fetching
+     */
     self.fetchAllBasicInfo = function () {
       var url = FullResponseRestangular.all('reports').all('categories'), options = { };
 
@@ -39,7 +52,10 @@ angular
 
       var promise = url.customGET(null, options);
 
-      promise.then(updateCache);
+      promise.then(function(response){
+        self.loadedBasicInfo = true;
+        updateCache(response);
+      });
 
       return promise;
     };
