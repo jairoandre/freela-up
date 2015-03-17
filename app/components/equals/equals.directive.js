@@ -26,7 +26,7 @@ angular
           var val2 = attrs.equals;
 
           // set validity
-          ngModel.$setValidity('equals', val1 === val2);
+          if (typeof val1 !== 'undefined' && typeof val2 !== 'undefined') ngModel.$setValidity('equals', val1 === val2);
         };
       }
     }
