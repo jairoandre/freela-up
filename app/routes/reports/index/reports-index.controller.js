@@ -12,6 +12,7 @@ angular
 
   .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
     $scope.loading = true;
+    $rootScope.uiHasScroll = true;
 
     var page = 1, perPage = 15;
 

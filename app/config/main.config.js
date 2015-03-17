@@ -111,6 +111,7 @@ angular
       if (fromState.name.length !== 0)
       {
         $rootScope.resolvingRoute = true;
+        $rootScope.uiHasScroll = false;
       }
 
       console.log('resolving está', $rootScope.resolvingRoute);

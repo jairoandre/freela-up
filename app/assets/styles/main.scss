@@ -32,6 +32,10 @@ p {
   height: 100%;
 }
 
+.vertical-scroll {
+  overflow-y: scroll;
+}
+
 @import "animate";
 
 .initial-loading-page {
