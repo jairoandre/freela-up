@@ -1,12 +1,21 @@
 'use strict';
 
+/**
+ * Provides an API client for the reports items from ZUP API
+ * @module ReportsItemsServiceModule
+ */
 angular
   .module('ReportsItemsServiceModule', ['ReportsCategoriesServiceModule'])
   .factory('ReportsItemsService', function ($q, $rootScope, FullResponseRestangular, ReportsCategoriesService) {
-    var self = {};
+    var self = {}, reportsOrder = 0;
     self.reports = {};
     self.total = 0;
 
+    /**
+     * Fetches report items using hte search report endpoint
+     * @param {Object} options - API options for the search report endpoint
+     * @returns {Object} promise called for successful responses alone
+     */
     self.fetchAll = function (options) {
       options = options || {};
 
@@ -32,6 +41,7 @@ angular
         _.each(response.data.reports, function(report){
           if(typeof self.reports[report.id] === 'undefined') {
             self.reports[report.id] = report;
+            report.order = reportsOrder++;
           }
         });
 
@@ -52,6 +62,19 @@ angular
       return deferred.promise;
     };
 
+    /**
+     * Clear current reports
+     */
+    self.resetCache = function(){
+      self.reports = {};
+      reportsOrder = 0;
+    };
+
+    /**
+     * Removes a single
+     * @param report_id
+     * @returns {*}
+     */
     self.remove = function(report_id) {
       var promise = FullResponseRestangular.one('reports').one('items', report_id).remove(), deferred = $q.defer();
       promise.then(function(){
@@ -62,6 +85,12 @@ angular
       return deferred.promise;
     };
 
+    /**
+     * Sets the category property and reports
+     * Due to performance reasons, categories are fetched in parallel to the items themselves, so they need to be bound
+     * the `category` object
+     * @private
+     */
     var hookCategoryFieldsOnReports = function () {
       _.each(self.reports, function (report) {
         report.category = ReportsCategoriesService.categories[report.category_id];

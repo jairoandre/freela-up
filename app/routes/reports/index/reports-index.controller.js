@@ -6,7 +6,8 @@ angular
     'OnFocusComponentModule',
     'OnBlurComponentModule',
     'AdvancedFiltersServiceModule',
-    'ReportsItemsServiceModule'
+    'ReportsItemsServiceModule',
+    'angular-toArrayFilter'
   ])
 
   .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
@@ -40,18 +41,22 @@ angular
 
     // sorting the tables
     $scope.sort = {
-      column: '',
-      descending: false
+      column: 'created_at',
+      descending: true
     };
 
     $scope.changeSorting = function (column) {
       var sort = $scope.sort;
+
       if (sort.column === column) {
         sort.descending = !sort.descending;
       } else {
         sort.column = column;
         sort.descending = false;
       }
+
+      ReportsItemsService.resetCache();
+      $scope.reload();
     };
 
     $scope.selectedCls = function (column) {
@@ -172,6 +177,11 @@ angular
         options.end_date = $scope.endDate; // jshint ignore:line
       }
 
+      if ($scope.sort.column !== '') {
+        options.sort = $scope.sort.column;
+        options.order = $scope.sort.descending ? 'desc' : 'asc';
+      }
+
       // map options
       if ($scope.selectedAreas.length === 0 && $scope.position !== null) {
         options['position[latitude]'] = $scope.position.latitude;
@@ -243,6 +253,7 @@ angular
     var loadFilters = $scope.reload = function (reloading) {
       if (!isMap) {
         // reset pagination
+        ReportsItemsService.resetCache();
         page = 1;
         $scope.loadingPagination = false;
 
