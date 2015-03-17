@@ -23,7 +23,7 @@ angular
 
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
       options.return_fields = [
-        'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', // Report properties
+        'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue', // Report properties
         'user.name', 'user.id' // User properties
       ].join();
 
@@ -71,8 +71,8 @@ angular
     };
 
     /**
-     * Removes a single
-     * @param report_id
+     * Removes a single report from the API and the local cache
+     * @param {Integer|String} report_id - The report ID to remove
      * @returns {*}
      */
     self.remove = function(report_id) {
