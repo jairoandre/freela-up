@@ -81,7 +81,9 @@ angular
           if ($scope.categories[i].statuses[j].selected === true)
           {
             statuses[$scope.categories[i].statuses[j].id] = $scope.categories[i].statuses[j];
-            selectedCategories.push($scope.categories[i]);
+            if(selectedCategories.indexOf($scope.categories[i]) === -1) {
+              selectedCategories.push($scope.categories[i]);
+            }
           }
 
           $scope.categories[i].statuses[j].selected = false;
