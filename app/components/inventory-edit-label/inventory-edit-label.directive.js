@@ -2,7 +2,7 @@
 
 angular
   .module('InventoryEditLabelComponentModule', [])
-  .directive('inventoryEditLabel', function ($timeout) {
+  .directive('inventoryEditLabel', function ($timeout, $rootScope) {
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
@@ -10,7 +10,7 @@ angular
         scope.editLabel = function() {
           if (attrs.inventoryEditLabel === 'section')
           {
-            scope.label = angular.copy(scope.section.label);
+            scope.label = angular.copy(scope.section.title);
             scope.editingSectionLabel = true;
           }
           else
@@ -25,9 +25,16 @@ angular
         };
 
         scope.saveLabel = function() {
+          if (scope.label.length < 5)
+          {
+            $rootScope.showMessage('exclamation-sign', 'Você não pode deixar o título do campo em branco.', 'error');
+
+            return;
+          }
+
           if (attrs.inventoryEditLabel === 'section')
           {
-            scope.section.label = scope.label;
+            scope.section.title = scope.label;
             scope.editingSectionLabel = false;
           }
           else
