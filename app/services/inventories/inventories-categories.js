@@ -41,10 +41,7 @@ angular
       var url = FullResponseRestangular.all('inventory').all('categories'), options = { };
 
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
-      options.return_fields = [
-        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title',
-        'subcategories.id', 'subcategories.title', 'subcategories.statuses.id', 'subcategories.statuses.color', 'subcategories.statuses.title,'
-      ].join();
+      options.return_fields = ['id', 'title', 'statuses.id', 'statuses.color', 'statuses.title'];
 
       var promise = url.customGET(null, options);
 
