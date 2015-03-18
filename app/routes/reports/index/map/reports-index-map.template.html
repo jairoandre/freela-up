@@ -1,5 +1,3 @@
-<div class="loadingMapItems" ng-show="isLoadingItems"><img src="assets/images/loading.gif" /></div>
-
 <div style-map>
   <div class="loading" ng-show="loading"></div>
 
@@ -16,7 +14,7 @@
 
     <a href="" ng-click="share()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-link"></i></a>
 
-    <p class="total pages-animation" ng-hide="isLoadingItems">{{ total }} relatos encontrados</p>
+    <p class="total pages-animation"><span style="width:14px" ng-show="loading"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': loading}"></i></span> {{ total }} relatos encontrados</p>
   </div>
 
   <div class="advancedSearch" id="advancedSearch">

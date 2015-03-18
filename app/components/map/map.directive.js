@@ -223,7 +223,7 @@ angular
           timeout = setTimeout(function () {
             movedMap();
             hideOutOfBoundsMarkers();
-          }, 500);
+          }, 200);
         };
 
         google.maps.event.addListener(map, 'bounds_changed', function () {

@@ -257,8 +257,13 @@ angular
       }
     };
 
+    $rootScope.$on('reportsItemsFetching', function(){
+      $scope.loading = true;
+    });
+
     $rootScope.$on('reportsItemsFetched', function(){
       $scope.total = ReportsItemsService.total;
+      $scope.loading = false;
     });
 
     var loadFilters = $scope.reload = function (reloading) {
