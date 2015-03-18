@@ -10,18 +10,24 @@ angular
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
     'AdvancedFiltersShareModalControllerModule',
-    'ReportsCategoriesServiceModule'
+    'ReportsCategoriesServiceModule',
+    'InventoriesCategoriesServiceModule'
   ])
 
   /* This file contains common filters used by inventory/reports */
-  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService) {
-    var categoryResolver = function(type){
+  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService, InventoriesCategoriesService) {
+    var categoryResolver = function(type) {
       var list;
-      if(type === 'items') {
-        list = Restangular.one('inventory').all('categories').getList();
-      } else {
+
+      if (type === 'items')
+      {
+        list = InventoriesCategoriesService.loadedBasicInfo ? _.values(InventoriesCategoriesService.categories) : InventoriesCategoriesService.fetchAllBasicInfo();
+      }
+      else
+      {
         list = ReportsCategoriesService.loadedBasicInfo ? _.values(ReportsCategoriesService.categories) : ReportsCategoriesService.fetchAllBasicInfo();
       }
+
       return list;
     };
 
