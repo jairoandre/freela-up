@@ -54,6 +54,8 @@ angular
 
       var deferred = $q.defer();
 
+
+      $rootScope.$emit('reportsItemsFetching');
       promise.then(function (response) {
         _.each(response.data.reports, function (report) {
           if (typeof self.reports[report.id] === 'undefined') {
@@ -101,6 +103,7 @@ angular
 
       var deferred = $q.defer();
 
+      $rootScope.$emit('reportsItemsFetching');
       itemsFetchPromise.then(function (response) {
         self.total = parseInt(response.headers().total, 10);
         _.each(response.data.reports, function (report) {

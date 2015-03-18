@@ -150,7 +150,7 @@ angular
     }, true);
 
     // Return right promise
-    var generateReportsFetchingOptions = function () {
+    $scope.generateReportsFetchingOptions = function () {
       var options = {};
 
       if (!$scope.position) {
@@ -235,7 +235,7 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var promise = ReportsItemsService.fetchAll(generateReportsFetchingOptions());
+        var promise = ReportsItemsService.fetchAll($scope.generateReportsFetchingOptions());
 
         promise.then(function (reports) {
           page++;
@@ -257,8 +257,15 @@ angular
       }
     };
 
+    $rootScope.$on('reportsItemsFetching', function(){
+      if(isMap) {
+        $scope.loading = true;
+      }
+    });
+
     $rootScope.$on('reportsItemsFetched', function(){
       $scope.total = ReportsItemsService.total;
+      $scope.loading = false;
     });
 
     var loadFilters = $scope.reload = function (reloading) {
@@ -287,8 +294,12 @@ angular
         });
       }
       else {
-        $scope.$broadcast('updateMap', true);
+        $scope.$broadcast('mapRefreshRequested', true);
       }
+    };
+
+    $scope.reloadMap = function(){
+      $rootScope.$emit('mapRefreshRequested');
     };
 
     $scope.removeFilter = function (filter) {
@@ -298,7 +309,7 @@ angular
     $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
 
-      if (isMap) $scope.$broadcast('updateMap', true);
+      if (isMap) $scope.$broadcast('mapRefreshRequested', true);
     };
 
     $scope.loadFilter = function (status) {
