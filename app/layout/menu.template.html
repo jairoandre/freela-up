@@ -3,9 +3,9 @@
     </div>
 
     <ul>
-      <li nav-item ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_items_read_only') || hasPermission('inventories_items_delete') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_create')"><a href="#/items"><span class="glyphicon glyphicon-list"></span> <p>Inventário</p></a></li>
+      <li nav-item ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit') || hasPermission('inventories_items_read_only') || hasPermission('inventories_items_delete') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_create')"><a href="#/items"><span class="glyphicon glyphicon-list"></span> <p>Inventário</p></a></li>
 
-      <li nav-item ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_delete') || hasPermission('reports_items_edit') || hasPermission('reports_items_create') || hasPermission('reports_items_read_only')"><a href="#/reports"><span class="glyphicon glyphicon-list-alt"></span> <p>Relatos</p></a></li>
+      <li nav-item ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit') || hasPermission('reports_items_delete') || hasPermission('reports_items_edit') || hasPermission('reports_items_create') || hasPermission('reports_items_read_only')"><a href="#/reports"><span class="glyphicon glyphicon-list-alt"></span> <p>Relatos</p></a></li>
 
       <!-- permissions: manage_flows -->
       <li nav-item ng-show="hasPermission('manage_flows')"><a href="#/flows"><span class="glyphicon glyphicon-ok-circle"></span> <p>Fluxos</p></a></li>

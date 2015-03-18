@@ -163,7 +163,7 @@ angular
 
           {
             slug: 'inventories_items_read_only',
-            name: 'Visualizar a categoria',
+            name: 'Visualizar itens',
             needsObject: true
           }
         ]
@@ -205,7 +205,7 @@ angular
 
           {
             slug: 'reports_items_read_only',
-            name: 'Visualizar as categorias',
+            name: 'Visualizar relatos',
             needsObject: true
           }
         ]
