@@ -258,7 +258,9 @@ angular
     };
 
     $rootScope.$on('reportsItemsFetching', function(){
-      $scope.loading = true;
+      if(isMap) {
+        $scope.loading = true;
+      }
     });
 
     $rootScope.$on('reportsItemsFetched', function(){
