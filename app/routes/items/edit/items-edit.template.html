@@ -223,7 +223,7 @@
               <ui-select-match placeholder="Selecione...">{{$select.selected.value}}</ui-select-match>
 
               <ui-select-choices repeat="option.id as option in field.field_options | filter: $select.search track by $index">
-                <div ng-bind-html="option.value | highlight: $select.search"></div>
+                <div ng-bind-html="option.value | highlight: $select.search" ng-hide="option.disabled === true"></div>
               </ui-select-choices>
             </ui-select>
 
