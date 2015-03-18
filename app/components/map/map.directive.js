@@ -7,7 +7,8 @@ angular
       restrict: 'A',
       scope: {
         getCategory: '&',
-        getData: '&'
+        getData: '&',
+        getFiltersOptions: '&'
       },
       link: function postLink(scope, element, attrs) {
 
@@ -115,9 +116,7 @@ angular
           }
 
           var position = new google.maps.LatLng(cluster.position[0], cluster.position[1]);
-          var marker = createMarker(position, markerImage, cluster.category.color, cluster.count);
-
-          return marker;
+          return createMarker(position, markerImage, cluster.category.color, cluster.count);
         };
 
         var refreshMap = function () {
@@ -175,6 +174,8 @@ angular
           options['position[latitude]'] = position.latitude;
           options['position[longitude]'] = position.longitude;
           options['position[distance]'] = position.distance;
+
+          options = _.extend(options, scope.getFiltersOptions());
 
           lastRequestReference = options;
 

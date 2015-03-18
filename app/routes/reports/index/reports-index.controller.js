@@ -150,7 +150,7 @@ angular
     }, true);
 
     // Return right promise
-    var generateReportsFetchingOptions = function () {
+    $scope.generateReportsFetchingOptions = function () {
       var options = {};
 
       if (!$scope.position) {
@@ -235,7 +235,7 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var promise = ReportsItemsService.fetchAll(generateReportsFetchingOptions());
+        var promise = ReportsItemsService.fetchAll($scope.generateReportsFetchingOptions());
 
         promise.then(function (reports) {
           page++;
