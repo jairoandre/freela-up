@@ -230,7 +230,7 @@ angular
           boundsChanged();
         });
 
-        scope.$on('updateMap', function () {
+        scope.$on('mapRefreshRequested', function () {
           refreshMap();
           boundsChanged();
         });

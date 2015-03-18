@@ -292,8 +292,12 @@ angular
         });
       }
       else {
-        $scope.$broadcast('updateMap', true);
+        $scope.$broadcast('mapRefreshRequested', true);
       }
+    };
+
+    $scope.reloadMap = function(){
+      $rootScope.$emit('mapRefreshRequested');
     };
 
     $scope.removeFilter = function (filter) {
@@ -303,7 +307,7 @@ angular
     $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
 
-      if (isMap) $scope.$broadcast('updateMap', true);
+      if (isMap) $scope.$broadcast('mapRefreshRequested', true);
     };
 
     $scope.loadFilter = function (status) {
