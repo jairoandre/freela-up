@@ -112,6 +112,7 @@ angular
       {
         $rootScope.resolvingRoute = true;
         $rootScope.uiHasScroll = false;
+        $rootScope.uiDebugMap = false;
       }
 
       console.log('resolving está', $rootScope.resolvingRoute);

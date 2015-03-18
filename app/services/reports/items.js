@@ -10,6 +10,26 @@ angular
     var self = {}, reportsOrder = 0;
     self.reports = {};
     self.total = 0;
+    self.clusters = [];
+
+    /**
+     * Clear service state
+     */
+    self.resetCache = function () {
+      self.reports = {};
+      self.clusters = [];
+      self.total = 0;
+      reportsOrder = 0;
+    };
+
+    /**
+     * Clears items and clusters, but not total
+     */
+    self.resetItemsAndClusters = function(){
+      reportsOrder = 0;
+      self.reports = {};
+      self.clusters = [];
+    };
 
     /**
      * Fetches report items using hte search report endpoint
@@ -27,6 +47,7 @@ angular
         'user.name', 'user.id' // User properties
       ].join();
 
+      // Categories are always updated in parallel on fetch operations
       var categoryFetchPromise = ReportsCategoriesService.fetchAllBasicInfo();
 
       var promise = url.customGET(null, options);
@@ -36,12 +57,14 @@ angular
       promise.then(function (response) {
         _.each(response.data.reports, function (report) {
           if (typeof self.reports[report.id] === 'undefined') {
-            self.reports[report.id] = report;
             report.order = reportsOrder++;
           }
+
+          self.reports[report.id] = report;
         });
 
         self.total = parseInt(response.headers().total, 10);
+        // If there isn't any category on cache, we wait on them before presenting items
         if (_.size(ReportsCategoriesService.categories) < 1) {
           categoryFetchPromise.then(function () {
             hookCategoryFieldsOnReports();
@@ -49,6 +72,7 @@ angular
             deferred.resolve(self.reports);
           });
         } else {
+          // TODO This may cause problems for items of categories that are not yet present
           hookCategoryFieldsOnReports();
           $rootScope.$emit('reportsItemsFetched', self.reports);
           deferred.resolve(self.reports);
@@ -59,11 +83,50 @@ angular
     };
 
     /**
-     * Clear current reports
+     * Fetches reports items and clusters for a given position. Unordered.
+     * @param options - API request options
      */
-    self.resetCache = function () {
-      self.reports = {};
-      reportsOrder = 0;
+    self.fetchClustered = function (options) {
+      var url = FullResponseRestangular.one('search').all('reports').all('items'); // jshint ignore:line
+
+      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
+      options.return_fields = [
+        'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue', // Report properties
+        'user.name', 'user.id' // User properties
+      ].join();
+
+      var categoryFetchPromise = ReportsCategoriesService.fetchAllBasicInfo();
+
+      var itemsFetchPromise = url.customGET(null, options);
+
+      var deferred = $q.defer();
+
+      itemsFetchPromise.then(function (response) {
+        _.each(response.data.reports, function (report) {
+          if (typeof self.reports[report.id] === 'undefined') {
+            report.order = reportsOrder++;
+          }
+
+          self.reports[report.id] = report;
+        });
+
+        self.clusters = response.data.clusters;
+
+        self.total = parseInt(response.headers().total, 10);
+        if (_.size(ReportsCategoriesService.categories) < 1) {
+          categoryFetchPromise.then(function () {
+            hookCategoryFieldsOnClusters();
+            hookCategoryFieldsOnReports();
+            deferred.resolve(self);
+          });
+        } else {
+          hookCategoryFieldsOnClusters();
+          hookCategoryFieldsOnReports();
+          deferred.resolve(self);
+        }
+      });
+
+      return deferred.promise;
     };
 
     /**
@@ -82,19 +145,38 @@ angular
     };
 
     /**
-     * Sets the category property and reports
+     * Binds categories to either reports items or clusters
+     * @private
+     * @param {Array|Object} items - items to bind the `category` property on
+     */
+    var setCategoryOnItems = function(items) {
+      return _.each(items, function (item) {
+        item.category = ReportsCategoriesService.categories[item.category_id];
+        if (typeof item.category === 'undefined') {
+          console.log('Report with unknown category', item);
+        }
+        item.status = ReportsCategoriesService.categoriesStatuses[item.status_id];
+      });
+    };
+
+    /**
+     * Sets the category property on reports
      * Due to performance reasons, categories are fetched in parallel to the items themselves, so they need to be bound
      * the `category` object
      * @private
      */
     var hookCategoryFieldsOnReports = function () {
-      _.each(self.reports, function (report) {
-        report.category = ReportsCategoriesService.categories[report.category_id];
-        if (typeof report.category === 'undefined') {
-          console.log('Report with unknown category', report);
-        }
-        report.status = ReportsCategoriesService.categoriesStatuses[report.status_id];
-      });
+      setCategoryOnItems(self.reports);
+    };
+
+    /**
+     * Sets the category property on clusters
+     * Due to performance reasons, categories are fetched in parallel to the items themselves, so they need to be bound
+     * the `category` object
+     * @private
+     */
+    var hookCategoryFieldsOnClusters = function () {
+      setCategoryOnItems(self.clusters);
     };
 
     return self;
