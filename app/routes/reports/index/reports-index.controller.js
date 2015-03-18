@@ -87,6 +87,13 @@ angular
       $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
     }
 
+
+    var pushUnique = function(arr, val) {
+      if(arr.indexOf(val) === -1) {
+        arr.push(val)
+      }
+    };
+
     // Entrypoint / Fires initial load
     $scope.$watch('activeAdvancedFilters', function () {
       resetFilters();
@@ -111,15 +118,15 @@ angular
         }
 
         if (filter.type === 'categories') {
-          $scope.selectedCategories.push(filter.value);
+          pushUnique($scope.selectedCategories, filter.value);
         }
 
         if (filter.type === 'statuses') {
-          $scope.selectedStatuses.push(filter.value);
+          pushUnique($scope.selectedStatuses, filter.value);
         }
 
         if (filter.type === 'authors') {
-          $scope.selectedUsers.push(filter.value);
+          pushUnique($scope.selectedUsers, filter.value);
         }
 
         if (filter.type === 'beginDate') {
@@ -131,7 +138,7 @@ angular
         }
 
         if (filter.type === 'area') {
-          $scope.selectedAreas.push(filter.value);
+          pushUnique($scope.selectedAreas, filter.value);
         }
 
         if (filter.type === 'overdueOnly') {

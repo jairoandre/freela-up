@@ -6,7 +6,7 @@
 <div class="modal-body">
   <ul>
     <li ng-repeat="category in categories">
-      <a ng-class="{'selected': category.selected == true}" ng-click="updateCategory(category)"><i class="glyphicon glyphicon-ok" ng-show="category.selected"></i>  {{ category.title }}</a>
+      <a ng-class="{'selected': isActive(category)}" ng-click="updateCategory(category)"><i class="glyphicon glyphicon-ok" ng-show="isActive(category)"></i>  {{ category.title }}</a>
     </li>
   </ul>
 </div>
