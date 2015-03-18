@@ -30,7 +30,7 @@
   <div class="tabs">
     <a href="" ng-click="currentTab = 'fields'" ng-class="{'active': currentTab == 'fields'}">Campos</a>
     <a href="" ng-click="currentTab = 'statuses'" ng-class="{'active': currentTab == 'statuses'}">Estados</a>
-    <a href="" ng-click="currentTab = 'triggers'" ng-class="{'active': currentTab == 'triggers'}" ng-hide="!hasPermission('manage_inventory_formulas')">Fórmulas</a>
+    <a href="" ng-click="currentTab = 'triggers'" ng-class="{'active': currentTab == 'triggers'}" ng-hide="!hasPermission('inventories_formulas_full_access')">Fórmulas</a>
     <a href="" ng-click="currentTab = 'configs'" ng-class="{'active': currentTab == 'configs'}">Configurações</a>
   </div>
 

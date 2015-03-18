@@ -10,8 +10,8 @@
     </div>
 
     <div class="btn-group">
-      <a href="#/reports/add" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_categories_can_view') || hasPermission('manage_reports_categories') || hasPermission('reports_categories_can_edit') || hasPermission('edit_reports')">+ Novo relato</a>
-      <a href="#/reports/categories" class="btn btn-info btn-custom-group" ng-show="hasPermission('manage_reports_categories') || hasPermission('reports_categories_can_edit')">Gerenciar categorias</a>
+      <a href="#/reports/add" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_create') || hasPermission('reports_categories_edit')">+ Novo relato</a>
+      <a href="#/reports/categories" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit')">Gerenciar categorias</a>
     </div>
 
     <a href="" ng-click="share()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-link"></i></a>

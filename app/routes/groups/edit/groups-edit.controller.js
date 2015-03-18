@@ -72,7 +72,7 @@ angular
         name: 'Usuários',
         permissionsNames: [
           {
-            slug: 'manage_users',
+            slug: 'users_full_access',
             name: 'Gerenciar todos os usuários',
             needsObject: false
           }
@@ -84,20 +84,20 @@ angular
         name: 'Grupos',
         permissionsNames: [
           {
-            slug: 'manage_groups',
+            slug: 'groups_full_access',
             name: 'Gerenciar todos os grupos',
             needsObject: false
           },
 
           {
-            slug: 'groups_can_edit',
-            name: 'Editar e visualizar',
+            slug: 'group_edit',
+            name: 'Editar e visualizar o grupo',
             needsObject: true
           },
 
           {
-            slug: 'groups_can_view',
-            name: 'Visualizar',
+            slug: 'group_read_only',
+            name: 'Visualizar o grupo',
             needsObject: true
           }
         ]
@@ -126,37 +126,43 @@ angular
         name: 'Inventário',
         permissionsNames: [
           {
-            slug: 'manage_inventory_items',
-            name: 'Gerenciar todos os itens',
-            needsObject: false
-          },
-
-          {
-            slug: 'edit_inventory_items',
-            name: 'Editar todos os itens',
-            needsObject: false
-          },
-
-          {
-            slug: 'manage_inventory_formulas',
-            name: 'Gerenciar fórmulas',
-            needsObject: false
-          },
-
-          {
-            slug: 'manage_inventory_categories',
+            slug: 'inventories_full_access',
             name: 'Gerenciar todas as categorias',
             needsObject: false
           },
 
           {
-            slug: 'inventory_categories_can_edit',
-            name: 'Editar e visualizar a categoria',
+            slug: 'inventories_formulas_full_access',
+            name: 'Gerenciar fórmulas',
+            needsObject: false
+          },
+
+          {
+            slug: 'inventories_items_create',
+            name: 'Criar novos itens',
             needsObject: true
           },
 
           {
-            slug: 'inventory_categories_can_view',
+            slug: 'inventories_items_edit',
+            name: 'Editar itens',
+            needsObject: true
+          },
+
+          {
+            slug: 'inventories_items_delete',
+            name: 'Remover itens',
+            needsObject: true
+          },
+
+          {
+            slug: 'inventories_categories_edit',
+            name: 'Editar a categoria',
+            needsObject: true
+          },
+
+          {
+            slug: 'inventories_items_read_only',
             name: 'Visualizar a categoria',
             needsObject: true
           }
@@ -168,44 +174,38 @@ angular
         name: 'Relatos',
         permissionsNames: [
           {
-            slug: 'manage_reports',
-            name: 'Gerenciar todos os relatos',
+            slug: 'reports_full_access',
+            name: 'Gerenciar todos as categorias',
             needsObject: false
           },
 
           {
-            slug: 'manage_reports_categories',
-            name: 'Gerenciar todas as categorias',
-            needsObject: false
-          },
-
-          {
-            slug: 'delete_reports',
-            name: 'Remover todos os relatos',
-            needsObject: false
-          },
-
-          {
-            slug: 'edit_reports',
-            name: 'Editar todos os relatos',
-            needsObject: false
-          },
-
-          {
-            slug: 'create_reports_from_panel',
-            name: 'Pode criar relatos pelo painel',
-            needsObject: false
-          },
-
-          {
-            slug: 'reports_categories_can_edit',
-            name: 'Editar',
+            slug: 'reports_items_create',
+            name: 'Criar novos relatos',
             needsObject: true
           },
 
           {
-            slug: 'reports_categories_can_view',
-            name: 'Visualizar',
+            slug: 'reports_items_delete',
+            name: 'Remover relatos',
+            needsObject: true
+          },
+
+          {
+            slug: 'reports_items_edit',
+            name: 'Editar relatos',
+            needsObject: true
+          },
+
+          {
+            slug: 'reports_categories_edit',
+            name: 'Editar as categorias',
+            needsObject: true
+          },
+
+          {
+            slug: 'reports_items_read_only',
+            name: 'Visualizar as categorias',
             needsObject: true
           }
         ]

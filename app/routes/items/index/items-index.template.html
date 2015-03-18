@@ -8,14 +8,10 @@
       <a href="#/items/map"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
     </div>
 
-    <div class="btn-group" ng-show="(hasPermission('manage_inventory_categories') || hasPermission('inventory_categories_can_edit')) && hasPermission('manage_inventory_items')">
-      <a href="#/items/select-category" class="btn btn-info btn-custom-group">+ Novo item</a>
-      <a href="#/items/categories" class="btn btn-info btn-custom-group">Gerenciar categorias</a>
+    <div class="btn-group">
+      <a href="#/items/select-category" class="btn btn-info btn-custom-group" ng-show="hasPermission('inventories_items_create') || hasPermission('inventories_categories_edit') || hasPermission('inventories_full_access')">+ Novo item</a>
+      <a href="#/items/categories" class="btn btn-info btn-custom-group" ng-show="hasPermission('inventories_categories_edit') || hasPermission('inventories_full_access')">Gerenciar categorias</a>
     </div>
-
-    <a href="#/items/categories" class="btn btn-info btn-custom" ng-show="(hasPermission('manage_inventory_categories') || hasPermission('inventory_categories_can_edit')) && !hasPermission('manage_inventory_items')">Gerenciar categorias</a>
-
-    <a href="#/items/select-category" class="btn btn-info btn-custom" ng-show="!(hasPermission('manage_inventory_categories') || hasPermission('inventory_categories_can_edit')) && hasPermission('manage_inventory_items')">+ Novo item</a>
 
     <a href="" ng-click="reload(true)" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': reloading}"></i></a>
 
@@ -70,7 +66,7 @@
         <td width="10%" ng-click="changeSorting('updated_at')" ng-class="selectedCls('updated_at')" class="sort-table">
           <span>Última modificação</span><span class="arrow"></span>
         </td>
-        <td width="10%" ng-hide="!hasPermission('manage_inventory_items')"></td>
+        <td width="10%" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_delete')"></td>
       </tr>
     </thead>
 
@@ -81,11 +77,11 @@
       <td>{{ item.category.title }}</td>
       <td>{{ item.created_at | date:'dd/MM/yy HH:mm'}}</td>
       <td>{{ item.updated_at | date:'dd/MM/yy HH:mm'}}</td>
-      <td class="actions" ng-hide="!hasPermission('manage_inventory_items')">
-        <a class="icon_action" href="#/items/{{ item.id }}/category/{{ item.category.id }}/edit">
+      <td class="actions" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_delete')">
+        <a class="icon_action" href="#/items/{{ item.id }}/category/{{ item.category.id }}/edit" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', item.category.id) || hasPermission('inventories_items_edit', item.category.id)">
           <span class="glyphicon glyphicon-edit"></span>
         </a>
-        <a class="icon_action" href="" ng-click="deleteItem(item, item.category)">
+        <a class="icon_action" href="" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', item.category.id) || hasPermission('inventories_items_delete', item.category.id)" ng-click="deleteItem(item, item.category)">
           <span class="glyphicon glyphicon-trash"></span>
         </a>
       </td>
