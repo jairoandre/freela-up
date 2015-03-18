@@ -2,11 +2,15 @@
 
 angular
   .module('ItemsIndexControllerModule', [
-    'ItemsDestroyModalControllerModule'
+    'AdvancedFiltersServiceModule',
+    'InventoriesItemsServiceModule',
+    'ItemsDestroyModalControllerModule',
+    'angular-toArrayFilter'
   ])
 
-  .controller('ItemsIndexController', function ($scope, $modal, $q, Restangular, isMap, AdvancedFilters, $location, $window, $cookies, FullResponseRestangular) {
+  .controller('ItemsIndexController', function ($scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
     $scope.loading = true;
+    $rootScope.uiHasScroll = true;
 
     var page = 1, perPage = 30, total, searchText = '';
 
@@ -30,20 +34,26 @@ angular
       $scope.clusterize = null;
     };
 
+    resetFilters();
+
     // sorting the tables
     $scope.sort = {
-      column: '',
+      column: 'created_at',
       descending: true
     };
 
-    $scope.changeSorting = function (column) {
+    $scope.changeSorting = function(column) {
       var sort = $scope.sort;
+
       if (sort.column === column) {
         sort.descending = !sort.descending;
       } else {
         sort.column = column;
         sort.descending = false;
       }
+
+      InventoriesItemsService.resetCache();
+      $scope.reload();
     };
 
     $scope.selectedCls = function (column) {
@@ -62,6 +72,18 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
+    if (typeof $cookies.inventoryFiltersHash !== 'undefined')
+    {
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.inventoryFiltersHash));
+    }
+
+    if (typeof $location.search().filters !== 'undefined')
+    {
+      $scope.filtersHash = $location.search().filters;
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
+    }
+
+
     $scope.$watch('activeAdvancedFilters', function() {
       resetFilters();
 
@@ -69,13 +91,17 @@ angular
       if ($scope.activeAdvancedFilters.length !== 0)
       {
         $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
+
         $location.search('filters', $scope.filtersHash);
+
         $cookies.inventoryFiltersHash = $scope.filtersHash;
       }
       else
       {
-        $location.search('filters', null);
         $scope.filtersHash = null;
+
+        $location.search('filters', null);
+
         delete $cookies.inventoryFiltersHash;
       }
 
@@ -138,15 +164,14 @@ angular
     }
 
     // Return right promise
-    var generateItemsPromise = function() {
-      var url = FullResponseRestangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, sort: 'title', order: 'desc' }; // jshint ignore:line
+    var generateItemsFetchingOptions = function() {
+      var options = {};
 
-      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
-      options.return_fields = [
-        'id', 'title', 'address', 'created_at', 'updated_at', // Report properties
-        'category.id', 'category.title', // Report Category properties
-        'user.name', 'user.id' // User properties
-      ].join();
+      if (!$scope.position)
+      {
+        options.page = page;
+        options.per_page = perPage;
+      }
 
       // if we searching, hit search/users
       if ($scope.searchText !== null)
@@ -180,6 +205,11 @@ angular
       if ($scope.endDate !== null)
       {
         options['created_at[end]'] = $scope.endDate;
+      }
+
+      if ($scope.sort.column !== '') {
+        options.sort = $scope.sort.column;
+        options.order = $scope.sort.descending ? 'desc' : 'asc';
       }
 
       // fields
@@ -222,7 +252,7 @@ angular
         options.clusterize = true;
       }
 
-      return url.customGET(null, options);
+      return options;
     };
 
     // One every change of page or search, we create generate a new request based on current values
@@ -238,46 +268,27 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var itemsPromise = generateItemsPromise(searchText);
+        var promise = InventoriesItemsService.fetchAll(generateItemsFetchingOptions());
 
-        itemsPromise.then(function(response) {
-          if (paginate !== true)
-          {
-            $scope.items = response.data.items;
-          }
-          else
-          {
-            if (typeof $scope.items === 'undefined')
-            {
-              $scope.items = [];
-            }
+        promise.then(function (items) {
+          page++;
+          $scope.items = items;
 
-            for (var i = 0; i < response.data.items.length; i++) {
-              $scope.items.push(response.data.items[i]);
-            }
+          $scope.total = InventoriesItemsService.total;
 
-            // add up one page
-            page++;
-          }
+          var lastPage = Math.ceil($scope.total / perPage);
 
-          total = parseInt(response.headers().total);
-          $scope.total = total;
-
-          var lastPage = Math.ceil(total / perPage);
-
-          if (page === (lastPage + 1) && paginate === true)
-          {
+          if (page === (lastPage + 1)) {
             $scope.loadingPagination = null;
           }
-          else
-          {
+          else {
             $scope.loadingPagination = false;
           }
 
           $scope.loading = false;
         });
 
-        return itemsPromise;
+        return promise;
       }
     };
 
@@ -319,6 +330,8 @@ angular
 
     $scope.resetFilters = function() {
       $scope.activeAdvancedFilters = [];
+
+      if (isMap) $scope.$broadcast('updateMap', true);
     };
 
     $scope.loadFilter = function(status) {
