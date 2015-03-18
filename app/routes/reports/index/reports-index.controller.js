@@ -20,6 +20,7 @@ angular
     $scope.filtersHash = null;
     $scope.categories = {};
     $scope.categoriesStatuses = {};
+    $scope.total = 0;
 
     // Basic filters
     var resetFilters = function () {
@@ -233,8 +234,6 @@ angular
           page++;
           $scope.reports = reports;
 
-          $scope.total = ReportsItemsService.total;
-
           var lastPage = Math.ceil($scope.total / perPage);
 
           if (page === (lastPage + 1)) {
@@ -250,6 +249,10 @@ angular
         return promise;
       }
     };
+
+    $rootScope.$on('reportsItemsFetched', function(){
+      $scope.total = ReportsItemsService.total;
+    });
 
     var loadFilters = $scope.reload = function (reloading) {
       if (!isMap) {

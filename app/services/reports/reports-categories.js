@@ -42,8 +42,8 @@ angular
 
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
       options.return_fields = [
-        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title',
-        'subcategories.id', 'subcategories.title', 'subcategories.statuses.id', 'subcategories.statuses.color', 'subcategories.statuses.title,'
+        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title', 'marker.retina.web', 'pin',
+        'subcategories.id', 'subcategories.title', 'subcategories.statuses.id', 'subcategories.statuses.color', 'subcategories.statuses.title',  'subcategories.marker.retina.web', 'subcategories.pin'
       ].join();
 
       var promise = url.customGET(null, options);
