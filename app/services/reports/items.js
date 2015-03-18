@@ -102,6 +102,7 @@ angular
       var deferred = $q.defer();
 
       itemsFetchPromise.then(function (response) {
+        self.total = parseInt(response.headers().total, 10);
         _.each(response.data.reports, function (report) {
           if (typeof self.reports[report.id] === 'undefined') {
             report.order = reportsOrder++;
@@ -112,16 +113,17 @@ angular
 
         self.clusters = response.data.clusters;
 
-        self.total = parseInt(response.headers().total, 10);
         if (_.size(ReportsCategoriesService.categories) < 1) {
           categoryFetchPromise.then(function () {
             hookCategoryFieldsOnClusters();
             hookCategoryFieldsOnReports();
+            $rootScope.$emit('reportsItemsFetched', self.reports);
             deferred.resolve(self);
           });
         } else {
           hookCategoryFieldsOnClusters();
           hookCategoryFieldsOnReports();
+          $rootScope.$emit('reportsItemsFetched', self.reports);
           deferred.resolve(self);
         }
       });
