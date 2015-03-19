@@ -1,6 +1,21 @@
 @import "compass/css3/transition";
 @import "compass/css3/animation";
 
+.reference-field {
+  padding: 13px;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #CCCCCC;
+  outline: none;
+  border-radius: 5px;
+  background-color: #fff;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1;
+  margin-bottom: 20px;
+  box-shadow: none;
+}
+
 ul.report-menu {
   background: #FFF;
   width: 100%;

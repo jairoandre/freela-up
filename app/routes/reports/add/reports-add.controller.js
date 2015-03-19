@@ -149,6 +149,7 @@ angular
           inventory_item_id: $scope.itemId,
           description: $scope.description,
           address: $scope.formattedAddress,
+          reference: $scope.reference,
           images: images
         };
 
