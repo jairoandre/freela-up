@@ -22,7 +22,7 @@
       <p><span class="glyphicon glyphicon-{{ systemMessage.icon }}"></span> {{ systemMessage.text }}</p>
     </div>
 
-    <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Atualizar</span></a>
+    <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span ng-show="updating">Salvar</span></a>
   </div>
 
   <div class="spacing"></div>
@@ -85,7 +85,7 @@
 
                   <div class="popover-content">
                     <div class="form-group">
-                      <label>Grupos que podem apenas:</label>
+                      <label>Grupos que podem apenas visualizar:</label>
 
                       <ui-select multiple ng-model="section.permissions.groups_can_view" ng-disabled="disabled" close-on-select="false" style="width: 300px;">
                         <ui-select-match placeholder="Digite um grupo">{{$item.name}}</ui-select-match>
