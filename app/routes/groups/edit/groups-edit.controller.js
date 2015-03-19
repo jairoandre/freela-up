@@ -3,7 +3,7 @@
 angular
   .module('GroupsEditControllerModule', [])
 
-  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
+  .controller('GroupsEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
     $scope.group = groupResponse.data;
     $scope.permissions = groupsPermissionsResponse.data;
     $scope.groups = groupsResponse.data;
@@ -19,54 +19,6 @@ angular
 
     // available types
     $scope.availablePermissionTypes = [
-      {
-        type: 'flow',
-        name: 'Fluxos',
-        permissionsNames: [
-          {
-            slug: 'flow_can_delete_own_cases',
-            name: 'flow_can_delete_own_cases',
-            needsObject: true
-          },
-
-          {
-            slug: 'flow_can_execute_all_steps',
-            name: 'flow_can_execute_all_steps',
-            needsObject: true
-          },
-
-          {
-            slug: 'flow_can_view_all_steps',
-            name: 'flow_can_view_all_steps',
-            needsObject: true
-          },
-
-          {
-            slug: 'can_execute_step',
-            name: 'can_execute_step',
-            needsObject: true
-          },
-
-          {
-            slug: 'can_view_step',
-            name: 'can_view_step',
-            needsObject: true
-          },
-
-          {
-            slug: 'manage_flows',
-            name: 'manage_flows',
-            needsObject: false
-          },
-
-          {
-            slug: 'flow_can_delete_all_cases',
-            name: 'flow_can_delete_all_cases',
-            needsObject: false
-          }
-        ]
-      },
-
       {
         type: 'user',
         name: 'Usuários',
@@ -234,6 +186,59 @@ angular
         ]
       }
     ];
+
+    if ($rootScope.flowsEnabled)
+    {
+      var flowsPermissions = {
+        type: 'flow',
+        name: 'Fluxos',
+        permissionsNames: [
+          {
+            slug: 'flow_can_delete_own_cases',
+            name: 'flow_can_delete_own_cases',
+            needsObject: true
+          },
+
+          {
+            slug: 'flow_can_execute_all_steps',
+            name: 'flow_can_execute_all_steps',
+            needsObject: true
+          },
+
+          {
+            slug: 'flow_can_view_all_steps',
+            name: 'flow_can_view_all_steps',
+            needsObject: true
+          },
+
+          {
+            slug: 'can_execute_step',
+            name: 'can_execute_step',
+            needsObject: true
+          },
+
+          {
+            slug: 'can_view_step',
+            name: 'can_view_step',
+            needsObject: true
+          },
+
+          {
+            slug: 'manage_flows',
+            name: 'manage_flows',
+            needsObject: false
+          },
+
+          {
+            slug: 'flow_can_delete_all_cases',
+            name: 'flow_can_delete_all_cases',
+            needsObject: false
+          }
+        ]
+      };
+
+      $scope.availablePermissionTypes.push(flowsPermissions);
+    }
 
     // getters
     var getType = function(type) {
