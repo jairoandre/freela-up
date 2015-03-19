@@ -67,7 +67,7 @@
                     Latitude *
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ locationFieldsIds[0] }}" type="text" ng-model="itemData[locationFieldsIds[0]]" generic-input name="latitude" required>
+                  <input class="form-control" id="generic_input_{{ locationFieldsIds[0] }}" type="text" ng-model="itemData[locationFieldsIds[0]]" generic-input name="latitude" ng-required="section.location === true">
                 </div>
               </div>
 
@@ -78,7 +78,7 @@
                     Longitude *
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ locationFieldsIds[1] }}" type="text" ng-model="itemData[locationFieldsIds[1]]" generic-input name="longitude" required>
+                  <input class="form-control" id="generic_input_{{ locationFieldsIds[1] }}" type="text" ng-model="itemData[locationFieldsIds[1]]" generic-input name="longitude" ng-required="section.location === true">
                 </div>
               </div>
 
