@@ -74,7 +74,8 @@ angular
           {
             slug: 'users_full_access',
             name: 'Gerenciar todos os usuários',
-            needsObject: false
+            needsObject: false,
+            tooltip: 'Ao ativar essa opção, será permitido que este grupo possa ver, adicionar e remover todos os usuários dos grupos às quais tem permissão de visualizar.'
           }
         ]
       },
@@ -86,26 +87,29 @@ angular
           {
             slug: 'groups_full_access',
             name: 'Gerenciar todos os grupos',
-            needsObject: false
+            needsObject: false,
+            tooltip: 'Selecionada esta opção, o grupo obtém todas as permissões de edições sobre todos os grupos existentes, sobre novos grupos adicionados no futuro, e sobre todos os usuários pertencentes a todos os grupos. Também permite a visualização e edição de dados dos usuários, buscar, deletar e adicionar usuários.'
           },
 
           {
             slug: 'group_edit',
             name: 'Editar e visualizar o grupo',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite sobre os grupos selecionados: a visualização e edição de dados dos usuários, buscar, deletar e adicionar usuários. Permite a edição das permissões dos grupos selecionados.'
           },
 
           {
             slug: 'group_read_only',
             name: 'Visualizar o grupo',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite acessar a listagem de grupos selecionados, visualizar quais os usuários estão dentro do grupo. Nesta permissão o usuário não tem permissão de adicionar, deletar ou editar os grupos, usuários e permissões.'
           }
         ]
       },
 
       {
         type: 'other',
-        name: 'Outros',
+        name: 'Configurações',
         permissionsNames: [
           {
             slug: 'panel_access',
@@ -128,43 +132,49 @@ angular
           {
             slug: 'inventories_full_access',
             name: 'Gerenciar todas as categorias',
-            needsObject: false
+            needsObject: false,
+            tooltip: 'Ativada esta opção, o grupo obtém todas as permissões de edição sobre todas as categorias de inventário existentes, sobre novas categorias adicionados no futuro, e sobre todos os formulários pertencentes a todas as categorias. Também permite a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário.'
           },
 
-          {
-            slug: 'inventories_formulas_full_access',
-            name: 'Gerenciar fórmulas',
-            needsObject: false
-          },
+          //{
+          //  slug: 'inventories_formulas_full_access',
+          //  name: 'Gerenciar fórmulas',
+          //  needsObject: false
+          //},
 
           {
             slug: 'inventories_items_create',
             name: 'Criar novos itens',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão apenas adicionar itens de inventário sobre as categorias selecionadas, além de poder visualizar os itens que o próprio usuário criou.'
           },
 
           {
             slug: 'inventories_items_edit',
             name: 'Editar itens',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e editar os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
           },
 
           {
             slug: 'inventories_items_delete',
             name: 'Remover itens',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e excluir os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
           },
 
           {
             slug: 'inventories_categories_edit',
             name: 'Editar a categoria',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário. Permite a edição dos campos de formulários das categorias selecionadas.'
           },
 
           {
             slug: 'inventories_items_read_only',
             name: 'Visualizar itens',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Essa opção permitirá que os usuários deste grupo possam visualizar os itens de inventário de categorias de inventário selecionadas.'
           }
         ]
       },
@@ -175,38 +185,51 @@ angular
         permissionsNames: [
           {
             slug: 'reports_full_access',
-            name: 'Gerenciar todos as categorias',
-            needsObject: false
+            name: 'Gerenciar todas as categorias',
+            needsObject: false,
+            tooltip: 'Selecionada esta opção, o grupo obtém todas as permissões de edição sobre todas as categorias de relato existentes, sobre novas categorias adicionados no futuro, e sobre todos os relatos criados pertencentes a todas as categorias. Também permite a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos.'
           },
 
           {
             slug: 'reports_items_create',
             name: 'Criar novos relatos',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite que os usuários do painel possam adicionar novos relatos às categorias selecionadas.'
           },
 
           {
             slug: 'reports_items_delete',
             name: 'Remover relatos',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite visualizar e deletar os relatos das categorias selecionadas.'
           },
 
           {
             slug: 'reports_items_edit',
             name: 'Editar relatos',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.'
           },
 
           {
             slug: 'reports_categories_edit',
             name: 'Editar as categorias',
-            needsObject: true
+            needsObject: true,
+            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos. Permite a edição dos parâmetros das categorias selecionadas.'
           },
 
           {
-            slug: 'reports_items_read_only',
-            name: 'Visualizar relatos',
-            needsObject: true
+            slug: 'reports_items_read_public',
+            name: 'Visualizar relatos parcial',
+            needsObject: true,
+            tooltip: 'A visualização de relato parcial é uma permissão que restringe o acesso as informações do relato, isto é, os usuários do grupo não poderão visualizar as observações internas, as respostas enviadas ao munícipe no modo privado e o protocolo. Os usuário exergarão todas as demais informações da tela.'
+          },
+
+          {
+            slug: 'reports_items_read_private',
+            name: 'Visualizar relatos completo',
+            needsObject: true,
+            tooltip: 'Permite a visualização completa de todos os campos disponíveis nos relatos das categorias selecionadas.'
           }
         ]
       }
