@@ -412,7 +412,7 @@ angular
         else
         {
           for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
-            $scope.permissions.push({ permission_type: type, permission_names: slugs, object: $scope.newPermission.objects[i] });
+            $scope.permissions.push({ permission_type: type, permission_names: angular.copy(slugs), object: $scope.newPermission.objects[i] });
           };
         }
 
