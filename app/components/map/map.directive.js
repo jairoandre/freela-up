@@ -11,9 +11,6 @@ angular
         getFiltersOptions: '&'
       },
       link: function postLink(scope, element, attrs) {
-
-        $rootScope.uiDebugMap = true;
-
         var itemsAreReports = attrs.mapCategory === 'reports' ? true : false,
           currentMarkers = {},
           nextClusters = [],
