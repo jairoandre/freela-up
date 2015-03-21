@@ -35,7 +35,7 @@
 
           <div class="dropdown" ng-show="getTypePermissions(newPermission.type) && showPermissionsMenu">
             <ul>
-              <li ng-repeat="permission in getTypePermissions(newPermission.type)" ng-class="{ 'active': isPermissionSelected(permission.slug) }"> <div class="disabled pages-animation" ng-show="(isObjectNeeded() === true && permission.needsObject === false) || (isObjectNeeded() === false && permission.needsObject === true)"></div> <a href="" ng-click="togglePermission(permission.slug)"><div class="check"> <b class="glyphicon glyphicon-ok"></b> </div> {{ permission.name }}</a><i class="glyphicon glyphicon-info-sign info" tooltip-append-to-body="true" tooltip="{{ permission.tooltip }}"></i></li>
+              <li ng-repeat="permission in getTypePermissions(newPermission.type)" ng-class="{ 'active': isPermissionSelected(permission.slug) }"> <div class="disabled pages-animation" ng-show="(isObjectNeeded() === true && permission.needsObject === false) || (isObjectNeeded() === false && permission.needsObject === true) || isPermissionDisabled(permission.slug)"></div> <a href="" ng-click="togglePermission(permission)"><div class="check"> <b class="glyphicon glyphicon-ok"></b> </div> {{ permission.name }}</a><i class="glyphicon glyphicon-info-sign info" tooltip-append-to-body="true" tooltip="{{ permission.tooltip }}"></i></li>
             </ul>
 
             <div class="footer">

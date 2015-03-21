@@ -153,6 +153,7 @@ angular
             slug: 'reports_items_delete',
             name: 'Remover relatos',
             needsObject: true,
+            needsPermission: 'reports_items_read_private',
             tooltip: 'Permite visualizar e deletar os relatos das categorias selecionadas.'
           },
 
@@ -160,6 +161,7 @@ angular
             slug: 'reports_items_edit',
             name: 'Editar relatos',
             needsObject: true,
+            needsPermission: 'reports_items_read_private',
             tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.'
           },
 
@@ -294,12 +296,17 @@ angular
       return i !== -1;
     };
 
-    $scope.togglePermission = function(slug) {
-      var i = $scope.newPermission.slugs.indexOf(slug);
+    $scope.togglePermission = function(permission) {
+      var i = $scope.newPermission.slugs.indexOf(permission.slug);
 
       if (i === -1)
       {
-        $scope.newPermission.slugs.push(slug);
+        $scope.newPermission.slugs.push(permission.slug);
+
+        if (!_.isUndefined(permission.needsPermission) && ($scope.newPermission.slugs.indexOf(permission.needsPermission) === -1))
+        {
+          $scope.togglePermission(getPermission($scope.newPermission.type, permission.needsPermission));
+        }
       }
       else
       {
@@ -360,6 +367,17 @@ angular
 
       for (var i = $scope.newPermission.slugs.length - 1; i >= 0; i--) {
         if (getPermission($scope.newPermission.type, $scope.newPermission.slugs[i]).needsObject)
+        {
+          return true;
+        }
+      };
+
+      return false;
+    };
+
+    $scope.isPermissionDisabled = function(slug) {
+      for (var i = $scope.newPermission.slugs.length - 1; i >= 0; i--) {
+        if (getPermission($scope.newPermission.type, $scope.newPermission.slugs[i]).needsPermission === slug)
         {
           return true;
         }
