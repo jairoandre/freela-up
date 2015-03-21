@@ -181,7 +181,11 @@
           }
         }
 
-        li.active a .glyphicon {
+        li.active > a > .glyphicon {
+          display: block;
+        }
+
+        li > li > a.active > .glyphicon {
           display: block;
         }
       }
