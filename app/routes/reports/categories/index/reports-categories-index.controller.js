@@ -8,7 +8,7 @@ angular
   .controller('ReportsCategoriesIndexController', function ($scope, Restangular, $modal) {
     $scope.loading = true;
 
-    var categoriesPromise = Restangular.one('reports').all('categories').getList({ 'display_type': 'full' });
+    var categoriesPromise = Restangular.one('reports').all('categories').getList({ 'subcategories_flat': true });
 
     categoriesPromise.then(function(response) {
       $scope.categories = response.data;
