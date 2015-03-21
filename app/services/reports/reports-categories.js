@@ -41,9 +41,9 @@ angular
       var url = FullResponseRestangular.all('reports').all('categories'), options = { };
 
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
+      options.subcategories_flat = true;
       options.return_fields = [
-        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title', 'marker.retina.web', 'pin',
-        'subcategories.id', 'subcategories.title', 'subcategories.statuses.id', 'subcategories.statuses.color', 'subcategories.statuses.title',  'subcategories.marker.retina.web', 'subcategories.pin'
+        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title', 'marker.retina.web', 'pin'
       ].join();
 
       var promise = url.customGET(null, options);
