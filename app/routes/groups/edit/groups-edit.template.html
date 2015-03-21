@@ -15,7 +15,7 @@
 
     <div class="add-permission row">
 
-      <div class="option col-xs-3">
+      <div class="option col-lg-2">
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             {{ getTypeName(newPermission.type) || 'Selecione o tipo' }} <span class="pull-right"><span class="caret"></span></span>
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="option col-xs-4">
+      <div class="option col-lg-4">
         <div class="btn-group permissions-menu">
           <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': showPermissionsMenu }" ng-click="showPermissionsMenu = !showPermissionsMenu">
             {{ getPermissionsExcerpt() }} <span class="pull-right"><span class="caret" ng-class="{ 'reverse': showPermissionsMenu }"></span></span>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="option col-xs-3 pages-animation" ng-show="isObjectNeeded()">
+      <div class="option col-lg-4 pages-animation" ng-show="isObjectNeeded()">
         <div class="btn-group objects-menu" ng-class="{ 'open': showObjectsMenu }">
           <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': showObjectsMenu }" ng-click="showObjectsMenu = !showObjectsMenu">
             {{ getObjectsExcerpt() }} <span class="pull-right"><span class="caret" ng-class="{ 'reverse': showObjectsMenu }"></span></span>
@@ -74,7 +74,7 @@
                 <a href="" ng-click="toggleObject(category)"><span ng-bind-html="category.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
 
                 <ul ng-repeat="subcategory in category.subcategories" ng-show="category.subcategories.length !== 0">
-                  <li ng-class="{ 'subcategory-active': isObjectSelected(subcategory.id) }"><a href="" ng-click="toggleObject(subcategory)"><span ng-bind-html="subcategory.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
+                  <li ng-class="{ 'active': isObjectSelected(subcategory.id) }"><a href="" ng-click="toggleObject(subcategory)"><span ng-bind-html="subcategory.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
                 </ul>
               </li>
             </ul>
@@ -95,7 +95,7 @@
         </div>
       </div>
 
-      <div class="option col-xs-2">
+      <div class="option col-lg-2">
         <button type="button" class="btn btn-info btn-custom" ng-disabled="!newPermission.type || newPermission.slugs.length === 0 || (isObjectNeeded() === true && newPermission.objects.length === 0) || creatingPermission" ng-click="createPermission()"> <span ng-hide="creatingPermission">Adicionar</span><span ng-show="creatingPermission"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span></button>
       </div>
 
