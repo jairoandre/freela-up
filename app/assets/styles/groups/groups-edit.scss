@@ -191,6 +191,12 @@
           }
         }
 
+        li a span {
+          display: inline-block;
+          float: left;
+          width: 90%;
+        }
+
         li.active > a > .glyphicon {
           display: block;
         }
