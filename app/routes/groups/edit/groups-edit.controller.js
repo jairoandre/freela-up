@@ -119,6 +119,7 @@ angular
             slug: 'inventories_categories_edit',
             name: 'Editar a categoria',
             needsObject: true,
+            disableFields: ['inventories_items_edit', 'inventories_items_create', 'inventories_items_delete', 'inventories_items_create', 'inventories_items_read_only'],
             tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário. Permite a edição dos campos de formulários das categorias selecionadas.'
           },
 
@@ -168,6 +169,7 @@ angular
           {
             slug: 'reports_categories_edit',
             name: 'Editar as categorias',
+            disableFields: ['reports_items_create', 'reports_items_delete', 'reports_items_edit', 'reports_items_read_public', 'reports_items_read_private'],
             needsObject: true,
             tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos. Permite a edição dos parâmetros das categorias selecionadas.'
           },
@@ -296,6 +298,8 @@ angular
       return i !== -1;
     };
 
+    var selectedSpecialFields = [];
+
     $scope.togglePermission = function(permission) {
       var i = $scope.newPermission.slugs.indexOf(permission.slug);
 
@@ -307,10 +311,20 @@ angular
         {
           $scope.togglePermission(getPermission($scope.newPermission.type, permission.needsPermission));
         }
+
+        if (!_.isUndefined(permission.disableFields))
+        {
+          selectedSpecialFields.push(permission);
+        }
       }
       else
       {
         $scope.newPermission.slugs.splice(i, 1);
+
+        if (!_.isUndefined(permission.disableFields))
+        {
+          selectedSpecialFields.splice(selectedSpecialFields.indexOf(permission), 1);
+        }
       }
     };
 
@@ -383,6 +397,11 @@ angular
         }
       };
 
+      // we disable fields that can't be selected while others are active
+      for (var i = selectedSpecialFields.length - 1; i >= 0; i--) {
+        if (selectedSpecialFields[i].disableFields.indexOf(slug) !== -1) return true;
+      };
+
       return false;
     };
 
@@ -396,6 +415,7 @@ angular
       $timeout(function() {
         $scope.newPermission.objects = [];
         $scope.newPermission.slugs = [];
+        selectedSpecialFields = [];
 
         $scope.showPermissionsMenu = false;
         $scope.showObjectsMenu = false;
