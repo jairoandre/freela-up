@@ -162,8 +162,8 @@ angular
      * @param {Integer|String} report_id - The item ID to remove
      * @returns {*}
      */
-    self.remove = function (report_id) {
-      var promise = FullResponseRestangular.one('inventory').one('items', report_id).remove(), deferred = $q.defer();
+    self.remove = function (report_id, category_id) {
+      var promise = FullResponseRestangular.one('inventory').one('categories', category_id).one('items', report_id).remove(), deferred = $q.defer();
 
       promise.then(function () {
         delete self.items[report_id];

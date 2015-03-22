@@ -424,13 +424,6 @@ angular
         templateUrl: 'modals/items/destroy/items-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          removeItemFromList: function() {
-            return function(item) {
-              $scope.total--;
-              $scope.items.splice($scope.items.indexOf(item), 1);
-            }
-          },
-
           item: function() {
             return item;
           },
