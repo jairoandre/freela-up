@@ -3,10 +3,11 @@
 angular
   .module('MapComponentModule', [
     'GoogleMapServiceModule',
-    'ReportsItemsServiceModule'
+    'ReportsItemsServiceModule',
+    'InventoriesItemsServiceModule'
   ])
 
-  .directive('map', function ($rootScope, GoogleMapService, ReportsItemsService, ENV) {
+  .directive('map', function ($rootScope, GoogleMapService, ReportsItemsService, InventoriesItemsService, ENV) {
     return {
       restrict: 'A',
       scope: {
@@ -22,11 +23,7 @@ angular
         var map = new GoogleMapService(itemsAreReports, parseFloat(ENV.mapLat), parseFloat(ENV.mapLng), parseInt(ENV.mapZoom, 10), element[0]);
 
         // TODO replace the `else` part of this ternary operation with InventoryItemsService
-        var dataFetcher = itemsAreReports ? ReportsItemsService.fetchClustered : function(options) {
-          var params = { paginate: false, options: options};
-
-          return scope.getData(params);
-        };
+        var dataFetcher = itemsAreReports ? ReportsItemsService.fetchClustered : InventoriesItemsService.fetchClustered;
 
         var lastRequestReference = null;
 

@@ -14,7 +14,7 @@
 
     <a href="" ng-click="share()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-link"></i></a>
     <a href="" ng-click="reload(true)" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': loading}"></i></a>
-    <p class="total pages-animation">{{ total }} relatos encontrados</p>
+    <p class="total pages-animation" ng-hide="loading">{{ total }} relatos encontrados</p>
   </div>
 
   <div class="advancedSearch" id="advancedSearch">

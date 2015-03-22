@@ -1,5 +1,3 @@
-<div class="loadingMapItems" ng-show="isLoadingItems"><img src="assets/images/loading.gif" /></div>
-
 <div style-map>
   <div class="loading" ng-show="loading"></div>
 
@@ -15,8 +13,8 @@
     </div>
 
     <a href="" ng-click="share()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-link"></i></a>
-
-    <p class="total pages-animation" ng-hide="isLoadingItems">{{ total }} itens encontrados</p>
+    <a href="" ng-click="reload(true)" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': loading}"></i></a>
+    <p class="total pages-animation" ng-hide="loading">{{ total }} itens encontrados</p>
   </div>
 
   <div class="advancedSearch" id="advancedSearch">
@@ -27,7 +25,6 @@
       <div class="clearfix"></div>
 
       <div class="availableFilters" ng-show="show_availableFilters">
-        <a href="" ng-click="loadFilter('query')">Protocolo ou endereço contém...</a>
         <a href="" ng-click="loadFilter(filter.action)" ng-repeat="filter in availableFilters | filter:filterQuery">{{ filter.name }}</a>
       </div>
 
@@ -43,6 +40,6 @@
     <div class="clearfix"></div>
   </div>
 
-  <div class="mapItems" map map-category="inventory" get-category="getInventoryCategory(id)" get-data="getData(paginate, options)"></div>
+  <div class="mapItems" map map-category="inventory" get-category="getInventoryCategory(id)" get-filters-options="generateReportsFetchingOptions()" get-data="getData(paginate, options)" style-results-table></div>
 
 </div>

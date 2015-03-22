@@ -79,15 +79,16 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
-    if (typeof $cookies.reportsFiltersHash !== 'undefined') {
+    if (typeof $cookies.reportsFiltersHash !== 'undefined')
+    {
       $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
     }
 
-    if (typeof $location.search().filters !== 'undefined') {
+    if (typeof $location.search().filters !== 'undefined')
+    {
       $scope.filtersHash = $location.search().filters;
       $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
     }
-
 
     var pushUnique = function(arr, val) {
       if(arr.indexOf(val) === -1) {
@@ -100,29 +101,38 @@ angular
       resetFilters();
 
       // save filters into hash
-      if ($scope.activeAdvancedFilters.length !== 0) {
+      if ($scope.activeAdvancedFilters.length !== 0)
+      {
         $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
+
         $location.search('filters', $scope.filtersHash);
+
         $cookies.reportsFiltersHash = $scope.filtersHash;
       }
-      else {
+      else
+      {
         $scope.filtersHash = null;
+
         $location.search('filters', null);
+
         delete $cookies.reportsFiltersHash;
       }
 
       for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
         var filter = $scope.activeAdvancedFilters[i];
 
-        if (filter.type === 'query') {
+        if (filter.type === 'query')
+        {
           $scope.searchText = filter.value;
         }
 
-        if (filter.type === 'categories') {
+        if (filter.type === 'categories')
+        {
           pushUnique($scope.selectedCategories, filter.value);
         }
 
-        if (filter.type === 'statuses') {
+        if (filter.type === 'statuses')
+        {
           pushUnique($scope.selectedStatuses, filter.value);
         }
 
@@ -130,19 +140,23 @@ angular
           pushUnique($scope.selectedUsers, filter.value);
         }
 
-        if (filter.type === 'beginDate') {
+        if (filter.type === 'beginDate')
+        {
           $scope.beginDate = filter.value;
         }
 
-        if (filter.type === 'endDate') {
+        if (filter.type === 'endDate')
+        {
           $scope.endDate = filter.value;
         }
 
-        if (filter.type === 'area') {
+        if (filter.type === 'area')
+        {
           pushUnique($scope.selectedAreas, filter.value);
         }
 
-        if (filter.type === 'overdueOnly') {
+        if (filter.type === 'overdueOnly')
+        {
           $scope.overdueOnly = true;
         }
       }
@@ -154,40 +168,48 @@ angular
     $scope.generateReportsFetchingOptions = function () {
       var options = {};
 
-      if (!$scope.position) {
+      if (!$scope.position)
+      {
         options.page = page;
         options.per_page = perPage;
       }
 
       // if we searching, hit search/users
-      if ($scope.searchText !== null) {
+      if ($scope.searchText !== null)
+      {
         options.query = $scope.searchText;
       }
 
       // check if we have categories selected
-      if ($scope.selectedCategories.length !== 0) {
+      if ($scope.selectedCategories.length !== 0)
+      {
         options.reports_categories_ids = $scope.selectedCategories.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
-      if ($scope.selectedStatuses.length !== 0) {
+      if ($scope.selectedStatuses.length !== 0)
+      {
         options.statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
-      if ($scope.selectedUsers.length !== 0) {
+      if ($scope.selectedUsers.length !== 0)
+      {
         options.users_ids = $scope.selectedUsers.join(); // jshint ignore:line
       }
 
-      if ($scope.beginDate !== null) {
+      if ($scope.beginDate !== null)
+      {
         options.begin_date = $scope.beginDate; // jshint ignore:line
       }
 
-      if ($scope.endDate !== null) {
+      if ($scope.endDate !== null)
+      {
         options.end_date = $scope.endDate; // jshint ignore:line
       }
 
-      if ($scope.sort.column !== '') {
+      if ($scope.sort.column !== '')
+      {
         options.sort = $scope.sort.column;
         options.order = $scope.sort.descending ? 'desc' : 'asc';
       }
@@ -198,7 +220,8 @@ angular
         options['position[longitude]'] = $scope.position.longitude;
         options['position[distance]'] = $scope.position.distance;
       }
-      else if ($scope.selectedAreas.length !== 0) {
+      else if ($scope.selectedAreas.length !== 0)
+      {
         for (var i = $scope.selectedAreas.length - 1; i >= 0; i--) {
           var latKey = 'position[' + i + '][latitude]';
           var lngKey = 'position[' + i + '][longitude]';
@@ -270,13 +293,15 @@ angular
     });
 
     var loadFilters = $scope.reload = function (reloading) {
-      if (!isMap) {
+      if (!isMap)
+      {
         // reset pagination
         ReportsItemsService.resetCache();
         page = 1;
         $scope.loadingPagination = false;
 
-        if (reloading === true) {
+        if (reloading === true)
+        {
           $scope.reloading = true;
         }
 
@@ -287,14 +312,16 @@ angular
           $scope.loadingContent = false;
           $scope.reports = reports;
 
-          if (reloading === true) {
+          if (reloading === true)
+          {
             $scope.reloading = false;
           }
 
           page++;
         });
       }
-      else {
+      else
+      {
         $scope.$broadcast('mapRefreshRequested', true);
       }
     };

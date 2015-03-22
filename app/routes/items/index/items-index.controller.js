@@ -11,12 +11,15 @@ angular
   .controller('ItemsIndexController', function ($scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
+    $rootScope.hasMap = isMap;
 
-    var page = 1, perPage = 30, total, searchText = '';
+    var page = 1, perPage = 15;
 
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
-
+    $scope.categories = {};
+    $scope.categoriesStatuses = {};
+    $scope.total = 0;
     // Basic filters
     var resetFilters = function() {
       $scope.selectedCategories = [];
@@ -83,6 +86,11 @@ angular
       $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
     }
 
+    var pushUnique = function(arr, val) {
+      if(arr.indexOf(val) === -1) {
+        arr.push(val)
+      }
+    };
 
     $scope.$watch('activeAdvancedFilters', function() {
       resetFilters();
@@ -151,17 +159,6 @@ angular
 
       loadFilters();
     }, true);
-
-    if (typeof $cookies.inventoryFiltersHash !== 'undefined')
-    {
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.inventoryFiltersHash));
-    }
-
-    if (typeof $location.search().filters !== 'undefined')
-    {
-      $scope.filtersHash = $location.search().filters;
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
-    }
 
     // Return right promise
     var generateItemsFetchingOptions = function() {
@@ -292,10 +289,23 @@ angular
       }
     };
 
+    $rootScope.$on('inventoriesItemsFetching', function(){
+      if(isMap)
+      {
+        $scope.loading = true;
+      }
+    });
+
+    $rootScope.$on('inventoriesItemsFetched', function(){
+      $scope.total = InventoriesItemsService.total;
+      $scope.loading = false;
+    });
+
     var loadFilters = $scope.reload = function(reloading) {
       if (!isMap)
       {
         // reset pagination
+        InventoriesItemsService.resetCache();
         page = 1;
         $scope.loadingPagination = false;
 
@@ -307,8 +317,9 @@ angular
         $scope.loadingContent = true;
         $scope.items = [];
 
-        getData().then(function() {
+        getData().then(function(items) {
           $scope.loadingContent = false;
+          $scope.items = items;
 
           if (reloading === true)
           {
@@ -320,8 +331,12 @@ angular
       }
       else
       {
-        $scope.$broadcast('updateMap', true);
+        $scope.$broadcast('mapRefreshRequested', true);
       }
+    };
+
+    $scope.reloadMap = function(){
+      $rootScope.$emit('mapRefreshRequested');
     };
 
     $scope.removeFilter = function(filter) {
@@ -373,7 +388,7 @@ angular
 
     // Search function
     $scope.search = function(text) {
-      searchText = text;
+      $scope.searchText = text;
 
       loadFilters();
     };

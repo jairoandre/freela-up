@@ -80,7 +80,7 @@ angular
     Map.prototype.createClusterMarker = function(cluster) {
       var markerImage = { url: cluster.category.marker.retina.web, isPin: false };
 
-      if (!this.itemsAreReports && category.plot_format === 'pin')
+      if (!this.itemsAreReports && cluster.category.plot_format === 'pin')
       {
         markerImage.url = cluster.category.pin.retina.web;
         markerImage.isPin = true;
@@ -117,6 +117,8 @@ angular
       var nextMarkers = {}, _self = this;
 
       _.each(nextClusters, function(cluster) {
+        if (_.isUndefined(cluster.category) || !cluster.category) return false;
+
         var clusterID = (cluster.position[0]).toString() + cluster.position[1] + cluster.count + cluster.category_id;
 
         if(!_self.currentMarkers[clusterID])
