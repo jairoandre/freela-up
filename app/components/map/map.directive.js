@@ -41,10 +41,12 @@ angular
         var displayInfoWindow = function (event) {
           var html;
 
-          if (itemsAreReports) {
+          if (itemsAreReports)
+          {
             html = '<div class="pinTooltip"><h1>{{ item.category.title }}</h1><p>Enviado em {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/{{ item.id }}">Ver detalhes</a></div>';
           }
-          else {
+          else
+          {
             html = '<div class="pinTooltip"><h1>{{ item.title }}</h1><p>Criado em {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
           }
 
@@ -86,28 +88,33 @@ angular
         };
 
         var createItemMarker = function (item) {
+
           var markerImage = {};
 
-          if (!itemsAreReports && category.plot_format === 'pin') {
+          if (!itemsAreReports && item.category.plot_format === 'pin')
+          {
             markerImage.url = category.pin.retina.web;
             markerImage.isPin = true;
-          } else {
-            markerImage.url = category.marker.retina.web;
+          }
+          else
+          {
+            markerImage.url = item.category.marker.retina.web;
             markerImage.isPin = false;
           }
 
           var position = new google.maps.LatLng(item.position.latitude, item.position.longitude);
-          var marker = createMarker(position, markerImage, false, false, { category: category, item: items[i] });
+          var marker = createMarker(position, markerImage, false, false, { category: item.category, item: item });
 
           google.maps.event.addListener(marker, 'click', displayInfoWindow);
 
           return marker;
         };
 
-        var createClusterMarker = function(cluster){
+        var createClusterMarker = function(cluster) {
           var markerImage = { url: cluster.category.marker.retina.web, isPin: false };
 
-          if (!itemsAreReports && category.plot_format === 'pin') {
+          if (!itemsAreReports && category.plot_format === 'pin')
+          {
             markerImage.url = data.cluster.category.pin.retina.web;
             markerImage.isPin = true;
           }
@@ -119,30 +126,37 @@ angular
         var refreshMap = function () {
           var nextMarkers = {};
 
-          _.each(nextClusters, function(cluster){
+          _.each(nextClusters, function(cluster) {
             var clusterID = (cluster.position[0]).toString() + cluster.position[1] + cluster.count + cluster.category_id;
-            if(!currentMarkers[clusterID]) {
+
+            if(!currentMarkers[clusterID])
+            {
               nextMarkers[clusterID] = createClusterMarker(cluster);
               nextMarkers[clusterID].setMap(map);
               nextMarkers[clusterID].setVisible(true);
-            } else {
+            }
+            else
+            {
               nextMarkers[clusterID] = currentMarkers[clusterID];
               delete currentMarkers[clusterID];
             }
           });
 
-          _.each(nextItems, function(item){
-            if(!currentMarkers[item.id]) {
+          _.each(nextItems, function(item) {
+            if(!currentMarkers[item.id])
+            {
               nextMarkers[item.id] = createItemMarker(item);
               nextMarkers[item.id].setMap(map);
               nextMarkers[item.id].setVisible(true);
-            } else {
+            }
+            else
+            {
               nextMarkers[item.id] = currentMarkers[item.id];
               delete currentMarkers[item.id];
             }
           });
 
-          _.each(currentMarkers, function(marker){
+          _.each(currentMarkers, function(marker) {
             marker.setMap(null);
           });
 
@@ -152,11 +166,13 @@ angular
         // TODO replace the `else` part of this ternary operation with InventoryItemsService
         var dataFetcher = itemsAreReports ? ReportsItemsService.fetchClustered : function(options) {
           var params = { paginate: false, options: options};
+
           return scope.getData(params);
         };
 
         var lastRequestReference = null;
-        var movedMap = function(){
+
+        var movedMap = function() {
           var mapCenter = map.getCenter();
 
           var options = {
@@ -180,9 +196,11 @@ angular
             // Using the `options` object reference of the latest request as guide as to whether or not to updated the
             // map based on it because by the time this function is called the user may have zoomed in or out already,
             // and so may cause flicker if the next request arises too close to this one
-            if(lastRequestReference === options) {
+            if(lastRequestReference === options)
+            {
               nextClusters = response.clusters;
-              nextItems = response.items;
+              nextItems = itemsAreReports ? response.reports : response.items;
+
               refreshMap();
             }
           });
@@ -194,10 +212,12 @@ angular
 
         var hideOutOfBoundsMarkers = function () {
           for (var i = currentMarkers.length - 1; i >= 0; i--) {
-            if (isMarkerInsideBounds(currentMarkers[i])) {
+            if (isMarkerInsideBounds(currentMarkers[i]))
+            {
               currentMarkers[i].setVisible(true);
             }
-            else {
+            else
+            {
               currentMarkers[i].setVisible(false);
             }
           }
@@ -209,11 +229,13 @@ angular
         var boundsChanged = function () {
           var currentZoom = map.getZoom();
 
-          if (prevZoomLevel !== currentZoom) {
+          if (prevZoomLevel !== currentZoom)
+          {
             prevZoomLevel = currentZoom;
           }
 
-          if (timeout) {
+          if (timeout)
+          {
             clearTimeout(timeout);
           }
 
