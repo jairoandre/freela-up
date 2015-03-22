@@ -54,11 +54,13 @@ angular
 
       var deferred = $q.defer();
 
-
       $rootScope.$emit('reportsItemsFetching');
+
       promise.then(function (response) {
-        _.each(response.data.reports, function (report) {
-          if (typeof self.reports[report.id] === 'undefined') {
+        _.each(response.data.reports, function (report)
+        {
+          if (typeof self.reports[report.id] === 'undefined')
+          {
             report.order = reportsOrder++;
           }
 
@@ -66,17 +68,25 @@ angular
         });
 
         self.total = parseInt(response.headers().total, 10);
+
         // If there isn't any category on cache, we wait on them before presenting items
-        if (_.size(ReportsCategoriesService.categories) < 1) {
+        if (_.size(ReportsCategoriesService.categories) < 1)
+        {
           categoryFetchPromise.then(function () {
             hookCategoryFieldsOnReports();
+
             $rootScope.$emit('reportsItemsFetched', self.reports);
+
             deferred.resolve(self.reports);
           });
-        } else {
+        }
+        else
+        {
           // TODO This may cause problems for items of categories that are not yet present
           hookCategoryFieldsOnReports();
+
           $rootScope.$emit('reportsItemsFetched', self.reports);
+
           deferred.resolve(self.reports);
         }
       });
@@ -104,10 +114,13 @@ angular
       var deferred = $q.defer();
 
       $rootScope.$emit('reportsItemsFetching');
+
       itemsFetchPromise.then(function (response) {
         self.total = parseInt(response.headers().total, 10);
+
         _.each(response.data.reports, function (report) {
-          if (typeof self.reports[report.id] === 'undefined') {
+          if (typeof self.reports[report.id] === 'undefined')
+          {
             report.order = reportsOrder++;
           }
 
@@ -116,17 +129,26 @@ angular
 
         self.clusters = response.data.clusters;
 
-        if (_.size(ReportsCategoriesService.categories) < 1) {
+        if (_.size(ReportsCategoriesService.categories) < 1)
+        {
           categoryFetchPromise.then(function () {
             hookCategoryFieldsOnClusters();
+
             hookCategoryFieldsOnReports();
+
             $rootScope.$emit('reportsItemsFetched', self.reports);
+
             deferred.resolve(self);
           });
-        } else {
+        }
+        else
+        {
           hookCategoryFieldsOnClusters();
+
           hookCategoryFieldsOnReports();
+
           $rootScope.$emit('reportsItemsFetched', self.reports);
+
           deferred.resolve(self);
         }
       });
@@ -141,8 +163,10 @@ angular
      */
     self.remove = function (report_id) {
       var promise = FullResponseRestangular.one('reports').one('items', report_id).remove(), deferred = $q.defer();
+
       promise.then(function () {
         delete self.reports[report_id];
+
         deferred.resolve();
       });
 
@@ -157,9 +181,12 @@ angular
     var setCategoryOnItems = function(items) {
       return _.each(items, function (item) {
         item.category = ReportsCategoriesService.categories[item.category_id];
-        if (typeof item.category === 'undefined') {
+
+        if (typeof item.category === 'undefined')
+        {
           console.log('Report with unknown category', item);
         }
+
         item.status = ReportsCategoriesService.categoriesStatuses[item.status_id];
       });
     };
