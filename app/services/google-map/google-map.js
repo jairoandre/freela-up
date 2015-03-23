@@ -54,9 +54,16 @@ angular
     };
 
     Map.prototype.createMarker = function(position, markerImage, color, count, extraData) {
-      var extraClass = markerImage.isPin ? 'pin' : '';
+      var html;
 
-      var html = '<div class="marker ' + extraClass + '" style="background-image: url(' + markerImage.url + ')">';
+      if(!_.isNull(markerImage)) {
+        var extraClass = markerImage.isPin ? 'pin' : '';
+
+        html = '<div class="marker ' + extraClass + '" style="background-image: url(' + markerImage.url + ')">';
+      } else {
+        html = '<div class="marker">';
+      }
+
 
       if (count)
       {
@@ -78,17 +85,9 @@ angular
     };
 
     Map.prototype.createClusterMarker = function(cluster) {
-      var markerImage = { url: cluster.category.marker.retina.web, isPin: false };
-
-      if (!this.itemsAreReports && cluster.category.plot_format === 'pin')
-      {
-        markerImage.url = cluster.category.pin.retina.web;
-        markerImage.isPin = true;
-      }
-
       var position = new google.maps.LatLng(cluster.position[0], cluster.position[1]);
 
-      return this.createMarker(position, markerImage, cluster.category.color, cluster.count);
+      return this.createMarker(position, null, cluster.category.color, cluster.count);
     };
 
     Map.prototype.createItemMarker = function(item) {
