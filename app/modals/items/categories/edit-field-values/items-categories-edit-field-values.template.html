@@ -8,22 +8,32 @@
         <form ng-submit="newValue()">
             <div class="row">
                 <div class="col-md-8">
-                    <input type="text" placeholder="Criar nova opção..." ng-model="value.text" ng-show="value.importing === false" />
-                    <textarea ng-model="value.multipleOptionsText" ng-show="value.importing === true" placeholder="Copie e cole suas opções aqui..."></textarea>
+                    <input type="text" placeholder="Criar nova opção..." ng-model="value.text" ng-show="!value.importing" />
+                    <textarea ng-model="value.multipleOptionsText" ng-show="value.importing" placeholder="Copie e cole suas opções aqui..."></textarea>
                 </div>
 
                 <div class="col-md-4 buttons">
-                    <button href="" type="submit" class="btn btn-info btn-custom" ng-show="value.importing === false" ng-disabled="loadingValue">Criar</button>
-                    <button href="" type="submit" class="btn btn-info btn-custom insert" ng-show="value.importing === true" ng-disabled="loadingValue">Inserir</button>
-                    <button href="" type="button" class="btn btn-info btn-custom" ng-class="{'btn-disabled': value.importing === false}" ng-click="toggleImport()">Importar</button>
+                    <button href="" type="submit" class="btn btn-info btn-custom" ng-show="!value.importing" ng-disabled="loadingValue">Criar</button>
+                    <button href="" type="submit" class="btn btn-info btn-custom insert" ng-show="value.importing" ng-disabled="loadingValue">Inserir</button>
+                    <button href="" type="button" class="btn btn-info btn-custom" ng-class="{'btn-disabled': !value.importing}" ng-click="toggleImport()">Importar</button>
                 </div>
             </div>
         </form>
     </div>
 
+    <div class="errors-list pages-animation" ng-show="showErrors">
+      <a href="" ng-click="$parent.showErrors = false" class="close-error"><b class="glyphicon glyphicon-remove"></b></a>
+
+      <p>Os seguintes erros foram encontrados ao adicionar {{ value.importing ? 'as opções' : 'a opção' }}:</p>
+
+      <ul>
+        <li ng-repeat="error in errors track by $index">{{ error }}</li>
+      </ul>
+    </div>
+
     <ul class="fieldOptions">
       <li ng-repeat="option in field.field_options track by $index" inventory-single-value>
-        <a class="edit_value" href="" ng-click="editingValue = true" ng-hide="editingValue">{{ option.value }} <span class="label label-danger" ng-show="option.disabled">Opção removida</span> </a>
+        <a class="edit_value" ng-class="{'disabled': option.disabled}" href="" ng-click="!option.disabled ? editingValue = true : return;" ng-hide="editingValue">{{ option.value }} <span class="label label-danger" ng-show="option.disabled">Opção removida</span> </a>
 
         <div class="edit_label" ng-show="editingValue">
           <input type="text" class="editValue" ng-model="newValue" />
