@@ -22,8 +22,8 @@
     </div>
 
     <ul class="fieldOptions">
-      <li ng-repeat="option in field.field_options | filter:{disabled:false} track by $index" inventory-single-value>
-        <a class="edit_value" href="" ng-click="editingValue = true" ng-hide="editingValue">{{ option.value }}</a>
+      <li ng-repeat="option in field.field_options track by $index" inventory-single-value>
+        <a class="edit_value" href="" ng-click="editingValue = true" ng-hide="editingValue">{{ option.value }} <span class="label label-danger" ng-show="option.disabled">Opção removida</span> </a>
 
         <div class="edit_label" ng-show="editingValue">
           <input type="text" class="editValue" ng-model="newValue" />
@@ -32,7 +32,7 @@
           <div class="clearfix"></div>
         </div>
 
-        <a href="" class="remove_value" ng-click="removeOption()">x</a>
+        <a href="" class="remove_value" ng-click="removeOption()" ng-hide="option.disabled">x</a>
 
         <div class="clearfix"></div>
       </li>
