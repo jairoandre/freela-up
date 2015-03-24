@@ -33,17 +33,20 @@ angular
           var options = {
             zoom: map.getZoom(),
             clusterize: true
-          };
+          }, filtersOptions = scope.getFiltersOptions();
 
           var position = {'latitude': mapCenter.lat(), 'longitude': mapCenter.lng(), 'distance': map.getDistance()};
 
           $rootScope.mapDebug = _.extend({zoom: options['zoom']}, position);
 
-          options['position[latitude]'] = position.latitude;
-          options['position[longitude]'] = position.longitude;
-          options['position[distance]'] = position.distance;
+          if (_.isUndefined(filtersOptions['position[0][latitude]']))
+          {
+            options['position[latitude]'] = position.latitude;
+            options['position[longitude]'] = position.longitude;
+            options['position[distance]'] = position.distance;
+          }
 
-          options = _.extend(options, scope.getFiltersOptions());
+          options = _.extend(options, filtersOptions);
 
           lastRequestReference = options;
 
