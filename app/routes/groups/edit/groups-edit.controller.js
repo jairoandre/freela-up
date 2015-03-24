@@ -1,15 +1,19 @@
 'use strict';
 
 angular
-  .module('GroupsEditControllerModule', [])
+  .module('GroupsEditControllerModule', [
+    'DiacriticsInsensitiveFilterHelperModule'
+  ])
 
-  .controller('GroupsEditController', function ($scope, Restangular, $stateParams, $location, $q, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
+  .controller('GroupsEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
     $scope.group = groupResponse.data;
     $scope.permissions = groupsPermissionsResponse.data;
     $scope.groups = groupsResponse.data;
     $scope.flows = flowsResponse.data;
     $scope.inventoriesCategories = inventoriesCategoriesResponse.data;
     $scope.reportsCategories = reportsCategoriesResponse.data;
+
+    $scope.newPermission = { type: null, objects: [], slugs: [] };
 
     $scope.isString = function(variable) {
       return typeof variable === 'string';
@@ -18,6 +22,181 @@ angular
     // available types
     $scope.availablePermissionTypes = [
       {
+        type: 'user',
+        name: 'Usuários',
+        permissionsNames: [
+          {
+            slug: 'users_full_access',
+            name: 'Gerenciar todos os usuários',
+            needsObject: false,
+            tooltip: 'Ao ativar essa opção, será permitido que este grupo possa ver, adicionar e remover todos os usuários dos grupos às quais tem permissão de visualizar.'
+          }
+        ]
+      },
+
+      {
+        type: 'group',
+        name: 'Grupos',
+        permissionsNames: [
+          {
+            slug: 'groups_full_access',
+            name: 'Gerenciar todos os grupos',
+            needsObject: false,
+            tooltip: 'Selecionada esta opção, o grupo obtém todas as permissões de edições sobre todos os grupos existentes, sobre novos grupos adicionados no futuro, e sobre todos os usuários pertencentes a todos os grupos. Também permite a visualização e edição de dados dos usuários, buscar, deletar e adicionar usuários.'
+          },
+
+          {
+            slug: 'group_edit',
+            name: 'Editar e visualizar o grupo',
+            needsObject: true,
+            tooltip: 'Permite sobre os grupos selecionados: a visualização e edição de dados dos usuários, buscar, deletar e adicionar usuários. Permite a edição das permissões dos grupos selecionados.'
+          },
+
+          {
+            slug: 'group_read_only',
+            name: 'Visualizar o grupo',
+            needsObject: true,
+            tooltip: 'Permite acessar a listagem de grupos selecionados, visualizar quais os usuários estão dentro do grupo. Nesta permissão o usuário não tem permissão de adicionar, deletar ou editar os grupos, usuários e permissões.'
+          }
+        ]
+      },
+
+      {
+        type: 'other',
+        name: 'Configurações',
+        permissionsNames: [
+          {
+            slug: 'panel_access',
+            name: 'Acesso ao painel permitido',
+            needsObject: false
+          },
+
+          {
+            slug: 'manage_config',
+            name: 'Gerenciar configurações do sistema',
+            needsObject: false
+          }
+        ]
+      },
+
+      {
+        type: 'inventory',
+        name: 'Inventário',
+        permissionsNames: [
+          {
+            slug: 'inventories_full_access',
+            name: 'Gerenciar todas as categorias',
+            needsObject: false,
+            tooltip: 'Ativada esta opção, o grupo obtém todas as permissões de edição sobre todas as categorias de inventário existentes, sobre novas categorias adicionados no futuro, e sobre todos os formulários pertencentes a todas as categorias. Também permite a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário.'
+          },
+
+          {
+            slug: 'inventories_formulas_full_access',
+            name: 'Gerenciar fórmulas',
+            needsObject: false,
+            needsPermission: 'inventories_full_access',
+          },
+
+          {
+            slug: 'inventories_items_create',
+            name: 'Criar novos itens',
+            needsObject: true,
+            tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão apenas adicionar itens de inventário sobre as categorias selecionadas, além de poder visualizar os itens que o próprio usuário criou.'
+          },
+
+          {
+            slug: 'inventories_items_edit',
+            name: 'Editar itens',
+            needsObject: true,
+            tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e editar os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
+          },
+
+          {
+            slug: 'inventories_items_delete',
+            name: 'Remover itens',
+            needsObject: true,
+            tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e excluir os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
+          },
+
+          {
+            slug: 'inventories_categories_edit',
+            name: 'Editar a categoria',
+            needsObject: true,
+            disableFields: ['inventories_items_edit', 'inventories_items_create', 'inventories_items_delete', 'inventories_items_create', 'inventories_items_read_only'],
+            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário. Permite a edição dos campos de formulários das categorias selecionadas.'
+          },
+
+          {
+            slug: 'inventories_items_read_only',
+            name: 'Visualizar itens',
+            needsObject: true,
+            tooltip: 'Essa opção permitirá que os usuários deste grupo possam visualizar os itens de inventário de categorias de inventário selecionadas.'
+          }
+        ]
+      },
+
+      {
+        type: 'report',
+        name: 'Relatos',
+        permissionsNames: [
+          {
+            slug: 'reports_full_access',
+            name: 'Gerenciar todas as categorias',
+            needsObject: false,
+            tooltip: 'Selecionada esta opção, o grupo obtém todas as permissões de edição sobre todas as categorias de relato existentes, sobre novas categorias adicionados no futuro, e sobre todos os relatos criados pertencentes a todas as categorias. Também permite a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos.'
+          },
+
+          {
+            slug: 'reports_items_create',
+            name: 'Criar novos relatos',
+            needsObject: true,
+            tooltip: 'Permite que os usuários do painel possam adicionar novos relatos às categorias selecionadas.'
+          },
+
+          {
+            slug: 'reports_items_delete',
+            name: 'Remover relatos',
+            needsObject: true,
+            needsPermission: 'reports_items_read_private',
+            tooltip: 'Permite visualizar e deletar os relatos das categorias selecionadas.'
+          },
+
+          {
+            slug: 'reports_items_edit',
+            name: 'Editar relatos',
+            needsObject: true,
+            needsPermission: 'reports_items_read_private',
+            tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.'
+          },
+
+          {
+            slug: 'reports_categories_edit',
+            name: 'Editar as categorias',
+            disableFields: ['reports_items_create', 'reports_items_delete', 'reports_items_edit', 'reports_items_read_public', 'reports_items_read_private'],
+            needsObject: true,
+            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos. Permite a edição dos parâmetros das categorias selecionadas.'
+          },
+
+          {
+            slug: 'reports_items_read_public',
+            name: 'Visualizar relatos parcial',
+            needsObject: true,
+            tooltip: 'A visualização de relato parcial é uma permissão que restringe o acesso as informações do relato, isto é, os usuários do grupo não poderão visualizar as observações internas, as respostas enviadas ao munícipe no modo privado e o protocolo. Os usuário exergarão todas as demais informações da tela.'
+          },
+
+          {
+            slug: 'reports_items_read_private',
+            name: 'Visualizar relatos completo',
+            needsObject: true,
+            tooltip: 'Permite a visualização completa de todos os campos disponíveis nos relatos das categorias selecionadas.'
+          }
+        ]
+      }
+    ];
+
+    if ($rootScope.flowsEnabled)
+    {
+      var flowsPermissions = {
         type: 'flow',
         name: 'Fluxos',
         permissionsNames: [
@@ -63,152 +242,10 @@ angular
             needsObject: false
           }
         ]
-      },
+      };
 
-      {
-        type: 'user',
-        name: 'Usuários',
-        permissionsNames: [
-          {
-            slug: 'manage_users',
-            name: 'Gerenciar todos os usuários',
-            needsObject: false
-          }
-        ]
-      },
-
-      {
-        type: 'group',
-        name: 'Grupos',
-        permissionsNames: [
-          {
-            slug: 'manage_groups',
-            name: 'Gerenciar todos os grupos',
-            needsObject: false
-          },
-
-          {
-            slug: 'groups_can_edit',
-            name: 'Editar e visualizar',
-            needsObject: true
-          },
-
-          {
-            slug: 'groups_can_view',
-            name: 'Visualizar',
-            needsObject: true
-          }
-        ]
-      },
-
-      {
-        type: 'other',
-        name: 'Outros',
-        permissionsNames: [
-          {
-            slug: 'panel_access',
-            name: 'Acesso ao painel permitido',
-            needsObject: false
-          },
-
-          {
-            slug: 'manage_config',
-            name: 'Gerenciar configurações do sistema',
-            needsObject: false
-          }
-        ]
-      },
-
-      {
-        type: 'inventory',
-        name: 'Inventário',
-        permissionsNames: [
-          {
-            slug: 'manage_inventory_items',
-            name: 'Gerenciar todos os itens',
-            needsObject: false
-          },
-
-          {
-            slug: 'edit_inventory_items',
-            name: 'Editar todos os itens',
-            needsObject: false
-          },
-
-          {
-            slug: 'manage_inventory_formulas',
-            name: 'Gerenciar fórmulas',
-            needsObject: false
-          },
-
-          {
-            slug: 'manage_inventory_categories',
-            name: 'Gerenciar todas as categorias',
-            needsObject: false
-          },
-
-          {
-            slug: 'inventory_categories_can_edit',
-            name: 'Editar e visualizar a categoria',
-            needsObject: true
-          },
-
-          {
-            slug: 'inventory_categories_can_view',
-            name: 'Visualizar a categoria',
-            needsObject: true
-          }
-        ]
-      },
-
-      {
-        type: 'report',
-        name: 'Relatos',
-        permissionsNames: [
-          {
-            slug: 'manage_reports',
-            name: 'Gerenciar todos os relatos',
-            needsObject: false
-          },
-
-          {
-            slug: 'manage_reports_categories',
-            name: 'Gerenciar todas as categorias',
-            needsObject: false
-          },
-
-          {
-            slug: 'delete_reports',
-            name: 'Remover todos os relatos',
-            needsObject: false
-          },
-
-          {
-            slug: 'edit_reports',
-            name: 'Editar todos os relatos',
-            needsObject: false
-          },
-
-          {
-            slug: 'create_reports_from_panel',
-            name: 'Pode criar relatos pelo painel',
-            needsObject: false
-          },
-
-          {
-            slug: 'reports_categories_can_edit',
-            name: 'Editar',
-            needsObject: true
-          },
-
-          {
-            slug: 'reports_categories_can_view',
-            name: 'Visualizar',
-            needsObject: true
-          }
-        ]
-      }
-    ];
+      $scope.availablePermissionTypes.push(flowsPermissions);
+    }
 
     // getters
     var getType = function(type) {
@@ -242,10 +279,133 @@ angular
       return null;
     };
 
-    $scope.isObjectNeeded = function(type, slug) {
-      if (!type || !slug) return false;
+    $scope.getPermissionsExcerpt = function() {
+      switch ($scope.newPermission.slugs.length)
+      {
+        case 0:
+          return 'Selecione a permissão';
+        break;
 
-      return getPermission(type, slug).needsObject;
+        case 1:
+          return $scope.getPermissionName($scope.newPermission.type, $scope.newPermission.slugs[0]);
+        break;
+
+        default:
+          return $scope.newPermission.slugs.length + ' permissões selecionadas';
+      }
+    };
+
+    $scope.isPermissionSelected = function(slug) {
+      var i = $scope.newPermission.slugs.indexOf(slug);
+
+      return i !== -1;
+    };
+
+    var selectedSpecialFields = [];
+
+    $scope.togglePermission = function(permission) {
+      var i = $scope.newPermission.slugs.indexOf(permission.slug);
+
+      if (i === -1)
+      {
+        $scope.newPermission.slugs.push(permission.slug);
+
+        if (!_.isUndefined(permission.needsPermission) && ($scope.newPermission.slugs.indexOf(permission.needsPermission) === -1))
+        {
+          $scope.togglePermission(getPermission($scope.newPermission.type, permission.needsPermission));
+        }
+
+        if (!_.isUndefined(permission.disableFields))
+        {
+          selectedSpecialFields.push(permission);
+        }
+      }
+      else
+      {
+        $scope.newPermission.slugs.splice(i, 1);
+
+        if (!_.isUndefined(permission.disableFields))
+        {
+          selectedSpecialFields.splice(selectedSpecialFields.indexOf(permission), 1);
+        }
+      }
+    };
+
+    $scope.getObjectsExcerpt = function() {
+      switch ($scope.newPermission.objects.length)
+      {
+        case 0:
+          return 'Selecione uma categoria';
+        break;
+
+        case 1:
+          return $scope.newPermission.objects[0].name || $scope.newPermission.objects[0].title;
+        break;
+
+        default:
+          return $scope.newPermission.objects.length + ' categorias selecionadas';
+      }
+    };
+
+    $scope.isObjectSelected = function(objectId) {
+      for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
+        if ($scope.newPermission.objects[i].id === objectId) return true;
+      };
+
+      return false;
+    };
+
+    $scope.toggleObject = function(object) {
+      var x = false;
+
+      for (var i = 0 ; i < $scope.newPermission.objects.length; i++) {
+        if ($scope.newPermission.objects[i].id == object.id)
+        {
+          x = i;
+        }
+      };
+
+      if (x !== false)
+      {
+        $scope.newPermission.objects.splice(x, 1);
+      }
+      else
+      {
+        $scope.newPermission.objects.push(object);
+      }
+    };
+
+    // We need to hide all permissions that a
+    $scope.isObjectNeeded = function() {
+      if ($scope.newPermission.slugs.length === 0)
+      {
+        return null;
+      }
+
+      for (var i = $scope.newPermission.slugs.length - 1; i >= 0; i--) {
+        if (getPermission($scope.newPermission.type, $scope.newPermission.slugs[i]).needsObject)
+        {
+          return true;
+        }
+      };
+
+      return false;
+    };
+
+    $scope.isPermissionDisabled = function(slug) {
+      for (var i = $scope.newPermission.slugs.length - 1; i >= 0; i--) {
+        if (getPermission($scope.newPermission.type, $scope.newPermission.slugs[i]).needsPermission === slug)
+        {
+          return true;
+        }
+      };
+
+      // we disable fields that can't be selected while others are active
+      for (var i = selectedSpecialFields.length - 1; i >= 0; i--) {
+        if (selectedSpecialFields[i].disableFields.indexOf(slug) !== -1) return true;
+      };
+
+      return false;
     };
 
     $scope.getPermissionName = function(type, slug) {
@@ -254,29 +414,62 @@ angular
       return getPermission(type, slug) ? getPermission(type, slug).name : slug;
     };
 
-    $scope.newPermission = { type: null, object: null, slug: null };
-
     $scope.setNewPermissionType = function(type) {
-      $scope.newPermission.type = type;
-      $scope.newPermission.object = null;
-      $scope.newPermission.slug = null;
+      $timeout(function() {
+        $scope.newPermission.objects = [];
+        $scope.newPermission.slugs = [];
+        selectedSpecialFields = [];
+
+        $scope.showPermissionsMenu = false;
+        $scope.showObjectsMenu = false;
+
+        $scope.newPermission.type = type;
+      });
     };
 
     $scope.createPermission = function() {
       $scope.creatingPermission = true;
 
-      var type = $scope.newPermission.type,
-          slug = $scope.newPermission.slug,
-          objectIds = $scope.newPermission.object !== null ? [$scope.newPermission.object.id] : undefined;
+      var type = $scope.newPermission.type, slugs = $scope.newPermission.slugs;
 
-      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': [slug], 'objects_ids': objectIds });
+      if ($scope.newPermission.objects.length !== 0)
+      {
+        var objectIds = [];
+
+        for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
+          objectIds.push($scope.newPermission.objects[i].id);
+        };
+      }
+
+      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': slugs, 'objects_ids': objectIds });
 
       postPermissionPromise.then(function(response) {
         $scope.creatingPermission = false;
 
-        $scope.permissions.push({ permission_type: type, permission_names: slug, object: $scope.newPermission.object });
+        if ($scope.newPermission.objects.length === 0)
+        {
+          $scope.permissions.push({ permission_type: type, permission_names: slugs, object: null });
+        }
+        else
+        {
+          for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
+            var foundExisting = false;
 
-        $scope.newPermission = { type: null, object: null, slug: null };
+            // if there is currently an existing permission for the same type and object, we can just add the slug to the list
+            for (var j = $scope.permissions.length - 1; j >= 0; j--) {
+              if (!_.isUndefined($scope.permissions[j].object) && $scope.permissions[j].permission_type == type && $scope.permissions[j].object.id == $scope.newPermission.objects[i].id)
+              {
+                foundExisting = true;
+
+                $scope.permissions[j].permission_names = _.union($scope.permissions[j].permission_names, angular.copy(slugs));
+              }
+            };
+
+            if (!foundExisting) $scope.permissions.push({ permission_type: type, permission_names: angular.copy(slugs), object: $scope.newPermission.objects[i] });
+          };
+        }
+
+        $scope.setNewPermissionType(null);
       });
     };
 

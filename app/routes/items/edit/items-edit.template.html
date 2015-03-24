@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'">
+      <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.disabled === true">
         <div class="title"><h1>{{ section.title }} <span ng-show="section.required == true">*</span></h1></div>
 
         <div class="fields">
@@ -67,7 +67,7 @@
                     Latitude *
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ locationFieldsIds[0] }}" type="text" ng-model="itemData[locationFieldsIds[0]]" generic-input name="latitude" required>
+                  <input class="form-control" id="generic_input_{{ locationFieldsIds[0] }}" type="text" ng-model="itemData[locationFieldsIds[0]]" generic-input name="latitude" ng-required="section.location === true">
                 </div>
               </div>
 
@@ -78,7 +78,7 @@
                     Longitude *
                   </label>
 
-                  <input class="form-control" id="generic_input_{{ locationFieldsIds[1] }}" type="text" ng-model="itemData[locationFieldsIds[1]]" generic-input name="longitude" required>
+                  <input class="form-control" id="generic_input_{{ locationFieldsIds[1] }}" type="text" ng-model="itemData[locationFieldsIds[1]]" generic-input name="longitude" ng-required="section.location === true">
                 </div>
               </div>
 
@@ -90,7 +90,7 @@
           </div>
 
           <!-- show normal fields -->
-          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1 || (field.disabled === true && !itemData[field.id] && !field.focused)" ng-class="{'has-error': (form[field.title].$dirty && form[field.title].$invalid) || (showValidationError && form[field.title].$invalid)}">
+          <div class="form-group" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="hiddenFields.indexOf(field.id) !== -1 || (field.disabled === true && !field.focused)" ng-class="{'has-error': (form[field.title].$dirty && form[field.title].$invalid) || (showValidationError && form[field.title].$invalid)}">
             <label for="generic_input_{{ field.id }}">
               <span ng-if="field.label !== null">{{ field.label }}</span>
               <span ng-if="field.label == null">{{ field.title }}</span>
@@ -202,7 +202,7 @@
             <div ng-if="field.kind == 'checkbox'">
               <div class="checkbox" ng-repeat="option in field.field_options track by $index">
                 <label>
-                  <input type="checkbox" ng-model="itemData[field.id][option.id]" ng-required="field.required && !field.disabled">
+                  <input type="checkbox" ng-model="itemData[field.id][option.id]" ng-hide="option.disabled === true && !itemData[field.id][option.id]" ng-required="field.required && !field.disabled">
                   {{ option.value }}
                 </label>
               </div>
@@ -212,7 +212,7 @@
             <div ng-if="field.kind == 'radio'">
               <div class="radio" ng-repeat="option in field.field_options track by $index">
                 <label>
-                  <input type="radio" ng-model="itemData[field.id]" ng-value="option.id" ng-required="field.required && !field.disabled">
+                  <input type="radio" ng-model="itemData[field.id]" ng-value="option.id" ng-required="field.required && !field.disabled" ng-hide="option.disabled === true && itemData[field.id] !== option.id">
                   {{ option.value }}
                 </label>
               </div>
@@ -223,7 +223,7 @@
               <ui-select-match placeholder="Selecione...">{{$select.selected.value}}</ui-select-match>
 
               <ui-select-choices repeat="option.id as option in field.field_options | filter: $select.search track by $index">
-                <div ng-bind-html="option.value | highlight: $select.search"></div>
+                <div ng-bind-html="option.value | highlight: $select.search" ng-hide="option.disabled === true"></div>
               </ui-select-choices>
             </ui-select>
 

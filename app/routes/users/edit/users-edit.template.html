@@ -22,15 +22,15 @@
     </div>
 
     <div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
-      <label for="form_email">Senha *</label>
+      <label for="form_email">Senha <span ng-hide="updating">*</span></label>
 
       <div class="row">
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" required>
+          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" ng-required="!updating">
         </div>
 
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input name="password_confirmation">
+          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" name="password_confirmation" ng-required="!updating">
         </div>
       </div>
     </div>
@@ -88,9 +88,9 @@
       <hr />
     </div>
 
-    <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating" ng-disabled="form.$invalid">Criar usuário</button>
+    <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating" ng-disabled="form.$invalid"><span ng-hide="processingForm">Criar usuário</span> <span ng-show="processingForm"><i class="refresh glyphicon glyphicon-refresh rotating refresh"></i></span></button>
 
-    <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating" ng-disabled="form.$invalid">Atualizar usuário</button>
+    <button type="submit" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating" ng-disabled="form.$invalid"><span ng-hide="processingForm">Atualizar usuário</span> <span ng-show="processingForm"><i class="refresh glyphicon glyphicon-refresh rotating refresh"></i></span></button>
 
   </form>
 </div>

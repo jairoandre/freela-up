@@ -54,6 +54,14 @@ angular
 
           return false;
         };
+
+        $rootScope.hasAnyPermission = function(permissions) {
+          for (var i = permissions.length - 1; i >= 0; i--) {
+            if ($rootScope.hasPermission(permissions[i])) return true;
+          };
+
+          return false;
+        };
       }, function() {
         // user is not logged
         deferred.resolve(null);

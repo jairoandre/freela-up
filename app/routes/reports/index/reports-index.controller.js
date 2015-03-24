@@ -5,19 +5,26 @@ angular
     'ReportsDestroyModalControllerModule',
     'OnFocusComponentModule',
     'OnBlurComponentModule',
-    'AdvancedFiltersServiceModule'
+    'AdvancedFiltersServiceModule',
+    'ReportsItemsServiceModule',
+    'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexController', function ($scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies, FullResponseRestangular) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
     $scope.loading = true;
+    $rootScope.uiHasScroll = true;
+    $rootScope.hasMap = isMap;
 
-    var page = 1, perPage = 30, total;
+    var page = 1, perPage = 15;
 
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
+    $scope.categories = {};
+    $scope.categoriesStatuses = {};
+    $scope.total = 0;
 
     // Basic filters
-    var resetFilters = function() {
+    var resetFilters = function () {
       $scope.selectedCategories = [];
       $scope.selectedStatuses = [];
       $scope.selectedUsers = [];
@@ -33,20 +40,26 @@ angular
       $scope.clusterize = null;
     };
 
+    resetFilters();
+
     // sorting the tables
     $scope.sort = {
-      column: '',
-      descending: false
+      column: 'created_at',
+      descending: true
     };
 
     $scope.changeSorting = function (column) {
       var sort = $scope.sort;
+
       if (sort.column === column) {
         sort.descending = !sort.descending;
       } else {
         sort.column = column;
         sort.descending = false;
       }
+
+      ReportsItemsService.resetCache();
+      $scope.reload();
     };
 
     $scope.selectedCls = function (column) {
@@ -54,8 +67,6 @@ angular
     };
 
     // Advanced filters
-    //$scope.advancedSearch = true;
-
     $scope.availableFilters = [
       {name: 'Protocolo ou endereço contém...', action: 'query'},
       {name: 'Com as categorias...', action: 'category'},
@@ -68,20 +79,42 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
-    $scope.$watch('activeAdvancedFilters', function() {
+    if (typeof $cookies.reportsFiltersHash !== 'undefined')
+    {
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
+    }
+
+    if (typeof $location.search().filters !== 'undefined')
+    {
+      $scope.filtersHash = $location.search().filters;
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
+    }
+
+    var pushUnique = function(arr, val) {
+      if(arr.indexOf(val) === -1) {
+        arr.push(val)
+      }
+    };
+
+    // Entrypoint / Fires initial load
+    $scope.$watch('activeAdvancedFilters', function () {
       resetFilters();
 
       // save filters into hash
       if ($scope.activeAdvancedFilters.length !== 0)
       {
         $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
+
         $location.search('filters', $scope.filtersHash);
+
         $cookies.reportsFiltersHash = $scope.filtersHash;
       }
       else
       {
         $scope.filtersHash = null;
+
         $location.search('filters', null);
+
         delete $cookies.reportsFiltersHash;
       }
 
@@ -95,17 +128,16 @@ angular
 
         if (filter.type === 'categories')
         {
-          $scope.selectedCategories.push(filter.value);
+          pushUnique($scope.selectedCategories, filter.value);
         }
 
         if (filter.type === 'statuses')
         {
-          $scope.selectedStatuses.push(filter.value);
+          pushUnique($scope.selectedStatuses, filter.value);
         }
 
-        if (filter.type === 'authors')
-        {
-          $scope.selectedUsers.push(filter.value);
+        if (filter.type === 'authors') {
+          pushUnique($scope.selectedUsers, filter.value);
         }
 
         if (filter.type === 'beginDate')
@@ -120,7 +152,7 @@ angular
 
         if (filter.type === 'area')
         {
-          $scope.selectedAreas.push(filter.value);
+          pushUnique($scope.selectedAreas, filter.value);
         }
 
         if (filter.type === 'overdueOnly')
@@ -132,20 +164,9 @@ angular
       loadFilters();
     }, true);
 
-    if (typeof $cookies.reportsFiltersHash !== 'undefined')
-    {
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
-    }
-
-    if (typeof $location.search().filters !== 'undefined')
-    {
-      $scope.filtersHash = $location.search().filters;
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
-    }
-
     // Return right promise
-    var generateReportsPromise = function() {
-      var url = FullResponseRestangular.one('search').all('reports').all('items'), options = { }; // jshint ignore:line
+    $scope.generateReportsFetchingOptions = function () {
+      var options = {};
 
       if (!$scope.position)
       {
@@ -187,9 +208,14 @@ angular
         options.end_date = $scope.endDate; // jshint ignore:line
       }
 
-      // map options
-      if ($scope.selectedAreas.length === 0 && $scope.position !== null)
+      if ($scope.sort.column !== '')
       {
+        options.sort = $scope.sort.column;
+        options.order = $scope.sort.descending ? 'desc' : 'asc';
+      }
+
+      // map options
+      if ($scope.selectedAreas.length === 0 && $scope.position !== null) {
         options['position[latitude]'] = $scope.position.latitude;
         options['position[longitude]'] = $scope.position.longitude;
         options['position[distance]'] = $scope.position.distance;
@@ -207,118 +233,70 @@ angular
         }
       }
 
-      if ($scope.zoom !== null)
-      {
+      if ($scope.zoom !== null) {
         options.zoom = $scope.zoom;
       }
 
-      if ($scope.clusterize !== null)
-      {
+      if ($scope.clusterize !== null) {
         options.clusterize = true;
       }
 
-      if ($scope.overdueOnly !== null)
-      {
+      if ($scope.overdueOnly !== null) {
         options.overdue = $scope.overdueOnly;
       }
 
-      return url.customGET(null, options);
+      return options;
     };
 
     // One every change of page or search, we create generate a new request based on current values
-    var getData = $scope.getData = function(paginate, mapOptions) {
-      if ($scope.loadingPagination === false)
-      {
+    var getData = $scope.getData = function (paginate, mapOptions) {
+      if ($scope.loadingPagination === false) {
         $scope.loadingPagination = true;
 
-        if (typeof mapOptions !== 'undefined')
-        {
+        if (typeof mapOptions !== 'undefined') {
           $scope.position = mapOptions.position;
           $scope.zoom = mapOptions.zoom;
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var reportsPromise = generateReportsPromise();
+        var promise = ReportsItemsService.fetchAll($scope.generateReportsFetchingOptions());
 
-        reportsPromise.then(function(response) {
-          if (paginate !== true)
-          {
-            $scope.reports = response.data.reports;
-          }
-          else
-          {
-            if (typeof $scope.reports === 'undefined')
-            {
-              $scope.reports = [];
-            }
-
-            for (var i = 0; i < response.data.reports.length; i++) {
-              $scope.reports.push(response.data.reports[i]);
-            }
-
-            // add up one page
-            page++;
-          }
-
-          $scope.total = parseInt(response.headers().total);
+        promise.then(function (reports) {
+          page++;
+          $scope.reports = reports;
 
           var lastPage = Math.ceil($scope.total / perPage);
 
-          if (page === (lastPage + 1))
-          {
+          if (page === (lastPage + 1)) {
             $scope.loadingPagination = null;
           }
-          else
-          {
+          else {
             $scope.loadingPagination = false;
           }
 
           $scope.loading = false;
         });
 
-        return reportsPromise;
+        return promise;
       }
     };
 
-    // create statuses array
-    $scope.categories = categoriesResponse.data;
-    $scope.statuses = [];
-
-    var findStatusesInCategory = function(category) {
-      for (var j = category.statuses.length - 1; j >= 0; j--) {
-        var found = false;
-
-        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === category.statuses[j].id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
-        {
-          $scope.statuses.push(category.statuses[j]);
-        }
+    $rootScope.$on('reportsItemsFetching', function(){
+      if(isMap) {
+        $scope.loading = true;
       }
-    };
+    });
 
-    // merge all categories statuses in one array with no duplicates
-    for (var i = $scope.categories.length - 1; i >= 0; i--) {
+    $rootScope.$on('reportsItemsFetched', function(){
+      $scope.total = ReportsItemsService.total;
+      $scope.loading = false;
+    });
 
-      findStatusesInCategory($scope.categories[i]);
-
-      if ($scope.categories[i].subcategories.length !== 0)
-      {
-        for (var j = $scope.categories[i].subcategories.length - 1; j >= 0; j--) {
-          findStatusesInCategory($scope.categories[i].subcategories[j]);
-        };
-      }
-    }
-
-    var loadFilters = $scope.reload = function(reloading) {
+    var loadFilters = $scope.reload = function (reloading) {
       if (!isMap)
       {
         // reset pagination
+        ReportsItemsService.resetCache();
         page = 1;
         $scope.loadingPagination = false;
 
@@ -330,8 +308,9 @@ angular
         $scope.loadingContent = true;
         $scope.reports = [];
 
-        getData().then(function() {
+        getData().then(function (reports) {
           $scope.loadingContent = false;
+          $scope.reports = reports;
 
           if (reloading === true)
           {
@@ -343,52 +322,49 @@ angular
       }
       else
       {
-        $scope.$broadcast('updateMap', true);
+        $scope.$broadcast('mapRefreshRequested', true);
       }
     };
 
-    $scope.removeFilter = function(filter) {
+    $scope.reloadMap = function(){
+      $rootScope.$emit('mapRefreshRequested');
+    };
+
+    $scope.removeFilter = function (filter) {
       $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
     };
 
-    $scope.resetFilters = function() {
+    $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
 
-      if (isMap) $scope.$broadcast('updateMap', true);
+      if (isMap) $scope.$broadcast('mapRefreshRequested', true);
     };
 
-    $scope.loadFilter = function(status) {
-      if (status === 'query')
-      {
+    $scope.loadFilter = function (status) {
+      if (status === 'query') {
         AdvancedFilters.query($scope.activeAdvancedFilters);
       }
 
-      if (status === 'category')
-      {
-        AdvancedFilters.category($scope.categories, $scope.activeAdvancedFilters);
+      if (status === 'category') {
+        AdvancedFilters.category($scope.activeAdvancedFilters, 'reports');
       }
 
-      if (status === 'status')
-      {
-        AdvancedFilters.status($scope.categories, $scope.statuses, $scope.activeAdvancedFilters);
+      if (status === 'status') {
+        AdvancedFilters.status($scope.activeAdvancedFilters, 'reports');
       }
 
-      if (status === 'author')
-      {
+      if (status === 'author') {
         AdvancedFilters.author($scope.activeAdvancedFilters);
       }
-      if (status === 'date')
-      {
+      if (status === 'date') {
         AdvancedFilters.period($scope.activeAdvancedFilters);
       }
 
-      if (status === 'area')
-      {
+      if (status === 'area') {
         AdvancedFilters.area($scope.activeAdvancedFilters);
       }
 
-      if (status === 'overdueOnly')
-      {
+      if (status === 'overdueOnly') {
         var overdueFilter = {
           title: 'Atraso',
           type: 'overdueOnly',
@@ -400,55 +376,30 @@ angular
     };
 
     // Search function
-    $scope.search = function(text) {
+    $scope.search = function (text) {
       $scope.searchText = text;
 
       loadFilters();
-    };
-
-    $scope.getReportCategory = function(id) {
-      for (var i = $scope.categories.length - 1; i >= 0; i--) {
-        if ($scope.categories[i].id === id)
-        {
-          return $scope.categories[i];
-        }
-
-        if ($scope.categories[i].subcategories.length !== 0)
-        {
-          for (var j = $scope.categories[i].subcategories.length - 1; j >= 0; j--) {
-            if ($scope.categories[i].subcategories[j].id === id)
-            {
-              return $scope.categories[i].subcategories[j];
-            }
-          };
-        }
-      }
-
-      return null;
     };
 
     $scope.share = function () {
       AdvancedFilters.share();
     };
 
-    $scope.changeToMap = function() {
-      if ($scope.filtersHash !== null)
-      {
+    $scope.changeToMap = function () {
+      if ($scope.filtersHash !== null) {
         $location.url('/reports/map?filters=' + $scope.filtersHash);
       }
-      else
-      {
+      else {
         $location.url('/reports/map');
       }
     };
 
-    $scope.changeToList = function() {
-      if ($scope.filtersHash !== null)
-      {
+    $scope.changeToList = function () {
+      if ($scope.filtersHash !== null) {
         $location.url('/reports?filters=' + $scope.filtersHash);
       }
-      else
-      {
+      else {
         $location.url('/reports');
       }
     };
@@ -458,14 +409,14 @@ angular
         templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          removeReportFromList: function() {
-            return function(report) {
+          removeReportFromList: function () {
+            return function (report) {
               $scope.total--;
               $scope.reports.splice($scope.reports.indexOf(report), 1);
             }
           },
 
-          report: function() {
+          report: function () {
             return report;
           }
         },
@@ -478,11 +429,11 @@ angular
         templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
         windowClass: 'editStatusModal',
         resolve: {
-          report: function() {
+          report: function () {
             return report;
           },
 
-          category: function() {
+          category: function () {
             return category;
           }
         },

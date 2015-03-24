@@ -14,7 +14,11 @@ angular
     $scope.loading = true;
     $scope.currentTab = 'steps';
 
-    var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
+    var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full', 'return_fields': [
+      'id', 'title',
+      'my_steps_flows.id', 'my_steps_flows.title', 'my_steps_flows.step_type',
+      'my_steps_flows.my_child_flow.id', 'my_steps_flows.my_child_flow.title', 'my_steps_flows.my_child_flow.step_type'
+    ].join()});
 
     flowPromise.then(function(response) {
       $scope.loading = false;

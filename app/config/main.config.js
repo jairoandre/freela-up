@@ -46,9 +46,12 @@ angular
         return $delegate;
     }]);
   }])
-  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', function(Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular) {
+  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', 'ENV', function(Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular, ENV) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
     FullResponseRestangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
+
+    $rootScope.flowsEnabled = (ENV.flowsEnabled === 'true' || ENV.flowsEnabled === 'TRUE');
+    $rootScope.mapDebugEnabled = (ENV.mapDebug === 'true' || ENV.mapDebug === 'TRUE');
 
     // Return what is being requested
     Restangular.addResponseInterceptor(function(response, operation, what) {
@@ -105,11 +108,27 @@ angular
       return true;
     });
 
-    $rootScope.$on('$stateChangeStart', function() {
-      $rootScope.resolvingRoute = true;
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+      console.log(fromState);
+
+      if (fromState.name.length !== 0)
+      {
+        $rootScope.resolvingRoute = true;
+        $rootScope.uiHasScroll = false;
+        $rootScope.uiDebugMap = false;
+      }
+
+      console.log('resolving está', $rootScope.resolvingRoute);
     });
 
-    $rootScope.$on('$stateChangeSuccess', function() {
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      if (fromState.name.length === 0)
+      {
+        $rootScope.hideInitialLoading = true;
+      }
+
+      console.log('resolving está', $rootScope.resolvingRoute);
+
       $timeout(function() {
         $rootScope.resolvingRoute = false;
         $rootScope.resolvingRequest = false;

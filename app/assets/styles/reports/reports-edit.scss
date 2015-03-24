@@ -38,6 +38,14 @@
   }
 
   .search-map {
+    position: relative;
+
+    .loading-automcomplete-request {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+    }
+
     .searchField {
       padding: 13px;
       width: 100%;

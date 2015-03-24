@@ -2,17 +2,24 @@
 
 angular
   .module('ItemsIndexControllerModule', [
-    'ItemsDestroyModalControllerModule'
+    'AdvancedFiltersServiceModule',
+    'InventoriesItemsServiceModule',
+    'ItemsDestroyModalControllerModule',
+    'angular-toArrayFilter'
   ])
 
-  .controller('ItemsIndexController', function ($scope, $modal, $q, Restangular, isMap, AdvancedFilters, $location, $window, categoriesResponse, $cookies, FullResponseRestangular) {
+  .controller('ItemsIndexController', function ($scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
     $scope.loading = true;
+    $rootScope.uiHasScroll = true;
+    $rootScope.hasMap = isMap;
 
-    var page = 1, perPage = 300, total, searchText = '';
+    var page = 1, perPage = 15;
 
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
-
+    $scope.categories = {};
+    $scope.categoriesStatuses = {};
+    $scope.total = 0;
     // Basic filters
     var resetFilters = function() {
       $scope.selectedCategories = [];
@@ -30,20 +37,26 @@ angular
       $scope.clusterize = null;
     };
 
+    resetFilters();
+
     // sorting the tables
     $scope.sort = {
-      column: '',
+      column: 'created_at',
       descending: true
     };
 
-    $scope.changeSorting = function (column) {
+    $scope.changeSorting = function(column) {
       var sort = $scope.sort;
+
       if (sort.column === column) {
         sort.descending = !sort.descending;
       } else {
         sort.column = column;
         sort.descending = false;
       }
+
+      InventoriesItemsService.resetCache();
+      $scope.reload();
     };
 
     $scope.selectedCls = function (column) {
@@ -62,6 +75,23 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
+    if (typeof $cookies.inventoryFiltersHash !== 'undefined')
+    {
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.inventoryFiltersHash));
+    }
+
+    if (typeof $location.search().filters !== 'undefined')
+    {
+      $scope.filtersHash = $location.search().filters;
+      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
+    }
+
+    var pushUnique = function(arr, val) {
+      if(arr.indexOf(val) === -1) {
+        arr.push(val)
+      }
+    };
+
     $scope.$watch('activeAdvancedFilters', function() {
       resetFilters();
 
@@ -69,13 +99,17 @@ angular
       if ($scope.activeAdvancedFilters.length !== 0)
       {
         $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
+
         $location.search('filters', $scope.filtersHash);
+
         $cookies.inventoryFiltersHash = $scope.filtersHash;
       }
       else
       {
-        $location.search('filters', null);
         $scope.filtersHash = null;
+
+        $location.search('filters', null);
+
         delete $cookies.inventoryFiltersHash;
       }
 
@@ -126,20 +160,15 @@ angular
       loadFilters();
     }, true);
 
-    if (typeof $cookies.inventoryFiltersHash !== 'undefined')
-    {
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.inventoryFiltersHash));
-    }
-
-    if (typeof $location.search().filters !== 'undefined')
-    {
-      $scope.filtersHash = $location.search().filters;
-      $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
-    }
-
     // Return right promise
-    var generateItemsPromise = function() {
-      var url = FullResponseRestangular.one('search').all('inventory').all('items'), options = { page: page, per_page: perPage, display_type: 'full', sort: 'title', order: 'desc' }; // jshint ignore:line
+    var generateItemsFetchingOptions = function() {
+      var options = {};
+
+      if (!$scope.position)
+      {
+        options.page = page;
+        options.per_page = perPage;
+      }
 
       // if we searching, hit search/users
       if ($scope.searchText !== null)
@@ -173,6 +202,11 @@ angular
       if ($scope.endDate !== null)
       {
         options['created_at[end]'] = $scope.endDate;
+      }
+
+      if ($scope.sort.column !== '') {
+        options.sort = $scope.sort.column;
+        options.order = $scope.sort.descending ? 'desc' : 'asc';
       }
 
       // fields
@@ -215,7 +249,7 @@ angular
         options.clusterize = true;
       }
 
-      return url.customGET(null, options);
+      return options;
     };
 
     // One every change of page or search, we create generate a new request based on current values
@@ -231,76 +265,47 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var itemsPromise = generateItemsPromise(searchText);
+        var promise = InventoriesItemsService.fetchAll(generateItemsFetchingOptions());
 
-        itemsPromise.then(function(response) {
-          if (paginate !== true)
-          {
-            $scope.items = response.data.items;
-          }
-          else
-          {
-            if (typeof $scope.items === 'undefined')
-            {
-              $scope.items = [];
-            }
+        promise.then(function (items) {
+          page++;
+          $scope.items = items;
 
-            for (var i = 0; i < response.data.items.length; i++) {
-              $scope.items.push(response.data.items[i]);
-            }
+          $scope.total = InventoriesItemsService.total;
 
-            // add up one page
-            page++;
-          }
+          var lastPage = Math.ceil($scope.total / perPage);
 
-          total = parseInt(response.headers().total);
-          $scope.total = total;
-
-          var lastPage = Math.ceil(total / perPage);
-
-          if (page === (lastPage + 1) && paginate === true)
-          {
+          if (page === (lastPage + 1)) {
             $scope.loadingPagination = null;
           }
-          else
-          {
+          else {
             $scope.loadingPagination = false;
           }
 
           $scope.loading = false;
         });
 
-        return itemsPromise;
+        return promise;
       }
     };
 
-    // create statuses array
-    $scope.categories = categoriesResponse.data;
-    $scope.statuses = [];
-
-    // merge all categories statuses in one array with no duplicates
-    for (var i = $scope.categories.length - 1; i >= 0; i--) {
-      for (var j = $scope.categories[i].statuses.length - 1; j >= 0; j--) {
-        var found = false;
-
-        for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === $scope.categories[i].statuses[j].id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
-        {
-          $scope.statuses.push($scope.categories[i].statuses[j]);
-        }
+    $rootScope.$on('inventoriesItemsFetching', function(){
+      if(isMap)
+      {
+        $scope.loading = true;
       }
-    }
+    });
+
+    $rootScope.$on('inventoriesItemsFetched', function(){
+      $scope.total = InventoriesItemsService.total;
+      $scope.loading = false;
+    });
 
     var loadFilters = $scope.reload = function(reloading) {
       if (!isMap)
       {
         // reset pagination
+        InventoriesItemsService.resetCache();
         page = 1;
         $scope.loadingPagination = false;
 
@@ -312,8 +317,9 @@ angular
         $scope.loadingContent = true;
         $scope.items = [];
 
-        getData().then(function() {
+        getData().then(function(items) {
           $scope.loadingContent = false;
+          $scope.items = items;
 
           if (reloading === true)
           {
@@ -325,8 +331,12 @@ angular
       }
       else
       {
-        $scope.$broadcast('updateMap', true);
+        $scope.$broadcast('mapRefreshRequested', true);
       }
+    };
+
+    $scope.reloadMap = function(){
+      $rootScope.$emit('mapRefreshRequested');
     };
 
     $scope.removeFilter = function(filter) {
@@ -335,6 +345,8 @@ angular
 
     $scope.resetFilters = function() {
       $scope.activeAdvancedFilters = [];
+
+      if (isMap) $scope.$broadcast('updateMap', true);
     };
 
     $scope.loadFilter = function(status) {
@@ -345,12 +357,12 @@ angular
 
       if (status === 'category')
       {
-        AdvancedFilters.category($scope.categories, $scope.activeAdvancedFilters);
+        AdvancedFilters.category($scope.activeAdvancedFilters, 'items');
       }
 
       if (status === 'status')
       {
-        AdvancedFilters.status($scope.categories, $scope.statuses, $scope.activeAdvancedFilters);
+        AdvancedFilters.status($scope.activeAdvancedFilters, 'items');
       }
 
       if (status === 'author')
@@ -360,7 +372,7 @@ angular
 
       if (status === 'fields')
       {
-        AdvancedFilters.fields($scope.categories, $scope.activeAdvancedFilters);
+        AdvancedFilters.fields($scope.activeAdvancedFilters, 'items');
       }
 
       if (status === 'date')
@@ -376,20 +388,9 @@ angular
 
     // Search function
     $scope.search = function(text) {
-      searchText = text;
+      $scope.searchText = text;
 
       loadFilters();
-    };
-
-    $scope.getInventoryCategory = function(id) {
-      for (var i = $scope.categories.length - 1; i >= 0; i--) {
-        if ($scope.categories[i].id === id)
-        {
-          return $scope.categories[i];
-        }
-      }
-
-      return null;
     };
 
     $scope.share = function () {
@@ -423,13 +424,6 @@ angular
         templateUrl: 'modals/items/destroy/items-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
-          removeItemFromList: function() {
-            return function(item) {
-              $scope.total--;
-              $scope.items.splice($scope.items.indexOf(item), 1);
-            }
-          },
-
           item: function() {
             return item;
           },

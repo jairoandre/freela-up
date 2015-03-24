@@ -16,10 +16,6 @@ angular
           controller: 'ItemsIndexController',
           controllerAs: 'ctrl',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList({'display_type' : 'full'});
-            }],
-
             'isMap': function() {
               return false;
             }

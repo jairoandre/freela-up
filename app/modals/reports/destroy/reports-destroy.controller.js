@@ -1,19 +1,17 @@
 'use strict';
 
 angular
-  .module('ReportsDestroyModalControllerModule', [])
-  .controller('ReportsDestroyModalController', function($scope, Restangular, removeReportFromList, $modalInstance, report) {
+  .module('ReportsDestroyModalControllerModule', ['ReportsItemsServiceModule'])
+  .controller('ReportsDestroyModalController', function($scope, Restangular, ReportsItemsService, $modalInstance, report) {
     $scope.report = report;
 
     // delete user from server
     $scope.confirm = function() {
-      var deletePromise = Restangular.one('reports').one('items', $scope.report.id).remove();
+      var deletePromise = ReportsItemsService.remove($scope.report.id);
 
       deletePromise.then(function() {
         $modalInstance.close();
         $scope.showMessage('ok', 'O Relato ' + $scope.report.protocol + ' foi removido com sucesso', 'success', true);
-
-        removeReportFromList($scope.report);
       });
     };
 

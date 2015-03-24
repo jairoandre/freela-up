@@ -21,11 +21,15 @@ angular
     $scope.loading = true;
     $scope.currentTab = 'form';
 
-    var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full'});
+    var flowPromise = Restangular.one('flows', flowId).get({'display_type': 'full', 'return_fields': [
+      'id', 'title', 'draft', 'initial', 'status'
+    ].join()});
     var stepPromise = Restangular.one('flows', flowId).one('steps', stepId).get();
     var fieldsPromise = Restangular.one('flows', flowId).one('steps', stepId).all('fields').getList();
     var triggersPromise = Restangular.one('flows', flowId).one('steps', stepId).all('triggers').getList();
-    var flowsPromise = Restangular.all('flows').getList({'display_type': 'full'});
+    var flowsPromise = Restangular.all('flows').getList({'display_type': 'full', 'return_fields': [
+      'id', 'title'
+    ].join()});
 
     $q.all([flowPromise, stepPromise, fieldsPromise, triggersPromise, flowsPromise]).then(function(responses) {
       $scope.loading = false;

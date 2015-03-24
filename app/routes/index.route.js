@@ -10,7 +10,7 @@ angular
       template: '',
       resolve: {
         'User': ['User', function(User) {
-          return User;
+          return User();
         }]
       },
       controller: 'IndexController'

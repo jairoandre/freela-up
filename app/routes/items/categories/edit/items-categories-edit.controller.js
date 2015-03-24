@@ -14,10 +14,11 @@ angular.
     'InventoryEditLabelComponentModule',
     'InputsSidebarComponentModule',
     'InventoryDraggableInputComponentModule',
-    'InventoryEditSectionComponentModule'
+    'InventoryEditSectionComponentModule',
+    'InventoryTriggerComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader, formulasResponse) {
     var updating = $scope.updating = false;
 
     if (categoryResponse)
@@ -540,6 +541,24 @@ angular.
         var formattedData = { title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, permissions: formattedPermissions }; // jshint ignore:line
         var formattedFormData = { sections: $scope.category.sections };
 
+        // before sending the data to the server, we need to convert each new field's field_options to an array based method
+        _.each(formattedFormData.sections, function(section) {
+          _.each(section.fields, function(field) {
+
+            // if id is undefined then the field is newly created
+            if (_.isUndefined(field.id) && _.isArray(field.field_options) && !_.isEmpty(field.field_options))
+            {
+              var simpleArray = [];
+
+              _.each(field.field_options, function(option) {
+                simpleArray.push(option.value);
+              });
+
+              field.field_options = simpleArray;
+            }
+          });
+        });
+
         if ($scope.category.plot_format === false) // jshint ignore:line
         {
           formattedData.plot_format = 'pin'; // jshint ignore:line
@@ -629,5 +648,24 @@ angular.
           });
         }
       });
+    };
+
+    // triggers
+    $scope.triggers = formulasResponse.data;
+
+    $scope.onlyActiveTriggers = function(item) {
+      if (!_.isUndefined(item._destroy) && item._destroy == true) return false;
+
+      return true;
+    };
+
+    $scope.newTrigger = function() {
+      var newTrigger = {
+        conditions: [], // jshint ignore:line
+        inventory_status_id: null,
+        isNew: true
+      };
+
+      $scope.triggers.push(newTrigger);
     };
   });

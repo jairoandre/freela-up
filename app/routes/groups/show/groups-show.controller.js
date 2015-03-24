@@ -3,7 +3,8 @@
 angular
   .module('GroupsShowControllerModule', [
     'GroupsEditModalControllerModule',
-    'GroupsAddUsersModalControllerModule'
+    'GroupsAddUsersModalControllerModule',
+    'GroupsRemoveUserModalControllerModule'
   ])
 
   .controller('GroupsShowController', function ($scope, Restangular, $stateParams, $q, $modal) {
@@ -31,10 +32,25 @@ angular
     };
 
     $scope.removeUserFromGroup = function(user) {
-      var deletePromise = Restangular.one('groups', groupId).all('users').remove({ user_id: user.id });
+      $modal.open({
+        templateUrl: 'modals/groups/remove-user/groups-remove-user.template.html',
+        windowClass: 'removeModal',
+        resolve: {
+          group: function() {
+            return $scope.group;
+          },
 
-      deletePromise.then(function() {
-        $scope.users.splice($scope.users.indexOf(user), 1);
+          user: function() {
+            return user;
+          },
+
+          removeUserFromList: function() {
+            return function(user) {
+              $scope.users.splice($scope.users.indexOf(user), 1);
+            }
+          }
+        },
+        controller: 'GroupsRemoveUserModalController'
       });
     };
 

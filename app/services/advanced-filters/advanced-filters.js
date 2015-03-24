@@ -9,11 +9,28 @@ angular
     'AdvancedFiltersPeriodModalControllerModule',
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
-    'AdvancedFiltersShareModalControllerModule'
+    'AdvancedFiltersShareModalControllerModule',
+    'ReportsCategoriesServiceModule',
+    'InventoriesCategoriesServiceModule'
   ])
 
   /* This file contains common filters used by inventory/reports */
-  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location) {
+  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService, InventoriesCategoriesService) {
+    var categoryResolver = function(type) {
+      var list;
+
+      if (type === 'items')
+      {
+        list = InventoriesCategoriesService.loadedBasicInfo ? _.values(InventoriesCategoriesService.categories) : InventoriesCategoriesService.fetchAllBasicInfo();
+      }
+      else
+      {
+        list = ReportsCategoriesService.loadedBasicInfo ? _.values(ReportsCategoriesService.categories) : ReportsCategoriesService.fetchAllBasicInfo();
+      }
+
+      return list;
+    };
+
     return {
       // advanced filter by category
       query: function (activeAdvancedFilters) {
@@ -30,13 +47,15 @@ angular
       },
 
       // advanced filter by category
-      category: function (categories, activeAdvancedFilters) {
+      category: function (activeAdvancedFilters, type) {
+        $rootScope.resolvingRequest = true;
+
         $modal.open({
           templateUrl: 'modals/advanced-filters/category/advanced-filters-category.template.html',
           windowClass: 'filterCategoriesModal',
           resolve: {
-            categories: function() {
-              return categories;
+            'categoriesResponse': function(){
+              return categoryResolver(type);
             },
 
             activeAdvancedFilters: function() {
@@ -48,17 +67,15 @@ angular
       },
 
       // advanced filter by status
-      status: function(categories, statuses, activeAdvancedFilters) {
+      status: function(activeAdvancedFilters, type) {
+        $rootScope.resolvingRequest = true;
+
         $modal.open({
           templateUrl: 'modals/advanced-filters/status/advanced-filters-status.template.html',
           windowClass: 'filterStatusesModal',
           resolve: {
-            categories: function() {
-              return categories;
-            },
-
-            statuses: function() {
-              return statuses;
+            'categoriesResponse': function() {
+              return categoryResolver(type);
             },
 
             activeAdvancedFilters: function() {
@@ -111,14 +128,16 @@ angular
         });
       },
 
-      fields: function(categories, activeAdvancedFilters) {
+      fields: function(activeAdvancedFilters) {
+        $rootScope.resolvingRequest = true;
+
         $modal.open({
           templateUrl: 'modals/advanced-filters/fields/advanced-filters-fields.template.html',
           windowClass: 'fieldsCategoriesModal',
           resolve: {
-            categories: function() {
-              return categories;
-            },
+            'categoriesResponse': ['Restangular', function(Restangular) {
+              return Restangular.one('inventory').all('categories').getList({'display_type' : 'full'});
+            }],
 
             activeAdvancedFilters: function() {
               return activeAdvancedFilters;

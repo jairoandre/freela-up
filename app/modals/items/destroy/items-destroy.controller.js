@@ -1,27 +1,17 @@
 'use strict';
 
 angular
-  .module('ItemsDestroyModalControllerModule', [])
-  .controller('ItemsDestroyModalController', function($scope, $modalInstance, removeItemFromList, item, category, Restangular, $state) {
+  .module('ItemsDestroyModalControllerModule', ['InventoriesItemsServiceModule'])
+  .controller('ItemsDestroyModalController', function($scope, Restangular, InventoriesItemsService, $modalInstance, item, category) {
     $scope.item = item;
-    $scope.category = category;
 
     // delete user from server
     $scope.confirm = function() {
-      var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).one('items', $scope.item.id).remove();
+      var deletePromise = InventoriesItemsService.remove($scope.item.id, category.id);
 
       deletePromise.then(function() {
         $modalInstance.close();
-        $scope.showMessage('ok', 'O Inventário ' + $scope.item.title + ' foi removido com sucesso', 'success', true);
-
-        if (removeItemFromList)
-        {
-          removeItemFromList($scope.item);
-        }
-        else
-        {
-          $state.go('items.list');
-        }
+        $scope.showMessage('ok', 'O item de inventário ' + $scope.item.title + ' foi removido com sucesso', 'success', true);
       });
     };
 

@@ -27,6 +27,14 @@ angular
       }
     };
 
+    var verifyExistingOption = function(value) {
+      var options = _.findWhere($scope.field.field_options, { value: value });
+
+      if (_.isUndefined(options)) return false;
+
+      return true;
+    };
+
     var createField = function(values) {
       return Restangular.all('inventory').one('fields', field.id).post('options', values);
     };
@@ -38,47 +46,91 @@ angular
       }
 
       $scope.loadingValue = true;
+      $scope.showErrors = false, $scope.errors = [];
 
-      if ($scope.isExistingField)
+      if ($scope.value.importing === true && (!$scope.value.multipleOptionsText || $scope.value.multipleOptionsText.length === 0))
       {
-        if ($scope.value.importing === true)
+        $scope.errors.push('Você precisa de pelo menos um item para importar valores;');
+
+        $scope.showErrors = true;
+        $scope.loadingValue = false;
+
+        return;
+      }
+
+      if ($scope.value.importing === false && (!$scope.value.text || $scope.value.text.length === 0))
+      {
+        $scope.errors.push('O nome da opção não pode ficar em branco;');
+
+        $scope.showErrors = true;
+        $scope.loadingValue = false;
+
+        return;
+      }
+
+      if ($scope.value.importing === true)
+      {
+        var newValues = $scope.value.multipleOptionsText.split(/\n/), fieldToBeCreated = [];
+
+        for (var i = newValues.length - 1; i >= 0; i--) {
+          if (verifyExistingOption(newValues[i]))
+          {
+            $scope.errors.push('A opção ' + newValues[i] + ' já existe;');
+          }
+
+          fieldToBeCreated.push(newValues[i]);
+        };
+
+        if ($scope.errors.length !== 0)
         {
-          var newValues = $scope.value.multipleOptionsText.split(/\n/), fieldToBeCreated = [];
+          $scope.showErrors = true;
+          $scope.loadingValue = false;
 
-          for (var i = newValues.length - 1; i >= 0; i--) {
-            fieldToBeCreated.push({ value: newValues[i] });
-          };
+          return;
+        }
 
-          createField(fieldToBeCreated).then(function(response) {
-            $scope.loadingValue = false;
-
-            $scope.field.field_options.concat(response.data);
-          });
+        if (!$scope.isExistingField)
+        {
+          $scope.field.field_options.concat(fieldToBeCreated);
         }
         else
         {
-          createField({ value: $scope.value.text }).then(function(response) {
+          createField({ value: fieldToBeCreated }).then(function(response) {
             $scope.loadingValue = false;
 
-            $scope.field.field_options.push(response.data);
+            $scope.field.field_options.concat(response.data);
+
+            setFieldOptions($scope.field.field_options);
           });
         }
       }
       else
       {
-        if ($scope.value.importing === true)
+        if (verifyExistingOption($scope.value.text))
         {
-          var newValues = $scope.value.multipleOptionsText.split(/\n/);
+          $scope.errors.push('A opção ' + $scope.value.text + ' já existe;');
 
-          for (var i = newValues.length - 1; i >= 0; i--) {
-            $scope.field.field_options.push({ value: newValues[i] });
-          };
+          $scope.showErrors = true;
+          $scope.loadingValue = false;
+
+          return;
+        }
+
+        var newOption = { value: $scope.value.text, disabled: false };
+
+        if (!$scope.isExistingField)
+        {
+          $scope.field.field_options.push(newOption);
         }
         else
         {
-          $scope.loadingValue = false;
+          createField(newOption).then(function(response) {
+            $scope.loadingValue = false;
 
-          $scope.field.field_options.push({ value: $scope.value.text });
+            $scope.field.field_options.push(response.data);
+
+            setFieldOptions($scope.field.field_options);
+          });
         }
       }
 

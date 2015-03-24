@@ -32,7 +32,41 @@ p {
   height: 100%;
 }
 
+.vertical-scroll {
+  overflow-y: scroll;
+}
+
 @import "animate";
+
+.initial-loading-page {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #259ECB;
+  z-index: -1;
+  display: table;
+
+  .center {
+    display: table-cell;;
+    vertical-align: middle;
+  }
+
+  .logo {
+    width: 86px;
+    height: 37px;
+    background: url(../images/logo-zup.png);
+    margin: 0 auto;
+  }
+
+  .initial-loading {
+    width: 64px;
+    height: 64px;
+    background: url(../images/initial-loading.gif);
+    margin: 0 auto;
+    margin-top: 50px;
+    background-size: 64px 64px;
+  }
+}
 
 #main_layout {
   width: 100%;
@@ -1561,7 +1595,7 @@ p {
       width: 100%;
       height: 100%;
       background: rgba(255, 255, 255, 0.7);
-      z-index: 2;
+      z-index: 3;
 
       .alert {
         margin-top: 84px;
@@ -2633,9 +2667,13 @@ colorpicker-preview {
   right: 0px;
   width: 100%;
   height: 100%;
-  display: table;
+  display: none;
   text-align: center;
-  z-index: 90000;
+  z-index: 999999;
+
+  &.build-screen {
+    display: table;
+  }
 
   &.ng-hide-add,
   &.ng-hide-remove {
@@ -2657,6 +2695,17 @@ colorpicker-preview {
     width: 84px;
     height: 84px;
     margin-top: -42px;
+  }
+
+  .small-loading {
+    display: block;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 64px;
+    height: 64px;
+    background: url(../images/loading.gif);
+    background-size: 64px 64px;
   }
 }
 
@@ -4385,4 +4434,8 @@ colorpicker-preview {
 
 .dropdown-toggle span.ng-binding {
   float: left;
+}
+
+.ghost-icon {
+  opacity: 0.3;
 }

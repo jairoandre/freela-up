@@ -3,25 +3,20 @@
     </div>
 
     <ul>
-      <!-- permissions: manage_inventory_items, manage_inventory_categories, inventory_categories_can_edit, inventory_categories_can_view-->
-      <li nav-item ng-show="hasPermission('manage_inventory_items') || hasPermission('manage_inventory_categories') || hasPermission('inventory_categories_can_edit') || hasPermission('inventory_categories_can_view')"><a href="#/items"><span class="glyphicon glyphicon-list"></span> <p>Inventário</p></a></li>
+      <li nav-item ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit') || hasPermission('inventories_items_read_only') || hasPermission('inventories_items_delete') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_create')"><a href="#/items"><span class="glyphicon glyphicon-list"></span> <p>Inventário</p></a></li>
 
-      <!-- permissions: manage_reports_categories, delete_reports, edit_reports, reports_categories_can_edit, reports_categories_can_view -->
-      <li nav-item ng-show="hasPermission('manage_reports_categories') || hasPermission('delete_reports') || hasPermission('edit_reports') || hasPermission('reports_categories_can_edit') || hasPermission('reports_categories_can_view')"><a href="#/reports"><span class="glyphicon glyphicon-list-alt"></span> <p>Relatos</p></a></li>
+      <li nav-item ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit') || hasPermission('reports_items_delete') || hasPermission('reports_items_edit') || hasPermission('reports_items_create') || hasPermission('reports_items_read_public') || hasPermission('reports_items_read_private')"><a href="#/reports"><span class="glyphicon glyphicon-list-alt"></span> <p>Relatos</p></a></li>
 
       <!-- permissions: manage_flows -->
-      <li nav-item ng-show="hasPermission('manage_flows')"><a href="#/flows"><span class="glyphicon glyphicon-ok-circle"></span> <p>Fluxos</p></a></li>
+      <li nav-item ng-show="flowsEnabled"><a href="#/flows"><span class="glyphicon glyphicon-ok-circle"></span> <p>Fluxos</p></a></li>
 
       <!-- permissions: manage_flows -->
-      <li nav-item ng-show="hasPermission('manage_flows')"><a href="#/cases"><span class="glyphicon glyphicon-file"></span> <p>Casos</p></a></li>
+      <li nav-item ng-show="flowsEnabled"><a href="#/cases"><span class="glyphicon glyphicon-file"></span> <p>Casos</p></a></li>
 
-      <!-- permissions: manage_groups, groups_can_edit, groups_can_view -->
-      <li nav-item ng-show="hasPermission('manage_groups') || hasPermission('groups_can_view') || hasPermission('groups_can_edit')"><a href="#/groups"><span class="ico-groups"></span> <p>Grupos</p></a></li>
+      <li nav-item ng-show="hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only')"><a href="#/groups"><span class="ico-groups"></span> <p>Grupos</p></a></li>
 
-      <!-- permissions: manage_users -->
-      <li nav-item ng-show="hasPermission('manage_users')"><a href="#/users"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
+      <li nav-item ng-show="hasPermission('users_full_access')"><a href="#/users"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
 
-      <!-- permissions: manage_config -->
       <li nav-item ng-show="hasPermission('manage_config')"><a href="#/config"><span class="glyphicon glyphicon-cog"></span> <p>Configurações</p></a></li>
 
       <li nav-item><a href="https://zeladoriaurbana.zendesk.com/hc/pt-br" target="_blank"><span class="glyphicon glyphicon-question-sign"></span> <p>Ajuda</p></a></li>

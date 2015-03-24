@@ -136,15 +136,22 @@ angular
 
             // we leave all the options checked as blank
             /* jshint ignore:start */
-            if (section.fields[j].available_values !== null)
+            if (section.fields[j].field_options !== null)
             {
-              for (var b = section.fields[j].available_values.length - 1; b >= 0; b--) {
-                optionsObj[section.fields[j].available_values[b]] = false;
+              for (var b = section.fields[j].field_options.length - 1; b >= 0; b--) {
+                optionsObj[section.fields[j].field_options[b].id] = false;
               }
             }
             /* jshint ignore:end */
 
-            itemData[section.fields[j].id] = optionsObj;
+            if ($.isEmptyObject(optionsObj))
+            {
+              itemData[section.fields[j].id] = null;
+            }
+            else
+            {
+              itemData[section.fields[j].id] = optionsObj;
+            }
           }
 
           // detect location fields

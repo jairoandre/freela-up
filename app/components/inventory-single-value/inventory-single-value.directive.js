@@ -42,7 +42,7 @@ angular
 
           if (index !== -1)
           {
-            scope.$parent.field.field_options.splice(index, 1); // jshint ignore:line
+            scope.option.disabled = true; // jshint ignore:line
           }
         };
       }

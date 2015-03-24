@@ -7,9 +7,9 @@
       <li>{{ item.title }}</li>
     </ul>
 
-    <a href="#/items/select-category" class="btn btn-info btn-custom">+ Novo item</a>
-    <a class="icon_action" href="" ng-click="deleteItem(item, category)"><span class="glyphicon glyphicon-trash"></span></a>
-    <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
+    <a href="#/items/select-category" class="btn btn-info btn-custom" ng-show="hasPermission('inventories_items_create') || hasPermission('inventories_categories_edit') || hasPermission('inventories_full_access')">+ Novo item</a>
+    <a class="icon_action" href="" ng-click="deleteItem(item, category)" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', item.category.id) || hasPermission('inventories_items_delete', item.category.id)"><span class="glyphicon glyphicon-trash"></span></a>
+    <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', item.category.id) || hasPermission('inventories_items_edit', item.category.id)"><span class="glyphicon glyphicon-edit"></span></a>
   </div>
 
   <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">
@@ -35,8 +35,12 @@
               <gallery images="getDataByInventoryFieldId(field.id)"></gallery>
             </div>
 
-            <!-- special field rendering: checkbox -->
-            <div ng-if="field.kind === 'checkbox' || field.kind === 'select' || field.kind === 'radio'">
+            <!-- special field rendering: select or radio -->
+            <div ng-if="field.kind === 'select' || field.kind === 'radio'">
+              <p>{{ getSelectedOptionsByFieldId(field.id)[0].value }}</p>
+            </div>
+
+            <div ng-if="field.kind === 'checkbox'">
               <ul>
                 <li ng-repeat="option in getSelectedOptionsByFieldId(field.id)">{{ option.value }}</li>
               </ul>

@@ -18,7 +18,7 @@ angular
             }],
 
             'reportCategoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-              return Restangular.all('reports').all('categories').getList({'display_type': 'full'});
+              return Restangular.all('reports').all('categories').getList({'display_type': 'full', 'subcategories_flat': true});
             }]
           }
         }

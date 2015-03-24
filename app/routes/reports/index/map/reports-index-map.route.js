@@ -15,10 +15,6 @@ angular
           controller: 'ReportsIndexController',
           controllerAs: 'ctrl',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('reports').all('categories').getList({'display_type' : 'full'});
-            }],
-
             'isMap': function() {
               return true;
             }

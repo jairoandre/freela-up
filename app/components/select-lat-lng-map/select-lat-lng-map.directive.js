@@ -94,8 +94,12 @@ angular
               {
                 if (typeof addressComponents === 'undefined')
                 {
-                  scope.$parent.addressComponents = results[0].address_components;
-                  scope.$parent.formattedAddress = results[0].formatted_address;
+                  if (scope.$parent)
+                  {
+                    scope.$parent.addressComponents = results[0].address_components;
+                    scope.$parent.formattedAddress = results[0].formatted_address;
+                  }
+
                   scope.formattedAddress = results[0].formatted_address;
                 }
 

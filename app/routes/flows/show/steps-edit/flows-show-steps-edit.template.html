@@ -21,7 +21,7 @@
 
   <div class="tabs edit">
     <a href="" ng-click="currentTab = 'form'" ng-class="{'active': currentTab == 'form'}">Formulário</a>
-    <a href="" ng-click="currentTab = 'permissions'" ng-class="{'active': currentTab == 'permissions'}">Permissões</a>
+    <!--<a href="" ng-click="currentTab = 'permissions'" ng-class="{'active': currentTab == 'permissions'}">Permissões</a>-->
     <a href="" ng-click="currentTab = 'triggers'" ng-class="{'active': currentTab == 'triggers'}">Gatilhos</a>
   </div>
 
@@ -230,7 +230,7 @@
         </div>
       </div>
 
-      <div class="inputs step-sidebar-bottom">
+      <!--<div class="inputs step-sidebar-bottom">
         <div class="info">
           <p>Campos especiais</p>
         </div>
@@ -240,7 +240,7 @@
         <div class="list">
           <div class="item" ng-repeat="input in availableInputs.special" name="{{ input.kind }}" flows-draggable-input><p>{{ input.name }}</p></div>
         </div>
-      </div>
+      </div>-->
     </div>
 
     <div class="clearfix"></div>

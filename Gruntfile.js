@@ -7,6 +7,8 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+require('dotenv').load();
+
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -23,6 +25,8 @@ module.exports = function (grunt) {
     MAP_LNG: process.env.MAP_LNG,
     MAP_ZOOM: process.env.MAP_ZOOM,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    FLOWS_ENABLED: process.env.FLOWS_ENABLED,
+    MAP_DEBUG: process.env.MAP_DEBUG,
 
     // Project settings
     yeoman: {
@@ -346,7 +350,9 @@ module.exports = function (grunt) {
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
-            mapZoom: '<%= MAP_ZOOM %>'
+            mapZoom: '<%= MAP_ZOOM %>',
+            flowsEnabled: '<%= FLOWS_ENABLED %>',
+            mapDebug: '<%= MAP_DEBUG %>'
           },
         }
       },
@@ -364,7 +370,9 @@ module.exports = function (grunt) {
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
-            mapZoom: '<%= MAP_ZOOM %>'
+            mapZoom: '<%= MAP_ZOOM %>',
+            flowsEnabled: '<%= FLOWS_ENABLED %>',
+            mapDebug: '<%= MAP_DEBUG %>'
           },
         }
       }
