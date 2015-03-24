@@ -18,13 +18,9 @@ angular
               return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
             }],
 
-            'formulasResponse': ['FullResponseRestangular', '$stateParams', function(FullResponseRestangular, $stateParams) {
-              return FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
-            }],
-
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
-            }],
+            }]
           }
         }
       }
@@ -43,7 +39,7 @@ angular
 
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
-            }],
+            }]
           }
         }
       }
