@@ -452,7 +452,19 @@ angular
         else
         {
           for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
-            $scope.permissions.push({ permission_type: type, permission_names: angular.copy(slugs), object: $scope.newPermission.objects[i] });
+            var foundExisting = false;
+
+            // if there is currently an existing permission for the same type and object, we can just add the slug to the list
+            for (var j = $scope.permissions.length - 1; j >= 0; j--) {
+              if (!_.isUndefined($scope.permissions[j].object) && $scope.permissions[j].permission_type == type && $scope.permissions[j].object.id == $scope.newPermission.objects[i].id)
+              {
+                foundExisting = true;
+
+                $scope.permissions[j].permission_names = _.union($scope.permissions[j].permission_names, angular.copy(slugs));
+              }
+            };
+
+            if (!foundExisting) $scope.permissions.push({ permission_type: type, permission_names: angular.copy(slugs), object: $scope.newPermission.objects[i] });
           };
         }
 

@@ -18,7 +18,7 @@
       <div class="option col-lg-2">
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            {{ getTypeName(newPermission.type) || 'Selecione o tipo' }} <span class="pull-right"><span class="caret"></span></span>
+            {{ getTypeName(newPermission.type) || 'Selecione' }} <span class="pull-right"><span class="caret"></span></span>
           </button>
 
           <ul class="dropdown-menu" role="menu">
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="option col-lg-4">
+      <div class="option col-lg-4 pages-animation" ng-show="newPermission.type">
         <div class="btn-group permissions-menu">
           <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': showPermissionsMenu }" ng-click="showPermissionsMenu = !showPermissionsMenu">
             {{ getPermissionsExcerpt() }} <span class="pull-right"><span class="caret" ng-class="{ 'reverse': showPermissionsMenu }"></span></span>
