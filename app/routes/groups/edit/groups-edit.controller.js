@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('GroupsEditControllerModule', [])
+  .module('GroupsEditControllerModule', [
+    'DiacriticsInsensitiveFilterHelperModule'
+  ])
 
   .controller('GroupsEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
     $scope.group = groupResponse.data;
