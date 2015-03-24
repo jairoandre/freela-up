@@ -477,9 +477,10 @@
               <tr ng-repeat="condition in trigger.conditions | filter: onlyActiveTriggers">
                 <td>
                   <label class="select-trigger">
-                    <select class="form-control" ng-model="condition.inventory_field_id">
+                    <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="condition.inventory_field_id" data-placeholder="Selecione um campo">
+                      <option value="">Selecione um campo...</option>
                       <optgroup ng-repeat="section in category.sections" label="{{ section.title }}">
-                        <option ng-repeat="field in section.fields" ng-value="field.id" ng-selected="condition.inventory_field_id == field.id">{{ field.label || field.title }}</option>
+                        <option ng-repeat="field in section.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
                       </optgroup>
                     </select>
                   </label>

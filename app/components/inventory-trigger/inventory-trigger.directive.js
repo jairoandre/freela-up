@@ -72,7 +72,8 @@ angular
           var trigger = {
             inventory_status_id: scope.trigger.inventory_status_id,
             conditions: conditions,
-            groups_to_alert: []
+            groups_to_alert: [],
+            run_formula: scope.trigger.run_formula
           };
 
           // helpers

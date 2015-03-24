@@ -15,7 +15,7 @@ angular
           controllerAs: 'ctrl',
           resolve: {
             'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList();
+              return Restangular.one('inventory').all('categories').getList({'display_type': 'full', 'return_fields': ['id', 'title'].join()});
             }]
           }
         }

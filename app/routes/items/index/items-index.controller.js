@@ -161,7 +161,7 @@ angular
     }, true);
 
     // Return right promise
-    var generateItemsFetchingOptions = function() {
+    $scope.generateItemsFetchingOptions = function() {
       var options = {};
 
       if (!$scope.position)
@@ -265,7 +265,7 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var promise = InventoriesItemsService.fetchAll(generateItemsFetchingOptions());
+        var promise = InventoriesItemsService.fetchAll($scope.generateItemsFetchingOptions());
 
         promise.then(function (items) {
           page++;

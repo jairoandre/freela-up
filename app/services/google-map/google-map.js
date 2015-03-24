@@ -2,7 +2,7 @@
 
 angular
   .module('GoogleMapServiceModule', [])
-  .factory('GoogleMapService', function (ENV) {
+  .factory('GoogleMapService', function (ENV, $compile, $rootScope) {
 
     var _options = {styles:[{},{featureType:"poi.business",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi.government",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi.medical",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi.place_of_worship",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi.school",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi.sports_complex",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"transit",elementType:"labels",stylers:[{visibility:"off"},{saturation:-100},{lightness:42}]},{featureType:"road.highway",elementType:"geometry.fill",stylers:[{saturation:-100},{lightness:47}]},{featureType:"landscape",stylers:[{lightness:82},{saturation:-100}]},{featureType:"water",stylers:[{hue:"#00b2ff"},{saturation:-21},{lightness:-4}]},{featureType:"poi",stylers:[{lightness:19},{weight:.1},{saturation:-22}]},{elementType:"geometry.fill",stylers:[{visibility:"on"},{lightness:18}]},{elementType:"labels.text",stylers:[{saturation:-100},{lightness:28}]},{featureType:"poi.attraction",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi.park",elementType:"geometry.fill",stylers:[{saturation:12},{lightness:25}]},{featureType:"road",elementType:"labels.icon",stylers:[{visibility:"off"}]},{featureType:"road",elementType:"labels.text",stylers:[{lightness:30}]},{featureType:"landscape.man_made",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"road.highway",elementType:"geometry",stylers:[{saturation:-100},{lightness:56}]},{featureType:"road.local",elementType:"geometry.fill",stylers:[{lightness:62}]},{featureType:"landscape.man_made",elementType:"geometry",stylers:[{visibility:"off"}]}],map:{zoom: null,mapTypeControl:!1,panControl:!0,panControlOptions:{position:google.maps.ControlPosition.TOP_RIGHT},zoomControl:!0,zoomControlOptions:{position:google.maps.ControlPosition.TOP_RIGHT},scaleControl:!0,scaleControlOptions:{position:google.maps.ControlPosition.TOP_RIGHT},streetViewControl:!0,streetViewControlOptions:{position:google.maps.ControlPosition.TOP_RIGHT}}};
 
@@ -34,6 +34,9 @@ angular
 
       // we also initialize a few variables that we are going to use it :-D
       this.currentMarkers = {};
+
+      // infowindow for google maps
+      this.infoWindow = new google.maps.InfoWindow();
     };
 
     Map.prototype.getDistance = function() {
@@ -56,14 +59,16 @@ angular
     Map.prototype.createMarker = function(position, markerImage, color, count, extraData) {
       var html;
 
-      if(!_.isNull(markerImage)) {
+      if(!_.isNull(markerImage))
+      {
         var extraClass = markerImage.isPin ? 'pin' : '';
 
         html = '<div class="marker ' + extraClass + '" style="background-image: url(' + markerImage.url + ')">';
-      } else {
+      }
+      else
+      {
         html = '<div class="marker">';
       }
-
 
       if (count)
       {
@@ -78,10 +83,39 @@ angular
         draggable: false,
         shadow: false,
         content: html,
-        extraData: extraData
+        extraData: extraData,
+        isReport: this.itemsAreReports,
+        infoWindow: this.infoWindow
       });
 
+      if (!_.isUndefined(extraData)) google.maps.event.addListener(marker, 'click', this.displayInfoWindow);
+
       return marker;
+    };
+
+    Map.prototype.displayInfoWindow = function() {
+      var html;
+
+      if (this.isReport)
+      {
+        html = '<div class="pinTooltip"><h1>{{ item.category.title }}</h1><p>Enviado em {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/reports/{{ item.id }}">Ver detalhes</a></div>';
+      }
+      else
+      {
+        html = '<div class="pinTooltip"><h1>{{ item.title }}</h1><p>Criado em {{ item.created_at | date: \'dd/MM/yy HH:mm\'}}</p><a href="#/items/{{ item.id }}">Ver detalhes</a></div>';
+      }
+
+      var newScope = $rootScope.$new(true);
+
+      newScope.category = this.extraData.category;
+      newScope.item = this.extraData.item;
+
+      var compiled = $compile(html)(newScope);
+
+      newScope.$apply();
+
+      this.infoWindow.setContent(compiled[0]);
+      this.infoWindow.open(this.map, this);
     };
 
     Map.prototype.createClusterMarker = function(cluster) {
