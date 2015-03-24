@@ -11,7 +11,12 @@ angular
 
     $scope.loading = true;
 
-    var flowsPromise = Restangular.all('flows').getList({'display_type': 'full'});
+    var flowsPromise = Restangular.all('flows').getList({'display_type': 'full', 'return_fields': [
+      'id', 'title', 'total_cases',
+      'created_by.id', 'created_by.name',
+      'updated_by.id', 'updated_by.name',
+      'steps.id'
+    ].join()});
 
     flowsPromise.then(function(response) {
       $scope.loading = false;
