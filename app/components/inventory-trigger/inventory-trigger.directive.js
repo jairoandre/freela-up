@@ -15,11 +15,12 @@ angular
         }
 
         scope.types = [
-          {id: '==', name: 'Igual'},
-          {id: '!=', name: 'Diferente'},
-          {id: '>', name: 'Maior'},
-          {id: '<', name: 'Menor'},
-          {id: 'inc', name: 'Entre valores'},
+          {id: 'equal_to', name: 'Igual'},
+          {id: 'different', name: 'Diferente'},
+          {id: 'greater_than', name: 'Maior'},
+          {id: 'lesser_than', name: 'Menor'},
+          {id: 'includes', name: 'Inclui'},
+          {id: 'between', name: 'Entre'},
         ];
 
         scope.removeTrigger = function() {
@@ -27,7 +28,7 @@ angular
           {
             scope.processingForm = true;
 
-            var deletePromise = Restangular.one('flows', scope.$parent.flow.id).one('steps', scope.$parent.step.id).one('triggers', scope.trigger.id).remove();
+            var deletePromise = Restangular.one('inventory').one('categories', scope.$parent.category.id).one('formulas', scope.trigger.id).remove();
 
             deletePromise.then(function() {
               scope.$parent.triggers.splice(scope.$parent.triggers.indexOf(scope.trigger), 1);
@@ -41,26 +42,11 @@ angular
         };
 
         scope.newCondition = function() {
-          scope.trigger.trigger_conditions.push({field: {}, condition_type: '==', values: []}); // jshint ignore:line
+          scope.trigger.conditions.push({inventory_field_id: null, operator: 'equal_to', content: null}); // jshint ignore:line
         };
 
         scope.removeCondition = function(condition) {
-          // if we have the condition id, we need to delete from the API
-          if (typeof condition.id === 'number')
-          {
-            scope.processingForm = true;
-
-            var deletePromise = Restangular.one('flows', scope.$parent.flow.id).one('steps', scope.$parent.step.id).one('triggers', scope.trigger.id).one('trigger_conditions', condition.id).remove();
-
-            deletePromise.then(function() {
-              scope.trigger.trigger_conditions.splice(scope.trigger.trigger_conditions.indexOf(condition), 1);
-              scope.processingForm = false;
-            });
-          }
-          else
-          {
-            scope.trigger.trigger_conditions.splice(scope.trigger.trigger_conditions.indexOf(condition), 1);
-          }
+          condition._destroy = true;
         };
 
         scope.saveTrigger = function() {
@@ -68,40 +54,37 @@ angular
 
           var conditions = [];
 
-          // let's make our array API-friendly
-          for (var i = scope.trigger.trigger_conditions.length - 1; i >= 0; i--) {
-            var transformedCondition = {
-              field_id: scope.trigger.trigger_conditions[i].field.id,
-              condition_type: scope.trigger.trigger_conditions[i].condition_type,
-              values: scope.trigger.trigger_conditions[i].values
+          for (var i = scope.trigger.conditions.length - 1; i >= 0; i--) {
+            var c = scope.trigger.conditions[i];
+
+            var newCondition = {
+              inventory_field_id: c.inventory_field_id,
+              operator: c.operator,
+              content: c.content,
             };
 
-            if (typeof scope.trigger.trigger_conditions[i].id !== 'undefined')
-            {
-              transformedCondition.id = scope.trigger.trigger_conditions[i].id;
-            }
+            if (!_.isUndefined(c.id)) newCondition.id = c.id;
+            if (!_.isUndefined(c._destroy) && c._destroy == true) newCondition._destroy = true;
 
-            conditions.push(transformedCondition);
+            conditions.push(newCondition);
           };
 
           var trigger = {
-            title: scope.trigger.title,
-            trigger_conditions_attributes: conditions,
-            action_type: scope.trigger.action_type,
-            action_values: scope.trigger.action_values,
-            description: scope.trigger.description
+            inventory_status_id: scope.trigger.inventory_status_id,
+            conditions: conditions,
+            groups_to_alert: []
           };
 
           // helpers
-          var updateTriggerPromise, stepContainer = Restangular.one('flows', scope.$parent.flow.id).one('steps', scope.$parent.step.id);
+          var updateTriggerPromise, triggersContainer = Restangular.one('inventory').one('categories', scope.$parent.category.id);
 
           if (scope.trigger.isNew === true)
           {
-            updateTriggerPromise = stepContainer.post('triggers', trigger);
+            updateTriggerPromise = triggersContainer.post('formulas', trigger);
           }
           else
           {
-            updateTriggerPromise = stepContainer.one('triggers', scope.trigger.id).customPUT(trigger);
+            updateTriggerPromise = triggersContainer.one('formulas', scope.trigger.id).customPUT(trigger);
           }
 
           updateTriggerPromise.then(function() {

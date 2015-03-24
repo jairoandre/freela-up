@@ -14,10 +14,11 @@ angular.
     'InventoryEditLabelComponentModule',
     'InputsSidebarComponentModule',
     'InventoryDraggableInputComponentModule',
-    'InventoryEditSectionComponentModule'
+    'InventoryEditSectionComponentModule',
+    'InventoryTriggerComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader, formulasResponse) {
     var updating = $scope.updating = false;
 
     if (categoryResponse)
@@ -647,5 +648,24 @@ angular.
           });
         }
       });
+    };
+
+    // triggers
+    $scope.triggers = formulasResponse.data;
+
+    $scope.onlyActiveTriggers = function(item) {
+      if (!_.isUndefined(item._destroy) && item._destroy == true) return false;
+
+      return true;
+    };
+
+    $scope.newTrigger = function() {
+      var newTrigger = {
+        conditions: [], // jshint ignore:line
+        inventory_status_id: null,
+        isNew: true
+      };
+
+      $scope.triggers.push(newTrigger);
     };
   });

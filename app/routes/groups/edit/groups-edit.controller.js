@@ -90,11 +90,12 @@ angular
             tooltip: 'Ativada esta opção, o grupo obtém todas as permissões de edição sobre todas as categorias de inventário existentes, sobre novas categorias adicionados no futuro, e sobre todos os formulários pertencentes a todas as categorias. Também permite a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário.'
           },
 
-          //{
-          //  slug: 'inventories_formulas_full_access',
-          //  name: 'Gerenciar fórmulas',
-          //  needsObject: false
-          //},
+          {
+            slug: 'inventories_formulas_full_access',
+            name: 'Gerenciar fórmulas',
+            needsObject: false,
+            needsPermission: 'inventories_full_access',
+          },
 
           {
             slug: 'inventories_items_create',
