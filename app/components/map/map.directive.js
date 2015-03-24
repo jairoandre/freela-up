@@ -33,7 +33,7 @@ angular
           var options = {
             zoom: map.getZoom(),
             clusterize: true
-          }, filtersOptions = scope.getFiltersOptions();
+          }, filtersOptions = scope.getFiltersOptions() || {};
 
           var position = {'latitude': mapCenter.lat(), 'longitude': mapCenter.lng(), 'distance': map.getDistance()};
 
