@@ -47,6 +47,7 @@ angular
 
           lastRequestReference = options;
 
+          itemsAreReports ? ReportsItemsService.resetCache() : InventoriesItemsService.resetCache();
           dataFetcher(options).then(function(response) {
             // Using the `options` object reference of the latest request as guide as to whether or not to updated the
             // map based on it because by the time this function is called the user may have zoomed in or out already,
@@ -71,7 +72,7 @@ angular
 
           fetchItemsTimeout = setTimeout(function () {
             movedMap();
-          }, 800);
+          }, 300);
 
           // we clear the hidden faster than fetching new items
           if (clearCanvasTimeout)
@@ -90,10 +91,6 @@ angular
         });
 
         scope.$on('mapRefreshRequested', function () {
-          map.clearMarkers();
-
-          ReportsItemsService.resetCache();
-
           boundsChanged();
         });
       }
