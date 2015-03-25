@@ -97,4 +97,22 @@ angular
         controller: 'ItemsDestroyModalController'
       });
     };
+
+    // item history
+    $scope.historyOptions = { type: undefined };
+    $scope.availableHistoryFilters = [
+      { type: 'report', name: 'Relatos', selected: true },
+      { type: 'fields', name: 'Campos', selected: true },
+      { type: 'images', name: 'Imagens', selected: true },
+      { type: 'flow', name: 'Fluxo', selected: true },
+      { type: 'formula', name: 'Fórmulas', selected: true },
+      { type: 'status', name: 'Estados', selected: true }
+    ];
+
+    $scope.toggleOption = function(option) {
+      option.selected = !option.selected;
+    };
+
+    $scope.historyLogs = itemHistoryResponse.data;
+
   });
