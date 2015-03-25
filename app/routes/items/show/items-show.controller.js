@@ -99,6 +99,25 @@ angular
     };
 
     // item history
+    var refreshHistory = function() {
+      var options = {}, selectedFilters = $scope.selectedFilters();
+
+      if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
+
+      if ($scope.historyFilterBeginDate) options['created_at[begin]'] = $scope.historyFilterBeginDate;
+      if ($scope.historyFilterEndDate) options['created_at[end]'] = $scope.historyFilterEndDate;
+
+      $scope.loadingHistoryLogs = true;
+
+      var historyPromise = Restangular.one('inventory').one('items', $scope.item.id).one('history').getList(null, options);
+
+      historyPromise.then(function(historyLogs) {
+        $scope.historyLogs = historyLogs.data;
+
+        $scope.loadingHistoryLogs = false;
+      });
+    };
+
     $scope.historyOptions = { type: undefined };
     $scope.availableHistoryFilters = [
       { type: 'report', name: 'Relatos', selected: true },
@@ -109,8 +128,49 @@ angular
       { type: 'status', name: 'Estados', selected: true }
     ];
 
+    $scope.availableHistoryDateFilters = [
+      { name: 'Hoje', beginDate: moment().startOf('day').format(), endDate: moment().endOf('day').format(), selected: false },
+      { name: 'Ontem', beginDate: moment().subtract(1, 'days').startOf('day').format(), endDate: moment().subtract(1, 'days').endOf('day').format(), selected: false },
+      { name: 'Este mês', beginDate: moment().startOf('month').format(), endDate: moment().subtract(1, 'days').endOf('day').format(), selected: false },
+      { name: 'Mês passado', beginDate: moment().subtract(1, 'months').startOf('month').format(), endDate: moment().subtract(1, 'months').subtract(1, 'days').endOf('day').format(), selected: false },
+      { name: 'Todos', beginDate: null, endDate: null, selected: true }
+    ];
+
+    $scope.selectedFilters = function() {
+      var filters = [];
+
+      _.each($scope.availableHistoryFilters, function(filter) {
+        if (filter.selected) filters.push(filter.type);
+      });
+
+      return filters;
+    };
+
     $scope.toggleOption = function(option) {
       option.selected = !option.selected;
+
+      refreshHistory();
+    };
+
+    $scope.resetHistoryFilters = function() {
+      _.each($scope.availableHistoryFilters, function(filter) {
+        filter.selected = true;
+      });
+
+      refreshHistory();
+    };
+
+    $scope.selectDateFilter = function(filter) {
+      _.each($scope.availableHistoryDateFilters, function(filter) {
+        filter.selected = false;
+      });
+
+      filter.selected = !filter.selected;
+
+      $scope.historyFilterBeginDate = filter.beginDate;
+      $scope.historyFilterEndDate = filter.endDate;
+
+      refreshHistory();
     };
 
     $scope.historyLogs = itemHistoryResponse.data;
