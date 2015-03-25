@@ -2260,6 +2260,14 @@ p {
   }
 }
 
+.modal-header .close {
+  margin: 2px 5px 0 0;
+}
+
+.modal-tab a {
+  text-decoration: none;
+}
+
 // map
 .pinTooltip {
   padding: 10px 15px;

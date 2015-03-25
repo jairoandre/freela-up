@@ -19,7 +19,7 @@
 
     input {
       width: 100%;
-      color: #ADABAB;
+      color: #333;
       background: #F2F2F2;
       border: 0px;
       padding: 8px 20px;
@@ -144,5 +144,10 @@
 
   .modal-footer {
     margin-top: 0px;
+  }
+}
+.editStepModal {
+  .modal-header {
+    border-bottom: 1px solid #808080;
   }
 }
