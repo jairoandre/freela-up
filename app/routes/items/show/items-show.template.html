@@ -15,7 +15,7 @@
   <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">
     <div class="background" ng-style="{ 'background-color': status.color }"></div>
     <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
-    <a class="pull-right" ng-click="editItemStatus(item, category)" href="">Alterar status</a>
+    <a class="pull-right" ng-click="editItemStatus(item, category)" href="" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', category.id) || hasPermission('inventories_items_edit', category.id)">Alterar status</a>
 
     <div class="clearfix"></div>
   </div>
@@ -69,6 +69,8 @@
               Sem imagens.
             </p>
 
+            <a href="" class="show-field-history" ng-click="showFieldHistory(field)"><b class="glyphicon glyphicon-time"></b> Histórico</a>
+
             <div class="cleafix"></div>
         </div>
       </div>
@@ -90,8 +92,85 @@
       </div>
     </div>
 
-    <hr />
+    <div class="rounder_wrapper">
+      <div class="wrapper_title"><h1>Histórico</h1></div>
 
-    <a href="#/items" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+      <div class="item-history">
+
+        <div class="filters">
+          <div class="filter col-xs-3">
+            <b>Exibindo</b>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="pull-left">Tipos</span> <span class="pull-right"><span class="caret"></span></span>
+              </button>
+
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="filter in availableHistoryFilters"><a href="" ng-click="toggleOption(filter)"> <b class="glyphicon glyphicon-ok" ng-show="filter.selected"></b> {{ filter.name }}</a></li>
+
+                <li class="last"><a href="" ng-click="resetHistoryFilters()">Marcar todos</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="filter period col-xs-3">
+            <b>Período</b>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="pull-left">Data</span> <span class="pull-right"><span class="caret"></span></span>
+              </button>
+
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="filter in availableHistoryDateFilters" ng-class="{'active': filter.selected }"><a href="" ng-click="selectDateFilter(filter)">{{ filter.name }}</a></li>
+                <li class="divider"></li>
+                <li ng-class="{ 'active': showCustomDateHelper }"><a href="" ng-click="showCustomDateFields()">Por período</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="filter datepicker col-xs-2 pages-animation" ng-show="showCustomDateHelper">
+            <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="historyFilterBeginDate" show-weeks="false" show-button-bar="false" ng-change="refreshHistory()" />
+          </div>
+
+          <span class="filter until col-xs-1 pages-animation" ng-show="showCustomDateHelper">até</span>
+
+          <div class="filter datepicker last col-xs-2" ng-show="showCustomDateHelper">
+            <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="historyFilterEndDate" show-weeks="false" show-button-bar="false" ng-change="refreshHistory()" />
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="timeline">
+
+          <div class="loadingHistoryLogs pages-animation" ng-show="loadingHistoryLogs"><span></span></div>
+
+          <div class="empty" ng-show="historyLogs.length === 0"><p>Não há alterações cadastradas.</p></div>
+
+          <div class="line"><span></span></div>
+
+          <div class="log" ng-repeat="log in historyLogs">
+            <div class="date">
+              <span>{{ log.created_at | date:'dd/MM/yy'}}</span>
+            </div>
+
+            <div class="action">
+              <p>
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-if="log.kind === 'fields'">alterou os campos para: <span ng-repeat="field in log.objects"><span ng-show="$index >= 1">,</span> <a href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span></span><span ng-show="log.kind === 'status'">alterou o estado do inventário para {{ log.objects[0].title }}</span>.
+              </p>
+
+              <div class="divider"></div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>

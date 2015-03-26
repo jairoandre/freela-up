@@ -18,13 +18,22 @@ angular
               return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
             }],
 
-            'formulasResponse': ['FullResponseRestangular', '$stateParams', function(FullResponseRestangular, $stateParams) {
-              return FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
+            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$q', function(FullResponseRestangular, $stateParams, $q) {
+              var defer = $q.defer(),
+                  triggersPromise = FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
+
+              triggersPromise.then(function(response) {
+                defer.resolve(response);
+              }, function() {
+                defer.resolve(false);
+              });
+
+              return defer.promise;
             }],
 
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
-            }],
+            }]
           }
         }
       }
@@ -43,7 +52,7 @@ angular
 
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
-            }],
+            }]
           }
         }
       }

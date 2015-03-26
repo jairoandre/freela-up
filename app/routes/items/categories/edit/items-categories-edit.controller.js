@@ -651,7 +651,8 @@ angular.
     };
 
     // triggers
-    $scope.triggers = formulasResponse.data;
+    if (formulasResponse) $scope.triggers = formulasResponse.data;
+    else $scope.triggers = [];
 
     $scope.onlyActiveTriggers = function(item) {
       if (!_.isUndefined(item._destroy) && item._destroy == true) return false;
