@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h4 class="modal-title">Histórico do campo: {{ field.name }}</h4>
+  <h4 class="modal-title">Histórico do campo: {{ field.label }}</h4>
 </div>
 
 <div class="modal-body">
@@ -8,11 +8,9 @@
 
     <div class="filters">
       <div class="filter period col-xs-3">
-        <b>Período</b>
-
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <span class="pull-left">Data</span> <span class="pull-right"><span class="caret"></span></span>
+          <span class="pull-left">Por período</span> <span class="pull-right"><span class="caret"></span></span>
           </button>
 
           <ul class="dropdown-menu" role="menu">
@@ -38,6 +36,8 @@
 
     <div class="timeline">
 
+      <div class="gradient"></div>
+
       <div class="loadingHistoryLogs pages-animation" ng-show="loadingHistoryLogs"><span></span></div>
 
       <div class="empty" ng-show="historyLogs.length === 0"><p>Não há alterações cadastradas.</p></div>
@@ -51,8 +51,10 @@
 
         <div class="action">
           <p>
-            <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> alterou o conteúdo do campo de <b>{{ log.changes.previous_content }}</b> para <b>{{ log.changes.new_content }}</b>.</span>
+            {{ log.changes.new_content }}
           </p>
+
+          <div class="author">Alterado por <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> </div>
 
           <div class="divider"></div>
         </div>

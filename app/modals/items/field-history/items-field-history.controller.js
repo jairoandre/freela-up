@@ -4,23 +4,26 @@ angular
   .module('FieldHistoryModalControllerModule', [])
 
   .controller('FieldHistoryModalController', function($rootScope, $scope, $modalInstance, Restangular, itemHistoryResponse, itemId, field) {
-    $scope.historyLogs = [];
+    var processLogs = function(historyLogs) {
+      var logs = [];
 
-    for (var i = itemHistoryResponse.data.length - 1; i >= 0; i--) {
-      var newObj = {}, f = itemHistoryResponse.data[i];
+      for (var i = historyLogs.length - 1; i >= 0; i--) {
+        var newObj = {}, f = historyLogs[i];
 
-      newObj.user = f.user;
-      newObj.created_at = f.created_at;
+        newObj.user = f.user;
+        newObj.created_at = f.created_at;
 
-      newObj.changes = _.filter(f.fields_changes, function(obj) {
-        return obj.field.id == field.id;
-      })[0];
+        newObj.changes = _.filter(f.fields_changes, function(obj) {
+          return obj.field.id == field.id;
+        })[0];
 
-      $scope.historyLogs.push(newObj);
-    };
+        logs.push(newObj);
+      };
 
-    console.log($scope.historyLogs);
+      return logs;
+    }
 
+    $scope.historyLogs = processLogs(itemHistoryResponse.data);
     $scope.field = field;
     $rootScope.resolvingRequest = false;
 
@@ -36,7 +39,7 @@ angular
       var historyPromise = Restangular.one('inventory').one('items', itemId).one('history').getList(null, options);
 
       historyPromise.then(function(historyLogs) {
-        $scope.historyLogs = historyLogs.data;
+        $scope.historyLogs = processLogs(historyLogs.data);
 
         $scope.loadingHistoryLogs = false;
       });
@@ -45,7 +48,7 @@ angular
     $scope.availableHistoryDateFilters = [
       { name: 'Hoje', beginDate: moment().startOf('day').format(), endDate: moment().endOf('day').format(), selected: false },
       { name: 'Ontem', beginDate: moment().subtract(1, 'days').startOf('day').format(), endDate: moment().subtract(1, 'days').endOf('day').format(), selected: false },
-      { name: 'Este mês', beginDate: moment().startOf('month').format(), endDate: moment().subtract(1, 'days').endOf('day').format(), selected: false },
+      { name: 'Este mês', beginDate: moment().startOf('month').format(), endDate: moment().endOf('day').format(), selected: false },
       { name: 'Mês passado', beginDate: moment().subtract(1, 'months').startOf('month').format(), endDate: moment().subtract(1, 'months').subtract(1, 'days').endOf('day').format(), selected: false },
       { name: 'Todos', beginDate: null, endDate: null, selected: true }
     ];
@@ -74,7 +77,6 @@ angular
     };
 
     $scope.close = function() {
-      clearData();
       $modalInstance.close();
     };
   });
