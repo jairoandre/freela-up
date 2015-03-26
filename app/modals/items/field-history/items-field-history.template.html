@@ -51,7 +51,7 @@
 
         <div class="action">
           <p>
-            <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> {{ log.action.toLowerCase() }}<span ng-if="log.kind === 'fields'">: <span ng-repeat="field in log.objects"><span ng-show="$index > 1">,</span> <a href="">{{ field.label }}</a></span>.</span>
+            <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> alterou o conteúdo do campo de <b>{{ log.changes.previous_content }}</b> para <b>{{ log.changes.new_content }}</b>.</span>
           </p>
 
           <div class="divider"></div>

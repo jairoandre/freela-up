@@ -4,7 +4,23 @@ angular
   .module('FieldHistoryModalControllerModule', [])
 
   .controller('FieldHistoryModalController', function($rootScope, $scope, $modalInstance, Restangular, itemHistoryResponse, itemId, field) {
-    $scope.historyLogs = itemHistoryResponse.data;
+    $scope.historyLogs = [];
+
+    for (var i = itemHistoryResponse.data.length - 1; i >= 0; i--) {
+      var newObj = {}, f = itemHistoryResponse.data[i];
+
+      newObj.user = f.user;
+      newObj.created_at = f.created_at;
+
+      newObj.changes = _.filter(f.fields_changes, function(obj) {
+        return obj.field.id == field.id;
+      })[0];
+
+      $scope.historyLogs.push(newObj);
+    };
+
+    console.log($scope.historyLogs);
+
     $scope.field = field;
     $rootScope.resolvingRequest = false;
 
