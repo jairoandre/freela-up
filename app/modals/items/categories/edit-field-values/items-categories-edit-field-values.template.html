@@ -32,7 +32,7 @@
     </div>
 
     <ul class="fieldOptions">
-      <li ng-repeat="option in field.field_options track by $index" inventory-single-value>
+      <li ng-repeat="option in field.field_options | orderBy:'value' track by $index" inventory-single-value>
         <a class="edit_value" ng-class="{'disabled': option.disabled}" href="" ng-click="!option.disabled ? editingValue = true : return;" ng-hide="editingValue">{{ option.value }} <span class="label label-danger" ng-show="option.disabled">Opção removida</span> </a>
 
         <div class="edit_label" ng-show="editingValue">
