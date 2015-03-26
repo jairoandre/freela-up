@@ -15,7 +15,7 @@
   <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">
     <div class="background" ng-style="{ 'background-color': status.color }"></div>
     <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
-    <a class="pull-right" ng-click="editItemStatus(item, category)" href="" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', category.id) || hasPermission('inventories_items_delete', category.id)">Alterar status</a>
+    <a class="pull-right" ng-click="editItemStatus(item, category)" href="" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', category.id) || hasPermission('inventories_items_edit', category.id)">Alterar status</a>
 
     <div class="clearfix"></div>
   </div>
