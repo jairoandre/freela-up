@@ -204,7 +204,8 @@ angular
         options['created_at[end]'] = $scope.endDate;
       }
 
-      if ($scope.sort.column !== '') {
+      if ($scope.sort.column !== '')
+      {
         options.sort = $scope.sort.column;
         options.order = $scope.sort.descending ? 'desc' : 'asc';
       }
@@ -275,10 +276,12 @@ angular
 
           var lastPage = Math.ceil($scope.total / perPage);
 
-          if (page === (lastPage + 1)) {
+          if (page === (lastPage + 1))
+          {
             $scope.loadingPagination = null;
           }
-          else {
+          else
+          {
             $scope.loadingPagination = false;
           }
 
@@ -325,8 +328,6 @@ angular
           {
             $scope.reloading = false;
           }
-
-          page++;
         });
       }
       else
