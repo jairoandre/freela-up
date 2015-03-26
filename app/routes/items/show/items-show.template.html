@@ -69,6 +69,8 @@
               Sem imagens.
             </p>
 
+            <a href="" class="show-field-history" ng-click="showFieldHistory(field)"><b class="glyphicon glyphicon-time"></b> Histórico</a>
+
             <div class="cleafix"></div>
         </div>
       </div>
@@ -112,7 +114,7 @@
             </div>
           </div>
 
-          <div class="filter col-xs-3 col-md-offset-1">
+          <div class="filter period col-xs-3">
             <b>Período</b>
 
             <div class="btn-group">
@@ -122,18 +124,20 @@
 
               <ul class="dropdown-menu" role="menu">
                 <li ng-repeat="filter in availableHistoryDateFilters" ng-class="{'active': filter.selected }"><a href="" ng-click="selectDateFilter(filter)">{{ filter.name }}</a></li>
+                <li class="divider"></li>
+                <li ng-class="{ 'active': showCustomDateHelper }"><a href="" ng-click="showCustomDateFields()">Por período</a></li>
               </ul>
             </div>
           </div>
 
-          <div class="filter datepicker col-xs-2">
-            <input type="text" class="form-control" datepicker-popup ng-model="historyFilterBeginDate" show-weeks="false" show-button-bar="false" />
+          <div class="filter datepicker col-xs-2 pages-animation" ng-show="showCustomDateHelper">
+            <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="historyFilterBeginDate" show-weeks="false" show-button-bar="false" ng-change="refreshHistory()" />
           </div>
 
-          <span class="filter until col-xs-1">até</span>
+          <span class="filter until col-xs-1 pages-animation" ng-show="showCustomDateHelper">até</span>
 
-          <div class="filter datepicker last col-xs-2">
-            <input type="text" class="form-control" datepicker-popup ng-model="historyFilterEndDate" show-weeks="false" show-button-bar="false" />
+          <div class="filter datepicker last col-xs-2" ng-show="showCustomDateHelper">
+            <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="historyFilterEndDate" show-weeks="false" show-button-bar="false" ng-change="refreshHistory()" />
           </div>
 
           <div class="clearfix"></div>
@@ -142,6 +146,8 @@
         <div class="timeline">
 
           <div class="loadingHistoryLogs pages-animation" ng-show="loadingHistoryLogs"><span></span></div>
+
+          <div class="empty" ng-show="historyLogs.length === 0"><p>Não há alterações cadastradas.</p></div>
 
           <div class="line"><span></span></div>
 
@@ -152,7 +158,7 @@
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> {{ log.action.toLowerCase() }}<span ng-if="log.kind === 'fields'">: <span ng-repeat="field in log.objects"><span ng-show="$index > 1">,</span> <a href="">{{ field.label }}</a></span>.</span>
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> {{ log.action.toLowerCase() }}<span ng-if="log.kind === 'fields'">: <span ng-repeat="field in log.objects"><span ng-show="$index > 1">,</span> <a href="" ng-click="showFieldHistory(field.id)">{{ field.label }}</a></span>.</span>
               </p>
 
               <div class="divider"></div>

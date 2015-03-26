@@ -4,10 +4,11 @@ angular
   .module('ItemsShowControllerModule', [
     'MapShowItemComponentModule',
     'MapViewStreetviewComponentModule',
+    'FieldHistoryModalControllerModule',
     'GalleryComponentModule'
   ])
 
-  .controller('ItemsShowController', function ($scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse, itemHistoryResponse) {
+  .controller('ItemsShowController', function ($rootScope, $scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse, itemHistoryResponse) {
     $scope.item = itemResponse.data;
 
     for (var i = categoriesResponse.data.length - 1; i >= 0; i--) {
@@ -98,8 +99,31 @@ angular
       });
     };
 
+    $scope.showFieldHistory = function(field) {
+      $rootScope.resolvingRequest = true;
+
+      $modal.open({
+        templateUrl: 'modals/items/field-history/items-field-history.template.html',
+        windowClass: 'field-history-modal',
+        resolve: {
+          field: function() {
+            return field;
+          },
+
+          itemId: function() {
+            return $scope.item.id;
+          },
+
+          'itemHistoryResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+            return Restangular.one('inventory').one('items', $scope.item.id).one('history').getList(null, { object_id: field.id });
+          }]
+        },
+        controller: 'FieldHistoryModalController'
+      });
+    };
+
     // item history
-    var refreshHistory = function() {
+    $scope.refreshHistory = function() {
       var options = {}, selectedFilters = $scope.selectedFilters();
 
       if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
@@ -149,7 +173,7 @@ angular
     $scope.toggleOption = function(option) {
       option.selected = !option.selected;
 
-      refreshHistory();
+      $scope.refreshHistory();
     };
 
     $scope.resetHistoryFilters = function() {
@@ -157,7 +181,15 @@ angular
         filter.selected = true;
       });
 
-      refreshHistory();
+      $scope.refreshHistory();
+    };
+
+    $scope.showCustomDateFields = function() {
+      _.each($scope.availableHistoryDateFilters, function(filter) {
+        filter.selected = false;
+      });
+
+      $scope.showCustomDateHelper = true;
     };
 
     $scope.selectDateFilter = function(filter) {
@@ -170,7 +202,9 @@ angular
       $scope.historyFilterBeginDate = filter.beginDate;
       $scope.historyFilterEndDate = filter.endDate;
 
-      refreshHistory();
+      $scope.showCustomDateHelper = false;
+
+      $scope.refreshHistory();
     };
 
     $scope.historyLogs = itemHistoryResponse.data;

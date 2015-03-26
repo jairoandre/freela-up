@@ -1,5 +1,15 @@
 @import "compass/css3";
 
+.show-field-history {
+  border: 1px solid #DBDBDB;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 9px 18px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
 .item-history {
   margin: 40px 60px 60px;
 
@@ -62,6 +72,10 @@
     }
   }
 
+  .period .dropdown-menu {
+    padding-bottom: 5px;
+  }
+
   .datepicker {
     .dropdown-menu {
       padding: 10px 15px;
@@ -87,6 +101,11 @@
     list-style: none;
     padding: 0px;
     position: relative;
+
+    .empty {
+      text-align: center;
+      margin: 30px;
+    }
 
     .loadingHistoryLogs {
       width: 100%;
@@ -169,5 +188,15 @@
         border-bottom: 1px solid #E5E5E5;
       }
     }
+  }
+}
+
+.field-history-modal {
+  .modal-dialog {
+    width: 800px;
+  }
+
+  .item-history {
+    margin: 0px;
   }
 }
