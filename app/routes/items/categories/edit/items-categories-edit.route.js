@@ -18,6 +18,11 @@ angular
               return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
             }],
 
+            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$rootScope', function(FullResponseRestangular, $stateParams, $rootScope) {
+              if (hasPermission('inventories_formulas_full_access')) return FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
+              else return false;
+            }],
+
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
             }]

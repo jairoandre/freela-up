@@ -18,7 +18,7 @@ angular.
     'InventoryTriggerComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader, formulasResponse) {
     var updating = $scope.updating = false;
 
     if (categoryResponse)
@@ -651,7 +651,8 @@ angular.
     };
 
     // triggers
-    $scope.triggers = [];
+    if (formulasResponse) $scope.triggers = formulasResponse.data;
+    else $scope.triggers = [];
 
     $scope.onlyActiveTriggers = function(item) {
       if (!_.isUndefined(item._destroy) && item._destroy == true) return false;
