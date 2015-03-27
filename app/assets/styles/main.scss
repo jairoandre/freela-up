@@ -3827,8 +3827,8 @@ colorpicker-preview {
         background: #FFF;
         .arrow_icon {
           &:after {
-            top: -16px;
-            left: 3px;
+            top: -16px !important;
+            left: 3px !important;
             content: "\e113";
           }
         }
