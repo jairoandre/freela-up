@@ -24,6 +24,9 @@ angular
           return Restangular.one('reports', $stateParams.id).all('comments').getList();
         }],
 
+        'reportHistoryResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+          return Restangular.one('reports').one('items', $stateParams.id).one('history').getList();
+        }],
       },
       views: {
         '': {

@@ -50,6 +50,10 @@ angular
               return false;
             },
 
+            'formulasResponse': function() {
+              return false;
+            },
+
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
             }]

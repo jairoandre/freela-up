@@ -26,11 +26,12 @@ angular.
       updating = true;
       $scope.updating = true;
 
-      $scope.groups = groupsResponse.data;
       $scope.category = categoryResponse.data;
 
       var categoryId = $scope.category.id;
     }
+
+    $scope.groups = groupsResponse.data;
 
     $scope.unsavedCategory = false;
     $scope.showDisabledFields = {active: true};
@@ -125,6 +126,10 @@ angular.
           'title': 'Localização',
           'required': true,
           'location': true,
+          'permissions': {
+            'groups_can_view': [],
+            'groups_can_edit': []
+          },
           'fields': [
             {
               'title': 'longitude',
@@ -137,7 +142,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': true,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'postal_code',
@@ -150,7 +159,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'road_classification',
@@ -163,7 +176,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'city',
@@ -176,7 +193,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'latitude',
@@ -189,7 +210,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': true,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'address',
@@ -202,7 +227,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'district',
@@ -215,7 +244,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'state',
@@ -228,7 +261,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             },
             {
               'title': 'codlog',
@@ -241,7 +278,11 @@ angular.
               'maximum': null,
               'minimum': null,
               'required': false,
-              'location': true
+              'location': true,
+              'permissions': {
+                'groups_can_view': [],
+                'groups_can_edit': []
+              }
             }
           ]
         }];
@@ -662,7 +703,7 @@ angular.
 
     $scope.newTrigger = function() {
       var newTrigger = {
-        conditions: [], // jshint ignore:line
+        conditions: [{inventory_field_id: null, operator: 'equal_to', content: null}], // jshint ignore:line
         inventory_status_id: null,
         isNew: true
       };
