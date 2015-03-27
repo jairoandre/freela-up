@@ -662,7 +662,7 @@ angular.
 
     $scope.newTrigger = function() {
       var newTrigger = {
-        conditions: [], // jshint ignore:line
+        conditions: [{inventory_field_id: null, operator: 'equal_to', content: null}], // jshint ignore:line
         inventory_status_id: null,
         isNew: true
       };
