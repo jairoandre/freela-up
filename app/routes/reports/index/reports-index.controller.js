@@ -316,8 +316,6 @@ angular
           {
             $scope.reloading = false;
           }
-
-          page++;
         });
       }
       else

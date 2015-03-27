@@ -91,7 +91,13 @@ angular
 
         if (!$scope.isExistingField)
         {
-          $scope.field.field_options.concat(fieldToBeCreated);
+          for (var i = fieldToBeCreated.length - 1; i >= 0; i--) {
+            $scope.field.field_options.push({ value: fieldToBeCreated[i], disabled: false });
+          };
+
+          $scope.loadingValue = false;
+
+          setFieldOptions($scope.field.field_options);
         }
         else
         {
@@ -121,6 +127,10 @@ angular
         if (!$scope.isExistingField)
         {
           $scope.field.field_options.push(newOption);
+
+          $scope.loadingValue = false;
+
+          setFieldOptions($scope.field.field_options);
         }
         else
         {

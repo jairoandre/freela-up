@@ -8,6 +8,19 @@
   padding: 9px 18px;
   border-radius: 7px;
   font-weight: bold;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  @include transition-property(opacity);
+  @include transition-duration(500ms);
+
+  @include opacity(0.3);
+}
+
+.fields .field:hover .show-field-history {
+  @include opacity(1);
 }
 
 .item-history {
@@ -107,6 +120,15 @@
       margin: 30px;
     }
 
+    .gradient {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+
+      @include background-image(linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7)));
+    }
+
     .loadingHistoryLogs {
       width: 100%;
       height: 100%;
@@ -183,6 +205,12 @@
         }
       }
 
+      .author {
+        color: #9A9A9A;
+        font-size: 13px;
+        margin: -15px 0 15px 0;
+      }
+
       .divider {
         width: 100%;
         border-bottom: 1px solid #E5E5E5;
@@ -198,5 +226,14 @@
 
   .item-history {
     margin: 0px;
+
+    .filter.datepicker {
+      padding-top: 0px;
+      padding-right: 0px;
+    }
+
+    .filter.until {
+      padding-top: 8px;
+    }
   }
 }

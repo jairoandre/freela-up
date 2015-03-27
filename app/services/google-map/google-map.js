@@ -219,6 +219,39 @@ angular
       return this.map.getCenter();
     };
 
+    Map.prototype.createCircle = function(LatLng, radius) {
+      var circle = new google.maps.Circle({
+        strokeWeight: 1,
+        strokeColor: '#37A6CF',
+        fillColor: '#37A6CF',
+        map: this.map,
+        center: LatLng,
+        radius: radius
+      });
+
+      return circle;
+    };
+
+    var activeAreas = [];
+
+    Map.prototype.clearCircles = function() {
+      for (var i = activeAreas.length - 1; i >= 0; i--) {
+        activeAreas[i].setMap(null);
+      };
+    };
+
+    Map.prototype.processAreaFilters = function(areas) {
+      this.clearCircles();
+
+      for (var i = areas.length - 1; i >= 0; i--) {
+        var area = areas[i];
+
+        var pos = new google.maps.LatLng(area.latitude, area.longitude);
+
+        activeAreas.push(this.createCircle(pos, area.distance));
+      };
+    };
+
     return Map;
 
   });

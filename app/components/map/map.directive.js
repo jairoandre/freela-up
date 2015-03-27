@@ -13,10 +13,10 @@ angular
       scope: {
         getCategory: '&',
         getData: '&',
-        getFiltersOptions: '&'
+        getFiltersOptions: '&',
+        filterSelectedAreas: '='
       },
       link: function postLink(scope, element, attrs) {
-
         var itemsAreReports = attrs.mapCategory === 'reports' ? true : false;
 
         // we create a new map instance
@@ -95,6 +95,10 @@ angular
 
         scope.$on('mapRefreshRequested', function () {
           boundsChanged();
+
+          scope.$watch('filterSelectedAreas', function() {
+            map.processAreaFilters(scope.filterSelectedAreas);
+          });
         });
       }
   }

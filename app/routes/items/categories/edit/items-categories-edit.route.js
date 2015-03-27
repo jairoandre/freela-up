@@ -18,6 +18,19 @@ angular
               return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
             }],
 
+            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$q', function(FullResponseRestangular, $stateParams, $q) {
+              var defer = $q.defer(),
+                  triggersPromise = FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
+
+              triggersPromise.then(function(response) {
+                defer.resolve(response);
+              }, function() {
+                defer.resolve(false);
+              });
+
+              return defer.promise;
+            }],
+
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList();
             }]
@@ -34,6 +47,10 @@ angular
           controllerAs: 'ctrl',
           resolve: {
             'categoryResponse': function() {
+              return false;
+            },
+
+            'formulasResponse': function() {
               return false;
             },
 
