@@ -96,9 +96,9 @@ angular
         scope.$on('mapRefreshRequested', function () {
           boundsChanged();
 
-          scope.$watch('filterSelectedAreas', function() {
-            map.processAreaFilters(scope.filterSelectedAreas);
-          });
+//          scope.$watch('filterSelectedAreas', function() {
+//            map.processAreaFilters(scope.filterSelectedAreas);
+//          });
         });
       }
   }
