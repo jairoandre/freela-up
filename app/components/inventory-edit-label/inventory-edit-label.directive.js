@@ -25,7 +25,7 @@ angular
         };
 
         scope.saveLabel = function() {
-          if (scope.label.length < 5)
+          if (scope.label.length === 0)
           {
             $rootScope.showMessage('exclamation-sign', 'Você não pode deixar o título do campo em branco.', 'error');
 
