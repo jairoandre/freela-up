@@ -45,8 +45,8 @@
         </select>
       </div>
 
-      <div class="col col-xs-1" ng-show="newField.field !== null">
-        <button type="button" class="btn btn-info btn-custom" ng-click="addItem()">Ok</button>
+      <div class="col col-xs-1">
+        <button type="button" class="btn btn-info btn-custom" ng-click="addItem()" ng-disabled="!newField.field || !newField.condition || !newField.value || newField.value.length === 0">Ok</button>
       </div>
 
       <div class="block-disabled" ng-show="newField.category === null"></div>
