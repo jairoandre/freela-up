@@ -7,7 +7,7 @@ angular
     var processLogs = function(historyLogs) {
       var logs = [];
 
-      for (var i = historyLogs.length - 1; i >= 0; i--) {
+      for (var i = 0; i < historyLogs.length; i++) {
         var newObj = {}, f = historyLogs[i];
 
         newObj.user = f.user;
