@@ -254,6 +254,11 @@ angular
       this.activeFilterAreas[i] = [];
     };
 
+    var getOuterCircleDistance = function(originalDistance, map) {
+      var p = Math.pow(2, (21 - map.getZoom()))
+      return originalDistance + p * 1128.497220 * 0.0027;
+    };
+
     Map.prototype.processAreaFilters = function(areas) {
       this.clearCircles();
 
@@ -264,7 +269,7 @@ angular
         var pos = new google.maps.LatLng(area.latitude, area.longitude);
 
         var innerCircle = this.createCircle(pos, area.distance, true);
-        var outerCircle = this.createCircle(pos, area.distance + ((1 / this.getZoom()) * 90000));
+        var outerCircle = this.createCircle(pos, getOuterCircleDistance(area.distance, this));
 
         this.activeFilterAreas.push({ inner: innerCircle, outer: outerCircle });
       };
@@ -272,9 +277,9 @@ angular
 
     Map.prototype.changeFilterOuterCircles = function() {
       for (var i = this.activeFilterAreas.length - 1; i >= 0; i--) {
-        var newRadius = this.activeFilterAreas[i].outer.originalDistance + ((40 / this.getZoom()) * 100000);
+        var newRadius = getOuterCircleDistance(this.activeFilterAreas[i].outer.originalDistance, this);
 
-        console.log('original -> ', this.activeFilterAreas[i].outer.originalDistance, ' new radius -> ', newRadius);
+        console.log('original -> ', this.activeFilterAreas[i].outer.originalDistance, ' new radius -> ', newRadius, 'zoom -> ', this.getZoom());
 
         this.activeFilterAreas[i].outer.set('radius', newRadius);
       };
