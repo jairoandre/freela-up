@@ -33,7 +33,7 @@ angular
 
     $scope.deleteGroup = function (group) {
       $modal.open({
-        templateUrl: 'removeGroup.html',
+        templateUrl: 'modals/groups/destroy/groups-destroy.template.html',
         windowClass: 'removeModal',
         resolve: {
           groupsList: function(){
