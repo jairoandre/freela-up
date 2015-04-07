@@ -108,6 +108,7 @@ angular
             slug: 'inventories_items_edit',
             name: 'Editar itens',
             needsObject: true,
+            needsPermission: 'inventories_items_read_only',
             tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e editar os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
           },
 
