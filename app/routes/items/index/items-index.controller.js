@@ -213,10 +213,22 @@ angular
       // fields
       if ($scope.fields.length !== 0)
       {
+        console.log($scope.fields);
         for (var i = $scope.fields.length - 1; i >= 0; i--) {
           var key = 'fields[' + $scope.fields[i].id + '][' + $scope.fields[i].condition + ']';
 
-          options[key] = $scope.fields[i].value;
+          if (_.isArray($scope.fields[i].value))
+          {
+            for (var j = $scope.fields[i].value.length - 1; j >= 0; j--) {
+              var tempKey = key + '[' + j + ']';
+
+              options[tempKey] = $scope.fields[i].value[j];
+            };
+          }
+          else
+          {
+            options[key] = $scope.fields[i].value;
+          }
         }
       }
 
