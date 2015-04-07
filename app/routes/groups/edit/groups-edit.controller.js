@@ -376,6 +376,27 @@ angular
       }
     };
 
+    $scope.selectAllObjects = function(objects) {
+      for (var i = objects.length - 1; i >= 0; i--) {
+
+        var x = false;
+
+        for (var j = 0 ; j < $scope.newPermission.objects.length; j++) {
+          if ($scope.newPermission.objects[j].id == objects[i].id)
+          {
+            x = true;
+          }
+        };
+
+        if (!x) $scope.newPermission.objects.push(objects[i]);
+
+        if (!_.isUndefined(objects[i].subcategories))
+        {
+          $scope.selectAllObjects(objects[i].subcategories);
+        }
+      };
+    };
+
     // We need to hide all permissions that a
     $scope.isObjectNeeded = function() {
       if ($scope.newPermission.slugs.length === 0)

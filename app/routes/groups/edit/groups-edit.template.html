@@ -62,14 +62,20 @@
             </div>
 
             <ul ng-if="newPermission.type === 'flow'">
+              <li><a href="" ng-click="selectAllObjects(flows)">Selecionar todos os fluxos</a></li>
+
               <li ng-repeat="flow in flows | filter:q" ng-class="{ 'active': isObjectSelected(flow.id) }"><a href="" ng-click="toggleObject(flow)"><span ng-bind-html="flow.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
             </ul>
 
             <ul ng-if="newPermission.type === 'group'">
+              <li><a href="" ng-click="selectAllObjects(groups)">Selecionar todos os grupos</a></li>
+
               <li ng-repeat="group in groups | filter:q" ng-class="{ 'active': isObjectSelected(group.id) }"><a href="" ng-click="toggleObject(group)"><span ng-bind-html="group.name  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
             </ul>
 
             <ul ng-if="newPermission.type === 'report'">
+              <li><a href="" ng-click="selectAllObjects(reportsCategories)">Selecionar todas as categorias</a></li>
+
               <li ng-repeat="category in reportsCategories | filter:q" ng-class="{ 'active': isObjectSelected(category.id) }">
                 <a href="" ng-click="toggleObject(category)"><span ng-bind-html="category.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
 
@@ -80,6 +86,8 @@
             </ul>
 
             <ul ng-if="newPermission.type === 'inventory'">
+              <li><a href="" ng-click="selectAllObjects(inventoriesCategories)">Selecionar todas as categorias</a></li>
+
               <li ng-repeat="category in inventoriesCategories | filter:q" ng-class="{ 'active': isObjectSelected(category.id) }"><a href="" ng-click="toggleObject(category)"><span ng-bind-html="category.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
             </ul>
 
