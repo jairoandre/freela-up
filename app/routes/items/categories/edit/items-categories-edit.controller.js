@@ -15,7 +15,8 @@ angular.
     'InputsSidebarComponentModule',
     'InventoryDraggableInputComponentModule',
     'InventoryEditSectionComponentModule',
-    'InventoryTriggerComponentModule'
+    'InventoryTriggerComponentModule',
+    'InventoryTriggerConditionComponentModule'
   ])
 
   .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader, formulasResponse) {

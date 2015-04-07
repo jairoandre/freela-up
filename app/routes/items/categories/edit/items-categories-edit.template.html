@@ -474,7 +474,7 @@
             </thead>
             <tbody>
 
-              <tr ng-repeat="condition in trigger.conditions | filter: onlyActiveTriggers">
+              <tr ng-repeat="condition in trigger.conditions | filter: onlyActiveTriggers" inventory-trigger-condition>
                 <td>
                   <label class="select-trigger">
                     <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="condition.inventory_field_id" data-placeholder="Selecione um campo">
@@ -492,7 +492,7 @@
                   </label>
                 </td>
 
-                <td>
+                <td ng-show="true">
                   <input type="text" class="form-control" ng-model="condition.content">
                 </td>
 
