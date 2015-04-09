@@ -70,7 +70,7 @@ angular
       {
         $scope.loadingPagination = true;
 
-        var usersPromise = Restangular.one('groups', groupId).one('users').getList(null, { 'page': page, 'per_page': perPage });
+        var usersPromise = Restangular.all('search').one('groups', groupId).one('users').getList(null, { 'page': page, 'per_page': perPage, 'name': $scope.searchText });
 
         usersPromise.then(function(response) {
           if (paginate !== true)
@@ -113,6 +113,15 @@ angular
     };
 
     getData(true);
+
+    $scope.search = function(text) {
+      $scope.searchText = text;
+
+      $scope.loadingPagination = false;
+      $scope.users = [];
+      page = 0;
+      getData(true);
+    };
 
     $scope.editGroup = function () {
       $modal.open({
