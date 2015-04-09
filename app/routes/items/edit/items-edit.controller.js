@@ -378,15 +378,18 @@ angular
           };
 
           // we add the images with the other field's images, if any were to be destroyed
-          if (typeof formattedData.data[id] === 'undefined')
+          if (imagesObj.length !== 0)
           {
-            formattedData.data[id] = imagesObj;
-          }
-          else
-          {
-            for (var i = imagesObj.length - 1; i >= 0; i--) {
-              formattedData.data[id].push(imagesObj[i]);
-            };
+            if (typeof formattedData.data[id] === 'undefined')
+            {
+              formattedData.data[id] = imagesObj;
+            }
+            else
+            {
+              for (var i = imagesObj.length - 1; i >= 0; i--) {
+                formattedData.data[id].push(imagesObj[i]);
+              };
+            }
           }
 
           // we processed all the images for this field! :-D
