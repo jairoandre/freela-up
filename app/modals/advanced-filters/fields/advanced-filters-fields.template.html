@@ -19,7 +19,10 @@
       <div class="col col-xs-4">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.fieldId" data-placeholder="Selecione uma opção">
           <option value="">Selecione um campo...</option>
-          <option ng-repeat="field in newField.category.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
+
+          <optgroup ng-repeat="section in newField.category.sections" label="{{ section.title }}">
+            <option ng-repeat="field in section.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
+          </optgroup>
         </select>
       </div>
 
@@ -35,12 +38,19 @@
         </div>
       </div>
 
-      <div class="col col-xs-4" ng-show="newField.field.kind !== 'radio' && newField.field.kind !== 'checkbox' && newField.field.kind !== 'select' && newField.field !== null">
+      <div class="col col-xs-4" ng-if="newField.field.kind !== 'radio' && newField.field.kind !== 'checkbox' && newField.field.kind !== 'select' && newField.field !== null">
         <input type="text" class="form-control" placeholder="Digite o valor" ng-model="newField.value" />
       </div>
 
-      <div class="col col-xs-4" ng-show="(newField.field.kind === 'radio' || newField.field.kind === 'checkbox' || newField.field.kind === 'select') && newField.field !== null">
+      <div class="col col-xs-4" ng-if="(newField.field.kind === 'radio' || newField.field.kind === 'checkbox' || newField.field.kind === 'select') && newField.field !== null && newField.condition.canSelectMultiple === true">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.value" data-placeholder="Selecione uma opção" multiple>
+          <option ng-repeat="option in newField.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
+        </select>
+      </div>
+
+      <div class="col col-xs-4" ng-if="(newField.field.kind === 'radio' || newField.field.kind === 'checkbox' || newField.field.kind === 'select') && newField.field !== null && newField.condition.canSelectMultiple === false">
+        <select style="width: 100%;" ui-select2 ng-model="newField.value" data-placeholder="Selecione uma opção">
+          <option value="">Selecione uma opção...</option>
           <option ng-repeat="option in newField.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
         </select>
       </div>
@@ -82,12 +92,18 @@
         </div>
       </td>
 
-      <td ng-show="item.field.kind !== 'radio' && item.field.kind !== 'checkbox' && item.field.kind !== 'select'">
+      <td ng-if="item.field.kind !== 'radio' && item.field.kind !== 'checkbox' && item.field.kind !== 'select'">
         <input type="text" class="form-control" placeholder="Digite o valor" ng-model="item.value" />
       </td>
 
-      <td ng-show="item.field.kind === 'radio' || item.field.kind === 'checkbox' || item.field.kind === 'select'">
+      <td ng-if="(item.field.kind === 'radio' || item.field.kind === 'checkbox' || item.field.kind === 'select') && item.condition.canSelectMultiple === true">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.value" data-placeholder="Selecione uma opção" multiple>
+          <option ng-repeat="option in item.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
+        </select>
+      </td>
+
+      <td ng-if="(item.field.kind === 'radio' || item.field.kind === 'checkbox' || item.field.kind === 'select') && item.condition.canSelectMultiple === false">
+        <select style="width: 100%;" ui-select2 ng-model="item.value" data-placeholder="Selecione uma opção">
           <option ng-repeat="option in item.field.field_options" value="{{ option.value }}">{{ option.value }}</option>
         </select>
       </td>
