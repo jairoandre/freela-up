@@ -75,8 +75,13 @@
 
     <tr ng-repeat="item in items" fields-filter-item>
       <td>
-        <select class="multiple-select" style="width: 180px;" ui-select2 ng-model="item.fieldId" data-placeholder="Selecione uma opção">
-          <option ng-repeat="field in item.category.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
+        <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="item.fieldId" data-placeholder="Selecione uma opção">
+          <option value="">Selecione um campo...</option>
+
+          <optgroup ng-repeat="section in item.category.sections" label="{{ section.title }}">
+            <option ng-repeat="field in section.fields" ng-value="field.id" ng-show="field.disabled !== true">{{ field.label && field.label || field.title }}</option>
+          </optgroup>
+        </select>
         </select>
       </td>
 
