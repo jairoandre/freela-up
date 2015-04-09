@@ -5,8 +5,8 @@
     <li>{{ user.name }}</li>
   </ul>
 
-  <a class="icon_action" href="" ng-click="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></a>
-  <a href="#/users/{{ user.id }}/edit" class="icon_action"><span class="glyphicon glyphicon-edit"></span></a>
+  <a class="icon_action" href="" ng-click="deleteUser(user)" ng-show="hasPermission('users_full_access')"><span class="glyphicon glyphicon-trash"></span></a>
+  <a href="#/users/{{ user.id }}/edit" class="icon_action" ng-show="hasPermission('users_full_access')"><span class="glyphicon glyphicon-edit"></span></a>
 </div>
 
 <div class="content">
