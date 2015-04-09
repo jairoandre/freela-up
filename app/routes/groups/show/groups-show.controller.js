@@ -8,9 +8,11 @@ angular
   ])
 
   .controller('GroupsShowController', function ($scope, Restangular, $stateParams, $q, $modal) {
-    var groupId = $stateParams.id;
+    var groupId = $stateParams.id, page = 1, perPage = 15;
 
     $scope.loading = true;
+    $scope.loadingPagination = false;
+    $scope.total = 0;
 
     $scope.sort = {
       column: '',
@@ -55,15 +57,62 @@ angular
     };
 
     var groupsPromise = Restangular.one('groups', groupId).get();
-    var usersPromise = Restangular.one('groups', groupId).one('users').getList();
 
     // Get specific group
-    $q.all([groupsPromise, usersPromise]).then(function(responses) {
-      $scope.group = responses[0].data;
-      $scope.users = responses[1].data;
+    groupsPromise.then(function(response) {
+      $scope.group = response.data;
 
       $scope.loading = false;
     });
+
+    var getData = $scope.getData = function(paginate) {
+      if ($scope.loadingPagination === false)
+      {
+        $scope.loadingPagination = true;
+
+        var usersPromise = Restangular.one('groups', groupId).one('users').getList(null, { 'page': page, 'per_page': perPage });
+
+        usersPromise.then(function(response) {
+          if (paginate !== true)
+          {
+            $scope.users = response.data;
+          }
+          else
+          {
+            if (typeof $scope.users === 'undefined')
+            {
+              $scope.users = [];
+            }
+
+            for (var i = 0; i < response.data.length; i++) {
+              $scope.users.push(response.data[i]);
+            }
+
+            // add up one page
+            page++;
+          }
+
+          $scope.total = parseInt(response.headers().total);
+
+          var lastPage = Math.ceil($scope.total / perPage);
+
+          if (page === (lastPage + 1) && paginate === true)
+          {
+            $scope.loadingPagination = null;
+          }
+          else
+          {
+            $scope.loadingPagination = false;
+          }
+
+          $scope.loading = false;
+        });
+
+        return usersPromise;
+      }
+    };
+
+    getData(true);
 
     $scope.editGroup = function () {
       $modal.open({

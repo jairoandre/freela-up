@@ -40,7 +40,7 @@
       </tr>
     </thead>
 
-    <tr ng-repeat="user in users | orderBy:sort.column:sort.descending">
+    <tr ng-repeat="user in users | orderBy:sort.column:sort.descending" infinite-scroll="getData(true)" infinite-scroll-distance="2">
       <td><a href="#/users/{{ user.id }}">{{ user.name }}</a></td>
       <td>{{ user.email }}</td>
       <td>{{ user.phone }}</td>
@@ -48,4 +48,6 @@
     </tr>
 
   </table>
+
+  <div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
 </div>
