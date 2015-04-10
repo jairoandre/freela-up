@@ -200,9 +200,9 @@
 
             <!-- field type: checkbox -->
             <div ng-if="field.kind == 'checkbox'">
-              <div class="checkbox" ng-repeat="option in field.field_options track by $index">
+              <div class="checkbox" ng-repeat="option in field.field_options track by $index" ng-hide="option.disabled === true && !itemData[field.id][option.id]">
                 <label>
-                  <input type="checkbox" ng-model="itemData[field.id][option.id]" ng-hide="option.disabled === true && !itemData[field.id][option.id]" ng-required="field.required && !field.disabled">
+                  <input type="checkbox" ng-model="itemData[field.id][option.id]" ng-required="field.required && !field.disabled">
                   {{ option.value }}
                 </label>
               </div>
@@ -210,9 +210,9 @@
 
             <!-- field type: radio -->
             <div ng-if="field.kind == 'radio'">
-              <div class="radio" ng-repeat="option in field.field_options track by $index">
+              <div class="radio" ng-repeat="option in field.field_options track by $index" ng-hide="option.disabled === true && itemData[field.id] !== option.id">
                 <label>
-                  <input type="radio" ng-model="itemData[field.id]" ng-value="option.id" ng-required="field.required && !field.disabled" ng-hide="option.disabled === true && itemData[field.id] !== option.id">
+                  <input type="radio" ng-model="itemData[field.id]" ng-value="option.id" ng-required="field.required && !field.disabled">
                   {{ option.value }}
                 </label>
               </div>

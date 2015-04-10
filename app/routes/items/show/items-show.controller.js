@@ -40,9 +40,10 @@ angular
       return null;
     };
 
+    // TODO: Make this as a component
     $scope.editItemStatus = function (item, category) {
       $modal.open({
-        templateUrl: 'views/inventories/items/editStatus.html',
+        templateUrl: 'modals/items/edit-status/items-edit-status.template.html',
         windowClass: 'editStatusModal',
         resolve: {
           item: function() {
@@ -99,6 +100,7 @@ angular
       });
     };
 
+    // TODO: Component should me ItemsFieldHistoryModalController
     $scope.showFieldHistory = function(field) {
       $rootScope.resolvingRequest = true;
 

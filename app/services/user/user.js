@@ -62,6 +62,11 @@ angular
 
           return false;
         };
+
+        if (!$rootScope.hasPermission('panel_access'))
+        {
+          $state.go('user.unauthorized');
+        }
       }, function() {
         // user is not logged
         deferred.resolve(null);

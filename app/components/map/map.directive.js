@@ -89,7 +89,16 @@ angular
         };
 
         // we bind a few events to the map
+        var currentZoom = map.getZoom();
+
         google.maps.event.addListener(map.getMap(), 'bounds_changed', function () {
+          if (currentZoom !== map.getZoom())
+          {
+            map.changeFilterOuterCircles();
+
+            currentZoom = map.getZoom();
+          }
+
           boundsChanged();
         });
 

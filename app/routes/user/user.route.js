@@ -1,7 +1,8 @@
 angular
   .module('UserModule', [
     'UserLoginModule',
-    'UserLogoutModule'
+    'UserLogoutModule',
+    'UserUnauthorizedModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {

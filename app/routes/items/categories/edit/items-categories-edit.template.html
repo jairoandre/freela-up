@@ -474,7 +474,7 @@
             </thead>
             <tbody>
 
-              <tr ng-repeat="condition in trigger.conditions | filter: onlyActiveTriggers">
+              <tr ng-repeat="condition in trigger.conditions | filter: onlyActiveTriggers" inventory-trigger-condition category="category">
                 <td>
                   <label class="select-trigger">
                     <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="condition.inventory_field_id" data-placeholder="Selecione um campo">
@@ -492,8 +492,14 @@
                   </label>
                 </td>
 
-                <td>
-                  <input type="text" class="form-control" ng-model="condition.content">
+                <td ng-if="condition.field.kind !== 'radio' && condition.field.kind !== 'checkbox' && condition.field.kind !== 'select' && condition.field !== null">
+                  <input type="text" class="form-control" placeholder="Digite o valor" ng-model="condition.content" />
+                </td>
+
+                <td ng-if="(condition.field.kind === 'radio' || condition.field.kind === 'checkbox' || condition.field.kind === 'select') && condition.field !== null">
+                  <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="condition.content" data-placeholder="Selecione uma opção" multiple>
+                    <option ng-repeat="option in condition.field.field_options" value="{{ option.id }}">{{ option.value }}</option>
+                  </select>
                 </td>
 
                 <td class="remove-condition">

@@ -133,7 +133,8 @@
 
       <div class="fields">
         <h5>Nome completo do municipante</h5>
-        <p><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
+        <p ng-show="hasPermission('reports_full_access')"><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
+        <p ng-show="!hasPermission('reports_full_access')">{{ report.user.name }}</p>
 
         <hr />
 

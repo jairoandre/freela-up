@@ -22,7 +22,7 @@
 
   <div class="content wrappers">
 
-    <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'">
+    <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.disabled">
       <div class="wrapper_title"><h1>{{ section.title }}</h1></div>
 
       <div class="fields">

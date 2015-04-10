@@ -14,13 +14,13 @@ angular
     $scope.items = [];
 
     $scope.methods = [
-      { condition: 'greater_than', text: 'Maior que', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle'] },
-      { condition: 'lesser_than', text: 'Menor que', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle'] },
-      { condition: 'equal_to', text: 'Igual a', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
-      { condition: 'different', text: 'Diferente de', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
-      { condition: 'like', text: 'Parecido com', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
-      { condition: 'includes', text: 'Inclui', availableKinds: ['checkbox', 'radio', 'select'] },
-      { condition: 'excludes', text: 'Não inclui', availableKinds: ['checkbox', 'radio', 'select'] },
+      { condition: 'greater_than', canSelectMultiple: false, text: 'Maior que', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle'] },
+      { condition: 'lesser_than', canSelectMultiple: false, text: 'Menor que', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle'] },
+      { condition: 'equal_to', canSelectMultiple: false, text: 'Igual a', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
+      { condition: 'different', canSelectMultiple: false, text: 'Diferente de', availableKinds: ['text', 'integer', 'decimal', 'checkbox', 'radio', 'select', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
+      { condition: 'like', canSelectMultiple: false, text: 'Parecido com', availableKinds: ['text', 'integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time', 'cpf', 'cnpj', 'url', 'email'] },
+      { condition: 'includes', canSelectMultiple: true, text: 'Inclui', availableKinds: ['checkbox', 'radio', 'select'] },
+      { condition: 'excludes', canSelectMultiple: true, text: 'Não inclui', availableKinds: ['checkbox', 'radio', 'select'] },
     ];
 
     $scope.newField = {
@@ -31,15 +31,6 @@ angular
     };
 
     $scope.selectCategory = function(category) {
-      // create array just with fields
-      category.fields = [];
-
-      for (var i = category.sections.length - 1; i >= 0; i--) {
-        for (var j = category.sections[i].fields.length - 1; j >= 0; j--) {
-          category.fields.push(category.sections[i].fields[j]);
-        }
-      }
-
       $scope.newField.category = category;
       $scope.newField.condition = null;
       $scope.newField.field = null;
@@ -54,13 +45,17 @@ angular
     $scope.$watch('newField.fieldId', function() {
       if ($scope.newField.category !== null && $scope.newField.fieldId !== null)
       {
-        for (var i = $scope.newField.category.fields.length - 1; i >= 0; i--) {
-          if ($scope.newField.category.fields[i].id == $scope.newField.fieldId)
-          {
-            $scope.newField.field = $scope.newField.category.fields[i];
+        for (var k = $scope.newField.category.sections.length - 1; k >= 0; k--) {
+          var section = $scope.newField.category.sections[k];
 
-            $scope.selectCondition(null);
-          }
+          for (var i = section.fields.length - 1; i >= 0; i--) {
+            if (section.fields[i].id == $scope.newField.fieldId)
+            {
+              $scope.newField.field = section.fields[i];
+
+              $scope.selectCondition(null);
+            }
+          };
         };
       }
     });
@@ -71,6 +66,11 @@ angular
 
     $scope.addItem = function() {
       $scope.items.push(angular.copy($scope.newField));
+
+      $scope.newField.condition = null;
+      $scope.newField.field = null;
+      $scope.newField.value = null;
+      $scope.newField.fieldId = null;
     };
 
     $scope.save = function() {

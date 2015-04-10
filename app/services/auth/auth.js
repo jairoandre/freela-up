@@ -60,6 +60,11 @@ angular
         delete $cookies.token;
       },
 
+      clearUser: function() {
+        user = null;
+        $rootScope.user = null;
+      },
+
       saveUser: function(data) {
         user = data;
       },

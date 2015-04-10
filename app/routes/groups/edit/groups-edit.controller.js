@@ -108,6 +108,7 @@ angular
             slug: 'inventories_items_edit',
             name: 'Editar itens',
             needsObject: true,
+            needsPermission: 'inventories_items_read_only',
             tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e editar os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
           },
 
@@ -373,6 +374,27 @@ angular
       {
         $scope.newPermission.objects.push(object);
       }
+    };
+
+    $scope.selectAllObjects = function(objects) {
+      for (var i = objects.length - 1; i >= 0; i--) {
+
+        var x = false;
+
+        for (var j = 0 ; j < $scope.newPermission.objects.length; j++) {
+          if ($scope.newPermission.objects[j].id == objects[i].id)
+          {
+            x = true;
+          }
+        };
+
+        if (!x) $scope.newPermission.objects.push(objects[i]);
+
+        if (!_.isUndefined(objects[i].subcategories))
+        {
+          $scope.selectAllObjects(objects[i].subcategories);
+        }
+      };
     };
 
     // We need to hide all permissions that a
