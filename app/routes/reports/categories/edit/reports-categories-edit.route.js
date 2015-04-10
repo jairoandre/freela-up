@@ -16,6 +16,10 @@ angular
           resolve: {
             'reportCategoriesResponse': ['Restangular', function(Restangular) {
               return Restangular.all('reports').all('categories').getList({ 'display_type': 'full' });
+            }],
+
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
             }]
           }
         }
@@ -31,6 +35,10 @@ angular
           resolve: {
             'reportCategoriesResponse': ['Restangular', function(Restangular) {
               return Restangular.all('reports').all('categories').getList();
+            }],
+
+            'groupsResponse': ['Restangular', function(Restangular) {
+              return Restangular.all('groups').getList();
             }]
           }
         }

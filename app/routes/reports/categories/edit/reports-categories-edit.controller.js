@@ -7,7 +7,7 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, Error) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -44,6 +44,7 @@ angular
     };
 
     $scope.reportCategories = reportCategoriesResponse.data;
+    $scope.groups = groupsResponse.data;
 
     var categoriesPromise = Restangular.one('inventory').all('categories').getList(), category;
 
@@ -68,6 +69,8 @@ angular
         category.resolution_time_enabled = responses[1].data.resolution_time_enabled;
         category.comment_required_when_forwarding = responses[1].data.comment_required_when_forwarding;
         category.comment_required_when_updating_status = responses[1].data.comment_required_when_updating_status;
+        category.solver_groups_ids = responses[1].data.solver_groups_ids;
+        category.default_solver_group_id = responses[1].data.default_solver_group_id;
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
@@ -119,6 +122,8 @@ angular
         inventory_categories: [], // jshint ignore:line
         allows_arbitrary_position: true, // jshint ignore:line
         color: '#2AB4DC',
+        solver_groups_ids: [],
+        default_solver_group_id: null,
         statuses: [
           {'title': 'Em andamento', 'color': '#f8b01d', 'initial': false, 'final': false, 'active': true, 'created_at': '2014-03-05T01: 12: 34.181-03: 00', 'updated_at': '2014-03-05T01: 12: 34.181-03: 00', 'private': false},
           {'title': 'Resolvidas', 'color': '#78c953', 'initial': false, 'final': true, 'active': true, 'created_at': '2014-03-05T01: 12: 34.195-03: 00', 'updated_at': '2014-03-05T01: 12: 34.195-03: 00', 'private': false},
@@ -148,6 +153,12 @@ angular
     $scope.pickIcon = function(icon) {
       $scope.selectedIcon = icon;
       uploader.queue = [];
+    };
+
+    $scope.filterByIds = function(item) {
+      if (!~category.solver_groups_ids.indexOf(item.id)) return false;
+
+      return true;
     };
 
     $scope.categoriesAutocomplete = {
