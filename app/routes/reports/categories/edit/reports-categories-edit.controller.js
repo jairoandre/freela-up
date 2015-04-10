@@ -66,6 +66,8 @@ angular
         category.statuses = responses[1].data.statuses;
         category.private_resolution_time = responses[1].data.private_resolution_time;
         category.resolution_time_enabled = responses[1].data.resolution_time_enabled;
+        category.comment_required_when_forwarding = responses[1].data.comment_required_when_forwarding;
+        category.comment_required_when_updating_status = responses[1].data.comment_required_when_updating_status;
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
