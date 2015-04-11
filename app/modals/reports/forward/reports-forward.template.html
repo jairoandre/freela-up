@@ -18,10 +18,12 @@
     </div>
   </div>
 
-  <h5>Comentário interno</h5>
+  <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id)">
+    <h5>Comentário interno</h5>
 
-  <div class="add-comment">
-    <textarea class="form-control" msd-elastic="\n\n\n" placeholder="{{ category.comment_required_when_forwarding ? 'Para que você possa alterar o grupo responsável do relato, é obrigatório realizar um comentário.' : 'Digite aqui uma resposta...' }}" ng-model="report.comment"></textarea>
+    <div class="add-comment">
+      <textarea class="form-control" msd-elastic="\n\n\n" placeholder="{{ category.comment_required_when_forwarding ? 'Para que você possa alterar o grupo responsável do relato, é obrigatório realizar um comentário.' : 'Digite aqui uma resposta...' }}" ng-model="report.comment"></textarea>
+    </div>
   </div>
 </div>
 
