@@ -121,7 +121,7 @@ angular
 
       $scope.loadingContent = true;
 
-      getData().then(function() {
+      getData(false).then(function() {
         $scope.loadingContent = false;
 
         page++;
