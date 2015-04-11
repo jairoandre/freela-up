@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id)">
+  <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)">
     <h5>Comentário interno</h5>
 
     <div class="add-comment">
