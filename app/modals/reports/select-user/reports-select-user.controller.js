@@ -2,8 +2,13 @@
 
 angular
   .module('ReportsSelectUserModalControllerModule', [])
-  .controller('ReportsSelectUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser) {
+  .controller('ReportsSelectUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser, filterByGroups) {
     $scope.loadingPagination = false;
+
+    if (filterByGroups)
+    {
+      $scope.resultsFiltered = true;
+    }
 
     $scope.sort = {
       column: '',
@@ -50,10 +55,24 @@ angular
       // if we searching, hit search/users
       if (searchText !== '')
       {
-        return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
+        var options = {name: searchText, email: searchText, page: page, per_page: perPage};
+
+        if (filterByGroups)
+        {
+          options['groups'] = filterByGroups.join();
+        }
+
+        return Restangular.one('search').all('users').getList(options); // jshint ignore:line
       }
 
-      return Restangular.all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
+      var options = { page: page, per_page: perPage };
+
+      if (filterByGroups)
+      {
+        options['groups'] = filterByGroups.join();
+      }
+
+      return Restangular.all('users').getList(options); // jshint ignore:line
     };
 
     // Get groups for filters

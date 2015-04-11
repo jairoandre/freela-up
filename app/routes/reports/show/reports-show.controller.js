@@ -8,6 +8,7 @@ angular
     'ReportsEditCategoryModalControllerModule',
     'ReportsSelectAddressModalControllerModule',
     'ReportsForwardModalControllerModule',
+    'ReportsSelectUserModalControllerModule',
     'duScroll'
   ])
 
@@ -42,6 +43,17 @@ angular
     };
 
     findCategory();
+
+    $scope.canAssignUser = false;
+
+    _.each($scope.category.solver_groups_ids, function(item) {
+      var found = _.findWhere($rootScope.me.groups, { id: item });
+
+      if (!_.isUndefined(found))
+      {
+        $scope.canAssignUser = true;
+      }
+    });
 
     $scope.images = [];
 
@@ -186,6 +198,34 @@ angular
           }
         },
         controller: 'ReportsForwardModalController'
+      });
+    };
+
+    $scope.assignReport = function () {
+      $modal.open({
+        templateUrl: 'modals/reports/select-user/reports-select-user.template.html',
+        windowClass: 'modal-reports-select-user',
+        resolve: {
+          setUser: ['Restangular', '$state', '$rootScope', function(Restangular, $state, $rootScope) {
+            return function(user) {
+              $rootScope.resolvingRequest = true;
+
+              var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('assign').customPUT({ 'user_id': user.id });
+
+              changeStatusPromise.then(function() {
+                $rootScope.resolvingRequest = false;
+
+                $scope.showMessage('ok', 'O usuário responsável foi alterado com sucesso.', 'success', true);
+                $state.go($state.current, {}, {reload: true});
+              });
+            };
+          }],
+
+          filterByGroups: function() {
+            return $scope.category.solver_groups_ids;
+          }
+        },
+        controller: 'ReportsSelectUserModalController'
       });
     };
 
