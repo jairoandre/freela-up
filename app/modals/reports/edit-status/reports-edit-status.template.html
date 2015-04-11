@@ -8,6 +8,7 @@
 
   <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-custom dropdown-toggle" data-toggle="dropdown">
+
     <span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span> <span class="pull-right"><span class="caret"></span></span>
     </button>
 
@@ -15,8 +16,22 @@
       <li ng-repeat="status in category.statuses" ng-class="{ active: status.id == report.status_id }"><a href="" ng-click="changeStatus(status.id)">{{ status.title }}</a></li>
     </ul>
   </div>
+
+  <h5>Comentário ao munícipe</h5>
+
+  <div class="add-comment">
+    <textarea class="form-control" msd-elastic="\n\n\n" placeholder="{{ category.comment_required_when_updating_status ? 'Para que você possa alterar o status do relato, é obrigatório realizar um comentário.' : 'Digite aqui uma resposta...' }}" ng-model="report.comment"></textarea>
+
+    <div class="options">
+      <input type="checkbox" bs-switch switch-on-text="Privado" switch-off-text="Público" ng-model="report.privateComment">
+
+      <span class="help">{{ report.privateComment == 0 ? 'Respostas públicas podem ser visualizadas por todos os usuários.' : 'Respostas privadas podem ser visualizadas apenas pelo munícipe solicitante.' }}</span>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
 </div>
 
 <div class="modal-footer">
-   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Salvar</button>
+   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()" ng-disabled="processing || (category.comment_required_when_updating_status && (report.comment.length === 0 || !report.comment))">Salvar</button>
 </div>
