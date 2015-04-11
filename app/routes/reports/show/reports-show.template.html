@@ -357,7 +357,7 @@
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-if="log.kind === 'fields'">alterou os campos para: <span ng-repeat="field in log.objects"><span ng-show="$index >= 1">,</span> <a href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span></span><span ng-show="log.kind === 'status'">alterou o estado do inventário para {{ log.objects[0].title }}</span>.
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-if="log.kind === 'fields'">alterou os campos para: <span ng-repeat="field in log.objects"><span ng-show="$index >= 1">,</span> <a href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span></span><span ng-show="log.kind === 'status'">alterou o estado do relato para {{ log.objects[0].title }}</span>.
               </p>
 
               <div class="divider"></div>
