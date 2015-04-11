@@ -44,17 +44,6 @@ angular
 
     findCategory();
 
-    $scope.canAssignUser = false;
-
-    _.each($scope.category.solver_groups_ids, function(item) {
-      var found = _.findWhere($rootScope.me.groups, { id: item });
-
-      if (!_.isUndefined(found))
-      {
-        $scope.canAssignUser = true;
-      }
-    });
-
     $scope.images = [];
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {

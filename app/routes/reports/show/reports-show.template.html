@@ -129,7 +129,7 @@
           <p ng-show="report.assigned_user">{{ report.assigned_user.name }}</p>
           <p ng-show="!report.assigned_user">Não há um usuário responsável pelo relato.</p>
 
-          <a href="" class="link" ng-click="assignReport()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || canAssignUser">Alterar</a>
+          <a href="" class="link" ng-click="assignReport()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar</a>
 
           <div class="clearfix"></div>
         </div>
