@@ -3,7 +3,7 @@
 angular
   .module('ReportsEditStatusModalControllerModule', [])
 
-  .controller('ReportsEditStatusModalController', function(Restangular, $scope, $modalInstance, category, report) {
+  .controller('ReportsEditStatusModalController', function(Restangular, $scope, $state, $modalInstance, category, report) {
     $scope.category = category;
     $scope.report = angular.copy(report);
 
@@ -26,6 +26,9 @@ angular
         $scope.processing = false;
 
         $modalInstance.close();
+
+        $scope.showMessage('ok', 'O estado do relato foi alterado com sucesso.', 'success', true);
+        $state.go($state.current, {}, {reload: true});
       });
     };
 
