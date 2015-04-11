@@ -119,7 +119,7 @@ angular
 
       $scope.loadingPagination = false;
       $scope.users = [];
-      page = 0;
+      page = 1;
       getData(true);
     };
 
