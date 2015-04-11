@@ -116,7 +116,7 @@
           <p ng-show="report.assigned_group">{{ report.assigned_group.name }}</p>
           <p ng-show="!report.assigned_group">Não há um grupo responsável pelo relato.</p>
 
-          <a href="" class="link" ng-click="forwardReport()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_forward', report.category.id)">Alterar</a>
+          <a href="" class="link" ng-click="forwardReport()" ng-show="(hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_forward', report.category.id)) && category.solver_groups_ids.length !== 0">Alterar</a>
 
           <div class="clearfix"></div>
         </div>

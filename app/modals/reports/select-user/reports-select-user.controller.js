@@ -2,10 +2,10 @@
 
 angular
   .module('ReportsSelectUserModalControllerModule', [])
-  .controller('ReportsSelectUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser, filterByGroups) {
+  .controller('ReportsSelectUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser, filterByGroup) {
     $scope.loadingPagination = false;
 
-    if (filterByGroups)
+    if (filterByGroup)
     {
       $scope.resultsFiltered = true;
     }
@@ -57,9 +57,9 @@ angular
       {
         var options = {name: searchText, email: searchText, page: page, per_page: perPage};
 
-        if (filterByGroups)
+        if (filterByGroup)
         {
-          options['groups'] = filterByGroups.join();
+          options['groups'] = filterByGroup;
         }
 
         return Restangular.one('search').all('users').getList(options); // jshint ignore:line
@@ -67,9 +67,9 @@ angular
 
       var options = { page: page, per_page: perPage };
 
-      if (filterByGroups)
+      if (filterByGroup)
       {
-        options['groups'] = filterByGroups.join();
+        options['groups'] = filterByGroup;
       }
 
       return Restangular.all('users').getList(options); // jshint ignore:line

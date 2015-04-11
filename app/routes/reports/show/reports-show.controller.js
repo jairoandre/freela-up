@@ -221,8 +221,8 @@ angular
             };
           }],
 
-          filterByGroups: function() {
-            return $scope.category.solver_groups_ids;
+          filterByGroup: function() {
+            return $scope.report.assigned_group.id;
           }
         },
         controller: 'ReportsSelectUserModalController'

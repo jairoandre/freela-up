@@ -86,7 +86,7 @@ angular
             }
           },
 
-          filterByGroups: function() {
+          filterByGroup: function() {
             return null;
           }
         },
