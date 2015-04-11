@@ -16,9 +16,9 @@
         <td><img ng-src="{{ category.icon.default.web.active }}" width="50" class="category-icon"> <a href="#/reports/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
         <td width="90">
           <a href="#/reports/categories/{{ category.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-          <a href="" ng-click="deleteCategory(category)" ng-show="category.subcategories.length === 0"><span class="glyphicon glyphicon-trash">
+          <a href="" ng-click="deleteCategory(category)" ng-hide="category.subcategories"><span class="glyphicon glyphicon-trash">
           </span></a>
-          <span class="glyphicon glyphicon-trash ghost-icon" ng-show="category.subcategories.length !== 0" tooltip="Você não pode remover uma categoria de relato se existir subcategorias." tooltip-append-to-body="true" tooltip-placement="left"></span>
+          <span class="glyphicon glyphicon-trash ghost-icon" ng-show="category.subcategories" tooltip="Você não pode remover uma categoria de relato se existir subcategorias." tooltip-append-to-body="true" tooltip-placement="left"></span>
         </td>
       </tr>
 
