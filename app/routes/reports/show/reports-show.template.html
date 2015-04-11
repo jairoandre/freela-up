@@ -14,7 +14,7 @@
     <li du-scrollspy="report-map"><a href="#report-map" du-smooth-scroll>Mapa</a></li>
     <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Informações do munícipe</a></li>
     <li du-scrollspy="report-responses"><a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a></li>
-    <li du-scrollspy="report-comments" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
+    <li du-scrollspy="report-comments" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
     <li du-scrollspy="report-history"><a href="#report-history" du-smooth-scroll>Histórico</a></li>
 
     <div class="clearfix"></div>
@@ -29,7 +29,7 @@
 
         <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
 
-        <a class="pull-right" ng-click="editReportStatus(report, category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar status</a>
+        <a class="pull-right" ng-click="editReportStatus(report, category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar status</a>
 
         <div class="clearfix"></div>
       </div>
@@ -95,7 +95,7 @@
           <h5>Status</h5>
           <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
 
-          <a href="" class="link" ng-click="editReportStatus(report, category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar</a>
+          <a href="" class="link" ng-click="editReportStatus(report, category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar</a>
 
           <div class="clearfix"></div>
         </div>
@@ -205,7 +205,7 @@
       <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
 
       <div class="fields">
-        <div class="user-message" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">
+        <div class="user-message" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id)">
           <div class="avatar">
             <img src="assets/images/avatar_default.jpg" />
           </div>
@@ -252,7 +252,7 @@
       <div class="wrapper_title"><h1>Observações internas</h1></div>
 
       <div class="fields">
-        <div class="user-message system-comment" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">
+        <div class="user-message system-comment" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)">
           <div class="avatar">
             <img src="assets/images/avatar_default.jpg" />
           </div>
