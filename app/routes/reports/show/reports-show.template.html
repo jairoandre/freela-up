@@ -107,6 +107,33 @@
 
           <p><a href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
         </div>
+
+        <hr />
+
+        <div class="report-data">
+          <h5>Grupo responsável</h5>
+
+          <p ng-show="report.assigned_group">{{ report.assigned_group.name }}</p>
+          <p ng-show="!report.assigned_group">Não há um grupo responsável pelo relato.</p>
+
+          <a href="" class="link" ng-click="forwardReport()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_forward', report.category.id)">Alterar</a>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="report-data" ng-show="report.assigned_group">
+          <hr />
+
+          <h5>Usuário responsável</h5>
+
+          <p ng-show="report.assigned_user">{{ report.assigned_user.name }}</p>
+          <p ng-show="!report.assigned_user">Não há um usuário respinsável responsável pelo relato.</p>
+
+          <a href="" class="link" ng-click="assignReport()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_forward', report.category.id)">Alterar</a>
+
+          <div class="clearfix"></div>
+        </div>
+
       </div>
     </div>
 

@@ -7,6 +7,7 @@ angular
     'ReportsEditDescriptionModalControllerModule',
     'ReportsEditCategoryModalControllerModule',
     'ReportsSelectAddressModalControllerModule',
+    'ReportsForwardModalControllerModule',
     'duScroll'
   ])
 
@@ -162,6 +163,29 @@ angular
           }
         },
         controller: 'ReportsEditDescriptionModalController'
+      });
+    };
+
+    $scope.forwardReport = function () {
+      $rootScope.resolvingRequest = true;
+
+      $modal.open({
+        templateUrl: 'modals/reports/forward/reports-forward.template.html',
+        windowClass: 'reports-forward-modal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          },
+
+          category: function() {
+            return $scope.category;
+          },
+
+          groupsResponse: function() {
+            return Restangular.all('groups').getList();
+          }
+        },
+        controller: 'ReportsForwardModalController'
       });
     };
 
