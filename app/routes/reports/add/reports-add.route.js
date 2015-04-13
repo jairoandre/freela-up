@@ -14,7 +14,7 @@ angular
           controllerAs: 'ctrl',
           resolve: {
             'inventoriesCategoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-              return Restangular.all('inventory').all('categories').getList({'display_type': 'full'})
+              return Restangular.all('inventory').all('categories').getList({'display_type': 'full', 'return_fields': ['id', 'title', 'pin', 'marker'].join()})
             }],
 
             'reportCategoriesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
