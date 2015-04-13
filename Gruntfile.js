@@ -27,6 +27,7 @@ module.exports = function (grunt) {
     SENTRY_DSN: process.env.SENTRY_DSN,
     FLOWS_ENABLED: process.env.FLOWS_ENABLED,
     MAP_DEBUG: process.env.MAP_DEBUG,
+    LOGO_IMG_URL: process.env.LOGO_IMG_URL,
 
     // Project settings
     yeoman: {
@@ -352,7 +353,8 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            mapDebug: '<%= MAP_DEBUG %>'
+            mapDebug: '<%= MAP_DEBUG %>',
+            logoImgUrl: '<%= LOGO_IMG_URL %>'
           },
         }
       },
@@ -372,7 +374,8 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            mapDebug: '<%= MAP_DEBUG %>'
+            mapDebug: '<%= MAP_DEBUG %>',
+            logoImgUrl: '<%= LOGO_IMG_URL %>'
           },
         }
       }

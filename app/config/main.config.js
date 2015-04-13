@@ -109,7 +109,6 @@ angular
     });
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-      console.log(fromState);
 
       if (fromState.name.length !== 0)
       {
@@ -117,8 +116,6 @@ angular
         $rootScope.uiHasScroll = false;
         $rootScope.uiDebugMap = false;
       }
-
-      console.log('resolving está', $rootScope.resolvingRoute);
     });
 
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -126,8 +123,6 @@ angular
       {
         $rootScope.hideInitialLoading = true;
       }
-
-      console.log('resolving está', $rootScope.resolvingRoute);
 
       $timeout(function() {
         $rootScope.resolvingRoute = false;
@@ -152,4 +147,6 @@ angular
         $rootScope.scrollTop = true;
       }
     };
+
+    $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logo-zup.png';
   }]);
