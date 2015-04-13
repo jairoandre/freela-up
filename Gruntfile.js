@@ -210,6 +210,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
+            '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= yeoman.dist %>/assets/fonts/*',
           ]
         }

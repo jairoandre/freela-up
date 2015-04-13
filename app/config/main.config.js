@@ -148,5 +148,5 @@ angular
       }
     };
 
-    $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logo-zup.png';
+    $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
   }]);
