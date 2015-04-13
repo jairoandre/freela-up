@@ -471,6 +471,23 @@
   .options {
     margin-top: 20px;
 
+    &.ng-hide-add,
+    &.ng-hide-remove {
+      @include transition-property(4s linear all);
+
+      display: block !important;
+
+      @include animation-fill-mode(both);
+      @include animation-duration(0.6s);
+      @include animation-name(flipInX);
+    }
+
+    &.ng-hide {
+      @include animation-fill-mode(both);
+      @include animation-duration(0.6s);
+      @include animation-name(flipOutX);
+    }
+
     .bootstrap-switch {
       min-width: 140px;
       float: left;
