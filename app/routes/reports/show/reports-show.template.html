@@ -357,7 +357,13 @@
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-show="log.kind === 'status'">alterou o estado do relato para {{ log.objects[0].title }}</span><span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>, quando estava no status: <b>{{ log.objects[0].title }}</b></span>.
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a>
+                <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato para <b>{{ log.objects[0].title }}</b>.</span>
+                <span ng-show="log.kind === 'status' && !log.user">O estado do relato foi alterado para <b>{{ log.objects[0].title }}</b>.</span>
+                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>, quando estava no status: <b>{{ log.objects[0].title }}</b>.</span>
+                <span ng-show="log.kind === 'address'">alterou o endereço do relato.</span>
+                <span ng-show="log.kind === 'description'">alterou a descrição do relato.</span>
+                <span ng-show="log.kind === 'category'">alterou a categoria do relato para <b>{{ log.objects[0].title }}</b>.</span>
               </p>
 
               <div class="divider"></div>
