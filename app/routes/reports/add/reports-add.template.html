@@ -107,9 +107,7 @@
         <hr />
       </div>
 
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating" ng-disabled="description.length > 799">Criar relato</button>
-
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating" ng-disabled="description.length > 799">Atualizar relato</button>
+      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-disabled="description.length > 799 || formattedAddress.length < 5 || !formattedAddress">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
     </div>
   </div>
 </div>
