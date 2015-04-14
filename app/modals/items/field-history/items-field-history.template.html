@@ -50,9 +50,15 @@
         </div>
 
         <div class="action">
-          <p>
+          <p ng-if="isArray(log.changes.new_content) === false">
             {{ log.changes.new_content }}
           </p>
+
+          <div ng-if="isArray(log.changes.new_content) === true">
+            <ul>
+              <li ng-repeat="content in log.changes.new_content">{{ content }}</li>
+            </ul>
+          </div>
 
           <div class="author">Alterado por <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> </div>
 

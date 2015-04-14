@@ -167,7 +167,8 @@ angular
             name: 'Editar relatos',
             needsObject: true,
             needsPermission: 'reports_items_read_private',
-            tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.'
+            tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.',
+            disableFields: ['reports_items_forward', 'reports_items_create_internal_comment', 'reports_items_alter_status', 'reports_items_create_comment']
           },
 
           {
@@ -190,7 +191,35 @@ angular
             name: 'Visualizar relatos completo',
             needsObject: true,
             tooltip: 'Permite a visualização completa de todos os campos disponíveis nos relatos das categorias selecionadas.'
-          }
+          },
+
+          {
+            slug: 'reports_items_forward',
+            name: 'Encaminhar relatos',
+            needsObject: true,
+            tooltip: 'Grupo pode encaminhar item de relato da categoria atribuída.'
+          },
+
+          {
+            slug: 'reports_items_create_internal_comment',
+            name: 'Inserir observações internas',
+            needsObject: true,
+            tooltip: 'Grupo pode inserir uma observação interna nos relatos da categoria atribuída.'
+          },
+
+          {
+            slug: 'reports_items_alter_status',
+            name: 'Alterar o estado do relato',
+            needsObject: true,
+            tooltip: 'Grupo pode alterar o estado de releato da categoria atribuída.'
+          },
+
+          {
+            slug: 'reports_items_create_comment',
+            name: 'Adicionar comentários',
+            needsObject: true,
+            tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
+          },
         ]
       }
     ];

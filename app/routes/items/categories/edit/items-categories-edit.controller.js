@@ -19,7 +19,7 @@ angular.
     'InventoryTriggerConditionComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $q, $modal, $window, $state, FileUploader, formulasResponse) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $localStorage, $q, $modal, $window, $state, FileUploader, formulasResponse) {
     var updating = $scope.updating = false;
 
     if (categoryResponse)
@@ -35,7 +35,7 @@ angular.
     $scope.groups = groupsResponse.data;
 
     $scope.unsavedCategory = false;
-    $scope.showDisabledFields = {active: true};
+    $scope.showDisabledFields = $localStorage;
     $scope.currentTab = 'fields';
 
     $scope.availableInputs = [

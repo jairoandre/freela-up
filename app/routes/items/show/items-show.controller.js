@@ -52,9 +52,13 @@ angular
 
           category: function() {
             return category;
+          },
+
+          refreshItemHistory: function() {
+            return $scope.refreshHistory;
           }
         },
-        controller: ['$scope', '$modalInstance', 'category', 'item', function($scope, $modalInstance, category, item) {
+        controller: ['$scope', '$modalInstance', 'category', 'item', 'refreshItemHistory', function($scope, $modalInstance, category, item, refreshItemHistory) {
           $scope.category = category;
           $scope.item = angular.copy(item);
 
@@ -67,6 +71,8 @@ angular
 
             changeStatusPromise.then(function() {
               item.inventory_status_id = $scope.item.inventory_status_id; // jshint ignore:line
+
+              refreshItemHistory();
 
               $modalInstance.close();
             });

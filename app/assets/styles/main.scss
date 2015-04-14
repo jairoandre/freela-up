@@ -52,10 +52,7 @@ p {
   }
 
   .logo {
-    width: 86px;
-    height: 37px;
-    background: url(../images/logo-zup.png);
-    margin: 0 auto;
+    text-align: center;
   }
 
   .initial-loading {
@@ -90,14 +87,7 @@ p {
       padding-top: 20px;
 
       a {
-        display: block;
-        width: 86px;
-        height: 37px;
-        margin: 0 auto;
-        background: url(../images/logo-zup.png);
-        text-indent: 100%;
-        white-space: nowrap;
-        overflow: hidden;
+        text-align: center;
       }
     }
 

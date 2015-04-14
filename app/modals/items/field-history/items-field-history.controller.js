@@ -26,6 +26,7 @@ angular
     $scope.historyLogs = processLogs(itemHistoryResponse.data);
     $scope.field = field;
     $rootScope.resolvingRequest = false;
+    $scope.isArray = _.isArray;
 
     // item history
     $scope.refreshHistory = function() {

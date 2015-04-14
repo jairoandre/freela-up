@@ -85,6 +85,10 @@ angular
               $scope.user = user;
             }
           },
+
+          filterByGroup: function() {
+            return null;
+          }
         },
         controller: 'ReportsSelectUserModalController'
       });

@@ -32,6 +32,8 @@ angular
       $scope.endDate = null;
       $scope.searchText = null;
       $scope.overdueOnly = null;
+      $scope.assignedToMyGroup = null;
+      $scope.assignedToMe = null;
 
       // map options
       $scope.position = null;
@@ -75,6 +77,8 @@ angular
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
+      {name: 'Associados ao meu grupo...', action: 'assignedToMyGroup'},
+      {name: 'Associados à mim...', action: 'assignedToMe'},
     ];
 
     $scope.activeAdvancedFilters = [];
@@ -158,6 +162,16 @@ angular
         if (filter.type === 'overdueOnly')
         {
           $scope.overdueOnly = true;
+        }
+
+        if (filter.type === 'assignedToMyGroup')
+        {
+          $scope.assignedToMyGroup = true;
+        }
+
+        if (filter.type === 'assignedToMe')
+        {
+          $scope.assignedToMe = true;
         }
       }
 
@@ -243,6 +257,14 @@ angular
 
       if ($scope.overdueOnly !== null) {
         options.overdue = $scope.overdueOnly;
+      }
+
+      if ($scope.assignedToMyGroup !== null) {
+        options.assigned_to_my_group = $scope.assignedToMyGroup;
+      }
+
+      if ($scope.assignedToMe !== null) {
+        options.assigned_to_me = $scope.assignedToMe;
       }
 
       return options;
@@ -367,6 +389,26 @@ angular
           title: 'Atraso',
           type: 'overdueOnly',
           desc: 'Apenas relatos atrasados'
+        };
+
+        $scope.activeAdvancedFilters.push(overdueFilter);
+      }
+
+      if (status === 'assignedToMyGroup') {
+        var overdueFilter = {
+          title: 'Relatos associados',
+          type: 'assignedToMyGroup',
+          desc: 'Ao meu grupo'
+        };
+
+        $scope.activeAdvancedFilters.push(overdueFilter);
+      }
+
+      if (status === 'assignedToMe') {
+        var overdueFilter = {
+          title: 'Atraso',
+          type: 'assignedToMe',
+          desc: 'À mim'
         };
 
         $scope.activeAdvancedFilters.push(overdueFilter);

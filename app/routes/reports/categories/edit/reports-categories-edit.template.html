@@ -402,6 +402,64 @@
         <span class="help-block" style="margin-top: 15px;">Se ativado, quando o chamado for finalizado, o usuário receberá um e-mail com um link para fazer uma avaliação do chamado. O usuário pode dar uma posição positiva ou negativa, inserir um texto e também imagem. É necessário inserir um tempo para que ele tenha a chance de fazer a avaliação, caso o tempo expire, ele não poderá mais a avaliação.</span>
       </div>
 
+      <div class="form-group">
+        <label>Obrigatoriedade de inserir um comentário interno ao encaminhar o relato</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.comment_required_when_forwarding">
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Ao encaminhar um relato a um grupo, a pessoa deverá escrever um comentário interno ao relato descrevendo a ação.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Obrigatoriedade de inserir um comentário ao alterar o status</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.comment_required_when_updating_status">
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Ao alterar o estado de um relato, a pessoa responsável pela ação deverá escrever um comentário para o munícipe - esse comentário pode ser público ou privado.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Grupos solucionadores</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <ui-select ng-model="category.solver_groups_ids" theme="bootstrap" multiple>
+              <ui-select-match placeholder="Selecione os grupos...">{{ $item.name }}</ui-select-match>
+
+              <ui-select-choices repeat="group.id as group in groups | filter: {name: $select.search}">
+                <div ng-bind-html="group.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+
+          <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
+            <ui-select ng-model="category.default_solver_group_id" theme="bootstrap">
+              <ui-select-match placeholder="Selecione o grupo padrão...">{{ $select.selected.name }}</ui-select-match>
+
+              <ui-select-choices repeat="group.id as group in groups | filter: { name: $select.search } | filter:filterByIds">
+                <div ng-bind-html="group.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Grupos solucionadores são grupos que são responsáveis pelos relatos. O grupo padrão será o grupo no qual todos os relatos criados nesta categoria vão ser vinculados automaticamente ao ser criado.</span>
+      </div>
+
       <hr />
 
       <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar categoria</button>

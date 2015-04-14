@@ -14,7 +14,7 @@
     <li du-scrollspy="report-map"><a href="#report-map" du-smooth-scroll>Mapa</a></li>
     <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Informações do munícipe</a></li>
     <li du-scrollspy="report-responses"><a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a></li>
-    <li du-scrollspy="report-comments" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
+    <li du-scrollspy="report-comments" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)"><a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
     <li du-scrollspy="report-history"><a href="#report-history" du-smooth-scroll>Histórico</a></li>
 
     <div class="clearfix"></div>
@@ -29,7 +29,7 @@
 
         <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
 
-        <a class="pull-right" ng-click="editReportStatus(report, category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar status</a>
+        <a class="pull-right" ng-click="editReportStatus(report, category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar status</a>
 
         <div class="clearfix"></div>
       </div>
@@ -95,7 +95,7 @@
           <h5>Status</h5>
           <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
 
-          <a href="" class="link" ng-click="editReportStatus(report, category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar</a>
+          <a href="" class="link" ng-click="editReportStatus(report, category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar</a>
 
           <div class="clearfix"></div>
         </div>
@@ -107,6 +107,33 @@
 
           <p><a href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
         </div>
+
+        <hr />
+
+        <div class="report-data">
+          <h5>Grupo responsável</h5>
+
+          <p ng-show="report.assigned_group">{{ report.assigned_group.name }}</p>
+          <p ng-show="!report.assigned_group">Não há um grupo responsável pelo relato.</p>
+
+          <a href="" class="link" ng-click="forwardReport()" ng-show="(hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_forward', report.category.id)) && category.solver_groups_ids.length !== 0">Alterar</a>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="report-data" ng-show="report.assigned_group">
+          <hr />
+
+          <h5>Usuário responsável</h5>
+
+          <p ng-show="report.assigned_user">{{ report.assigned_user.name }}</p>
+          <p ng-show="!report.assigned_user">Não há um usuário responsável pelo relato.</p>
+
+          <a href="" class="link" ng-click="assignReport()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar</a>
+
+          <div class="clearfix"></div>
+        </div>
+
       </div>
     </div>
 
@@ -178,7 +205,7 @@
       <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
 
       <div class="fields">
-        <div class="user-message" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">
+        <div class="user-message" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id)">
           <div class="avatar">
             <img src="assets/images/avatar_default.jpg" />
           </div>
@@ -225,7 +252,7 @@
       <div class="wrapper_title"><h1>Observações internas</h1></div>
 
       <div class="fields">
-        <div class="user-message system-comment" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">
+        <div class="user-message system-comment" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)">
           <div class="avatar">
             <img src="assets/images/avatar_default.jpg" />
           </div>
@@ -330,7 +357,7 @@
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-if="log.kind === 'fields'">alterou os campos para: <span ng-repeat="field in log.objects"><span ng-show="$index >= 1">,</span> <a href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span></span><span ng-show="log.kind === 'status'">alterou o estado do inventário para {{ log.objects[0].title }}</span>.
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-if="log.kind === 'fields'">alterou os campos para: <span ng-repeat="field in log.objects"><span ng-show="$index >= 1">,</span> <a href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span></span><span ng-show="log.kind === 'status'">alterou o estado do relato para {{ log.objects[0].title }}</span>.
               </p>
 
               <div class="divider"></div>

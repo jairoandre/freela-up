@@ -79,7 +79,7 @@
               <li ng-repeat="category in reportsCategories | filter:q" ng-class="{ 'active': isObjectSelected(category.id) }">
                 <a href="" ng-click="toggleObject(category)"><span ng-bind-html="category.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
 
-                <ul ng-repeat="subcategory in category.subcategories" ng-show="category.subcategories.length !== 0">
+                <ul ng-repeat="subcategory in category.subcategories | filter:q" ng-show="category.subcategories.length !== 0">
                   <li ng-class="{ 'active': isObjectSelected(subcategory.id) }"><a href="" ng-click="toggleObject(subcategory)"><span ng-bind-html="subcategory.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
                 </ul>
               </li>

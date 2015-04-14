@@ -30,7 +30,7 @@ angular
         flags[i].name = availableFlags[originalName].name; // translate name
         flags[i].desc = availableFlags[originalName].desc;
         flags[i].mobileConfig = availableFlags[originalName].mobileConfig;
-        flags[i].enabled = flags[i].status_name === 'disabled' ? false : true;
+        flags[i].enabled = flags[i].status === 'disabled' ? false : true;
       }
     };
 
