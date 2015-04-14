@@ -158,7 +158,15 @@
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> <span ng-if="log.kind === 'fields'">alterou diversos campos para: <span ng-repeat="field in log.objects"><span ng-show="$index >= 1 && ($index < 5 || showAllFields)">,</span> <a ng-show="$index < 5 || showAllFields" href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span><span ng-hide="showAllFields">; </span><a href="" ng-hide="showAllFields" ng-click="showAllFields = true">(Ver todos)</a></span><span ng-show="log.kind === 'status'">alterou o estado do inventário para {{ log.objects[0].title }}</span>.
+                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a>
+
+                <span ng-if="log.kind === 'fields'">alterou diversos campos para:
+                  <span ng-repeat="field in log.objects"><span ng-show="($index >= 1 && ($index < 5 || showAllFields))">, </span><a ng-show="$index < 5 || showAllFields" href="" ng-click="showFieldHistory(field)">{{ field.label }}</a></span>{{ !showAllFields ? '...' : '.'}}
+
+                  <a href="" ng-hide="showAllFields" ng-click="showAllFields = true">(Ver todos)</a>{{ !showAllFields ? '.' : ''}}
+                </span>
+
+                <span ng-show="log.kind === 'status'">alterou o estado do inventário para {{ log.objects[0].title }}.</span>
               </p>
 
               <div class="divider"></div>
