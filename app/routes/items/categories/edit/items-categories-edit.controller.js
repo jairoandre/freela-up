@@ -19,7 +19,7 @@ angular.
     'InventoryTriggerConditionComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $localStorage, $q, $modal, $window, $state, FileUploader, formulasResponse) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $localStorage, $q, $modal, $timeout, $window, $state, FileUploader, formulasResponse) {
     var updating = $scope.updating = false;
 
     if (categoryResponse)
@@ -626,6 +626,10 @@ angular.
 
           putCategoryFormsPromise.then(function(response) {
             $scope.category.sections = response.data.sections;
+
+            $timeout(function() {
+              $scope.unsavedCategory = false;
+            });
           });
 
           $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
