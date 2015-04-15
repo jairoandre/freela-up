@@ -152,12 +152,12 @@ angular
 
     $scope.historyOptions = { type: undefined };
     $scope.availableHistoryFilters = [
-      { type: 'report', name: 'Relatos', selected: true },
-      { type: 'fields', name: 'Campos', selected: true },
-      { type: 'images', name: 'Imagens', selected: true },
-      { type: 'flow', name: 'Fluxo', selected: true },
-      { type: 'formula', name: 'Fórmulas', selected: true },
-      { type: 'status', name: 'Estados', selected: true }
+      { type: 'report', name: 'Relatos', selected: false },
+      { type: 'fields', name: 'Campos', selected: false },
+      { type: 'images', name: 'Imagens', selected: false },
+      { type: 'flow', name: 'Fluxo', selected: false },
+      { type: 'formula', name: 'Fórmulas', selected: false },
+      { type: 'status', name: 'Estados', selected: false }
     ];
 
     $scope.availableHistoryDateFilters = [
