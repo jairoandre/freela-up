@@ -17,6 +17,7 @@ angular
     var tempSavedItem, hasPreviousItem = false;
 
     $scope.uploaders = {};
+    $scope.isArray = _.isArray;
 
     if (itemResponse)
     {
