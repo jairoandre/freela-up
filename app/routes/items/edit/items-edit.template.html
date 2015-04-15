@@ -1,6 +1,7 @@
 <div id="full_page" class="items-edit">
   <div class="header" ng-hide="loading">
-    <a href="#/items" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="#/items/{{ item.id }}" class="back" ng-if="updating"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="#/items/select-category" class="back" ng-if="!updating"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
     <div class="title" ng-show="!updating">Novo item de inventário</div>
     <div class="title" ng-show="updating">Editar item: {{ item.title }}</div>
