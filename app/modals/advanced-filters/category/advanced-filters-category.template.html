@@ -4,9 +4,20 @@
 </div>
 
 <div class="modal-body">
-  <ul>
-    <li ng-repeat="category in categories">
+  <div class="categories_search">
+    <span class="glyphicon glyphicon-search search_icon"></span>
+    <input type="text" placeholder="Busque por categorias..." ng-model="$parent.search">
+  </div>
+
+  <ul class="fixed-height">
+    <li ng-repeat="category in categories | filter: $parent.search">
       <a ng-class="{'selected': isActive(category)}" ng-click="updateCategory(category)"><i class="glyphicon glyphicon-ok" ng-show="isActive(category)"></i>  {{ category.title }}</a>
+
+      <ul ng-if="category.subcategories">
+        <li ng-repeat="subcategory in category.subcategories | filter: $parent.search track by $index" ng-style="{'border-color': subcategory.color}">
+          <a ng-class="{'selected': isActive(subcategory)}" ng-click="updateCategory(subcategory)"><i class="glyphicon glyphicon-ok" ng-show="isActive(subcategory)"></i>  {{ subcategory.title }}</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </div>
