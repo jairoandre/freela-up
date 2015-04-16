@@ -32,7 +32,7 @@
       </div>
 
       <div class="advanced_filters_bar" ng-show="activeAdvancedFilters.length !== 0">
-        <div class="filter" ng-repeat="filter in activeAdvancedFilters"><b>{{ filter.title }}</b> {{ filter.desc }} <span class="glyphicon glyphicon-remove" ng-click="removeFilter(filter)"></span></div>
+        <div class="filter" ng-repeat="filter in activeAdvancedFilters track by $index"><b>{{ filter.title }}</b> {{ filter.desc }} <span class="glyphicon glyphicon-remove" ng-click="removeFilter(filter)"></span></div>
       </div>
 
       <div class="clearfix"></div>
