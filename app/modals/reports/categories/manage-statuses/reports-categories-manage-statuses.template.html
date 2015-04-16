@@ -72,6 +72,7 @@
 
                 <td>
                   <button type="button" class="remove" ng-click="remove_status = true">x</button>
+                  <div class="disabled-delete" ng-show="status.final || status.initial"></div>
 
                   <div class="edit_status_title remove-div" ng-show="remove_status">
                     <p class="remove-message">
