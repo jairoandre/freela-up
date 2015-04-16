@@ -52,12 +52,15 @@
         <td width="20%">
           <span>Endereço</span><span class="arrow"></span>
         </td>
-        <td width="30%" ng-click="changeSorting('user_name')"
+        <td width="10%" ng-click="changeSorting('user_name')"
             ng-class="selectedCls('user_name')" class="sort-table">
           <span>Autor</span><span class="arrow"></span>
         </td>
         <td width="20%">
           <span>Categoria</span><span class="arrow"></span>
+        </td>
+        <td width="10%" class="sort-table">
+          <span>Atribuído à</span><span class="arrow"></span>
         </td>
         <td width="10%" ng-click="changeSorting('created_at')"
             ng-class="selectedCls('created_at')" class="sort-table">
@@ -72,6 +75,7 @@
       <td>{{ report.address }}</td>
       <td><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></td>
       <td>{{ report.category.title }}</td>
+      <td>{{ (report.assigned_user) ? report.assigned_user.name : report.assigned_group.name }}</td>
       <td>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</td>
       <td class="actions">
         <a class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit" ng-show="hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"></span></a>
