@@ -406,7 +406,7 @@ angular
 
       if (status === 'assignedToMe') {
         var overdueFilter = {
-          title: 'Atraso',
+          title: 'Relatos associados',
           type: 'assignedToMe',
           desc: 'À mim'
         };
