@@ -1,7 +1,7 @@
 angular
   .module('UserUnauthorizedControllerModule', [])
 
-  .controller('UserUnauthorizedController', function($rootScope, Auth) {
+  .controller('UserUnauthorizedController', function($rootScope, Auth, $scope) {
     if (!_.isUndefined($rootScope.hasPermission) && $rootScope.hasPermission('panel_access'))
     {
       $state.go('/');
