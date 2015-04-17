@@ -105,6 +105,14 @@
           background: #000;
         }
       }
+
+      ul li {
+        border-left: 5px solid #259ECB;
+
+        a {
+          background: #FFF;
+        }
+      }
     }
 
     .selectUsers {
@@ -145,6 +153,18 @@
         }
       }
     }
+  }
+}
+
+.filterCategoriesModal {
+  ul.fixed-height {
+    height: 400px;
+    overflow: auto;
+    margin-bottom: 0px;
+  }
+
+  .modal-footer {
+    margin-top: 0px;
   }
 }
 

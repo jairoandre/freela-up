@@ -12,6 +12,8 @@ angular
     $scope.categoryId = categoryId;
     $scope.updateStatuses = {};
 
+    $scope.availableColors = ['#59B1DF', '#7DDCE2', '#64D2AF', '#5CB466', '#99C450', '#EACD31', '#F3AC2E', '#F18058', '#EF4D3E', '#E984FC', '#A37FE1', '#7A7AF2'];
+
     $scope.createStatus = function() {
       if ($scope.newStatus.title !== '')
       {

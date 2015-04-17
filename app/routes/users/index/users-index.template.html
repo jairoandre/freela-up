@@ -54,8 +54,8 @@
     <td>{{ user.phone }}</td>
     <td><span ng-repeat="group in user.groups_names"><span ng-hide="$index == 0">,</span> {{ group }}</span> </td>
     <td class="actions">
-      <a class="icon_action" href="#/users/{{ user.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
-      <a class="icon_action" href="" ng-click="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></a>
+      <a class="icon_action" href="#/users/{{ user.id }}/edit" tooltip="Editar usuário"><span class="glyphicon glyphicon-edit"></span></a>
+      <a class="icon_action" href="" ng-click="disableUser(user)" tooltip="Desativar usuário"><span class="glyphicon glyphicon-off"></span></a>
     </td>
   </tr>
 </table>

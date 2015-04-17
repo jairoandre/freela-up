@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <button href="" type="submit" class="btn btn-info btn-custom">Criar</button>
+                    <button href="" type="submit" class="btn btn-info btn-custom" ng-disabled="!newStatus.title || newStatus.title.length === 0">Criar</button>
                 </div>
             </div>
         </form>
@@ -68,10 +68,25 @@
                   </label>
                 </td>
 
-                <td><button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker btn-colorpicker-small" ng-model="status.color" colorpicker-fixed-position="true" ng-style="{'background-color': status.color}"></button></td>
+                <td>
+                  <button colorpicker type="button" class="btn btn-colorpicker btn-colorpicker-small" ng-style="{'background-color': status.color}" ng-click="showColorsPopup = true"></button>
+
+                  <!--<button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker btn-colorpicker-small" ng-model="status.color" colorpicker-fixed-position="true" ng-style="{'background-color': status.color}" ng-click="showColorsPopup = true"></button>-->
+
+                  <div class="color-options pages-animation" ng-show="showColorsPopup">
+                    <button type="button" class="remove close-popup" ng-click="showColorsPopup = false">x</button>
+
+                    <a href="" ng-repeat="color in availableColors" ng-click="status.color = color"><span ng-style="{ 'background-color': color }"></span></a>
+
+                    <div class="clearfix"></div>
+
+                    <input type="text" ng-model="status.color" class="form-control colorpicker-field" colorpicker colorpicker-fixed-position="true"/>
+                  </div>
+                </td>
 
                 <td>
                   <button type="button" class="remove" ng-click="remove_status = true">x</button>
+                  <div class="disabled-delete" ng-show="status.final || status.initial"></div>
 
                   <div class="edit_status_title remove-div" ng-show="remove_status">
                     <p class="remove-message">

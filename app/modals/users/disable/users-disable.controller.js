@@ -1,9 +1,9 @@
 'use strict';
 
 angular
-  .module('UsersDestroyModalControllerModule', [])
+  .module('UsersDisableModalControllerModule', [])
 
-  .controller('UsersDestroyModalController', function(Restangular, $scope, $modalInstance, user, usersList) {
+  .controller('UsersDisableModalController', function(Restangular, $scope, $modalInstance, user, usersList) {
     $scope.user = user;
 
     // delete user from server
@@ -16,9 +16,9 @@ angular
 
       deletePromise.then(function() {
         $modalInstance.close();
-        $scope.showMessage('ok', 'O Usuário ' + $scope.user.name + ' foi removido com sucesso.', 'success', true);
+        $scope.showMessage('ok', 'O Usuário ' + $scope.user.name + ' foi desativado com sucesso.', 'success', true);
 
-        usersList.splice(usersList.indexOf($scope.user), 1);
+        user.disabled = true;
       });
     };
 

@@ -46,7 +46,7 @@ angular
         return $delegate;
     }]);
   }])
-  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', 'ENV', function(Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular, ENV) {
+  .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', 'ENV', '$window', function(Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular, ENV, $window) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
     FullResponseRestangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
 
@@ -128,6 +128,12 @@ angular
         $rootScope.resolvingRoute = false;
         $rootScope.resolvingRequest = false;
       }, 150);
+    });
+
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+      if (error.status === 403) $window.location = '/';
+      else if (error.status === 404) $window.location = '/';
+      else Error.show(error);
     });
 
     // FIXME let's put this in a directive, please, Mr. Gabriel? :-D

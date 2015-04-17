@@ -240,9 +240,11 @@ angular
 
     $scope.historyOptions = { type: undefined };
     $scope.availableHistoryFilters = [
-      { type: 'category', name: 'Categoria', selected: true },
-      { type: 'status', name: 'Estados', selected: true },
-      { type: 'overdue', name: 'Em atraso', selected: true }
+      { type: 'category', name: 'Categoria', selected: false },
+      { type: 'status', name: 'Estados', selected: false },
+      { type: 'address', name: 'Endereço', selected: false },
+      { type: 'description', name: 'Descrição', selected: false },
+      { type: 'category', name: 'Categoria', selected: false },
     ];
 
     $scope.availableHistoryDateFilters = [

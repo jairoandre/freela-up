@@ -21,20 +21,8 @@ angular
               return FullResponseRestangular.one('groups', $stateParams.id).all('permissions').customGET();
             }],
 
-            'groupsResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('groups').getList();
-            }],
-
-            'flowsResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('flows').getList();
-            }],
-
-            'inventoriesCategoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList();
-            }],
-
-            'reportsCategoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('reports').all('categories').getList({ display_type: 'full' });
+            'objectsResponse': ['FullResponseRestangular', function(FullResponseRestangular) {
+              return FullResponseRestangular.one('utils').all('available_objects').customGET();
             }],
           }
         }

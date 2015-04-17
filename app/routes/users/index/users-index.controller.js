@@ -4,7 +4,7 @@ angular
   .module('UsersIndexControllerModule', [
     'KeyboardPosterComponentModule',
     'GenericInputComponentModule',
-    'UsersDestroyModalControllerModule'
+    'UsersDisableModalControllerModule'
   ])
 
   .controller('UsersIndexController', function ($scope, $q, $stateParams, $modal, Restangular) {
@@ -128,9 +128,9 @@ angular
       });
     };
 
-    $scope.deleteUser = function (user) {
+    $scope.disableUser = function (user) {
       $modal.open({
-        templateUrl: 'modals/users/destroy/users-destroy.template.html',
+        templateUrl: 'modals/users/disable/users-disable.template.html',
         windowClass: 'removeModal',
         resolve: {
           usersList: function() {
@@ -141,7 +141,7 @@ angular
             return user;
           }
         },
-        controller: 'UsersDestroyModalController'
+        controller: 'UsersDisableModalController'
       });
     };
   });
