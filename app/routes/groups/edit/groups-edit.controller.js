@@ -5,13 +5,13 @@ angular
     'DiacriticsInsensitiveFilterHelperModule'
   ])
 
-  .controller('GroupsEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, groupsResponse, flowsResponse, inventoriesCategoriesResponse, reportsCategoriesResponse) {
+  .controller('GroupsEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, $timeout, groupResponse, groupsPermissionsResponse, objectsResponse) {
     $scope.group = groupResponse.data;
     $scope.permissions = groupsPermissionsResponse.data;
-    $scope.groups = groupsResponse.data;
-    $scope.flows = flowsResponse.data;
-    $scope.inventoriesCategories = inventoriesCategoriesResponse.data;
-    $scope.reportsCategories = reportsCategoriesResponse.data;
+    $scope.groups = objectsResponse.data.groups;
+    $scope.flows = objectsResponse.data.flows;
+    $scope.inventoriesCategories = objectsResponse.data.inventory_categories;
+    $scope.reportsCategories = objectsResponse.data.reports_categories;
 
     $scope.newPermission = { type: null, objects: [], slugs: [] };
 
