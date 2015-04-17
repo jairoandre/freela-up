@@ -29,6 +29,11 @@ angular
     // set up localStore to save items that are being written (and future restored)
     $scope.storage = $localStorage;
 
+    $scope.back = function() {
+      if (itemResponse) $state.transitionTo('items.show', { id: itemId }, {'reload': true});
+      else $state.transitionTo('items.index', null, {'reload': true});
+    };
+
     // if category doesn't exist in localStorage, create a null object for it
     if (!updating)
     {

@@ -15,7 +15,11 @@ angular
           resolve: {
             'categoryResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
               return Restangular.one('inventory').one('categories', $stateParams.categoryId).get({display_type: 'full'});
-            }]
+            }],
+
+            'itemResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+              return Restangular.one('inventory').one('items', $stateParams.id).get();
+            }],
           }
         }
       }
