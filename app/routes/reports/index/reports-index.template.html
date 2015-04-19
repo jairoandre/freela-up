@@ -71,8 +71,8 @@
     </thead>
 
     <tr ng-repeat="report in reports | toArray:false | orderBy:'order'" ng-class="{'late_report': report.overdue }">
-      <td class="status_color"><span ng-style="{'background-color': report.status.color}"></span><a href="#/reports/{{ report.id }}">{{ report.protocol }}</a></td>
-      <td>{{ report.address }}</td>
+      <td class="status_color"><span ng-style="{'background-color': report.status.color}"></span><a href="#/reports/{{ report.id }}">{{ report.protocol }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">Protocolo indisponível</b></a></td>
+      <td>{{ report.address }} </td>
       <td><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></td>
       <td>{{ report.category.title }}</td>
       <td>{{ (report.assigned_user) ? report.assigned_user.name : report.assigned_group.name }}</td>
@@ -80,7 +80,6 @@
       <td class="actions">
         <a class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit" ng-show="hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"></span></a>
         <a class="icon_action" href="" ng-click="deleteReport(report)" ng-show="hasPermission('reports_items_delete') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"><span class="glyphicon glyphicon-trash"></span></a>
-        <a class="icon_action" href="#/reports/{{ report.id }}" ng-show="hasPermission('reports_items_read_public', report.category.id)"><span class="glyphicon glyphicon-info-sign"></span></a>
       </td>
     </tr>
 
