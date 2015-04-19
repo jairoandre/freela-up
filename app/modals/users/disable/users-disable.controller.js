@@ -16,7 +16,7 @@ angular
 
       deletePromise.then(function() {
         $modalInstance.close();
-        $scope.showMessage('ok', 'O Usuário ' + $scope.user.name + ' foi desativado com sucesso.', 'success', true);
+        $scope.showMessage('ok', 'O Usuário ' + $scope.user.name + ' foi desativado com sucesso.', 'success', false);
 
         user.disabled = true;
       });

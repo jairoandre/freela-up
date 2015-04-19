@@ -41,10 +41,10 @@ angular
         // if we are searching with a group, hit /search/groups/{id}/users
         if (searchText !== '')
         {
-          return Restangular.one('search').one('groups', groupId).all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
+          return Restangular.one('search').one('groups', groupId).all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage, disabled: true}); // jshint ignore:line
         }
 
-        return Restangular.one('groups', groupId).all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
+        return Restangular.one('groups', groupId).all('users').getList({ page: page, per_page: perPage, disabled: true }); // jshint ignore:line
       }
 
       groupId = $scope.groupId = null;
@@ -52,10 +52,10 @@ angular
       // if we searching, hit search/users
       if (searchText !== '')
       {
-        return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
+        return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage, disabled: true}); // jshint ignore:line
       }
 
-      return Restangular.all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
+      return Restangular.all('users').getList({ page: page, per_page: perPage, disabled: true }); // jshint ignore:line
     };
 
     // Get groups for filters
@@ -142,6 +142,19 @@ angular
           }
         },
         controller: 'UsersDisableModalController'
+      });
+    };
+
+    $scope.enableUser = function(user) {
+      user.loading = true;
+
+      var enableUserPromise = Restangular.one('users', user.id).customPUT({}, 'enable');
+
+      enableUserPromise.then(function() {
+        user.disabled = false;
+        user.loading = false;
+
+        $scope.showMessage('ok', 'O Usuário ' + user.name + ' foi ativado com sucesso.', 'success', false);
       });
     };
   });
