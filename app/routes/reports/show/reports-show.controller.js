@@ -50,7 +50,7 @@ angular
       $scope.images.push({versions: $scope.report.images[c]});
     };
 
-    $scope.newUserResponse = { message: null, privateComment: false, typing: false };
+    $scope.newUserResponse = { message: null, privateComment: true, typing: false };
     $scope.newSystemComment = { message: null, typing: false };
 
     $scope.filterByUserMessages = function(comment) {
