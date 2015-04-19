@@ -24,12 +24,12 @@
     <div class="rounder_wrapper" id="report-data">
       <div class="wrapper_title"><h1>Dados do relato</h1></div>
 
-      <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == report.status_id">
+      <div class="status-bar" ng-repeat="status in report.category.statuses" ng-if="status.id == report.status_id">
         <div class="background" ng-style="{ 'background-color': status.color }"></div>
 
         <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
 
-        <a class="pull-right" ng-click="editReportStatus(report, category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar status</a>
+        <a class="pull-right" ng-click="editReportStatus(report, report.category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar status</a>
 
         <div class="clearfix"></div>
       </div>
@@ -77,7 +77,7 @@
 
         <div class="report-data">
           <h5>Categoria</h5>
-          <p>{{ category.title }}</p>
+          <p>{{ report.category.title }}</p>
 
           <a href="" class="link" ng-click="editCategory()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar</a>
 
@@ -93,9 +93,9 @@
 
         <div class="report-data">
           <h5>Status</h5>
-          <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
+          <p><span ng-repeat="status in report.category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
 
-          <a href="" class="link" ng-click="editReportStatus(report, category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar</a>
+          <a href="" class="link" ng-click="editReportStatus(report, report.category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar</a>
 
           <div class="clearfix"></div>
         </div>

@@ -3,19 +3,7 @@
 angular
   .module('ReportsEditCategoryModalControllerModule', [])
   .controller('ReportsEditCategoryModalController', function(Restangular, $scope, $modalInstance, category, report, categories, $rootScope, $state) {
-    var categories = categories.data;
-    $scope.categories = [];
-
-    for (var i = categories.length - 1; i >= 0; i--) {
-      $scope.categories.push(categories[i]);
-
-      if (categories[i].subcategories.length !== 0)
-      {
-        for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
-          $scope.categories.push(categories[i].subcategories[j]);
-        };
-      }
-    };
+    $scope.categories = categories.data;
 
     $rootScope.resolvingRequest = false;
     $scope.report = angular.copy(report);

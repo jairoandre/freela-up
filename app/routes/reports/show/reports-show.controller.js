@@ -14,35 +14,11 @@ angular
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse, $rootScope, reportHistoryResponse) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, commentsResponse, $rootScope, reportHistoryResponse) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
     $scope.comments = commentsResponse.data;
-
-    var categories = categoriesResponse.data;
-
-    // find category
-    var findCategory = function() {
-      for (var i = categories.length - 1; i >= 0; i--) {
-        if (categories[i].id === $scope.report.category.id)
-        {
-          return $scope.category = categories[i];
-        }
-
-        if (categories[i].subcategories.length !== 0)
-        {
-          for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
-            if (categories[i].subcategories[j].id === $scope.report.category.id)
-            {
-              return $scope.category = categories[i].subcategories[j];
-            }
-          };
-        }
-      }
-    };
-
-    findCategory();
 
     $scope.images = [];
 
@@ -103,11 +79,11 @@ angular
           },
 
           category: function() {
-            return $scope.category;
+            return $scope.report.category;
           },
 
           categories: function() {
-            return Restangular.all('reports').all('categories').getList({'display_type': 'full'});
+            return Restangular.all('reports').all('categories').getList({'display_type': 'full', 'subcategories_flat': true});
           }
         },
         controller: 'ReportsEditCategoryModalController'
@@ -137,7 +113,7 @@ angular
         windowClass: 'mapModal',
         resolve: {
           category: function() {
-            return $scope.category;
+            return $scope.report.category;
           },
 
           report: function() {
@@ -179,7 +155,7 @@ angular
           },
 
           category: function() {
-            return $scope.category;
+            return $scope.report.category;
           },
 
           groupsResponse: function() {
@@ -199,7 +175,7 @@ angular
             return function(user) {
               $rootScope.resolvingRequest = true;
 
-              var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('assign').customPUT({ 'user_id': user.id });
+              var changeStatusPromise = Restangular.one('reports', $scope.report.category.id).one('items', $scope.report.id).one('assign').customPUT({ 'user_id': user.id });
 
               changeStatusPromise.then(function() {
                 $rootScope.resolvingRequest = false;
