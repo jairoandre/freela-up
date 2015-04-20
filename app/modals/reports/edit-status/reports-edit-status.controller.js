@@ -7,6 +7,8 @@ angular
     $scope.category = category;
     $scope.report = angular.copy(report);
 
+    $scope.report.privateComment = true;
+
     $scope.changeStatus = function(statusId) {
       $scope.report.status_id = statusId; // jshint ignore:line
     };
