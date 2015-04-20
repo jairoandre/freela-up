@@ -339,6 +339,15 @@
     .actions {
       text-align: center;
     }
+
+    .select2-container-multi .select2-choices .select2-search-choice div {
+      float: left;
+      width: 80px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
   }
 }
 
