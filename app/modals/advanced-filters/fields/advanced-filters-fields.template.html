@@ -7,7 +7,7 @@
   <div class="new_field">
     <div class="btn-group btn-group-block">
       <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
-        <span ng-show="newField.category">{{ newField.category.title }}</span> <span ng-hide="newField.category">Selecione uma categoria</span> <span class="caret"></span>
+        <span ng-if="newField.category && !loading">{{ newField.category.title }}</span> <span ng-if="newField.category === null && !loading">Selecione uma categoria</span> <span ng-if="loading"><i class="refresh glyphicon glyphicon-refresh rotating refresh"></i> Carregando Categoria...</span> <span class="caret"></span>
       </button>
 
       <ul class="dropdown-menu" role="menu">
@@ -15,7 +15,7 @@
       </ul>
     </div>
 
-    <div class="row" class="pages-animation" ng-show="newField.category !== null">
+    <div class="row" class="pages-animation" ng-show="newField.category">
       <div class="col col-xs-4">
         <select class="multiple-select" style="width: 100%;" ui-select2 ng-model="newField.fieldId" data-placeholder="Selecione uma opção">
           <option value="">Selecione um campo...</option>
@@ -121,5 +121,5 @@
 </div>
 
 <div class="modal-footer">
-   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Criar filtro</button>
+    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Criar filtro</button>
 </div>

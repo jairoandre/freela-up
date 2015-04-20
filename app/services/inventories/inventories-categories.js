@@ -6,7 +6,7 @@
  */
 angular
   .module('InventoriesCategoriesServiceModule', [])
-  .factory('InventoriesCategoriesService', function ($rootScope, FullResponseRestangular) {
+  .factory('InventoriesCategoriesService', function ($rootScope, Restangular, FullResponseRestangular) {
     var self = {};
     self.categories = {};
     self.categoriesStatuses = {};
@@ -49,6 +49,18 @@ angular
         self.loadedBasicInfo = true;
         updateCache(response);
       });
+
+      return promise;
+    };
+
+    /**
+     * Get an inventory category by it's ID
+     * @param  {int|string} id reqyested ategory ID
+     * @return {Object} Restangular promise with full info about the category
+     */
+    self.getCategory = function(id) {
+      // TODO we must implement a cached version
+      var promise = Restangular.one('inventory').one('categories', id).get({display_type: 'full'});
 
       return promise;
     };

@@ -136,7 +136,7 @@ angular
           windowClass: 'fieldsCategoriesModal',
           resolve: {
             'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList({'display_type' : 'full'});
+              return categoryResolver('items');
             }],
 
             activeAdvancedFilters: function() {
