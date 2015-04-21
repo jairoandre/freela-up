@@ -54,9 +54,11 @@
     <td>{{ user.phone }}</td>
     <td><span ng-repeat="group in user.groups_names"><span ng-hide="$index == 0">,</span> {{ group }}</span> </td>
     <td class="actions" ng-hide="user.loading">
-      <a class="icon_action" href="#/users/{{ user.id }}/edit" tooltip="Editar usuário" ng-show="!user.disabled"><span class="glyphicon glyphicon-edit"></span></a>
-      <a class="icon_action" href="" ng-click="disableUser(user)" tooltip="Desativar usuário" ng-show="!user.disabled"><span class="glyphicon glyphicon-off"></span></a>
-      <a class="icon_action" href="" ng-click="enableUser(user)" tooltip="Ativar usuário" ng-show="user.disabled"><span class="glyphicon glyphicon-repeat"></span></a>
+      <span ng-show="hasPermission('users_full_access')">
+        <a class="icon_action" href="#/users/{{ user.id }}/edit" tooltip="Editar usuário" ng-show="!user.disabled"><span class="glyphicon glyphicon-edit"></span></a>
+        <a class="icon_action" href="" ng-click="disableUser(user)" tooltip="Desativar usuário" ng-show="!user.disabled"><span class="glyphicon glyphicon-off"></span></a>
+        <a class="icon_action" href="" ng-click="enableUser(user)" tooltip="Ativar usuário" ng-show="user.disabled"><span class="glyphicon glyphicon-repeat"></span></a>
+      </span>
     </td>
     <td class="actions" ng-show="user.loading">
       <i class="refresh glyphicon glyphicon-refresh rotating"></i>
