@@ -403,6 +403,36 @@
       </div>
 
       <div class="form-group">
+        <label>Grupos solucionadores</label>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <multiple-select-list ng-model="category.solver_groups_ids">
+              <li><a href="" ng-click="selectAll($parent.$parent.groups, 'id')"><b>Selecionar todos</b></a></li>
+
+              <li ng-repeat="group in $parent.$parent.groups | filter: q" ng-class="{ 'active': isSelected(group.id) }">
+                <a href="" ng-click="toggle(group.id)"><span ng-bind-html="group.name | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+              </li>
+            </multiple-select-list>
+          </div>
+
+          <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
+            <ui-select ng-model="category.default_solver_group_id" theme="bootstrap">
+              <ui-select-match placeholder="Selecione o grupo padrão...">{{ $select.selected.name }}</ui-select-match>
+
+              <ui-select-choices repeat="group.id as group in groups | filter: { name: $select.search } | filter:filterByIds">
+                <div ng-bind-html="group.name | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+
+        <span class="help-block" style="margin-top: 15px;">Grupos solucionadores são grupos que são responsáveis pelos relatos. O grupo padrão será o grupo no qual todos os relatos criados nesta categoria vão ser vinculados automaticamente ao ser criado.</span>
+      </div>
+
+      <div class="form-group">
         <label>Obrigatoriedade de inserir um comentário interno ao encaminhar o relato</label>
 
         <div class="clearfix"></div>
@@ -428,46 +458,6 @@
         </div>
 
         <span class="help-block" style="margin-top: 15px;">Ao alterar o estado de um relato, a pessoa responsável pela ação deverá escrever um comentário para o munícipe - esse comentário pode ser público ou privado.</span>
-      </div>
-
-      <div class="form-group">
-        <label>Grupos solucionadores</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <ui-select ng-model="category.solver_groups_ids" theme="bootstrap" multiple>
-              <ui-select-match placeholder="Selecione os grupos...">{{ $item.name }}</ui-select-match>
-
-              <ui-select-choices repeat="group.id as group in groups | filter: {name: $select.search}">
-                <div ng-bind-html="group.name | highlight: $select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-
-            {{ solver_groups_ids }}
-
-            <multiple-select-list ng-model="solver_groups_ids">
-              <li><a href="" ng-click="selectAll()">Selecionar todos</a></li>
-
-              <li ng-repeat="group in groups | filter: q" ng-class="{ 'active': isSelected(group.id) }">
-                <a href="" ng-click="toggle(group.id)"><span ng-bind-html="group.name | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
-              </li>
-            </multiple-select-list>
-          </div>
-
-          <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
-            <ui-select ng-model="category.default_solver_group_id" theme="bootstrap">
-              <ui-select-match placeholder="Selecione o grupo padrão...">{{ $select.selected.name }}</ui-select-match>
-
-              <ui-select-choices repeat="group.id as group in groups | filter: { name: $select.search } | filter:filterByIds">
-                <div ng-bind-html="group.name | highlight: $select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Grupos solucionadores são grupos que são responsáveis pelos relatos. O grupo padrão será o grupo no qual todos os relatos criados nesta categoria vão ser vinculados automaticamente ao ser criado.</span>
       </div>
 
       <hr />
