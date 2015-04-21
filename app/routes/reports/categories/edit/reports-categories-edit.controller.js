@@ -368,6 +368,8 @@ angular
           var postCategoryPromise = Restangular.one('reports').withHttpConfig({ treatingErrors: true }).post('categories', editedCategory);
 
           postCategoryPromise.then(function() {
+            $scope.showMessage('ok', 'A categoria de relato foi criada com sucesso', 'success', true);
+
             $location.path('/reports/categories');
 
             $rootScope.resolvingRequest = false;

@@ -689,6 +689,8 @@ angular.
             var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
 
             putCategoryFormsPromise.then(function() {
+              $scope.showMessage('ok', 'A categoria de inventário foi criada com sucesso', 'success', true);
+
               $state.go('items.categories.edit', {id: newCategory.id});
             });
           });
