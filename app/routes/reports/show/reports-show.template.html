@@ -51,13 +51,14 @@
           <div class="clearfix"></div>
         </div>
 
-        <div class="report-data" ng-hide="report.reference == null || report.reference == ''">
+        <div class="report-data">
           <hr />
 
           <h5>Referência</h5>
           <p>{{ report.reference }}</p>
+          <p ng-show="report.reference == null || report.reference == ''">Sem referência.</p>
 
-          <a href="" class="link" ng-click="editAddress()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
+          <a href="" class="link" ng-click="editReference()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
           <div class="clearfix"></div>
         </div>

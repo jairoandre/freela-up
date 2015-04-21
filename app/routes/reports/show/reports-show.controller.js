@@ -9,6 +9,7 @@ angular
     'ReportsSelectAddressModalControllerModule',
     'ReportsForwardModalControllerModule',
     'ReportsSelectUserModalControllerModule',
+    'ReportsEditReferenceModalControllerModule',
     'duScroll'
   ])
 
@@ -140,6 +141,19 @@ angular
           }
         },
         controller: 'ReportsEditDescriptionModalController'
+      });
+    };
+
+    $scope.editReference = function () {
+      $modal.open({
+        templateUrl: 'modals/reports/edit-reference/reports-edit-reference.template.html',
+        windowClass: 'editReportModal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          }
+        },
+        controller: 'ReportsEditReferenceModalController'
       });
     };
 
