@@ -4,6 +4,7 @@ angular
   .module('ReportsCategoriesEditControllerModule', [
     'FormatErrorsHelperModule',
     'NgThumbComponentModule',
+    'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule'
   ])
 

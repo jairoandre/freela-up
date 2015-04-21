@@ -444,6 +444,16 @@
                 <div ng-bind-html="group.name | highlight: $select.search"></div>
               </ui-select-choices>
             </ui-select>
+
+            {{ solver_groups_ids }}
+
+            <multiple-select-list ng-model="solver_groups_ids">
+              <li><a href="" ng-click="selectAll()">Selecionar todos</a></li>
+
+              <li ng-repeat="group in groups | filter: q" ng-class="{ 'active': isSelected(group.id) }">
+                <a href="" ng-click="toggle(group.id)"><span ng-bind-html="group.name | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+              </li>
+            </multiple-select-list>
           </div>
 
           <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
