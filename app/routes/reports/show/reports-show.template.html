@@ -175,7 +175,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" ng-show="feedback">
+    <div class="rounder_wrapper" ng-show="feedback" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
       <div class="wrapper_title"><h1>Feedback do usuário</h1></div>
 
       <div class="fields">
@@ -201,7 +201,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" id="report-responses" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_create_comment', report.category.id)">
+    <div class="rounder_wrapper" id="report-responses" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
       <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
 
       <div class="fields">
