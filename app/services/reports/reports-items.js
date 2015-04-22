@@ -103,7 +103,7 @@ angular
 
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
       options.return_fields = [
-        'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue', 'position', // Report properties
+        'id', 'protocol', 'address', 'category_id', 'categories_ids', 'status_id', 'created_at', 'overdue', 'position', // Report properties
         'user.name', 'user.id' // User properties
       ].join();
 

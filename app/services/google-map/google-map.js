@@ -58,18 +58,20 @@ angular
       this.currentMarkers = {};
     };
 
-    Map.prototype.createMarker = function(position, markerImage, color, count, extraData) {
-      var html;
+    Map.prototype.createMarker = function(position, markerImage, color, count, extraData, isGeneralCluster) {
+      var html, extraClass = '';
 
       if(!_.isNull(markerImage))
       {
-        var extraClass = markerImage.isPin ? 'pin' : '';
+        extraClass = markerImage.isPin ? 'pin' : '';
 
         html = '<div class="marker ' + extraClass + '" style="background-image: url(' + markerImage.url + ')">';
       }
       else
       {
-        html = '<div class="marker">';
+        if (isGeneralCluster) extraClass = 'general-cluster';
+
+        html = '<div class="marker ' + extraClass + '">';
       }
 
       if (count)
@@ -91,8 +93,14 @@ angular
       });
 
       if (!_.isUndefined(extraData)) google.maps.event.addListener(marker, 'click', this.displayInfoWindow);
+      else if (_.isNull(markerImage)) google.maps.event.addListener(marker, 'click', this.zoomToMarker);
 
       return marker;
+    };
+
+    Map.prototype.zoomToMarker = function() {
+      this.map.setZoom(this.map.getZoom() + 1);
+      this.map.setCenter(this.position);
     };
 
     Map.prototype.displayInfoWindow = function() {
@@ -123,6 +131,8 @@ angular
     Map.prototype.createClusterMarker = function(cluster) {
       var position = new google.maps.LatLng(cluster.position[0], cluster.position[1]);
 
+      if (cluster.categories_ids) return this.createMarker(position, null, '#259ECB', cluster.count, undefined, true);
+
       return this.createMarker(position, null, cluster.category.color, cluster.count);
     };
 
@@ -152,9 +162,11 @@ angular
       var nextMarkers = {}, _self = this;
 
       _.each(nextClusters, function(cluster) {
-        if (_.isUndefined(cluster.category) || !cluster.category) return false;
+        if ((_.isUndefined(cluster.category) || !cluster.category) && _.isUndefined(cluster.categories_ids)) return false;
 
-        var clusterID = (cluster.position[0]).toString() + cluster.position[1] + cluster.count + cluster.category_id;
+        var categoryId = _.isUndefined(cluster.category) ? cluster.categories_ids[0] : cluster.category_id;
+
+        var clusterID = (cluster.position[0]).toString() + cluster.position[1] + cluster.count + categoryId;
 
         if(!_self.currentMarkers[clusterID])
         {
