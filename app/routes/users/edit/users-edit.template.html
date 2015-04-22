@@ -35,6 +35,11 @@
       </div>
     </div>
 
+    <div class="form-group pages-animation" ng-show="!hasPermission('users_full_access') && !form.password.$pristine">
+      <label for="form_email">Senha atual *</label>
+      <input type="password" class="form-control custom_form" placeholder="Senha atual" ng-model="user.current_password" generic-input name="currentPassword" equals="{{ user.password_confirmation }}" required>
+    </div>
+
     <div class="form-group" ng-class="{'has-error': form.address.$dirty && form.address.$invalid}">
       <label for="form_address">Endereço *</label>
       <input type="text" class="form-control custom_form" id="form_address" ng-model="user.address" generic-input name="address" required>
