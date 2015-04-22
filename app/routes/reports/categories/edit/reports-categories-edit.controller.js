@@ -157,6 +157,7 @@ angular
     };
 
     $scope.filterByIds = function(item) {
+      if (_.isUndefined(category.solver_groups_ids)) return false;
       if (!~category.solver_groups_ids.indexOf(item.id)) return false;
 
       return true;
