@@ -2310,9 +2310,9 @@ p {
       &.general-cluster {
         span {
           background-color: #259ECB;
-          width: 40px;
+          min-width: 40px;
           height: 40px;
-          border-radius: 50%;
+          border-radius: 20px;
           line-height: 37px;
           box-shadow: 0px 0px 0px 6px rgba(0,0,0, 0.13);
 
