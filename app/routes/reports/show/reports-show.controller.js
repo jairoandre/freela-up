@@ -92,6 +92,8 @@ angular
     };
 
     $scope.editReportStatus = function (report, category) {
+      $rootScope.resolvingRequest = true;
+
       $modal.open({
         templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
         windowClass: 'editStatusModal',
@@ -102,6 +104,10 @@ angular
 
           category: function() {
             return category;
+          },
+
+          statusesResponse: function() {
+            return Restangular.one('reports').one('categories', $scope.report.category.id).all('statuses').getList();
           }
         },
         controller: 'ReportsEditStatusModalController'

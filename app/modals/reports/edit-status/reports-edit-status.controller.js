@@ -3,9 +3,13 @@
 angular
   .module('ReportsEditStatusModalControllerModule', [])
 
-  .controller('ReportsEditStatusModalController', function(Restangular, $scope, $state, $modalInstance, category, report) {
+  .controller('ReportsEditStatusModalController', function(Restangular, $scope, $rootScope, $state, $modalInstance, category, report, statusesResponse) {
+    $rootScope.resolvingRequest = false;
+
     $scope.category = category;
     $scope.report = angular.copy(report);
+
+    $scope.category.statuses = statusesResponse.data;
 
     $scope.report.privateComment = true;
 
