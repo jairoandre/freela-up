@@ -102,7 +102,7 @@ angular
         activeAdvancedFilters.push(filter);
       }
 
-      for (var i = selectedCategories.length - 1; i >= 0; i--) {
+      /*for (var i = selectedCategories.length - 1; i >= 0; i--) {
         var filter = {
           title: 'Categoria',
           type: 'categories',
@@ -111,7 +111,7 @@ angular
         };
 
         activeAdvancedFilters.push(filter);
-      }
+      }*/
 
       $modalInstance.close();
     };
