@@ -134,7 +134,7 @@ angular
             });
           },
 
-          changedMarkerPosition: function(lat, lng, itemId) {
+          changedMarkerPosition: function(lat, lng, itemId, keepAddress) {
             var geocoder = new google.maps.Geocoder();
 
             if (typeof itemId === 'undefined')
@@ -147,18 +147,21 @@ angular
               scope.itemId = itemId;
             }
 
-            geocoder.geocode({
-              latLng: new google.maps.LatLng(lat, lng)
-            },
-            function(results, status)
+            if (_.isUndefined(keepAddress) || !keepAddress)
             {
-              if (status === google.maps.GeocoderStatus.OK)
+              geocoder.geocode({
+                latLng: new google.maps.LatLng(lat, lng)
+              },
+              function(results, status)
               {
-                scope.formattedAddress = results[0].formatted_address;
+                if (status === google.maps.GeocoderStatus.OK)
+                {
+                  scope.formattedAddress = results[0].formatted_address;
 
-                scope.$apply();
-              }
-            });
+                  scope.$apply();
+                }
+              });
+            }
           },
 
           boundsChanged: function(forceReset) {

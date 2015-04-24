@@ -56,7 +56,7 @@ angular
               if (scope.mapProvider.allows_arbitrary_position == true)
               {
                 scope.mapProvider.mainMarker.setPosition(place.geometry.location);
-                scope.mapProvider.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng());
+                scope.mapProvider.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng(), undefined, true);
               }
               else
               {
