@@ -11,6 +11,7 @@ angular
     $scope.groups = groupsResponse.data;
 
     $scope.filterByIds = function(item) {
+      if (report.assigned_group && report.assigned_group.id == item.id) return false;
       if (!~category.solver_groups_ids.indexOf(item.id)) return false;
 
       return true;
