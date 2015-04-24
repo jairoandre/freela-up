@@ -42,7 +42,7 @@ angular
                   google.maps.event.trigger(mapProvider.map, 'bounds_changed');
                   mapProvider.map.setCenter(mapProvider.options.homeLatlng);
 
-                  mapProvider.addMarker(scope.report, scope.category);
+                  mapProvider.addMarker(scope.report, scope.report.category);
                 }, 80);
               }
             });
