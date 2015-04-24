@@ -353,18 +353,20 @@
 
           <div class="log" ng-repeat="log in historyLogs">
             <div class="date">
-              <span>{{ log.created_at | date:'dd/MM/yy'}}</span>
+              <span>{{ log.created_at | date:'dd/MM/yy hh:mm'}}h</span>
             </div>
 
             <div class="action">
               <p>
                 <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a>
-                <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato para <b>{{ log.objects[0].title }}</b>.</span>
-                <span ng-show="log.kind === 'status' && !log.user">O estado do relato foi alterado para <b>{{ log.objects[0].title }}</b>.</span>
-                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>, quando estava no status: <b>{{ log.objects[0].title }}</b>.</span>
-                <span ng-show="log.kind === 'address'">alterou o endereço do relato.</span>
-                <span ng-show="log.kind === 'description'">alterou a descrição do relato.</span>
-                <span ng-show="log.kind === 'category'">alterou a categoria do relato para <b>{{ log.objects[0].title }}</b>.</span>
+                <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'status' && !log.user">O estado do relato foi alterado para <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>.</span>
+                <span ng-show="log.kind === 'address'">alterou o endereço do relato para <b>{{ log.changes.new }}</b>.</span>
+                <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>{{ log.changes.new }}</b>.</span>
+                <span ng-show="log.kind === 'category'">alterou a categoria do relato para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'user_assign'">associou o relato ao usuário <a href="#/users/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
+                <span ng-show="log.kind === 'forward'">encaminhou o relato para o grupo <b>{{ log.changes.new.name }}</b>.</span>
               </p>
 
               <div class="divider"></div>
