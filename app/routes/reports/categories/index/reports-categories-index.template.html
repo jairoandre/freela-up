@@ -10,8 +10,13 @@
     <a href="#/reports/categories/add" class="btn btn-info btn-custom" ng-show="hasPermission('reports_full_access')">+ Nova categoria</a>
   </div>
 
+  <div class="simple_search">
+    <span class="glyphicon glyphicon-search search_icon"></span>
+    <input type="text" placeholder="Buscar categorias..." ng-model="q" />
+  </div>
+
   <table class="table custom_table big_text">
-    <tbody ng-repeat="category in categories">
+    <tbody ng-repeat="category in categories | filter:q">
       <tr>
         <td><img ng-src="{{ category.icon.default.web.active }}" width="50" class="category-icon"> <a href="#/reports/categories/{{ category.id }}/edit">{{ category.title }}</a></td>
         <td width="90">
@@ -22,7 +27,7 @@
         </td>
       </tr>
 
-      <tr ng-repeat="subCategory in category.subcategories" class="subrow">
+      <tr ng-repeat="subCategory in category.subcategories | filter: {title: q}" class="subrow">
         <td>
           <img ng-src="{{ subCategory.icon.default.web.active }}" width="30" class="category-icon"> <span class="sub-tag"></span>
 
