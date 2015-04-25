@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<table class="table custom_table" ng-hide="loadingContent" infinite-scroll="getData(true)" infinite-scroll-distance="3">
+<table class="table custom_table" ng-hide="loadingSearch" infinite-scroll="getData(true)" infinite-scroll-distance="3">
   <thead>
     <tr>
       <td width="30%" ng-click="changeSorting('name')"
@@ -66,4 +66,4 @@
   </tr>
 </table>
 
-<div class="loadingScrolling" ng-show="loadingPagination && !loadingContent"></div>
+<div class="loadingScrolling" ng-show="(loadingPagination && !loadingContent) || loadingSearch"></div>

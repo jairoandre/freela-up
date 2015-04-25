@@ -119,10 +119,10 @@ angular
       page = 1;
       $scope.loadingPagination = false;
 
-      $scope.loadingContent = true;
+      $scope.loadingSearch = true;
 
       getData(false).then(function() {
-        $scope.loadingContent = false;
+        $scope.loadingSearch = false;
 
         page++;
       });
