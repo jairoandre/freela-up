@@ -118,9 +118,15 @@ angular
       $scope.searchText = text;
 
       $scope.loadingPagination = false;
+      $scope.loadingSearch = true;
       $scope.users = [];
       page = 1;
-      getData(true);
+
+      var p = getData(true);
+
+      p.then(function() {
+        $scope.loadingSearch = false;
+      });
     };
 
     $scope.editGroup = function () {
