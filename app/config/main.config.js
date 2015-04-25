@@ -51,7 +51,12 @@ angular
     FullResponseRestangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
 
     $rootScope.flowsEnabled = (ENV.flowsEnabled === 'true' || ENV.flowsEnabled === 'TRUE');
-    $rootScope.mapDebugEnabled = (ENV.mapDebug === 'true' || ENV.mapDebug === 'TRUE');
+
+    if(ENV.env == 'development')
+    {
+      $rootScope.errorReporting = true;
+      $rootScope.mapDebugEnabled = true;
+    }
 
     // Return what is being requested
     Restangular.addResponseInterceptor(function(response, operation, what) {
@@ -107,6 +112,9 @@ angular
 
       return true;
     });
+
+    Error.show({ error: 'test', n: '1'});
+    Error.show({ error: 'test', n: '2'});
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
