@@ -52,6 +52,8 @@ angular
         $scope.processingComment = false;
 
         $scope.comments.push(response.data);
+
+        $scope.refreshHistory();
       });
     };
 
@@ -65,6 +67,8 @@ angular
         $scope.newSystemComment.message = null;
 
         $scope.comments.push(response.data);
+
+        $scope.refreshHistory();
       });
     };
 
@@ -144,6 +148,10 @@ angular
         resolve: {
           report: function() {
             return $scope.report;
+          },
+
+          refreshHistory: function() {
+            return $scope.refreshHistory();
           }
         },
         controller: 'ReportsEditDescriptionModalController'
