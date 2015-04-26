@@ -76,7 +76,7 @@ angular
       login: function(email, pass) {
         FullResponseRestangular.setDefaultHeaders({'X-App-Token': this.getToken()});
 
-        var deferred = $q.defer(), req = FullResponseRestangular.one('authenticate').post(null, {email: email, password: pass}), that = this;
+        var deferred = $q.defer(), req = FullResponseRestangular.one('authenticate').withHttpConfig({ treatingErrors: true, treatingUnauthorizedErrors: true }).post(null, {email: email, password: pass}), that = this;
 
         req.then(function(response) {
           that.saveUser(response.data.user);

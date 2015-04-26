@@ -105,7 +105,7 @@ angular
     $http.defaults.transformResponse = [transformResponse];
 
     var errorInterceptor = function(response, deferred, responseHandler) {
-      if (response.status === 401)
+      if (response.status === 401 && (typeof response.config.treatingUnauthorizedErrors === 'undefined' || response.config.treatingUnauthorizedErrors === false))
       {
         Error.show('expired_session');
       }
