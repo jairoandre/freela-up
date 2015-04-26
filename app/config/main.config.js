@@ -113,9 +113,6 @@ angular
       return true;
     });
 
-    Error.show({ error: 'test', n: '1'});
-    Error.show({ error: 'test', n: '2'});
-
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
       if (fromState.name.length !== 0)
