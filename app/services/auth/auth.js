@@ -95,6 +95,7 @@ angular
 
       logout: function() {
         this.clearToken();
+        this.clearUser();
       }
     };
   });

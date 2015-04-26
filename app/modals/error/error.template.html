@@ -5,7 +5,8 @@
 <div class="modal-body">
   <p><b>Parece que há um problema!</b></p>
 
-  <p>Se caso o problema persistir, entre em contato com o administrador do sistema.</p>
+  <p ng-if="response != 'expired_session'">Se caso o problema persistir, entre em contato com o administrador do sistema.</p>
+  <p ng-if="response == 'expired_session'">Parece que a sua sessão expirou. Por favor, efetue o login novamente.</p>
 
   <div class="panel panel-danger" ng-show="errorReporting">
     <div class="panel-heading">
@@ -17,7 +18,11 @@
   </div>
 </div>
 
-<div class="modal-footer">
+<div class="modal-footer" ng-if="response !== 'expired_session'">
   <a type="button" class="btn btn-info btn-custom btn-fat-custom pull-left" ng-click="ok()" href="">Fechar</a>
   <a type="button" class="btn btn-default btn-fat-custom" href="https://zeladoriaurbana.zendesk.com/hc/pt-br/requests/new" target="_blank">Abrir ticket para este erro</a>
+</div>
+
+<div class="modal-footer" ng-if="response == 'expired_session'">
+  <a type="button" class="btn btn-info btn-custom btn-fat-custom pull-left" ng-click="redoSession()">Entrar novamente</a>
 </div>

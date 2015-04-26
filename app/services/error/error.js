@@ -20,7 +20,7 @@ angular
           return false;
         }
 
-        $modal.open({
+        var modalInstance = $modal.open({
           templateUrl: 'modals/error/error.template.html',
           windowClass: 'error-modal',
           resolve: {
@@ -29,6 +29,12 @@ angular
             }
           },
           controller: 'ErrorModalController'
+        });
+
+        modalInstance.result.then(function () {
+          activeModal = false;
+        }, function () {
+          activeModal = false;
         });
 
         activeModal = true;

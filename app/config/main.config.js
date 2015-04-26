@@ -104,14 +104,21 @@ angular
 
     $http.defaults.transformResponse = [transformResponse];
 
-    Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
-      if (typeof response.config.treatingErrors === 'undefined' || response.config.treatingErrors === false)
+    var errorInterceptor = function(response, deferred, responseHandler) {
+      if (response.status === 401)
+      {
+        Error.show('expired_session');
+      }
+      else if (typeof response.config.treatingErrors === 'undefined' || response.config.treatingErrors === false)
       {
         Error.show(response);
       }
 
       return true;
-    });
+    };
+
+    Restangular.setErrorInterceptor(errorInterceptor);
+    FullResponseRestangular.setErrorInterceptor(errorInterceptor);
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
@@ -138,6 +145,7 @@ angular
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
       if (error.status === 403) $window.location = '/';
       else if (error.status === 404) $window.location = '/';
+      else if (error.status === 401) Error.show('expired_session');
       else Error.show(error);
     });
 
