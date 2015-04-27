@@ -3,7 +3,11 @@
 angular
   .module('ErrorModalControllerModule', [])
 
-  .controller('ErrorModalController', function($scope, $modalInstance, $state, response, Raven, Auth) {
+  .controller('ErrorModalController', function($scope, $rootScope, $modalInstance, $state, response, Raven, Auth) {
+    // we hide any kind of loading
+    $rootScope.resolvingRoute = false;
+    $rootScope.resolvingRequest = false;
+
     $scope.response = response;
 
     Raven.captureMessage(JSON.stringify(response));
