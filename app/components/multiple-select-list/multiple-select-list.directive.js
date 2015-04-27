@@ -3,18 +3,6 @@
 angular
   .module('MultipleSelectListComponentModule', [])
 
-  .directive('myTransclude', function() {
-    return {
-      compile: function(e, a, transclude) {
-        return function(scope, element) {
-          transclude(scope.$new(), function(clone) {
-            element.append(clone);
-          });
-        };
-      }
-    };
-  })
-
   .directive('multipleSelectList', function () {
     return {
         restrict: 'E',

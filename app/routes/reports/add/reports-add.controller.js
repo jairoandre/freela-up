@@ -2,6 +2,7 @@
 
 angular
   .module('ReportsAddControllerModule', [
+    'SelectListComponentModule',
     'ReportsSelectUserModalControllerModule',
     'ReportsCreateUserModalControllerModule',
     'ReportSearchMapComponentModule',
@@ -11,6 +12,8 @@ angular
 
   .controller('ReportsAddController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
+
+    console.log(Restangular.stripRestangular(categories));
 
     $scope.categories = categories;
 
