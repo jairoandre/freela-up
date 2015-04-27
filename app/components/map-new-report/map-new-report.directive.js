@@ -3,7 +3,7 @@
 angular
   .module('MapNewReportComponentModule', [])
 
-  .directive('mapNewReport', function ($compile, $timeout, Restangular, ENV) {
+  .directive('mapNewReport', function ($compile, $timeout, Restangular, FullResponseRestangular, ENV) {
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
@@ -162,6 +162,14 @@ angular
                 }
               });
             }
+
+            // we verify if the marker is inside bounds
+            var verifyMarkerInsideBoundsPromise = FullResponseRestangular.all('utils').all('city-boundary').customGET('validate', { longitude: lng, latitude: lat });
+
+            verifyMarkerInsideBoundsPromise.then(function(response) {
+              if (!response.data.inside_boundaries) scope.markerOutOfBounds = true;
+              else scope.markerOutOfBounds = false;
+            });
           },
 
           boundsChanged: function(forceReset) {
