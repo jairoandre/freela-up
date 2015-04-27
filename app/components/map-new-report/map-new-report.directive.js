@@ -17,19 +17,19 @@ angular
               mapTypeControl: false,
               panControl: true,
               panControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               },
               zoomControl: true,
               zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               },
               scaleControl: true,
               scaleControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               },
               streetViewControl: true,
               streetViewControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               }
             }
           },
