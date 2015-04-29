@@ -13,7 +13,6 @@ angular
   .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
-    $rootScope.hasMap = isMap;
 
     var page = 1, perPage = 15;
 
@@ -480,4 +479,11 @@ angular
         controller: 'ReportsEditStatusModalController'
       });
     };
+
+    // we hide/show map debug
+    $rootScope.pageHasMap = isMap;
+
+    $scope.$on('$destroy', function() {
+      $rootScope.pageHasMap = false;
+    });
   });

@@ -52,7 +52,7 @@ angular
 
     $rootScope.flowsEnabled = (ENV.flowsEnabled === 'true' || ENV.flowsEnabled === 'TRUE');
 
-    if(ENV.env == 'development')
+    if(ENV.name == 'development')
     {
       $rootScope.errorReporting = true;
       $rootScope.mapDebugEnabled = true;
