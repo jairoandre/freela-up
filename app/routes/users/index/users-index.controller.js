@@ -4,62 +4,51 @@ angular
   .module('UsersIndexControllerModule', [
     'KeyboardPosterComponentModule',
     'GenericInputComponentModule',
-    'UsersDisableModalControllerModule'
+    'UsersDisableModalControllerModule',
+    'FilterGroupModalControllerModule'
   ])
 
-  .controller('UsersIndexController', function ($scope, $q, $stateParams, $modal, Restangular) {
+  .controller('UsersIndexController', function ($scope, $q, $stateParams, $modal, Restangular, groupsResponse) {
     $scope.loading = true;
     $scope.loadingPagination = false;
 
-    $scope.sort = {
-      column: '',
-      descending: false
-    };
-
-    $scope.changeSorting = function (column) {
-      var sort = $scope.sort;
-      if (sort.column === column) {
-        sort.descending = !sort.descending;
-      } else {
-        sort.column = column;
-        sort.descending = false;
-      }
-    };
-
-    $scope.selectedCls = function (column) {
-      return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
-    };
-
-    var groupId = $stateParams.groupId, page = 1, perPage = 30, total, searchText = '';
+    var page = 1, perPage = 30, total, searchText = '', groupsIds = [];
 
     // Return right promise
-    var generateUsersPromise = function(groupId, searchText) {
-      if (typeof groupId !== 'undefined')
+    var generateUsersPromise = function() {
+      var options = {page: page, per_page: perPage, disabled: true};
+
+      if (groupsIds.length !== 0)
       {
-        $scope.groupId = groupId;
-
-        // if we are searching with a group, hit /search/groups/{id}/users
-        if (searchText !== '')
-        {
-          return Restangular.one('search').one('groups', groupId).all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage, disabled: true}); // jshint ignore:line
-        }
-
-        return Restangular.one('groups', groupId).all('users').getList({ page: page, per_page: perPage, disabled: true }); // jshint ignore:line
+        options['groups'] = groupsIds.join();
       }
 
-      groupId = $scope.groupId = null;
-
-      // if we searching, hit search/users
-      if (searchText !== '')
+      if (searchText.length !== 0)
       {
-        return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage, disabled: true}); // jshint ignore:line
+        options.name = searchText;
+        options.email = searchText;
       }
 
-      return Restangular.all('users').getList({ page: page, per_page: perPage, disabled: true }); // jshint ignore:line
+      return Restangular.one('search').all('users').getList(options);
     };
 
     // Get groups for filters
-    var groups = Restangular.all('groups').getList();
+    $scope.groups = groupsResponse.data;
+
+    $scope.getGroupsExcerpt = function() {
+      switch(groupsIds.length) {
+        case 1:
+          return 'Grupo: ' + _.findWhere($scope.groups, { id: groupsIds[0] }).name;
+          break;
+
+        case 0:
+          return 'Filtrar por grupo';
+          break;
+
+        default:
+           return 'Grupo: ' + groupsIds.length + ' grupos selecionados';
+      }
+    };
 
     // One every change of page or search, we create generate a new request based on current values
     var getData = $scope.getData = function(paginate) {
@@ -67,14 +56,12 @@ angular
       {
         $scope.loadingPagination = true;
 
-        var usersPromise = generateUsersPromise(groupId, searchText);
+        var usersPromise = generateUsersPromise();
 
-        $q.all([usersPromise, groups]).then(function(responses) {
-          $scope.groups = responses[1].data;
-
+        usersPromise.then(function(response) {
           if (paginate !== true)
           {
-            $scope.users = responses[0].data;
+            $scope.users = response.data;
           }
           else
           {
@@ -83,15 +70,15 @@ angular
               $scope.users = [];
             }
 
-            for (var i = 0; i < responses[0].data.length; i++) {
-              $scope.users.push(responses[0].data[i]);
+            for (var i = 0; i < response.data.length; i++) {
+              $scope.users.push(response.data[i]);
             }
 
             // add up one page
             page++;
           }
 
-          total = parseInt(responses[0].headers().total);
+          total = parseInt(response.headers().total);
 
           var lastPage = Math.ceil(total / perPage);
 
@@ -111,20 +98,50 @@ angular
       }
     };
 
-    // Search function
-    $scope.search = function(text) {
-      searchText = text;
-
-      // reset pagination
+    var refresh = function() {
       page = 1;
-      $scope.loadingPagination = false;
 
+      $scope.loadingPagination = false;
       $scope.loadingSearch = true;
+      $scope.users = [];
 
       getData(false).then(function() {
         $scope.loadingSearch = false;
 
         page++;
+      });
+    };
+
+    // Search function
+    $scope.search = function(text) {
+      searchText = text;
+
+      // reset pagination
+      refresh();
+    };
+
+    $scope.filterUsersByGroup = function () {
+      $modal.open({
+        templateUrl: 'modals/users/filter-group/users-filter-group.template.html',
+        windowClass: 'filterCategoriesModal',
+        resolve: {
+          groups: function() {
+            return $scope.groups;
+          },
+
+          selectedGroups: function() {
+            return angular.copy(groupsIds);
+          },
+
+          applyFilter: function() {
+            return function(selectedGroupsIDs) {
+              groupsIds = selectedGroupsIDs;
+
+              refresh();
+            }
+          }
+        },
+        controller: 'FilterGroupModalController'
       });
     };
 
