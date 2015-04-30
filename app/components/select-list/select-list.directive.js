@@ -3,27 +3,67 @@
 angular
   .module('SelectListComponentModule', [])
 
-  .directive('selectList', function () {
+  .directive('selectList', function ($document) {
     return {
         restrict: 'E',
         templateUrl: "components/select-list/select-list.template.html",
         transclude: true,
         scope: {
-          ngModel: '='
+          ngModel: '=',
+          optionName: '@'
         },
         replace: true,
         controller: function ($scope) {
+          $scope.getExcerpt = function() {
+            if ($scope.title)
+            {
+              return $scope.title;
+            }
 
-          $scope.select = function(option) {
-            $scope.ngModel = option;
+            return 'Selecione uma categoria';
           };
 
-          $scope.isSelected = function(option) {
-            if (option === $scope.ngModel) return true;
+          $scope.select = function(optionId, option) {
+            $scope.ngModel = optionId;
+
+            $scope.title = option[$scope.optionName];
+          };
+
+          $scope.isSelected = function(optionId) {
+            if (optionId === $scope.ngModel) return true;
 
             return false;
           };
+        },
+        link: function(scope, element, attrs) {
+          var windowClick = function(event) {
+            if (!$(event.target).closest(element).length) {
+              scope.show = false;
 
+              scope.$apply();
+
+              angular.element($document).off('click', windowClick);
+            }
+          };
+
+          scope.toggleList = function() {
+            scope.show = !scope.show;
+
+            if (!scope.show)
+            {
+              angular.element($document).off('click', windowClick);
+            }
+            else
+            {
+              // we need to hide the menu if clicked anywhere else
+              angular.element($document).on('click', windowClick);
+            }
+          };
+
+          // we still unbind the event on scope.$destroy JUST IN CASE
+          scope.$on('$destroy', function () {
+            angular.element($document).off('click', windowClick);
+          });
         }
     };
   });
