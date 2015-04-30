@@ -75,7 +75,7 @@
       <td>{{ report.address }} </td>
       <td><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></td>
       <td>{{ report.category.title }}</td>
-      <td>{{  (report.assigned_user || report.assigned_group) ? ((report.assigned_user) ? report.assigned_user.name : report.assigned_group.name) : 'Não atribuído' }}</td>
+      <td><span ng-if="report.assigned_group && report.assigned_user"><a href="#/users/{{ report.assigned_user.id }}">{{ report.assigned_user.name.split(' ')[0] }}</a> ({{ report.assigned_group.name }})</span><a ng-if="report.assigned_group && !report.assigned_user" href="#/groups/{{ report.assigned_group.id }}">{{ report.assigned_group.name }}</a><a ng-if="!report.assigned_group && report.assigned_user" href="#/users/{{ report.assigned_user.id }}">{{ report.assigned_user.name }}</a><span ng-if="!report.assigned_user && !report.assigned_group">Não atribuído</span></td>
       <td>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</td>
       <td class="actions">
         <a class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit" ng-show="hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"></span></a>
