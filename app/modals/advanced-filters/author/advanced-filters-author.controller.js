@@ -13,7 +13,7 @@ angular
       options: {
         onlySelect: true,
         source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term });
+          var categoriesPromise = Restangular.one('search').all('users').getList({ name: request.term, per_page: 10 });
 
           categoriesPromise.then(function(response) {
             uiResponse( $.map( response.data, function( user ) {
