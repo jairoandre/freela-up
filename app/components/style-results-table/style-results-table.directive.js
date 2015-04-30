@@ -2,7 +2,7 @@
 
 angular
   .module('StyleResultsTableComponentModule', [])
-  .directive('styleResultsTable', function () {
+  .directive('styleResultsTable', function ($timeout) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -13,7 +13,9 @@ angular
         changeMargin();
 
         scope.$watch('activeAdvancedFilters', function() {
-          changeMargin();
+          $timeout(function() {
+            changeMargin();
+          });
         }, true);
       }
     };
