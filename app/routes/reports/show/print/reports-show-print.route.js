@@ -1,13 +1,12 @@
 angular
-  .module('ReportsShowModule', [
-    'ReportsShowControllerModule',
-    'ReportsShowPrintModule'
+  .module('ReportsShowPrintModule', [
+    'ReportsShowPrintControllerModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
 
-    $stateProvider.state('reports.show', {
-      url: '/{id:[0-9]{1,9}}',
+    $stateProvider.state('reports.show.print', {
+      url: '/print',
       resolve: {
         'reportResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           return Restangular.one('reports').one('items', $stateParams.id).get();
@@ -26,9 +25,9 @@ angular
         }],
       },
       views: {
-        '': {
-          templateUrl: 'routes/reports/show/reports-show.template.html',
-          controller: 'ReportsShowController',
+        '@': {
+          templateUrl: 'routes/reports/show/print/reports-show-print.template.html',
+          controller: 'ReportsShowPrintController',
           controllerAs: 'ctrl'
         }
       }

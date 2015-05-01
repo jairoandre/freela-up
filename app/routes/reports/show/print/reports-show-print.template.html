@@ -1,0 +1,131 @@
+<div class="print-template">
+  <div class="content">
+
+    <div class="header">
+      <a href="#"><img ng-src="{{ blueLogoImg }}"></a>
+    </div>
+
+    <div class="col-xs-6">
+        <h3>Campos</h3>
+
+        <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
+          <h5>Protocolo</h5>
+          <p>{{ report.protocol }} <span class="label label-danger" ng-show="report.overdue">ATRASADO</span></p>
+
+          <hr />
+        </div>
+
+        <div class="report-data">
+          <h5>Endereço</h5>
+          <p>{{ report.address }}</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="report-data">
+          <hr />
+
+          <h5>Referência</h5>
+          <p>{{ report.reference }}</p>
+          <p ng-show="report.reference == null || report.reference == ''">Sem referência.</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="report-data" ng-hide="report.description == null || report.description == ''">
+          <hr />
+
+          <h5>Descrição</h5>
+          <p>{{ report.description }}</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <hr />
+
+        <div class="report-data">
+          <h5>Categoria</h5>
+          <p>{{ report.category.title }}</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <hr />
+
+        <h5>Data de cadastro</h5>
+        <p>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</p>
+
+        <hr />
+
+        <div class="report-data">
+          <h5>Status</h5>
+          <p><span ng-repeat="status in report.category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div ng-show="report.inventory_item">
+          <hr />
+
+          <h5>Item relacionado</h5>
+
+          <p><a href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
+        </div>
+
+        <hr />
+
+        <div class="report-data">
+          <h5>Grupo responsável</h5>
+
+          <p ng-show="report.assigned_group">{{ report.assigned_group.name }}</p>
+          <p ng-show="!report.assigned_group">Não há um grupo responsável pelo relato.</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="report-data" ng-show="report.assigned_group">
+          <hr />
+
+          <h5>Usuário responsável</h5>
+
+          <p ng-show="report.assigned_user">{{ report.assigned_user.name }}</p>
+          <p ng-show="!report.assigned_user">Não há um usuário responsável pelo relato.</p>
+
+          <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <h3>Munícipe</h3>
+        <h5>Nome completo do munícipe</h5>
+        <p ng-show="hasPermission('reports_full_access')"><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
+        <p ng-show="!hasPermission('reports_full_access')">{{ report.user.name }}</p>
+
+        <hr />
+
+        <h5>Email</h5>
+        <p>{{ report.user.email }}</p>
+
+        <hr />
+
+        <h5>Telefone</h5>
+        <p>{{ report.user.phone }}</p>
+
+        <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)" class="section">
+          <h3>Feedback</h3>
+          <h5>Feedback do usuário</h5>
+
+          <p ng-show="feedback.kind == 'positive'">Positivo</p>
+          <p ng-show="feedback.kind != 'positive'">Negativo</p>
+
+          <hr />
+
+          <h5>Comentário</h5>
+          <p>{{ feedback.content }}</p>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+  </div>
+</div>

@@ -10,12 +10,13 @@ angular
     'ReportsForwardModalControllerModule',
     'ReportsSelectUserModalControllerModule',
     'ReportsEditReferenceModalControllerModule',
+    'ReportsPrintModalControllerModule',
     'duScroll'
   ])
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, commentsResponse, $rootScope, reportHistoryResponse) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, feedbackResponse, commentsResponse, $rootScope, reportHistoryResponse) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
@@ -219,6 +220,21 @@ angular
           }
         },
         controller: 'ReportsSelectUserModalController'
+      });
+    };
+
+    $scope.print = function() {
+      $modal.open({
+        templateUrl: 'modals/reports/print/reports-print.template.html',
+        windowClass: 'filterCategoriesModal',
+        resolve: {
+          openModal: function() {
+            return function(options) {
+              $window.open('#/reports/' + $scope.report.id + '/print?sections=' + options.join(), 'ZUP Imprimir relato', 'height=800,width=800');
+            }
+          }
+        },
+        controller: 'ReportsPrintModalController'
       });
     };
 
