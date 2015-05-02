@@ -6,7 +6,7 @@ angular
   .config(['$stateProvider', function($stateProvider) {
 
     $stateProvider.state('reports.show.print', {
-      url: '/print',
+      url: '/print?sections',
       resolve: {
         'reportResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           return Restangular.one('reports').one('items', $stateParams.id).get();

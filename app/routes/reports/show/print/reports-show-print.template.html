@@ -5,7 +5,7 @@
       <a href="#"><img ng-src="{{ blueLogoImg }}"></a>
     </div>
 
-    <div class="col-xs-6">
+    <div ng-class="{ 'col-xs-6': showSection('user'), 'col-xs-12': !showSection('user') }" ng-if="showSection('fields')">
         <h3>Campos</h3>
 
         <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
@@ -95,11 +95,10 @@
         </div>
     </div>
 
-    <div class="col-xs-6">
+    <div ng-class="{ 'col-xs-6': showSection('fields'), 'col-xs-12': !showSection('fields') }" ng-if="showSection('user')">
         <h3>Munícipe</h3>
         <h5>Nome completo do munícipe</h5>
-        <p ng-show="hasPermission('reports_full_access')"><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></p>
-        <p ng-show="!hasPermission('reports_full_access')">{{ report.user.name }}</p>
+        <p>{{ report.user.name }}</p>
 
         <hr />
 
@@ -123,6 +122,26 @@
           <h5>Comentário</h5>
           <p>{{ feedback.content }}</p>
         </div>
+    </div>
+
+    <div class="col-xs-12" ng-if="showSection('map')">
+      <div class="roundedMap" map-show-report style="height: 300px;"></div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div ng-show="(hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)) && showSection('comments')">
+      <h3>Observações internas</h3>
+
+      <hr />
+
+      <div ng-repeat="comment in comments | orderBy:'created_at':true | filter: {visibility: 2}">
+          <p>{{ comment.author.name }} em <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}}</span>: {{ comment.message }}</p>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <hr />
     </div>
 
     <div class="clearfix"></div>
