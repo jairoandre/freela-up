@@ -8,6 +8,13 @@
       text-align: left;
       padding: 12px 18px;
       box-shadow: none;
+
+      span.excerpt {
+        width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     &.open {

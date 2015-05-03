@@ -1,6 +1,6 @@
 <div class="btn-group multiple-select-list" ng-class="{ 'open': show }">
-  <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': show }" ng-click="show = !show">
-    Selecione uma categoria <span class="pull-right"><span class="caret" ng-class="{ 'reverse': show }"></span></span>
+  <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': show }" ng-click="toggleList()">
+    <span class="excerpt">{{ getExcerpt() }}</span> <span class="pull-right"><span class="caret" ng-class="{ 'reverse': show }"></span></span>
   </button>
 
   <div class="dropdown" ng-show="show">
@@ -10,12 +10,6 @@
     </div>
 
     <ul zup-transclude></ul>
-
-    <div class="footer">
-      <button type="button" class="btn btn-info btn-custom pull-left" ng-click="show = !show">Confirmar</button>
-
-      <div class="clearfix"></div>
-    </div>
   </div>
 
 </div>

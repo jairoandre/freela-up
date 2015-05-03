@@ -12,13 +12,13 @@
     <h3>1. Selecione a categoria</h3>
 
     <div style="width: 40%">
-      <select-list ng-model="selectedCategory">
+      <select-list ng-model="selectedCategory" option-name="title">
         <li ng-repeat="category in $parent.$parent.categories | filter: q" ng-class="{ 'active': isSelected(category.id) }">
-          <a href="" ng-click="select(category.id)"><strong><span ng-bind-html="category.title | highlight: q"></span></strong> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+          <a href="" ng-click="select(category.id, category)"><strong><span ng-bind-html="category.title | highlight: q"></span></strong> <b class="glyphicon glyphicon-ok pull-right"></b></a>
 
           <ul>
             <li ng-repeat="subcategory in category.subcategories | filter: q" ng-class="{ 'active': isSelected(subcategory.id) }">
-              <a href="" ng-click="select(subcategory.id)"><span ng-bind-html="subcategory.title | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+              <a href="" ng-click="select(subcategory.id, subcategory)"><span ng-bind-html="subcategory.title | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
             </li>
           </ul>
         </li>

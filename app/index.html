@@ -79,12 +79,6 @@
     <![endif]-->
 
     <!-- Sentry Configuration -->
-    <!--<script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
-
-    <script>
-      Raven.config('https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327', {}).install();
-    </script>-->
-
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry&language=pt-br"></script>
 
     <!-- build:js assets/scripts/vendor.js -->
@@ -127,14 +121,16 @@
     <script src="bower_components/cpf_cnpj/build/cpf_cnpj.js"></script>
     <script src="bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>
     <script src="bower_components/angular-toArrayFilter/toArrayFilter.js"></script>
-    <script src="bower_components/fabric/dist/fabric.min.js"></script>
-    <script src="bower_components/stats.js/build/stats.min.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
     <script src="bower_components/marked/lib/marked.js"></script>
     <script src="bower_components/angular-md/dist/angular-md.js"></script>
     <script src="bower_components/js-rich-marker/src/richmarker-compiled.js"></script>
     <!-- endbuild -->
+
+    <script>
+      Raven.config('https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327', {}).install();
+    </script>
 
     <script type="text/javascript">
     function load() {
@@ -181,6 +177,8 @@
     <script src="routes/reports/index/map/reports-index-map.route.js"></script>
     <script src="routes/reports/show/reports-show.route.js"></script>
     <script src="routes/reports/show/reports-show.controller.js"></script>
+    <script src="routes/reports/show/print/reports-show-print.route.js"></script>
+    <script src="routes/reports/show/print/reports-show-print.controller.js"></script>
     <script src="routes/reports/add/reports-add.route.js"></script>
     <script src="routes/reports/add/reports-add.controller.js"></script>
     <script src="routes/reports/categories/index/reports-categories-index.route.js"></script>
@@ -297,6 +295,7 @@
     <script src="modals/reports/select-address/reports-select-address.controller.js"></script>
     <script src="modals/reports/forward/reports-forward.controller.js"></script>
     <script src="modals/reports/edit-reference/reports-edit-reference.controller.js"></script>
+    <script src="modals/reports/print/reports-print.controller.js"></script>
     <script src="modals/advanced-filters/area/advanced-filters-area.controller.js"></script>
     <script src="modals/advanced-filters/author/advanced-filters-author.controller.js"></script>
     <script src="modals/advanced-filters/category/advanced-filters-category.controller.js"></script>
@@ -317,6 +316,7 @@
     <script src="modals/items/categories/new-status/items-categories-new-status.controller.js"></script>
     <script src="modals/items/categories/edit-status/items-categories-edit-status.controller.js"></script>
     <script src="modals/users/disable/users-disable.controller.js"></script>
+    <script src="modals/users/filter-group/users-filter-group.controller.js"></script>
     <script src="modals/gallery/gallery.controller.js"></script>
     <script src="modals/reports/select-user/reports-select-user.controller.js"></script>
     <script src="modals/reports/create-user/reports-create-user.controller.js"></script>
