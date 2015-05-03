@@ -245,10 +245,6 @@ ul.report-menu {
 }
 
 /* Print layout classes */
-body {
-  zoom: 1;
-}
-
 .print-template {
   background: #FFF;
 
@@ -264,8 +260,16 @@ body {
       margin-bottom: 30px;
     }
 
+    .row {
+      margin-bottom: 40px;
+    }
+
     .section {
       margin-top: 30px;
+    }
+
+    .history-date {
+      text-align: right;
     }
   }
 }
