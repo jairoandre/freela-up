@@ -3,6 +3,8 @@
 
     <div class="header">
       <a href="#"><img ng-src="{{ blueLogoImg }}"></a>
+
+      <a href="" ng-click="print()" class="btn btn-info btn-custom pull-right"><i class="glyphicon glyphicon-print"></i></a>
     </div>
 
     <div class="row">
@@ -126,7 +128,17 @@
       </div>
     </div>
 
+    <div class="row" ng-if="showSection('images') && report.images.length !== 0">
+      <h3>Imagens</h3>
+
+      <div class="col-xs-12" ng-repeat="image in report.images" style="text-align: center;">
+        <img ng-src="{{ image.original }}" style="width: 100%;">
+      </div>
+    </div>
+
     <div class="row" ng-if="showSection('map')">
+      <h3>Mapa</h3>
+
       <div class="col-xs-12">
         <div class="roundedMap" map-show-report style="height: 300px;"></div>
       </div>
@@ -158,7 +170,7 @@
       </div>
     </div>
 
-    <div class="row" ng-if="showSection('history')">
+    <div class="row history" ng-if="showSection('history')">
       <div class="col-xs-12">
         <h3>Histórico</h3>
 

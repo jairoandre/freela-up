@@ -16,6 +16,26 @@ angular
       { name: 'Histórico do relato', key: 'history' }
     ];
 
+    $scope.toggleAll = function() {
+      if ($scope.allSelected())
+      {
+        $scope.selectedSections = [];
+
+        return;
+      }
+
+      _.each($scope.sections, function(section) {
+        if (!$scope.isActive(section))
+        {
+          $scope.selectedSections.push(section.key);
+        }
+      });
+    };
+
+    $scope.allSelected = function() {
+      return $scope.sections.length === $scope.selectedSections.length;
+    };
+
     $scope.isActive = function(section) {
       return $scope.selectedSections.indexOf(section.key) !== -1;
     };
