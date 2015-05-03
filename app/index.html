@@ -79,12 +79,6 @@
     <![endif]-->
 
     <!-- Sentry Configuration -->
-    <script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
-
-    <script>
-      Raven.config('https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327', {}).install();
-    </script>
-
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry&language=pt-br"></script>
 
     <!-- build:js assets/scripts/vendor.js -->
@@ -133,6 +127,10 @@
     <script src="bower_components/angular-md/dist/angular-md.js"></script>
     <script src="bower_components/js-rich-marker/src/richmarker-compiled.js"></script>
     <!-- endbuild -->
+
+    <script>
+      Raven.config('https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327', {}).install();
+    </script>
 
     <script type="text/javascript">
     function load() {
