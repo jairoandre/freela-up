@@ -167,7 +167,7 @@ angular
             var verifyMarkerInsideBoundsPromise = FullResponseRestangular.all('utils').all('city-boundary').customGET('validate', { longitude: lng, latitude: lat });
 
             verifyMarkerInsideBoundsPromise.then(function(response) {
-              if (!response.data.inside_boundaries) scope.markerOutOfBounds = true;
+              if (response.data.inside_boundaries === false) scope.markerOutOfBounds = true;
               else scope.markerOutOfBounds = false;
             });
           },
