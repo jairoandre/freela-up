@@ -16,7 +16,7 @@ angular
 
     // Return right promise
     var generateUsersPromise = function() {
-      var options = {page: page, per_page: perPage, disabled: true};
+      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups'};
 
       if (groupsIds.length !== 0)
       {

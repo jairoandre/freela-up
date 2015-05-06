@@ -9,7 +9,7 @@ angular
       url: '',
       resolve: {
         'groupsResponse': ['Restangular', function(Restangular) {
-          return Restangular.all('groups').getList();
+          return Restangular.all('groups').getList({ 'return_fields': 'id,name' });
         }]
       },
       views: {

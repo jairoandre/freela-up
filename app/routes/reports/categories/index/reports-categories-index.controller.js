@@ -5,35 +5,31 @@ angular
     'ReportsCategoriesDestroyModalControllerModule'
   ])
 
-  .controller('ReportsCategoriesIndexController', function ($scope, Restangular, $modal) {
+  .controller('ReportsCategoriesIndexController', function ($scope, categories, $modal) {
     $scope.loading = true;
 
-    var categoriesPromise = Restangular.one('reports').all('categories').getList({ 'subcategories_flat': true, 'return_fields': ['id', 'title', 'parent_id', 'icon'].join() });
+    var categories = angular.copy(categories), nestedCategories = [];
 
-    categoriesPromise.then(function(response) {
-      var categories = Restangular.stripRestangular(response.data), nestedCategories = [];
+    _.each(categories, function(category) {
+      if (category.parent_id !== null)
+      {
+        var parentIndex = categories.indexOf(_.findWhere(categories, { id: category.parent_id }));
 
-      _.each(categories, function(category) {
-        if (category.parent_id !== null)
+        if (parentIndex === -1) return false;
+
+        var ownIndex = categories.indexOf(category);
+
+        if (_.isUndefined(categories[parentIndex].subcategories))
         {
-          var parentIndex = categories.indexOf(_.findWhere(categories, { id: category.parent_id }));
-
-          if (parentIndex === -1) return false;
-
-          var ownIndex = categories.indexOf(category);
-
-          if (_.isUndefined(categories[parentIndex].subcategories))
-          {
-            categories[parentIndex].subcategories = [category];
-          }
-          else
-          {
-            categories[parentIndex].subcategories.push(category);
-          }
-
-          categories[ownIndex] = undefined;
+          categories[parentIndex].subcategories = [category];
         }
-      });
+        else
+        {
+          categories[parentIndex].subcategories.push(category);
+        }
+
+        categories[ownIndex] = undefined;
+      }
 
       // since we defined every subcategory as undefined, let's clean it up :)
       categories = _.without(categories, undefined);
@@ -51,6 +47,9 @@ angular
           destroyCategory: function(){
             return function(category) {
               $scope.categories.splice($scope.categories.indexOf(category), 1);
+
+              // TODO we need to find index of subcategories too! :(
+              // currently we are only removing parent categories :-0
             }
           },
 

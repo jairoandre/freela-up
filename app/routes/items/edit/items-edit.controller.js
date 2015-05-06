@@ -31,7 +31,7 @@ angular
 
     $scope.back = function() {
       if (itemResponse) $state.transitionTo('items.show', { id: itemId }, {'reload': true});
-      else $state.transitionTo('items.index', null, {'reload': true});
+      else $state.transitionTo('items.list', null, {'reload': true});
     };
 
     // if category doesn't exist in localStorage, create a null object for it

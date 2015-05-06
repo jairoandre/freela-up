@@ -1,6 +1,7 @@
 angular
   .module('ItemsCategoriesIndexModule', [
     'ItemsCategoriesIndexControllerModule',
+    'InventoriesCategoriesServiceModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
@@ -14,8 +15,18 @@ angular
           controller: 'ItemsCategoriesIndexController',
           controllerAs: 'ctrl',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList({'display_type': 'full', 'return_fields': ['id', 'title'].join()});
+            'categoriesResponse': ['InventoriesCategoriesService', '$q', function(InventoriesCategoriesService, $q) {
+              var fetchAllBasicInfo = function() {
+                var deferred = $q.defer();
+
+                InventoriesCategoriesService.fetchAllBasicInfo().then(function(response) {
+                  deferred.resolve(response.data.categories);
+                });
+
+                return deferred.promise;
+              };
+
+              return InventoriesCategoriesService.loadedBasicInfo ? _.values(InventoriesCategoriesService.categories) : fetchAllBasicInfo();
             }]
           }
         }

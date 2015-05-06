@@ -4,5 +4,5 @@ angular
   .module('ItemsSelectCategoryControllerModule', [])
 
   .controller('ItemsSelectCategoryController', function ($scope, categoriesResponse) {
-    $scope.categories = categoriesResponse.data;
+    $scope.categories = categoriesResponse;
   });

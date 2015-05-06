@@ -16,10 +16,11 @@ angular.
     'InventoryDraggableInputComponentModule',
     'InventoryEditSectionComponentModule',
     'InventoryTriggerComponentModule',
-    'InventoryTriggerConditionComponentModule'
+    'InventoryTriggerConditionComponentModule',
+    'InventoriesCategoriesServiceModule'
   ])
 
-  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $localStorage, $q, $modal, $timeout, $window, $state, FileUploader, formulasResponse) {
+  .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $localStorage, $q, $modal, $timeout, $window, $state, FileUploader, formulasResponse, InventoriesCategoriesService) {
     var updating = $scope.updating = false;
 
     if (categoryResponse)
@@ -637,6 +638,8 @@ angular.
 
             $scope.unsavedCategory = false;
             $scope.processingForm = false;
+
+            InventoriesCategoriesService.purgeCache();
           }, function() {
             $scope.showMessage('exclamation-sign', 'O inventário não pode ser atualizado.', 'error', true);
 
@@ -690,6 +693,8 @@ angular.
 
             putCategoryFormsPromise.then(function() {
               $scope.showMessage('ok', 'A categoria de inventário foi criada com sucesso', 'success', true);
+
+              InventoriesCategoriesService.purgeCache();
 
               $state.go('items.categories.edit', {id: newCategory.id});
             });

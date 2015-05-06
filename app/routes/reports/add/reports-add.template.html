@@ -103,7 +103,7 @@
       <hr />
 
       <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_edit', selectedCategory.id) || hasPermission('reports_categories_edit', selectedCategory.id) || hasPermission('reports_items_read_private', selectedCategory.id)">
-        <h3>5. Vincule a um usuário (opcional)</h3>
+        <h3>5. Vincule a um usuário</h3>
 
         <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
 
@@ -115,7 +115,13 @@
         <hr />
       </div>
 
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-disabled="description.length > 799 || formattedAddress.length < 5 || !formattedAddress || markerOutOfBounds">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-disabled="description.length > 799 || formattedAddress.length < 5 || !formattedAddress || markerOutOfBounds || !user">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="createAnother"> Criar outro relato
+        </label>
+      </div>
     </div>
   </div>
 </div>

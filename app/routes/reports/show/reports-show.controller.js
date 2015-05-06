@@ -16,7 +16,7 @@ angular
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, feedbackResponse, commentsResponse, $rootScope, reportHistoryResponse) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, feedbackResponse, commentsResponse, $rootScope) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
@@ -238,7 +238,7 @@ angular
       });
     };
 
-    // item history
+    // report's history
     $scope.refreshHistory = function() {
       var options = {}, selectedFilters = $scope.selectedFilters();
 
@@ -322,5 +322,7 @@ angular
       $scope.refreshHistory();
     };
 
-    $scope.historyLogs = reportHistoryResponse.data;
+    $scope.historyLogs = [];
+
+    $scope.refreshHistory();
   });
