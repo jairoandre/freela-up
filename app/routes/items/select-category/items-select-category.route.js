@@ -13,8 +13,18 @@ angular
           controller: 'ItemsSelectCategoryController',
           controllerAs: 'ctrl',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList();
+            'categoriesResponse': ['InventoriesCategoriesService', '$q', function(InventoriesCategoriesService, $q) {
+              var fetchAllBasicInfo = function() {
+                var deferred = $q.defer();
+
+                InventoriesCategoriesService.fetchAllBasicInfo().then(function(response) {
+                  deferred.resolve(response.data.categories);
+                });
+
+                return deferred.promise;
+              };
+
+              return InventoriesCategoriesService.loadedBasicInfo ? _.values(InventoriesCategoriesService.categories) : fetchAllBasicInfo();
             }]
           }
         }

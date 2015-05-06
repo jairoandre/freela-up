@@ -9,7 +9,7 @@ angular
 
     $scope.loading = true;
 
-    var groupsPromise = Restangular.all('groups').getList();
+    var groupsPromise = Restangular.all('groups').getList({ 'return_fields': 'id,name' });
 
     // Get all groups
     groupsPromise.then(function(response) {

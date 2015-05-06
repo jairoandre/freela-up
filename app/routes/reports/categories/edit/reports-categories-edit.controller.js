@@ -5,10 +5,11 @@ angular
     'FormatErrorsHelperModule',
     'NgThumbComponentModule',
     'MultipleSelectListComponentModule',
-    'ReportsCategoriesManageStatusesModalControllerModule'
+    'ReportsCategoriesManageStatusesModalControllerModule',
+    'ReportsCategoriesServiceModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -343,6 +344,8 @@ angular
           var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).withHttpConfig({ treatingErrors: true }).customPUT(editedCategory);
 
           putCategoryPromise.then(function() {
+            ReportsCategoriesService.purgeCache();
+
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
             $rootScope.resolvingRequest = false;
@@ -369,6 +372,8 @@ angular
           var postCategoryPromise = Restangular.one('reports').withHttpConfig({ treatingErrors: true }).post('categories', editedCategory);
 
           postCategoryPromise.then(function() {
+            ReportsCategoriesService.purgeCache();
+
             $scope.showMessage('ok', 'A categoria de relato foi criada com sucesso', 'success', true);
 
             $location.path('/reports/categories');

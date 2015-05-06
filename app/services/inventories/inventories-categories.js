@@ -18,10 +18,6 @@ angular
      */
     var updateCache = function (response) {
       _.each(response.data.categories, function (category) {
-        _.each(category.subcategories, function (subcategory) {
-          self.categories[subcategory.id] = subcategory;
-        });
-
         self.categories[category.id] = category;
 
         _.each(category.statuses, function (status) {
@@ -30,6 +26,18 @@ angular
       });
 
       $rootScope.$emit('inventoriesCategoriesFetched', self.categories);
+    };
+
+    /**
+     * Clears current cache
+     * @returns {Object} Restangular promise for basic category fields
+     */
+    self.purgeCache = function() {
+      self.categories = {};
+      self.categoriesStatuses = {};
+      self.loadedBasicInfo = false;
+
+      return self.fetchAllBasicInfo();
     };
 
     /**

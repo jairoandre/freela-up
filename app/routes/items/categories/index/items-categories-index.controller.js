@@ -6,7 +6,7 @@ angular
   ])
 
   .controller('ItemsCategoriesIndexController', function ($scope, categoriesResponse, $modal) {
-    $scope.categories = categoriesResponse.data;
+    $scope.categories = categoriesResponse;
 
     $scope.deleteCategory = function (category) {
       $modal.open({
