@@ -6,6 +6,7 @@ angular
     'AdvancedFiltersCategoryModalControllerModule',
     'AdvancedFiltersStatusModalControllerModule',
     'AdvancedFiltersAuthorModalControllerModule',
+    'AdvancedFiltersReporterModalControllerModule',
     'AdvancedFiltersPeriodModalControllerModule',
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
@@ -97,6 +98,20 @@ angular
             }
           },
           controller: 'AdvancedFiltersAuthorModalController'
+        });
+      },
+
+      // advanced filter by the report's original author
+      reporter: function(activeAdvancedFilters) {
+        $modal.open({
+          templateUrl: 'modals/advanced-filters/reporter/advanced-filters-reporter.template.html',
+          windowClass: 'filterAuthorModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersReporterModalController'
         });
       },
 
