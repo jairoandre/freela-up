@@ -54,7 +54,11 @@
         </td>
         <td width="10%" ng-click="changeSorting('user_name')"
             ng-class="selectedCls('user_name')" class="sort-table">
-          <span>Autor</span><span class="arrow"></span>
+          <span>Solicitante</span><span class="arrow"></span>
+        </td>
+        <td width="10%" ng-click="changeSorting('user_name')"
+            ng-class="selectedCls('user_name')" class="sort-table">
+          <span>Criador</span><span class="arrow"></span>
         </td>
         <td width="20%">
           <span>Categoria</span><span class="arrow"></span>
@@ -74,6 +78,7 @@
       <td class="status_color"><span ng-style="{'background-color': report.status.color}"></span><a href="#/reports/{{ report.id }}">{{ report.protocol }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">Protocolo indisponível</b></a></td>
       <td>{{ report.address }} </td>
       <td><a href="#/users/{{ report.user.id }}">{{ report.user.name }}</a></td>
+      <td><a href="#/users/{{ report.reporter.id }}">{{ report.reporter.name }}</a></td>
       <td>{{ report.category.title }}</td>
       <td><span ng-if="report.assigned_group && report.assigned_user"><a href="#/users/{{ report.assigned_user.id }}">{{ report.assigned_user.name.split(' ')[0] }}</a> ({{ report.assigned_group.name }})</span><a ng-if="report.assigned_group && !report.assigned_user" href="#/groups/{{ report.assigned_group.id }}">{{ report.assigned_group.name }}</a><a ng-if="!report.assigned_group && report.assigned_user" href="#/users/{{ report.assigned_user.id }}">{{ report.assigned_user.name }}</a><span ng-if="!report.assigned_user && !report.assigned_group">Não atribuído</span></td>
       <td>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</td>

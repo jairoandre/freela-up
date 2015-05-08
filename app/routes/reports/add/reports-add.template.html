@@ -28,23 +28,54 @@
     <hr />
 
     <div ng-show="selectedCategory" class="pages-animation">
-      <h3>2. Selecione o endereço</h3>
+      <h3>2. Preencha o endereço</h3>
 
       <p>Digite o endereço, ou arraste o pino até a posição exata.</p>
 
       <div class="row">
-        <div class="search-map col-xs-9">
+        <div class="search-map col-xs-8">
           <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
-          <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" report-search-map ng-keypress="showLoading()">
+          <input type="name" class="searchField" placeholder="Logradouro" ng-model="address.address" report-search-map ng-keypress="showLoading()">
+        </div>
+
+        <div class="col-xs-1">
+          <input type="text" ng-model="address.number" placeholder="N." class="form-control reference-field" />
         </div>
 
         <div class="col-xs-3">
-          <input type="text" ng-model="reference" placeholder="Referência" class="form-control reference-field" />
+          <input type="text" ng-model="address.reference" placeholder="Referência" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-2">
+          <input type="text" ng-model="address.district" placeholder="Bairro" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-2">
+          <input type="text" ng-model="address.zipcode" placeholder="CEP" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-3">
+          <input type="text" ng-model="address.city" placeholder="Cidade" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-3">
+          <input type="text" ng-model="address.state" placeholder="Estado" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-2">
+          <input type="text" ng-model="address.country" placeholder="País" class="form-control reference-field" />
         </div>
       </div>
 
+      <hr />
+
+      <h3>3. Selecione o relato no mapa</h3>
+
+      <p>Mova o marcador para a posição correta do relato.</p>
+
       <div class="form-group reportMap">
-        <div class="marker-out-of-bounds" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
+        <div class="map-alert update-address" ng-show="markerPositionUpdated"><a href="" ng-click="updateMarkerAddress()">Clique aqui</a> para atualizar o endereço do relato de acordo com a posição do marcador.</div>
+        <div class="map-alert out-of-bounds" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
 
         <div class="loadingMap" ng-show="isLoadingItems">
           <div class="loadingScrolling"></div>
@@ -55,7 +86,7 @@
 
       <hr />
 
-      <h3>3. Adicione imagens (opcional)</h3>
+      <h3>4. Adicione imagens (opcional)</h3>
 
       <div class="form-group">
         <div class="upload" nv-file-drop uploader="uploader">
@@ -94,7 +125,7 @@
 
       <hr />
 
-      <h3>4. Descreva a situação (opcional)</h3>
+      <h3>5. Descreva a situação (opcional)</h3>
 
       <div class="alert alert-danger pages-animation" role="alert" ng-show="description.length > 799">A descrição do relato não pode ter mais de 800 caracteres.</div>
 
@@ -103,7 +134,7 @@
       <hr />
 
       <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_edit', selectedCategory.id) || hasPermission('reports_categories_edit', selectedCategory.id) || hasPermission('reports_items_read_private', selectedCategory.id)">
-        <h3>5. Vincule a um usuário</h3>
+        <h3>6. Vincule a um usuário</h3>
 
         <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
 
@@ -115,7 +146,7 @@
         <hr />
       </div>
 
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom pull-left" ng-disabled="description.length > 799 || formattedAddress.length < 5 || !formattedAddress || markerOutOfBounds || !user">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom pull-left" ng-disabled="description.length > 799 || !address.address || markerOutOfBounds || !user">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
 
       <div class="checkbox pull-left">
         <label>

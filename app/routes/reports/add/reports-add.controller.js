@@ -13,6 +13,8 @@ angular
   .controller('ReportsAddController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
 
+    $scope.address = {};
+
     $scope.categories = categories;
     $scope.createAnother = true;
 
@@ -130,8 +132,15 @@ angular
           longitude: $scope.lng,
           inventory_item_id: $scope.itemId,
           description: $scope.description,
-          address: $scope.formattedAddress,
-          reference: $scope.reference,
+          reference: $scope.address.reference,
+          address: $scope.address.address,
+          number: $scope.address.number,
+          reference: $scope.address.reference,
+          district: $scope.address.district,
+          city: $scope.address.city,
+          state: $scope.address.state,
+          country: $scope.address.country,
+          zipcode: $scope.address.zipcode,
           images: images
         };
 
@@ -147,7 +156,6 @@ angular
 
           if ($scope.createAnother)
           {
-            $scope.selectedCategory = null;
             $scope.lat = null;
             $scope.lng = null;
             $scope.itemId = null;
@@ -155,6 +163,11 @@ angular
             $scope.formattedAddress = null;
             $scope.reference = null;
             $scope.user = null;
+            $scope.address = {};
+
+            $scope.uploader.clearQueue();
+
+            $rootScope.resolvingRequest = false;
           }
           else
           {
