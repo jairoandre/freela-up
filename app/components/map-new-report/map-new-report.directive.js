@@ -3,7 +3,7 @@
 angular
   .module('MapNewReportComponentModule', [])
 
-  .directive('mapNewReport', function ($compile, $timeout, Restangular, FullResponseRestangular, ENV) {
+  .directive('mapNewReport', function ($compile, $timeout, Restangular, FullResponseRestangular, ENV, $filter) {
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
@@ -104,7 +104,11 @@ angular
                     scope.$apply();
 
                     google.maps.event.addListener(marker, 'dragend', function() {
-                      mapProvider.changedMarkerPosition(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+                      scope.markerPositionUpdated = true;
+
+                      mapProvider.checkMarkerInsideAllowedBounds(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+
+                      scope.$apply();
                     });
                   }
                   else
@@ -132,6 +136,12 @@ angular
                 scope.$apply();
               }, 80);
             });
+
+            scope.updateMarkerAddress = function() {
+              mapProvider.changedMarkerPosition(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+
+              scope.markerPositionUpdated = false;
+            };
           },
 
           changedMarkerPosition: function(lat, lng, itemId, keepAddress) {
@@ -156,13 +166,24 @@ angular
               {
                 if (status === google.maps.GeocoderStatus.OK)
                 {
-                  scope.formattedAddress = results[0].formatted_address;
+                  var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
+
+                  scope.address.address = addressComponents.address;
+                  scope.address.number = addressComponents.number;
+                  scope.address.reference = '';
+                  scope.address.district = addressComponents.neighborhood;
+                  scope.address.city = addressComponents.city;
+                  scope.address.state = addressComponents.state;
+                  scope.address.country = addressComponents.country;
+                  scope.address.zipcode = addressComponents.zipcode;
 
                   scope.$apply();
                 }
               });
             }
+          },
 
+          checkMarkerInsideAllowedBounds: function(lat, lng) {
             // we verify if the marker is inside bounds
             var verifyMarkerInsideBoundsPromise = FullResponseRestangular.all('utils').all('city-boundary').customGET('validate', { longitude: lng, latitude: lat });
 

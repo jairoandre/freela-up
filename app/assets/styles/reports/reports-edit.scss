@@ -15,17 +15,29 @@
   .reportMap {
     position: relative;
 
-    .marker-out-of-bounds {
+    .map-alert {
       position: absolute;
       top: 0px;
       left: 0px;
       width: 100%;
       padding: 10px 0 10px 0;
       text-align: center;
-      background: #FD5A48;
       z-index: 800;
       color: #FFF;
       border-radius: 10px 10px 0 0;
+
+      a {
+        color: #fff;
+        text-decoration: underline;
+      }
+
+      &.out-of-bounds {
+        background: #FD5A48;
+      }
+
+      &.update-address {
+        background: #259ECB;
+      }
 
       &.ng-hide-add,
       &.ng-hide-remove {

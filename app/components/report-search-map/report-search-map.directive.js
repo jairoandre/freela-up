@@ -2,9 +2,11 @@
 'use strict';
 
 angular
-  .module('ReportSearchMapComponentModule', [])
+  .module('ReportSearchMapComponentModule', [
+    'FilterGoogleAddressComponentsHelperModule'
+  ])
 
-  .directive('reportSearchMap', function ($timeout) {
+  .directive('reportSearchMap', function ($timeout, $filter) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -42,11 +44,40 @@ angular
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
               var place = autocomplete.getPlace();
 
-              console.log(place);
-
               if (!place.geometry) {
                 return;
               }
+
+              var addressComponents = $filter('filterGoogleAddressComponents')(place.address_components);
+
+              scope.$apply(function() {
+                scope.address.address = addressComponents.address;
+                scope.address.number = addressComponents.number;
+                scope.address.reference = '';
+                scope.address.district = addressComponents.neighborhood;
+                scope.address.city = addressComponents.city;
+                scope.address.state = addressComponents.state;
+                scope.address.country = addressComponents.country;
+              });
+
+              /* start hack to get zipcode */
+              var geocoder = new google.maps.Geocoder();
+
+              geocoder.geocode({
+                latLng: new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng())
+              },
+              function(results, status)
+              {
+                if (status === google.maps.GeocoderStatus.OK)
+                {
+                  var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
+
+                  scope.$apply(function() {
+                    scope.address.zipcode = addressComponents.zipcode;
+                  });
+                }
+              });
+              /* end hack to get zipcode */
 
               if (place.geometry.viewport) {
                 scope.mapProvider.map.fitBounds(place.geometry.viewport);
