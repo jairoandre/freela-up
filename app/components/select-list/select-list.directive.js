@@ -27,6 +27,8 @@ angular
             $scope.ngModel = optionId;
 
             $scope.title = option[$scope.optionName];
+
+            $scope.show = false;
           };
 
           $scope.isSelected = function(optionId) {
