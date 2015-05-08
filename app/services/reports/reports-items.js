@@ -45,7 +45,8 @@ angular
       options.return_fields = [
         'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue', // Report properties
         'assigned_group.name', 'assigned_group.title', 'assigned_user.name', 'assigned_user.id',
-        'user.name', 'user.id' // User properties
+        'user.name', 'user.id', // User properties
+        'reporter.name', 'reporter.id'
       ].join();
 
       // Categories are always updated in parallel on fetch operations
