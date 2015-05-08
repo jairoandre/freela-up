@@ -74,9 +74,11 @@ angular
       },
 
       login: function(email, pass) {
+        var returnFields = ['user.permissions', 'user.id', 'user.email', 'user.name', 'user.groups_names', 'token'];
+
         FullResponseRestangular.setDefaultHeaders({'X-App-Token': this.getToken()});
 
-        var deferred = $q.defer(), req = FullResponseRestangular.one('authenticate').withHttpConfig({ treatingErrors: true, treatingUnauthorizedErrors: true }).post(null, {email: email, password: pass}), that = this;
+        var deferred = $q.defer(), req = FullResponseRestangular.one('authenticate').withHttpConfig({ treatingErrors: true, treatingUnauthorizedErrors: true }).post(null, {email: email, password: pass}, { 'return_fields': returnFields.join() }), that = this;
 
         req.then(function(response) {
           that.saveUser(response.data.user);
