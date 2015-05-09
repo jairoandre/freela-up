@@ -21,11 +21,15 @@ angular
         }],
 
         'feedbackResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-          return Restangular.one('reports', $stateParams.id).one('feedback').get();
+          return Restangular.one('reports', $stateParams.id).one('feedback').get({
+            return_fields: 'id,kind,content,images'
+          });
         }],
 
         'commentsResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-          return Restangular.one('reports', $stateParams.id).all('comments').getList();
+          return Restangular.one('reports', $stateParams.id).all('comments').getList({
+            return_fields: 'id,created_at,message,visibility,author.id,author.name'
+          });
         }]
       },
       views: {
