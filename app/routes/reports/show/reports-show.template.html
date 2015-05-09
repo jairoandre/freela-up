@@ -364,7 +364,7 @@
                 <a ng-href="#/users/{{ log.user.id }}" ng-if="log.user">{{ log.user.name }}</a>
                 <span ng-if="!log.user">O sistema </span>
                 <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
-                <span ng-show="log.kind === 'status' && !log.user">O estado do relato foi alterado de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'status' && !log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
                 <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>.</span>
                 <span ng-show="log.kind === 'address'">alterou o endereço do relato para <b>{{ log.changes.new }}</b>.</span>
                 <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>{{ log.changes.new }}</b>.</span>
