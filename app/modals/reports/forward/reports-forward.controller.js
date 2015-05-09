@@ -20,7 +20,10 @@ angular
     $scope.save = function() {
       $scope.processing = true;
 
-      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('forward').customPUT({ 'group_id': $scope.report.group_id, 'comment': $scope.report.comment });
+      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('forward').customPUT({
+        'group_id': $scope.report.group_id, 'comment': $scope.report.comment,
+        'return_fields': ''
+      });
 
       changeStatusPromise.then(function() {
         $scope.processing = false;
