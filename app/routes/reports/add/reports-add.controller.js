@@ -135,7 +135,6 @@ angular
           reference: $scope.address.reference,
           address: $scope.address.address,
           number: $scope.address.number,
-          reference: $scope.address.reference,
           district: $scope.address.district,
           city: $scope.address.city,
           state: $scope.address.state,

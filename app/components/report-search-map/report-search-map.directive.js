@@ -90,6 +90,7 @@ angular
               {
                 scope.mapProvider.mainMarker.setPosition(place.geometry.location);
                 scope.mapProvider.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng(), undefined, true);
+                scope.mapProvider.checkMarkerInsideAllowedBounds(scope.mapProvider.mainMarker.getPosition().lat(), scope.mapProvider.mainMarker.getPosition().lng());
               }
               else
               {
