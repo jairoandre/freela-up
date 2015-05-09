@@ -36,7 +36,7 @@ angular
             slug: 'users_edit',
             name: 'Gerenciar usuários de um grupo específico',
             needsObject: true,
-            tooltip: 'Permite sobre os grupos selecionados: a visualização e edição de dados dos usuários, buscar, deletar e adicionar usuários. Permite a edição das permissões dos grupos selecionados.'
+            tooltip: 'Ao ativar essa opção, será permitido que este grupo possa visualizar, adicionar e remover todos os usuários dos outros grupos que você selecionar para esta permissão.'
           },
         ]
       },
