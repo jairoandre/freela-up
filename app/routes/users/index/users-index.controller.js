@@ -27,6 +27,7 @@ angular
       {
         options.name = searchText;
         options.email = searchText;
+        options.document = searchText.replace(/\.|-/g, '');
       }
 
       return Restangular.one('search').all('users').getList(options);
