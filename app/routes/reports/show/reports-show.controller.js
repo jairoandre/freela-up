@@ -240,7 +240,8 @@ angular
 
     // report's history
     $scope.refreshHistory = function() {
-      var options = {}, selectedFilters = $scope.selectedFilters();
+      var options = { return_fields: 'changes,created_at,kind,user.id,user.name'},
+          selectedFilters = $scope.selectedFilters();
 
       if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
 
