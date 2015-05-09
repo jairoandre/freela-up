@@ -89,7 +89,10 @@ angular
           },
 
           categories: function() {
-            return Restangular.all('reports').all('categories').getList({'display_type': 'full', 'subcategories_flat': true});
+            return Restangular.all('reports').all('categories').getList({
+              'display_type': 'full',
+              'return_fields': 'id,title,subcategories.id,subcategories.title'
+            });
           }
         },
         controller: 'ReportsEditCategoryModalController'

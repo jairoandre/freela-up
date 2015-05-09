@@ -29,6 +29,7 @@ angular
             $scope.title = option[$scope.optionName];
 
             $scope.show = false;
+            $scope.$emit('optionSelected', option);
           };
 
           $scope.isSelected = function(optionId) {
