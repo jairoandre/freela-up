@@ -39,6 +39,9 @@ angular
       this.infoWindow = new google.maps.InfoWindow();
 
       this.activeFilterAreas = [];
+
+      // We add the canvasOverlay and pass current map
+      this.overlay = new CanvasOverlay(this);
     };
 
     Map.prototype.getDistance = function() {
@@ -159,6 +162,8 @@ angular
     };
 
     Map.prototype.processMarkers = function(nextClusters, nextItems) {
+      return; // disable this for now
+
       var nextMarkers = {}, _self = this;
 
       _.each(nextClusters, function(cluster) {
@@ -295,6 +300,162 @@ angular
 
         this.activeFilterAreas[i].outer.set('radius', newRadius);
       };
+    };
+
+    // Canvas properties
+    Map.prototype.processMarkersCanvas = function(nextClusters, nextItems) {
+      var markersToDraw = [];
+
+      _.each(nextClusters, function(cluster) {
+
+        cluster.isCluster = true;
+
+        if (_.isUndefined(cluster.category))
+        {
+          cluster.category = { color: '#259ECB' };
+        }
+
+        markersToDraw.push(cluster);
+      });
+
+      _.each(nextItems, function(item) {
+
+        var marker = {
+          position: [item.position.latitude, item.position.longitude],
+          category: { color: item.category.color },
+          isCluster: false
+        };
+
+        markersToDraw.push(marker);
+      });
+
+      this.currentMarkersCanvas = markersToDraw;
+      this.overlay.draw();
+    };
+
+    // Canvas overlay
+    var CanvasOverlay = function(_self) {
+      this._self = _self;
+      this.map_ = _self.map;
+
+      this.canvas_ = null;
+
+      this.setMap(_self.map);
+    };
+
+    CanvasOverlay.prototype = new google.maps.OverlayView();
+
+    CanvasOverlay.prototype.onAdd = function() {
+      var canvas = document.createElement('canvas');
+
+      canvas.style.position = 'absolute';
+
+      var panes = this.getPanes();
+
+      panes.overlayMouseTarget.appendChild(canvas);
+
+      this.canvas_ = new fabric.Canvas(canvas, {renderOnAddRemove: false});
+
+      this.canvas_.selection = false;
+
+      this.canvas_.on('mouse:down', function(options) {
+        if (options.target) {
+          console.log('an object was clicked! ', options.target.type);
+        }
+      });
+    };
+
+    CanvasOverlay.prototype.draw = function() {
+      var start = new Date().getTime();
+
+      var zoomlevel = this.map_.getZoom(),
+          mapbounds = this.map_.getBounds(),
+          overlayProjection = this.getProjection();
+
+      var sw = overlayProjection.fromLatLngToDivPixel(mapbounds.getSouthWest()),
+          ne = overlayProjection.fromLatLngToDivPixel(mapbounds.getNorthEast()),
+          canvas = this.canvas_;
+
+      var swx = sw.x,
+          swy = sw.y,
+          nex = ne.x,
+          ney = ne.y;
+
+      canvas.lowerCanvasEl.style.left = swx + 'px';
+      canvas.lowerCanvasEl.style.top = ney + 'px';
+
+      canvas.upperCanvasEl.style.left = swx + 'px';
+      canvas.upperCanvasEl.style.top = ney + 'px';
+
+      canvas.clear();
+
+      var wt = nex - swx;
+      var ht = swy - ney;
+
+      canvas.setDimensions({width: wt, height: ht });
+
+      var groupsCount = 0, itemsCount = 0;
+
+      _.each(this._self.currentMarkersCanvas, function(marker) {
+        var ltlng = new google.maps.LatLng(marker.position[0], marker.position[1]);
+
+        if (!mapbounds.contains(ltlng)) return false;
+
+        var startProjection = overlayProjection.fromLatLngToDivPixel(ltlng);
+
+        var xpos = (startProjection.x - swx);
+        var ypos = (startProjection.y - ney) - 60;
+
+        if (marker.isCluster === true)
+        {
+          var circle = new fabric.Circle({
+            radius: 15,
+            fill: marker.category.color,
+            originX: 'center',
+            originY: 'center'
+          });
+
+          var text = new fabric.Text(marker.count.toString(), {
+            fontSize: 11,
+            fill: 'white',
+            originX: 'center',
+            originY: 'center'
+          });
+
+          var group = new fabric.Group([ circle, text ], {
+            left: xpos,
+            top: ypos,
+          });
+
+          canvas.add(group);
+
+          groupsCount++;
+        }
+        else
+        {
+          var circle = new fabric.Circle({
+            left: xpos,
+            top: ypos,
+            radius: 5,
+            fill: marker.category.color,
+            originX: 'center',
+            originY: 'center'
+          });
+
+          canvas.add(circle);
+
+          itemsCount++;
+        }
+      });
+
+      canvas.renderAll();
+
+      console.log('groups: ', groupsCount, 'items: ', itemsCount);
+
+      var end = new Date().getTime();
+      var time = end - start;
+
+      console.log('Execution time: ' + time);
     };
 
     return Map;

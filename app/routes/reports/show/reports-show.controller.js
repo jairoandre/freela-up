@@ -152,7 +152,7 @@ angular
           },
 
           refreshHistory: function() {
-            return $scope.refreshHistory();
+            return $scope.refreshHistory;
           }
         },
         controller: 'ReportsEditDescriptionModalController'

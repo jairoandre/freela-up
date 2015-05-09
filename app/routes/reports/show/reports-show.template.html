@@ -58,18 +58,19 @@
 
           <h5>Referência</h5>
           <p>{{ report.reference }}</p>
-          <p ng-show="report.reference == null || report.reference == ''">Sem referência.</p>
+          <p ng-show="report.reference == null || report.reference == ''">Não informado.</p>
 
           <a href="" class="link" ng-click="editReference()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
           <div class="clearfix"></div>
         </div>
 
-        <div class="report-data" ng-hide="report.description == null || report.description == ''">
+        <div class="report-data">
           <hr />
 
           <h5>Descrição</h5>
-          <p>{{ report.description }}</p>
+          <p>{{report.description}}</p>
+          <p ng-show="report.description == null || report.description == ''">Não informado.</p>
 
           <a href="" class="link" ng-click="editDescription()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
@@ -360,9 +361,10 @@
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a>
+                <a ng-href="#/users/{{ log.user.id }}" ng-if="log.user">{{ log.user.name }}</a>
+                <span ng-if="!log.user">O sistema </span>
                 <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
-                <span ng-show="log.kind === 'status' && !log.user">O estado do relato foi alterado para <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'status' && !log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
                 <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>.</span>
                 <span ng-show="log.kind === 'address'">alterou o endereço do relato para <b>{{ log.changes.new }}</b>.</span>
                 <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>{{ log.changes.new }}</b>.</span>

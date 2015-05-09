@@ -126,7 +126,7 @@ angular
 
     // item history
     $scope.refreshHistory = function() {
-      var options = { 'return_fields': 'id,action,created_at,kind,objects.id,objects.title,objects.name,user.name,user.id' }, selectedFilters = $scope.selectedFilters();
+      var options = { 'return_fields': 'id,action,created_at,kind,objects.id,objects.label,objects.name,user.name,user.id' }, selectedFilters = $scope.selectedFilters();
 
       if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
 

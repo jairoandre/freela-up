@@ -16,7 +16,7 @@ angular
         '': {
           templateUrl: 'routes/users/index/users-index.template.html',
           controller: 'UsersIndexController',
-          controllerAs: 'ctrl',
+          controllerAs: 'ctrl'
         }
       }
     });
