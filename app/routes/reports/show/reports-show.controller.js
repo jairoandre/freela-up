@@ -207,7 +207,10 @@ angular
             return function(user) {
               $rootScope.resolvingRequest = true;
 
-              var changeStatusPromise = Restangular.one('reports', $scope.report.category.id).one('items', $scope.report.id).one('assign').customPUT({ 'user_id': user.id });
+              var changeStatusPromise = Restangular.one('reports', $scope.report.category.id).one('items', $scope.report.id).one('assign').customPUT({
+                'user_id': user.id,
+                'return_fields': ''
+              });
 
               changeStatusPromise.then(function() {
                 $rootScope.resolvingRequest = false;
