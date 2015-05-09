@@ -6,7 +6,7 @@ angular
     'EqualsComponentModule'
   ])
 
-  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse) {
+  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
 
