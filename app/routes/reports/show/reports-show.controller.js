@@ -191,7 +191,7 @@ angular
           },
 
           groupsResponse: function() {
-            return Restangular.all('groups').getList();
+            return Restangular.all('groups').getList({ return_fields: 'id,name'});
           }
         },
         controller: 'ReportsForwardModalController'
