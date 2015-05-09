@@ -155,10 +155,6 @@ angular
         templateUrl: 'modals/users/disable/users-disable.template.html',
         windowClass: 'removeModal',
         resolve: {
-          usersList: function() {
-            return $scope.users;
-          },
-
           user: function() {
             return user;
           }

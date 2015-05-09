@@ -3,13 +3,8 @@
 angular
   .module('UsersDisableModalControllerModule', [])
 
-  .controller('UsersDisableModalController', function(Restangular, $scope, $modalInstance, user, usersList) {
+  .controller('UsersDisableModalController', function(Restangular, $scope, $modalInstance, user) {
     $scope.user = user;
-
-    // delete user from server
-    $scope.confirm = function() {
-      usersList.splice(usersList.indexOf($scope.user), 1);
-    };
 
     $scope.confirm = function() {
       var deletePromise = Restangular.one('users', $scope.user.id).remove();
