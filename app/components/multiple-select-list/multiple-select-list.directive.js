@@ -9,7 +9,9 @@ angular
         templateUrl: "components/multiple-select-list/multiple-select-list.template.html",
         transclude: true,
         scope: {
-          ngModel: '='
+          ngModel: '=',
+          singularObjectName: '@',
+          pluralObjectName: '@'
         },
         replace: true,
         controller: function ($scope) {
@@ -35,14 +37,14 @@ angular
             switch ($scope.ngModel.length)
             {
               case 0:
-                return 'Selecione uma categoria';
+                return 'Selecione uma ' + (_.isUndefined($scope.singularObjectName) ? 'categoria' : $scope.singularObjectName);
               break;
 
               case 1:
-                return '1 objeto selecionado';
+                return '1 ' + (_.isUndefined($scope.singularObjectName) ? 'categoria' : $scope.singularObjectName) + ' selecionado';
 
               default:
-                return $scope.ngModel.length + ' objetos selecionadas';
+                return $scope.ngModel.length + ' ' + (_.isUndefined($scope.pluralObjectName) ? 'categorias' : $scope.pluralObjectName) + ' selecionadas';
             }
           };
 
