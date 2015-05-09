@@ -16,7 +16,7 @@ angular
 
     // Return right promise
     var generateUsersPromise = function() {
-      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups'};
+      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups.id'};
 
       if (groupsIds.length !== 0)
       {
@@ -49,6 +49,10 @@ angular
         default:
            return 'Grupo: ' + groupsIds.length + ' grupos selecionados';
       }
+    };
+
+    $scope.getGroupNameById = function(id){
+      return $scope.groups[id].name;
     };
 
     // One every change of page or search, we create generate a new request based on current values
