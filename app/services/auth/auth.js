@@ -75,7 +75,7 @@ angular
       },
 
       login: function(email, pass) {
-        var returnFields = ['permission', 'id', 'email', 'name', 'groups_names', 'token'];
+        var returnFields = ['permissions', 'id', 'email', 'name', 'groups_names', 'token'];
 
         FullResponseRestangular.setDefaultHeaders({'X-App-Token': this.getToken()});
 
