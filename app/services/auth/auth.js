@@ -14,7 +14,7 @@ angular
         if (token !== null && user === null)
         {
           // has token, check it by getting user data
-          var req = Restangular.one('me').get({ return_fields: 'id,email,permissions'}),
+          var req = Restangular.one('me').get({ return_fields: 'id,email,permissions,groups.id,groups.name'}),
               that = this;
 
           req.then(function(response) {
