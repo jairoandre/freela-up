@@ -42,7 +42,8 @@ angular
       $rootScope.resolvingRequest = true;
 
       var changeCategoryPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({
-        'new_category_id': $scope.transfer.toCategory, 'new_status_id': $scope.transfer.toStatus
+        'new_category_id': $scope.transfer.toCategory, 'new_status_id': $scope.transfer.toStatus,
+        return_fields: ''
       }, 'change_category'); // jshint ignore:line
 
       changeCategoryPromise.then(function() {
