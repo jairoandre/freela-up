@@ -243,6 +243,7 @@ angular
       }
 
       var getFieldById = function(id) {
+        console.log($scope.item.data);
         for (var i = $scope.item.data.length - 1; i >= 0; i--) {
 
           if (typeof $scope.item.data[i].field !== 'undefined' && $scope.item.data[i].field !== null && $scope.item.data[i].field.id == id) // jshint ignore:line
