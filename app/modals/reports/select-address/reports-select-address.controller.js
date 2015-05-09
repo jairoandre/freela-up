@@ -23,7 +23,8 @@ angular
       var updatedData = {
         latitude: $scope.latLng[0],
         longitude: $scope.latLng[1],
-        address: $scope.formattedAddress
+        address: $scope.formattedAddress,
+        return_fields: ''
       };
 
       var postUserPromise = Restangular.one('reports', report.category.id).one('items', report.id).customPUT(updatedData);

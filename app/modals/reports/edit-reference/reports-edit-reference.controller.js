@@ -9,7 +9,10 @@ angular
     $scope.save = function() {
       $scope.processingForm = true;
 
-      var postUserPromise = Restangular.one('reports', report.category.id).one('items', report.id).customPUT({ reference: $scope.report.reference });
+      var postUserPromise = Restangular.one('reports', report.category.id).one('items', report.id).customPUT({
+        reference: $scope.report.reference,
+        return_fields: 'reference'
+      });
 
       postUserPromise.then(function(response) {
         $modalInstance.close();
