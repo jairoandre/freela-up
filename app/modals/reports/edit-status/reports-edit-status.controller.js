@@ -24,7 +24,7 @@ angular
 
       if ($scope.report.privateComment) visibility = 1;
 
-      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('update_status').customPUT({ 'status_id': $scope.report.status_id, 'comment': $scope.report.comment, 'comment_visibility': visibility }); // jshint ignore:line
+      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('update_status').customPUT({ 'status_id': $scope.report.status_id, 'comment': $scope.report.comment, 'comment_visibility': visibility }, '?return_fields=status_id'); // jshint ignore:line
 
       changeStatusPromise.then(function() {
         report.status_id = $scope.report.status_id; // jshint ignore:line
