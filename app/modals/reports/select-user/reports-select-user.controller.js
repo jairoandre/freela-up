@@ -46,7 +46,7 @@ angular
         if (searchText !== '')
         {
           return Restangular.one('search').one('groups', $scope.groupId).all('users').getList({
-            name: searchText, email: searchText, page: page, per_page: perPage,
+            document: searchText.replace(/\.|-/g, ''), name: searchText, email: searchText, page: page, per_page: perPage,
             return_fields: required_fields
           }); // jshint ignore:line
         }
