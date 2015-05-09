@@ -48,7 +48,7 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
 
-    var categoriesPromise = Restangular.one('inventory').all('categories').getList(), category;
+    var categoriesPromise = Restangular.one('inventory').all('categories').getList({ return_fields: 'id,name'}), category;
 
     if (updating)
     {
@@ -167,7 +167,7 @@ angular
     $scope.categoriesAutocomplete = {
       options: {
         source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.one('search').one('inventory').all('categories').getList({ title: request.term });
+          var categoriesPromise = Restangular.one('search').one('inventory').all('categories').getList({ title: request.term, return_fields: 'id,title' });
 
           categoriesPromise.then(function(response) {
             uiResponse( $.map( response.data, function( item ) {
