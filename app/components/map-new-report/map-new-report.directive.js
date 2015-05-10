@@ -82,9 +82,9 @@ angular
                 google.maps.event.trigger(mapProvider.map, 'bounds_changed');
                 mapProvider.map.setCenter(mapProvider.options.homeLatlng);
 
-                if (scope.categoryData !== null)
+                if (scope.categoryData)
                 {
-                  if (scope.categoryData.inventory_categories.length == 0)
+                  if (scope.categoryData.inventory_categories !== 'undefined' && scope.categoryData.inventory_categories.length == 0)
                   {
                     var categoryIcon = new google.maps.MarkerImage(scope.categoryData.marker.retina.web, null, null, null, new google.maps.Size(54, 51));
 

@@ -7,7 +7,7 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
-require('dotenv').load();
+require('dotenv').load({ silent: true });
 
 module.exports = function (grunt) {
 
