@@ -122,7 +122,7 @@ angular
 
                       scope.$apply();
                       scope.$parent.$apply();
-                      scope.$emit('reportMap:position_changed', latLng);
+                      scope.$emit('reportMap:position_changed', new google.maps.LatLng(scope.lat, scope.lng));
                     });
                   }
                   else

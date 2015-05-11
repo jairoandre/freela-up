@@ -145,7 +145,8 @@ angular
           state: $scope.address.state,
           country: $scope.address.country,
           postal_code: $scope.address.postal_code,
-          images: images
+          images: images,
+          return_fields: 'id'
         };
 
         if ($scope.user)
