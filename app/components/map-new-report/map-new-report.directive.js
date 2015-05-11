@@ -91,6 +91,7 @@ angular
                 google.maps.event.trigger(mapProvider.map, 'resize');
                 google.maps.event.trigger(mapProvider.map, 'bounds_changed');
                 mapProvider.map.setCenter(latLng);
+                scope.$emit('reportMap:position_changed', latLng);
 
                 if (scope.categoryData)
                 {
@@ -115,12 +116,13 @@ angular
 
                     google.maps.event.addListener(marker, 'dragend', function() {
                       scope.markerPositionUpdated = true;
-                      scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
-                      scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                      scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
+                      scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
                       mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
 
                       scope.$apply();
                       scope.$parent.$apply();
+                      scope.$emit('reportMap:position_changed', latLng);
                     });
                   }
                   else

@@ -117,6 +117,11 @@ angular
       return deferred.promise;
     };
 
+    $scope.$on('reportMap:position_changed', function(e, latLng){
+      $scope.lat = latLng.lat();
+      $scope.lng = latLng.lng();
+    });
+
     $scope.send = function() {
       $rootScope.resolvingRequest = true;
 
