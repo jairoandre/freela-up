@@ -11,7 +11,7 @@ angular
       resolve: {
         'reportResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
           var returnFields = [
-            'id', 'protocol', 'address', 'number', 'district', 'country', 'country', 'postal_code', 'state', 'city','comments', 'created_at', 'description',
+            'id', 'protocol', 'address', 'number', 'district', 'country', 'country', 'postal_code', 'state', 'city', 'created_at', 'description',
             'feedback', 'images', 'inventory_item', 'inventory_item_category_id', 'overdue', 'position', 'reference', 'status',
             'user.name', 'user.email', 'user.id', 'user.phone',
             'assigned_user.id', 'assigned_user.name', 'assigned_group.id', 'assigned_group.name',

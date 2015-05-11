@@ -40,7 +40,8 @@ angular
     };
 
     var sendComment = function(message, visibility) {
-      return Restangular.one('reports', $scope.report.id).customPOST({ message: message, visibility: visibility }, 'comments');
+      return Restangular.one('reports', $scope.report.id)
+        .customPOST({ message: message, visibility: visibility, return_fields: 'id,created_at,message,visibility,author.id,author.name' }, 'comments');
     };
 
     $scope.submitUserResponse = function() {
