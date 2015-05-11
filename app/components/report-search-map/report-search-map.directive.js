@@ -73,7 +73,7 @@ angular
                   var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
 
                   scope.$apply(function() {
-                    scope.address.zipcode = addressComponents.zipcode;
+                    scope.address.postal_code = addressComponents.zipcode;
                   });
                 }
               });

@@ -51,7 +51,7 @@
         </div>
 
         <div class="col-md-2">
-          <input type="text" ng-model="address.zipcode" placeholder="CEP" class="form-control reference-field" />
+          <input type="text" ng-model="address.postal_code" placeholder="CEP" class="form-control reference-field" />
         </div>
 
         <div class="col-md-3">
@@ -74,7 +74,7 @@
       <p>Mova o marcador para a posição correta do relato.</p>
 
       <div class="form-group reportMap">
-        <div class="map-alert update-address" ng-show="markerPositionUpdated"><a href="" ng-click="updateMarkerAddress()">Clique aqui</a> para atualizar o endereço do relato de acordo com a posição do marcador.</div>
+        <div class="map-alert update-address" ng-show="markerPositionUpdated && !markerOutOfBounds"><a href="" ng-click="updateMarkerAddress()">Clique aqui</a> para atualizar o endereço do relato de acordo com a posição do marcador.</div>
         <div class="map-alert out-of-bounds" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
 
         <div class="loadingMap" ng-show="isLoadingItems">

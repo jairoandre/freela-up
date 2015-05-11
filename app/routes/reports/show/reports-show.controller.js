@@ -11,6 +11,8 @@ angular
     'ReportsSelectUserModalControllerModule',
     'ReportsEditReferenceModalControllerModule',
     'ReportsPrintModalControllerModule',
+    'ReportSearchMapComponentModule',
+    'MapNewReportComponentModule',
     'duScroll'
   ])
 
@@ -21,12 +23,14 @@ angular
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.feedback = feedbackResponse.data;
     $scope.comments = commentsResponse.data;
-
+    $scope.categoryData = $scope.report.category;
     $scope.images = [];
+    $scope.lat = $scope.report.position.latitude; // Please fix this mess whenever possible #TODO
+    $scope.lng = $scope.report.position.longitude;
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {
       $scope.images.push({versions: $scope.report.images[c]});
-    };
+    }
 
     $scope.newUserResponse = { message: null, privateComment: true, typing: false };
     $scope.newSystemComment = { message: null, typing: false };
@@ -122,27 +126,46 @@ angular
       });
     };
 
+    var addressFields = ['address', 'number', 'city', 'postal_code', 'reference', 'state', 'country', 'district'];
     $scope.editAddress = function () {
-      var mapModalInstance =  $modal.open({
-        templateUrl: 'modals/reports/select-address/reports-select-address.template.html',
-        windowClass: 'mapModal',
-        resolve: {
-          category: function() {
-            return $scope.report.category;
-          },
-
-          report: function() {
-            return $scope.report;
-          }
-        },
-        controller: 'ReportsSelectAddressModalController'
+      $scope.editingAddress = true;
+      $scope.address = {};
+      _.each(addressFields, function(ac){
+        $scope.address[ac] = $scope.report[ac];
       });
+      $scope.address.number = parseInt($scope.address.number, 10); // TODO upgrade to angular 1.4
+    };
 
-      mapModalInstance.opened.then(function () {
-        setTimeout(function() {
-          $rootScope.selectLatLngMap.start();
-        }, 80);
-      });
+    $scope.cancelAddressEdit = function() {
+      $scope.editingAddress = false;
+    };
+
+    $scope.saveAddress = function(addressForm){
+      addressForm.$submitted = true;
+      if(addressForm.$valid) {
+        $scope.savingAddress = true;
+
+        var updateAddressRequest = {
+          latitude: $scope.lat,
+          longitude: $scope.lng,
+          return_fields: 'position.latitude,position.longitude,address,number,reference,district,postal_code,state,city'
+        };
+
+        _.each(addressFields, function(field){ updateAddressRequest[field] = addressForm[field].$viewValue});
+
+        var updateReportAddressPromise = Restangular.one('reports', $scope.report.category.id)
+          .one('items', $scope.report.id).customPUT(updateAddressRequest);
+
+        updateReportAddressPromise.then(function(response) {
+          var updatedReportFields = response.data;
+          $scope.showMessage('ok', 'O endereço do relato foi alterado com sucesso.', 'success', true);
+          $scope.loading = $scope.savingAddress = $scope.editingAddress = false;
+          $scope.report.position = updatedReportFields.position;
+          $scope.lat = $scope.report.position.latitude;
+          $scope.lng = $scope.report.position.longitude;
+          _.each(addressFields, function(field){ $scope.report[field] = updatedReportFields[field]});
+        });
+      }
     };
 
     $scope.editDescription = function () {

@@ -46,9 +46,67 @@
 
         <div class="report-data">
           <h5>Endereço</h5>
-          <p>{{ report.address }}</p>
+          <p ng-if="!editingAddress">
+            {{ report.address }}<span ng-if="report.number">, {{ report.number }}</span><span ng-if="report.postal_code">, {{ report.postal_code }}</span><span ng-if="report.district">, {{ report.district }}</span><span ng-if="report.state"> - {{ report.state }}</span><span ng-if="report.country">, {{ report.country }}</span>
+          </p>
+          <div ng-if="editingAddress">
+            <form ng-submit="saveAddress(addressForm)" name="addressForm" novalidate>
+            <div class="row">
+              <div class="search-map col-xs-8">
+                <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
+                <input required name="address" ng-class="{'has-error': addressForm.address.$invalid && (!addressForm.address.$pristine || addressForm.$submitted)}" class="searchField" placeholder="Logradouro" ng-model="address.address" report-search-map ng-keypress="showLoading()">
+              </div>
 
-          <a href="" class="link" ng-click="editAddress()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
+              <div class="col-xs-1" ng-class="{'has-error': addressForm.number.$invalid && (!addressForm.number.$pristine || addressForm.$submitted)}">
+                <input type="number" string-to-number ng-model="address.number" name="number" placeholder="N." class="form-control reference-field" />
+              </div>
+
+              <div class="col-xs-3" ng-class="{'has-error': addressForm.reference.$invalid && (!addressForm.reference.$pristine || addressForm.$submitted)}">
+                <input type="text" ng-model="address.reference" name="reference" placeholder="Referência" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-2" ng-class="{'has-error': addressForm.district.$invalid && (!addressForm.district.$pristine || addressForm.$submitted)}">
+                <input required type="text" ng-model="address.district" name="district" placeholder="Bairro" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-2" ng-class="{'has-error': addressForm.postal_code.$invalid && (!addressForm.postal_code.$pristine || addressForm.$submitted)}">
+                <input required type="text" ng-model="address.postal_code" name="postal_code" placeholder="CEP" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-3" ng-class="{'has-error': addressForm.city.$invalid && (!addressForm.city.$pristine || addressForm.$submitted)}">
+                <input required type="text" name="city" ng-model="address.city" placeholder="Cidade" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-3" ng-class="{'has-error': addressForm.state.$invalid && (!addressForm.state.$pristine || addressForm.$submitted)}">
+                <input required type="text" name="state" ng-model="address.state" placeholder="Estado" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-2" ng-class="{'has-error': addressForm.country.$invalid && (!addressForm.country.$pristine || addressForm.$submitted)}">
+                <input required type="text" name="country" ng-model="address.country" placeholder="País" class="form-control reference-field" />
+              </div>
+            </div>
+
+            <div class="form-group reportMap">
+              <div class="map-alert update-address" ng-show="markerPositionUpdated && !markerOutOfBounds"><a href="" ng-click="updateMarkerAddress()">Clique aqui</a> para atualizar o endereço do relato de acordo com a posição do marcador.</div>
+              <div class="map-alert out-of-bounds" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
+
+              <div class="loadingMap" ng-show="isLoadingItems">
+                <div class="loadingScrolling"></div>
+              </div>
+
+              <div class="roundedMap" map-new-report></div>
+            </div>
+
+              <div class="pull-right" ng-if="editingAddress">
+                <a class="btn btn-default btn-fat-custom" ng-click="cancelAddressEdit()" ng-if="!savingAddress">Cancelar</a>
+                <input type="submit" value="Salvar" class="btn btn-info btn-fat-custom btn-custom" ng-disabled="savingAddress">
+              </div>
+
+
+            </form>
+          </div>
+
+          <a href="" class="link" ng-if="!editingAddress" ng-click="editAddress()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
           <div class="clearfix"></div>
         </div>
@@ -306,7 +364,7 @@
 
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <span class="pull-left">Tipos</span> <span class="pull-right"><span class="caret"></span></span>
+                <span class="pull-left">Tipos</span> <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">
@@ -322,7 +380,7 @@
 
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <span class="pull-left">Data</span> <span class="pull-right"><span class="caret"></span></span>
+                <span class="pull-left">Data</span> <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">

@@ -46,6 +46,7 @@ angular
           hiddenInventoryCategories: [],
           mainMarker: null,
           allows_arbitrary_position: true,
+          bindsToInventoryCategories: false,
 
           start: function() {
             // create map and set specific listeners
@@ -75,27 +76,36 @@ angular
           setListeners: function() {
             // refresh map when shown
             scope.$watch('categoryData', function () {
+              if(!scope.categoryData) return;
+              this.bindsToInventoryCategories = typeof scope.categoryData.inventory_categories !== 'undefined';
               mapProvider.createMap();
 
               setTimeout(function() {
+                var latLng;
+                if(scope.lat && scope.lng) {
+                  latLng = new google.maps.LatLng(scope.lat, scope.lng);
+                } else {
+                  latLng = mapProvider.options.homeLatlng;
+                }
+
                 google.maps.event.trigger(mapProvider.map, 'resize');
                 google.maps.event.trigger(mapProvider.map, 'bounds_changed');
-                mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+                mapProvider.map.setCenter(latLng);
 
                 if (scope.categoryData)
                 {
-                  if (scope.categoryData.inventory_categories !== 'undefined' && scope.categoryData.inventory_categories.length == 0)
+                  if (!this.bindsToInventoryCategories)
                   {
                     var categoryIcon = new google.maps.MarkerImage(scope.categoryData.marker.retina.web, null, null, null, new google.maps.Size(54, 51));
 
                     var marker = new google.maps.Marker(
-                    {
-                      map: mapProvider.map,
-                      draggable: true,
-                      animation: google.maps.Animation.DROP,
-                      position: mapProvider.options.homeLatlng,
-                      icon: categoryIcon
-                    });
+                      {
+                        map: mapProvider.map,
+                        draggable: true,
+                        animation: google.maps.Animation.DROP,
+                        position: latLng,
+                        icon: categoryIcon
+                      });
 
                     mapProvider.mainMarker = marker;
 
@@ -105,10 +115,12 @@ angular
 
                     google.maps.event.addListener(marker, 'dragend', function() {
                       scope.markerPositionUpdated = true;
-
-                      mapProvider.checkMarkerInsideAllowedBounds(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+                      scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
+                      scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                      mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
 
                       scope.$apply();
+                      scope.$parent.$apply();
                     });
                   }
                   else
@@ -160,26 +172,25 @@ angular
             if (_.isUndefined(keepAddress) || !keepAddress)
             {
               geocoder.geocode({
-                latLng: new google.maps.LatLng(lat, lng)
-              },
-              function(results, status)
-              {
-                if (status === google.maps.GeocoderStatus.OK)
+                  latLng: new google.maps.LatLng(lat, lng)
+                },
+                function(results, status)
                 {
-                  var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
+                  if (status === google.maps.GeocoderStatus.OK)
+                  {
+                    var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
 
-                  scope.address.address = addressComponents.address;
-                  scope.address.number = addressComponents.number;
-                  scope.address.reference = '';
-                  scope.address.district = addressComponents.neighborhood;
-                  scope.address.city = addressComponents.city;
-                  scope.address.state = addressComponents.state;
-                  scope.address.country = addressComponents.country;
-                  scope.address.zipcode = addressComponents.zipcode;
+                    scope.address.address = addressComponents.address;
+                    scope.address.number = addressComponents.number;
+                    scope.address.district = addressComponents.neighborhood;
+                    scope.address.city = addressComponents.city;
+                    scope.address.state = addressComponents.state;
+                    scope.address.country = addressComponents.country;
+                    scope.address.postal_code = addressComponents.zipcode;
 
-                  scope.$apply();
-                }
-              });
+                    scope.$apply();
+                  }
+                });
             }
           },
 
@@ -220,58 +231,59 @@ angular
             }, 200);
 
             // Wait a bit until get new items
-            if (this.getNewItemsTimeout)
-            {
-              $timeout.cancel(this.getNewItemsTimeout);
-            }
+            if(this.bindsToInventoryCategories) {
+              if (this.getNewItemsTimeout)
+              {
+                $timeout.cancel(this.getNewItemsTimeout);
+              }
 
-            scope.isLoadingItems = true;
+              scope.isLoadingItems = true;
 
-            this.getNewItemsTimeout = $timeout(function() {
-              var categoryIds = [];
+              this.getNewItemsTimeout = $timeout(function() {
+                var categoryIds = [];
 
-              for (var i = scope.categoryData.inventory_categories.length - 1; i >= 0; i--) {
-                categoryIds.push(scope.categoryData.inventory_categories[i].id);
-              };
+                for (var i = scope.categoryData.inventory_categories.length - 1; i >= 0; i--) {
+                  categoryIds.push(scope.categoryData.inventory_categories[i].id);
+                };
 
-              var itemsPromise = Restangular.all('inventory').all('items').getList({
+                var itemsPromise = Restangular.all('inventory').all('items').getList({
                   'position[latitude]': mapProvider.map.getCenter().lat(),
                   'position[longitude]': mapProvider.map.getCenter().lng(),
                   'position[distance]': mapProvider.getDistance(),
                   'zoom': mapProvider.map.getZoom(),
                   'limit': 100,
                   'inventory_category_id': categoryIds.join()
-              });
+                });
 
-              itemsPromise.then(function(response) {
-                scope.isLoadingItems = false;
+                itemsPromise.then(function(response) {
+                  scope.isLoadingItems = false;
 
-                if (forceReset === true)
-                {
-                  mapProvider.removeAllMarkers();
-                }
+                  if (forceReset === true)
+                  {
+                    mapProvider.removeAllMarkers();
+                  }
 
-                if (clearLevels)
-                {
-                  mapProvider.hideAllMarkersFromInactiveLevels();
-                }
+                  if (clearLevels)
+                  {
+                    mapProvider.hideAllMarkersFromInactiveLevels();
+                  }
 
-                // add item
-                for (var i = response.data.length - 1; i >= 0; i--) {
-                  mapProvider.addMarker(response.data[i], mapProvider.doAnimation);
-                }
+                  // add item
+                  for (var i = response.data.length - 1; i >= 0; i--) {
+                    mapProvider.addMarker(response.data[i], mapProvider.doAnimation);
+                  }
 
-                // after first request we will deactive animation
-                if (mapProvider.doAnimation === true)
-                {
-                  mapProvider.doAnimation = false;
-                }
-              });
+                  // after first request we will deactive animation
+                  if (mapProvider.doAnimation === true)
+                  {
+                    mapProvider.doAnimation = false;
+                  }
+                });
 
-            }, 1000);
-          },
+              }, 1000);
+            }},
 
-         // Hide every marker that is not visible to the user
+          // Hide every marker that is not visible to the user
           hideNotVisibleMarkers: function() {
             angular.forEach(this.zoomLevels[this.map.getZoom()], function(marker, id) {
               if (!mapProvider.isMarkerInsideBounds(marker))
@@ -360,12 +372,12 @@ angular
                   var categoryIcon = new google.maps.MarkerImage(scope.categoryData.marker.retina.web, null, null, null, new google.maps.Size(54, 51));
 
                   var marker = new google.maps.Marker(
-                  {
-                    map: mapProvider.map,
-                    animation: google.maps.Animation.DROP,
-                    position: position,
-                    icon: categoryIcon
-                  });
+                    {
+                      map: mapProvider.map,
+                      animation: google.maps.Animation.DROP,
+                      position: position,
+                      icon: categoryIcon
+                    });
 
                   mapProvider.mainMarker = marker;
                 }

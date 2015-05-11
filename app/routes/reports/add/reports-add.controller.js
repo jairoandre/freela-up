@@ -139,7 +139,7 @@ angular
           city: $scope.address.city,
           state: $scope.address.state,
           country: $scope.address.country,
-          zipcode: $scope.address.zipcode,
+          postal_code: $scope.address.postal_code,
           images: images
         };
 

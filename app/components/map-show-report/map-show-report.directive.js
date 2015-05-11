@@ -25,6 +25,7 @@ angular
           infoWindow: new google.maps.InfoWindow(),
 
           map: null,
+          marker: null,
 
           start: function() {
             var styledMap = new google.maps.StyledMapType(this.options.styles, { name: 'zup' });
@@ -42,7 +43,11 @@ angular
                   google.maps.event.trigger(mapProvider.map, 'bounds_changed');
                   mapProvider.map.setCenter(mapProvider.options.homeLatlng);
 
-                  mapProvider.addMarker(scope.report, scope.report.category);
+                  if(!_.isNull(mapProvider.marker)) {
+                    mapProvider.marker.setMap(null);
+                  }
+
+                  mapProvider.marker = mapProvider.addMarker(scope.report, scope.report.category);
                 }, 80);
               }
             });
@@ -84,7 +89,9 @@ angular
               infowindow.setContent(compiled[0]);
               infowindow.open(mapProvider.map, this);
             });
-          },
+
+            return pin;
+          }
         };
 
         mapProvider.start();
