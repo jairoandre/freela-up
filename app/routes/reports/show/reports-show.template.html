@@ -52,13 +52,13 @@
           <div ng-if="editingAddress">
             <form ng-submit="saveAddress(addressForm)" name="addressForm" novalidate>
             <div class="row">
-              <div class="search-map col-xs-8">
+              <div class="search-map col-xs-7">
                 <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
                 <input required name="address" ng-class="{'has-error': addressForm.address.$invalid && (!addressForm.address.$pristine || addressForm.$submitted)}" class="searchField" placeholder="Logradouro" ng-model="address.address" report-search-map ng-keypress="showLoading()">
               </div>
 
-              <div class="col-xs-1" ng-class="{'has-error': addressForm.number.$invalid && (!addressForm.number.$pristine || addressForm.$submitted)}">
-                <input type="number" string-to-number ng-model="address.number" name="number" placeholder="N." class="form-control reference-field" />
+              <div class="col-xs-2" ng-class="{'has-error': addressForm.number.$invalid && (!addressForm.number.$pristine || addressForm.$submitted)}">
+                <input type="number" ng-model="address.number" name="number" placeholder="N." class="form-control reference-field" />
               </div>
 
               <div class="col-xs-3" ng-class="{'has-error': addressForm.reference.$invalid && (!addressForm.reference.$pristine || addressForm.$submitted)}">
