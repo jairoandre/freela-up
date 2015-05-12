@@ -113,16 +113,16 @@
           <h5>Telefone</h5>
           <p>{{ report.user.phone }}</p>
 
-          <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)" class="section">
-            <h3>Feedback</h3>
-            <h5>Feedback do usuário</h5>
+          <div ng-show="showSection('feedback')" class="section">
+            <h3>Feedback do usuário</h3>
 
             <p ng-show="feedback.kind == 'positive'">Positivo</p>
-            <p ng-show="feedback.kind != 'positive'">Negativo</p>
+            <p ng-show="feedback.kind == 'negative'">Negativo</p>
+            <p ng-show="!feedback">Sem feedback até o momento.</p>
 
             <hr />
 
-            <h5>Comentário</h5>
+            <h5 ng-if="feedback.content">Comentário</h5>
             <p>{{ feedback.content }}</p>
           </div>
       </div>
