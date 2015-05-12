@@ -10,7 +10,7 @@ angular
     'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state) {
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
@@ -495,6 +495,12 @@ angular
         },
         controller: 'ReportsEditStatusModalController'
       });
+    };
+
+    $scope.openReport = function(report_id) {
+      if(!$rootScope.loading) {
+        $state.go('reports.show', { id: report_id });
+      }
     };
 
     // we hide/show map debug
