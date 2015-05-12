@@ -13,7 +13,8 @@ angular
       { name: 'Informações do munícipe', key: 'user' },
       { name: 'Respostas ao munícipe', key: 'replies' },
       { name: 'Observações internas', key: 'comments' },
-      { name: 'Histórico do relato', key: 'history' }
+      { name: 'Histórico do relato', key: 'history' },
+      { name: 'Feedback do usuário', key: 'feedback' }
     ];
 
     $scope.toggleAll = function() {
