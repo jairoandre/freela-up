@@ -34,7 +34,10 @@ angular
     };
 
     // Get groups for filters
-    $scope.groups = groupsResponse.data;
+    $scope.groups = {};
+    _.each(groupsResponse.data, function(group){
+      $scope.groups[group.id] = group;
+    });
 
     $scope.getGroupsExcerpt = function() {
       switch(groupsIds.length) {
