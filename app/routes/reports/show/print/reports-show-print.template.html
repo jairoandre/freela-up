@@ -20,7 +20,7 @@
 
           <div class="report-data">
             <h5>Endereço</h5>
-            <p>{{ report.address }}</p>
+            <p>{{ report.address }}<span ng-if="report.number">, {{ report.number }}</span><span ng-if="report.postal_code">, {{ report.postal_code }}</span><span ng-if="report.district">, {{ report.district }}</span><span ng-if="report.state"> - {{ report.state }}</span><span ng-if="report.country">, {{ report.country }}</span></p>
 
             <div class="clearfix"></div>
           </div>

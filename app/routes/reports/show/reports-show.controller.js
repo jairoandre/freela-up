@@ -260,7 +260,7 @@ angular
         resolve: {
           openModal: function() {
             return function(options) {
-              $window.open('#/reports/' + $scope.report.id + '/print?sections=' + options.join(), 'ZUP Imprimir relato', 'height=800,width=800');
+              $window.open('#/reports/' + $scope.report.id + '/print?sections=' + options.join(), 'ZUP Imprimir relato', 'height=800,width=850');
             }
           }
         },
