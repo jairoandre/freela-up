@@ -76,7 +76,8 @@ angular
               google.maps.event.trigger(mapProvider.map, 'resize');
               google.maps.event.trigger(mapProvider.map, 'bounds_changed');
               mapProvider.map.setCenter(mapProvider.options.homeLatlng);
-              mapProvider.checkMarkerInsideAllowedBounds(mapProvider.options.homeLatlng.lat(), mapProvider.options.homeLatlng.lng());
+              if(!scope.lat && !scope.lng)
+                mapProvider.checkMarkerInsideAllowedBounds(mapProvider.options.homeLatlng.lat(), mapProvider.options.homeLatlng.lng());
             }, 80);
           },
 
@@ -206,8 +207,12 @@ angular
                   {
                     var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
 
+                    if(addressComponents.number.indexOf('-') !== -1) {
+                      addressComponents.number = addressComponents.number.split('-')[0];
+                    }
+
                     scope.address.address = addressComponents.address;
-                    scope.address.number = addressComponents.number;
+                    scope.address.number = parseInt(addressComponents.number, 10);
                     scope.address.district = addressComponents.neighborhood;
                     scope.address.city = addressComponents.city;
                     scope.address.state = addressComponents.state;
