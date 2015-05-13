@@ -10,10 +10,14 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ReportsAddController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
+  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
 
-    $scope.address = {};
+    $scope.address = {
+      city: ENV.defaultCity,
+      state: ENV.defaultState,
+      country: ENV.defaultCountry
+    };
 
     $scope.categories = categories;
     $scope.createAnother = false;

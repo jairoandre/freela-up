@@ -20,6 +20,9 @@ module.exports = function (grunt) {
     SENTRY_DSN: process.env.SENTRY_DSN,
     FLOWS_ENABLED: process.env.FLOWS_ENABLED,
     LOGO_IMG_URL: process.env.LOGO_IMG_URL,
+    DEFAULT_CITY: process.env.DEFAULT_CITY,
+    DEFAULT_COUNTRY: process.env.DEFAULT_COUNTRY,
+    DEFAULT_STATE: process.env.DEFAULT_STATE,
     ENV: process.env.ENV,
 
     // Project settings
@@ -343,8 +346,11 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>'
-          },
+            logoImgUrl: '<%= LOGO_IMG_URL %>',
+            defaultCity: '<%= DEFAULT_CITY %>',
+            defaultState: '<%= DEFAULT_STATE %>',
+            defaultCountry: '<%= DEFAULT_COUNTRY %>'
+          }
         }
       },
 
