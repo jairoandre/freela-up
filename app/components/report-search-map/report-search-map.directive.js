@@ -33,12 +33,17 @@ angular
               }
             };
 
+
+            var service = new google.maps.places.AutocompleteService();
+            var doQueryServiceTimeout;
             scope.showLoading = function() {
               scope.showLoadingForAutocompleteRequest = true;
-
-              var service = new google.maps.places.AutocompleteService();
-
-              service.getQueryPredictions({ input: element[0] }, callback);
+              if(!doQueryServiceTimeout) {
+                doQueryServiceTimeout = $timeout(function(){
+                  service.getQueryPredictions({ input: element[0] }, callback);
+                  doQueryServiceTimeout = undefined;
+                }, 400);
+              }
             };
 
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -64,7 +69,7 @@ angular
               var geocoder = new google.maps.Geocoder();
 
               geocoder.geocode({
-                latLng: new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng())
+                latLng: new google.maps.LatLng(place.geometry.location)
               },
               function(results, status)
               {
