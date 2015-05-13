@@ -76,6 +76,7 @@ angular
               google.maps.event.trigger(mapProvider.map, 'resize');
               google.maps.event.trigger(mapProvider.map, 'bounds_changed');
               mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+              mapProvider.checkMarkerInsideAllowedBounds(mapProvider.options.homeLatlng.lat(), mapProvider.options.homeLatlng.lng());
             }, 80);
           },
 
@@ -96,6 +97,7 @@ angular
                     mapProvider.map.setCenter(results[0].geometry.location);
                     scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
                     scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                    mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
                   }
                 }
               });
@@ -146,10 +148,9 @@ angular
                       scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
                       scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
                       mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
-
+                      scope.$emit('reportMap:position_changed', new google.maps.LatLng(scope.lat, scope.lng));
                       scope.$apply();
                       scope.$parent.$apply();
-                      scope.$emit('reportMap:position_changed', new google.maps.LatLng(scope.lat, scope.lng));
                     });
                   }
                   else
@@ -169,8 +170,6 @@ angular
                 }
 
                 // clear addresses
-                scope.lat = null;
-                scope.lng = null;
                 scope.itemId = null;
                 scope.formattedAddress = null;
 

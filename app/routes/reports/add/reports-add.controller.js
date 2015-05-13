@@ -192,6 +192,8 @@ angular
           }
         });
 
+      }, function(response){
+        var a = 1;
       });
     };
   });
