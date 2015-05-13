@@ -1,8 +1,10 @@
 @import "compass/css3";
 
-#reports-listing-table tr:hover {
-  background-color: #ebf6fd;
-  cursor: pointer;
+#reports-listing-table {
+  tbody tr:hover {
+    background-color: #ebf6fd;
+    cursor: pointer;
+  }
 }
 
 .search-map {
