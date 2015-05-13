@@ -33,6 +33,18 @@ angular
     };
 
     /**
+     * Clears current cache
+     * @returns {Object} Restangular promise for basic category fields
+     */
+    self.purgeCache = function() {
+      self.categories = {};
+      self.categoriesStatuses = {};
+      self.loadedBasicInfo = false;
+
+      return self.fetchAllBasicInfo();
+    };
+
+    /**
      * Fetches basic information for all categories
      * This function is safe to call multiple times and will not duplicate categories in the cache
      * @returns {Object} Restangular promise for basic category fields fetching
@@ -43,7 +55,7 @@ angular
       options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
       options.subcategories_flat = true;
       options.return_fields = [
-        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title', 'marker.retina.web', 'pin', 'parent_id', 'color'
+        'id', 'title', 'statuses.id', 'statuses.color', 'statuses.title', 'marker.retina.web', 'pin', 'parent_id', 'color', 'icon'
       ].join();
 
       var promise = url.customGET(null, options);

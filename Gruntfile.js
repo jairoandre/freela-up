@@ -1,13 +1,6 @@
-// Generated on 2014-01-07 using generator-angular 0.7.1
 'use strict';
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
-require('dotenv').load();
+require('dotenv').load({ silent: true });
 
 module.exports = function (grunt) {
 
@@ -26,8 +19,8 @@ module.exports = function (grunt) {
     MAP_ZOOM: process.env.MAP_ZOOM,
     SENTRY_DSN: process.env.SENTRY_DSN,
     FLOWS_ENABLED: process.env.FLOWS_ENABLED,
-    MAP_DEBUG: process.env.MAP_DEBUG,
     LOGO_IMG_URL: process.env.LOGO_IMG_URL,
+    ENV: process.env.ENV,
 
     // Project settings
     yeoman: {
@@ -39,8 +32,6 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        //files: ['<%= yeoman.app %>/**/*.route.js', '<%= yeoman.app %>/**/*.controller.js', '<%= yeoman.app %>/**/*.filter.js', '<%= yeoman.app %>/**/*.directive.js'],
-        //tasks: ['newer:jshint:all'],
         files: [],
         tasks: [],
         options: {
@@ -49,7 +40,7 @@ module.exports = function (grunt) {
       },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        tasks: ['newer:jshint:test']
       },
       compass: {
         files: ['<%= yeoman.app %>/assets/styles/{,*/}*.{scss,sass}'],
@@ -165,9 +156,6 @@ module.exports = function (grunt) {
       }
     },
 
-
-
-
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
       options: {
@@ -208,6 +196,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/**/*.filter.js',
             '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+            '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
             '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
@@ -354,7 +343,6 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            mapDebug: '<%= MAP_DEBUG %>',
             logoImgUrl: '<%= LOGO_IMG_URL %>'
           },
         }
@@ -375,7 +363,6 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            mapDebug: '<%= MAP_DEBUG %>',
             logoImgUrl: '<%= LOGO_IMG_URL %>'
           },
         }
@@ -411,39 +398,6 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
-    // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    }
   });
 
   grunt.registerTask('serve', function (target) {
@@ -471,8 +425,7 @@ module.exports = function (grunt) {
     'clean:server',
     'concurrent:test',
     'autoprefixer',
-    'connect:test',
-    'karma'
+    'connect:test'
   ]);
 
   grunt.registerTask('dist', [

@@ -15,11 +15,11 @@ angular
           controllerAs: 'ctrl',
           resolve: {
             'reportCategoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('reports').all('categories').getList({ 'display_type': 'full' });
+              return Restangular.all('reports').all('categories').getList({ 'display_type': 'full', return_fields: 'id,title' });
             }],
 
             'groupsResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('groups').getList();
+              return Restangular.all('groups').getList({ return_fields: 'id,name'});
             }]
           }
         }
@@ -34,11 +34,11 @@ angular
           controllerAs: 'ctrl',
           resolve: {
             'reportCategoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('reports').all('categories').getList();
+              return Restangular.all('reports').all('categories').getList({ return_fields: 'id,title'});
             }],
 
             'groupsResponse': ['Restangular', function(Restangular) {
-              return Restangular.all('groups').getList();
+              return Restangular.all('groups').getList({ return_fields: 'id,name'});
             }]
           }
         }

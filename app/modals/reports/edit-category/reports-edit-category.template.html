@@ -10,13 +10,17 @@
   <div class="spacing"></div>
 
   <h4>Para a categoria</h4>
-  <ui-select ng-model="transfer.toCategory" theme="bootstrap" style="width: 100%;">
-    <ui-select-match placeholder="Selecione uma categoria...">{{$select.selected.title}}</ui-select-match>
+  <select-list ng-model="transfer.toCategory" option-name="title">
+    <li ng-repeat="category in $parent.$parent.categories | filter: q">
+      <a href="" ng-click="select(category.id, category)"><strong><span ng-bind-html="category.title | highlight: q"></span></strong> <b class="glyphicon glyphicon-ok pull-right"></b></a>
 
-    <ui-select-choices group-by="subCategories" repeat="category.id as category in categories | filter: {title: $select.search}">
-      <div ng-bind-html="category.title | highlight: $select.search"></div>
-    </ui-select-choices>
-  </ui-select>
+      <ul>
+        <li ng-repeat="subcategory in category.subcategories | filter: q">
+          <a href="" ng-click="select(subcategory.id, subcategory)"><span ng-bind-html="subcategory.title | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+        </li>
+      </ul>
+    </li>
+  </select-list>
 
   <div class="spacing"></div>
 

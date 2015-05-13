@@ -11,7 +11,6 @@ angular
   .controller('ItemsIndexController', function ($scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
-    $rootScope.hasMap = isMap;
 
     var page = 1, perPage = 15;
 
@@ -450,34 +449,41 @@ angular
     };
 
     $scope.export = function() {
-        $modal.open({
-          templateUrl: 'views/inventories/export.html',
-          windowClass: 'filterCategoriesModal',
-          resolve: {
-            categories: function() {
-              return $scope.categories;
+      $modal.open({
+        templateUrl: 'views/inventories/export.html',
+        windowClass: 'filterCategoriesModal',
+        resolve: {
+          categories: function() {
+            return $scope.categories;
+          }
+        },
+        controller: ['$scope', '$modalInstance', 'categories', function($scope, $modalInstance, categories) {
+          $scope.categories = categories;
+
+          $scope.updateCategory = function(category) {
+            var i = $scope.categories.indexOf(category);
+
+            if ($scope.categories[i].selected === true)
+            {
+              $scope.categories[i].selected = false;
             }
-          },
-          controller: ['$scope', '$modalInstance', 'categories', function($scope, $modalInstance, categories) {
-            $scope.categories = categories;
+            else
+            {
+              $scope.categories[i].selected = true;
+            }
+          };
 
-            $scope.updateCategory = function(category) {
-              var i = $scope.categories.indexOf(category);
+          $scope.close = function() {
+            $modalInstance.close();
+          };
+        }]
+      });
+    };
 
-              if ($scope.categories[i].selected === true)
-              {
-                $scope.categories[i].selected = false;
-              }
-              else
-              {
-                $scope.categories[i].selected = true;
-              }
-            };
+    // we hide/show map debug
+    $rootScope.pageHasMap = isMap;
 
-            $scope.close = function() {
-              $modalInstance.close();
-            };
-          }]
-        });
-      };
+    $scope.$on('$destroy', function() {
+      $rootScope.pageHasMap = false;
+    });
   });

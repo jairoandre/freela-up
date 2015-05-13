@@ -2,6 +2,7 @@
 
 angular
   .module('ReportsAddControllerModule', [
+    'SelectListComponentModule',
     'ReportsSelectUserModalControllerModule',
     'ReportsCreateUserModalControllerModule',
     'ReportSearchMapComponentModule',
@@ -12,20 +13,10 @@ angular
   .controller('ReportsAddController', function ($scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
 
+    $scope.address = {};
+
     $scope.categories = categories;
-
-    // grouping function for ui-select2
-    $scope.subCategories = function(item) {
-      if (item.parent_id == null)
-      {
-        return 'Categorias principais';
-      }
-
-      if (item.parent_id !== null)
-      {
-        return 'Subcategorias';
-      }
-    };
+    $scope.createAnother = false;
 
     $scope.inventoryCategories = inventoriesCategoriesResponse.data;
 
@@ -126,6 +117,23 @@ angular
       return deferred.promise;
     };
 
+    $scope.$on('reportMap:position_changed', function(e, latLng){
+      $scope.lat = latLng.lat();
+      $scope.lng = latLng.lng();
+    });
+
+    var lastAddress = $scope.address.address, lastNumber = $scope.address.number;
+    $scope.fieldOnEnter = function(previousField, currentField){
+      if($scope.address.address == ''  || $scope.address.number == '') {
+        return;
+      }
+      if($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
+        lastAddress = $scope.address.address;
+        lastNumber = $scope.address.number;
+        $scope.$broadcast('addressChanged');
+      }
+    };
+
     $scope.send = function() {
       $rootScope.resolvingRequest = true;
 
@@ -141,9 +149,16 @@ angular
           longitude: $scope.lng,
           inventory_item_id: $scope.itemId,
           description: $scope.description,
-          address: $scope.formattedAddress,
-          reference: $scope.reference,
-          images: images
+          reference: $scope.address.reference,
+          address: $scope.address.address,
+          number: $scope.address.number,
+          district: $scope.address.district,
+          city: $scope.address.city,
+          state: $scope.address.state,
+          country: $scope.address.country,
+          postal_code: $scope.address.postal_code,
+          images: images,
+          return_fields: 'id'
         };
 
         if ($scope.user)
@@ -156,7 +171,25 @@ angular
         newReportPromise.then(function(response) {
           $scope.showMessage('ok', 'O relato foi criado com sucesso.', 'success', true);
 
-          $state.go('reports.show', { id: response.data.id });
+          if ($scope.createAnother)
+          {
+            $scope.lat = null;
+            $scope.lng = null;
+            $scope.itemId = null;
+            $scope.description = null;
+            $scope.formattedAddress = null;
+            $scope.reference = null;
+            $scope.user = null;
+            $scope.address = {};
+
+            $scope.uploader.clearQueue();
+
+            $rootScope.resolvingRequest = false;
+          }
+          else
+          {
+            $state.go('reports.show', { id: response.data.id });
+          }
         });
 
       });

@@ -8,15 +8,9 @@ angular
     'GalleryComponentModule'
   ])
 
-  .controller('ItemsShowController', function ($rootScope, $scope, Restangular, $q, $state, $modal, itemResponse, categoriesResponse, itemHistoryResponse) {
-    $scope.item = itemResponse.data;
-
-    for (var i = categoriesResponse.data.length - 1; i >= 0; i--) {
-      if (categoriesResponse.data[i].id === $scope.item.inventory_category_id)
-      {
-        $scope.category = categoriesResponse.data[i];
-      }
-    }
+  .controller('ItemsShowController', function ($rootScope, $scope, Restangular, $q, $state, $modal, itemResponse) {
+    $scope.item = itemResponse;
+    $scope.category = itemResponse.category;
 
     $scope.getDataByInventoryFieldId = function(id) {
       for (var i = $scope.item.data.length - 1; i >= 0; i--) {
@@ -132,7 +126,7 @@ angular
 
     // item history
     $scope.refreshHistory = function() {
-      var options = {}, selectedFilters = $scope.selectedFilters();
+      var options = { 'return_fields': 'id,action,created_at,kind,objects.id,objects.label,objects.name,user.name,user.id' }, selectedFilters = $scope.selectedFilters();
 
       if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
 
@@ -215,6 +209,8 @@ angular
       $scope.refreshHistory();
     };
 
-    $scope.historyLogs = itemHistoryResponse.data;
+    $scope.historyLogs = [];
+
+    $scope.refreshHistory();
 
   });

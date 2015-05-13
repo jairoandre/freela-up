@@ -30,7 +30,14 @@ angular
             name: 'Gerenciar todos os usuários',
             needsObject: false,
             tooltip: 'Ao ativar essa opção, será permitido que este grupo possa ver, adicionar e remover todos os usuários dos grupos às quais tem permissão de visualizar.'
-          }
+          },
+
+          {
+            slug: 'users_edit',
+            name: 'Gerenciar usuários de um grupo específico',
+            needsObject: true,
+            tooltip: 'Ao ativar essa opção, será permitido que este grupo possa visualizar, adicionar e remover todos os usuários dos outros grupos que você selecionar para esta permissão.'
+          },
         ]
       },
 
@@ -98,6 +105,14 @@ angular
           },
 
           {
+            slug: 'inventories_categories_edit',
+            name: 'Editar a categoria',
+            needsObject: true,
+            disableFields: ['inventories_items_edit', 'inventories_items_create', 'inventories_items_delete', 'inventories_items_create', 'inventories_items_read_only'],
+            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário. Permite a edição dos campos de formulários das categorias selecionadas.'
+          },
+
+          {
             slug: 'inventories_items_create',
             name: 'Criar novos itens',
             needsObject: true,
@@ -106,9 +121,8 @@ angular
 
           {
             slug: 'inventories_items_edit',
-            name: 'Editar itens',
+            name: 'Visualizar e editar itens',
             needsObject: true,
-            needsPermission: 'inventories_items_read_only',
             tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e editar os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
           },
 
@@ -117,14 +131,6 @@ angular
             name: 'Remover itens',
             needsObject: true,
             tooltip: 'Ao selecionar quais categorias de inventário o grupo terá acesso, os usuários poderão visualizar e excluir os itens de inventário das categorias selecionadas. Essa opção automaticamente ativará a permissão "Visualizar itens".'
-          },
-
-          {
-            slug: 'inventories_categories_edit',
-            name: 'Editar a categoria',
-            needsObject: true,
-            disableFields: ['inventories_items_edit', 'inventories_items_create', 'inventories_items_delete', 'inventories_items_create', 'inventories_items_read_only'],
-            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos itens de inventário, buscar, deletar e adicionar itens de inventário. Permite a edição dos campos de formulários das categorias selecionadas.'
           },
 
           {
@@ -148,6 +154,22 @@ angular
           },
 
           {
+            slug: 'reports_categories_edit',
+            name: 'Parametrizar as categorias',
+            disableFields: ['reports_items_create', 'reports_items_delete', 'reports_items_edit', 'reports_items_read_public', 'reports_items_read_private', 'reports_items_forward', 'reports_items_create_internal_comment', 'reports_items_alter_status', 'reports_items_create_comment',],
+            needsObject: true,
+            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos. Permite a edição dos parâmetros das categorias selecionadas.'
+          },
+
+          {
+            slug: 'reports_items_edit',
+            name: 'Visualizar e editar relatos',
+            needsObject: true,
+            tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.',
+            disableFields: ['reports_items_forward', 'reports_items_create_internal_comment', 'reports_items_alter_status', 'reports_items_create_comment', 'reports_items_read_public', 'reports_items_read_private']
+          },
+
+          {
             slug: 'reports_items_create',
             name: 'Criar novos relatos',
             needsObject: true,
@@ -158,32 +180,8 @@ angular
             slug: 'reports_items_delete',
             name: 'Remover relatos',
             needsObject: true,
-            needsPermission: 'reports_items_read_private',
+            needsPermission: 'reports_items_read_public',
             tooltip: 'Permite visualizar e deletar os relatos das categorias selecionadas.'
-          },
-
-          {
-            slug: 'reports_items_edit',
-            name: 'Editar relatos',
-            needsObject: true,
-            needsPermission: 'reports_items_read_private',
-            tooltip: 'Permite visualizar e editar os relatos das categorias selecionadas.',
-            disableFields: ['reports_items_forward', 'reports_items_create_internal_comment', 'reports_items_alter_status', 'reports_items_create_comment']
-          },
-
-          {
-            slug: 'reports_categories_edit',
-            name: 'Editar as categorias',
-            disableFields: ['reports_items_create', 'reports_items_delete', 'reports_items_edit', 'reports_items_read_public', 'reports_items_read_private'],
-            needsObject: true,
-            tooltip: 'Permite sobre as categorias selecionadas: a visualização e edição de dados dos relatos, buscar, deletar e adicionar relatos. Permite a edição dos parâmetros das categorias selecionadas.'
-          },
-
-          {
-            slug: 'reports_items_read_public',
-            name: 'Visualizar relatos parcial',
-            needsObject: true,
-            tooltip: 'A visualização de relato parcial é uma permissão que restringe o acesso as informações do relato, isto é, os usuários do grupo não poderão visualizar as observações internas, as respostas enviadas ao munícipe no modo privado e o protocolo. Os usuário exergarão todas as demais informações da tela.'
           },
 
           {
@@ -191,6 +189,13 @@ angular
             name: 'Visualizar relatos completo',
             needsObject: true,
             tooltip: 'Permite a visualização completa de todos os campos disponíveis nos relatos das categorias selecionadas.'
+          },
+
+          {
+            slug: 'reports_items_read_public',
+            name: 'Visualizar relatos parcial',
+            needsObject: true,
+            tooltip: 'A visualização de relato parcial é uma permissão que restringe o acesso as informações do relato, isto é, os usuários do grupo não poderão visualizar as observações internas, as respostas enviadas ao munícipe no modo privado e o protocolo. Os usuário exergarão todas as demais informações da tela.'
           },
 
           {
@@ -216,7 +221,7 @@ angular
 
           {
             slug: 'reports_items_create_comment',
-            name: 'Adicionar comentários',
+            name: 'Enviar comentários ao munícipe',
             needsObject: true,
             tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
           },

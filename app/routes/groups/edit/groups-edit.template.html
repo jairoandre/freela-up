@@ -61,6 +61,12 @@
               <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
             </div>
 
+            <ul ng-if="newPermission.type === 'user'">
+              <li><a href="" ng-click="selectAllObjects(groups)">Selecionar todos os grupos</a></li>
+
+              <li ng-repeat="group in groups | filter:q" ng-class="{ 'active': isObjectSelected(group.id) }"><a href="" ng-click="toggleObject(group)"><span ng-bind-html="group.name  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
+            </ul>
+
             <ul ng-if="newPermission.type === 'flow'">
               <li><a href="" ng-click="selectAllObjects(flows)">Selecionar todos os fluxos</a></li>
 

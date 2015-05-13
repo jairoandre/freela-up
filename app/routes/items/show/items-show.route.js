@@ -13,16 +13,36 @@ angular
           controller: 'ItemsShowController',
           controllerAs: 'ctrl',
           resolve: {
-            'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').one('categories').get({display_type: 'full'});
-            }],
+            'itemResponse': ['$q', 'Restangular', '$stateParams', function($q, Restangular, $stateParams) {
 
-            'itemResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-              return Restangular.one('inventory').one('items', $stateParams.id).get();
-            }],
+              var deferred = $q.defer();
 
-            'itemHistoryResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-              return Restangular.one('inventory').one('items', $stateParams.id).one('history').getList();
+              var itemsReturnFields = [
+                'id', 'address', 'inventory_category_id', 'position', 'title',
+                'data.id', 'data.content', 'data.selected_options', 'data.field.id',
+                'category'
+              ];
+
+              var categoryReturnFields = [
+                'id', 'title', 'marker', 'pin', 'statuses', 'plot_format',
+                'sections.id', 'sections.title', 'sections.disabled', 'sections.position',
+                'sections.fields.title', 'sections.fields.label', 'sections.fields.kind', 'sections.fields.id', 'sections.fields.position'
+              ];
+
+              var item = Restangular.one('inventory').one('items', $stateParams.id).get({ 'return_fields': itemsReturnFields.join() });
+
+              item.then(function(itemResponse) {
+                var item = angular.copy(itemResponse.data);
+                var category = Restangular.one('inventory').one('categories', item.inventory_category_id).get({ 'return_fields': categoryReturnFields.join() });
+
+                category.then(function(categoryResponse) {
+                  item.category = angular.copy(categoryResponse.data);
+
+                  deferred.resolve(item);
+                });
+              });
+
+              return deferred.promise;
             }]
           }
         }

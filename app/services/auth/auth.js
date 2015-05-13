@@ -14,7 +14,8 @@ angular
         if (token !== null && user === null)
         {
           // has token, check it by getting user data
-          var req = Restangular.one('me').get(), that = this;
+          var req = Restangular.one('me').get({ return_fields: 'id,email,permissions,groups.id,groups.name'}),
+              that = this;
 
           req.then(function(response) {
             // save user data returned by API
@@ -74,9 +75,11 @@ angular
       },
 
       login: function(email, pass) {
+        var returnFields = ['permissions', 'id', 'email', 'name', 'groups_names', 'token'];
+
         FullResponseRestangular.setDefaultHeaders({'X-App-Token': this.getToken()});
 
-        var deferred = $q.defer(), req = FullResponseRestangular.one('authenticate').post(null, {email: email, password: pass}), that = this;
+        var deferred = $q.defer(), req = FullResponseRestangular.one('authenticate').withHttpConfig({ treatingErrors: true, treatingUnauthorizedErrors: true }).post(null, {email: email, password: pass}, { 'return_fields': returnFields.join() }), that = this;
 
         req.then(function(response) {
           that.saveUser(response.data.user);
@@ -95,6 +98,7 @@ angular
 
       logout: function() {
         this.clearToken();
+        this.clearUser();
       }
     };
   });

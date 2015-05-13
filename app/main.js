@@ -30,6 +30,7 @@ angular
     // Core components
     'NavItemComponentModule',
     'DetectScrollTopComponentModule',
+    'ZupTranscludeComponentModule',
 
     // Constants
     'config',

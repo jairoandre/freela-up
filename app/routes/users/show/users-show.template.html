@@ -5,8 +5,11 @@
     <li>{{ user.name }}</li>
   </ul>
 
-  <a class="icon_action" href="" ng-click="deleteUser(user)" ng-show="hasPermission('users_full_access')"><span class="glyphicon glyphicon-trash"></span></a>
-  <a href="#/users/{{ user.id }}/edit" class="icon_action" ng-show="hasPermission('users_full_access')"><span class="glyphicon glyphicon-edit"></span></a>
+  <a class="icon_action" href="" ng-click="disableUser(user)" tooltip="Desativar usuário" tooltip-placement="bottom" ng-show="!user.disabled && hasPermission('users_full_access')"><span class="glyphicon glyphicon-off"></span></a>
+
+  <a class="icon_action" href="" ng-click="enableUser(user)" tooltip="Ativar usuário" tooltip-placement="bottom" ng-show="user.disabled && hasPermission('users_full_access')"><span class="glyphicon glyphicon-repeat"></span></a>
+
+  <a href="#/users/{{ user.id }}/edit" class="icon_action" ng-show="hasPermission('users_full_access') || user.id == me.id"><span class="glyphicon glyphicon-edit"></span></a>
 </div>
 
 <div class="content">

@@ -57,7 +57,10 @@ angular
 
         $rootScope.hasAnyPermission = function(permissions) {
           for (var i = permissions.length - 1; i >= 0; i--) {
-            if ($rootScope.hasPermission(permissions[i])) return true;
+            if ($rootScope.hasPermission(permissions[i]))
+            {
+              return true;
+            }
           };
 
           return false;

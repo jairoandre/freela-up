@@ -51,7 +51,6 @@
           <td ng-click="changeSorting('phone')"
               ng-class="selectedCls('phone')" class="sort-table">
             <span>Telefone</span><span class="arrow"></span></td>
-          <td>Grupo(s)</td>
           <td></td>
         </tr>
       </thead>
@@ -60,7 +59,6 @@
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.phone }}</td>
-        <td><span ng-repeat="group in user.groups_names">{{ group }} </span> </td>
         <td class="actions">
           <button type="button" class="btn btn-info btn-custom" ng-click="addUser(user.id)" ng-hide="isUserSelected(user.id)">Adicionar</button>
           <button type="button" class="btn" ng-click="removeUser(user.id)" ng-show="isUserSelected(user.id)">Remover</button>

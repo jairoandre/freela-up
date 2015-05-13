@@ -11,33 +11,72 @@
   <div class="content bigPadding">
     <h3>1. Selecione a categoria</h3>
 
-    <ui-select ng-model="$parent.selectedCategory" theme="select2" style="width: 33%;">
-      <ui-select-match placeholder="Selecione uma categoria...">{{$select.selected.title}}</ui-select-match>
+    <div style="width: 40%">
+      <select-list ng-model="selectedCategory" option-name="title">
+        <li ng-repeat="category in $parent.$parent.categories | filter: q" ng-class="{ 'active': isSelected(category.id) }">
+          <a href="" ng-click="select(category.id, category)"><strong><span ng-bind-html="category.title | highlight: q"></span></strong> <b class="glyphicon glyphicon-ok pull-right"></b></a>
 
-      <ui-select-choices group-by="subCategories" repeat="category.id as category in categories | filter: {title: $select.search}">
-        <div ng-bind-html="category.title | highlight: $select.search"></div>
-      </ui-select-choices>
-    </ui-select>
+          <ul>
+            <li ng-repeat="subcategory in category.subcategories | filter: q" ng-class="{ 'active': isSelected(subcategory.id) }">
+              <a href="" ng-click="select(subcategory.id, subcategory)"><span ng-bind-html="subcategory.title | highlight: q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+            </li>
+          </ul>
+        </li>
+      </select-list>
+    </div>
 
     <hr />
 
     <div ng-show="selectedCategory" class="pages-animation">
-      <h3>2. Selecione o endereço</h3>
+      <h3>2. Preencha o endereço</h3>
 
       <p>Digite o endereço, ou arraste o pino até a posição exata.</p>
 
-      <div class="row">
-        <div class="search-map col-xs-9">
+      <div class="row" next-field-on-enter="fieldOnEnter">
+        <div class="search-map col-xs-7">
           <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
-          <input type="name" class="searchField" placeholder="Pesquisar" ng-model="formattedAddress" report-search-map ng-keypress="showLoading()">
+          <input type="name" class="searchField" placeholder="Logradouro" ng-model="address.address" report-search-map ng-keypress="showLoading()">
+        </div>
+
+        <div class="col-xs-2">
+          <input type="text" ng-model="address.number" placeholder="N." class="form-control reference-field" />
         </div>
 
         <div class="col-xs-3">
-          <input type="text" ng-model="reference" placeholder="Referência" class="form-control reference-field" />
+          <input type="text" ng-model="address.reference" placeholder="Referência" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-2">
+          <input type="text" ng-model="address.district" placeholder="Bairro" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-2">
+          <input type="text" ng-model="address.postal_code" placeholder="CEP" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-3">
+          <input type="text" ng-model="address.city" placeholder="Cidade" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-3">
+          <input type="text" ng-model="address.state" placeholder="Estado" class="form-control reference-field" />
+        </div>
+
+        <div class="col-md-2">
+          <input type="text" ng-model="address.country" placeholder="País" class="form-control reference-field" />
         </div>
       </div>
 
+      <hr />
+
+      <h3>3. Selecione o relato no mapa</h3>
+
+      <p>Mova o marcador para a posição correta do relato.</p>
+
       <div class="form-group reportMap">
+        <div class="map-alert update-address" ng-show="markerPositionUpdated && !markerOutOfBounds"><a href="" ng-click="updateMarkerAddress()">Clique aqui</a> para atualizar o endereço do relato de acordo com a posição do marcador.</div>
+        <div class="map-alert out-of-bounds" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
+
         <div class="loadingMap" ng-show="isLoadingItems">
           <div class="loadingScrolling"></div>
         </div>
@@ -47,7 +86,7 @@
 
       <hr />
 
-      <h3>3. Adicione imagens (opcional)</h3>
+      <h3>4. Adicione imagens (opcional)</h3>
 
       <div class="form-group">
         <div class="upload" nv-file-drop uploader="uploader">
@@ -86,7 +125,7 @@
 
       <hr />
 
-      <h3>4. Descreva a situação (opcional)</h3>
+      <h3>5. Descreva a situação (opcional)</h3>
 
       <div class="alert alert-danger pages-animation" role="alert" ng-show="description.length > 799">A descrição do relato não pode ter mais de 800 caracteres.</div>
 
@@ -95,7 +134,7 @@
       <hr />
 
       <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_edit', selectedCategory.id) || hasPermission('reports_categories_edit', selectedCategory.id) || hasPermission('reports_items_read_private', selectedCategory.id)">
-        <h3>5. Vincule a um usuário (opcional)</h3>
+        <h3>6. Vincule a um usuário</h3>
 
         <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
 
@@ -107,7 +146,15 @@
         <hr />
       </div>
 
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-disabled="description.length > 799 || formattedAddress.length < 5 || !formattedAddress">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom pull-left" ng-disabled="description.length > 799 || !address.address || markerOutOfBounds || !user">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+
+      <div class="checkbox pull-left">
+        <label>
+          <input type="checkbox" ng-model="createAnother"> Criar outro relato
+        </label>
+      </div>
+
+      <div class="clearfix"></div>
     </div>
   </div>
 </div>

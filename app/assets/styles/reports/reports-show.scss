@@ -23,7 +23,7 @@ ul.report-menu {
   border-bottom: 1px solid #CCCCCC;
   margin: 0px;
   padding: 0px;
-  z-index: 1000;
+  z-index: 900;
   position: fixed;
 
   li {
@@ -240,6 +240,40 @@ ul.report-menu {
       &:focus {
         box-shadow: 0px 0px 0px 1px #4293C8;
       }
+    }
+  }
+}
+
+/* Print layout classes */
+.print-template {
+  background: #FFF;
+
+  .content {
+    width: 800px;
+    margin: 0 auto;
+    top: 100px;
+
+    .header {
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .row {
+      margin-bottom: 50px;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .history .row {
+      margin-bottom: 0px;
+    }
+
+    .history-date {
+      text-align: right;
     }
   }
 }

@@ -6,7 +6,7 @@ angular
     'EqualsComponentModule'
   ])
 
-  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse) {
+  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
 
@@ -46,7 +46,7 @@ angular
       options: {
         onlySelect: true,
         source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.all('groups').getList({ name: request.term });
+          var categoriesPromise = Restangular.all('search/groups').getList({ name: request.term, return_fields: 'id,name', like: true });
 
           categoriesPromise.then(function(response) {
             uiResponse( $.map( response.data, function( group ) {

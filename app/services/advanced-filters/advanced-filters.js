@@ -6,6 +6,7 @@ angular
     'AdvancedFiltersCategoryModalControllerModule',
     'AdvancedFiltersStatusModalControllerModule',
     'AdvancedFiltersAuthorModalControllerModule',
+    'AdvancedFiltersReporterModalControllerModule',
     'AdvancedFiltersPeriodModalControllerModule',
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
@@ -100,6 +101,20 @@ angular
         });
       },
 
+      // advanced filter by the report's original author
+      reporter: function(activeAdvancedFilters) {
+        $modal.open({
+          templateUrl: 'modals/advanced-filters/reporter/advanced-filters-reporter.template.html',
+          windowClass: 'filterAuthorModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersReporterModalController'
+        });
+      },
+
       // advanced filter by date
       period: function(activeAdvancedFilters) {
         $modal.open({
@@ -136,7 +151,7 @@ angular
           windowClass: 'fieldsCategoriesModal',
           resolve: {
             'categoriesResponse': ['Restangular', function(Restangular) {
-              return Restangular.one('inventory').all('categories').getList({'display_type' : 'full'});
+              return categoryResolver('items');
             }],
 
             activeAdvancedFilters: function() {

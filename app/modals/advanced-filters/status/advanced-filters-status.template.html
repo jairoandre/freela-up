@@ -9,6 +9,18 @@
     <input type="text" placeholder="Busque por categorias ou estados..." ng-model="search.value">
   </div>
 
+  <ul>
+    <li ng-repeat="status in statuses | filter: search.value">
+      <a ng-class="{'selected': status.selected == true}" class="status" ng-click="updateStatus(status)">
+        <span ng-style="{'background-color': status.color}" ng-class="{'not-selected': status.selected != true}"></span>
+        <b ng-style="{'background-color': status.color}"></b>
+        <i class="glyphicon glyphicon-ok" ng-show="status.selected"></i>
+        {{ status.title }}
+      </a>
+    </li>
+  </ul>
+
+  <!--
   <div ng-repeat="category in categories | filter: search.value" ng-hide="category.statuses.length === 0">
     <a href="" class="categoryName" ng-click="showStatuses = !showStatuses">{{ category.title }} <b class="glyphicon glyphicon-chevron-down" ng-class="{'active': showStatuses }"></b></a>
 
@@ -23,6 +35,7 @@
       </li>
     </ul>
   </div>
+  -->
 </div>
 
 <div class="modal-footer">

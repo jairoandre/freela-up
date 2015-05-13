@@ -11,6 +11,7 @@ angular
     $scope.groups = groupsResponse.data;
 
     $scope.filterByIds = function(item) {
+      if (report.assigned_group && report.assigned_group.id == item.id) return false;
       if (!~category.solver_groups_ids.indexOf(item.id)) return false;
 
       return true;
@@ -19,7 +20,10 @@ angular
     $scope.save = function() {
       $scope.processing = true;
 
-      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('forward').customPUT({ 'group_id': $scope.report.group_id, 'comment': $scope.report.comment });
+      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('forward').customPUT({
+        'group_id': $scope.report.group_id, 'comment': $scope.report.comment,
+        'return_fields': ''
+      });
 
       changeStatusPromise.then(function() {
         $scope.processing = false;

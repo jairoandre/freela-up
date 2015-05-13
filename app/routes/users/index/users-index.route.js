@@ -7,22 +7,16 @@ angular
 
     $stateProvider.state('users.list', {
       url: '',
-
+      resolve: {
+        'groupsResponse': ['Restangular', function(Restangular) {
+          return Restangular.all('groups').getList({ 'return_fields': 'id,name' });
+        }]
+      },
       views: {
         '': {
           templateUrl: 'routes/users/index/users-index.template.html',
           controller: 'UsersIndexController',
-          controllerAs: 'ctrl',
-        }
-      }
-    }).state('users.list.groups', {
-      url: '/group/{groupId:[0-9]{1,4}}',
-
-      views: {
-        '@users': {
-          templateUrl: 'routes/users/index/users-index.template.html',
-          controller: 'UsersIndexController',
-          controllerAs: 'ctrl',
+          controllerAs: 'ctrl'
         }
       }
     });
