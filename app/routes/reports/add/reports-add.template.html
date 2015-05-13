@@ -32,7 +32,7 @@
 
       <p>Digite o endereço, ou arraste o pino até a posição exata.</p>
 
-      <div class="row">
+      <div class="row" next-field-on-enter="fieldOnEnter">
         <div class="search-map col-xs-7">
           <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
           <input type="name" class="searchField" placeholder="Logradouro" ng-model="address.address" report-search-map ng-keypress="showLoading()">

@@ -16,7 +16,7 @@ angular
     $scope.address = {};
 
     $scope.categories = categories;
-    $scope.createAnother = true;
+    $scope.createAnother = false;
 
     $scope.inventoryCategories = inventoriesCategoriesResponse.data;
 
@@ -121,6 +121,18 @@ angular
       $scope.lat = latLng.lat();
       $scope.lng = latLng.lng();
     });
+
+    var lastAddress = $scope.address.address, lastNumber = $scope.address.number;
+    $scope.fieldOnEnter = function(previousField, currentField){
+      if($scope.address.address == ''  || $scope.address.number == '') {
+        return;
+      }
+      if($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
+        lastAddress = $scope.address.address;
+        lastNumber = $scope.address.number;
+        $scope.$broadcast('addressChanged');
+      }
+    };
 
     $scope.send = function() {
       $rootScope.resolvingRequest = true;

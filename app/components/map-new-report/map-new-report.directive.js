@@ -4,16 +4,22 @@ angular
   .module('MapNewReportComponentModule', [])
 
   .directive('mapNewReport', function ($compile, $timeout, Restangular, FullResponseRestangular, ENV, $filter) {
+    var geocoder = new google.maps.Geocoder();
+
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
+        var zoom = parseInt(ENV.mapZoom);
+        if(scope.address.address != '') {
+          zoom = 16;
+        }
         var mapProvider = {
           options:
           {
             styles: [{}, {'featureType': 'poi.business', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] },{ 'featureType': 'poi.government', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.medical', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.place_of_worship', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.school', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.sports_complex', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'transit', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }, { 'saturation': -100 }, { 'lightness': 42 }] }, { 'featureType': 'road.highway', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': -100 }, { 'lightness': 47 }] }, { 'featureType': 'landscape', 'stylers': [{ 'lightness': 82 }, { 'saturation': -100 }] }, { 'featureType': 'water', 'stylers': [{ 'hue': '#00b2ff' }, { 'saturation': -21 }, { 'lightness': -4 }] }, { 'featureType': 'poi', 'stylers': [{ 'lightness': 19 }, { 'weight': 0.1 }, { 'saturation': -22 }] }, { 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 18 }] }, { 'elementType': 'labels.text', 'stylers': [{ 'saturation': -100 }, { 'lightness': 28 }] }, { 'featureType': 'poi.attraction', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.park', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': 12 }, { 'lightness': 25 }] }, { 'featureType': 'road', 'elementType': 'labels.icon', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road', 'elementType': 'labels.text', 'stylers': [{ 'lightness': 30 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road.highway', 'elementType': 'geometry', 'stylers': [{ 'saturation': -100 }, { 'lightness': 56 }] }, { 'featureType': 'road.local', 'elementType': 'geometry.fill', 'stylers': [{ 'lightness': 62 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'off' }] }],
             homeLatlng: new google.maps.LatLng(ENV.mapLat, ENV.mapLng),
             map: {
-              zoom: parseInt(ENV.mapZoom),
+              zoom: zoom,
               mapTypeControl: false,
               panControl: true,
               panControlOptions: {
@@ -74,6 +80,27 @@ angular
           },
 
           setListeners: function() {
+            // if the address or number changes we update the map
+            scope.$on('addressChanged', function(){
+              var address = scope.address.address + ', ' + scope.address.number;
+              if(scope.address.district) {
+                address += ', ' + scope.address.district;
+              }
+              if(scope.address.city) {
+                address += ', ' + scope.address.city;
+              }
+              geocoder.geocode({ address: address, region: 'BR' }, function(results, status){
+                if (status === google.maps.GeocoderStatus.OK) {
+                  if(results.length > 0) {
+                    mapProvider.mainMarker.setPosition(results[0].geometry.location);
+                    mapProvider.map.setCenter(results[0].geometry.location);
+                    scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
+                    scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                  }
+                }
+              });
+            });
+
             // refresh map when shown
             scope.$watch('categoryData', function () {
               if(!scope.categoryData) return;
@@ -159,8 +186,6 @@ angular
           },
 
           changedMarkerPosition: function(lat, lng, itemId, keepAddress) {
-            var geocoder = new google.maps.Geocoder();
-
             if (typeof itemId === 'undefined')
             {
               scope.lat = lat;

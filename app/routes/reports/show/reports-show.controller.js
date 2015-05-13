@@ -13,6 +13,7 @@ angular
     'ReportsPrintModalControllerModule',
     'ReportSearchMapComponentModule',
     'MapNewReportComponentModule',
+    'NextFieldOnEnterComponentModule',
     'duScroll'
   ])
 
@@ -320,6 +321,18 @@ angular
       option.selected = !option.selected;
 
       $scope.refreshHistory();
+    };
+
+    var lastAddress = $scope.report.address, lastNumber = $scope.report.number;
+    $scope.fieldOnEnter = function(previousField, currentField){
+      if($scope.address.address == ''  || $scope.address.number == '') {
+        return;
+      }
+      if($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
+        lastAddress = $scope.address.address;
+        lastNumber = $scope.address.number;
+        $scope.$broadcast('addressChanged');
+      }
     };
 
     $scope.resetHistoryFilters = function() {
