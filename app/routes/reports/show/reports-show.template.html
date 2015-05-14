@@ -299,7 +299,7 @@
           <div class="infos">
             <h2><a ng-href="#/users/{{ comment.author.id }}">{{ comment.author.name }}</a> <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}} &middot; {{ comment.visibility == 1 ? 'Resposta privada' : 'Resposta pública' }}</span></h2>
 
-            <p>{{ comment.message }}</p>
+            <p class="comment-message">{{ comment.message }}</p>
           </div>
 
           <div class="clearfix"></div>
@@ -342,7 +342,7 @@
           <div class="infos">
             <h2><a ng-href="#/users/{{ comment.author.id }}">{{ comment.author.name }}</a> <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}}</span></h2>
 
-            <p>{{ comment.message }}</p>
+            <p class="comment-message">{{ comment.message }}</p>
           </div>
 
           <div class="clearfix"></div>
