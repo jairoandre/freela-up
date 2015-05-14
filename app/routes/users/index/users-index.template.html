@@ -44,7 +44,7 @@
     <td>{{ user.phone }}</td>
     <td><span ng-repeat="group in user.groups"><span ng-hide="$index == 0">,</span> {{ getGroupNameById(group.id) }}</span> <span ng-if="!user.groups">Nenhum grupo</span> </td>
     <td class="actions" ng-hide="user.loading">
-      <span ng-show="hasPermission('users_full_access')">
+      <span ng-show="hasPermission('users_full_access') || hasPermission('users_edit', user.groups)">
         <a class="icon_action" href="#/users/{{ user.id }}/edit" tooltip="Editar usuário" ng-show="!user.disabled"><span class="glyphicon glyphicon-edit"></span></a>
         <a class="icon_action" href="" ng-click="disableUser(user)" tooltip="Desativar usuário" ng-show="!user.disabled"><span class="glyphicon glyphicon-off"></span></a>
         <a class="icon_action" href="" ng-click="enableUser(user)" tooltip="Ativar usuário" ng-show="user.disabled"><span class="glyphicon glyphicon-repeat"></span></a>

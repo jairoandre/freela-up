@@ -41,13 +41,34 @@ angular
                   return (user.permissions[permissionName].length !== 0);
                 }
 
+                // returns true if the user has the permission for any of the given objects
+                if(_.isArray(id)) {
+                  var ids = _.map(id, function(id){
+                    if(_.isObject(id) && typeof id.id !== 'undefined') {
+                      return id.id;
+                    }
+                    return id;
+                  });
+
+                  for(var i = 0; i < ids.length; i++) {
+                    var obj_id = ids[i];
+
+                    for (var z = user.permissions[permissionName].length - 1; z >= 0; z--) {
+                      if (obj_id == user.permissions[permissionName][z])
+                      {
+                        return true;
+                      }
+                    }
+                  }
+                }
+
                 // in case there is a `id` specified, we need to look into the array
                 for (var i = user.permissions[permissionName].length - 1; i >= 0; i--) {
                   if (id == user.permissions[permissionName][i])
                   {
                     return true;
                   }
-                };
+                }
               }
             }
           }

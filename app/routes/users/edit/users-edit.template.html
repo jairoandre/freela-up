@@ -72,14 +72,14 @@
       </div>
     </div>
 
-    <div class="form-group pages-animation" ng-show="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0">
+    <div class="form-group pages-animation" ng-if="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0 && updating">
       <label for="form_email">Senha atual *</label>
       <input type="password" class="form-control custom_form" placeholder="Senha atual" ng-model="user.current_password" generic-input name="currentPassword" ng-required="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0">
     </div>
 
     <hr />
 
-    <div ng-show="hasPermission('groups_full_access') && !updating">
+    <div ng-show="hasPermission('groups_full_access') || hasPermission('users_edit') && !updating">
       <p>Por padrão, todos os usuários são adicionados ao grupo <b>Público</b>. Se desejar, você pode especificar abaixo quais grupos este novo usuário deve pertencer.</p>
 
       <div class="form-group">

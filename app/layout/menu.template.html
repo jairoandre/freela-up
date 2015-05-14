@@ -15,7 +15,7 @@
 
       <li nav-item ng-show="hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only')"><a href="#/groups"><span class="ico-groups"></span> <p>Grupos</p></a></li>
 
-      <li nav-item ng-show="hasPermission('users_full_access') || hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only')"><a href="#/users"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
+      <li nav-item ng-show="hasPermission('users_full_access') || hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only') || hasPermission('users_edit')"><a href="#/users"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
 
       <li nav-item ng-show="hasPermission('manage_config')"><a href="#/config"><span class="glyphicon glyphicon-cog"></span> <p>Configurações</p></a></li>
 
