@@ -21,6 +21,7 @@ angular
     $scope.categories = {};
     $scope.categoriesStatuses = {};
     $scope.total = 0;
+    $scope.reports = [];
 
     // Basic filters
     var resetFilters = function () {
@@ -339,7 +340,6 @@ angular
         }
 
         $scope.loadingContent = true;
-        $scope.reports = [];
 
         getData().then(function (reports) {
           $scope.loadingContent = false;
@@ -356,6 +356,10 @@ angular
         $scope.$broadcast('mapRefreshRequested', true);
       }
     };
+
+    $rootScope.$on('reports:itemRemoved', function(){
+      $scope.reload(true);
+    });
 
     $scope.reloadMap = function(){
       $rootScope.$emit('mapRefreshRequested');
@@ -497,8 +501,11 @@ angular
       });
     };
 
-    $scope.openReport = function(report_id) {
-      if(!$rootScope.loading) {
+    $scope.openReport = function(report_id, event) {
+      if(!$rootScope.loading
+          && event.target.parentNode.tagName.toLowerCase() != 'a'
+          && event.target.tagName.toLowerCase() != 'a'
+        ) {
         $state.go('reports.show', { id: report_id });
       }
     };
