@@ -127,16 +127,27 @@ angular
     });
 
     var lastAddress = $scope.address.address, lastNumber = $scope.address.number;
+    var wasPositionUpdated = false;
     $scope.fieldOnEnter = function(previousField, currentField){
-      if($scope.address.address == ''  || $scope.address.number == '') {
+      if(previousField.name == 'address' || $scope.address.address == ''  || $scope.address.number == '') {
+        wasPositionUpdated = false;
         return;
       }
       if($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
+        wasPositionUpdated = true;
         lastAddress = $scope.address.address;
         lastNumber = $scope.address.number;
         $scope.$broadcast('addressChanged');
       }
     };
+
+    $rootScope.$on('reports:position-updated', function(e, location){
+      $scope.lat = location.lat();
+      $scope.lng = location.lng();
+      if(!wasPositionUpdated) {
+        $scope.$broadcast('addressChanged', true);
+      }
+    });
 
     $scope.send = function() {
       $rootScope.resolvingRequest = true;
@@ -145,7 +156,7 @@ angular
 
       for (var i = $scope.uploader.queue.length - 1; i >= 0; i--) {
         imagesPromises.push(addAsyncImage($scope.uploader.queue[i]._file));
-      };
+      }
 
       $q.all(imagesPromises).then(function(images) {
         var newReport = {

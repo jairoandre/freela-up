@@ -6,7 +6,7 @@ angular
     'FilterGoogleAddressComponentsHelperModule'
   ])
 
-  .directive('reportSearchMap', function ($timeout, $filter) {
+  .directive('reportSearchMap', function ($timeout, $filter, $rootScope) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -28,11 +28,8 @@ angular
                 $timeout(function() {
                   scope.showLoadingForAutocompleteRequest = false;
                 });
-
-                return;
               }
             };
-
 
             var service = new google.maps.places.AutocompleteService();
             var doQueryServiceTimeout;
@@ -53,23 +50,28 @@ angular
                 return;
               }
 
+              $rootScope.$emit('reports:position-updated', place.geometry.location);
+
               var addressComponents = $filter('filterGoogleAddressComponents')(place.address_components);
 
               scope.$apply(function() {
                 scope.address.address = addressComponents.address;
-                scope.address.number = addressComponents.number;
+                scope.address.number = parseInt(addressComponents.number, 10);
                 scope.address.reference = '';
                 scope.address.district = addressComponents.neighborhood;
-                scope.address.city = addressComponents.city;
-                scope.address.state = addressComponents.state;
-                scope.address.country = addressComponents.country;
+                if(addressComponents.city)
+                  scope.address.city = addressComponents.city;
+                if(addressComponents.state)
+                  scope.address.state = addressComponents.state;
+                if(addressComponents.country)
+                  scope.address.country = addressComponents.country;
               });
 
               /* start hack to get zipcode */
               var geocoder = new google.maps.Geocoder();
 
               geocoder.geocode({
-                latLng: new google.maps.LatLng(place.geometry.location)
+                latLng: place.geometry.location
               },
               function(results, status)
               {
