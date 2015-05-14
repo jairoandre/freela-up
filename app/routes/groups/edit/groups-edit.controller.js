@@ -33,11 +33,12 @@ angular
           },
 
           {
+            type: 'group',
             slug: 'users_edit',
             name: 'Gerenciar usuários de um grupo específico',
             needsObject: true,
             tooltip: 'Ao ativar essa opção, será permitido que este grupo possa visualizar, adicionar e remover todos os usuários dos outros grupos que você selecionar para esta permissão.'
-          },
+          }
         ]
       },
 
@@ -101,7 +102,7 @@ angular
             slug: 'inventories_formulas_full_access',
             name: 'Gerenciar fórmulas',
             needsObject: false,
-            needsPermission: 'inventories_full_access',
+            needsPermission: 'inventories_full_access'
           },
 
           {
@@ -286,13 +287,15 @@ angular
     var getType = function(type) {
       for (var i = $scope.availablePermissionTypes.length - 1; i >= 0; i--) {
         if ($scope.availablePermissionTypes[i].type === type) return $scope.availablePermissionTypes[i];
-      };
+      }
 
       return null;
     };
 
-    $scope.getTypeName = function(type) {
-      return getType(type) ? getType(type).name : type;
+    $scope.getTypeName = function(permission) {
+      if(permission && _.isArray(permission.permission_names) && permission.permission_names[0] == 'users_edit')  return 'Usuários';
+      if(!permission) return;
+      return getType(permission.permission_type) ? getType(permission.permission_type).name : permission.permission_type;
     };
 
     $scope.getTypePermissions = function(type) {
@@ -300,7 +303,7 @@ angular
     };
 
     var getPermission = function(type, slug) {
-      var type = getType(type);
+      type = getType(type);
 
       if (!type) return null;
 
@@ -309,7 +312,7 @@ angular
         {
           return type.permissionsNames[i];
         }
-      };
+      }
 
       return null;
     };
@@ -344,6 +347,10 @@ angular
       if (i === -1)
       {
         $scope.newPermission.slugs.push(permission.slug);
+
+        if(permission.type) {
+          $scope.newPermission.actual_type = permission.type;
+        }
 
         if (!_.isUndefined(permission.needsPermission) && ($scope.newPermission.slugs.indexOf(permission.needsPermission) === -1))
         {
@@ -385,7 +392,7 @@ angular
     $scope.isObjectSelected = function(objectId) {
       for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
         if ($scope.newPermission.objects[i].id === objectId) return true;
-      };
+      }
 
       return false;
     };
@@ -398,7 +405,7 @@ angular
         {
           x = i;
         }
-      };
+      }
 
       if (x !== false)
       {
@@ -443,7 +450,7 @@ angular
         {
           return true;
         }
-      };
+      }
 
       return false;
     };
@@ -454,12 +461,12 @@ angular
         {
           return true;
         }
-      };
+      }
 
       // we disable fields that can't be selected while others are active
       for (var i = selectedSpecialFields.length - 1; i >= 0; i--) {
         if (selectedSpecialFields[i].disableFields.indexOf(slug) !== -1) return true;
-      };
+      }
 
       return false;
     };
@@ -467,10 +474,12 @@ angular
     $scope.getPermissionName = function(type, slug) {
       if (!type || !slug) return false;
 
+      if(slug == 'users_edit')  return 'Gerenciar usuários de um grupo específico';
+
       return getPermission(type, slug) ? getPermission(type, slug).name : slug;
     };
 
-    $scope.setNewPermissionType = function(type) {
+    $scope.setNewPermissionType = function(permissionType) {
       $timeout(function() {
         $scope.newPermission.objects = [];
         $scope.newPermission.slugs = [];
@@ -479,14 +488,14 @@ angular
         $scope.showPermissionsMenu = false;
         $scope.showObjectsMenu = false;
 
-        $scope.newPermission.type = type;
+        $scope.newPermission.type = permissionType.type;
       });
     };
 
     $scope.createPermission = function() {
       $scope.creatingPermission = true;
 
-      var type = $scope.newPermission.type, slugs = $scope.newPermission.slugs;
+      var type = $scope.newPermission.actual_type || $scope.newPermission.type, slugs = $scope.newPermission.slugs;
 
       if ($scope.newPermission.objects.length !== 0)
       {
@@ -494,10 +503,11 @@ angular
 
         for (var i = $scope.newPermission.objects.length - 1; i >= 0; i--) {
           objectIds.push($scope.newPermission.objects[i].id);
-        };
+        }
       }
 
-      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type).customPOST({ 'permissions': slugs, 'objects_ids': objectIds });
+      var postPermissionPromise = Restangular.one('groups', $scope.group.id).one('permissions', type)
+                                                    .customPOST({ 'permissions': slugs, 'objects_ids': objectIds });
 
       postPermissionPromise.then(function(response) {
         $scope.creatingPermission = false;
@@ -519,10 +529,10 @@ angular
 
                 $scope.permissions[j].permission_names = _.union($scope.permissions[j].permission_names, angular.copy(slugs));
               }
-            };
+            }
 
             if (!foundExisting) $scope.permissions.push({ permission_type: type, permission_names: angular.copy(slugs), object: $scope.newPermission.objects[i] });
-          };
+          }
         }
 
         $scope.setNewPermissionType(null);
