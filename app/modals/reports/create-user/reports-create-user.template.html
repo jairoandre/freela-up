@@ -19,20 +19,6 @@
       <input type="email" class="form-control custom_form" id="form_email" ng-model="user.email" generic-input name="email" required>
     </div>
 
-    <div class="form-group" ng-show="!updating" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
-      <label for="form_email">Senha *</label>
-
-      <div class="row">
-        <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" ng-required="!updating" equals="{{ user.password_confirmation }}">
-        </div>
-
-        <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input name="password_confirmation" equals="{{ user.password }}">
-        </div>
-      </div>
-    </div>
-
     <div class="form-group" ng-class="{'has-error': form.address.$dirty && form.address.$invalid}">
       <label for="form_address">Endereço *</label>
       <input type="text" class="form-control custom_form" id="form_address" ng-model="user.address" generic-input name="address" required>
@@ -67,7 +53,7 @@
       <label for="form_document">Documento CPF *</label>
       <input type="text" class="form-control custom_form" id="form_document" ng-model="user.document" generic-input name="document" ui-mask="999.999.999-99" ng-cpf required>
     </div>
-
+    <p>A senha do usuário será enviado para o email de cadastro.</p>
   </form>
 </div>
 
