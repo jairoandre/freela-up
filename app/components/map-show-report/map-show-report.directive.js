@@ -51,6 +51,18 @@ angular
                 }, 80);
               }
             });
+
+            scope.$watchCollection('[lat, lng]', function(){
+              mapProvider.moveMarker(scope.lat, scope.lng);
+            });
+          },
+
+          moveMarker: function(lat, lng){
+            if(mapProvider.marker) {
+              var latLng = new google.maps.LatLng(lat, lng);
+              mapProvider.map.setCenter(latLng);
+              mapProvider.marker.setPosition(latLng);
+            }
           },
 
           addMarker: function(report, category) {

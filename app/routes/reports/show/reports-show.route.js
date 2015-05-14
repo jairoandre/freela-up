@@ -21,18 +21,6 @@ angular
           ];
 
           return Restangular.one('reports').one('items', $stateParams.id).get({ 'return_fields': returnFields.join() });
-        }],
-
-        'feedbackResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-          return Restangular.one('reports', $stateParams.id).one('feedback').get({
-            return_fields: 'id,kind,content,images'
-          });
-        }],
-
-        'commentsResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
-          return Restangular.one('reports', $stateParams.id).all('comments').getList({
-            return_fields: 'id,created_at,message,visibility,author.id,author.name'
-          });
         }]
       },
       views: {

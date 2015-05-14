@@ -83,25 +83,31 @@ angular
 
           setListeners: function() {
             // if the address or number changes we update the map
-            scope.$on('addressChanged', function(){
-              var address = scope.address.address + ', ' + scope.address.number;
-              if(scope.address.district) {
-                address += ', ' + scope.address.district;
-              }
-              if(scope.address.city) {
-                address += ', ' + scope.address.city;
-              }
-              geocoder.geocode({ address: address, region: 'BR' }, function(results, status){
-                if (status === google.maps.GeocoderStatus.OK) {
-                  if(results.length > 0) {
-                    mapProvider.mainMarker.setPosition(results[0].geometry.location);
-                    mapProvider.map.setCenter(results[0].geometry.location);
-                    scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
-                    scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
-                    mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
-                  }
+            scope.$on('addressChanged', function(e, has_updated_position){
+              if(has_updated_position) {
+                var location = new google.maps.LatLng(scope.lat, scope.lng);
+                mapProvider.mainMarker.setPosition(location);
+                mapProvider.map.setCenter(location);
+              } else {
+                var address = scope.address.address + ', ' + scope.address.number;
+                if(scope.address.district) {
+                  address += ', ' + scope.address.district;
                 }
-              });
+                if(scope.address.city) {
+                  address += ', ' + scope.address.city;
+                }
+                geocoder.geocode({ address: address, region: 'BR' }, function(results, status){
+                  if (status === google.maps.GeocoderStatus.OK) {
+                    if(results.length > 0) {
+                      mapProvider.mainMarker.setPosition(results[0].geometry.location);
+                      mapProvider.map.setCenter(results[0].geometry.location);
+                      scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
+                      scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                      mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
+                    }
+                  }
+                });
+              }
             });
 
             // refresh map when shown

@@ -3,7 +3,7 @@
   <h4 class="modal-title">Remover relato</h4>
 </div>
 <div class="modal-body">
-  <p>Atenção, você clicou em um botão para remover o relato <b>{{ report.title }}</b>. Ao confirmar, você esta ciente e responsável pela exclusão.</p>
+  <p>Atenção, você clicou em um botão para remover o relato de protocolo <b>#{{ report.protocol }}</b> localizado na <b>{{ report.address }}</b>. Ao confirmar, você esta ciente de que não será possível recuperar este relato.</p>
 
   <p class="text-danger">Se você tem certeza, digite abaixo a palavra <code>DELETAR</code> e clique no botão remover.</p>
 
@@ -13,6 +13,6 @@
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-fat-custom btn-default" ng-click="close()">Cancelar</button>
-  <button type="button" class="btn btn-fat-custom btn-danger" ng-click="confirm()" ng-disabled="confirmText.toLowerCase() !== 'deletar'">Remover</button>
+<button type="button" class="btn btn-fat-custom btn-default" ng-click="close()" ng-if="!deleting">Cancelar</button>
+  <button type="button" class="btn btn-fat-custom btn-danger" ng-click="confirm()" ng-disabled="confirmText.toLowerCase() !== 'deletar' || deleting">Remover</button>
 </div>
