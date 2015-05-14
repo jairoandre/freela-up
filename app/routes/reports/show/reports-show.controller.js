@@ -19,15 +19,27 @@ angular
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, feedbackResponse, commentsResponse, $rootScope) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
-    $scope.feedback = feedbackResponse.data;
-    $scope.comments = commentsResponse.data;
     $scope.categoryData = $scope.report.category;
     $scope.images = [];
     $scope.lat = $scope.report.position.latitude; // Please fix this mess whenever possible #TODO
     $scope.lng = $scope.report.position.longitude;
+
+    // Fetch comments
+    Restangular.one('reports', $scope.report.id).all('comments').getList({
+      return_fields: 'id,created_at,message,visibility,author.id,author.name'
+    }).then(function(response){
+      $scope.comments = response.data;
+    });
+
+    // Fetch feedback
+    Restangular.one('reports', $scope.report.id).one('feedback').get({
+      return_fields: 'id,kind,content,images'
+    }).then(function(response){
+      $scope.feedback = response.data;
+    });
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {
       $scope.images.push({versions: $scope.report.images[c]});
