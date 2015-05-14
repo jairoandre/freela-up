@@ -23,7 +23,7 @@ module.exports = function (grunt) {
     DEFAULT_CITY: process.env.DEFAULT_CITY,
     DEFAULT_COUNTRY: process.env.DEFAULT_COUNTRY,
     DEFAULT_STATE: process.env.DEFAULT_STATE,
-    ENV: process.env.ENV,
+    ENV: process.env.ENV || process.env.NODE_ENV,
 
     // Project settings
     yeoman: {
