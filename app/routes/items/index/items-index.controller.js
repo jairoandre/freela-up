@@ -8,7 +8,7 @@ angular
     'angular-toArrayFilter'
   ])
 
-  .controller('ItemsIndexController', function ($scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
+  .controller('ItemsIndexController', function ($state, $scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
@@ -478,6 +478,15 @@ angular
           };
         }]
       });
+    };
+
+    $scope.openItem = function(item, event) {
+      if(!$rootScope.loading
+        && event.target.parentNode.tagName.toLowerCase() != 'a'
+        && event.target.tagName.toLowerCase() != 'a'
+      ) {
+        $state.go('items.show', { id: item.id });
+      }
     };
 
     // we hide/show map debug

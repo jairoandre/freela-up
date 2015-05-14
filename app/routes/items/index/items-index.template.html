@@ -45,7 +45,7 @@
     <div class="clearfix"></div>
   </div>
 
-  <table class="table custom_table" infinite-scroll="getData(true)" infinite-scroll-distance="2" ng-class="{'advanced-filters-margin': advancedSearch == true}">
+  <table class="table custom_table items-listing-table" infinite-scroll="getData(true)" infinite-scroll-distance="2" ng-class="{'advanced-filters-margin': advancedSearch == true}">
     <thead>
       <tr>
         <td width="20%">
@@ -70,7 +70,7 @@
       </tr>
     </thead>
 
-    <tr ng-repeat="item in items | toArray:false | orderBy: 'order'">
+    <tr ng-repeat="item in items | toArray:false | orderBy: 'order'" ng-click="openItem(item, $event)">
       <td class="status_color"><span ng-show="item.status" ng-style="{'background-color': item.status.color}"></span><a href="#/items/{{ item.id }}">{{ item.title }}</a></td>
       <td>{{ item.address }}</td>
       <td>{{ item.user.name }}</td>

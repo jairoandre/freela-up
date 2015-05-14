@@ -4498,3 +4498,10 @@ colorpicker-preview {
     padding-top: 0px
   }
 }
+
+.items-listing-table {
+  tbody tr:hover {
+    background-color: #ebf6fd;
+    cursor: pointer;
+  }
+}
