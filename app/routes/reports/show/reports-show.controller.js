@@ -141,8 +141,11 @@ angular
     };
 
     var addressFields = ['address', 'number', 'city', 'postal_code', 'reference', 'state', 'country', 'district'];
+    var currentLat = $scope.lat, currentLng = $scope.lng;
     $scope.editAddress = function () {
       $scope.editingAddress = true;
+      currentLat = $scope.lat;
+      currentLng = $scope.lng;
       $scope.address = {};
       _.each(addressFields, function(ac){
         $scope.address[ac] = $scope.report[ac];
@@ -152,6 +155,8 @@ angular
 
     $scope.cancelAddressEdit = function() {
       $scope.editingAddress = false;
+      $scope.lat = currentLat;
+      $scope.lng = currentLng;
     };
 
     $scope.saveAddress = function(addressForm){
