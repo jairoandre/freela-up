@@ -63,18 +63,26 @@
 
       <div class="row">
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" min="6" ng-required="!updating">
+          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" min="6" ng-required="!updating  && !should_generate_password">
         </div>
 
         <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" min="6" name="password_confirmation" ng-required="!updating">
+          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" min="6" name="password_confirmation" ng-required="!updating  && !should_generate_password">
         </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="checkbox pull-left">
+        <label>
+          <input type="checkbox" ng-model="should_generate_password"> Gere uma senha e envie ao usuário pelo email de cadastro
+        </label>
       </div>
     </div>
 
     <div class="form-group pages-animation" ng-if="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0 && updating">
       <label for="form_email">Senha atual *</label>
-      <input type="password" class="form-control custom_form" placeholder="Senha atual" ng-model="user.current_password" generic-input name="currentPassword" ng-required="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0">
+      <input type="password" class="form-control custom_form" placeholder="Senha atual" ng-model="user.current_password" generic-input name="currentPassword" ng-required="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0 && !should_generate_password">
     </div>
 
     <hr />

@@ -138,7 +138,15 @@ angular
         // remove unecessary data from the request
         delete user.groups;
 
-        var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, user);
+        var extraParams = { return_fields: 'id' };
+
+        if($scope.should_generate_password) {
+          delete user.password;
+          delete user.password_confirmation;
+          extraParams.generate_password = true;
+        }
+
+        var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, user, extraParams);
 
         postUserPromise.then(function() {
           $scope.showMessage('ok', 'O usuário foi criado com sucesso', 'success', true);
