@@ -4505,3 +4505,49 @@ colorpicker-preview {
     cursor: pointer;
   }
 }
+
+.map-alert {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  z-index: 800;
+  color: #FFF;
+  border-radius: 10px 10px 0 0;
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  &.out-of-bounds {
+    background: #FD5A48;
+  }
+
+  &.update-address {
+    background: #259ECB;
+  }
+
+  &.not-rounded {
+    border-radius: 0;
+  }
+
+  &.ng-hide-add,
+  &.ng-hide-remove {
+    @include transition-property(4s linear all);
+
+    display: block !important;
+
+    @include animation-fill-mode(both);
+    @include animation-duration(0.6s);
+    @include animation-name(flipInX);
+  }
+
+  &.ng-hide {
+    @include animation-fill-mode(both);
+    @include animation-duration(0.6s);
+    @include animation-name(flipOutX);
+  }
+}

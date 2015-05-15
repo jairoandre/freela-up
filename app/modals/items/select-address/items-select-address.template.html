@@ -5,14 +5,17 @@
   <div class="clearfix"></div>
 </form>
 
-<div class="map" select-lat-lng-map></div>
+<div class="reportMap">
+  <div class="map-alert out-of-bounds not-rounded" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
+   <div class="map" select-lat-lng-map></div>
+</div>
 
 <div class="buttons">
   <span>Segure o marcador para mover a posição</span>
 
   <div class="pull-right">
     <a class="btn btn-default btn-fat-custom" ng-click="close()">Cancelar</a>
-    <a class="btn btn-info btn-fat-custom btn-custom" ng-click="save()">Salvar</a>
+    <a class="btn btn-info btn-fat-custom btn-custom" ng-click="save()" ng-disabled="markerOutOfBounds">Salvar</a>
   </div>
 
   <div class="clearfix"></div>
