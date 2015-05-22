@@ -16,7 +16,7 @@ angular
             google.maps.event.clearListeners(scope.mapProvider.map);
 
             var options = {
-              types: ['geocode'],
+              types: ['address'],
               componentRestrictions: { country: 'br' }
             };
 
