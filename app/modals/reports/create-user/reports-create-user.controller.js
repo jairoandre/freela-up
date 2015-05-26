@@ -15,7 +15,7 @@ angular
       $scope.processingForm = true;
 
       var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, $scope.user, {
-        return_fields: '',
+        return_fields: 'id,name',
         generate_password: true
       });
 
