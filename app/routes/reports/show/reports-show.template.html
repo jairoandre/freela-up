@@ -414,7 +414,7 @@
 
           <div class="log" ng-repeat="log in historyLogs">
             <div class="date">
-              <span>{{ log.created_at | date:'dd/MM/yy hh:mm'}}h</span>
+              <span>{{ log.created_at | date:'dd/MM/yy HH:mm'}}h</span>
             </div>
 
             <div class="action">
@@ -423,7 +423,7 @@
                 <span ng-if="!log.user">O sistema </span>
                 <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
                 <span ng-show="log.kind === 'status' && !log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
-                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>.</span>
+                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'HH:mm'}}</b>.</span>
                 <span ng-show="log.kind === 'address'">alterou o endereço do relato para <b>{{ log.changes.new }}</b>.</span>
                 <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>{{ log.changes.new }}</b>.</span>
                 <span ng-show="log.kind === 'category'">alterou a categoria do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
