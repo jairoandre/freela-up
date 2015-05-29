@@ -2,12 +2,13 @@
 
 angular
   .module('AdvancedFiltersFieldsModalControllerModule', [
-    'FieldsFilterItemComponentModule'
+    'FieldsFilterItemComponentModule',
+    'InventoriesCategoriesServiceModule'
   ])
-  .controller('AdvancedFiltersFieldsModalController', function($scope, $rootScope, $modalInstance, activeAdvancedFilters, categoriesResponse) {
+  .controller('AdvancedFiltersFieldsModalController', function($scope, $rootScope, $modalInstance, activeAdvancedFilters, categoriesResponse, InventoriesCategoriesService) {
     $rootScope.resolvingRequest = false;
 
-    $scope.categories = categoriesResponse.data;
+    $scope.categories = categoriesResponse;
 
     $scope.activeAdvancedFilters = activeAdvancedFilters;
 
@@ -31,11 +32,21 @@ angular
     };
 
     $scope.selectCategory = function(category) {
-      $scope.newField.category = category;
-      $scope.newField.condition = null;
-      $scope.newField.field = null;
-      $scope.newField.value = null;
-      $scope.newField.fieldId = null;
+
+      $scope.loading = true;
+      $scope.newField.category = false;
+
+      var promise = InventoriesCategoriesService.getCategory(category.id);
+
+      promise.then(function(response) {
+        $scope.newField.category = response.data;
+        $scope.newField.condition = null;
+        $scope.newField.field = null;
+        $scope.newField.value = null;
+        $scope.newField.fieldId = null;
+
+        $scope.loading = false;
+      });
     };
 
     $scope.selectCondition = function(condition) {

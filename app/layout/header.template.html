@@ -27,12 +27,14 @@
     </div>
 
     <div id="footer">
-      <div style="float: left; margin: 10px 0 0 10px" ng-show="mapDebugEnabled && hasMap">
+      <div style="float: left; margin: 10px 0 0 10px" ng-show="mapDebugEnabled && pageHasMap">
         <strong style="color: #f58400">Debug do mapa: </strong><br>
         <strong>Zoom: </strong><span>{{mapDebug.zoom}}</span>
         <strong>Distance: </strong><span>{{mapDebug.distance}}</span>
         <strong>Latitude: </strong><span>{{mapDebug.latitude}}</span>
         <strong>Longitude: </strong><span>{{mapDebug.longitude}}</span>
       </div>
-      <div class="tim_logo"></div>
+      <div class="tim_logo">
+        <span>O ZUP é um software livre fornecido pelo</span>
+      </div>
     </div>

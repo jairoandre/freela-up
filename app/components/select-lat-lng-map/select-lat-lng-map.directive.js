@@ -2,7 +2,7 @@
 
 angular
   .module('SelectLatLngMapComponent', [])
-  .directive('selectLatLngMap', function ($rootScope, ENV) {
+  .directive('selectLatLngMap', function ($rootScope, ENV, FullResponseRestangular) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -13,7 +13,14 @@ angular
             homeLatlng: new google.maps.LatLng(ENV.mapLat, ENV.mapLng),
             map: {
               zoom: parseInt(ENV.mapZoom),
-              scrollwheel: false,
+              scrollwheel: true,
+              panControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_BOTTOM
+              },
+              zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.MEDIUM,
+                position: google.maps.ControlPosition.LEFT_BOTTOM
+              },
               mapTypeControl: false,
               mapTypeControlOptions: {
                 mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'zup']
@@ -58,12 +65,23 @@ angular
             mapProvider.mainMarker = marker;
 
             mapProvider.map.setCenter(position);
+            mapProvider.checkMarkerInsideAllowedBounds(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
 
             google.maps.event.addListener(marker, 'dragend', function() {
               scope.$parent.latLng[0] = mapProvider.mainMarker.getPosition().lat();
               scope.$parent.latLng[1] = mapProvider.mainMarker.getPosition().lng();
 
               mapProvider.changedMarkerPosition(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+              mapProvider.checkMarkerInsideAllowedBounds(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+            });
+          },
+
+          checkMarkerInsideAllowedBounds: function(lat, lng) {
+            // we verify if the marker is inside bounds
+            var verifyMarkerInsideBoundsPromise = FullResponseRestangular.all('utils').all('city-boundary').customGET('validate', { longitude: lng, latitude: lat });
+
+            verifyMarkerInsideBoundsPromise.then(function(response) {
+              scope.$parent.markerOutOfBounds = response.data.inside_boundaries === false;
             });
           },
 

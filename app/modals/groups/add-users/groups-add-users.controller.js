@@ -25,15 +25,18 @@ angular
     };
 
     var page = 1, perPage = 30, total, searchText = '';
+    var required_fields = 'id,name,email,phone,group.id';
 
     // Return right promise
     var generateUsersPromise = function() {
+      var searchOptions = {document: searchText.replace(/\.|-/g, ''), name: searchText, email: searchText, page: page, per_page: perPage};
+
       if ($scope.groupId)
       {
         // if we are searching with a group, hit /search/groups/{id}/users
         if (searchText !== '')
         {
-          return Restangular.one('search').one('groups', $scope.groupId).all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
+          return Restangular.one('search').one('groups', $scope.groupId).all('users').getList(searchOptions); // jshint ignore:line
         }
 
         return Restangular.one('groups', $scope.groupId).all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
@@ -44,14 +47,14 @@ angular
       // if we searching, hit search/users
       if (searchText !== '')
       {
-        return Restangular.one('search').all('users').getList({name: searchText, email: searchText, page: page, per_page: perPage}); // jshint ignore:line
+        return Restangular.one('search').all('users').getList(searchOptions); // jshint ignore:line
       }
 
-      return Restangular.all('users').getList({ page: page, per_page: perPage }); // jshint ignore:line
+      return Restangular.all('users').getList({page: page, per_page: perPage }); // jshint ignore:line
     };
 
     // Get groups for filters
-    var groups = Restangular.all('groups').getList();
+    var groupsPromise = Restangular.all('groups').getList({ return_fields: 'id,name'});
 
     // One every change of page or search, we create generate a new request based on current values
     var getData = $scope.getData = function(paginate) {
@@ -61,8 +64,16 @@ angular
 
         var usersPromise = generateUsersPromise();
 
-        $q.all([usersPromise, groups]).then(function(responses) {
-          $scope.groups = responses[1].data;
+        var promises = [usersPromise];
+
+        if(!$scope.groups) {
+          promises.push(groupsPromise);
+        }
+
+        $q.all(promises).then(function(responses) {
+          if(!$scope.groups){
+            $scope.groups = responses[1].data;
+          }
 
           if (paginate !== true)
           {

@@ -2,9 +2,11 @@
 'use strict';
 
 angular
-  .module('ReportSearchMapComponentModule', [])
+  .module('ReportSearchMapComponentModule', [
+    'FilterGoogleAddressComponentsHelperModule'
+  ])
 
-  .directive('reportSearchMap', function ($timeout) {
+  .directive('reportSearchMap', function ($timeout, $filter, $rootScope) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -14,7 +16,7 @@ angular
             google.maps.event.clearListeners(scope.mapProvider.map);
 
             var options = {
-              types: ['geocode'],
+              types: ['address'],
               componentRestrictions: { country: 'br' }
             };
 
@@ -26,17 +28,19 @@ angular
                 $timeout(function() {
                   scope.showLoadingForAutocompleteRequest = false;
                 });
-
-                return;
               }
             };
 
+            var service = new google.maps.places.AutocompleteService();
+            var doQueryServiceTimeout;
             scope.showLoading = function() {
               scope.showLoadingForAutocompleteRequest = true;
-
-              var service = new google.maps.places.AutocompleteService();
-
-              service.getQueryPredictions({ input: element[0] }, callback);
+              if(!doQueryServiceTimeout) {
+                doQueryServiceTimeout = $timeout(function(){
+                  service.getQueryPredictions({ input: element[0] }, callback);
+                  doQueryServiceTimeout = undefined;
+                }, 400);
+              }
             };
 
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -45,6 +49,42 @@ angular
               if (!place.geometry) {
                 return;
               }
+
+              $rootScope.$emit('reports:position-updated', place.geometry.location);
+
+              var addressComponents = $filter('filterGoogleAddressComponents')(place.address_components);
+
+              scope.$apply(function() {
+                scope.address.address = addressComponents.address;
+                scope.address.number = parseInt(addressComponents.number, 10);
+                scope.address.reference = '';
+                scope.address.district = addressComponents.neighborhood;
+                if(addressComponents.city)
+                  scope.address.city = addressComponents.city;
+                if(addressComponents.state)
+                  scope.address.state = addressComponents.state;
+                if(addressComponents.country)
+                  scope.address.country = addressComponents.country;
+              });
+
+              /* start hack to get zipcode */
+              var geocoder = new google.maps.Geocoder();
+
+              geocoder.geocode({
+                latLng: place.geometry.location
+              },
+              function(results, status)
+              {
+                if (status === google.maps.GeocoderStatus.OK)
+                {
+                  var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
+
+                  scope.$apply(function() {
+                    scope.address.postal_code = addressComponents.zipcode;
+                  });
+                }
+              });
+              /* end hack to get zipcode */
 
               if (place.geometry.viewport) {
                 scope.mapProvider.map.fitBounds(place.geometry.viewport);
@@ -56,7 +96,8 @@ angular
               if (scope.mapProvider.allows_arbitrary_position == true)
               {
                 scope.mapProvider.mainMarker.setPosition(place.geometry.location);
-                scope.mapProvider.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng());
+                scope.mapProvider.changedMarkerPosition(place.geometry.location.lat(), place.geometry.location.lng(), undefined, true);
+                scope.mapProvider.checkMarkerInsideAllowedBounds(scope.mapProvider.mainMarker.getPosition().lat(), scope.mapProvider.mainMarker.getPosition().lng());
               }
               else
               {

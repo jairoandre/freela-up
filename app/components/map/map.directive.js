@@ -61,6 +61,8 @@ angular
               var nextItems = itemsAreReports ? response.reports : response.items;
 
               map.processMarkers(nextClusters, nextItems);
+
+              map.processMarkersCanvas(nextClusters, nextItems);
             }
           });
         };
@@ -100,6 +102,10 @@ angular
           }
 
           boundsChanged();
+        });
+
+        google.maps.event.addListener(map.getMap(), 'dragend', function() {
+          map.overlay.draw();
         });
 
         scope.$on('mapRefreshRequested', function () {

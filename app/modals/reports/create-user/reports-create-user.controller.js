@@ -6,14 +6,18 @@ angular
   ])
 
   .controller('ReportsCreateUserModalController', function(Restangular, $scope, $modalInstance, $q, setUser) {
-    $scope.user = {};
+    $scope.user = { };
+
     $scope.inputErrors = null;
 
     $scope.create = function() {
       $scope.inputErrors = null;
       $scope.processingForm = true;
 
-      var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, $scope.user);
+      var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, $scope.user, {
+        return_fields: 'id,name',
+        generate_password: true
+      });
 
       postUserPromise.then(function(response) {
         setUser(Restangular.stripRestangular(response.data));

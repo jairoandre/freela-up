@@ -6,6 +6,8 @@
       <li><a href="#/reports">Relatos</a></li>
       <li>{{ report.address }}</li>
     </ul>
+
+    <a href="" ng-click="print()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-print"></i></a>
   </div>
 
   <ul class="report-menu" reports-menu>
@@ -24,12 +26,12 @@
     <div class="rounder_wrapper" id="report-data">
       <div class="wrapper_title"><h1>Dados do relato</h1></div>
 
-      <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == report.status_id">
+      <div class="status-bar" ng-repeat="status in report.category.statuses" ng-if="status.id == report.status_id">
         <div class="background" ng-style="{ 'background-color': status.color }"></div>
 
         <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
 
-        <a class="pull-right" ng-click="editReportStatus(report, category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar status</a>
+        <a class="pull-right" ng-click="editReportStatus(report, report.category)" href="" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar status</a>
 
         <div class="clearfix"></div>
       </div>
@@ -44,29 +46,89 @@
 
         <div class="report-data">
           <h5>Endereço</h5>
-          <p>{{ report.address }}</p>
+          <p ng-if="!editingAddress">
+            {{ report.address }}<span ng-if="report.number">, {{ report.number }}</span><span ng-if="report.postal_code">, {{ report.postal_code }}</span><span ng-if="report.district">, {{ report.district }}</span><span ng-if="report.state"> - {{ report.state }}</span><span ng-if="report.country">, {{ report.country }}</span>
+          </p>
+          <div ng-if="editingAddress">
+            <form ng-submit="saveAddress(addressForm)" name="addressForm" novalidate next-field-on-enter="fieldOnEnter">
+            <div class="row">
+              <div class="search-map col-xs-7">
+                <span class="loading-automcomplete-request" ng-show="showLoadingForAutocompleteRequest"><i class="refresh glyphicon glyphicon-refresh rotating"></i></span>
+                <input required name="address" ng-class="{'has-error': addressForm.address.$invalid && (!addressForm.address.$pristine || addressForm.$submitted)}" class="searchField" placeholder="Logradouro" ng-model="address.address" report-search-map ng-keypress="showLoading()">
+              </div>
 
-          <a href="" class="link" ng-click="editAddress()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
+              <div class="col-xs-2" ng-class="{'has-error': addressForm.number.$invalid && (!addressForm.number.$pristine || addressForm.$submitted)}">
+                <input type="number" ng-model="address.number" name="number" placeholder="N." class="form-control reference-field" />
+              </div>
+
+              <div class="col-xs-3" ng-class="{'has-error': addressForm.reference.$invalid && (!addressForm.reference.$pristine || addressForm.$submitted)}">
+                <input type="text" ng-model="address.reference" name="reference" placeholder="Referência" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-2" ng-class="{'has-error': addressForm.district.$invalid && (!addressForm.district.$pristine || addressForm.$submitted)}">
+                <input required type="text" ng-model="address.district" name="district" placeholder="Bairro" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-2" ng-class="{'has-error': addressForm.postal_code.$invalid && (!addressForm.postal_code.$pristine || addressForm.$submitted)}">
+                <input required type="text" ng-model="address.postal_code" name="postal_code" placeholder="CEP" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-3" ng-class="{'has-error': addressForm.city.$invalid && (!addressForm.city.$pristine || addressForm.$submitted)}">
+                <input required type="text" name="city" ng-model="address.city" placeholder="Cidade" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-3" ng-class="{'has-error': addressForm.state.$invalid && (!addressForm.state.$pristine || addressForm.$submitted)}">
+                <input required type="text" name="state" ng-model="address.state" placeholder="Estado" class="form-control reference-field" />
+              </div>
+
+              <div class="col-md-2" ng-class="{'has-error': addressForm.country.$invalid && (!addressForm.country.$pristine || addressForm.$submitted)}">
+                <input required type="text" name="country" ng-model="address.country" placeholder="País" class="form-control reference-field" />
+              </div>
+            </div>
+
+            <div class="form-group reportMap">
+              <div class="map-alert update-address" ng-show="markerPositionUpdated && !markerOutOfBounds"><a href="" ng-click="updateMarkerAddress()">Clique aqui</a> para atualizar o endereço do relato de acordo com a posição do marcador.</div>
+              <div class="map-alert out-of-bounds" ng-show="markerOutOfBounds">O endereço não pertence ao município.</div>
+
+              <div class="loadingMap" ng-show="isLoadingItems">
+                <div class="loadingScrolling"></div>
+              </div>
+
+              <div class="roundedMap" map-new-report></div>
+            </div>
+
+              <div class="pull-right edit-address-actions" ng-if="editingAddress">
+                <a class="btn btn-default btn-fat-custom" ng-click="cancelAddressEdit()" ng-if="!savingAddress">Cancelar</a>
+                <input type="submit" value="Salvar" class="btn btn-info btn-fat-custom btn-custom" ng-disabled="savingAddress">
+              </div>
+
+
+            </form>
+          </div>
+
+          <a href="" class="link" ng-if="!editingAddress" ng-click="editAddress()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
           <div class="clearfix"></div>
         </div>
 
-        <div class="report-data" ng-hide="report.reference == null || report.reference == ''">
+        <div class="report-data">
           <hr />
 
           <h5>Referência</h5>
           <p>{{ report.reference }}</p>
+          <p ng-show="report.reference == null || report.reference == ''">Não informado.</p>
 
-          <a href="" class="link" ng-click="editAddress()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
+          <a href="" class="link" ng-click="editReference()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
           <div class="clearfix"></div>
         </div>
 
-        <div class="report-data" ng-hide="report.description == null || report.description == ''">
+        <div class="report-data">
           <hr />
 
           <h5>Descrição</h5>
-          <p>{{ report.description }}</p>
+          <p>{{report.description}}</p>
+          <p ng-show="report.description == null || report.description == ''">Não informado.</p>
 
           <a href="" class="link" ng-click="editDescription()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Editar</a>
 
@@ -77,7 +139,7 @@
 
         <div class="report-data">
           <h5>Categoria</h5>
-          <p>{{ category.title }}</p>
+          <p>{{ report.category.title }}</p>
 
           <a href="" class="link" ng-click="editCategory()" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id)">Alterar</a>
 
@@ -93,9 +155,9 @@
 
         <div class="report-data">
           <h5>Status</h5>
-          <p><span ng-repeat="status in category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
+          <p><span ng-repeat="status in report.category.statuses" ng-show="status.id == report.status_id">{{ status.title }}</span></p>
 
-          <a href="" class="link" ng-click="editReportStatus(report, category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar</a>
+          <a href="" class="link" ng-click="editReportStatus(report, report.category)" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_alter_status', report.category.id)">Alterar</a>
 
           <div class="clearfix"></div>
         </div>
@@ -175,7 +237,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" ng-show="feedback">
+    <div class="rounder_wrapper" ng-show="feedback" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
       <div class="wrapper_title"><h1>Feedback do usuário</h1></div>
 
       <div class="fields">
@@ -201,7 +263,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" id="report-responses">
+    <div class="rounder_wrapper" id="report-responses" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
       <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
 
       <div class="fields">
@@ -237,7 +299,7 @@
           <div class="infos">
             <h2><a ng-href="#/users/{{ comment.author.id }}">{{ comment.author.name }}</a> <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}} &middot; {{ comment.visibility == 1 ? 'Resposta privada' : 'Resposta pública' }}</span></h2>
 
-            <p>{{ comment.message }}</p>
+            <p class="comment-message">{{ comment.message }}</p>
           </div>
 
           <div class="clearfix"></div>
@@ -280,7 +342,7 @@
           <div class="infos">
             <h2><a ng-href="#/users/{{ comment.author.id }}">{{ comment.author.name }}</a> <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}}</span></h2>
 
-            <p>{{ comment.message }}</p>
+            <p class="comment-message">{{ comment.message }}</p>
           </div>
 
           <div class="clearfix"></div>
@@ -302,7 +364,7 @@
 
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <span class="pull-left">Tipos</span> <span class="pull-right"><span class="caret"></span></span>
+                <span class="pull-left">Tipos</span> <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">
@@ -318,7 +380,7 @@
 
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <span class="pull-left">Data</span> <span class="pull-right"><span class="caret"></span></span>
+                <span class="pull-left">Data</span> <span class="pull-right"><span class="caret"></span></span>
               </button>
 
               <ul class="dropdown-menu" role="menu">
@@ -352,18 +414,26 @@
 
           <div class="log" ng-repeat="log in historyLogs">
             <div class="date">
-              <span>{{ log.created_at | date:'dd/MM/yy'}}</span>
+              <span>{{ log.created_at | date:'dd/MM/yy HH:mm'}}h</span>
             </div>
 
             <div class="action">
               <p>
-                <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a>
-                <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato para <b>{{ log.objects[0].title }}</b>.</span>
-                <span ng-show="log.kind === 'status' && !log.user">O estado do relato foi alterado para <b>{{ log.objects[0].title }}</b>.</span>
-                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'hh:mm'}}</b>, quando estava no status: <b>{{ log.objects[0].title }}</b>.</span>
-                <span ng-show="log.kind === 'address'">alterou o endereço do relato.</span>
-                <span ng-show="log.kind === 'description'">alterou a descrição do relato.</span>
-                <span ng-show="log.kind === 'category'">alterou a categoria do relato para <b>{{ log.objects[0].title }}</b>.</span>
+                <a ng-href="#/users/{{ log.user.id }}" ng-if="log.user">{{ log.user.name }}</a>
+                <span ng-if="!log.user">O sistema </span>
+                <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'status' && !log.user">alterou o estado do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'overdue'">Relato entrou em atraso às <b>{{ log.created_at | date:'HH:mm'}}</b>.</span>
+                <span ng-show="log.kind === 'address'">alterou o endereço do relato para <b>{{ log.changes.new }}</b>.</span>
+                <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>{{ log.changes.new }}</b>.</span>
+                <span ng-show="log.kind === 'category'">alterou a categoria do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'user_assign'">associou o relato<span ng-show="log.changes.old"> do usuário <a href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o usuário <a href="#/users/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
+                <span ng-show="log.kind === 'forward'">encaminhou o relato<span ng-show="log.changes.old"> do grupo <a href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o grupo <a href="#/groups/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
+                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 0">inseriu uma resposta pública ao munícipe: <b>{{ log.changes.new.message }}</b>.</span>
+                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 1">inseriu uma resposta privada ao munícipe: <b>{{ log.changes.new.message }}</b>.</span>
+                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 2">inseriu o comentáro interno: <b>{{ log.changes.new.message }}</b>.</span>
+
+                <span ng-show="log.kind === 'creation'"> criou o relato com o estado <b>{{ log.changes.new.title }}</b>.</span>
               </p>
 
               <div class="divider"></div>

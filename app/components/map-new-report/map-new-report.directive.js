@@ -3,33 +3,39 @@
 angular
   .module('MapNewReportComponentModule', [])
 
-  .directive('mapNewReport', function ($compile, $timeout, Restangular, ENV) {
+  .directive('mapNewReport', function ($compile, $timeout, Restangular, FullResponseRestangular, ENV, $filter) {
+    var geocoder = new google.maps.Geocoder();
+
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
+        var zoom = parseInt(ENV.mapZoom);
+        if(scope.address.address != '') {
+          zoom = 16;
+        }
         var mapProvider = {
           options:
           {
             styles: [{}, {'featureType': 'poi.business', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] },{ 'featureType': 'poi.government', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.medical', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.place_of_worship', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.school', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.sports_complex', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'transit', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }, { 'saturation': -100 }, { 'lightness': 42 }] }, { 'featureType': 'road.highway', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': -100 }, { 'lightness': 47 }] }, { 'featureType': 'landscape', 'stylers': [{ 'lightness': 82 }, { 'saturation': -100 }] }, { 'featureType': 'water', 'stylers': [{ 'hue': '#00b2ff' }, { 'saturation': -21 }, { 'lightness': -4 }] }, { 'featureType': 'poi', 'stylers': [{ 'lightness': 19 }, { 'weight': 0.1 }, { 'saturation': -22 }] }, { 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 18 }] }, { 'elementType': 'labels.text', 'stylers': [{ 'saturation': -100 }, { 'lightness': 28 }] }, { 'featureType': 'poi.attraction', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'poi.park', 'elementType': 'geometry.fill', 'stylers': [{ 'saturation': 12 }, { 'lightness': 25 }] }, { 'featureType': 'road', 'elementType': 'labels.icon', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road', 'elementType': 'labels.text', 'stylers': [{ 'lightness': 30 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'labels', 'stylers': [{ 'visibility': 'off' }] }, { 'featureType': 'road.highway', 'elementType': 'geometry', 'stylers': [{ 'saturation': -100 }, { 'lightness': 56 }] }, { 'featureType': 'road.local', 'elementType': 'geometry.fill', 'stylers': [{ 'lightness': 62 }] }, { 'featureType': 'landscape.man_made', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'off' }] }],
             homeLatlng: new google.maps.LatLng(ENV.mapLat, ENV.mapLng),
             map: {
-              zoom: parseInt(ENV.mapZoom),
+              zoom: zoom,
               mapTypeControl: false,
               panControl: true,
               panControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               },
               zoomControl: true,
               zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               },
               scaleControl: true,
               scaleControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               },
               streetViewControl: true,
               streetViewControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
+                position: google.maps.ControlPosition.RIGHT_CENTER
               }
             }
           },
@@ -46,6 +52,7 @@ angular
           hiddenInventoryCategories: [],
           mainMarker: null,
           allows_arbitrary_position: true,
+          bindsToInventoryCategories: false,
 
           start: function() {
             // create map and set specific listeners
@@ -69,33 +76,73 @@ angular
               google.maps.event.trigger(mapProvider.map, 'resize');
               google.maps.event.trigger(mapProvider.map, 'bounds_changed');
               mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+              if(!scope.lat && !scope.lng)
+                mapProvider.checkMarkerInsideAllowedBounds(mapProvider.options.homeLatlng.lat(), mapProvider.options.homeLatlng.lng());
             }, 80);
           },
 
           setListeners: function() {
+            // if the address or number changes we update the map
+            scope.$on('addressChanged', function(e, has_updated_position){
+              if(has_updated_position) {
+                var location = new google.maps.LatLng(scope.lat, scope.lng);
+                mapProvider.mainMarker.setPosition(location);
+                mapProvider.map.setCenter(location);
+              } else {
+                var address = scope.address.address + ', ' + scope.address.number;
+                if(scope.address.district) {
+                  address += ', ' + scope.address.district;
+                }
+                if(scope.address.city) {
+                  address += ', ' + scope.address.city;
+                }
+                geocoder.geocode({ address: address, region: 'BR' }, function(results, status){
+                  if (status === google.maps.GeocoderStatus.OK) {
+                    if(results.length > 0) {
+                      mapProvider.mainMarker.setPosition(results[0].geometry.location);
+                      mapProvider.map.setCenter(results[0].geometry.location);
+                      scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
+                      scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                      mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
+                    }
+                  }
+                });
+              }
+            });
+
             // refresh map when shown
             scope.$watch('categoryData', function () {
+              if(!scope.categoryData) return;
+              this.bindsToInventoryCategories = typeof scope.categoryData.inventory_categories !== 'undefined';
               mapProvider.createMap();
 
               setTimeout(function() {
+                var latLng;
+                if(scope.lat && scope.lng) {
+                  latLng = new google.maps.LatLng(scope.lat, scope.lng);
+                } else {
+                  latLng = mapProvider.options.homeLatlng;
+                }
+
                 google.maps.event.trigger(mapProvider.map, 'resize');
                 google.maps.event.trigger(mapProvider.map, 'bounds_changed');
-                mapProvider.map.setCenter(mapProvider.options.homeLatlng);
+                mapProvider.map.setCenter(latLng);
+                scope.$emit('reportMap:position_changed', latLng);
 
-                if (scope.categoryData !== null)
+                if (scope.categoryData)
                 {
-                  if (scope.categoryData.inventory_categories.length == 0)
+                  if (!this.bindsToInventoryCategories)
                   {
                     var categoryIcon = new google.maps.MarkerImage(scope.categoryData.marker.retina.web, null, null, null, new google.maps.Size(54, 51));
 
                     var marker = new google.maps.Marker(
-                    {
-                      map: mapProvider.map,
-                      draggable: true,
-                      animation: google.maps.Animation.DROP,
-                      position: mapProvider.options.homeLatlng,
-                      icon: categoryIcon
-                    });
+                      {
+                        map: mapProvider.map,
+                        draggable: true,
+                        animation: google.maps.Animation.DROP,
+                        position: latLng,
+                        icon: categoryIcon
+                      });
 
                     mapProvider.mainMarker = marker;
 
@@ -104,7 +151,13 @@ angular
                     scope.$apply();
 
                     google.maps.event.addListener(marker, 'dragend', function() {
-                      mapProvider.changedMarkerPosition(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+                      scope.markerPositionUpdated = true;
+                      scope.lat = scope.$parent.lat = mapProvider.mainMarker.getPosition().lat();
+                      scope.lng = scope.$parent.lng = mapProvider.mainMarker.getPosition().lng();
+                      mapProvider.checkMarkerInsideAllowedBounds(scope.$parent.lat, scope.$parent.lng);
+                      scope.$emit('reportMap:position_changed', new google.maps.LatLng(scope.lat, scope.lng));
+                      scope.$apply();
+                      scope.$parent.$apply();
                     });
                   }
                   else
@@ -124,19 +177,21 @@ angular
                 }
 
                 // clear addresses
-                scope.lat = null;
-                scope.lng = null;
                 scope.itemId = null;
                 scope.formattedAddress = null;
 
                 scope.$apply();
               }, 80);
             });
+
+            scope.updateMarkerAddress = function() {
+              mapProvider.changedMarkerPosition(mapProvider.mainMarker.getPosition().lat(), mapProvider.mainMarker.getPosition().lng());
+
+              scope.markerPositionUpdated = false;
+            };
           },
 
-          changedMarkerPosition: function(lat, lng, itemId) {
-            var geocoder = new google.maps.Geocoder();
-
+          changedMarkerPosition: function(lat, lng, itemId, keepAddress) {
             if (typeof itemId === 'undefined')
             {
               scope.lat = lat;
@@ -147,17 +202,42 @@ angular
               scope.itemId = itemId;
             }
 
-            geocoder.geocode({
-              latLng: new google.maps.LatLng(lat, lng)
-            },
-            function(results, status)
+            if (_.isUndefined(keepAddress) || !keepAddress)
             {
-              if (status === google.maps.GeocoderStatus.OK)
-              {
-                scope.formattedAddress = results[0].formatted_address;
+              geocoder.geocode({
+                  latLng: new google.maps.LatLng(lat, lng)
+                },
+                function(results, status)
+                {
+                  if (status === google.maps.GeocoderStatus.OK)
+                  {
+                    var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
 
-                scope.$apply();
-              }
+                    if(addressComponents.number.indexOf('-') !== -1) {
+                      addressComponents.number = addressComponents.number.split('-')[0];
+                    }
+
+                    scope.address.address = addressComponents.address;
+                    scope.address.number = parseInt(addressComponents.number, 10);
+                    scope.address.district = addressComponents.neighborhood;
+                    scope.address.city = addressComponents.city;
+                    scope.address.state = addressComponents.state;
+                    scope.address.country = addressComponents.country;
+                    scope.address.postal_code = addressComponents.zipcode;
+
+                    scope.$apply();
+                  }
+                });
+            }
+          },
+
+          checkMarkerInsideAllowedBounds: function(lat, lng) {
+            // we verify if the marker is inside bounds
+            var verifyMarkerInsideBoundsPromise = FullResponseRestangular.all('utils').all('city-boundary').customGET('validate', { longitude: lng, latitude: lat });
+
+            verifyMarkerInsideBoundsPromise.then(function(response) {
+              if (response.data.inside_boundaries === false) scope.markerOutOfBounds = true;
+              else scope.markerOutOfBounds = false;
             });
           },
 
@@ -188,58 +268,59 @@ angular
             }, 200);
 
             // Wait a bit until get new items
-            if (this.getNewItemsTimeout)
-            {
-              $timeout.cancel(this.getNewItemsTimeout);
-            }
+            if(this.bindsToInventoryCategories) {
+              if (this.getNewItemsTimeout)
+              {
+                $timeout.cancel(this.getNewItemsTimeout);
+              }
 
-            scope.isLoadingItems = true;
+              scope.isLoadingItems = true;
 
-            this.getNewItemsTimeout = $timeout(function() {
-              var categoryIds = [];
+              this.getNewItemsTimeout = $timeout(function() {
+                var categoryIds = [];
 
-              for (var i = scope.categoryData.inventory_categories.length - 1; i >= 0; i--) {
-                categoryIds.push(scope.categoryData.inventory_categories[i].id);
-              };
+                for (var i = scope.categoryData.inventory_categories.length - 1; i >= 0; i--) {
+                  categoryIds.push(scope.categoryData.inventory_categories[i].id);
+                };
 
-              var itemsPromise = Restangular.all('inventory').all('items').getList({
+                var itemsPromise = Restangular.all('inventory').all('items').getList({
                   'position[latitude]': mapProvider.map.getCenter().lat(),
                   'position[longitude]': mapProvider.map.getCenter().lng(),
                   'position[distance]': mapProvider.getDistance(),
                   'zoom': mapProvider.map.getZoom(),
                   'limit': 100,
                   'inventory_category_id': categoryIds.join()
-              });
+                });
 
-              itemsPromise.then(function(response) {
-                scope.isLoadingItems = false;
+                itemsPromise.then(function(response) {
+                  scope.isLoadingItems = false;
 
-                if (forceReset === true)
-                {
-                  mapProvider.removeAllMarkers();
-                }
+                  if (forceReset === true)
+                  {
+                    mapProvider.removeAllMarkers();
+                  }
 
-                if (clearLevels)
-                {
-                  mapProvider.hideAllMarkersFromInactiveLevels();
-                }
+                  if (clearLevels)
+                  {
+                    mapProvider.hideAllMarkersFromInactiveLevels();
+                  }
 
-                // add item
-                for (var i = response.data.length - 1; i >= 0; i--) {
-                  mapProvider.addMarker(response.data[i], mapProvider.doAnimation);
-                }
+                  // add item
+                  for (var i = response.data.length - 1; i >= 0; i--) {
+                    mapProvider.addMarker(response.data[i], mapProvider.doAnimation);
+                  }
 
-                // after first request we will deactive animation
-                if (mapProvider.doAnimation === true)
-                {
-                  mapProvider.doAnimation = false;
-                }
-              });
+                  // after first request we will deactive animation
+                  if (mapProvider.doAnimation === true)
+                  {
+                    mapProvider.doAnimation = false;
+                  }
+                });
 
-            }, 1000);
-          },
+              }, 1000);
+            }},
 
-         // Hide every marker that is not visible to the user
+          // Hide every marker that is not visible to the user
           hideNotVisibleMarkers: function() {
             angular.forEach(this.zoomLevels[this.map.getZoom()], function(marker, id) {
               if (!mapProvider.isMarkerInsideBounds(marker))
@@ -328,12 +409,12 @@ angular
                   var categoryIcon = new google.maps.MarkerImage(scope.categoryData.marker.retina.web, null, null, null, new google.maps.Size(54, 51));
 
                   var marker = new google.maps.Marker(
-                  {
-                    map: mapProvider.map,
-                    animation: google.maps.Animation.DROP,
-                    position: position,
-                    icon: categoryIcon
-                  });
+                    {
+                      map: mapProvider.map,
+                      animation: google.maps.Animation.DROP,
+                      position: position,
+                      icon: categoryIcon
+                    });
 
                   mapProvider.mainMarker = marker;
                 }

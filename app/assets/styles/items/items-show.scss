@@ -151,7 +151,7 @@
 
     .line {
       position: absolute;
-      width: 15%;
+      width: 20%;
       height: 100%;
 
       span {
@@ -174,7 +174,7 @@
     }
 
     .log .date {
-      width: 15%;
+      width: 20%;
       float: left;
       text-align: center;
 
@@ -185,14 +185,13 @@
         border: 1px solid #D9D9D9;
         border-radius: 8px;
         color: #999;
-        font-weight: bold;
         z-index: 2;
         position: relative;
       }
     }
 
     .log .action {
-      width: 75%;
+      width: 70%;
       float: left;
       margin-bottom: 15px;
       padding-left: 15px;

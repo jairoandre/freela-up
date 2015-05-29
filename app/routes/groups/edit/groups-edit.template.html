@@ -22,7 +22,7 @@
           </button>
 
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="permissionType in availablePermissionTypes" ng-class="{ 'active': newPermission.type == permissionType.type }"><a href="" ng-click="setNewPermissionType(permissionType.type)">{{ permissionType.name }}</a></li>
+            <li ng-repeat="permissionType in availablePermissionTypes" ng-class="{ 'active': getTypeName(newPermission.type) == permissionType.name }"><a href="" ng-click="setNewPermissionType(permissionType)">{{ permissionType.name }}</a></li>
           </ul>
         </div>
       </div>
@@ -60,6 +60,12 @@
               <input type="text" class="form-control" ng-model="q">
               <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
             </div>
+
+            <ul ng-if="newPermission.type === 'user'">
+              <li><a href="" ng-click="selectAllObjects(groups)">Selecionar todos os grupos</a></li>
+
+              <li ng-repeat="group in groups | filter:q" ng-class="{ 'active': isObjectSelected(group.id) }"><a href="" ng-click="toggleObject(group)"><span ng-bind-html="group.name  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
+            </ul>
 
             <ul ng-if="newPermission.type === 'flow'">
               <li><a href="" ng-click="selectAllObjects(flows)">Selecionar todos os fluxos</a></li>
@@ -123,11 +129,11 @@
 
         <tbody>
           <tr ng-repeat="permission in permissions | orderBy:'permission_type'" class="pages-animation">
-            <td>{{ getTypeName(permission.permission_type) }}</td>
+            <td>{{ getTypeName(permission) }}</td>
             <td>{{ (permission.object.title || permission.object.name) || 'Todos' }}</td>
             <td>
               <span ng-if="isString(permission.permission_names)" class="permission-name">{{ getPermissionName(permission.permission_type, permission.permission_names) }} <a href="" ng-click="removePermission(permission, permission.permission_names)"><i class="glyphicon glyphicon-remove"></i></a></span>
-              <span ng-if="!isString(permission.permission_names)" ng-repeat="name in permission.permission_names track by $index" class="permission-name">{{ getPermissionName(permission.permission_type, name) }} <a href="" ng-click="removePermission(permission, name)"><i class="glyphicon glyphicon-remove"></i></span>
+              <span ng-if="!isString(permission.permission_names)" ng-repeat="name in permission.permission_names track by $index" class="permission-name">{{ getPermissionName(permission.permission_type, name) }} <a href="" ng-click="removePermission(permission, name)"><i class="glyphicon glyphicon-remove"></i></a></span>
               <span ng-show="permission.removingPermission"><i class="refresh glyphicon glyphicon-refresh rotating refresh"></i></span>
             </td>
           </tr>

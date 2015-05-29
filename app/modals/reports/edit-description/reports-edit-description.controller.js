@@ -2,7 +2,7 @@
 
 angular
   .module('ReportsEditDescriptionModalControllerModule', [])
-  .controller('ReportsEditDescriptionModalController', function(Restangular, $scope, $modalInstance, report) {
+  .controller('ReportsEditDescriptionModalController', function(Restangular, $scope, $modalInstance, report, refreshHistory) {
     $scope.report = angular.copy(report);
 
     $scope.save = function() {
@@ -11,6 +11,7 @@ angular
       var postUserPromise = Restangular.one('reports', report.category.id).one('items', report.id).customPUT({ description: $scope.report.description });
 
       postUserPromise.then(function(response) {
+        refreshHistory();
         $modalInstance.close();
 
         $scope.processingForm = false;

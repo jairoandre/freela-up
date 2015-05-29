@@ -11,7 +11,6 @@ angular
     $scope.category = category;
 
     $scope.latLng = [report.position.latitude, report.position.longitude];
-    $scope.report = { reference: angular.copy(report.reference) };
 
     $scope.close = function() {
       $modalInstance.close();
@@ -25,7 +24,7 @@ angular
         latitude: $scope.latLng[0],
         longitude: $scope.latLng[1],
         address: $scope.formattedAddress,
-        reference: $scope.report.reference
+        return_fields: ''
       };
 
       var postUserPromise = Restangular.one('reports', report.category.id).one('items', report.id).customPUT(updatedData);

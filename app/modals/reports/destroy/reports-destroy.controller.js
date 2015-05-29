@@ -2,16 +2,22 @@
 
 angular
   .module('ReportsDestroyModalControllerModule', ['ReportsItemsServiceModule'])
-  .controller('ReportsDestroyModalController', function($scope, Restangular, ReportsItemsService, $modalInstance, report) {
+  .controller('ReportsDestroyModalController', function($rootScope, $scope, Restangular, ReportsItemsService, $modalInstance, report) {
     $scope.report = report;
 
     // delete user from server
     $scope.confirm = function() {
       var deletePromise = ReportsItemsService.remove($scope.report.id);
+      $scope.deleting = true;
 
       deletePromise.then(function() {
         $modalInstance.close();
+        $rootScope.$emit('reports:itemRemoved', $scope.report.id);
+        $scope.deleting = false;
         $scope.showMessage('ok', 'O Relato ' + $scope.report.protocol + ' foi removido com sucesso', 'success', true);
+      }, function(){
+        $scope.deleting = false;
+        $scope.showMessage('exclamation-sign', ' Não foi possível remover o relato ' + $scope.report.protocol + '. Por favor, tente novamente em alguns minutos.', 'error', true);
       });
     };
 

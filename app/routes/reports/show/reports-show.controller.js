@@ -9,48 +9,43 @@ angular
     'ReportsSelectAddressModalControllerModule',
     'ReportsForwardModalControllerModule',
     'ReportsSelectUserModalControllerModule',
+    'ReportsEditReferenceModalControllerModule',
+    'ReportsPrintModalControllerModule',
+    'ReportSearchMapComponentModule',
+    'MapNewReportComponentModule',
+    'NextFieldOnEnterComponentModule',
     'duScroll'
   ])
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, reportResponse, feedbackResponse, categoriesResponse, commentsResponse, $rootScope, reportHistoryResponse) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope) {
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
-    $scope.feedback = feedbackResponse.data;
-    $scope.comments = commentsResponse.data;
-
-    var categories = categoriesResponse.data;
-
-    // find category
-    var findCategory = function() {
-      for (var i = categories.length - 1; i >= 0; i--) {
-        if (categories[i].id === $scope.report.category.id)
-        {
-          return $scope.category = categories[i];
-        }
-
-        if (categories[i].subcategories.length !== 0)
-        {
-          for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
-            if (categories[i].subcategories[j].id === $scope.report.category.id)
-            {
-              return $scope.category = categories[i].subcategories[j];
-            }
-          };
-        }
-      }
-    };
-
-    findCategory();
-
+    $scope.categoryData = $scope.report.category;
     $scope.images = [];
+    $scope.lat = $scope.report.position.latitude; // Please fix this mess whenever possible #TODO
+    $scope.lng = $scope.report.position.longitude;
+
+    // Fetch comments
+    Restangular.one('reports', $scope.report.id).all('comments').getList({
+      return_fields: 'id,created_at,message,visibility,author.id,author.name'
+    }).then(function(response){
+      $scope.comments = response.data;
+    });
+
+    // Fetch feedback
+    Restangular.one('reports', $scope.report.id).one('feedback').get({
+      return_fields: 'id,kind,content,images'
+    }).then(function(response){
+      $scope.feedback = response.data;
+    });
 
     for (var c = $scope.report.images.length - 1; c >= 0; c--) {
       $scope.images.push({versions: $scope.report.images[c]});
-    };
+    }
 
-    $scope.newUserResponse = { message: null, privateComment: false, typing: false };
+    $scope.newUserResponse = { message: null, privateComment: true, typing: false };
     $scope.newSystemComment = { message: null, typing: false };
 
     $scope.filterByUserMessages = function(comment) {
@@ -58,7 +53,8 @@ angular
     };
 
     var sendComment = function(message, visibility) {
-      return Restangular.one('reports', $scope.report.id).customPOST({ message: message, visibility: visibility }, 'comments');
+      return Restangular.one('reports', $scope.report.id)
+        .customPOST({ message: message, visibility: visibility, return_fields: 'id,created_at,message,visibility,author.id,author.name' }, 'comments');
     };
 
     $scope.submitUserResponse = function() {
@@ -75,6 +71,8 @@ angular
         $scope.processingComment = false;
 
         $scope.comments.push(response.data);
+
+        $scope.refreshHistory();
       });
     };
 
@@ -88,6 +86,8 @@ angular
         $scope.newSystemComment.message = null;
 
         $scope.comments.push(response.data);
+
+        $scope.refreshHistory();
       });
     };
 
@@ -103,11 +103,14 @@ angular
           },
 
           category: function() {
-            return $scope.category;
+            return $scope.report.category;
           },
 
           categories: function() {
-            return Restangular.all('reports').all('categories').getList({'display_type': 'full'});
+            return Restangular.all('reports').all('categories').getList({
+              'display_type': 'full',
+              'return_fields': 'id,title,subcategories.id,subcategories.title'
+            });
           }
         },
         controller: 'ReportsEditCategoryModalController'
@@ -115,6 +118,8 @@ angular
     };
 
     $scope.editReportStatus = function (report, category) {
+      $rootScope.resolvingRequest = true;
+
       $modal.open({
         templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
         windowClass: 'editStatusModal',
@@ -125,33 +130,61 @@ angular
 
           category: function() {
             return category;
+          },
+
+          statusesResponse: function() {
+            return Restangular.one('reports').one('categories', $scope.report.category.id).all('statuses').getList();
           }
         },
         controller: 'ReportsEditStatusModalController'
       });
     };
 
+    var addressFields = ['address', 'number', 'city', 'postal_code', 'reference', 'state', 'country', 'district'];
+    var currentLat = $scope.lat, currentLng = $scope.lng;
     $scope.editAddress = function () {
-      var mapModalInstance =  $modal.open({
-        templateUrl: 'modals/reports/select-address/reports-select-address.template.html',
-        windowClass: 'mapModal',
-        resolve: {
-          category: function() {
-            return $scope.category;
-          },
-
-          report: function() {
-            return $scope.report;
-          }
-        },
-        controller: 'ReportsSelectAddressModalController'
+      $scope.editingAddress = true;
+      currentLat = $scope.lat;
+      currentLng = $scope.lng;
+      $scope.address = {};
+      _.each(addressFields, function(ac){
+        $scope.address[ac] = $scope.report[ac];
       });
+      $scope.address.number = parseInt($scope.address.number, 10); // TODO upgrade to angular 1.4
+    };
 
-      mapModalInstance.opened.then(function () {
-        setTimeout(function() {
-          $rootScope.selectLatLngMap.start();
-        }, 80);
-      });
+    $scope.cancelAddressEdit = function() {
+      $scope.editingAddress = false;
+      $scope.lat = currentLat;
+      $scope.lng = currentLng;
+    };
+
+    $scope.saveAddress = function(addressForm){
+      addressForm.$submitted = true;
+      if(addressForm.$valid) {
+        $scope.savingAddress = true;
+
+        var updateAddressRequest = {
+          latitude: $scope.lat,
+          longitude: $scope.lng,
+          return_fields: 'position.latitude,position.longitude,address,number,reference,district,postal_code,state,city'
+        };
+
+        _.each(addressFields, function(field){ updateAddressRequest[field] = addressForm[field].$viewValue});
+
+        var updateReportAddressPromise = Restangular.one('reports', $scope.report.category.id)
+          .one('items', $scope.report.id).customPUT(updateAddressRequest);
+
+        updateReportAddressPromise.then(function(response) {
+          var updatedReportFields = response.data;
+          $scope.showMessage('ok', 'O endereço do relato foi alterado com sucesso.', 'success', true);
+          $scope.loading = $scope.savingAddress = $scope.editingAddress = false;
+          $scope.report.position = updatedReportFields.position;
+          $scope.lat = $scope.report.position.latitude;
+          $scope.lng = $scope.report.position.longitude;
+          _.each(addressFields, function(field){ $scope.report[field] = updatedReportFields[field]});
+        });
+      }
     };
 
     $scope.editDescription = function () {
@@ -161,9 +194,26 @@ angular
         resolve: {
           report: function() {
             return $scope.report;
+          },
+
+          refreshHistory: function() {
+            return $scope.refreshHistory;
           }
         },
         controller: 'ReportsEditDescriptionModalController'
+      });
+    };
+
+    $scope.editReference = function () {
+      $modal.open({
+        templateUrl: 'modals/reports/edit-reference/reports-edit-reference.template.html',
+        windowClass: 'editReportModal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          }
+        },
+        controller: 'ReportsEditReferenceModalController'
       });
     };
 
@@ -179,11 +229,11 @@ angular
           },
 
           category: function() {
-            return $scope.category;
+            return $scope.report.category;
           },
 
           groupsResponse: function() {
-            return Restangular.all('groups').getList();
+            return Restangular.all('groups').getList({ return_fields: 'id,name'});
           }
         },
         controller: 'ReportsForwardModalController'
@@ -199,7 +249,10 @@ angular
             return function(user) {
               $rootScope.resolvingRequest = true;
 
-              var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).one('assign').customPUT({ 'user_id': user.id });
+              var changeStatusPromise = Restangular.one('reports', $scope.report.category.id).one('items', $scope.report.id).one('assign').customPUT({
+                'user_id': user.id,
+                'return_fields': ''
+              });
 
               changeStatusPromise.then(function() {
                 $rootScope.resolvingRequest = false;
@@ -218,9 +271,25 @@ angular
       });
     };
 
-    // item history
+    $scope.print = function() {
+      $modal.open({
+        templateUrl: 'modals/reports/print/reports-print.template.html',
+        windowClass: 'filterCategoriesModal',
+        resolve: {
+          openModal: function() {
+            return function(options) {
+              $window.open('#/reports/' + $scope.report.id + '/print?sections=' + options.join(), 'ZUP Imprimir relato', 'height=800,width=850');
+            }
+          }
+        },
+        controller: 'ReportsPrintModalController'
+      });
+    };
+
+    // report's history
     $scope.refreshHistory = function() {
-      var options = {}, selectedFilters = $scope.selectedFilters();
+      var options = { return_fields: 'changes,created_at,kind,user.id,user.name'},
+          selectedFilters = $scope.selectedFilters();
 
       if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
 
@@ -271,6 +340,29 @@ angular
       $scope.refreshHistory();
     };
 
+    var lastAddress = $scope.report.address, lastNumber = $scope.report.number;
+    var wasPositionUpdated = false;
+    $scope.fieldOnEnter = function(previousField, currentField){
+      if(previousField.name == 'address' || $scope.address.address == ''  || $scope.address.number == '') {
+        wasPositionUpdated = false;
+        return;
+      }
+      if($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
+        wasPositionUpdated = true;
+        lastAddress = $scope.address.address;
+        lastNumber = $scope.address.number;
+        $scope.$broadcast('addressChanged');
+      }
+    };
+
+    $rootScope.$on('reports:position-updated', function(e, location){
+      $scope.lat = location.lat();
+      $scope.lng = location.lng();
+      if(!wasPositionUpdated) {
+        $scope.$broadcast('addressChanged', true);
+      }
+    });
+
     $scope.resetHistoryFilters = function() {
       _.each($scope.availableHistoryFilters, function(filter) {
         filter.selected = true;
@@ -302,5 +394,7 @@ angular
       $scope.refreshHistory();
     };
 
-    $scope.historyLogs = reportHistoryResponse.data;
+    $scope.historyLogs = [];
+
+    $scope.refreshHistory();
   });

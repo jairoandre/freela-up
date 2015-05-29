@@ -21,20 +21,6 @@
       <input type="email" class="form-control custom_form" id="form_email" ng-model="user.email" generic-input name="email" required>
     </div>
 
-    <div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
-      <label for="form_email">Senha <span ng-hide="updating">*</span></label>
-
-      <div class="row">
-        <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" ng-required="!updating">
-        </div>
-
-        <div class="col-xs-6">
-          <input type="password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" name="password_confirmation" ng-required="!updating">
-        </div>
-      </div>
-    </div>
-
     <div class="form-group" ng-class="{'has-error': form.address.$dirty && form.address.$invalid}">
       <label for="form_address">Endereço *</label>
       <input type="text" class="form-control custom_form" id="form_address" ng-model="user.address" generic-input name="address" required>
@@ -45,9 +31,14 @@
       <input type="text" class="form-control custom_form" id="form_address_additional" ng-model="user.address_additional" generic-input name="address_additional">
     </div>
 
-    <div class="form-group" ng-class="{'has-error': form.district.$dirty && form.district.$invalid}">
-      <label for="form_district">Cidade *</label>
-      <input type="text" class="form-control custom_form" id="form_district" ng-model="user.district" generic-input name="district">
+    <div class="form-group" ng-class="{'has-error': form.district.$dirty && form.city.$invalid}">
+      <label for="form_district">Bairro *</label>
+      <input type="text" class="form-control custom_form" id="form_district" ng-model="user.district" generic-input name="district" required>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': form.city.$dirty && form.city.$invalid}">
+      <label for="form_city">Cidade *</label>
+      <input type="text" class="form-control custom_form" id="form_city" ng-model="user.city" generic-input name="city">
     </div>
 
     <div class="form-group" ng-class="{'has-error': form.postal_code.$dirty && form.postal_code.$invalid}">
@@ -67,7 +58,36 @@
 
     <hr />
 
-    <div ng-show="hasPermission('manage_groups') && !updating">
+    <div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
+      <label for="form_email">{{ updating ? 'Nova senha' : 'Senha' }} <span ng-hide="updating">*</span></label>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" min="6" ng-required="!updating  && !should_generate_password">
+        </div>
+
+        <div class="col-xs-6">
+          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" min="6" name="password_confirmation" ng-required="!updating  && !should_generate_password">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="checkbox pull-left">
+        <label>
+          <input type="checkbox" ng-model="should_generate_password"> Gere uma senha e envie ao usuário pelo email de cadastro
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group pages-animation" ng-if="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0 && updating">
+      <label for="form_email">Senha atual *</label>
+      <input type="password" class="form-control custom_form" placeholder="Senha atual" ng-model="user.current_password" generic-input name="currentPassword" ng-required="!hasPermission('users_full_access') && !form.password.$pristine && user.password.length !== 0 && !should_generate_password">
+    </div>
+
+    <hr />
+
+    <div ng-show="hasPermission('groups_full_access') || hasPermission('users_edit') && !updating">
       <p>Por padrão, todos os usuários são adicionados ao grupo <b>Público</b>. Se desejar, você pode especificar abaixo quais grupos este novo usuário deve pertencer.</p>
 
       <div class="form-group">

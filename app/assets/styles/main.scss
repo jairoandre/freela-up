@@ -65,23 +65,36 @@ p {
   }
 }
 
+$sidebar-size: 80px;
+$sidebar-size-full: 300px;
+
 #main_layout {
   width: 100%;
   height: 100%;
   min-width: 960px;
 
   #sidebar {
-    width: 20%;
+    width: $sidebar-size;
     height: 100%;
     background: #333;
     padding: 0px;
     position: fixed;
     top: 0px;
     left: 0px;
+    overflow: hidden;
+    z-index: 9999;
+
+    @include transition(all 0.3s ease);
+
+    &:hover {
+      width: $sidebar-size-full;
+
+      @include box-shadow(0 0 13px rgba(0, 0, 0, 0.6));
+    }
 
     .logo {
       background: #259ECB;
-      width: 100%;
+      width: $sidebar-size-full;
       height: 70px;
       text-align: center;
       padding-top: 20px;
@@ -92,12 +105,13 @@ p {
     }
 
     ul {
+      width: $sidebar-size-full;
       margin: 0px;
       padding: 0px;
       list-style: none;
 
       li {
-        @include transition-duration(150ms);
+        @include transition(all 0.3s ease);
       }
 
       li a {
@@ -128,7 +142,7 @@ p {
         }
 
         span:empty {
-          width: 1.7em;
+          width: 50px;
         }
       }
 
@@ -139,19 +153,20 @@ p {
   }
 
   #main_content {
-    width: 80%;
+    width: 100%;
     min-height: 100%;
     background: #FFFFFF;
-    left: 20%;
-    padding: 129px 0 60px 0;
+    padding: 129px 0 60px $sidebar-size;
     position: absolute;
 
     #header {
-      width: 80%;
+      width: 100%;
       height: 71px;
       border-bottom: 1px solid #D9D9D9;
       position: fixed;
       top: 0px;
+      left: 0px;
+      padding-left: $sidebar-size;
       background-color: #FFF;
       z-index: 1000;
 
@@ -232,13 +247,15 @@ p {
     }
 
     .title {
-      width: 80%;
+      width: 100%;
       height: 58px;
       background: #F0F0F0;
       border-bottom: 1px solid #C8C8C8;
       top: 71px;
       position: fixed;
       z-index: 999;
+      left: 0px;
+      padding-left: $sidebar-size;
 
       .btn-custom, .btn-group {
         float: right;
@@ -349,13 +366,15 @@ p {
     }
 
     .simple_search, .advancedSearch {
-      width: 80%;
+      width: 100%;
       min-width: 680px;
       height: 44px;
       background: #E2E2E2;
       border-bottom: 1px solid #C5C5C5;
       position: fixed;
       top: 129px;
+      left: 0px;
+      padding-left: $sidebar-size;
       z-index: 999;
 
       &.advancedSearch {
@@ -469,6 +488,11 @@ p {
 
       .filter_dropdown_c {
         padding-right: 10px;
+
+        .filter-button {
+          margin-top: 5px;
+          float: right;
+        }
       }
 
       .filter_change {
@@ -1239,17 +1263,22 @@ p {
 
     #footer {
       width: 100%;
-      height: 60px;
+      height: $sidebar-size;
       background: #F0F0F0;
       position: absolute;
       bottom: 0px;
+      left: 0px;
 
       .tim_logo {
-        width: 114px;
-        height: 17px;
-        background: url(../images/logo-tim.png);
+        width: 230px;
+        height: 40px;
         float: right;
-        margin: 20px 23px 0 0;
+        margin: 25px 23px 0 0;
+        background: url(../images/logo-tim.png) no-repeat 30px 22px;
+
+        span {
+          font-size: 9px;
+        }
       }
     }
   }
@@ -2304,6 +2333,23 @@ p {
           padding: 0 8px;
           margin-top: 0px;
           line-height: 23px;
+        }
+      }
+
+      &.general-cluster {
+        span {
+          background-color: #259ECB;
+          min-width: 40px;
+          height: 40px;
+          border-radius: 20px;
+          line-height: 37px;
+          box-shadow: 0px 0px 0px 6px rgba(0,0,0, 0.13);
+
+          @include transition(all 0.3s ease-in-out);
+        }
+
+        &:hover span {
+          box-shadow: 0px 0px 0px 8px rgba(0,0,0, 0.25);
         }
       }
   }
@@ -4437,4 +4483,71 @@ colorpicker-preview {
 
 .ghost-icon {
   opacity: 0.3;
+}
+
+/* Error modal */
+
+.error-modal {
+  .modal-body {
+    padding-bottom: 0px;
+  }
+
+  .modal-footer {
+    border: 0px;
+    margin-top: 0px;
+    padding-top: 0px
+  }
+}
+
+.items-listing-table {
+  tbody tr:hover {
+    background-color: #ebf6fd;
+    cursor: pointer;
+  }
+}
+
+.map-alert {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  z-index: 800;
+  color: #FFF;
+  border-radius: 10px 10px 0 0;
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  &.out-of-bounds {
+    background: #FD5A48;
+  }
+
+  &.update-address {
+    background: #259ECB;
+  }
+
+  &.not-rounded {
+    border-radius: 0;
+  }
+
+  &.ng-hide-add,
+  &.ng-hide-remove {
+    @include transition-property(4s linear all);
+
+    display: block !important;
+
+    @include animation-fill-mode(both);
+    @include animation-duration(0.6s);
+    @include animation-name(flipInX);
+  }
+
+  &.ng-hide {
+    @include animation-fill-mode(both);
+    @include animation-duration(0.6s);
+    @include animation-name(flipOutX);
+  }
 }

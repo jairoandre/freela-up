@@ -1,8 +1,10 @@
 'use strict';
 
 angular
-  .module('ItemsCategoriesDestroyModalControllerModule', [])
-  .controller('ItemsCategoriesDestroyModalController', function(Restangular, $scope, $modalInstance, inventoriesCategoriesList, category, $cookies) {
+  .module('ItemsCategoriesDestroyModalControllerModule', [
+    'InventoriesCategoriesServiceModule'
+  ])
+  .controller('ItemsCategoriesDestroyModalController', function(Restangular, $scope, $modalInstance, inventoriesCategoriesList, category, $cookies, InventoriesCategoriesService) {
     $scope.category = category;
 
     // delete user from server
@@ -12,10 +14,14 @@ angular
       deletePromise.then(function() {
         delete $cookies.inventoryFiltersHash; // we need to remove the saved filters because the user might have selected the category
 
-        $modalInstance.close();
-
         // remove user from list
         inventoriesCategoriesList.splice(inventoriesCategoriesList.indexOf($scope.category), 1);
+
+        $scope.showMessage('ok', 'A categoria de inventário foi removida com sucesso.', 'success', true);
+
+        InventoriesCategoriesService.purgeCache();
+
+        $modalInstance.close();
       });
     };
 

@@ -25,6 +25,7 @@ angular
           infoWindow: new google.maps.InfoWindow(),
 
           map: null,
+          marker: null,
 
           start: function() {
             var styledMap = new google.maps.StyledMapType(this.options.styles, { name: 'zup' });
@@ -42,10 +43,26 @@ angular
                   google.maps.event.trigger(mapProvider.map, 'bounds_changed');
                   mapProvider.map.setCenter(mapProvider.options.homeLatlng);
 
-                  mapProvider.addMarker(scope.report, scope.category);
+                  if(!_.isNull(mapProvider.marker)) {
+                    mapProvider.marker.setMap(null);
+                  }
+
+                  mapProvider.marker = mapProvider.addMarker(scope.report, scope.report.category);
                 }, 80);
               }
             });
+
+            scope.$watchCollection('[lat, lng]', function(){
+              mapProvider.moveMarker(scope.lat, scope.lng);
+            });
+          },
+
+          moveMarker: function(lat, lng){
+            if(mapProvider.marker) {
+              var latLng = new google.maps.LatLng(lat, lng);
+              mapProvider.map.setCenter(latLng);
+              mapProvider.marker.setPosition(latLng);
+            }
           },
 
           addMarker: function(report, category) {
@@ -84,7 +101,9 @@ angular
               infowindow.setContent(compiled[0]);
               infowindow.open(mapProvider.map, this);
             });
-          },
+
+            return pin;
+          }
         };
 
         mapProvider.start();

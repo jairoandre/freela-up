@@ -1,21 +1,9 @@
 'use strict';
 
 angular
-  .module('ReportsEditCategoryModalControllerModule', [])
+  .module('ReportsEditCategoryModalControllerModule', ['SelectListComponentModule'])
   .controller('ReportsEditCategoryModalController', function(Restangular, $scope, $modalInstance, category, report, categories, $rootScope, $state) {
-    var categories = categories.data;
-    $scope.categories = [];
-
-    for (var i = categories.length - 1; i >= 0; i--) {
-      $scope.categories.push(categories[i]);
-
-      if (categories[i].subcategories.length !== 0)
-      {
-        for (var j = categories[i].subcategories.length - 1; j >= 0; j--) {
-          $scope.categories.push(categories[i].subcategories[j]);
-        };
-      }
-    };
+    $scope.categories = categories.data;
 
     $rootScope.resolvingRequest = false;
     $scope.report = angular.copy(report);
@@ -36,36 +24,29 @@ angular
       }
     };
 
-    $scope.$watch('transfer.toCategory', function(newValue, oldValue) {
-      if (newValue !== oldValue)
-      {
-        for (var i = $scope.categories.length - 1; i >= 0; i--) {
-          if ($scope.categories[i].id === parseInt($scope.transfer.toCategory))
-          {
-            return $scope.categoryData = $scope.categories[i];
-          }
 
-          // we search into subcategories
-          if ($scope.categories[i].subcategories.length !== 0)
-          {
-            for (var j = $scope.categories[i].subcategories.length - 1; j >= 0; j--) {
-              if ($scope.categories[i].subcategories[j].id === parseInt($scope.transfer.toCategory))
-              {
-                return $scope.categoryData = $scope.categories[i].subcategories[j];
-              }
-            };
-          }
-        };
-      }
+
+    $scope.$on('optionSelected', function(e, category){
+      e.stopPropagation();
+      $scope.categoryData = category;
+      var statusesPromise = Restangular.one('reports').one('categories', category.id).all('statuses').getList({
+        return_fields: 'id,color,title'
+      });
+      statusesPromise.then(function(response){
+        $scope.categoryData.statuses = response.data;
+      });
     });
 
     $scope.confirm = function() {
       $modalInstance.close();
       $rootScope.resolvingRequest = true;
 
-      var changeStatusPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({ 'new_category_id': $scope.transfer.toCategory, 'new_status_id': $scope.transfer.toStatus }, 'change_category'); // jshint ignore:line
+      var changeCategoryPromise = Restangular.one('reports', $scope.category.id).one('items', $scope.report.id).customPUT({
+        'new_category_id': $scope.transfer.toCategory, 'new_status_id': $scope.transfer.toStatus,
+        return_fields: ''
+      }, 'change_category'); // jshint ignore:line
 
-      changeStatusPromise.then(function() {
+      changeCategoryPromise.then(function() {
         $scope.showMessage('ok', 'A categoria do relato foi alterada com sucesso!', 'success', true);
 
         // refresh page because we change crucial information about our report

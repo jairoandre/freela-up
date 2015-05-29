@@ -4,10 +4,12 @@ angular
   .module('ReportsCategoriesEditControllerModule', [
     'FormatErrorsHelperModule',
     'NgThumbComponentModule',
-    'ReportsCategoriesManageStatusesModalControllerModule'
+    'MultipleSelectListComponentModule',
+    'ReportsCategoriesManageStatusesModalControllerModule',
+    'ReportsCategoriesServiceModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -46,7 +48,7 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
 
-    var categoriesPromise = Restangular.one('inventory').all('categories').getList(), category;
+    var categoriesPromise = Restangular.one('inventory').all('categories').getList({ return_fields: 'id,name'}), category;
 
     if (updating)
     {
@@ -156,6 +158,7 @@ angular
     };
 
     $scope.filterByIds = function(item) {
+      if (_.isUndefined(category.solver_groups_ids)) return false;
       if (!~category.solver_groups_ids.indexOf(item.id)) return false;
 
       return true;
@@ -164,7 +167,7 @@ angular
     $scope.categoriesAutocomplete = {
       options: {
         source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.one('search').one('inventory').all('categories').getList({ title: request.term });
+          var categoriesPromise = Restangular.one('search').one('inventory').all('categories').getList({ title: request.term, return_fields: 'id,title' });
 
           categoriesPromise.then(function(response) {
             uiResponse( $.map( response.data, function( item ) {
@@ -341,6 +344,8 @@ angular
           var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).withHttpConfig({ treatingErrors: true }).customPUT(editedCategory);
 
           putCategoryPromise.then(function() {
+            ReportsCategoriesService.purgeCache();
+
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
             $rootScope.resolvingRequest = false;
@@ -367,6 +372,10 @@ angular
           var postCategoryPromise = Restangular.one('reports').withHttpConfig({ treatingErrors: true }).post('categories', editedCategory);
 
           postCategoryPromise.then(function() {
+            ReportsCategoriesService.purgeCache();
+
+            $scope.showMessage('ok', 'A categoria de relato foi criada com sucesso', 'success', true);
+
             $location.path('/reports/categories');
 
             $rootScope.resolvingRequest = false;

@@ -10,10 +10,9 @@ angular
     'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state) {
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
-    $rootScope.hasMap = isMap;
 
     var page = 1, perPage = 15;
 
@@ -22,12 +21,14 @@ angular
     $scope.categories = {};
     $scope.categoriesStatuses = {};
     $scope.total = 0;
+    $scope.reports = [];
 
     // Basic filters
     var resetFilters = function () {
       $scope.selectedCategories = [];
       $scope.selectedStatuses = [];
       $scope.selectedUsers = [];
+      $scope.selectedReporters = [];
       $scope.beginDate = null;
       $scope.endDate = null;
       $scope.searchText = null;
@@ -74,6 +75,7 @@ angular
       {name: 'Com as categorias...', action: 'category'},
       {name: 'Com os estados...', action: 'status'},
       {name: 'Criado pelos munícipes...', action: 'author'},
+      {name: 'Relatados por...', action: 'reporter'},
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
@@ -144,6 +146,10 @@ angular
           pushUnique($scope.selectedUsers, filter.value);
         }
 
+        if (filter.type === 'reporters') {
+          pushUnique($scope.selectedReporters, filter.value);
+        }
+
         if (filter.type === 'beginDate')
         {
           $scope.beginDate = filter.value;
@@ -206,10 +212,16 @@ angular
         options.statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
       }
 
-      // check if we have statuses selected
+      // check if we have users selected
       if ($scope.selectedUsers.length !== 0)
       {
         options.users_ids = $scope.selectedUsers.join(); // jshint ignore:line
+      }
+
+      // check if we have reporters
+      if ($scope.selectedReporters.length !== 0)
+      {
+        options.reporters_ids = $scope.selectedReporters.join(); // jshint ignore:line
       }
 
       if ($scope.beginDate !== null)
@@ -328,7 +340,6 @@ angular
         }
 
         $scope.loadingContent = true;
-        $scope.reports = [];
 
         getData().then(function (reports) {
           $scope.loadingContent = false;
@@ -345,6 +356,10 @@ angular
         $scope.$broadcast('mapRefreshRequested', true);
       }
     };
+
+    $rootScope.$on('reports:itemRemoved', function(){
+      $scope.reload(true);
+    });
 
     $scope.reloadMap = function(){
       $rootScope.$emit('mapRefreshRequested');
@@ -376,6 +391,11 @@ angular
       if (status === 'author') {
         AdvancedFilters.author($scope.activeAdvancedFilters);
       }
+
+      if (status === 'reporter') {
+        AdvancedFilters.reporter($scope.activeAdvancedFilters);
+      }
+
       if (status === 'date') {
         AdvancedFilters.period($scope.activeAdvancedFilters);
       }
@@ -480,4 +500,20 @@ angular
         controller: 'ReportsEditStatusModalController'
       });
     };
+
+    $scope.openReport = function(report_id, event) {
+      if(!$rootScope.loading
+          && event.target.parentNode.tagName.toLowerCase() != 'a'
+          && event.target.tagName.toLowerCase() != 'a'
+        ) {
+        $state.go('reports.show', { id: report_id });
+      }
+    };
+
+    // we hide/show map debug
+    $rootScope.pageHasMap = isMap;
+
+    $scope.$on('$destroy', function() {
+      $rootScope.pageHasMap = false;
+    });
   });

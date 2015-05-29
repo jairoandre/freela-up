@@ -6,6 +6,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
     <title>Sistema ZUP</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -26,6 +28,7 @@
     <link rel="stylesheet" href="assets/styles/login.css">
     <link rel="stylesheet" href="assets/styles/main.css">
 
+    <link rel="stylesheet" href="assets/styles/reports.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-show.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-edit.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-categories-edit.css">
@@ -45,6 +48,8 @@
 
     <link rel="stylesheet" href="assets/styles/gallery.css">
     <link rel="stylesheet" href="assets/styles/users.css">
+    <link rel="stylesheet" href="assets/styles/multiple-select-list.css">
+    <link rel="stylesheet" href="assets/styles/ui-select.css">
     <link rel="stylesheet" href="assets/styles/animate.css">
     <!-- endbuild -->
   </head>
@@ -77,12 +82,6 @@
     <![endif]-->
 
     <!-- Sentry Configuration -->
-    <script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
-
-    <script>
-      Raven.config('https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327', {}).install();
-    </script>
-
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry&language=pt-br"></script>
 
     <!-- build:js assets/scripts/vendor.js -->
@@ -132,6 +131,10 @@
     <script src="bower_components/js-rich-marker/src/richmarker-compiled.js"></script>
     <!-- endbuild -->
 
+    <script>
+      Raven.config('https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327', {}).install();
+    </script>
+
     <script type="text/javascript">
     function load() {
       gapi.client.setApiKey('AIzaSyCsgDC7RbPvhfSCDQgC1R4NXWaT9Rw2VHE');
@@ -177,6 +180,8 @@
     <script src="routes/reports/index/map/reports-index-map.route.js"></script>
     <script src="routes/reports/show/reports-show.route.js"></script>
     <script src="routes/reports/show/reports-show.controller.js"></script>
+    <script src="routes/reports/show/print/reports-show-print.route.js"></script>
+    <script src="routes/reports/show/print/reports-show-print.controller.js"></script>
     <script src="routes/reports/add/reports-add.route.js"></script>
     <script src="routes/reports/add/reports-add.controller.js"></script>
     <script src="routes/reports/categories/index/reports-categories-index.route.js"></script>
@@ -236,6 +241,7 @@
     <script src="routes/cases/edit/cases-edit.controller.js"></script>
 
     <script src="components/equals/equals.directive.js"></script>
+    <script src="components/next-field-on-enter/next-field-on-enter.directive.js"></script>
     <script src="components/nav-item/nav-item.directive.js"></script>
     <script src="components/map/map.directive.js"></script>
     <script src="components/style-map/style-map.directive.js"></script>
@@ -283,14 +289,20 @@
     <script src="components/flows/trigger/flows-trigger.directive.js"></script>
     <script src="components/flows/draggable-input/flows-draggable-input.directive.js"></script>
     <script src="components/slide/slide.animation.js"></script>
+    <script src="components/zup-transclude/zup-transclude.directive.js"></script>
+    <script src="components/multiple-select-list/multiple-select-list.directive.js"></script>
+    <script src="components/select-list/select-list.directive.js"></script>
 
     <script src="modals/reports/destroy/reports-destroy.controller.js"></script>
     <script src="modals/reports/edit-status/reports-edit-status.controller.js"></script>
     <script src="modals/reports/edit-category/reports-edit-category.controller.js"></script>
     <script src="modals/reports/select-address/reports-select-address.controller.js"></script>
     <script src="modals/reports/forward/reports-forward.controller.js"></script>
+    <script src="modals/reports/edit-reference/reports-edit-reference.controller.js"></script>
+    <script src="modals/reports/print/reports-print.controller.js"></script>
     <script src="modals/advanced-filters/area/advanced-filters-area.controller.js"></script>
     <script src="modals/advanced-filters/author/advanced-filters-author.controller.js"></script>
+    <script src="modals/advanced-filters/reporter/advanced-filters-reporter.controller.js"></script>
     <script src="modals/advanced-filters/category/advanced-filters-category.controller.js"></script>
     <script src="modals/advanced-filters/fields/advanced-filters-fields.controller.js"></script>
     <script src="modals/advanced-filters/period/advanced-filters-period.controller.js"></script>
@@ -309,6 +321,7 @@
     <script src="modals/items/categories/new-status/items-categories-new-status.controller.js"></script>
     <script src="modals/items/categories/edit-status/items-categories-edit-status.controller.js"></script>
     <script src="modals/users/disable/users-disable.controller.js"></script>
+    <script src="modals/users/filter-group/users-filter-group.controller.js"></script>
     <script src="modals/gallery/gallery.controller.js"></script>
     <script src="modals/reports/select-user/reports-select-user.controller.js"></script>
     <script src="modals/reports/create-user/reports-create-user.controller.js"></script>
@@ -329,6 +342,7 @@
     <script src="helpers/replace-dot-with-comma/replace-dot-with-comma.filter.js"></script>
     <script src="helpers/translate-errors/translate-errors.filter.js"></script>
     <script src="helpers/diacritics-insensitive-filter/diacritics-insensitive-filter.filter.js"></script>
+    <script src="helpers/get-google-address-components/get-google-address-components.filter.js"></script>
 
     <!-- endbuild -->
 </body>

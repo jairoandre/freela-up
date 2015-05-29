@@ -37,6 +37,8 @@
         list-style: none;
         padding: 0px;
         margin-top: 10px;
+        max-height: 244px;
+        overflow: auto;
 
         li {
           position: relative;
