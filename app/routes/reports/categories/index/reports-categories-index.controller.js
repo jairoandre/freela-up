@@ -52,10 +52,13 @@ angular
         resolve: {
           destroyCategory: function(){
             return function(category) {
-              $scope.categories.splice($scope.categories.indexOf(category), 1);
+              if(_.isNull(category.parent_id)) {
+                $scope.categories.splice($scope.categories.indexOf(category), 1);
+              } else {
+                var subcategories = _.findWhere($scope.categories, { id: category.parent_id }).subcategories;
+                subcategories.splice(subcategories.indexOf(category), 1);
+              }
 
-              // TODO we need to find index of subcategories too! :(
-              // currently we are only removing parent categories :-0
             }
           },
 
