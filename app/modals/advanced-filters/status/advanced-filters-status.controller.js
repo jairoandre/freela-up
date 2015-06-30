@@ -18,7 +18,7 @@ angular
         var found = false;
 
         for (var k = $scope.statuses.length - 1; k >= 0; k--) {
-          if ($scope.statuses[k].id === category.statuses[j].id)
+          if (!category.statuses[j].active || $scope.statuses[k].id === category.statuses[j].id)
           {
             found = true;
           }
