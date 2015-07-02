@@ -167,5 +167,18 @@ angular
       }
     };
 
+    $rootScope.addModalMessage = function(icon, text, messageClass) {
+      $rootScope.modalMessage = {icon: icon, text: text, messageClass: messageClass};
+      $timeout(function() {$rootScope.showModalMessage = true;}, 100);
+
+      $timeout(function() {
+        $rootScope.showModalMessage = false;
+        $timeout(function() {$rootScope.modalMessage = {icon: null, text: null, messageClass: null};}, 1000);
+      }, 3500);
+
+
+
+    };
+
     $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
   }]);

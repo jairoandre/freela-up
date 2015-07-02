@@ -2280,6 +2280,30 @@ $sidebar-size-full: 300px;
   }
 }
 
+.modal-header {
+  .message-status {
+    p {
+      color: #8F8F8F;
+      padding: 7px 15px;
+      border-radius: 5px;
+    }
+
+    &.error p {
+      background: #F2DFDF;
+      color: #B74B4A;
+    }
+
+    &.success p {
+      background: #D9EDF6;
+      color: #3A85AA;
+    }
+
+    position:absolute;
+    right:50px;
+    top:10px;
+  }
+}
+
 .modal-header .close {
   margin: 2px 5px 0 0;
 }
