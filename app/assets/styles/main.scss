@@ -2280,7 +2280,7 @@ $sidebar-size-full: 300px;
   }
 }
 
-.modal-header {
+.modal-body {
   .message-status {
     p {
       color: #8F8F8F;
@@ -2298,9 +2298,8 @@ $sidebar-size-full: 300px;
       color: #3A85AA;
     }
 
-    position:absolute;
-    right:50px;
-    top:10px;
+    margin: 5px 16px 0px;
+
   }
 }
 
