@@ -2,7 +2,14 @@
 
 angular
   .module('ReportsDestroyModalControllerModule', ['ReportsItemsServiceModule'])
-  .controller('ReportsDestroyModalController', function($rootScope, $scope, Restangular, ReportsItemsService, $modalInstance, report) {
+  .controller('ReportsDestroyModalController', function($rootScope, $scope, Restangular, ReportsItemsService, $modalInstance, report, $log) {
+
+    $log.info('ReportsDestroyModalController created.');
+
+    $scope.$on("$destroy", function() {
+      $log.info('ReportsDestroyModalController destroyed.');
+    });
+
     $scope.report = report;
 
     // delete user from server
@@ -12,7 +19,7 @@ angular
 
       deletePromise.then(function() {
         $modalInstance.close();
-        $rootScope.$emit('reports:itemRemoved', $scope.report.id);
+        $rootScope.$broadcast('reports:itemRemoved', $scope.report.id);
         $scope.deleting = false;
         $scope.showMessage('ok', 'O Relato ' + $scope.report.protocol + ' foi removido com sucesso', 'success', true);
       }, function(){
