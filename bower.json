@@ -38,7 +38,8 @@
     "moment": "~2.9.0",
     "js-rich-marker": "git://github.com/googlemaps/js-rich-marker.git#gh-pages",
     "ng-cpf-cnpj": "*",
-    "angular-toArrayFilter": "~1.0.0"
+    "angular-toArrayFilter": "~1.0.0",
+    "angular-promise-buttons": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
