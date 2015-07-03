@@ -14,9 +14,33 @@ angular
 
     var page = 1, perPage = 30, total, searchText = '', groupsIds = [];
 
+    // sorting the tables
+    $scope.sort = {
+      column: 'name',
+      descending: true
+    };
+
+    $scope.changeSorting = function (column) {
+      var sort = $scope.sort;
+
+      if (sort.column === column) {
+        sort.descending = !sort.descending;
+      } else {
+        sort.column = column;
+        sort.descending = false;
+      }
+
+      // ReportsItemsService.resetCache();
+      $scope.refresh();
+    };
+
+    $scope.selectedCls = function (column) {
+      return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
+    };
+
     // Return right promise
     var generateUsersPromise = function() {
-      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups.id'};
+      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups.id', sort: $scope.sort};
 
       if (groupsIds.length !== 0)
       {
