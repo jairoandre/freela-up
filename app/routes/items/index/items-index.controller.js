@@ -8,7 +8,9 @@ angular
     'angular-toArrayFilter'
   ])
 
-  .controller('ItemsIndexController', function ($state, $scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService) {
+  .controller('ItemsIndexController', function ($state, $scope, $rootScope, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, InventoriesItemsService, $log) {
+
+    $log.info('ItemsIndexController created.');
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
@@ -303,14 +305,14 @@ angular
       }
     };
 
-    $rootScope.$on('inventoriesItemsFetching', function(){
+    $scope.$on('inventoriesItemsFetching', function(){
       if(isMap)
       {
         $scope.loading = true;
       }
     });
 
-    $rootScope.$on('inventoriesItemsFetched', function(){
+    $scope.$on('inventoriesItemsFetched', function(){
       $scope.total = InventoriesItemsService.total;
       $scope.loading = false;
     });
@@ -494,5 +496,6 @@ angular
 
     $scope.$on('$destroy', function() {
       $rootScope.pageHasMap = false;
+      $log.info('ItemsIndexController destroyed.');
     });
   });
