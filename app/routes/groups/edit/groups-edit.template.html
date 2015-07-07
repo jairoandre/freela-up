@@ -18,7 +18,7 @@
       <div class="option col-lg-2">
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            {{ getTypeName(newPermission.type) || 'Selecione' }} <span class="pull-right"><span class="caret"></span></span>
+            {{ getType(newPermission.type).name || 'Selecione' }} <span class="pull-right"><span class="caret"></span></span>
           </button>
 
           <ul class="dropdown-menu" role="menu">

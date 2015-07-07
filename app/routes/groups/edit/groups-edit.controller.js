@@ -284,7 +284,7 @@ angular
     }
 
     // getters
-    var getType = function(type) {
+    var getType = $scope.getType = function(type) {
       for (var i = $scope.availablePermissionTypes.length - 1; i >= 0; i--) {
         if ($scope.availablePermissionTypes[i].type === type) return $scope.availablePermissionTypes[i];
       }
@@ -293,8 +293,12 @@ angular
     };
 
     $scope.getTypeName = function(permission) {
-      if(permission && _.isArray(permission.permission_names) && permission.permission_names[0] == 'users_edit')  return 'Usuários';
-      if(!permission) return;
+      if(permission && _.isArray(permission.permission_names) && permission.permission_names[0] == 'users_edit'){
+        return 'Usuários';
+      }
+      if(!permission){
+        return;
+      }
       return getType(permission.permission_type) ? getType(permission.permission_type).name : permission.permission_type;
     };
 
