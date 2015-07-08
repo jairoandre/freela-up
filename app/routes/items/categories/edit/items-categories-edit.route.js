@@ -18,13 +18,14 @@ angular
               return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
             }],
 
-            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$q', function(FullResponseRestangular, $stateParams, $q) {
+            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$q', '$log', function(FullResponseRestangular, $stateParams, $q, $log) {
               var defer = $q.defer(),
                   triggersPromise = FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
 
               triggersPromise.then(function(response) {
                 defer.resolve(response);
               }, function() {
+                $log.info('Sem permissão de edição de fórmulas.')
                 defer.resolve(false);
               });
 
