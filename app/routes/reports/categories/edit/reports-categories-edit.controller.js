@@ -48,7 +48,7 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
 
-    var categoriesPromise = Restangular.one('inventory').all('categories').getList({ return_fields: 'id,name'}), category;
+    var categoriesPromise = Restangular.one('inventory').all('categories').getList({ return_fields: 'id,title'}), category;
 
     if (updating)
     {

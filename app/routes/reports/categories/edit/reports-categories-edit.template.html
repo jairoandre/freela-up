@@ -37,11 +37,11 @@
 
             <div class="ui-widget">
               <span class="search_icon"></span>
-              <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete" ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input">
+              <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete" ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input" ng-click="inventories_autocomplete = null">
             </div>
 
             <ul>
-              <li ng-repeat="id in category.inventory_categories"><span ng-repeat="category in categories" ng-show="category.id == id">{{ category.title }}</span> <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button></li>
+              <li ng-repeat="id in category.inventory_categories"><span ng-repeat="_category in categories" ng-show="_category.id === id">{{ _category.title }}</span> <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button></li>
             </ul>
           </div>
 
