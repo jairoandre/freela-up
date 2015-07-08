@@ -109,9 +109,6 @@ angular
       {
         Error.show('expired_session');
       }
-      if (response.status === 403){
-        return true;
-      }
       else if (typeof response.config.treatingErrors === 'undefined' || response.config.treatingErrors === false)
       {
         Error.show(response);
