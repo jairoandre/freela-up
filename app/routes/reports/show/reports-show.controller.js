@@ -19,7 +19,14 @@ angular
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log) {
+
+    $log.info('ReportsShowController created.');
+    $scope.$on('$destroy',function(){
+        $log.info('ReportsShowController destroyed.');
+    });
+
+
     $scope.report = reportResponse.data;
     $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     $scope.categoryData = $scope.report.category;
@@ -302,6 +309,23 @@ angular
 
       historyPromise.then(function(historyLogs) {
         $scope.historyLogs = historyLogs.data;
+
+        // Resolve o texto de estado para mensagem de atraso
+        var nextStatus = false;
+        for(var i = 0; i < $scope.historyLogs.length; i++){
+          var log = $scope.historyLogs[i];
+          var kind = log.kind;
+          if(kind === 'overdue'){
+            nextStatus = true;
+            continue;
+          }
+          if(nextStatus){
+            if(kind === 'status' || kind === 'creation'){
+              $scope.overdue_status = log.changes.new.title;
+              break;
+            }
+          }
+        }
 
         $scope.loadingHistoryLogs = false;
       });
