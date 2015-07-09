@@ -10,20 +10,22 @@
     <a href="#/items/select-category" class="btn btn-info btn-custom" ng-show="hasPermission('inventories_items_create') || hasPermission('inventories_categories_edit') || hasPermission('inventories_full_access')">+ Novo item</a>
     <a class="icon_action" href="" ng-click="deleteItem(item, category)" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', item.category.id) || hasPermission('inventories_items_delete', item.category.id)"><span class="glyphicon glyphicon-trash"></span></a>
     <a href="#/items/{{ item.id }}/category/{{ item.inventory_category_id }}/edit" class="icon_action" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', item.category.id) || hasPermission('inventories_items_edit', item.category.id)"><span class="glyphicon glyphicon-edit"></span></a>
-  </div>
 
-  <div class="status-bar" ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">
-    <div class="background" ng-style="{ 'background-color': status.color }"></div>
-    <p class="pull-left" ng-style="{ 'color': status.color }">{{ status.title }}</p>
-    <a class="pull-right" ng-click="editItemStatus(item, category)" href="" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', category.id) || hasPermission('inventories_items_edit', category.id)">Alterar status</a>
-
-    <div class="clearfix"></div>
   </div>
 
   <div class="content wrappers">
 
     <div class="rounder_wrapper" ng-repeat="section in category.sections | orderBy:'position'" ng-hide="section.disabled">
       <div class="wrapper_title"><h1>{{ section.title }}</h1></div>
+
+      <div class="status-bar" ng-show="item_status !== null && $index === 0">
+
+        <div class="background" ng-style="{ 'background-color': item_status.color }"></div>
+        <p class="pull-left" ng-style="{ 'color': item_status.color }">{{ item_status.title }}</p>
+        <a class="pull-right" ng-click="editItemStatus(item, category)" href="" ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit', category.id) || hasPermission('inventories_items_edit', category.id)">Alterar status</a>
+
+        <div class="clearfix"></div>
+      </div>
 
       <div class="fields">
         <div class="field" ng-repeat="field in section.fields | orderBy:'position'" ng-hide="field.disabled === true && !getDataByInventoryFieldId(field.id)">
