@@ -225,7 +225,18 @@ angular
             name: 'Enviar comentários ao munícipe',
             needsObject: true,
             tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
-          },
+          }
+        ]
+      },
+      {
+        type: 'metric_report',
+        name: 'Relatórios',
+        permissionsNames: [
+          {
+            slug: 'metric_reports_edit',
+            name: 'Gerenciar relatórios',
+            needsObject: false
+          }
         ]
       }
     ];
