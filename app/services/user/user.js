@@ -38,7 +38,7 @@ angular
                 // if there is not `id` specified, we just check if the permission is empty
                 if (typeof id === 'undefined')
                 {
-                  return (user.permissions[permissionName].length !== 0);
+                  return (user.permissions[permissionName] && user.permissions[permissionName].length !== 0);
                 }
 
                 // returns true if the user has the permission for any of the given objects
