@@ -229,11 +229,11 @@ angular
         ]
       },
       {
-        type: 'metric_report',
+        type: 'business_report',
         name: 'Relatórios',
         permissionsNames: [
           {
-            slug: 'metric_reports_edit',
+            slug: 'business_reports_edit',
             name: 'Gerenciar relatórios',
             needsObject: false
           }

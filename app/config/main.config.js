@@ -149,10 +149,14 @@ angular
       else Error.show(error);
     });
 
-    // FIXME let's put this in a directive, please, Mr. Gabriel? :-D
+    $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
+      console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
+      console.log(unfoundState, fromState, fromParams);
+    });
+
     $rootScope.glyphicons = {
       'exclamation-sign': 'glyphicon-exclamation-sign',
-      'ok': 'glyphicon-ok',
+      'ok': 'glyphicon-ok'
     };
 
     $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {
