@@ -503,7 +503,8 @@ angular
         $scope.showPermissionsMenu = false;
         $scope.showObjectsMenu = false;
 
-        $scope.newPermission.type = permissionType.type;
+        if(permissionType)
+          $scope.newPermission.type = permissionType.type;
       });
     };
 
