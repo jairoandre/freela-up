@@ -20,6 +20,7 @@ angular
     'ngStorage',
     'ngRaven',
     'monospaced.elastic',
+    'angularPromiseButtons',
 
     // Core services
     'AuthServiceModule',

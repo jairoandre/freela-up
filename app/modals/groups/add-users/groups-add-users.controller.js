@@ -152,7 +152,12 @@ angular
     };
 
     $scope.addUser = function(userId) {
-      $scope.usersToAdd.push(userId);
+
+      if(group.users.filter(function(e){ return e.id == userId; }).length > 0){
+        $scope.addModalMessage('exclamation-sign', 'Usuário já relacionado ao grupo.', 'error');
+      }else{
+        $scope.usersToAdd.push(userId);
+      }
     };
 
     $scope.removeUser = function(userId) {

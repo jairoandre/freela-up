@@ -141,7 +141,7 @@ angular
       }
     };
 
-    $rootScope.$on('reports:position-updated', function(e, location){
+    $scope.$on('reports:position-updated', function(e, location){
       $scope.lat = location.lat();
       $scope.lng = location.lng();
       if(!wasPositionUpdated) {

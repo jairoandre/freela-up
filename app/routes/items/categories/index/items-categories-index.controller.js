@@ -12,6 +12,7 @@ angular
       $modal.open({
         templateUrl: 'modals/items/categories/destroy/items-categories-destroy.template.html',
         windowClass: 'removeModal',
+        backdrop: 'static',
         resolve: {
           inventoriesCategoriesList: function() {
             return $scope.categories;

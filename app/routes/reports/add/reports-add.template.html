@@ -146,7 +146,9 @@
         <hr />
       </div>
 
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom pull-left" ng-disabled="description.length > 799 || !address.address || markerOutOfBounds || !user">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+      <div class="pull-left">
+        <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-disabled="description.length > 799 || !address.address || markerOutOfBounds || !user">{{ updating ? 'Atualizar relato' : 'Criar relato' }}</button>
+      </div>
 
       <div class="checkbox pull-left">
         <label>

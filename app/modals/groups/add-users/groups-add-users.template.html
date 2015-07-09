@@ -1,9 +1,15 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
   <h4 class="modal-title">Selecione usuários</h4>
+
 </div>
 
 <div class="modal-body">
+
+  <div ng-show="showModalMessage" class="message-status fade-animation" ng-class="modalMessage.messageClass">
+    <p><span class="glyphicon" ng-class="glyphicons[modalMessage.icon]"></span> {{ modalMessage.text }}</p>
+  </div>
+
   <div class="users-to-be-added">
     <p>{{ usersToAdd.length }} usuário(s) serão adicionados ao grupo.</p>
 

@@ -9,9 +9,9 @@ angular
 
     // delete user from server
     $scope.confirm = function() {
-      var deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).remove();
+      $scope.deletePromise = Restangular.one('inventory').one('categories', $scope.category.id).remove();
 
-      deletePromise.then(function() {
+      $scope.deletePromise.then(function() {
         delete $cookies.inventoryFiltersHash; // we need to remove the saved filters because the user might have selected the category
 
         // remove user from list

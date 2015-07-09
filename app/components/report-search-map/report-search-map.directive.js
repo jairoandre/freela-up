@@ -50,7 +50,7 @@ angular
                 return;
               }
 
-              $rootScope.$emit('reports:position-updated', place.geometry.location);
+              $rootScope.$broadcast('reports:position-updated', place.geometry.location);
 
               var addressComponents = $filter('filterGoogleAddressComponents')(place.address_components);
 

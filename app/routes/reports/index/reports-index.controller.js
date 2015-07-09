@@ -10,7 +10,10 @@ angular
     'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
+
+    $log.info('ReportsIndexController created.');
+
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
@@ -293,7 +296,9 @@ angular
           $scope.clusterize = mapOptions.clusterize;
         }
 
-        var promise = ReportsItemsService.fetchAll($scope.generateReportsFetchingOptions());
+        var fetchOptions = $scope.generateReportsFetchingOptions();
+
+        var promise = ReportsItemsService.fetchAll(fetchOptions);
 
         promise.then(function (reports) {
           page++;
@@ -315,13 +320,13 @@ angular
       }
     };
 
-    $rootScope.$on('reportsItemsFetching', function(){
+    $scope.$on('reportsItemsFetching', function(){
       if(isMap) {
         $scope.loading = true;
       }
     });
 
-    $rootScope.$on('reportsItemsFetched', function(){
+    $scope.$on('reportsItemsFetched', function(){
       $scope.total = ReportsItemsService.total;
       $scope.loading = false;
     });
@@ -357,7 +362,7 @@ angular
       }
     };
 
-    $rootScope.$on('reports:itemRemoved', function(){
+    $scope.$on('reports:itemRemoved', function(reportId){
       $scope.reload(true);
     });
 
@@ -515,5 +520,6 @@ angular
 
     $scope.$on('$destroy', function() {
       $rootScope.pageHasMap = false;
+      $log.info('ReportsIndexController destroyed.');
     });
   });

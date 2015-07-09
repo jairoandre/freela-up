@@ -18,15 +18,21 @@ angular
               return Restangular.one('inventory').one('categories', $stateParams.id).get({display_type: 'full'});
             }],
 
-            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$q', function(FullResponseRestangular, $stateParams, $q) {
-              var defer = $q.defer(),
-                  triggersPromise = FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
+            'formulasResponse': ['FullResponseRestangular', '$stateParams', '$q', '$log', '$rootScope', function(FullResponseRestangular, $stateParams, $q, $log, $rootScope) {
+              var defer = $q.defer();
 
-              triggersPromise.then(function(response) {
-                defer.resolve(response);
-              }, function() {
-                defer.resolve(false);
-              });
+              if($rootScope.hasPermission('inventories_formulas_full_access')){
+                var triggersPromise = FullResponseRestangular.one('inventory').one('categories', $stateParams.id).all('formulas').customGET();
+                triggersPromise.then(function(response) {
+                  defer.resolve(response);
+                }, function() {
+                  defer.resolve(false);
+                });
+              }else{
+                $log.info('Sem permissão de edição de fórmulas.');
+                defer.resolve(true);
+              }
+
 
               return defer.promise;
             }],

@@ -18,7 +18,7 @@ angular
               var deferred = $q.defer();
 
               var itemsReturnFields = [
-                'id', 'address', 'inventory_category_id', 'position', 'title',
+                'id', 'address', 'inventory_category_id', 'inventory_category_id', 'inventory_status_id', 'position', 'title',
                 'data.id', 'data.content', 'data.selected_options', 'data.field.id',
                 'category'
               ];
@@ -33,9 +33,10 @@ angular
 
               item.then(function(itemResponse) {
                 var item = angular.copy(itemResponse.data);
-                var category = Restangular.one('inventory').one('categories', item.inventory_category_id).get({ 'return_fields': categoryReturnFields.join() });
+                var category = Restangular.one('inventory').one('categories', item.inventory_category_id).get({ return_fields: categoryReturnFields.join(), display_type: 'full' });
 
                 category.then(function(categoryResponse) {
+
                   item.category = angular.copy(categoryResponse.data);
 
                   deferred.resolve(item);

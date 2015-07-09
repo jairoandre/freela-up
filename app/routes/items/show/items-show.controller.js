@@ -8,9 +8,28 @@ angular
     'GalleryComponentModule'
   ])
 
-  .controller('ItemsShowController', function ($rootScope, $scope, Restangular, $q, $state, $modal, itemResponse) {
+  .controller('ItemsShowController', function ($rootScope, $scope, Restangular, $q, $state, $modal, itemResponse, $log) {
+    $log.info('ItemsShowController created.')
+    $scope.$on('$destroy', function(){
+      $log.info('ItemsShowController destroyed.')
+    });
     $scope.item = itemResponse;
-    $scope.category = itemResponse.category;
+    $scope.category = $scope.item.category;
+    $scope.item_status = null;
+
+    $scope.updateItemStatus = function(){
+      if($scope.item.inventory_status_id != null){
+        var statuses = $scope.category.statuses;
+        for(var i = 0; i < statuses.length; i++){
+          if($scope.item.inventory_status_id === statuses[i].id){
+            $scope.item_status = statuses[i];
+            break;
+          }
+        }
+      }
+    };
+
+    $scope.updateItemStatus();
 
     $scope.getDataByInventoryFieldId = function(id) {
       for (var i = $scope.item.data.length - 1; i >= 0; i--) {
@@ -50,9 +69,13 @@ angular
 
           refreshItemHistory: function() {
             return $scope.refreshHistory;
+          },
+
+          updateItemStatus: function() {
+            return $scope.updateItemStatus;
           }
         },
-        controller: ['$scope', '$modalInstance', 'category', 'item', 'refreshItemHistory', function($scope, $modalInstance, category, item, refreshItemHistory) {
+        controller: ['$scope', '$modalInstance', 'category', 'item', 'refreshItemHistory', 'updateItemStatus', function($scope, $modalInstance, category, item, refreshItemHistory, updateItemStatus) {
           $scope.category = category;
           $scope.item = angular.copy(item);
 
@@ -67,6 +90,8 @@ angular
               item.inventory_status_id = $scope.item.inventory_status_id; // jshint ignore:line
 
               refreshItemHistory();
+
+              updateItemStatus();
 
               $modalInstance.close();
             });

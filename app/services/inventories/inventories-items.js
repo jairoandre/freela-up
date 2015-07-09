@@ -55,7 +55,7 @@ angular
 
       var deferred = $q.defer();
 
-      $rootScope.$emit('inventoriesItemsFetching');
+      $rootScope.$broadcast('inventoriesItemsFetching');
 
       promise.then(function (response) {
         _.each(response.data.items, function (item)
@@ -76,7 +76,7 @@ angular
           categoryFetchPromise.then(function () {
             hookCategoryFieldsOnReports();
 
-            $rootScope.$emit('inventoriesItemsFetched', self.items);
+            $rootScope.$broadcast('inventoriesItemsFetched', self.items);
 
             deferred.resolve(self.items);
           });
@@ -86,7 +86,7 @@ angular
           // TODO This may cause problems for items of categories that are not yet present
           hookCategoryFieldsOnReports();
 
-          $rootScope.$emit('inventoriesItemsFetched', self.items);
+          $rootScope.$broadcast('inventoriesItemsFetched', self.items);
 
           deferred.resolve(self.items);
         }
@@ -114,7 +114,7 @@ angular
 
       var deferred = $q.defer();
 
-      $rootScope.$emit('inventoriesItemsFetching');
+      $rootScope.$broadcast('inventoriesItemsFetching');
 
       itemsFetchPromise.then(function (response) {
         self.total = parseInt(response.headers().total, 10);
@@ -137,7 +137,7 @@ angular
 
             hookCategoryFieldsOnReports();
 
-            $rootScope.$emit('inventoriesItemsFetched', self.items);
+            $rootScope.$broadcast('inventoriesItemsFetched', self.items);
 
             deferred.resolve(self);
           });
@@ -148,7 +148,7 @@ angular
 
           hookCategoryFieldsOnReports();
 
-          $rootScope.$emit('inventoriesItemsFetched', self.items);
+          $rootScope.$broadcast('inventoriesItemsFetched', self.items);
 
           deferred.resolve(self);
         }
