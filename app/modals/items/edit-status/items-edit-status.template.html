@@ -8,7 +8,8 @@
 
   <div class="btn-group">
     <button type="button" class="btn btn-default dropdown-custom dropdown-toggle" data-toggle="dropdown">
-    <span ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">{{ status.title }}</span> <span class="pull-right"><span class="caret"></span></span>
+      <span ng-show="item.inventory_status_id === null">Não definido</span>
+      <span ng-repeat="status in category.statuses" ng-if="status.id == item.inventory_status_id">{{ status.title }}</span> <span class="pull-right"><span class="caret"></span></span>
     </button>
 
     <ul class="dropdown-menu status" role="menu">

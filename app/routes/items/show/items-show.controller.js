@@ -15,6 +15,7 @@ angular
     });
     $scope.item = itemResponse;
     $scope.category = $scope.item.category;
+    $scope.show_status_bar = $scope.category.statuses.length > 0;
     $scope.item_status = null;
 
     $scope.updateItemStatus = function(){
@@ -26,6 +27,8 @@ angular
             break;
           }
         }
+      }else{
+        $scope.item_status = {color: '#271129', title: 'Não definido'};
       }
     };
 
