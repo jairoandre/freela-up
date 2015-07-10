@@ -23,6 +23,13 @@
   @include opacity(1);
 }
 
+.items-category-show{
+  .status-bar{
+    margin: -30px -30px 30px -30px !important;
+    width: auto !important;
+  }
+}
+
 .item-history {
   margin: 40px 60px 60px;
 
