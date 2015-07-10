@@ -9,7 +9,7 @@ angular
       url: '',
       views: {
         '': {
-          templateUrl: 'routes/business_reports/index/business_reports-index.template.html',
+          templateUrl: 'routes/business-reports/index/business-reports-index.template.html',
           controller: 'BusinessReportsIndexController',
           controllerAs: 'ctrl'
         }

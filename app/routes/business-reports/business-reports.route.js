@@ -6,7 +6,7 @@ angular
 
     $stateProvider.state('business_reports', {
       url: '/business_reports',
-      templateUrl: 'routes/business_reports/business_reports.template.html',
+      templateUrl: 'routes/business-reports/business-reports.template.html',
       resolve: {
         'User': ['User', function(User) {
           return User({ permissions: ['isLogged'] });

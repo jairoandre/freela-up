@@ -1,0 +1,9 @@
+<table class="table custom_table big_text" ng-if="businessReportsCtrl.contentLoaded">
+  <tr ng-repeat="report in reports">
+    <td><a href="#/business-reports/{{ report.id }}">{{ report.title }}</a></td>
+    <td class="actions" ng-show="hasPermission('groups_full_access') || hasPermission('group_edit', group.id)">
+      <a class="icon_action" href="#/groups/{{ group.id }}"><span class="glyphicon glyphicon glyphicon-list"></span></a>
+      <a href="" ng-click="deleteGroup(group)"><span class="glyphicon glyphicon-trash"></span></a>
+    </td>
+  </tr>
+</table>

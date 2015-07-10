@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 angular
   .module('BusinessReportsIndexHeaderDirectiveModule', [])
@@ -8,6 +8,6 @@ angular
       scope: {
         showAddNewButton: '='
       },
-      templateUrl: 'routes/business_reports/index/components/header/business_reports-index-header.html'
+      templateUrl: 'routes/business-reports/index/components/header/business-reports-index-header.html'
     };
   });
