@@ -2,7 +2,7 @@
 
 angular
   .module('BusinessReportsIndexHeaderDirectiveModule', [])
-  .directive('businessReportsIndexHeaderDirective', function(){
+  .directive('businessReportsIndexHeader', function(){
     return {
       restrict: 'E',
       scope: {

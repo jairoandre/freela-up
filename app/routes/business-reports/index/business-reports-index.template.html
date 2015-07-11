@@ -1,1 +1,10 @@
-<business-reports-index-header-directive show-add-new-button="hasPermission('business_reports_edit')"></business-reports-index-header-directive>
+<business-reports-index-header
+  show-add-new-button="hasPermission('business_reports_edit')" >
+</business-reports-index-header>
+
+<business-reports-index-list
+  load-content="loadContent"
+  show-edit-button="hasPermission('business_reports_edit')"
+  show-remove-button="hasPermission('business_reports_edit')">
+
+</business-reports-index-list>

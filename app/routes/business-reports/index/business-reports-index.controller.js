@@ -2,8 +2,10 @@
 
 angular
   .module('BusinessReportsIndexControllerModule', [
-    'BusinessReportsIndexHeaderDirectiveModule'
+    'BusinessReportsIndexHeaderDirectiveModule',
+    'BusinessReportsIndexListDirectiveModule',
+    'BusinessReportsServiceModule'
   ])
-  .controller('BusinessReportsIndexController', function () {
-    var a = 10 * 10;
+  .controller('BusinessReportsIndexController', function ($scope, BusinessReportsService) {
+    $scope.loadContent = BusinessReportsService.fetchAll;
   });

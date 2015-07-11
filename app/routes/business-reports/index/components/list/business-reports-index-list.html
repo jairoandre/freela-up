@@ -1,9 +1,37 @@
-<table class="table custom_table big_text" ng-if="businessReportsCtrl.contentLoaded">
-  <tr ng-repeat="report in reports">
-    <td><a href="#/business-reports/{{ report.id }}">{{ report.title }}</a></td>
-    <td class="actions" ng-show="hasPermission('groups_full_access') || hasPermission('group_edit', group.id)">
-      <a class="icon_action" href="#/groups/{{ group.id }}"><span class="glyphicon glyphicon glyphicon-list"></span></a>
-      <a href="" ng-click="deleteGroup(group)"><span class="glyphicon glyphicon-trash"></span></a>
-    </td>
-  </tr>
-</table>
+<div>
+  <table class="table custom_table big_text" ng-if="contentLoaded && reports.length > 0">
+    <thead>
+    <tr>
+      <td width="25%">
+        <span>Título</span><span class="arrow"></span>
+      </td>
+      <td width="40%">
+        <span>Sumário</span><span class="arrow"></span>
+      </td>
+      <td width="20%">
+        <span>Período</span><span class="arrow"></span>
+      </td>
+      <td width="100"></td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="report in reports">
+      <td><a href="#/business-reports/{{ report.id }}">{{ report.title }}</a></td>
+      <td>
+        <span ng-if="report.summary">{{ report.summary }}</span>
+        <span ng-if="!report.summary" class="unflashy-text">Não informado.</span>
+      </td>
+      <td>De {{ report.begin_date | date:'dd/MM/yy' }} â {{ report.end_date | date:'dd/MM/yy' }} ({{ daysBetween(report.begin_date, report.end_date)}} dias)</td>
+      <td class="actions">
+        <a ng-show="showEditButton" class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit"></span></a>
+        <a ng-show="showRemoveButton" class="icon_action" href="" ng-click="deleteReport(report)"><span class="glyphicon glyphicon-trash"></span></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div ng-if="reports.length == 0 && contentLoaded">
+    <p>Nenhum relatórios cadastrado até o momento. Gostaria de <a href="">criar um novo?</a></p>
+  </div>
+</div>

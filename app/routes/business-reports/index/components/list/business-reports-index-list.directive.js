@@ -2,15 +2,26 @@
 
 angular
   .module('BusinessReportsIndexListDirectiveModule', [])
-  .directive('businessReportsListHeaderDirective', function(){
+  .directive('businessReportsIndexList', function(){
     return {
       restrict: 'E',
       scope: {
-        contentLoaded: false,
-        reports: []
+        loadContent: '&',
+        showEditButton: '=',
+        showRemoveButton: '='
       },
-      templateUrl: 'routes/business-reports/index/components/header/business-reports-index-list.html',
-      controller: function($scope, el) {
+      templateUrl: 'routes/business-reports/index/components/list/business-reports-index-list.html',
+      controller: function($scope) {
+        ($scope.loadContent())().then(function(reports){
+          $scope.reports = reports;
+          $scope.contentLoaded = true;
+        }, function(){
+          $scope.errorLoadingContent = true;
+        });
+
+        $scope.daysBetween = function(from, to) {
+          return Math.ceil((to - from) / 1000 / 60 / 60 / 24);
+        }
 
       }
     };

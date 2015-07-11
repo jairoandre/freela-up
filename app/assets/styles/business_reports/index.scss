@@ -1,0 +1,19 @@
+business-reports-index-list {
+  tr {
+    font-size: 14px;
+
+    &:last-child {
+      border-bottom: 1px solid #ddd;
+    }
+
+    &:hover {
+      background-color: #ebf6fd;
+      cursor: pointer;
+    }
+  }
+
+  .unflashy-text {
+    color: #888;
+  }
+
+}
