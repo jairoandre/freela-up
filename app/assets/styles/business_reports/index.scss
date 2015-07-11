@@ -1,7 +1,13 @@
 business-reports-index-list {
-  tbody tr:hover {
-    background-color: #ebf6fd;
-    cursor: pointer;
+  tbody {
+    tr:hover {
+      background-color: #ebf6fd;
+      cursor: pointer;
+    }
+
+    tr {
+      font-size: 14px;
+    }
   }
 
   .edit-hover {
@@ -13,8 +19,6 @@ business-reports-index-list {
   }
 
   tr {
-    font-size: 14px;
-
     &:last-child {
       border-bottom: 1px solid #ddd;
     }
