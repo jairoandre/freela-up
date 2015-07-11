@@ -31,7 +31,11 @@
     </tbody>
   </table>
 
-  <div ng-if="reports.length == 0 && contentLoaded">
-    <p>Nenhum relatórios cadastrado até o momento. Gostaria de <a href="">criar um novo?</a></p>
+  <div ng-if="reports.length == 0 && contentLoaded" class="nice-and-centered">
+    <p>Nenhum relatório cadastrado até o momento. Gostaria de <a href="">criar um novo?</a></p>
+  </div>
+
+  <div ng-if="errorLoadingContent" class="nice-and-centered">
+    <p>Um erro ocorreu durante a consulta por relatórios. Por favor, <a href="" ng-click="reloadApplication()">recarregue a aplicação.</a></p>
   </div>
 </div>

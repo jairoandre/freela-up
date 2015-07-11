@@ -36,8 +36,8 @@ angular
         var reports = response.data;
 
         deferred.resolve(reports.map(unmarshall));
-      }, function () {
-
+      }, function (response) {
+        deferred.reject(response);
       });
 
       return deferred.promise;

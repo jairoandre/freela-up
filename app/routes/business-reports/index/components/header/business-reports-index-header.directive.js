@@ -8,6 +8,6 @@ angular
       scope: {
         showAddNewButton: '='
       },
-      templateUrl: 'routes/business-reports/index/components/header/business-reports-index-header.html'
+      templateUrl: 'routes/business-reports/index/components/header/business-reports-index-header.template.html'
     };
   });
