@@ -16,7 +16,7 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="report in reports">
+    <tr ng-repeat="report in reports" ng-class="{ 'edit-hover': hoveringEditButton, 'remove-hover': hoveringRemoveButton }">
       <td><a href="#/business-reports/{{ report.id }}">{{ report.title }}</a></td>
       <td>
         <span ng-if="report.summary">{{ report.summary }}</span>
@@ -24,8 +24,8 @@
       </td>
       <td>De {{ report.begin_date | date:'dd/MM/yy' }} â {{ report.end_date | date:'dd/MM/yy' }} ({{ daysBetween(report.begin_date, report.end_date)}} dias)</td>
       <td class="actions">
-        <a ng-show="showEditButton" class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit"></span></a>
-        <a ng-show="showRemoveButton" class="icon_action" href="" ng-click="deleteReport(report)"><span class="glyphicon glyphicon-trash"></span></a>
+        <a ng-mouseenter="hoveringEditButton = true" ng-mouseleave="hoveringEditButton = false" ng-show="showEditButton" class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit"></span></a>
+        <a ng-mouseenter="hoveringRemoveButton = true" ng-mouseleave="hoveringRemoveButton = false" ng-show="showRemoveButton" class="icon_action" href="" ng-click="deleteReport(report)"><span class="glyphicon glyphicon-trash"></span></a>
       </td>
     </tr>
     </tbody>

@@ -1,14 +1,22 @@
 business-reports-index-list {
+  tbody tr:hover {
+    background-color: #ebf6fd;
+    cursor: pointer;
+  }
+
+  .edit-hover {
+    background-color: #fdfcee !important;
+  }
+
+  .remove-hover {
+    background-color: #fde4e8 !important;
+  }
+
   tr {
     font-size: 14px;
 
     &:last-child {
       border-bottom: 1px solid #ddd;
-    }
-
-    &:hover {
-      background-color: #ebf6fd;
-      cursor: pointer;
     }
   }
 
