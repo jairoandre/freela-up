@@ -14,9 +14,9 @@ angular
     };
 
     /**
-     * Fetches report items using hte search report endpoint
+     * Fetches the business reports list
      * @param {Object} options - API options for the search report endpoint
-     * @returns {Object} promise called for successful responses alone
+     * @returns {Object} promise
      */
     self.fetchAll = function (options) {
       options = options || {};
@@ -37,6 +37,23 @@ angular
 
         deferred.resolve(reports.map(unmarshall));
       }, function (response) {
+        deferred.reject(response);
+      });
+
+      return deferred.promise;
+    };
+
+    /**
+     * Remove a single business report
+     * @param {Number} id The business report ID
+     * @returns {Object} promise
+     */
+    self.remove = function(id){
+      var promise = FullResponseRestangular.one('business_reports', id).remove(), deferred = $q.defer();
+
+      promise.then(function (response) {
+        deferred.resolve(response);
+      }, function(response){
         deferred.reject(response);
       });
 

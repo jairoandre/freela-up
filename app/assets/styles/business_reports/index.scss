@@ -31,5 +31,10 @@ business-reports-index-list {
     font-size: 15px;
     color: #666;
   }
+}
 
+.businessReportDestroyModal {
+  input[type="text"] {
+    text-transform: uppercase !important;
+  }
 }

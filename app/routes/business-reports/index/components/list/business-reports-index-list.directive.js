@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-  .module('BusinessReportsIndexListDirectiveModule', [])
-  .directive('businessReportsIndexList', function(){
+  .module('BusinessReportsIndexListDirectiveModule', ['BusinessReportsDestroyModalModule'])
+  .directive('businessReportsIndexList', function(BusinessReportDestroyModalService){
     return {
       restrict: 'E',
       scope: {
@@ -18,6 +18,14 @@ angular
         }, function(){
           $scope.errorLoadingContent = true;
         });
+
+        var removeReportFromList = function(report){
+          $scope.reports.splice($scope.reports.indexOf(report), 1);
+        };
+
+        $scope.deleteReport = function (report) {
+          BusinessReportDestroyModalService.open(report).then(removeReportFromList);
+        };
 
         $scope.daysBetween = function(from, to) {
           return Math.ceil((to - from) / 1000 / 60 / 60 / 24);
