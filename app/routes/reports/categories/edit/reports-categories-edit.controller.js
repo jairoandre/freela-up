@@ -6,10 +6,11 @@ angular
     'NgThumbComponentModule',
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
+    'ReportsCategoriesNotificationsListStatusesModalControllerModule',
     'ReportsCategoriesServiceModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -48,6 +49,31 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
 
+    $scope.reportCategoriesNotificationsStatuses = [
+      {
+        id: 1,
+        reports_categories_id: 1,
+        title: 'Tipo de notificação 1',
+        reports_status_id: 3,
+        default_deadline_in_days: 45,
+        layout: '...',
+        created_at: '2015-07-16T19:20:30-03:00',
+        updated_at: "2015-07-16T19:20:30-03:00",
+        color:'red'
+      },
+      {
+        id: 2,
+        reports_categories_id: 1,
+        title: 'Tipo de notificação 2',
+        reports_status_id: 3,
+        default_deadline_in_days: 45,
+        layout: '...',
+        created_at: '2015-07-16T19:20:30-03:00',
+        updated_at: "2015-07-16T19:20:30-03:00",
+        color:'green'
+      }
+    ];
+
     var categoriesPromise = Restangular.one('inventory').all('categories').getList({ return_fields: 'id,title'}), category;
 
     if (updating)
@@ -73,6 +99,7 @@ angular
         category.comment_required_when_updating_status = responses[1].data.comment_required_when_updating_status;
         category.solver_groups_ids = responses[1].data.solver_groups_ids;
         category.default_solver_group_id = responses[1].data.default_solver_group_id;
+        category.notifications = responses[1].data.notifications;
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
@@ -131,7 +158,8 @@ angular
           {'title': 'Resolvidas', 'color': '#78c953', 'initial': false, 'final': true, 'active': true, 'created_at': '2014-03-05T01: 12: 34.195-03: 00', 'updated_at': '2014-03-05T01: 12: 34.195-03: 00', 'private': false},
           {'title': 'Não resolvidas', 'color': '#999999', 'initial': false, 'final': true, 'active': true, 'created_at': '2014-03-05T01: 12: 34.200-03: 00', 'updated_at': '2014-03-05T01: 12: 34.200-03: 00', 'private': false},
           {'title': 'Em aberto', 'color': '#ff0000', 'initial': true, 'final': false, 'active': true, 'created_at': '2014-03-17T22: 52: 50.365-03: 00', 'updated_at': '2014-03-17T22: 52: 50.365-03: 00', 'private': false}
-        ]
+        ],
+        notifications: false
       };
     }
 
@@ -216,6 +244,26 @@ angular
           }
         },
         controller: 'ReportsCategoriesManageStatusesModalController'
+      });
+    };
+
+    $scope.listNotificationsStatuses = function () {
+      $modal.open({
+        templateUrl: 'modals/reports/categories/notifications-statuses/reports-categories-notifications-list-statuses.template.html',
+        windowClass: 'manageStatuses',
+        backdrop: 'static',
+        resolve: {
+          reportCategoriesNotificationsStatuses: function() {
+            return $scope.reportCategoriesNotificationsStatuses;
+          },
+          updating: function() {
+            return updating;
+          },
+          categoryId: function() {
+            return categoryId;
+          }
+        },
+        controller: 'ReportsCategoriesNotificationsListStatusesModalController'
       });
     };
 
