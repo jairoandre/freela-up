@@ -7,7 +7,7 @@ angular
     'AdvancedFiltersStatusModalControllerModule',
     'AdvancedFiltersAuthorModalControllerModule',
     'AdvancedFiltersReporterModalControllerModule',
-    'AdvancedFiltersPeriodModalControllerModule',
+    'PeriodSelectorModule',
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
     'AdvancedFiltersShareModalControllerModule',
@@ -16,7 +16,7 @@ angular
   ])
 
   /* This file contains common filters used by inventory/reports */
-  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService, InventoriesCategoriesService) {
+  .factory('AdvancedFilters', function ($modal, PeriodSelectorService, Restangular, $q, $location, $rootScope, ReportsCategoriesService, InventoriesCategoriesService) {
     var categoryResolver = function(type) {
       var list;
 
@@ -117,15 +117,28 @@ angular
 
       // advanced filter by date
       period: function(activeAdvancedFilters) {
-        $modal.open({
-          templateUrl: 'modals/advanced-filters/period/advanced-filters-period.template.html',
-          windowClass: 'filterPeriodModal',
-          resolve: {
-            activeAdvancedFilters: function() {
-              return activeAdvancedFilters;
-            }
-          },
-          controller: 'AdvancedFiltersPeriodModalController'
+        PeriodSelectorService.open(true).then(function(beginDate, endDate){
+          if(beginDate) {
+            var beginDateFilter = {
+              title: 'A partir da data',
+              type: 'beginDate',
+              desc: beginDate.getDate() + '/' + (beginDate.getMonth() + 1) + '/' + beginDate.getFullYear(),
+              value: moment(beginDate).startOf('day').format()
+            };
+
+            activeAdvancedFilters.push(beginDateFilter);
+          }
+
+          if(endDate) {
+            var endDateFilter = {
+              title: 'Até a data',
+              type: 'endDate',
+              desc: endDate.getDate() + '/' + (endDate.getMonth() + 1) + '/' + endDate.getFullYear(),
+              value: moment(endDate).endOf('day').format()
+            };
+
+            activeAdvancedFilters.push(endDateFilter);
+          }
         });
       },
 
