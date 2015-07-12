@@ -18,9 +18,14 @@ angular
           });
         };
 
-        $scope.hasPeriodSelected = function(){
+        $scope.hasDefaultPeriodSelected = function(){
           return $scope.report.begin_date && $scope.report.end_date;
         };
+
+        $scope.clearDefaultPeriod = function() {
+          $scope.report.begin_date = undefined;
+          $scope.report.end_date = undefined;
+        }
       }
     };
   });
