@@ -6,13 +6,18 @@ angular
     'NgThumbComponentModule',
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
-    'ReportsCategoriesNotificationsListStatusesModalControllerModule',
+    'ReportsCategoriesNotificationsListTypesModalControllerModule',
     'ReportsCategoriesServiceModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
+
+    $log.info('ReportsCategoriesEditController created.');
+    $scope.$on('$destroy',function(){
+        $log.info('ReportsCategoriesEditController destroyed.');
+    });
 
     if (typeof categoryId !== 'undefined')
     {
@@ -49,7 +54,7 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
 
-    $scope.reportCategoriesNotificationsStatuses = [
+    $scope.reportCategoriesNotificationsTypes = [
       {
         id: 1,
         reports_categories_id: 1,
@@ -247,23 +252,26 @@ angular
       });
     };
 
-    $scope.listNotificationsStatuses = function () {
+    $scope.listNotificationsTypes = function () {
       $modal.open({
-        templateUrl: 'modals/reports/categories/notifications-statuses/reports-categories-notifications-list-statuses.template.html',
+        templateUrl: 'modals/reports/categories/notifications-types/reports-categories-notifications-list-types.template.html',
         windowClass: 'manageStatuses',
         backdrop: 'static',
         resolve: {
-          reportCategoriesNotificationsStatuses: function() {
-            return $scope.reportCategoriesNotificationsStatuses;
+          reportCategoriesNotificationsTypes: function() {
+            return $scope.reportCategoriesNotificationsTypes;
           },
           updating: function() {
             return updating;
           },
           categoryId: function() {
             return categoryId;
+          },
+          parentState: function(){
+            return $state;
           }
         },
-        controller: 'ReportsCategoriesNotificationsListStatusesModalController'
+        controller: 'ReportsCategoriesNotificationsListTypesModalController'
       });
     };
 

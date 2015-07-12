@@ -627,12 +627,12 @@
       </div>
 
       <div class="form-group app-animation ng-hide" ng-show="category.notifications">
-        <label generic-input name="statuses">Estados de notificações disponíveis <a href="" ng-click="listNotificationsStatuses()">(Gerenciar
-          estados)</a></label>
+        <label generic-input name="statuses">Tipos de notificações disponíveis <a href="" ng-click="listNotificationsTypes()">(Gerenciar
+          tipos)</a></label>
 
         <ul class="statuses-list">
-          <li ng-repeat="notificationStatus in reportCategoriesNotificationsStatuses">
-            <span ng-style="{'background-color': notificationStatus.color}"></span> {{ notificationStatus.title }}
+          <li ng-repeat="notificationType in reportCategoriesNotificationsTypes">
+            <span ng-style="{'background-color': notificationType.color}"></span> {{ notificationType.title }}
           </li>
         </ul>
       </div>

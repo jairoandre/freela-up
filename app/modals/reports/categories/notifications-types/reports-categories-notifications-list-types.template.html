@@ -1,0 +1,74 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()">&times;</button>
+  <h4 class="modal-title">Gerenciar tipos de notificações</h4>
+</div>
+
+<div class="modal-body">
+  <div class="new-status">
+    <div class="row">
+      <form ng-submit="createNotificationType()">
+        <button href="" type="submit" class="btn btn-info btn-custom">Novo Tipo</button>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <td style="text-align: left; width: 40%;">Nome do tipo</td>
+        <td>Cor</td>
+        <td>Remover</td>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="notificationType in reportCategoriesNotificationsTypes" report-status>
+        <td style="text-align: left;">
+          <a href="" class="edit_title" ng-click="edit_title = true">{{ notificationType.title }}</a>
+
+          <div class="edit_status_title" ng-show="edit_title">
+            <input type="text" ng-model="notificationType.title"/>
+            <a href="" ng-click="edit_title = false">Pronto</a>
+          </div>
+        </td>
+        <td>
+          <button colorpicker type="button" class="btn btn-colorpicker btn-colorpicker-small"
+                  ng-style="{'background-color': notificationType.color}" ng-click="showColorsPopup = true"></button>
+
+          <!--<button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker btn-colorpicker-small" ng-model="status.color" colorpicker-fixed-position="true" ng-style="{'background-color': status.color}" ng-click="showColorsPopup = true"></button>-->
+
+          <div class="color-options pages-animation" ng-show="showColorsPopup">
+            <button type="button" class="remove close-popup" ng-click="showColorsPopup = false">x</button>
+
+            <a href="" ng-repeat="color in availableColors" ng-click="notificationType.color = color"><span
+              ng-style="{ 'background-color': color }"></span></a>
+
+            <div class="clearfix"></div>
+
+            <input type="text" ng-model="status.color" class="form-control colorpicker-field" colorpicker
+                   colorpicker-fixed-position="true"/>
+          </div>
+        </td>
+
+        <td>
+          <button type="button" class="remove" ng-click="remove_status = true">x</button>
+          <div class="disabled-delete" ng-show="notificationType.final || notificationType.initial"></div>
+
+          <div class="edit_status_title remove-div" ng-show="remove_status">
+            <p class="remove-message">
+              Você tem certeza que deseja excluir?
+                      <span>
+                        <a href="" ng-click="remove_status = false" class="cancel-link">Cancelar</a>
+                        <a href="" ng-click="removeStatus(status)" class="remove-link">Excluir</a>
+                      </span>
+            </p>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="close()">Fechar</button>
+  </div>
