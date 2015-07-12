@@ -52,11 +52,12 @@
     <link rel="stylesheet" href="assets/styles/ui-select.css">
     <link rel="stylesheet" href="assets/styles/animate.css">
 
+    <link rel="stylesheet" href="assets/styles/business_reports/common.css">
     <link rel="stylesheet" href="assets/styles/business_reports/index.css">
     <!-- endbuild -->
   </head>
 
-  <body ng-app="zupPainelApp" detect-scroll-top ng-class="{'vertical-scroll': uiHasScroll}">
+  <body ng-app="zupPainelApp" detect-scroll-top class="{{stateClass}}" ng-class="{'vertical-scroll': uiHasScroll}">
     <!--[if lt IE 10]>
       <p class="browsehappy">Você está usando um navegador <strong>antigo</strong>. Por favor <a href="http://browsehappy.com/">seu navegador</a> para ter uma experiência agradável.</p>
     <![endif]-->
@@ -244,16 +245,23 @@
     <script src="routes/cases/edit/cases-edit.route.js"></script>
     <script src="routes/cases/edit/cases-edit.controller.js"></script>
 
-    <script src="routes/business-reports/index/components/header/business-reports-index-header.directive.js"></script>
-    <script src="routes/business-reports/index/components/list/business-reports-index-list.directive.js"></script>
     <script src="routes/business-reports/business-reports.route.js"></script>
     <script src="routes/business-reports/index/business-reports-index.route.js"></script>
     <script src="routes/business-reports/index/business-reports-index.controller.js"></script>
+    <script src="routes/business-reports/index/components/header/business-reports-index-header.directive.js"></script>
+    <script src="routes/business-reports/index/components/list/business-reports-index-list.directive.js"></script>
+    <script src="routes/business-reports/edit/business-reports-edit.route.js"></script>
+    <script src="routes/business-reports/edit/business-reports-edit.controller.js"></script>
+    <script src="routes/business-reports/edit/components/header/business-reports-edit-header.directive.js"></script>
+    <script src="routes/business-reports/edit/components/form/business-reports-edit-form.directive.js"></script>
+    <script src="routes/business-reports/edit/components/charts/business-reports-edit-charts.directive.js"></script>
 
     <script src="components/equals/equals.directive.js"></script>
     <script src="components/next-field-on-enter/next-field-on-enter.directive.js"></script>
     <script src="components/nav-item/nav-item.directive.js"></script>
     <script src="components/map/map.directive.js"></script>
+    <script src="components/period-selector/period-selector.js"></script>
+    <script src="components/inline-edit/ng-inline-edit.js"></script>
     <script src="components/style-map/style-map.directive.js"></script>
     <script src="components/style-results-table/style-results-table.directive.js"></script>
     <script src="components/on-blur/on-blur.directive.js"></script>
@@ -317,7 +325,6 @@
     <script src="modals/advanced-filters/reporter/advanced-filters-reporter.controller.js"></script>
     <script src="modals/advanced-filters/category/advanced-filters-category.controller.js"></script>
     <script src="modals/advanced-filters/fields/advanced-filters-fields.controller.js"></script>
-    <script src="modals/advanced-filters/period/advanced-filters-period.controller.js"></script>
     <script src="modals/advanced-filters/query/advanced-filters-query.controller.js"></script>
     <script src="modals/advanced-filters/share/advanced-filters-share.controller.js"></script>
     <script src="modals/advanced-filters/status/advanced-filters-status.controller.js"></script>

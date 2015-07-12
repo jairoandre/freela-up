@@ -2,7 +2,7 @@
 
 angular
   .module('BusinessReportsIndexListDirectiveModule', ['BusinessReportsDestroyModalModule'])
-  .directive('businessReportsIndexList', function(BusinessReportDestroyModalService){
+  .directive('businessReportsIndexList', function($state, $rootScope, BusinessReportDestroyModalService){
     return {
       restrict: 'E',
       scope: {
@@ -12,7 +12,7 @@ angular
       },
       templateUrl: 'routes/business-reports/index/components/list/business-reports-index-list.template.html',
       controller: function($scope, $window) {
-        ($scope.loadContent())().then(function(reports){
+        $scope.loadContent().then(function(reports){
           $scope.reports = reports;
           $scope.contentLoaded = true;
         }, function(){
@@ -34,6 +34,15 @@ angular
         $scope.reloadApplication = function(){
           $window.location.reload(true);
         };
+
+        $scope.openBusinessReport = function(id, event) {
+          if(!$rootScope.loading
+            && event.target.parentNode.tagName.toLowerCase() != 'a'
+            && event.target.tagName.toLowerCase() != 'a'
+          ) {
+            $state.go('business_reports.show', { id: id });
+          }
+        }
       }
     };
   });

@@ -1,0 +1,94 @@
+@import "compass/css3";
+
+.business-reports-add, .business-reports-edit, .business-reports-show {
+  #main_content {
+    background-color: #ddd !important;
+  }
+
+  .business-report-foreground {
+    background-color: #fff;
+    width: 100%;
+    max-width: 880px;
+    padding: 25px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    @include border-radius(2px);
+    @include box-shadow(#ccc -2px 2px 2px);
+  }
+
+  .summary {
+    font-size: 16px;
+    color: #666;
+    margin-left: 5px;
+    margin-bottom: 8px;
+  }
+
+  .period {
+    margin-bottom: 5px;
+    margin-left: 8px;
+  }
+
+  .br-label {
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+  // Inline edit settings
+  $inline-edit-border-color: #ccc;
+
+  h1 {
+    margin: 0 0 5px 0;
+
+    input {
+      padding: 3px 25px 0 3px;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 3px 25px 3px 3px;
+    margin: 0;
+    border: none;
+    -webkit-box-shadow: 0 0 0 1px $inline-edit-border-color;
+    box-shadow: 0 0 0 1px $inline-edit-border-color;
+    @include border-radius(2px);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .ng-inline-edit__text {
+    padding: 3px 25px 3px 3px;
+    position: relative;
+    display: block;
+    border-radius: 2.01px;
+    cursor: text;
+  }
+
+  .ng-inline-edit__text:hover {
+    background: #fff;
+    color: #333;
+    -webkit-border-radius: 2.01px;
+    -webkit-box-shadow: 0 0 0 1px $inline-edit-border-color;
+    box-shadow: 0 0 0 1px $inline-edit-border-color;
+
+  }
+
+  .ng-inline-edit__text:after {
+    background: $inline-edit-border-color url("/assets/images/edit-pencil.png") no-repeat center;
+    border-left: 1px solid $inline-edit-border-color;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    visibility: hidden;
+    width: 20px;
+  }
+
+  .ng-inline-edit__text:hover:after {
+    visibility: visible
+  }
+}

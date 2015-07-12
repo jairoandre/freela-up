@@ -131,6 +131,8 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      $rootScope.stateClass = toState.name.replace(".", "-").replace("_", "-");
+
       if (fromState.name.length === 0)
       {
         $rootScope.hideInitialLoading = true;
@@ -143,6 +145,7 @@ angular
     });
 
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+      $rootScope.stateClass = '';
       if (error.status === 403) $window.location = '/';
       else if (error.status === 404) $window.location = '/';
       else if (error.status === 401) Error.show('expired_session');

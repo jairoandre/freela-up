@@ -117,24 +117,24 @@ angular
 
       // advanced filter by date
       period: function(activeAdvancedFilters) {
-        PeriodSelectorService.open(true).then(function(beginDate, endDate){
-          if(beginDate) {
+        PeriodSelectorService.open(true).then(function(period){
+          if(period.beginDate) {
             var beginDateFilter = {
               title: 'A partir da data',
               type: 'beginDate',
-              desc: beginDate.getDate() + '/' + (beginDate.getMonth() + 1) + '/' + beginDate.getFullYear(),
-              value: moment(beginDate).startOf('day').format()
+              desc: period.beginDate.getDate() + '/' + (period.beginDate.getMonth() + 1) + '/' + period.beginDate.getFullYear(),
+              value: moment(period.beginDate).startOf('day').format()
             };
 
             activeAdvancedFilters.push(beginDateFilter);
           }
 
-          if(endDate) {
+          if(period.endDate) {
             var endDateFilter = {
               title: 'Até a data',
               type: 'endDate',
-              desc: endDate.getDate() + '/' + (endDate.getMonth() + 1) + '/' + endDate.getFullYear(),
-              value: moment(endDate).endOf('day').format()
+              desc: period.endDate.getDate() + '/' + (period.endDate.getMonth() + 1) + '/' + period.endDate.getFullYear(),
+              value: moment(period.endDate).endOf('day').format()
             };
 
             activeAdvancedFilters.push(endDateFilter);

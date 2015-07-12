@@ -7,19 +7,25 @@ angular
     $scope.period = {beginDate: new Date(), endDate: new Date(), tab: 'between'};
 
     $scope.save = function() {
-      var result = [];
+      var returnBeginDate = false, returnEndDate = false;
 
       if ($scope.period.tab === 'between' || $scope.period.tab === 'from')
       {
-        result.push($scope.period.beginDate);
+        returnBeginDate = true;
       }
 
       if ($scope.period.tab === 'between' || $scope.period.tab === 'to')
       {
-        result.push($scope.period.endDate);
+        returnEndDate = true;
       }
 
-      promise.resolve.apply(this, result);
+      if(returnBeginDate && returnEndDate) {
+        promise.resolve($scope.period);
+      } else if(returnBeginDate) {
+        promise.resolve({ beginDate: $scope.period.beginDate });
+      } else if(returnEndDate) {
+        promise.resolve({ endDate: $scope.period.endDate });
+      }
 
       $modalInstance.close();
     };
