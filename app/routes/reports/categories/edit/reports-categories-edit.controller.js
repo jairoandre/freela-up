@@ -6,7 +6,6 @@ angular
     'NgThumbComponentModule',
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
-    'ReportsCategoriesNotificationsListTypesModalControllerModule',
     'ReportsCategoriesServiceModule',
     'ui.sortable'
   ]).run(['uiSortableConfig', function (uiSortableConfig) {
