@@ -356,7 +356,7 @@
           <div class="col-md-3 col">
             <div class="big-icon" ng-style="{'background-color': category.color}">
               <div class="image" ng-show="selectedIcon && uploader.queue.length == 0">
-                <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="60" height="60">
+                <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="60" height="60" ng-if="selectedIcon">
               </div>
 
               <div class="image" ng-show="icon && uploader.queue.length == 0 && !selectedIcon">
@@ -374,7 +374,7 @@
           <div class="col-md-3 col align">
             <div class="small-icon" ng-style="{'background-color': category.color}">
               <div class="image" ng-show="selectedIcon && uploader.queue.length == 0">
-                <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="30" height="30">
+                <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="30" height="30" ng-if="selectedIcon">
               </div>
 
               <div class="image" ng-show="icon && uploader.queue.length == 0 && !selectedIcon">
@@ -626,15 +626,62 @@
         <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a funcionalidade de envio de notificação será ativa para a categoria.</span>
       </div>
 
-      <div class="form-group app-animation ng-hide" ng-show="category.notifications">
-        <label generic-input name="statuses">Tipos de notificações disponíveis <a href="" ng-click="listNotificationsTypes()">(Gerenciar
-          tipos)</a></label>
+      <div class="form-group ng-hide" ng-show="category.notifications">
+        <label>Notificações devem ser emitidas em ordem</label>
 
-        <ul class="statuses-list">
-          <li ng-repeat="notificationType in reportCategoriesNotificationsTypes">
-            <span ng-style="{'background-color': notificationType.color}"></span> {{ notificationType.title }}
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="custom-private-option-column">
+            <input type="checkbox" bs-switch ng-model="category.ordered_notifications">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group app-animation ng-hide" ng-show="category.notifications">
+        <label generic-input name="statuses">Tipos de notificações disponíveis
+          <a href="#/reports/categories/notifications/{{categoryId}}/add">(Novo Tipo)</a>
+        </label>
+
+        <div class="clearfix"></div>
+
+        <ul ui-sortable="notificationsSortableOptions" ng-model="reportCategoriesNotificationsTypes"
+            class="reports-categories-notifications-sortable-list">
+          <li ng-repeat="notificationType in reportCategoriesNotificationsTypes" class="notifications-li"
+              style="">
+            <div class="info">
+              {{ notificationType.title }}
+            </div>
+            <div class="actions">
+              <div class="layout" style="display: inline-block" title="Visualizar Layout">
+                <a href="" ng-click="openPopover('options')" class="icon">
+                  <span class="glyphicon glyphicon-file"></span>
+                </a>
+              </div>
+              <div class="edit" style="display: inline-block" title="Editar">
+                <a href="#/reports/categories/notifications/{{ categoryId }}/{{ notificationType.id }}/edit" class="icon">
+                  <span class="glyphicon glyphicon-edit"></span>
+                </a>
+              </div>
+              <div class="trash">
+                <!-- ngIf: popover.remove === true -->
+                <a href="" ng-click="openPopover('remove')" class="icon">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
+              </div>
+              <div class="move ng-hide" ng-show="category.ordered_notifications">
+                <a href="" ng-click="openPopover('remove')" class="icon">
+                  <span class="glyphicon glyphicon-move"></span>
+                </a>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
           </li>
         </ul>
+
       </div>
 
       <hr/>

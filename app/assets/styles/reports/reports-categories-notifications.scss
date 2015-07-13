@@ -1,0 +1,47 @@
+#layout_editor  {
+  #cke_1_top{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.reports-categories-notifications-sortable-list {
+
+  list-style: none outside none;
+  padding-left: 0px;
+
+  .ui-sortable-placeholder {
+    background: #ccc;
+  }
+
+  li {
+    font-size: 13px;
+    background: #FFF;
+    padding: 5px;
+    border-bottom: 1px solid #E1E1E1;
+    display: block;
+
+    .info {
+      width: 200px;
+      display: inline-block;
+    }
+
+    .actions {
+      display: inline-block;
+
+      .edit, .trash, .move {
+        display: inline-block;
+      }
+
+      .move {
+        cursor: move;
+        a {
+          cursor: move;
+        }
+      }
+    }
+  }
+}
+
+

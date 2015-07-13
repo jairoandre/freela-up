@@ -22,9 +22,9 @@ angular
 
     };
 
-    $scope.editNotificationType = function() {
+    $scope.editNotificationType = function(notificationType) {
 
-      parentState.go('reports.categories.notifications.add', {id: $scope.notification.id, categoryId: $scope.categoryId}, {reload: true});
+      parentState.go('reports.categories.notifications.edit', {id: notificationType.id, categoryId: $scope.categoryId}, {reload: true});
 
       $modalInstance.close();
 

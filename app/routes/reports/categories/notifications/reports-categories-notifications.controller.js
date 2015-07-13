@@ -3,17 +3,24 @@
 angular
   .module('ReportsCategoriesNotificationsControllerModule', [])
 
-  .controller('ReportsCategoriesNotificationsController', function ($scope, $stateParams, $state) {
+  .controller('ReportsCategoriesNotificationsController', function ($scope, $stateParams, $state, Restangular, $q) {
 
 
-    $scope.categoryId = $stateParams.categoryId;
+    var categoryId = $scope.categoryId = $stateParams.categoryId;
     $scope.currentTab = 'fields';
+
+    var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
+
+    categoryPromise.then(function(r){
+      var category = $scope.category =  r.data;
+      $scope.statuses = category.statuses;
+    });
 
     $scope.options = {
       allowedContent: true,
       entities: false,
-      height: '100%',
-      width: '100%',
+      height: '842',
+      width: '595',
 
 
       toolbarGroups: [
@@ -38,8 +45,8 @@ angular
       $scope.notification = {
         reports_categories_id: $scope.categoryId,
         title: 'Novo Tipo de Notificação',
-        reports_status_id: 3,
-        default_deadline_in_days: 45,
+        reports_status_id: '',
+        deadline_in_days: 45,
         layout: '...',
         created_at: '2015-07-16T19:20:30-03:00',
         updated_at: "2015-07-16T19:20:30-03:00",

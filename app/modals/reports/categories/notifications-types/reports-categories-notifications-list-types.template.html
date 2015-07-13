@@ -11,17 +11,24 @@
       </form>
     </div>
 
+    <div class="clearfix"></div>
+
     <table>
       <thead>
       <tr>
+        <td>Ordem</td>
         <td style="text-align: left; width: 40%;">Nome do tipo</td>
-        <td>Cor</td>
+        <td>Layoute</td>
+        <td>Atualizar</td>
         <td>Remover</td>
       </tr>
       </thead>
 
       <tbody>
-      <tr ng-repeat="notificationType in reportCategoriesNotificationsTypes" report-status>
+      <tr ng-repeat="notificationType in reportCategoriesNotificationsTypes">
+        <td>
+          {{ notificationType.order }}
+        </td>
         <td style="text-align: left;">
           <a href="" class="edit_title" ng-click="edit_title = true">{{ notificationType.title }}</a>
 
@@ -30,39 +37,18 @@
             <a href="" ng-click="edit_title = false">Pronto</a>
           </div>
         </td>
+
         <td>
-          <button colorpicker type="button" class="btn btn-colorpicker btn-colorpicker-small"
-                  ng-style="{'background-color': notificationType.color}" ng-click="showColorsPopup = true"></button>
-
-          <!--<button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker btn-colorpicker-small" ng-model="status.color" colorpicker-fixed-position="true" ng-style="{'background-color': status.color}" ng-click="showColorsPopup = true"></button>-->
-
-          <div class="color-options pages-animation" ng-show="showColorsPopup">
-            <button type="button" class="remove close-popup" ng-click="showColorsPopup = false">x</button>
-
-            <a href="" ng-repeat="color in availableColors" ng-click="notificationType.color = color"><span
-              ng-style="{ 'background-color': color }"></span></a>
-
-            <div class="clearfix"></div>
-
-            <input type="text" ng-model="status.color" class="form-control colorpicker-field" colorpicker
-                   colorpicker-fixed-position="true"/>
-          </div>
+          {{ notificationType.layout }}
         </td>
 
         <td>
-          <button type="button" class="remove" ng-click="remove_status = true">x</button>
-          <div class="disabled-delete" ng-show="notificationType.final || notificationType.initial"></div>
-
-          <div class="edit_status_title remove-div" ng-show="remove_status">
-            <p class="remove-message">
-              Você tem certeza que deseja excluir?
-                      <span>
-                        <a href="" ng-click="remove_status = false" class="cancel-link">Cancelar</a>
-                        <a href="" ng-click="removeStatus(status)" class="remove-link">Excluir</a>
-                      </span>
-            </p>
-          </div>
+          <a href="" ng-click="editNotificationType(notificationType)"><span class="glyphicon glyphicon-edit"></span></a>
+          <td/>
+        <td>
+          <a href="" ng-click="deleteNotification(notificationType)"><span class="glyphicon glyphicon-trash"></span></a>
         </td>
+
       </tr>
       </tbody>
     </table>
