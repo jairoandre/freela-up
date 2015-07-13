@@ -9,7 +9,8 @@
       <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
     </div>
 
-    <ul zup-transclude></ul>
+    <ul zup-transclude ng-if="!noBsPlease"></ul>
+    <ul ng-transclude ng-if="noBsPlease"></ul>
   </div>
 
 </div>

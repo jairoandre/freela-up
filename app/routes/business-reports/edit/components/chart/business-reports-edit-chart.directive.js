@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-  .module('BusinessReportsEditChartDirectiveModule', ['googlechart'])
-  .directive('businessReportsChart', function () {
+  .module('BusinessReportsEditChartDirectiveModule', ['googlechart', 'BusinessReportsEditChartModalModule'])
+  .directive('businessReportsChart', function (BusinessReportsEditChartModalService) {
     return {
       restrict: 'E',
       scope: {
@@ -13,8 +13,14 @@ angular
       templateUrl: 'routes/business-reports/edit/components/chart/business-reports-edit-chart.template.html',
       controllerAs: 'chartCtrl',
       controller: function ($scope) {
+        var chartTypes = ['BarChart', 'AreaChart', 'PieChart'];
+        $scope.openConfigureModal = function(){
+          BusinessReportsEditChartModalService.open().then(function(){
+
+          });
+        };
         $scope.sampleChart = {
-          "type": "BarChart",
+          "type": chartTypes[Math.ceil(Math.random() * chartTypes.length) -1],
           "data": {
             "cols": [
               { type: 'string', label: 'Categoria'},

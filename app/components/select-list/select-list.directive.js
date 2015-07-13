@@ -10,7 +10,8 @@ angular
         transclude: true,
         scope: {
           ngModel: '=',
-          optionName: '@'
+          optionName: '@',
+          noBsPlease: '@' // ಠ_ಠ
         },
         replace: true,
         controller: function ($scope) {
