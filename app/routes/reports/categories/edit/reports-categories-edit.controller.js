@@ -6,12 +6,8 @@ angular
     'NgThumbComponentModule',
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
-    'ReportsCategoriesServiceModule',
-    'ui.sortable'
-  ]).run(['uiSortableConfig', function (uiSortableConfig) {
-    uiSortableConfig.jQueryPath = 'https://code.jquery.com/jquery-1.11.3.min.js';
-    uiSortableConfig.jQueryUiPath = 'https://code.jquery.com/ui/1.11.4/jquery-ui.js';
-  }])
+    'ReportsCategoriesServiceModule'
+  ])
 
   .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
     var updating = $scope.updating = false;
