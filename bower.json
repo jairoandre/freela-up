@@ -40,7 +40,6 @@
     "ng-cpf-cnpj": "*",
     "angular-toArrayFilter": "~1.0.0",
     "angular-promise-buttons": "*",
-    "angular-ckeditor": "~0.4.2",
     "angular-ui-sortable": "~0.13.4"
   },
   "devDependencies": {

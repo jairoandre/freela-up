@@ -21,7 +21,6 @@ angular
     'ngRaven',
     'monospaced.elastic',
     'angularPromiseButtons',
-    'ckeditor',
 
     // Core services
     'AuthServiceModule',
