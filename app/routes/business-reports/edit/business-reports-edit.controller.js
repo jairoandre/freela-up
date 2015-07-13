@@ -8,5 +8,9 @@ angular
     'BusinessReportsServiceModule'
   ])
   .controller('BusinessReportsEditController', function ($scope, BusinessReportsService) {
-    $scope.report = {};
+    $scope.report = { charts: [] };
+
+    $scope.$watch('report.title', function(value){
+      $scope.valid = value && value.length > 0;
+    });
   });

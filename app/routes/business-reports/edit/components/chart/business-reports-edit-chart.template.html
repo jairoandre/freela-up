@@ -1,0 +1,31 @@
+<div>
+  <div class="business-reports-chart" ng-class="{'selection': chartCtrl.hoveringDelete }">
+    <div class="editable-chart" ng-if="editable">
+      <h2 class="chart-title" inline-edit="chart.title" inline-edit-placeholder="Clique aqui para editar o título do novo gráfico"
+          inline-edit-on-click inline-edit-on-blur="save" inline-edit-btn-edit=""></h2>
+
+      <p class="sample-warning"><strong>Note:</strong> este gráfico será substituído pelo gráfico real após a criação do relatório.</p>
+      <div class="chart-container">
+        <div class="chart-overlay">
+          <div class="overlay-controls">
+            <button class="btn btn-primary">Editar</button>
+            <button class="btn btn-danger" ng-click="onChartDelete(chart)" ng-mouseenter="chartCtrl.hoveringDelete = true" ng-mouseleave="chartCtrl.hoveringDelete = false">
+              Excluir
+            </button>
+          </div>
+        </div>
+        <div google-chart chart="sampleChart" class="chart"></div>
+      </div>
+
+      <p class="chart-description" inline-edit="chart.description"
+         inline-edit-placeholder="Clique aqui para editar a descrição do novo gráfico. Opcional."
+         inline-edit-on-click inline-edit-on-blur="save" inline-edit-btn-edit=""></p>
+    </div>
+
+    <div class="view-chart" ng-if="!editable">
+      <h2>{{chart.title}}</h2>
+      <div google-chart chart="chart.object"></div>
+      <p ng-if="char.description && chart.description != ''">{{chart.description}}</p>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,7 @@
     max-width: 880px;
     padding: 25px;
     margin-top: 20px;
+    margin-bottom: 40px;
     margin-left: auto;
     margin-right: auto;
     @include border-radius(2px);
@@ -35,15 +36,108 @@
     color: #666;
   }
 
-  // Inline edit settings
+  .sample-warning {
+    font-size: 10px;
+    margin: 20px 0 -30px 0 !important;
+    text-align: right;
+    z-index: 2;
+    position: relative;
+  }
+
+  .charts-list {
+    ul {
+      padding: 0;
+      margin: 0 0 0 3px;
+    }
+
+    li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .new-graphic-button-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+  }
+
+  // Char editor
   $inline-edit-border-color: #ccc;
 
+  .ng-inline-edit__text--placeholder {
+    color: #888;
+  }
+
+  .business-reports-chart {
+    .chart-description {
+      margin-top: 5px;
+    }
+
+    .chart-description .ng-inline-edit__text--placeholder {
+      font-style: italic !important;
+    }
+
+    .chart {
+      height: 250px;
+    }
+  }
+
+  .selection {
+    @include box-shadow(0 0 0 1px #ffb1ac);
+    @include border-radius(2px);
+
+    &, .chart-overlay {
+      background-color: rgba(255, 235, 239, 0.8) !important;
+    }
+
+    .chart-description, .chart-title, .sample-warning {
+      color: rgba(0, 0, 0, 0.2) !important;
+
+      & .ng-inline-edit__text--placeholder {
+        color: rgba(0, 0, 0, 0.2) !important;
+      }
+    }
+  }
+
+  .chart-container {
+    position: relative;
+
+    .chart-overlay {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.8);
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      visibility: hidden;
+    }
+
+    &:hover .chart-overlay {
+      visibility: visible;
+    }
+
+    .overlay-controls {
+      width: 100%;
+      text-align: center;
+      top: 50%;
+      margin-top: -15px;
+      position: relative;
+    }
+  }
+
+  // Inline edit settings
   h1 {
     margin: 0 0 5px 0;
 
     input {
       padding: 3px 25px 0 3px;
     }
+  }
+
+  h2 {
+    font-size: 18px;
+    color: #555;
   }
 
   input {
