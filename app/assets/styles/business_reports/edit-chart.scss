@@ -24,9 +24,11 @@
     margin-top: 0;
   }
 
-  .select2-choice {
-    padding-left: 20px;
-    line-height: 35px;
+  .ui-select-bootstrap button, .ui-select-bootstrap input {
     height: 45px;
+  }
+
+  .ui-select-bootstrap input {
+    padding-left: 12px;
   }
 }

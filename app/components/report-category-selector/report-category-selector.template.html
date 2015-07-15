@@ -1,11 +1,12 @@
 <div>
   <div class="btn-group multiple-select-list" ng-class="{ 'open': show }">
-    <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': show }" ng-click="toggleList()">
-      <span class="excerpt">{{ getExcerpt() }}</span> <span class="pull-right"><span class="caret"
-                                                                                     ng-class="{ 'reverse': show }"></span></span>
+    <button ng-disabled="loadingReportCategories || errorLoadingReportCategories" type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': show }" ng-click="toggleList()">
+      <span ng-if="errorLoadingReportCategories"><span class="glyphicon glyphicon-alert"></span> Erro! Por favor, feche e abra a edição do gráfico novamente.</span>
+      <span ng-if="loadingReportCategories"><span class="glyphicon glyphicon-refresh rotating"></span> Carregando lista de categorias...</span>
+      <span ng-if="!errorLoadingReportCategories && !loadingReportCategories" class="excerpt">{{ getExcerpt() }}</span> <span ng-if="!errorLoadingReportCategories && !loadingReportCategories" class="pull-right"><span class="caret" ng-class="{ 'reverse': show }"></span></span>
     </button>
 
-    <div class="dropdown" ng-show="show">
+    <div class="dropdown" ng-show="show" ng-if="!errorLoadingReportCategories && !loadingReportCategories">
       <div class="input-group input-group-lg search-bar">
         <input type="text" class="form-control" ng-model="q"/>
         <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>

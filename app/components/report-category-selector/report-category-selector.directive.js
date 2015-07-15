@@ -33,8 +33,15 @@ angular
           return optionId === $scope.ngModel;
         };
 
+        $scope.loadingReportCategories = true;
+        $scope.errorLoadingReportCategories = false;
+
         ReportsCategoriesService.fetchTitlesAndIds().then(function (categories) {
           $scope.categories = categories;
+          $scope.loadingReportCategories = false;
+        }, function(){
+          $scope.loadingReportCategories = false;
+          $scope.errorLoadingReportCategories = true;
         });
       },
       link: function ($scope, element) {
