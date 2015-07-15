@@ -421,4 +421,16 @@ angular
     $scope.historyLogs = [];
 
     $scope.refreshHistory();
+
+    // Notifications
+    // Fetch notifications
+    Restangular.one('reports', $scope.report.id).all('notifications').getList({
+      return_fields: 'id,user,reports_notification_type_id,user.id,user.name,deadline_in_days,content,created_at,updated_at'
+    }).then(function(response){
+      var notifications = $scope.notifications = response.data;
+      if(notifications.length > 0)
+      $scope.lastNotification = notifications[0];
+    });
+
+
   });
