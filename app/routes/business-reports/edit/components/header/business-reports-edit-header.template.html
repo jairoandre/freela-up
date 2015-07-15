@@ -5,5 +5,10 @@
     <li ng-if="title">{{title}}</li>
   </ul>
 
-  <a href="" ng-if="showSaveButton" ng-click="saveButtonClicked()" class="btn btn-info btn-custom" ng-disabled="!enableSaveButton">Salvar relatório</a>
+  <a href=""
+     promise-btn="savePromise"
+     ng-if="showSaveButton"
+     ng-click="saveButtonClicked()"
+     class="btn btn-info btn-custom"
+     ng-disabled="!enableSaveButton">Salvar relatório</a>
 </div>

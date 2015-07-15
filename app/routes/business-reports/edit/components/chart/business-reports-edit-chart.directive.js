@@ -24,7 +24,6 @@ angular
         $scope.hasSelectedDate = false;
         var chartTypes = ['BarChart', 'AreaChart', 'PieChart', 'LineChart'];
         var sampleChart = {
-          "valid": false,
           "period": {},
           "categories": [],
           "type": chartTypes[Math.ceil(Math.random() * chartTypes.length) - 1],
@@ -43,10 +42,6 @@ angular
 
         // States the validity of the chart and notifies parent that it was updated
         var chartUpdated = function(){
-          $scope.chart.valid = !!($scope.chart.title &&
-                               $scope.chart.categories.length > 0 &&
-                               $scope.chart.period.begin_date &&
-                               $scope.chart.period.end_date);
           $scope.onChartUpdate({ chart: $scope.chart });
         };
 
@@ -79,7 +74,7 @@ angular
         };
 
         var populateChartData = function (categories) {
-          if (!categories || categories.length < 1 || $scope.chart.data.rows.length > 0) return;
+          if (!categories || categories.length < 1 || ($scope.chart.data.rows.length > 0 && $scope.chart.id)) return;
           $scope.chart.data.rows = _.map(categories, function (c) {
             return {
               c: [{v: c.title}, {v: Math.ceil(Math.random() * 1000)}]
@@ -88,6 +83,7 @@ angular
         };
 
         $scope.$watch('chart.categories', populateChartData);
+        $scope.$watch('chart.title', chartUpdated);
 
         $scope.$watch('defaultBeginDate', function (v) {
           if (!$scope.hasSelectedDate)
@@ -97,7 +93,9 @@ angular
         $scope.$watch('defaultEndDate', function (v) {
           if (!$scope.hasSelectedDate)
             $scope.chart.period.end_date = v;
-        })
+        });
+
+        chartUpdated();
       }
     };
   });

@@ -18,6 +18,13 @@
     @include box-shadow(#ccc -2px 2px 2px);
   }
 
+  .btn.is-loading {
+    padding-right: 25px;
+    .btn-spinner {
+      margin-top: -3px;
+    }
+  }
+
   .summary {
     font-size: 16px;
     color: #666;

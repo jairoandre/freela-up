@@ -94,7 +94,7 @@ angular
       var validCharts, chartsToCreate, chartsToUpdate, chartsToRemove, promises = [];
 
       validCharts = _.reject(report.charts, function (c) {
-        if (!c.valid) return true;
+        if (!self.isValid(report)) return true;
       });
 
       chartsToCreate = _.reject(validCharts, function (c) {
@@ -110,7 +110,7 @@ angular
       });
 
       _.each(chartsToUpdate, function (chart) {
-        promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts').customPUT(normalizeChart(chart)));
+        promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts', chart.id).customPUT(normalizeChart(chart)));
       });
 
       if(report._original && report._original.charts.length > 0) {
@@ -134,7 +134,7 @@ angular
     self.save = function (report) {
       var options = {};
 
-      options.return_fields = '';
+      options.return_fields = ['id', 'title', 'summary', 'begin_date', 'end_date', 'charts'].join();
 
       var reportSavePromise, reportData = normalizeReport(report);
 
@@ -150,12 +150,26 @@ angular
       var allPromises = [reportSavePromise].concat(self.saveCharts(report));
 
       $q.all(allPromises).then(function (response) {
-        // Saved successfuly
+        deferred.resolve(response.data);
       }, function (response) {
-        // Oops
+        deferred.reject(response);
       });
 
       return deferred.promise;
+    };
+
+    /**
+     * Returns true if the fields in the report are considered to be valid
+     * @param {Object} report
+     * @returns {bool}
+     */
+    self.isValid = function(report){
+        return !!(report.title &&
+                  report.title.length > 0 &&
+                  report.charts.length > 0 &&
+        _.all(report.charts, function(c){
+          return !!(c.title && c.categories.length > 0)
+        }));
     };
 
     // Transforms a chart's attributes to the format used on the client-side
@@ -172,7 +186,7 @@ angular
         },
         categories: chart.categories,
         data: {
-          cols: _.map(chart.data.subtitles, function(s){ return { type: s == 'Total' ? 'number' : 'string', label: s}}),
+          cols: _.map(chart.data.subtitles, function(k, v){ return { type: k, label: v}}),
           rows: _.map(chart.data.data, function(row){
             return { c: _.map(row, function(v){ return { v: v }; })}
           })
