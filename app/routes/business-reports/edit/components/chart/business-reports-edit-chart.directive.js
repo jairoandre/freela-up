@@ -6,7 +6,7 @@ angular
     return {
       restrict: 'E',
       scope: {
-        chart: '=', // angular 1.26 does not support optional binding, so this is required
+        chartData: '=', // angular 1.26 does not support optional binding, so this is required
         editable: '=',
         onChartDelete: '&'
       },
@@ -35,8 +35,10 @@ angular
           }
         };
 
-        if(!$scope.chart.id) {
+        if(!$scope.chartData.id) {
           $scope.chart = sampleChart;
+        } else {
+          $scope.chart = $scope.chartData;
         }
 
         $scope.openConfigureModal = function () {
@@ -55,13 +57,9 @@ angular
           });
         });
 
-        $scope.$watch('chart.type', function(type){
-          if(type == 'BarChart') {
-            $scope.chart.options = { chartArea: {"width": "40%"} };
-          } else {
-            $scope.chart.options = {};
-          }
-        });
+        $scope.$watch('chart', function(newVal, oldVal){
+          var a = 10;
+        })
       }
     };
   });
