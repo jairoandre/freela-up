@@ -13,7 +13,7 @@ angular
         onCategorySelect: '&',
         title: '='
       },
-      templateUrl: 'components/report-category-selector/report-category-selector.html',
+      templateUrl: 'components/report-category-selector/report-category-selector.template.html',
       controllerAs: 'reportCategorySelectorCtrl',
       controller: function ($scope) {
         $scope.getExcerpt = function () {
