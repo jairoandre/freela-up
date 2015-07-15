@@ -20,6 +20,8 @@ angular
         $scope.deleteChart = function(chart) {
           $scope.charts.splice($scope.charts.indexOf(chart), 1);
         };
+
+        $scope.addChart();
       }
     };
   });

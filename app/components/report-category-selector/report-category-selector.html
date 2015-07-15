@@ -1,17 +1,31 @@
 <div>
-  <select-list option-name="title" no-bs-please="true">
-    <li ng-repeat="category in categories | filter: q">
-      <a href="" ng-click="select(category.id, category)"><strong><span
-        ng-bind-html="category.title | highlight: q"></span></strong> <b
-        class="glyphicon glyphicon-ok pull-right"></b></a>
+  <div class="btn-group multiple-select-list" ng-class="{ 'open': show }">
+    <button type="button" class="btn btn-default dropdown-toggle" ng-class="{ 'active': show }" ng-click="toggleList()">
+      <span class="excerpt">{{ getExcerpt() }}</span> <span class="pull-right"><span class="caret"
+                                                                                     ng-class="{ 'reverse': show }"></span></span>
+    </button>
+
+    <div class="dropdown" ng-show="show">
+      <div class="input-group input-group-lg search-bar">
+        <input type="text" class="form-control" ng-model="q"/>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+      </div>
 
       <ul>
-        <li ng-repeat="subcategory in category.subcategories | filter: q">
-          <a href="" ng-click="select(subcategory.id, subcategory)"><span
-            ng-bind-html="subcategory.title | highlight: q"></span> <b
+        <li ng-repeat="category in categories | filter: q">
+          <a href="" ng-click="select(category)"><strong><span
+            ng-bind-html="category.title | highlight: q"></span></strong> <b
             class="glyphicon glyphicon-ok pull-right"></b></a>
+
+          <ul>
+            <li ng-repeat="subcategory in category.subcategories | filter: q">
+              <a href="" ng-click="select(subcategory)"><span
+                ng-bind-html="subcategory.title | highlight: q"></span> <b
+                class="glyphicon glyphicon-ok pull-right"></b></a>
+            </li>
+          </ul>
         </li>
       </ul>
-    </li>
-  </select-list>
+    </div>
+  </div>
 </div>

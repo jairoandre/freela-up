@@ -1,18 +1,66 @@
 'use strict';
 
 angular
-  .module('ReportCategorySelectorDirectiveModule', ['SelectListComponentModule', 'ReportsCategoriesServiceModule'])
-  .directive('reportCategorySelector', function (ReportsCategoriesService) {
+  .module('ReportCategorySelectorDirectiveModule', [
+    'DiacriticsInsensitiveFilterHelperModule',
+    'SelectListComponentModule',
+    'ReportsCategoriesServiceModule'
+  ])
+  .directive('reportCategorySelector', function (ReportsCategoriesService, $document, $timeout) {
     return {
       restrict: 'E',
       scope: {
-        onCategorySelect: '&'
+        onCategorySelect: '&',
+        title: '='
       },
       templateUrl: 'components/report-category-selector/report-category-selector.html',
       controllerAs: 'reportCategorySelectorCtrl',
       controller: function ($scope) {
-        ReportsCategoriesService.fetchTitlesAndIds().then(function(categories){
+        $scope.getExcerpt = function () {
+          if ($scope.title) {
+            return $scope.title;
+          }
+
+          return 'Selecione uma categoria';
+        };
+
+        $scope.select = function (category) {
+          $scope.onCategorySelect({ category: category }); // sometimes angular is just ugly
+          $scope.show = false;
+        };
+
+        $scope.isSelected = function (optionId) {
+          return optionId === $scope.ngModel;
+        };
+
+        ReportsCategoriesService.fetchTitlesAndIds().then(function (categories) {
           $scope.categories = categories;
+        });
+      },
+      link: function ($scope, element) {
+        var windowClick = function (event) {
+          if (!$(event.target).closest(element).length) {
+            $scope.show = false;
+
+            $scope.$apply();
+
+            angular.element($document).off('click', windowClick);
+          }
+        };
+
+        $scope.toggleList = function () {
+          $scope.show = !$scope.show;
+
+          if (!$scope.show) {
+            angular.element($document).off('click', windowClick);
+          }
+          else {
+            angular.element($document).on('click', windowClick);
+          }
+        };
+
+        $scope.$on('$destroy', function () {
+          angular.element($document).off('click', windowClick);
         });
       }
     };

@@ -2,21 +2,50 @@
 
 angular
   .module('BusinessReportsEditChartModalModule', ['ReportCategorySelectorDirectiveModule'])
-  .controller('BusinessReportsEditChartModalController', function ($modal, $scope, ReportsCategoriesService, $modalInstance, promise, $log) {
+  .controller('BusinessReportsEditChartModalController', function ($modal, $scope, ReportsCategoriesService, $modalInstance, promise, chart) {
+    $scope.chartTypes = [
+      { type: 'BarChart', title: 'Barra' },
+      { type: 'PieChart', title: 'Pizza' },
+      { type: 'AreaChart', title: 'Área' },
+      { type: 'LineChart', title: 'Linha' }
+    ];
 
-    $log.info('ReportsDestroyModalController created.');
+    $scope.chart = chart;
 
-    $scope.$on("$destroy", function () {
-      $log.info('ReportsDestroyModalController destroyed.');
-    });
+    $scope.select2Options = {
+      minimumResultsForSearch: Infinity
+    };
+
+    $scope.valid = function(){
+      return $scope.chart.categories.length > 0 &&
+             $scope.chart.metric &&
+             $scope.chart.type;
+    };
 
     $scope.close = function () {
+      promise.reject();
       $modalInstance.close();
+    };
+
+    $scope.confirm = function(){
+      promise.resolve($scope.chart);
+      $modalInstance.close();
+    };
+
+    $scope.chart.categories = $scope.chart.categories || [];
+    $scope.selectCategory = function(category){
+      if($scope.chart.categories.indexOf(category) === -1){
+        $scope.chart.categories.push(category);
+      }
+    };
+
+    $scope.removeCategory = function(category) {
+      $scope.chart.categories.splice($scope.chart.categories.indexOf(category), 1);
     };
   })
   .factory('BusinessReportsEditChartModalService', function ($modal, $q) {
     return {
-      open: function () {
+      open: function (chart) {
         var deferred = $q.defer();
 
         $modal.open({
@@ -25,9 +54,14 @@ angular
           resolve: {
             promise: function () {
               return deferred;
+            },
+
+            chart: function() {
+              return chart;
             }
           },
-          controller: 'BusinessReportsEditChartModalController'
+          controller: 'BusinessReportsEditChartModalController',
+          controllerAs: 'businessReportEditCtrl'
         });
 
         return deferred.promise;

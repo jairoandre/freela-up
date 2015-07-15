@@ -2,12 +2,38 @@
   <button type="button" class="close" ng-click="close()">&times;</button>
   <h4 class="modal-title">Configurar gráfico</h4>
 </div>
-<div class="modal-body">
-  <p>Selecionar as categorias de relato:</p>
-  <report-category-selector on-category-select="addCategory(category)"></report-category-selector>
+<div class="modal-body edit-chart-modal">
+  <label for="metric">Selecione a métrica que deseja usar:</label>
+  <select id="metric" style="width: 100%;" ui-select2="select2Options" data-placeholder="Selecione uma métrica" ng-model="$parent.chart.metric">
+    <option value=""></option>
+    <option value="total-reports-by-category">Total de relatos criados por categoria</option>
+    <option value="total-reports-by-status">Total de relatos por estado</option>
+    <option value="total-reports-overdue-by-category">Total de relatos atrasados por categoria</option>
+    <option value="total-reports-overdue-by-category-by-day">Total de relatos atrasados por quantidade de dias em atraso</option>
+    <option value="total-reports-assigned-by-category">Total de relatos delegados por categoria</option>
+    <option value="total-reports-assigned-by-group">Total de relatos que foram associados, por grupo</option>
+    <option value="total-reports-unassigned-to-user">Total de relatos que não foram delegados à nenhum usuário</option>
+    <option value="average-resolution-time-by-category">Média de tempo de resolução por categoria</option>
+    <option value="average-resolution-time-by-group">Média de tempo de resolução por grupo associado</option>
+    <option value="average-overdue-time-by-category">Média de atraso por categoria</option>
+    <option value="average-overdue-time-by-group">Média de tempo de atraso por grupo</option>
+  </select>
+  <label for="chart-type">Selecione o tipo de gráfico que deseja usar:</label>
+  <select id="chart-type" style="width: 100%;" ui-select2="select2Options" data-placeholder="Selecione um tipo de gráfico" ng-model="$parent.chart.type">
+    <option value=""></option>
+    <option value="PieChart">Pizza</option>
+    <option value="BarChart">Barras</option>
+    <option value="LineChart">Linhas</option>
+    <option value="AreaChart">Área</option>
+  </select>
+  <label for="report-category-selector">Selecione as categorias de relato que deseja incluir neste gráfico:</label>
+  <report-category-selector title="'Selecione uma categoria para adicionar...'" id="report-category-selector" on-category-select="selectCategory(category)"></report-category-selector>
+  <ul ng-if="chart.categories.length > 0" class="selected-categories">
+    <li ng-repeat="category in chart.categories">{{category.title}} <a href="" class="btn btn-sm btn-default pull-right" ng-click="removeCategory(category)"><span class="glyphicon glyphicon-remove"></span></a> </li>
+  </ul>
 </div>
 
 <div class="modal-footer">
 <button type="button" class="btn btn-fat-custom btn-default" ng-click="close()" ng-if="!deleting">Cancelar</button>
-  <button type="button" class="btn btn-fat-custom btn-danger" ng-click="confirm()" ng-disabled="confirmText.toLowerCase() !== 'deletar' || deleting">Remover</button>
+  <button type="button" class="btn btn-fat-custom btn-primary" ng-click="confirm()" ng-disabled="!valid()">Salvar</button>
 </div>
