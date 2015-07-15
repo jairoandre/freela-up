@@ -1,10 +1,14 @@
 <div class="business-report-foreground">
   <business-reports-edit-header
+    title="report.title"
     enable-save-button="valid"
+    show-save-button="editable"
     save-button-clicked="saveBusinessReport()">
   </business-reports-edit-header>
-  <business-reports-edit-form report="report" valid="valid"></business-reports-edit-form>
+  <business-reports-edit-form editable="editable" report="report" valid="valid"></business-reports-edit-form>
   <business-reports-charts
-    default-begin-date="report.begin_date" default-end-date="report.end_date" charts="report.charts">
+    default-begin-date="report.begin_date" default-end-date="report.end_date"
+    charts="report.charts"
+    editable="editable">
   </business-reports-charts>
 </div>

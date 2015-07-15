@@ -1,9 +1,9 @@
 <div class="title">
   <ul>
     <li><a href="#/business-reports">Relatórios</a></li>
-    <li ng-if="!report.id">Novo relatório</li>
-    <li ng-if="report.id">{{report.title}}</li>
+    <li ng-if="!title">Novo relatório</li>
+    <li ng-if="title">{{title}}</li>
   </ul>
 
-  <a href="" ng-click="saveButtonClicked()" class="btn btn-info btn-custom" ng-disabled="!enableSaveButton">Salvar relatório</a>
+  <a href="" ng-if="showSaveButton" ng-click="saveButtonClicked()" class="btn btn-info btn-custom" ng-disabled="!enableSaveButton">Salvar relatório</a>
 </div>

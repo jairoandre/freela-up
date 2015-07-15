@@ -7,8 +7,9 @@ angular
     'BusinessReportsEditChartsDirectiveModule',
     'BusinessReportsServiceModule'
   ])
-  .controller('BusinessReportsEditController', function ($scope, BusinessReportsService, report) {
+  .controller('BusinessReportsEditController', function ($scope, BusinessReportsService, report, editable) {
     $scope.report = report;
+    $scope.editable = editable;
 
     $scope.$watch('report.title', function(value){
       $scope.valid = value && value.length > 0;

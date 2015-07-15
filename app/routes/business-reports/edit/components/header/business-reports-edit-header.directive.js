@@ -6,6 +6,8 @@ angular
     return {
       restrict: 'E',
       scope: {
+        title: '=',
+        showSaveButton: '=',
         enableSaveButton: '=',
         saveButtonClicked: '&'
       },

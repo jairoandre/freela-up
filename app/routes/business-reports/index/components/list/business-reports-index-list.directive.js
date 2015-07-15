@@ -40,7 +40,7 @@ angular
             && event.target.parentNode.tagName.toLowerCase() != 'a'
             && event.target.tagName.toLowerCase() != 'a'
           ) {
-            $state.go('business_reports.show', { id: id });
+            $state.go('business_reports.show', { reportId: id });
           }
         }
       }

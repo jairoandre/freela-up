@@ -17,7 +17,7 @@
 
     <tbody>
     <tr ng-click="openBusinessReport(report.id, $event)" ng-repeat="report in reports" ng-class="{ 'edit-hover': hoveringEditButton, 'remove-hover': hoveringRemoveButton }">
-      <td><a href="#/business-reports/{{ report.id }}">{{ report.title }}</a></td>
+      <td><a href="#/business-reports/{{ report.id }}/show">{{ report.title }}</a></td>
       <td>
         <span ng-if="report.summary">{{ report.summary }}</span>
         <span ng-if="!report.summary" class="unflashy-text">Não informado.</span>

@@ -6,6 +6,7 @@ angular
     return {
       restrict: 'E',
       scope: {
+        editable: '=',
         report: '=',
         valid: '='
       },

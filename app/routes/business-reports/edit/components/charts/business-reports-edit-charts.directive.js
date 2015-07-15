@@ -9,7 +9,8 @@ angular
         charts: '=', // angular 1.26 does not support optional binding, so this is required
         valid: '=',
         defaultBeginDate: '=',
-        defaultEndDate: '='
+        defaultEndDate: '=',
+        editable: '='
       },
       templateUrl: 'routes/business-reports/edit/components/charts/business-reports-edit-charts.template.html',
       controller: function ($scope) {
