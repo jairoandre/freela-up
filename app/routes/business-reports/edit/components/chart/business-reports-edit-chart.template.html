@@ -1,23 +1,33 @@
 <div>
-  <div class="business-reports-chart" ng-class="{'selection': hoveringDelete }">
+  <div class="business-reports-chart" ng-class="{'selection': chartCtrl.hoveringDelete }">
     <div class="editable-chart" ng-if="editable">
-      <h2 class="chart-title" inline-edit="chart.title" inline-edit-placeholder="Clique aqui para editar o título do novo gráfico"
+      <h2 class="chart-title" inline-edit="chart.title"
+          inline-edit-placeholder="Clique aqui para editar o título do novo gráfico"
           inline-edit-on-click inline-edit-on-blur="save" inline-edit-btn-edit=""></h2>
 
-      <p class="sample-warning"><strong>Note:</strong> este gráfico será substituído pelo gráfico real após a criação do relatório.</p>
+      <p class="chart-period">
+        <strong class="br-label">Período:</strong>
+        <span ng-if="chart.period.begin_date && chart.period.end_date">De <strong>{{chart.period.begin_date |
+          date:'dd/MM/yy'}}</strong> a <strong>{{chart.period.end_date | date:'dd/MM/yy'}}</strong></span>
+        <span ng-if="!chart.period.begin_date || !chart.period.end_date">Não selecionado</span>
+        <button class="btn btn-default btn-sm" ng-click="selectPeriod()">Selecionar</button>
+      </p>
+
       <div class="chart-container">
         <div class="chart-overlay">
           <div class="overlay-controls">
             <button class="btn btn-primary" ng-click="openConfigureModal()">Editar</button>
-            <button class="btn btn-danger" ng-click="onChartDelete(chart)" ng-mouseenter="hoveringDelete = true" ng-mouseleave="hoveringDelete = false">
+            <button class="btn btn-danger" ng-click="onChartDelete(chart)" ng-mouseenter="chartCtrl.hoveringDelete = true"
+                    ng-mouseleave="chartCtrl.hoveringDelete = false">
               Excluir
             </button>
           </div>
         </div>
         <div google-chart chart="chart" class="chart"></div>
+        <p class="sample-warning"><strong>Note:</strong> os valores reais deste gráfico serão exibidos após a criação do
+          relatório.</p>
       </div>
 
-      <p>{{$}}</p>
       <p class="chart-description" inline-edit="chart.description"
          inline-edit-placeholder="Clique aqui para editar a descrição do novo gráfico. Opcional."
          inline-edit-on-click inline-edit-on-blur="save" inline-edit-btn-edit=""></p>
@@ -25,6 +35,7 @@
 
     <div class="view-chart" ng-if="!editable">
       <h2>{{chart.title}}</h2>
+
       <div google-chart chart="chart"></div>
       <p ng-if="chart.description && chart.description != ''">{{chart.description}}</p>
     </div>

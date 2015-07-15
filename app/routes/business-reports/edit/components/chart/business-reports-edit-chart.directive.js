@@ -1,20 +1,29 @@
 'use strict';
 
 angular
-  .module('BusinessReportsEditChartDirectiveModule', ['googlechart', 'BusinessReportsEditChartModalModule'])
-  .directive('businessReportsChart', function (BusinessReportsEditChartModalService, $log) {
+  .module('BusinessReportsEditChartDirectiveModule', [
+    'googlechart',
+    'BusinessReportsEditChartModalModule',
+    'PeriodSelectorModule'
+  ])
+  .directive('businessReportsChart', function (BusinessReportsEditChartModalService, PeriodSelectorService) {
     return {
       restrict: 'E',
       scope: {
         chartData: '=', // angular 1.26 does not support optional binding, so this is required
         editable: '=',
-        onChartDelete: '&'
+        onChartDelete: '&',
+        defaultBeginDate: '=',
+        defaultEndDate: '='
       },
       templateUrl: 'routes/business-reports/edit/components/chart/business-reports-edit-chart.template.html',
       controllerAs: 'chartCtrl',
       controller: function ($scope) {
+        // used to decide wether or not to update the period based on the default*Date updates
+        $scope.hasSelectedDate = false;
         var chartTypes = ['BarChart', 'AreaChart', 'PieChart', 'LineChart'];
         var sampleChart = {
+          "period": {},
           "type": chartTypes[Math.ceil(Math.random() * chartTypes.length) - 1],
           "data": {
             "cols": [
@@ -35,21 +44,34 @@ angular
           }
         };
 
-        if(!$scope.chartData.id) {
+        if (!$scope.chartData.id) {
           $scope.chart = sampleChart;
         } else {
           $scope.chart = $scope.chartData;
         }
 
+        if (!$scope.chart.period.begin_date || !$scope.chart.period.end_date) {
+          $scope.chart.period.begin_date = $scope.defaultBeginDate;
+          $scope.chart.period.end_date = $scope.defaultEndDate;
+        }
+
         $scope.openConfigureModal = function () {
           var copy = angular.copy($scope.chart);
-          BusinessReportsEditChartModalService.open(copy).then(function(chart){
+          BusinessReportsEditChartModalService.open(copy).then(function (chart) {
             $scope.chart = chart;
           });
         };
 
-        $scope.$watch('chart.categories', function(categories){
-          if(!categories) return;
+        $scope.selectPeriod = function () {
+          PeriodSelectorService.open(false).then(function (period) {
+            $scope.chart.period.begin_date = period.beginDate;
+            $scope.chart.period.end_date = period.endDate;
+            $scope.hasSelectedDate = true;
+          });
+        };
+
+        $scope.$watch('chart.categories', function (categories) {
+          if (!categories) return;
           $scope.chart.data.rows = _.map(categories, function (c) {
             return {
               c: [{v: c.title}, {v: Math.ceil(Math.random() * 1000)}]
@@ -57,8 +79,14 @@ angular
           });
         });
 
-        $scope.$watch('chart', function(newVal, oldVal){
-          var a = 10;
+        $scope.$watch('defaultBeginDate', function (v) {
+          if (!$scope.hasSelectedDate)
+            $scope.chart.period.begin_date = v;
+        });
+
+        $scope.$watch('defaultEndDate', function (v) {
+          if (!$scope.hasSelectedDate)
+            $scope.chart.period.end_date = v;
         })
       }
     };

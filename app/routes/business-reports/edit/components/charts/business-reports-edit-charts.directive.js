@@ -7,7 +7,9 @@ angular
       restrict: 'E',
       scope: {
         charts: '=', // angular 1.26 does not support optional binding, so this is required
-        valid: '='
+        valid: '=',
+        defaultBeginDate: '=',
+        defaultEndDate: '='
       },
       templateUrl: 'routes/business-reports/edit/components/charts/business-reports-edit-charts.template.html',
       controller: function ($scope) {
