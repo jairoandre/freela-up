@@ -14,7 +14,7 @@ angular
       {metric: "total-reports-by-category", title: "Total de relatos criados por categoria"},
       {metric: "total-reports-by-status", title: "Total de relatos por estado"},
       {metric: "total-reports-overdue-by-category", title: "Total de relatos atrasados por categoria"},
-      {metric: "total-reports-overdue-by-category-by-day", title: "Total de relatos atrasados por quantidade de dias em atraso"},
+      {metric: "total-reports-overdue-per-category-by-day", title: "Total de relatos atrasados por quantidade de dias em atraso"},
       {metric: "total-reports-assigned-by-category", title: "Total de relatos delegados por categoria"},
       {metric: "total-reports-assigned-by-group", title: "Total de relatos que foram associados, por grupo"},
       {metric: "total-reports-unassigned-to-user", title: "Total de relatos que não foram delegados à nenhum usuário"},
@@ -48,7 +48,9 @@ angular
 
     $scope.chart.categories = $scope.chart.categories || [];
     $scope.selectCategory = function (category) {
-      if ($scope.chart.categories.indexOf(category) === -1) {
+      var hasCategory = _.findWhere($scope.chart.categories, { id: category.id});
+
+      if (!hasCategory) {
         $scope.chart.categories.push(category);
       }
     };

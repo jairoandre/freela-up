@@ -13,6 +13,7 @@ angular
         chartData: '=', // angular 1.26 does not support optional binding, so this is required
         editable: '=',
         onChartDelete: '&',
+        onChartUpdate: '&',
         defaultBeginDate: '=',
         defaultEndDate: '='
       },
@@ -23,7 +24,9 @@ angular
         $scope.hasSelectedDate = false;
         var chartTypes = ['BarChart', 'AreaChart', 'PieChart', 'LineChart'];
         var sampleChart = {
+          "valid": false,
           "period": {},
+          "categories": [],
           "type": chartTypes[Math.ceil(Math.random() * chartTypes.length) - 1],
           "data": {
             "cols": [
@@ -31,21 +34,24 @@ angular
               {type: 'number', label: 'Relatos'}
             ],
             "rows": [
-              {
-                "c": [{"v": "Exemplo 1"}, {"v": 250}]
-              },
-              {
-                "c": [{"v": "Exemplo 2"}, {"v": 150}]
-              },
-              {
-                "c": [{"v": "Exemplo 3"}, {"v": 450}]
-              }
+              {"c": [{"v": "Exemplo 1"}, {"v": 250}]},
+              {"c": [{"v": "Exemplo 2"}, {"v": 150}]},
+              {"c": [{"v": "Exemplo 3"}, {"v": 450}]}
             ]
           }
         };
 
+        // States the validity of the chart and notifies parent that it was updated
+        var chartUpdated = function(){
+          $scope.chart.valid = !!($scope.chart.title &&
+                               $scope.chart.categories.length > 0 &&
+                               $scope.chart.period.begin_date &&
+                               $scope.chart.period.end_date);
+          $scope.onChartUpdate({ chart: $scope.chart });
+        };
+
         if (!$scope.chartData.id) {
-          $scope.chart = sampleChart;
+          $scope.chart = _.extend($scope.chartData, sampleChart);
         } else {
           $scope.chart = $scope.chartData;
         }
@@ -58,7 +64,8 @@ angular
         $scope.openConfigureModal = function () {
           var copy = angular.copy($scope.chart);
           BusinessReportsEditChartModalService.open(copy).then(function (chart) {
-            $scope.chart = chart;
+            $scope.chart = _.extend($scope.chart, chart);
+            chartUpdated();
           });
         };
 
@@ -67,17 +74,20 @@ angular
             $scope.chart.period.begin_date = period.beginDate;
             $scope.chart.period.end_date = period.endDate;
             $scope.hasSelectedDate = true;
+            chartUpdated();
           });
         };
 
-        $scope.$watch('chart.categories', function (categories) {
-          if (!categories) return;
+        var populateChartData = function (categories) {
+          if (!categories || categories.length < 1 || $scope.chart.data.rows.length > 0) return;
           $scope.chart.data.rows = _.map(categories, function (c) {
             return {
               c: [{v: c.title}, {v: Math.ceil(Math.random() * 1000)}]
             };
           });
-        });
+        };
+
+        $scope.$watch('chart.categories', populateChartData);
 
         $scope.$watch('defaultBeginDate', function (v) {
           if (!$scope.hasSelectedDate)

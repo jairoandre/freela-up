@@ -7,12 +7,6 @@
 angular
   .module('BusinessReportsServiceModule', [])
   .factory('BusinessReportsService', function ($q, FullResponseRestangular) {
-    var unmarshall = function(report){
-      report.begin_date = new Date(report.begin_date);
-      report.end_date = new Date(report.end_date);
-      return report;
-    };
-
     /**
      * Fetches the business reports list
      * @param {Object} options - API options for the search report endpoint
@@ -35,7 +29,7 @@ angular
       promise.then(function (response) {
         var reports = response.data;
 
-        deferred.resolve(reports.map(unmarshall));
+        deferred.resolve(reports.map(denormalizeReport));
       }, function (response) {
         deferred.reject(response);
       });
@@ -48,16 +42,180 @@ angular
      * @param {Number} id The business report ID
      * @returns {Object} promise
      */
-    self.remove = function(id){
+    self.remove = function (id) {
       var promise = FullResponseRestangular.one('business_reports', id).remove(), deferred = $q.defer();
 
       promise.then(function (response) {
         deferred.resolve(response);
-      }, function(response){
+      }, function (response) {
         deferred.reject(response);
       });
 
       return deferred.promise;
+    };
+
+    /**
+     * Fetches a single business report
+     * @param {Number} id The business report ID
+     * @returns {Object} promise
+     */
+    self.find = function (id) {
+      var options = {};
+
+      var url = FullResponseRestangular.one('business_reports', id);
+
+      options.display_type = 'full';
+      options.return_fields = [
+        'id', 'title', 'summary', 'begin_date', 'end_date', 'charts'
+      ].join();
+
+      var promise = url.customGET(null, options);
+
+      var deferred = $q.defer();
+
+      promise.then(function (response) {
+        var report = denormalizeReport(FullResponseRestangular.stripRestangular(response.data));
+        report._original = angular.copy(report);
+
+        deferred.resolve(report);
+      }, function (response) {
+        deferred.reject(response);
+      });
+
+      return deferred.promise;
+    };
+
+    /**
+     * Create, update or remove charts for a single business report
+     * @param {Object} report The business report
+     * @returns {Object} promise
+     */
+    self.saveCharts = function (report) {
+      var validCharts, chartsToCreate, chartsToUpdate, chartsToRemove, promises = [];
+
+      validCharts = _.reject(report.charts, function (c) {
+        if (!c.valid) return true;
+      });
+
+      chartsToCreate = _.reject(validCharts, function (c) {
+        if (c.id) return true;
+      });
+
+      _.each(chartsToCreate, function (chart) {
+        promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts').customPOST(normalizeChart(chart)));
+      });
+
+      chartsToUpdate = _.select(validCharts, function (c) {
+        if (c.id) return true;
+      });
+
+      _.each(chartsToUpdate, function (chart) {
+        promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts').customPUT(normalizeChart(chart)));
+      });
+
+      if(report._original && report._original.charts.length > 0) {
+        chartsToRemove = _.select(report._original.charts, function(c){
+          return !_.findWhere(report.charts, { id: c.id });
+        });
+
+        _.each(chartsToRemove, function(c){
+          promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts', c.id).remove());
+        });
+      }
+
+      return promises;
+    };
+
+    /**
+     * Saves or creates a single business report
+     * @param {Object} report The business report
+     * @returns {Object} promise
+     */
+    self.save = function (report) {
+      var options = {};
+
+      options.return_fields = '';
+
+      var reportSavePromise, reportData = normalizeReport(report);
+
+      if (report.id) {
+        reportData.id = report.id;
+        reportSavePromise = FullResponseRestangular.one('business_reports', report.id).customPUT(reportData);
+      } else {
+        reportSavePromise = FullResponseRestangular.one('business_reports').customPOST(reportData);
+      }
+
+      var deferred = $q.defer();
+
+      var allPromises = [reportSavePromise].concat(self.saveCharts(report));
+
+      $q.all(allPromises).then(function (response) {
+        // Saved successfuly
+      }, function (response) {
+        // Oops
+      });
+
+      return deferred.promise;
+    };
+
+    // Transforms a chart's attributes to the format used on the client-side
+    var denormalizeChart = function (chart) {
+      return {
+        id: chart.id,
+        metric: chart.metric,
+        type: chart.chart_type.replace(/\w\S*/g, function(t){return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();}) + "Chart",
+        title: chart.title,
+        description: chart.description,
+        period: {
+          begin_date: chart.begin_date,
+          end_date: chart.end_date
+        },
+        categories: chart.categories,
+        data: {
+          cols: _.map(chart.data.subtitles, function(s){ return { type: s == 'Total' ? 'number' : 'string', label: s}}),
+          rows: _.map(chart.data.data, function(row){
+            return { c: _.map(row, function(v){ return { v: v }; })}
+          })
+        }
+      };
+    };
+
+    // Transforms a chart's attributes to the format used on the server
+    var normalizeChart = function(chart){
+      return {
+        id: chart.id,
+        metric: chart.metric,
+        chart_type: chart.type.toLowerCase().replace(/chart$/, ''),
+        title: chart.title,
+        description: chart.description,
+        begin_date: chart.period.begin_date,
+        end_date: chart.period.end_date,
+        categories_ids: _.map(chart.categories, function (c) {
+          return c.id;
+        })
+      }
+    };
+
+    // Transforms a report's attributes to the format used on the client-side
+    var denormalizeReport = function (report) {
+      report.begin_date = new Date(report.begin_date);
+      report.end_date = new Date(report.end_date);
+      if (!report.charts) {
+        report.charts = [];
+      } else {
+        report.charts = _.map(report.charts, denormalizeChart);
+      }
+      return report;
+    };
+
+    // Transforms a report's attributes to the format used on the server
+    var normalizeReport = function(report) {
+      return {
+        title: report.title,
+        begin_date: report.begin_date,
+        end_date: report.end_date,
+        summary: report.summary
+      };
     };
 
     return self;

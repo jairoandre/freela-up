@@ -23,7 +23,14 @@ angular
           $scope.charts.splice($scope.charts.indexOf(chart), 1);
         };
 
-        $scope.addChart();
+        // Temp. workaround for issues with digest / problem binding the object directly
+        $scope.updateChart = function(chart){
+          $scope.charts[$scope.charts.indexOf(chart)] = chart;
+        };
+
+        if($scope.charts.length < 1) {
+          $scope.addChart();
+        }
       }
     };
   });

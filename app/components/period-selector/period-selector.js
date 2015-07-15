@@ -12,11 +12,13 @@ angular
       if ($scope.period.tab === 'between' || $scope.period.tab === 'from')
       {
         returnBeginDate = true;
+        $scope.period.beginDate = moment($scope.period.beginDate).startOf('day').toDate();
       }
 
       if ($scope.period.tab === 'between' || $scope.period.tab === 'to')
       {
         returnEndDate = true;
+        $scope.period.endDate = moment($scope.period.endDate).startOf('day').toDate();
       }
 
       if(returnBeginDate && returnEndDate) {

@@ -7,10 +7,14 @@ angular
     'BusinessReportsEditChartsDirectiveModule',
     'BusinessReportsServiceModule'
   ])
-  .controller('BusinessReportsEditController', function ($scope, BusinessReportsService) {
-    $scope.report = { charts: [] };
+  .controller('BusinessReportsEditController', function ($scope, BusinessReportsService, report) {
+    $scope.report = report;
 
     $scope.$watch('report.title', function(value){
       $scope.valid = value && value.length > 0;
     });
+
+    $scope.saveBusinessReport = function(){
+      BusinessReportsService.save($scope.report);
+    };
   });
