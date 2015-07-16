@@ -1,9 +1,11 @@
-<div class="business-report-foreground">
+<div class="business-report-foreground" ng-class="{'visualizing': !editable}">
   <business-reports-edit-header
     title="report.title"
     save-promise="savePromise"
     enable-save-button="valid"
     show-save-button="editable"
+    show-edit-button="!editable && hasPermission('business_reports_edit')"
+    report="report"
     save-button-clicked="saveBusinessReport()">
   </business-reports-edit-header>
   <business-reports-edit-form editable="editable" report="report" valid="valid"></business-reports-edit-form>

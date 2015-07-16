@@ -11,4 +11,8 @@
      ng-click="saveButtonClicked()"
      class="btn btn-info btn-custom"
      ng-disabled="!enableSaveButton">Salvar relatório</a>
+
+  <a href="#/business-reports/{{report.id}}/edit"
+     ng-if="showEditButton"
+     class="btn btn-info btn-custom">Editar relatório</a>
 </div>

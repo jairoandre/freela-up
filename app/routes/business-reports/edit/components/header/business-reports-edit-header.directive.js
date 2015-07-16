@@ -7,7 +7,9 @@ angular
       restrict: 'E',
       scope: {
         title: '=',
+        report: '=',
         savePromise: '=',
+        showEditButton: '=',
         showSaveButton: '=',
         enableSaveButton: '=',
         saveButtonClicked: '&'
