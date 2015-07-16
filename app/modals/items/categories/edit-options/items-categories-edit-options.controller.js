@@ -5,7 +5,7 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ItemsCategoriesEditOptionsModalController', function($scope, $modalInstance, category, uploaderQueue, FileUploader) {
+  .controller('ItemsCategoriesEditOptionsModalController', function($scope, $modalInstance, category, uploaderQueue, FileUploader, send) {
     $scope.category = category;
     $scope.uploaderQueue = uploaderQueue;
 
@@ -41,6 +41,13 @@ angular
     uploader.onAfterAddingFile = function() {
       $scope.$apply(function() {
         $scope.uploaderQueue.items = uploader.queue;
+      });
+    };
+
+    $scope.save = function() {
+      var promise = send();
+      promise.then(function() {
+        $modalInstance.close();
       });
     };
 

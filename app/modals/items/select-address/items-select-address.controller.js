@@ -80,7 +80,7 @@ angular
           {
             itemData[locationFieldsIds[3]] = $scope.addressComponents[i].long_name;
           }
-        };
+        }
       }
 
       $modalInstance.close();
