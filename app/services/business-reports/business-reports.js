@@ -132,28 +132,31 @@ angular
      * @returns {Object} promise
      */
     self.save = function (report) {
-      var options = {};
+      var options = {}, promises, deferred = $q.defer();
 
       options.return_fields = ['id', 'title', 'summary', 'begin_date', 'end_date', 'charts'].join();
 
       var reportSavePromise, reportData = normalizeReport(report);
 
+      var runPromises = function() {
+        $q.all(promises).then(function (response) {
+          deferred.resolve(response.data);
+        }, function (response) {
+          deferred.reject(response);
+        });
+      };
+
       if (report.id) {
         reportData.id = report.id;
         reportSavePromise = FullResponseRestangular.one('business_reports', report.id).customPUT(reportData);
+        runPromises([reportSavePromise].concat(self.saveCharts(report)));
       } else {
         reportSavePromise = FullResponseRestangular.one('business_reports').customPOST(reportData);
+        reportSavePromise.then(function(response){
+          report.id = response.data.id;
+          runPromises(self.saveCharts(report));
+        })
       }
-
-      var deferred = $q.defer();
-
-      var allPromises = [reportSavePromise].concat(self.saveCharts(report));
-
-      $q.all(allPromises).then(function (response) {
-        deferred.resolve(response.data);
-      }, function (response) {
-        deferred.reject(response);
-      });
 
       return deferred.promise;
     };
