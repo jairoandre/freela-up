@@ -24,15 +24,29 @@ angular
 
     $scope.inventoryCategories = inventoriesCategoriesResponse.data;
 
-    $scope.uploader = new FileUploader();
+    var uploader = $scope.uploader = new FileUploader();
     $scope.selectedCategory = null;
 
-    $scope.uploader.filters.push({
+    uploader.filters.push({
       name: 'onlyImages',
       fn: function(item, options) {
         var type = $scope.uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
         type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
         return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+      }
+    });
+
+    /**
+     * @todo Bug on angular-file-upload
+     * https://github.com/nervgh/angular-file-upload/issues/290
+     */
+    uploader.filters.push({
+      name: 'fixQueueLimit',
+      fn: function(item, options) {
+        if(this.queue.length === 1) {
+          this.clearQueue();
+        }
+        return true;
       }
     });
 

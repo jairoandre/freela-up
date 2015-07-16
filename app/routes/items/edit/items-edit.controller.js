@@ -214,6 +214,20 @@ angular
                 }
               });
 
+              /**
+               * @todo Bug on angular-file-upload
+               * https://github.com/nervgh/angular-file-upload/issues/290
+               */
+              uploader.filters.push({
+                name: 'fixQueueLimit',
+                fn: function(item, options) {
+                  if(this.queue.length === 1) {
+                    this.clearQueue();
+                  }
+                  return true;
+                }
+              });
+
               $scope.uploaders[section.fields[j].id] = uploader;
 
               itemData[section.fields[j].id] = {areImages: true};
