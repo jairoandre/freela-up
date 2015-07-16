@@ -171,7 +171,7 @@ angular
                   report.title.length > 0 &&
                   report.charts.length > 0 &&
         _.all(report.charts, function(c){
-          return !!(c.title && c.categories.length > 0)
+          return !!(c.title && c.categories.length > 0 && c.period.begin_date && c.period.end_date)
         }));
     };
 
