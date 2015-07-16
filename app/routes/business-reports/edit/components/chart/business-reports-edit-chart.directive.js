@@ -86,12 +86,12 @@ angular
         $scope.$watch('chart.title', chartUpdated);
 
         $scope.$watch('defaultBeginDate', function (v) {
-          if (!$scope.hasSelectedDate)
+          if (!$scope.hasSelectedDate && $scope.editable && v)
             $scope.chart.period.begin_date = v;
         });
 
         $scope.$watch('defaultEndDate', function (v) {
-          if (!$scope.hasSelectedDate)
+          if (!$scope.hasSelectedDate && $scope.editable && v)
             $scope.chart.period.end_date = v;
         });
 

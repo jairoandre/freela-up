@@ -218,8 +218,10 @@ angular
 
     // Transforms a report's attributes to the format used on the client-side
     var denormalizeReport = function (report) {
-      report.begin_date = new Date(report.begin_date);
-      report.end_date = new Date(report.end_date);
+      if(report.begin_date && report.end_date) {
+        report.begin_date = new Date(report.begin_date);
+        report.end_date = new Date(report.end_date);
+      }
       if (!report.charts) {
         report.charts = [];
       } else {
