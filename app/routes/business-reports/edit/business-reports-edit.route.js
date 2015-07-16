@@ -15,10 +15,6 @@ angular
         }
       },
       resolve: {
-        'report': ['BusinessReportsService', '$stateParams', function (BusinessReportsService, $stateParams) {
-          return BusinessReportsService.find($stateParams.reportId);
-        }],
-
         'editable': ['$q', function ($q) {
           var deferred = $q.defer();
           deferred.resolve(true);
@@ -36,10 +32,6 @@ angular
         }
       },
       resolve: {
-        'report': ['BusinessReportsService', '$stateParams', function (BusinessReportsService, $stateParams) {
-          return BusinessReportsService.find($stateParams.reportId);
-        }],
-
         'editable': ['$q', function ($q) {
           var deferred = $q.defer();
           deferred.resolve(false);
@@ -57,12 +49,6 @@ angular
         }
       },
       resolve: {
-        'report': ['$q', function ($q) {
-          var deferred = $q.defer();
-          deferred.resolve({charts: []});
-          return deferred.promise;
-        }],
-
         'editable': ['$q', function ($q) {
           var deferred = $q.defer();
           deferred.resolve(true);

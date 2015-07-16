@@ -106,6 +106,21 @@
     }
   }
 
+  .visualizing {
+    .chart-description {
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    h2 {
+      margin-top: 45px;
+    }
+
+    .chart {
+      min-height: 200px;
+    }
+  }
+
   .selection {
     @include box-shadow(0 0 0 1px #ffb1ac);
     @include border-radius(2px);

@@ -132,29 +132,31 @@ angular
      * @returns {Object} promise
      */
     self.save = function (report) {
-      var options = {}, promises, deferred = $q.defer();
+      var options = {}, deferred = $q.defer();
 
       options.return_fields = ['id', 'title', 'summary', 'begin_date', 'end_date', 'charts'].join();
 
       var reportSavePromise, reportData = normalizeReport(report);
 
-      var runPromises = function() {
-        $q.all(promises).then(function (response) {
-          deferred.resolve(response.data);
-        }, function (response) {
-          deferred.reject(response);
-        });
-      };
-
       if (report.id) {
         reportData.id = report.id;
         reportSavePromise = FullResponseRestangular.one('business_reports', report.id).customPUT(reportData);
-        runPromises([reportSavePromise].concat(self.saveCharts(report)));
+        $q.all([reportSavePromise].concat(self.saveCharts(report))).then(function (responses) {
+          var report = denormalizeReport(responses[0].data);
+          deferred.resolve(report);
+        }, function (response) {
+          deferred.reject(response);
+        });
       } else {
         reportSavePromise = FullResponseRestangular.one('business_reports').customPOST(reportData);
         reportSavePromise.then(function(response){
-          report.id = response.data.id;
-          runPromises(self.saveCharts(report));
+          var newReport = response.data;
+          report.id = newReport.id;
+          $q.all(self.saveCharts(report)).then(function(){
+            deferred.resolve(report);
+          }, function(response){
+            deferred.reject(response);
+          });
         })
       }
 
@@ -184,8 +186,8 @@ angular
         title: chart.title,
         description: chart.description,
         period: {
-          begin_date: chart.begin_date,
-          end_date: chart.end_date
+          begin_date: new Date(chart.begin_date),
+          end_date: new Date(chart.end_date)
         },
         categories: chart.categories,
         data: {

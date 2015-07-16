@@ -19,8 +19,8 @@
   </div>
   <div ng-if="!editable">
     <h1>{{report.title}}</h1>
-    <span class="br-label" style="margin-left: 8px">Descrição:</span>
+    <span ng-if="report.summary" class="br-label" style="margin-left: 8px">Descrição:</span>
 
-    <p class="summary">{{report.summary}}</p>
+    <p ng-if="report.summary" class="summary">{{report.summary}}</p>
   </div>
 </div>
