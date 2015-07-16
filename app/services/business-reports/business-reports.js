@@ -193,7 +193,7 @@ angular
         categories: chart.categories,
         data: {
           cols: _.map(chart.data.subtitles, function(k, v){ return { type: k, label: v}}),
-          rows: _.map(chart.data.data, function(row){
+          rows: _.map(chart.data.content, function(row){
             return { c: _.map(row, function(v){ return { v: v }; })}
           })
         }
