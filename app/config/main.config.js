@@ -131,7 +131,7 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-      $rootScope.stateClass = toState.name.replace(".", "-").replace("_", "-");
+      $rootScope.stateClass = 'state-' + toState.name.replace(".", "-").replace("_", "-");
 
       if (fromState.name.length === 0)
       {
