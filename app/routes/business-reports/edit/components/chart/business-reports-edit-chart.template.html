@@ -36,6 +36,12 @@
     <div class="view-chart" ng-if="!editable">
       <h2>{{chart.title}}</h2>
 
+      <p class="chart-period">
+        <strong class="br-label">Período:</strong>
+        <span ng-if="chart.period.begin_date && chart.period.end_date">De <strong>{{chart.period.begin_date |
+          date:'dd/MM/yy'}}</strong> a <strong>{{chart.period.end_date | date:'dd/MM/yy'}}</strong></span>
+      </p>
+
       <div google-chart chart="chart"></div>
       <p ng-if="chart.description && chart.description != ''">{{chart.description}}</p>
     </div>
