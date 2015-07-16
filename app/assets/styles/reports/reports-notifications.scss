@@ -1,0 +1,80 @@
+.reports-send-notifications-modal {
+  .modal-dialog {
+    width: 910px;
+  }
+
+  .modal-header, .modal-body, .modal-footer {
+    padding: 30px;
+  }
+
+  .modal-body{
+    margin: -30px;
+    font-size: 14px;
+  }
+
+  .btn-custom {
+    width: 100px;
+  }
+
+  .table-div {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+
+  p {
+    margin: 0px;
+  }
+
+  .spacing {
+    height: 30px;
+  }
+
+  .color-ball {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+  }
+
+  .ui-select-bootstrap .ui-select-match {
+    height: 50px;
+    padding: 6px 20px;
+    box-shadow: none;
+  }
+
+  .ui-select-bootstrap .ui-select-search {
+    height: 50px;
+    padding: 6px 20px;
+  }
+
+  thead {
+    tr{
+      td{
+        font-size: 12px;
+      }
+    }
+  }
+
+  tr {
+    td {
+      vertical-align: middle !important;
+    }
+    td:first-child{
+      padding-left:30px;
+    }
+    td:last-child{
+      padding-right:30px;
+    }
+
+  }
+
+  .status-color{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+  }
+}

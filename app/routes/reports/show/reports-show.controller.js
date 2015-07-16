@@ -14,7 +14,8 @@ angular
     'ReportSearchMapComponentModule',
     'MapNewReportComponentModule',
     'NextFieldOnEnterComponentModule',
-    'duScroll'
+    'duScroll',
+    'ReportsSendNotificationsModalControllerModule'
   ])
 
   .value('duScrollOffset', 200)
@@ -424,6 +425,11 @@ angular
 
     // Notifications
     // Fetch notifications
+
+    $scope.report.category.
+
+
+    /*
     Restangular.one('reports', $scope.report.id).all('notifications').getList({
       return_fields: 'id,user,reports_notification_type_id,deadline_in_days,content,created_at,updated_at'
     }).then(function(response){
@@ -431,6 +437,20 @@ angular
       if(notifications.length > 0)
       $scope.lastNotification = notifications[0];
     });
+    */
+    $scope.showSendNotificationsModal = function () {
+
+      $modal.open({
+        templateUrl: 'modals/reports/notifications/reports-send-notifications.template.html',
+        windowClass: 'reports-send-notifications-modal',
+        resolve: {
+          report: function() {
+            return $scope.report;
+          }
+        },
+        controller: 'ReportsSendNotificationsModalController'
+      });
+    };
 
 
   });
