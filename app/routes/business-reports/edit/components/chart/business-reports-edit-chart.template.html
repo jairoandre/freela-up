@@ -42,7 +42,16 @@
           date:'dd/MM/yy'}}</strong> a <strong>{{chart.period.end_date | date:'dd/MM/yy'}}</strong></span>
       </p>
 
-      <div google-chart chart="chart" class="chart"></div>
+      <div class="chart-container">
+        <div class="chart-overlay" ng-if="chart.data.rows.length < 1 || !chart.processed">
+          <div class="overlay-controls">
+            <p ng-if="chart.data.rows.length < 1">Sem dados.</p>
+            <p ng-if="!chart.processed">Os dados deste relatório ainda estão sendo processados.</p>
+          </div>
+        </div>
+        <div google-chart chart="chart" class="chart"></div>
+      </div>
+
       <p class="chart-description" ng-if="chart.description && chart.description != ''">{{chart.description}}</p>
     </div>
   </div>

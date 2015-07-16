@@ -74,7 +74,7 @@ angular
         };
 
         var populateChartData = function (categories) {
-          if (!categories || categories.length < 1 || ($scope.chart.data.rows.length > 0 && $scope.chart.id)) return;
+          if (!$scope.editable || !categories || categories.length < 1) return;
           $scope.chart.data.rows = _.map(categories, function (c) {
             return {
               c: [{v: c.title}, {v: Math.ceil(Math.random() * 1000)}]
