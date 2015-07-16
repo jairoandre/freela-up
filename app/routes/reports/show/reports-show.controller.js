@@ -426,8 +426,7 @@ angular
     // Notifications
     // Fetch notifications
 
-    $scope.report.category.
-
+    $scope.showNotificationsSendBtn = $scope.report.category.notifications;
 
     /*
     Restangular.one('reports', $scope.report.id).all('notifications').getList({
