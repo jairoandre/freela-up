@@ -28,6 +28,7 @@
       </td>
       <td class="actions">
         <a ng-mouseenter="hoveringEditButton = true" ng-mouseleave="hoveringEditButton = false" ng-show="showEditButton" class="icon_action" href="#/business-reports/{{ report.id }}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+        <a ng-show="showEditButton" class="icon_action" href="" ng-click="duplicateReport(report)"><span class="glyphicon glyphicon-copy"></span></a>
         <a ng-mouseenter="hoveringRemoveButton = true" ng-mouseleave="hoveringRemoveButton = false" ng-show="showRemoveButton" class="icon_action" href="" ng-click="deleteReport(report)"><span class="glyphicon glyphicon-trash"></span></a>
       </td>
     </tr>

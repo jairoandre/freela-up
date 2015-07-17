@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-  .module('BusinessReportsIndexListDirectiveModule', ['BusinessReportsDestroyModalModule'])
-  .directive('businessReportsIndexList', function($state, $rootScope, BusinessReportDestroyModalService){
+  .module('BusinessReportsIndexListDirectiveModule', ['BusinessReportsDestroyModalModule', 'BusinessReportsServiceModule'])
+  .directive('businessReportsIndexList', function($state, BusinessReportsService, $rootScope, BusinessReportDestroyModalService){
     return {
       restrict: 'E',
       scope: {
@@ -42,6 +42,23 @@ angular
           ) {
             $state.go('business_reports.show', { reportId: id });
           }
+        };
+
+        $scope.duplicateReport = function(report) {
+          BusinessReportsService.find(report.id).then(function(report){
+            delete report.id;
+            report.title += ' - cópia';
+            _.each(report.charts, function(c) { delete c.id; } );
+            BusinessReportsService.save(report).then(function(){
+              $rootScope.showMessage('ok', 'Relato duplicado com sucesso!', 'success', true);
+              $state.transitionTo($state.current, {}, {
+                reload: true,
+                inherit: false,
+                notify: true
+              });
+            });
+          });
+
         }
       }
     };
