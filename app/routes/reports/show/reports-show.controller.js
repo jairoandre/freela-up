@@ -428,6 +428,9 @@ angular
 
     $scope.showNotificationsSendBtn = $scope.report.category.notifications;
 
+    //TODO: Remover
+    $scope.showNotificationsSendBtn = true;
+
     /*
     Restangular.one('reports', $scope.report.id).all('notifications').getList({
       return_fields: 'id,user,reports_notification_type_id,deadline_in_days,content,created_at,updated_at'
@@ -442,6 +445,7 @@ angular
       $modal.open({
         templateUrl: 'modals/reports/notifications/reports-send-notifications.template.html',
         windowClass: 'reports-send-notifications-modal',
+        backdrop: 'static',
         resolve: {
           report: function() {
             return $scope.report;
