@@ -49,6 +49,9 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
 
+
+    /* Notifications */
+
     var dummyNotificationType = function (category, order) {
       var dummy = {};
       var random = Math.floor((Math.random() * category.statuses.length) + 1);
@@ -58,7 +61,7 @@ angular
       dummy['reports_categories_id'] = category.id;
       dummy['title'] = 'Tipo Notificação ' + randomId;
       dummy['reports_status_id'] = category.statuses[random - 1].id;
-      dummy['deadline_in_days'] = 45;
+      dummy['default_deadline_in_days'] = 45;
       dummy['layout'] = '...';
       dummy['created_at'] = Date();
       dummy['updated_at'] = Date();
@@ -82,6 +85,23 @@ angular
       items:'li',
       revert: true,
       placeholder: 'ui-sortable-placeholder'
+    }
+
+    $scope.editingNotification = false;
+    $scope.editingNotificationId = '';
+
+    $scope.editNotificationType = function(notificationType) {
+
+      $log.info('Editing notification type');
+
+      $log.info(notificationType);
+
+      $scope.mementoNotificationType = angular.copy(notificationType);
+
+      $scope.editingNotificationId = notificationType.id;
+
+      $scope.editingNotification = true;
+
     }
 
 

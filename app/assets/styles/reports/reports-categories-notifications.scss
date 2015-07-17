@@ -1,5 +1,5 @@
-#layout_editor  {
-  #cke_1_top{
+#layout_editor {
+  #cke_1_top {
     position: absolute;
     top: 0;
     left: 0;
@@ -10,25 +10,37 @@
 
   list-style: none outside none;
   padding-left: 0px;
+  margin-top: 10px;
 
   .ui-sortable-placeholder {
     background: #ccc;
   }
 
   li {
-    font-size: 13px;
+    font-size: 18px;
     background: #FFF;
     padding: 5px;
     border-bottom: 1px solid #E1E1E1;
     display: block;
+
+    label {
+      font-size: 14px;
+    }
 
     .info {
       width: 200px;
       display: inline-block;
     }
 
+    .edit-mode {
+      margin-top: 10px;
+      border-top: 1px solid #E1E1E1;
+      padding: 30px;
+    }
+
     .actions {
       display: inline-block;
+      float: right;
 
       .edit, .trash, .move {
         display: inline-block;

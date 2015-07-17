@@ -636,12 +636,12 @@
             <input type="checkbox" bs-switch ng-model="category.ordered_notifications">
           </div>
         </div>
-
+        <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a emissão de notificações se dará de maneira ordenada.</span>
       </div>
 
       <div class="form-group app-animation ng-hide" ng-show="category.notifications">
         <label generic-input name="statuses">Tipos de notificações disponíveis
-          <a href="#/reports/categories/notifications/{{categoryId}}/add">(Novo Tipo)</a>
+          <a href="#/reports/categories/notifications/{{categoryId}}/add">(Criar novo)</a>
         </label>
 
         <div class="clearfix"></div>
@@ -651,16 +651,16 @@
           <li ng-repeat="notificationType in reportCategoriesNotificationsTypes" class="notifications-li"
               style="">
             <div class="info">
-              {{ notificationType.title }}
+              <a href="" ng-click="editNotificationType(notificationType)">{{ notificationType.title }}</a>
             </div>
-            <div class="actions">
+            <div class="actions" ng-if="!editingNotification">
               <div class="layout" style="display: inline-block" title="Visualizar Layout">
-                <a href="" ng-click="openPopover('options')" class="icon">
-                  <span class="glyphicon glyphicon-file"></span>
+                <a href="" ng-click="openNotifcationTypeLayout(notificationType)" class="icon">
+                  <span class="glyphicon glyphicon-search"></span>
                 </a>
               </div>
               <div class="edit" style="display: inline-block" title="Editar">
-                <a href="#/reports/categories/notifications/{{ categoryId }}/{{ notificationType.id }}/edit" class="icon">
+                <a href="" ng-click="editNotificationType(notificationType)" class="icon">
                   <span class="glyphicon glyphicon-edit"></span>
                 </a>
               </div>
@@ -671,16 +671,48 @@
                 </a>
               </div>
               <div class="move ng-hide" ng-show="category.ordered_notifications">
-                <a href="" ng-click="openPopover('remove')" class="icon">
+                <a href="" class="icon">
                   <span class="glyphicon glyphicon-move"></span>
                 </a>
               </div>
+            </div>
+            <div class="edit-mode ng-hide"
+                 ng-show="editingNotification && editingNotificationId === notificationType.id">
+
+              <div class="form-group">
+                <label>Título da notificaçao</label>
+                <input type="text" class="form-control" ng-model="mementoNotificationType.title">
+              </div>
+
+              <div class="form-group">
+                <label>Prazo padrão</label>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <div class="input-group">
+                      <input type="text" class="form-control" ng-model="mementoNotificationType.default_deadline_in_days">
+                      <span class="input-group-addon">dias</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <button ng-click="updateNotificationType()" class="btn btn-info btn-custom btn-lg-custom">Atualizar
+              </button>
+
+              <button ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom btn-lg-custom">Cancelar
+              </button>
+
+
             </div>
 
             <div class="clearfix"></div>
 
           </li>
         </ul>
+
+        <span class="help-block ng-hide" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
 
       </div>
 
