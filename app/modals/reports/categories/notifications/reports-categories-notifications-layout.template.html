@@ -1,0 +1,28 @@
+<div class="notifications-type-layout-content text-center">
+
+  <div id="full_page">
+
+    <div class="header">
+      <a href="" ng-click="goBack()" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+      <span class="title">{{ notificationType.title }}</span>
+
+      <a href="" ng-click="send()" class="submit_button"><span ng-show="!updating">Cadastrar</span><span
+        ng-show="updating">Salvar</span></a>
+    </div>
+
+    <div class="spacing"></div>
+
+    <div class="big_content pages-animation" style="width: 100%; text-align: center; position: relative">
+      <div id="layout_editor" style="display: inline-block; margin: auto">
+
+      </div>
+    </div>
+
+
+  </div>
+
+  <button class="btn btn-lg btn-outline" ng-click="$close()">Close</button>
+</div>
+
+

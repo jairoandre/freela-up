@@ -1,8 +1,7 @@
 angular
   .module('ReportsCategoriesIndexModule', [
     'ReportsCategoriesIndexControllerModule',
-    'ReportsCategoriesServiceModule',
-    'ReportsCategoriesNotificationsModule'
+    'ReportsCategoriesServiceModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {

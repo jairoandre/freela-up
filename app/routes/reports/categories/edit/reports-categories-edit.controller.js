@@ -6,7 +6,8 @@ angular
     'NgThumbComponentModule',
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
-    'ReportsCategoriesServiceModule'
+    'ReportsCategoriesServiceModule',
+    'ReportsCategoriesNotificationsLayoutControllerModule'
   ])
 
   .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
@@ -87,8 +88,8 @@ angular
       placeholder: 'ui-sortable-placeholder'
     }
 
-    $scope.editingNotification = false;
-    $scope.editingNotificationId = '';
+    $scope.editingNotificationType = false;
+    $scope.editingNotificationTypeId = '';
 
     $scope.editNotificationType = function(notificationType) {
 
@@ -96,13 +97,74 @@ angular
 
       $log.info(notificationType);
 
-      $scope.mementoNotificationType = angular.copy(notificationType);
+      $scope.dirtyNotificationType = false;
 
-      $scope.editingNotificationId = notificationType.id;
+      $scope.notificationTypeMemento = angular.copy(notificationType);
 
-      $scope.editingNotification = true;
+      $scope.editingNotificationTypeId = notificationType.id;
+
+      $scope.editingNotificationType = true;
+
+    };
+
+    $scope.verifyDirtyNotificationTypeMemento = function(notificationType) {
+      $scope.notificationTypeMemento.default_deadline_in_days = parseInt($scope.notificationTypeMemento.default_deadline_in_days,10);
+      var sameValues = angular.equals(notificationType, $scope.notificationTypeMemento);
+      $log.info(sameValues);
+      if(sameValues){
+        $scope.dirtyNotificationType = false;
+      }else{
+        $scope.dirtyNotificationType = true;
+      }
+    };
+
+    $scope.updateEditingNotificationType = function(notificationType) {
+      notificationType.title = $scope.notificationTypeMemento.title;
+      notificationType.reports_status_id = $scope.notificationTypeMemento.reports_status_id;
+      notificationType.default_deadline_in_days = $scope.notificationTypeMemento.default_deadline_in_days;
+      $scope.cancelEditingNotificationType();
+    };
+
+    $scope.cancelEditingNotificationType = function() {
+      $scope.dirtyNotificationType = false;
+      $scope.notificationTypeMemento = null;
+      $scope.editingNotificationTypeId = null;
+      $scope.editingNotificationType = false;
+    };
+
+    $scope.isEditNotificationType = function(notificationType) {
+      return $scope.editingNotificationTypeId === notificationType.id;
+    }
+
+    $scope.isDirtyNotificationType = function(notificationType){
+      return $scope.isEditNotificationType(notificationType) && $scope.dirtyNotificationType;
+    }
+
+    $scope.notificationTypeEditTitleStyle = function(notificationType) {
+      if($scope.isEditNotificationType(notificationType)){
+        return {'font-weight' : 'bold'};
+      }else {
+        return {'font-weight' : 'normal'};
+      }
 
     }
+
+
+    $scope.editNotificationTypeLayout = function (notificationType) {
+      $modal.open({
+        templateUrl: 'modals/reports/categories/notifications/reports-categories-notifications-layout.template.html',
+        windowTemplateUrl: 'modals/reports/categories/notifications/reports-categories-notifications-layout-modal.template.html',
+        backdrop: 'static',
+        resolve: {
+          notificationType: function () {
+            return notificationType;
+          }
+        },
+        controller: 'ReportsCategoriesNotificationsLayoutController'
+      });
+    };
+
+
 
 
     var categoriesPromise = Restangular.one('inventory').all('categories').getList({return_fields: 'id,title'}), category;
