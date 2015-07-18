@@ -16,7 +16,7 @@
   <table class="table custom_table big_text">
     <tr ng-repeat="category in categories | filter: {title: q}">
       <td>
-        <a ng-if="hasPermission('inventories_categories_edit', category.id)" ng-href="#/items/categories/{{ category.id }}/edit">{{ category.title }}</a>
+        <a ng-href="#/items/categories/{{ category.id }}/edit">{{ category.title }}</a>
       </td>
       <td width="90">
         <a ng-href="#/items/categories/{{ category.id }}/edit">
