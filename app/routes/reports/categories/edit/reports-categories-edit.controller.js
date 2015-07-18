@@ -154,7 +154,7 @@ angular
       $modal.open({
         templateUrl: 'modals/reports/categories/notifications/reports-categories-notifications-layout.template.html',
         windowTemplateUrl: 'modals/reports/categories/notifications/reports-categories-notifications-layout-modal.template.html',
-        backdrop: 'static',
+        backdrop: false,
         resolve: {
           notificationType: function () {
             return notificationType;
@@ -386,29 +386,6 @@ angular
           }
         },
         controller: 'ReportsCategoriesManageStatusesModalController'
-      });
-    };
-
-    $scope.listNotificationsTypes = function () {
-      $modal.open({
-        templateUrl: 'modals/reports/categories/notifications-types/reports-categories-notifications-list-types.template.html',
-        windowClass: 'manageStatuses',
-        backdrop: 'static',
-        resolve: {
-          reportCategoriesNotificationsTypes: function () {
-            return $scope.reportCategoriesNotificationsTypes;
-          },
-          updating: function () {
-            return updating;
-          },
-          categoryId: function () {
-            return categoryId;
-          },
-          parentState: function () {
-            return $state;
-          }
-        },
-        controller: 'ReportsCategoriesNotificationsListTypesModalController'
       });
     };
 

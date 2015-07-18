@@ -1,11 +1,16 @@
 'use strict';
 
 angular
-  .module('ReportsCategoriesNotificationsLayoutControllerModule', [])
+  .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor'])
 
   .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, notificationType) {
 
     $scope.notificationType = notificationType;
+
+    $scope.ckeditorOptions = {
+      allowedContent: true,
+      entities: false
+    };
 
     $scope.goBack = function () {
       if ($scope.unsavedNotification === true) {
