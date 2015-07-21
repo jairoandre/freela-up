@@ -8,7 +8,7 @@ angular
       'TranslateErrorsHelperModule'
     ])
 
-    .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, $localStorage, itemResponse, categoryResponse, $timeout, User) {
+    .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, singleItemUploaderFilter, onlyImagesUploaderFilter, $localStorage, itemResponse, categoryResponse, $timeout, User) {
       var updating = $scope.updating = false;
 
       var categoryId = categoryResponse.data.id;
@@ -205,28 +205,13 @@ angular
             {
               var uploader = new FileUploader();
 
-              uploader.filters.push({
-                name: 'onlyImages',
-                fn: function(item, options) {
-                  var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-                  type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-                  return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-                }
-              });
+              uploader.filters.push(onlyImagesUploaderFilter(uploader.isHTML5));
 
               /**
                * @todo Bug on angular-file-upload
                * https://github.com/nervgh/angular-file-upload/issues/290
                */
-              uploader.filters.push({
-                name: 'fixQueueLimit',
-                fn: function(item, options) {
-                  if(this.queue.length === 1) {
-                    this.clearQueue();
-                  }
-                  return true;
-                }
-              });
+              uploader.filters.push(singleItemUploaderFilter);
 
               $scope.uploaders[section.fields[j].id] = uploader;
 

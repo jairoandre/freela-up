@@ -9,7 +9,7 @@ angular
     'ReportsCategoriesServiceModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, singleItemUploaderFilter, onlyImagesUploaderFilter, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService) {
     var updating = $scope.updating = false;
     var categoryId = $stateParams.id;
 
@@ -139,28 +139,13 @@ angular
     var uploader = $scope.uploader = new FileUploader();
 
     // Images only
-    uploader.filters.push({
-      name: 'onlyImages',
-      fn: function(item, options) {
-        var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-        type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-      }
-    });
+    uploader.filters.push(onlyImagesUploaderFilter(uploader.isHTML5));
 
     /**
      * @todo Bug on angular-file-upload
      * https://github.com/nervgh/angular-file-upload/issues/290
      */
-    uploader.filters.push({
-      name: 'fixQueueLimit',
-      fn: function(item, options) {
-        if(this.queue.length === 1) {
-          this.clearQueue();
-        }
-        return true;
-      }
-    });
+    uploader.filters.push(singleItemUploaderFilter);
 
     $scope.pickColor = function(color) {
       $scope.category.color = color;
