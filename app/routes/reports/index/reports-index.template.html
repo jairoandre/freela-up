@@ -5,12 +5,12 @@
   <div class="title">
     <div class="links">
       <a href="" class="active"><span class="glyphicon glyphicon-list"></span> <p>Explorar em lista</p></a>
-      <a href="#/reports/map"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
+      <a ng-href="#/reports/map"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
     </div>
 
     <div class="btn-group">
-      <a href="#/reports/add" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_create') || hasPermission('reports_categories_edit')">+ Novo relato</a>
-      <a href="#/reports/categories" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit')">Gerenciar categorias</a>
+      <a ng-href="#/reports/add" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_create') || hasPermission('reports_categories_edit')">+ Novo relato</a>
+      <a ng-href="#/reports/categories" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit')">Gerenciar categorias</a>
     </div>
 
     <a href="" ng-click="reload(true)" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-refresh" ng-class="{'rotating': reloading}"></i></a>
@@ -76,24 +76,24 @@
 
     <tbody>
     <tr ng-repeat="report in reports | toArray:false | orderBy:'order'" ng-class="{'late_report': report.overdue }" ng-click="openReport(report.id, $event)">
-      <td class="status_color"><span ng-style="{'background-color': report.status.color}"></span><a href="#/reports/{{ report.id }}">{{ report.protocol }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">Protocolo indisponível</b></a></td>
+      <td class="status_color"><span ng-style="{'background-color': report.status.color}"></span><a ng-href="#/reports/{{ report.id }}">{{ report.protocol }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">Protocolo indisponível</b></a></td>
       <td>{{ report.address }} </td>
-      <td><a href="#/users/{{ report.user.id }}"><span class="glyphicon glyphicon-user"></span></a> {{ report.user.name }}</td>
-      <td><a href="#/users/{{ report.reporter.id }}" ng-if="report.reporter"><span class="glyphicon glyphicon-user"></span></a> {{ report.reporter.name }}</td>
+      <td><a ng-href="#/users/{{ report.user.id }}"><span class="glyphicon glyphicon-user"></span></a> {{ report.user.name }}</td>
+      <td><a ng-href="#/users/{{ report.reporter.id }}" ng-if="report.reporter"><span class="glyphicon glyphicon-user"></span></a> {{ report.reporter.name }}</td>
       <td>{{ report.category.title }}</td>
       <td>
         <span ng-if="report.assigned_group && report.assigned_user">
-            <a href="#/users/{{ report.assigned_user.id }}">
+            <a ng-href="#/users/{{ report.assigned_user.id }}">
               <span class="glyphicon glyphicon-user"></span>
             </a> {{ report.assigned_user.name.split(' ')[0] }} ({{ report.assigned_group.name }})
         </span>
         <span ng-if="report.assigned_group && !report.assigned_user">{{ report.assigned_group.name }}</span>
-          <a ng-if="!report.assigned_group && report.assigned_user" href="#/users/{{ report.assigned_user.id }}">{{ report.assigned_user.name }}</a>
+          <a ng-if="!report.assigned_group && report.assigned_user" ng-href="#/users/{{ report.assigned_user.id }}">{{ report.assigned_user.name }}</a>
         <span ng-if="!report.assigned_user && !report.assigned_group">Não atribuído</span>
       </td>
       <td>{{ report.created_at | date:'dd/MM/yy HH:mm'}}</td>
       <td class="actions">
-        <a class="icon_action" href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit" ng-show="hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"></span></a>
+        <a class="icon_action" ng-href="#/reports/{{ report.id }}"><span class="glyphicon glyphicon-edit" ng-show="hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"></span></a>
         <a class="icon_action" href="" ng-click="deleteReport(report)" ng-show="hasPermission('reports_items_delete') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_full_access')"><span class="glyphicon glyphicon-trash"></span></a>
       </td>
     </tr>
