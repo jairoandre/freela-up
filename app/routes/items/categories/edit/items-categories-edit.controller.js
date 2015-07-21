@@ -87,14 +87,7 @@ angular.
 
     if (updating)
     {
-      if ($scope.category.plot_format === 'pin') // jshint ignore:line
-      {
-        $scope.category.plot_format = false; // jshint ignore:line
-      }
-      else
-      {
-        $scope.category.plot_format = true; // jshint ignore:line
-      }
+      $scope.category.plot_format = $scope.category.plot_format === 'pin' ? false : true;
 
       for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_edit[i] = getGroupById($scope.category.permissions.groups_can_edit[i]);
