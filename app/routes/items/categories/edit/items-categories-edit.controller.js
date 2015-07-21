@@ -574,7 +574,18 @@ angular.
 
         // before sending the data to the server, we need to convert each new field's field_options to an array based method
         _.each(formattedFormData.sections, function(section) {
-          _.each(section.fields, function(field) {
+          _.each(section.fields, function(field, fieldKey) {
+
+            /**
+             * If toRemove attribute has been given, this field was added and marked to be removed
+             */
+            if('toRemove' in field) {
+              if(field.toRemove) {
+                section.fields.splice(fieldKey, 1);
+              } else {
+                delete field.toRemove;
+              }
+            }
 
             // if id is undefined then the field is newly created
             if (_.isUndefined(field.id) && _.isArray(field.field_options) && !_.isEmpty(field.field_options))
