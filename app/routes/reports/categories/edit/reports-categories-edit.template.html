@@ -644,7 +644,7 @@
 
         <div class="form-group">
           <label generic-input name="statuses">Tipos de notificações disponíveis
-            <a href="#/reports/categories/notifications/{{categoryId}}/add">(Criar novo)</a>
+            <a href="" ng-click="addNotificationType()" ng-if="!editingNotificationType">(Criar novo)</a>
           </label>
 
           <div class="clearfix"></div>
@@ -735,7 +735,7 @@
 
                 <div class="clearfix"></div>
 
-                <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom" ng-disabled="!dirtyNotificationType">Atualizar</button>
+                <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom" ng-disabled="!dirtyNotificationType">{{addingNotificationType ? 'Salvar' : 'Atualizar'}}</button>
 
                 <button ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom">Cancelar</button>
 

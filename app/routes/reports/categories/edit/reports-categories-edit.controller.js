@@ -54,23 +54,6 @@ angular
 
     /* Notifications */
 
-    var dummyNotificationType = function (category, order) {
-      var dummy = {};
-      var random = Math.floor((Math.random() * category.statuses.length) + 1);
-      var randomId = Math.floor((Math.random() * 100) + 1);
-      dummy['id'] = randomId;
-      dummy['order'] = order;
-      dummy['reports_categories_id'] = category.id;
-      dummy['title'] = 'Tipo Notificação ' + randomId;
-      dummy['reports_status_id'] = category.statuses[random - 1].id;
-      dummy['default_deadline_in_days'] = 45;
-      dummy['layout'] = '<h1>Teste</h1>';
-      dummy['created_at'] = Date();
-      dummy['updated_at'] = Date();
-      return dummy;
-
-    }
-
     $scope.deleteNotificationType = function(notificationType,modalId) {
       $scope.deleteNotificationTypePromise = $http.get('http://httpbin.org/delay/2').then(function () {
         $('#'+modalId).modal('hide');
@@ -97,6 +80,19 @@ angular
 
     $scope.editingNotificationType = false;
     $scope.editingNotificationTypeId = '';
+    $scope.addingNotificationType = false;
+
+    $scope.addNotificationType = function() {
+      $scope.addingNotificationType = true;
+      var newNotificationType = {};
+      newNotificationType.order = $scope.reportCategoriesNotificationsTypes.length;
+      newNotificationType.title = 'Novo tipo de notificação';
+      newNotificationType.id = undefined;
+      newNotificationType.reports_category_id = categoryId;
+
+      $scope.reportCategoriesNotificationsTypes[newNotificationType.order] = newNotificationType;
+      $scope.editNotificationType(newNotificationType);
+    }
 
     $scope.editNotificationType = function(notificationType) {
 
@@ -122,18 +118,59 @@ angular
       }
     };
 
+    var sucessPostPutPromise = function(sucessMsg){
+      ReportsCategoriesService.purgeCache();
+      $scope.showMessage('ok', sucessMsg, 'success', true);
+      $scope.path('/reports/categories');
+      $rootScope.resolvingRequest = false;
+    }
+
+    var errorPostPutPromise = function(response, errorMsg) {
+      $scope.showMessage('exclamation-sign', errorMsg, 'error', true);
+      if (typeof response.data.error !== 'object') {
+        Error.show(response);
+      }
+      else {
+        $scope.inputErrors = response.data.error;
+      }
+      $rootScope.resolvingRequest = false;
+    }
+
     $scope.updateEditingNotificationType = function(notificationType) {
       notificationType.title = $scope.notificationTypeMemento.title;
       notificationType.reports_status_id = $scope.notificationTypeMemento.reports_status_id;
       notificationType.default_deadline_in_days = $scope.notificationTypeMemento.default_deadline_in_days;
-      $scope.cancelEditingNotificationType();
+      notificationType.layout = $scope.notificationTypeMemento.layout;
+      $log.info(notificationType);
+      if($scope.addingNotificationType) {
+        var postNotificationTypePromise = Restangular
+          .one('reports')
+          .one('categories', categoryId)
+          .withHttpConfig({treatingErrors: true})
+          .post('notification_types', notificationType);
+        postNotificationTypePromise.then(function () {
+          resetNotificationTypesFlags();
+          $scope.addingNotificationType = false;
+          sucessPostPutPromise('O tipo de notificação foi criado com sucesso');
+        }, function (r) {
+          errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
+        });
+      }
     };
 
-    $scope.cancelEditingNotificationType = function() {
+    var resetNotificationTypesFlags = function() {
       $scope.dirtyNotificationType = false;
       $scope.notificationTypeMemento = null;
       $scope.editingNotificationTypeId = null;
       $scope.editingNotificationType = false;
+    }
+
+    $scope.cancelEditingNotificationType = function() {
+      resetNotificationTypesFlags();
+      if($scope.addingNotificationType){
+        $scope.reportCategoriesNotificationsTypes.splice($scope.reportCategoriesNotificationsTypes.length,1);
+        $scope.addingNotificationType = false;
+      }
     };
 
     $scope.isEditNotificationType = function(notificationType) {
@@ -170,9 +207,6 @@ angular
       });
     };
 
-
-
-
     var categoriesPromise = Restangular.one('inventory').all('categories').getList({return_fields: 'id,title'}), category;
 
     if (updating) {
@@ -181,7 +215,12 @@ angular
 
       var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
 
-      $q.all([categoriesPromise, categoryPromise]).then(function (responses) {
+      var notificationsTypesPromise = Restangular.one('reports')
+        .one('categories',categoryId)
+        .all('notification_types')
+        .getList({return_fields: 'id,reports_category_id,order,title,reports_status_id,default_deadline_in_days,layout,active,created_at,updated_at'});
+
+      $q.all([categoriesPromise, categoryPromise, notificationsTypesPromise]).then(function (responses) {
         $scope.categories = responses[0].data;
 
         // ...and we populate $scope.category with the data from the server =)
@@ -200,16 +239,15 @@ angular
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
 
-        $scope.reportCategoriesNotificationsTypes = [
-          dummyNotificationType($scope.category, 1),
-          dummyNotificationType($scope.category, 3),
-          dummyNotificationType($scope.category, 2),
-          dummyNotificationType($scope.category, 5)
-        ];
+        $scope.reportCategoriesNotificationsTypes = responses[2].data;
 
-        $scope.reportCategoriesNotificationsTypes.sort(function (a, b) {
-          return a.order > b.order;
+        notificationsTypesPromise.then(function(r){
+          $scope.reportCategoriesNotificationsTypes = r.data;
+          $scope.reportCategoriesNotificationsTypes.sort(function (a, b) {
+            return a.order > b.order;
+          });
         });
+
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {

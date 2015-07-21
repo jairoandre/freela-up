@@ -162,9 +162,7 @@ module.exports = function (grunt) {
         overrides: {
           "bootstrap": {
             "main": [
-              "dist/js/bootstrap.js",
-              "dist/css/bootstrap.css",
-              "less/bootstrap.less"
+              "dist/css/bootstrap.css"
             ]
           }
         }
