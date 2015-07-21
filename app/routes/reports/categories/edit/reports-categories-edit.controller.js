@@ -7,10 +7,11 @@ angular
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
     'ReportsCategoriesServiceModule',
-    'ReportsCategoriesNotificationsLayoutControllerModule'
+    'ReportsCategoriesNotificationsLayoutControllerModule',
+    'DeleteModalDirectiveModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $http, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
     var updating = $scope.updating = false;
     var categoryId = $scope.categoryId = $stateParams.id;
 
@@ -63,11 +64,17 @@ angular
       dummy['title'] = 'Tipo Notificação ' + randomId;
       dummy['reports_status_id'] = category.statuses[random - 1].id;
       dummy['default_deadline_in_days'] = 45;
-      dummy['layout'] = '...';
+      dummy['layout'] = '<h1>Teste</h1>';
       dummy['created_at'] = Date();
       dummy['updated_at'] = Date();
       return dummy;
 
+    }
+
+    $scope.deleteNotificationType = function(notificationType,modalId) {
+      $scope.deleteNotificationTypePromise = $http.get('http://httpbin.org/delay/2').then(function () {
+        $('#'+modalId).modal('hide');
+      });
     }
 
     $scope.reportCategoriesNotificationsTypes = [];
@@ -85,7 +92,7 @@ angular
       tolerance: 'pointer',
       items:'li',
       revert: true,
-      placeholder: 'ui-sortable-placeholder'
+      placeholder: 'ui-sortable-placeholder-notification-type'
     }
 
     $scope.editingNotificationType = false;
@@ -94,8 +101,6 @@ angular
     $scope.editNotificationType = function(notificationType) {
 
       $log.info('Editing notification type');
-
-      $log.info(notificationType);
 
       $scope.dirtyNotificationType = false;
 
@@ -110,7 +115,6 @@ angular
     $scope.verifyDirtyNotificationTypeMemento = function(notificationType) {
       $scope.notificationTypeMemento.default_deadline_in_days = parseInt($scope.notificationTypeMemento.default_deadline_in_days,10);
       var sameValues = angular.equals(notificationType, $scope.notificationTypeMemento);
-      $log.info(sameValues);
       if(sameValues){
         $scope.dirtyNotificationType = false;
       }else{
@@ -149,7 +153,6 @@ angular
 
     }
 
-
     $scope.editNotificationTypeLayout = function (notificationType) {
       $modal.open({
         templateUrl: 'modals/reports/categories/notifications/reports-categories-notifications-layout.template.html',
@@ -158,6 +161,9 @@ angular
         resolve: {
           notificationType: function () {
             return notificationType;
+          },
+          parentScope: function() {
+            return $scope;
           }
         },
         controller: 'ReportsCategoriesNotificationsLayoutController'
@@ -192,6 +198,7 @@ angular
         category.solver_groups_ids = responses[1].data.solver_groups_ids;
         category.default_solver_group_id = responses[1].data.default_solver_group_id;
         category.notifications = responses[1].data.notifications;
+        category.ordered_notifications = responses[1].data.ordered_notifications;
 
         $scope.reportCategoriesNotificationsTypes = [
           dummyNotificationType($scope.category, 1),

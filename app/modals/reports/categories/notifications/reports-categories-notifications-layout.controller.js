@@ -1,30 +1,70 @@
 'use strict';
 
 angular
-  .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor'])
+  .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor', 'angularLoad'])
 
-  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, notificationType) {
+  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $modalInstance, $log, parentScope, notificationType, angularLoad) {
 
-    $scope.notificationType = notificationType;
+    $log.info('ReportsCategoriesNotificationsLayoutController created.');
+    $scope.$on('$destroy', function () {
+      $log.info('ReportsCategoriesNotificationsLayoutController destroyed.');
+    });
 
-    $scope.ckeditorOptions = {
-      allowedContent: true,
-      entities: false
-    };
+    $scope.originalLayout = notificationType.layout;
 
-    $scope.goBack = function () {
-      if ($scope.unsavedNotification === true) {
+    $scope.notificationTypeOnLayoutModal = notificationType;
+
+    $scope.loadingCkeditorScript = true;
+
+    var configureCkEditor = function () {
+      $scope.loadingCkeditorScript = false;
+      $scope.ckeditorOptions = {
+
+        allowedContent: true,
+        extraPlugins: 'sharedspace,placeholder,base64image,font,imagepaste',
+        sharedSpaces: {top: 'ckeditor-toolbar'},
+        toolbarGroups: [
+          {name: 'clipboard', groups: ['clipboard', 'undo']},
+          {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
+          {name: 'links', groups: ['links']},
+          {name: 'insert', groups: ['insert']},
+          {name: 'forms', groups: ['forms']},
+          {name: 'tools', groups: ['tools']},
+          {name: 'others', groups: ['others']},
+          '/',
+          {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+          {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
+          {name: 'document', groups: ['mode', 'document', 'doctools']},
+          '/',
+          {name: 'styles', groups: ['styles']},
+          {name: 'colors', groups: ['colors']},
+          {name: 'about', groups: ['about']}
+        ],
+        removeButtons: 'Underline,Subscript,Superscript,Maximize,Image'
+      };
+    }
+
+    angularLoad.loadScript('bower_components/ckeditor/ckeditor.js').then(function(){
+      configureCkEditor();
+    });
+
+    $scope.closeLayoutNotificationTypeModal = function () {
+      if ($scope.originalLayout !== $scope.notificationTypeOnLayoutModal.layout) {
         if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) {
-          $scope.unsavedNotification = false;
-          $scope.loading = true;
-          $state.transitionTo('reports.categories.edit', {id: $scope.categoryId}, {'reload': true});
+          $scope.notificationTypeOnLayoutModal.layout = angular.copy($scope.originalLayout);
+          $modalInstance.close();
         }
-      }
-      else {
-        $scope.loading = true;
-        $state.transitionTo('reports.categories.edit', {id: $scope.categoryId}, {'reload': true});
+      } else {
+        $modalInstance.close();
       }
     };
+
+    $scope.saveLayoutNotificationType = function () {
+      if ($scope.originalLayout !== $scope.notificationTypeOnLayoutModal.layout) {
+        parentScope.verifyDirtyNotificationTypeMemento(notificationType);
+      }
+      $modalInstance.close();
+    }
 
   })
 ;

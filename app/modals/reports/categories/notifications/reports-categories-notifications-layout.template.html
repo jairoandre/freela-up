@@ -2,16 +2,25 @@
 
 
   <div class="header">
-    <a href="" ng-click="$close()" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="" ng-click="closeLayoutNotificationTypeModal()" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
-    <span class="title">{{ notificationType.title }}</span>
+    <span class="title">{{ notificationTypeOnLayoutModal.title }}</span>
 
-    <a href="" ng-click="send()" class="submit_button"><span>Salvar</span></a>
+    <a href="" ng-click="saveLayoutNotificationType()" class="submit_button"><span>Salvar</span></a>
   </div>
-  <div class="toolbar-div"></div>
+
+  <div class="toolbar-div">
+    <div id="ckeditor-toolbar" class="ckeditor-toolbar"></div>
+  </div>
+
   <div class="editor-content">
-    <button class="btn btn-lg btn-outline" ng-click="$close()">Close</button>
-    <div ckeditor="ckeditorOptions" ng-model="notificationType.layout"></div>
+
+
+    <div id="notification-layout-editor app-animation" class="a4-page" ng-if="!loadingCkeditorScript">
+      <div ckeditor="ckeditorOptions" ng-model="notificationTypeOnLayoutModal.layout" contenteditable="true" class="ckeditor-editable-content"></div>
+    </div>
+    <div style="height: 200px"></div>
+
   </div>
 </div>
 

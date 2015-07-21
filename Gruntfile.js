@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').load({ silent: true });
+require('dotenv').load({silent: true});
 
 module.exports = function (grunt) {
 
@@ -151,13 +151,33 @@ module.exports = function (grunt) {
     },
 
     // Automatically inject Bower components into the app
-    'bower-install': {
-      app: {
-        html: '<%= yeoman.app %>/index.html',
+    wiredep: {
+      target: {
+        src: '<%= yeoman.app %>/index.html'
+      },
+      options: {
+        directory: '<%= yeoman.app %>/bower_components',
         ignorePath: '<%= yeoman.app %>/',
-        exclude: ['bower_components/bootstrap/docs/assets/css/bootstrap.css']
+        exclude: ['/ckeditor/', '/base64image_1.3/'],
+        overrides: {
+          "bootstrap": {
+            "main": [
+              "dist/js/bootstrap.js",
+              "dist/css/bootstrap.css",
+              "less/bootstrap.less"
+            ]
+          }
+        }
+
       }
     },
+    //'bower-install': {
+    //  app: {
+    //    html: '<%= yeoman.app %>/index.html',
+    //    ignorePath: '<%= yeoman.app %>/',
+    //    exclude: ['ckeditor']
+    //  }
+    //},
 
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
@@ -295,6 +315,29 @@ module.exports = function (grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
+      desenv: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/bower_components/base64image_1.3',
+            dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/base64image',
+            src: ['**/*']
+          },
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/bower_components/font_4.5.1',
+            dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/font',
+            src: ['**/*']
+          },
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/bower_components/imagepaste_1.1.1',
+            dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/imagepaste',
+            src: ['**/*']
+          }
+        ]
+
+      },
       dist: {
         files: [{
           expand: true,
@@ -309,13 +352,29 @@ module.exports = function (grunt) {
             'assets/images/**/*',
             'assets/fonts/*',
             'assets/scripts/*',
-            'assets/documents/*'
+            'assets/documents/*',
+            'bower_components/ckeditor/**/*'
           ]
         }, {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/assets/images',
           src: ['generated/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/bower_components/base64image_1.3',
+          dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/base64image',
+          src: ['**/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/bower_components/font_4.5.1',
+          dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/font',
+          src: ['**/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/bower_components/imagepaste_1.1.1',
+          dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/imagepaste',
+          src: ['**/*']
         }]
       },
       styles: {
@@ -413,11 +472,12 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bower-install',
+      'wiredep',
       'ngconstant:angularLocal',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
+      'copy:desenv',
       'watch'
     ]);
   });
@@ -442,7 +502,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'ngconstant:angularBuild',
-    'bower-install',
+    'wiredep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

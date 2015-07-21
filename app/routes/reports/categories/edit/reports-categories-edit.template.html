@@ -10,6 +10,7 @@
   </div>
 
   <div class="content bigPadding">
+
     <h3>Informações da categoria</h3>
 
     <div class="alert alert-danger fade-animation" ng-show="inputErrors">
@@ -672,9 +673,12 @@
                 </div>
                 <div class="trash">
                   <!-- ngIf: popover.remove === true -->
-                  <a href="" ng-click="openPopover('remove')" class="icon">
+                  <a href="" data-toggle="modal" data-target="#deleteModal{{notificationType.id}}" class="icon">
                     <span class="glyphicon glyphicon-trash"></span>
                   </a>
+                  <div delete-modal modal-id="deleteModal{{notificationType.id}}" modal-title="Remover Notificação"
+                       modal-confirm-function="deleteNotificationType(notificationType,'deleteModal'+notificationType.id)" modal-item-title="{{notificationType.title}}"
+                    modal-confirm-promise="deleteNotificationTypePromise"></div>
                 </div>
                 <div class="move ng-hide" ng-show="category.ordered_notifications">
                   <a href="" class="icon">
