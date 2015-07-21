@@ -579,7 +579,7 @@ angular.
             /**
              * If toRemove attribute has been given, this field was added and marked to be removed
              */
-            if('toRemove' in field) {
+            if(field.hasOwnProperty('toRemove')) {
               if(field.toRemove) {
                 section.fields.splice(fieldKey, 1);
               } else {
