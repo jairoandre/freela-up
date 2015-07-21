@@ -77,24 +77,12 @@ angular.
     };
 
     var getGroupById = function(id) {
-      for (var i = $scope.groups.length - 1; i >= 0; i--) {
-        if ($scope.groups[i].id == id)
-        {
-          return $scope.groups[i];
-        }
-      }
+      return _.findWhere($scope.groups, {id: id});
     };
 
     if (updating)
     {
-      if ($scope.category.plot_format === 'pin') // jshint ignore:line
-      {
-        $scope.category.plot_format = false; // jshint ignore:line
-      }
-      else
-      {
-        $scope.category.plot_format = true; // jshint ignore:line
-      }
+      $scope.category.plot_format = $scope.category.plot_format === 'pin' ? false : true;
 
       for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_edit[i] = getGroupById($scope.category.permissions.groups_can_edit[i]);
@@ -592,7 +580,18 @@ angular.
 
         // before sending the data to the server, we need to convert each new field's field_options to an array based method
         _.each(formattedFormData.sections, function(section) {
-          _.each(section.fields, function(field) {
+          _.each(section.fields, function(field, fieldKey) {
+
+            /**
+             * If toRemove attribute has been given, this field was added and marked to be removed
+             */
+            if(field.hasOwnProperty('toRemove')) {
+              if(field.toRemove) {
+                section.fields.splice(fieldKey, 1);
+              } else {
+                delete field.toRemove;
+              }
+            }
 
             // if id is undefined then the field is newly created
             if (_.isUndefined(field.id) && _.isArray(field.field_options) && !_.isEmpty(field.field_options))

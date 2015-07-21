@@ -17,9 +17,9 @@
 
   <table class="table custom_table big_text" ng-hide="loadingContent">
     <tr ng-repeat="group in groups | filter: search">
-      <td><a href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
+      <td><a ng-href="#/groups/{{ group.id }}">{{ group.name }}</a></td>
       <td class="actions" ng-show="hasPermission('groups_full_access') || hasPermission('group_edit', group.id)">
-        <a class="icon_action" href="#/groups/{{ group.id }}"><span class="glyphicon glyphicon glyphicon-list"></span></a>
+        <a class="icon_action" ng-href="#/groups/{{ group.id }}"><span class="glyphicon glyphicon glyphicon-list"></span></a>
         <a href="" ng-click="deleteGroup(group)"><span class="glyphicon glyphicon-trash"></span></a>
       </td>
     </tr>

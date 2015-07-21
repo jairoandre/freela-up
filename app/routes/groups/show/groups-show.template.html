@@ -3,12 +3,12 @@
 <div ng-hide="loading">
   <div class="title">
     <ul>
-      <li><a href="#/groups">Grupos</a></li>
+      <li><a ng-href="#/groups">Grupos</a></li>
       <li>{{ group.name }}</li>
     </ul>
 
     <div class="btn-group" ng-show="hasPermission('group_edit') || hasPermission('groups_full_access')">
-      <a href="#/groups/{{ group.id }}/edit" class="btn btn-info btn-custom-group">Gerenciar permissões</a>
+      <a ng-href="#/groups/{{ group.id }}/edit" class="btn btn-info btn-custom-group">Gerenciar permissões</a>
       <a href="" ng-click="editGroup()" class="btn btn-info btn-custom-group">Editar nome</a>
     </div>
 
@@ -41,7 +41,7 @@
     </thead>
 
     <tr ng-repeat="user in users | orderBy:sort.column:sort.descending" infinite-scroll="getData(true)" infinite-scroll-distance="2">
-      <td><a href="#/users/{{ user.id }}">{{ user.name }}</a></td>
+      <td><a ng-href="#/users/{{ user.id }}">{{ user.name }}</a></td>
       <td>{{ user.email }}</td>
       <td>{{ user.phone }}</td>
       <td class="actions"><a href="" class="icon_action" ng-click="removeUserFromGroup(user)" tooltip="Remover usuário do grupo" ng-show="hasPermission('group_edit') || hasPermission('groups_full_access')"><span class="glyphicon glyphicon-trash"></span></a></td>

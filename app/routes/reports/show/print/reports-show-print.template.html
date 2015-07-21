@@ -72,7 +72,7 @@
 
             <h5>Item relacionado</h5>
 
-            <p><a href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
+            <p><a ng-href="#/items/{{ report.inventory_item.id }}">{{ report.inventory_item.title }}</a></p>
           </div>
 
           <hr />
@@ -183,8 +183,8 @@
               <span ng-show="log.kind === 'address'">alterou o endereço do relato para <b>{{ log.changes.new }}</b>.</span>
               <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>{{ log.changes.new }}</b>.</span>
               <span ng-show="log.kind === 'category'">alterou a categoria do relato de <b>{{ log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
-              <span ng-show="log.kind === 'user_assign'">associou o relato<span ng-show="log.changes.old"> do usuário <a href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o usuário <a href="#/users/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
-              <span ng-show="log.kind === 'forward'">encaminhou o relato<span ng-show="log.changes.old"> do grupo <a href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o grupo <a href="#/groups/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
+              <span ng-show="log.kind === 'user_assign'">associou o relato<span ng-show="log.changes.old"> do usuário <a ng-href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o usuário <a href="#/users/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
+              <span ng-show="log.kind === 'forward'">encaminhou o relato<span ng-show="log.changes.old"> do grupo <a ng-href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o grupo <a href="#/groups/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
               <span ng-show="log.kind === 'comment'">inseriu o comentáro interno: <b>{{ log.changes.new.message }}</b>.</span>
             </p>
           </div>

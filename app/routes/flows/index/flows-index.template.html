@@ -37,18 +37,18 @@
 
     <tr ng-repeat="flow in flows">
       <td>
-        <a href="#/flows/{{ flow.id }}">{{ flow.title }}</a>
+        <a ng-href="#/flows/{{ flow.id }}">{{ flow.title }}</a>
         <p class="information"><span>{{ flow.steps.length }} etapas</span> | <span>{{ flow.total_cases }} casos</span></p>
       </td>
 
       <td>
         <span class="date">{{ flow.created_at | date:'dd/MM/yy HH:mm'}}</span>
-        <span class="name" ng-show="flow.created_by !== null">Por <a href="#/users/{{ flow.created_by.id }}">{{ flow.created_by.name }}</a></span>
+        <span class="name" ng-show="flow.created_by !== null">Por <a ng-href="#/users/{{ flow.created_by.id }}">{{ flow.created_by.name }}</a></span>
       </td>
 
       <td>
         <span class="date">{{ flow.updated_at | date:'dd/MM/yy HH:mm'}}</span>
-        <span class="name" ng-show="flow.updated_by !== null">Por <a href="#/users/{{ flow.updated_by.id }}">{{ flow.updated_by.name }}</a>
+        <span class="name" ng-show="flow.updated_by !== null">Por <a ng-href="#/users/{{ flow.updated_by.id }}">{{ flow.updated_by.name }}</a>
       </td>
 
       <td class="actions">
