@@ -77,12 +77,7 @@ angular.
     };
 
     var getGroupById = function(id) {
-      for (var i = $scope.groups.length - 1; i >= 0; i--) {
-        if ($scope.groups[i].id == id)
-        {
-          return $scope.groups[i];
-        }
-      };
+      return _.findWhere($scope.groups, {id: id});
     };
 
     if (updating)
