@@ -39,6 +39,9 @@ angular
       $scope.assignedToMyGroup = null;
       $scope.assignedToMe = null;
       $scope.minimumNotificationNumber = null;
+      $scope.daysSinceLastNotification = null;
+      $scope.daysForLastNotificationDeadline = null;
+      $scope.daysForOverdueNotification = null;
 
       // map options
       $scope.position = null;
@@ -85,10 +88,10 @@ angular
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
       {name: 'Associados ao meu grupo...', action: 'assignedToMyGroup'},
       {name: 'Associados à mim...', action: 'assignedToMe'},
-      {name: 'Quantidade mínima de notificações...', action: 'setMinimumNotificationNumber'},
-      {name: 'O número de dias desde a última notificação...', action: 'setDaysSinceLastNotification'},
-      {name: 'O número de dias restantes para o vencimento da última notificação...',action: 'setDaysForLastNotificationDeadline'},
-      {name: 'Intervalo de dias para o vencimento da última notificação...',action: 'setDaysForLastNotificationDeadline'}
+      {name: 'Quantidade mínima de notificações...', action: 'minimumNotificationNumber'},
+      {name: 'O número de dias desde a última notificação...', action: 'daysSinceLastNotification'},
+      {name: 'O número de dias restantes para o vencimento da última notificação...',action: 'daysForLastNotificationDeadline'},
+      {name: 'Intervalo de dias para o vencimento da última notificação...',action: 'daysForOverdueNotification'}
     ];
 
     $scope.activeAdvancedFilters = [];
@@ -174,8 +177,24 @@ angular
           $scope.assignedToMe = true;
         }
 
-        if (filter.type = 'minimumNotificationNumber') {
+        if (filter.type === 'minimumNotificationNumber') {
+          console.log('$watch(activeAdvancedFilters) -> minimumNotificationNumber');
+          $scope.minimumNotificationNumber = filter.value;
+        }
 
+        if (filter.type === 'daysSinceLastNotification') {
+          console.log('$watch(activeAdvancedFilters) -> daysSinceLastNotification');
+          $scope.daysSinceLastNotification = filter.value;
+        }
+
+        if (filter.type === 'daysForLastNotificationDeadline') {
+          console.log('$watch(activeAdvancedFilters) -> daysForLastNotificationDeadline');
+          $scope.daysForLastNotificationDeadline = filter.value;
+        }
+
+        if (filter.type === 'daysForOverdueNotification') {
+          console.log('$watch(activeAdvancedFilters) -> daysForOverdueNotification');
+          $scope.daysForOverdueNotification = filter.value;
         }
       }
 
@@ -264,6 +283,26 @@ angular
 
       if ($scope.assignedToMe !== null) {
         options.assigned_to_me = $scope.assignedToMe;
+      }
+
+      if ($scope.minimumNotificationNumber !== null) {
+        console.log('generateReportsFetchingOptions -> minimumNotificationNumber');
+        options.minimum_notification_number = $scope.minimumNotificationNumber;
+      }
+
+      if ($scope.daysSinceLastNotification !== null) {
+        console.log('generateReportsFetchingOptions -> daysSinceLastNotification');
+        options.days_since_last_notification = $scope.daysSinceLastNotification;
+      }
+
+      if ($scope.daysForLastNotificationDeadline !== null) {
+        console.log('generateReportsFetchingOptions -> daysForLastNotificationDeadline');
+        options.days_for_last_notification_deadline = $scope.daysForLastNotificationDeadline;
+      }
+
+      if ($scope.daysForOverdueNotification !== null) {
+        console.log('generateReportsFetchingOptions -> daysForOverdueNotification');
+        options.days_for_overdue_notification = $scope.daysForOverdueNotification;
       }
 
       return options;
@@ -418,6 +457,26 @@ angular
         };
 
         $scope.activeAdvancedFilters.push(overdueFilter);
+      }
+
+      if (status === 'minimumNotificationNumber') {
+        console.log('loadFilter -> minimumNotificationNumber');
+        AdvancedFilters.notificationMinimumNumber($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'daysSinceLastNotification') {
+        console.log('loadFilter -> daysSinceLastNotification');
+        AdvancedFilters.notificationSinceLast($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'daysForLastNotificationDeadline') {
+        console.log('loadFilter -> daysForLastNotificationDeadline');
+        AdvancedFilters.notificationDeadline($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'daysForOverdueNotification') {
+        console.log('loadFilter -> daysForOverdueNotification');
+        AdvancedFilters.notificationOverdue($scope.activeAdvancedFilters);
       }
     };
 

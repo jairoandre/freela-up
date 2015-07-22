@@ -143,6 +143,26 @@ angular
         });
       },
 
+      // advanced filter by minimum notification number
+      notificationMinimumNumber: function(activeAdvancedFilters) {
+        console.log('factory advanced filters', activeAdvancedFilters);
+      },
+
+      // advanced filter by days since last notification
+      notificationSinceLast: function(activeAdvancedFilters) {
+        console.log('factory advanced filters', activeAdvancedFilters);
+      },
+
+      // advanced filter by days for last notification deadline
+      notificationDeadline: function(activeAdvancedFilters) {
+        console.log('factory advanced filters', activeAdvancedFilters);
+      },
+
+      // advanced filter by days for overdue notification
+      notificationOverdue: function(activeAdvancedFilters) {
+        console.log('factory advanced filters', activeAdvancedFilters);
+      },
+
       fields: function(activeAdvancedFilters) {
         $rootScope.resolvingRequest = true;
 
