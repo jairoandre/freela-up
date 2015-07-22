@@ -646,7 +646,10 @@
 
           <div class="clearfix"></div>
 
-          <ul ui-sortable="notificationsSortableOptions" ng-model="reportCategoriesNotificationsTypes"
+
+          {{notificationOrderArray}}
+
+          <ul ui-sortable="notificationsSortableOptions" ng-model="notificationTypesArray"
               class="reports-categories-notifications-sortable-list">
             <li ng-repeat="notificationType in notificationTypesArray" class="notifications-li"
                 ng-animate-children>
@@ -744,13 +747,12 @@
                 <button ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom">Cancelar</button>
               </div>
             </li>
-
-            <div delete-modal modal-id="deleteNotificationTypeModal"
-                 modal-title="Remover Notificação"
-                 modal-confirm-function="deleteNotificationType(notificationTypeToDelete)"
-                 modal-item-title="notificationTypeToDelete.title"
-                 modal-confirm-promise="deleteNotificationTypePromise" ng-if="notificationTypeToDelete"></div>
           </ul>
+          <div delete-modal modal-id="deleteNotificationTypeModal"
+               modal-title="Remover Notificação"
+               modal-confirm-function="deleteNotificationType(notificationTypeToDelete)"
+               modal-item-title="notificationTypeToDelete.title"
+               modal-confirm-promise="deleteNotificationTypePromise" ng-if="notificationTypeToDelete"></div>
           <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
         </div>
       </div>

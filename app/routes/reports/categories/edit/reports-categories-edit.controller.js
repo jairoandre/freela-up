@@ -130,6 +130,9 @@ angular
         if (_status) {
           _notificationType.reports_status_id = _status.id;
         }
+        if(!_notificationType.order){
+          _notificationType.order = i;
+        }
       }
 
       $scope.notificationTypesArray.sort(function (a, b) {
@@ -165,13 +168,11 @@ angular
       });
     };
 
-    $scope.notificationTypesArray = [];
-
     $scope.notificationsSortableOptions = {
       handle: '.move',
       stop: function (e, ui) {
-        for (var index in $scope.notificationTypesArray) {
-          $scope.notificationTypesArray[index].order = index;
+        for (var i = 0; i < $scope.notificationTypesArray.length; i++) {
+          $scope.notificationOrderArray[$scope.notificationTypesArray[i].id] = i;
         }
       },
       start: function (e, ui) {
