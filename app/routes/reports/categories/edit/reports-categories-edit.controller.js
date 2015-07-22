@@ -11,7 +11,67 @@ angular
     'DeleteModalDirectiveModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
+  .factory('NotificationTypesService', function (Restangular, $q) {
+
+
+    function NotificationTypesService() {
+
+      var self = this;
+
+      self.notificationTypesMap = {};
+
+      self.cleanCache = function () {
+        self.notificationTypesMap = {};
+      }
+
+      self.getNotificationTypesArrayForCategory = function (categoryId) {
+
+        var deferred = $q.defer();
+
+        if (self.notificationTypesMap[categoryId]) {
+          deferred.resolve(self.notificationTypesMap[categoryId]);
+        } else {
+          Restangular.one('reports')
+            .one('categories', categoryId)
+            .all('notification_types')
+            .getList({return_fields: 'id,category.id,status.id,order,title,default_deadline_in_days,layout,active,created_at,updated_at'})
+            .then(function (r) {
+              self.notificationTypesMap[categoryId] = r.data;
+              deferred.resolve(r.data);
+            }, function () {
+              deferred.reject(r);
+            });
+        }
+
+        return deferred.promise;
+
+      };
+
+      self.saveNotificationType = function (categoryId, notificationType) {
+        return Restangular
+          .one('reports')
+          .one('categories', categoryId)
+          .withHttpConfig({treatingErrors: true})
+          .post('notification_types', notificationType);
+      };
+
+      self.updateNotificationType = function (categoryId, notificationType) {
+        return Restangular
+          .one('reports')
+          .one('categories', categoryId)
+          .one('notification_types', notificationType.id)
+          .withHttpConfig({treatingErrors: true})
+          .customPUT(notificationType);
+      };
+
+    }
+
+    return new NotificationTypesService();
+
+
+  })
+
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
     var updating = $scope.updating = false;
     var categoryId = $scope.categoryId = $stateParams.id;
 
@@ -54,51 +114,51 @@ angular
 
     /* Notifications */
 
-    var notificationsTypesPromise = Restangular.one('reports')
-      .one('categories', categoryId)
-      .all('notification_types')
-      .getList({return_fields: 'id,category.id,status.id,order,title,default_deadline_in_days,layout,active,created_at,updated_at'});
 
     var fillNotificationTypes = function () {
-      for (var i = 0; i < $scope.reportCategoriesNotificationsTypes.length; i++) {
-        var _notificationType = $scope.reportCategoriesNotificationsTypes[i];
+      for (var i = 0; i < $scope.notificationTypesArray.length; i++) {
+        var _notificationType = $scope.notificationTypesArray[i];
         var _status = _notificationType.status;
         if (_status) {
           _notificationType.reports_status_id = _status.id;
         }
       }
 
-      $scope.reportCategoriesNotificationsTypes.sort(function (a, b) {
+      $scope.notificationTypesArray.sort(function (a, b) {
         return a.order > b.order;
       });
     };
 
+    var refreshNotificationTypesArray = function () {
+      NotificationTypesService.cleanCache();
+      NotificationTypesService.getNotificationTypesArrayForCategory(categoryId).then(function (r) {
+        $scope.notificationTypesArray = r;
+        fillNotificationTypes();
+      });
+    }
+
+    $scope.prepareToDeleteNotificationType = function (notificationType) {
+      $scope.notificationTypeToDelete = notificationType;
+      $log.info($scope.notificationTypeToDelete);
+    }
+
     $scope.deleteNotificationType = function (notificationType) {
       var deletePromise = Restangular.one('reports').one('categories', categoryId).one('notification_types', notificationType.id).remove();
 
-      //$scope.deleteNotificationTypePromise = $http.get('http://httpbin.org/delay/5').then(function () {
-        //$('#'+modalId).modal('hide');
-      //});
-
-      $scope.deleteNotificationTypePromise = deletePromise.then(function(){
+      $scope.deleteNotificationTypePromise = deletePromise.then(function () {
         $scope.showMessage('ok', 'O tipo de notificacao foi removido com sucesso', 'success', true);
-      }).finally(
-        $scope.deleteNotificationTypePromise = undefined
-      );
-
-      //.finally(
-      //  $timeout($scope.reportCategoriesNotificationsTypes.splice($scope.reportCategoriesNotificationsTypes.indexOf(notificationType),1),3000)
-      //);
+        $scope.notificationTypesArray.splice($scope.notificationTypesArray.indexOf(notificationType), 1);
+      });
 
     }
 
-    $scope.reportCategoriesNotificationsTypes = [];
+    $scope.notificationTypesArray = [];
 
     $scope.notificationsSortableOptions = {
       handle: '.move',
       stop: function (e, ui) {
-        for (var index in $scope.reportCategoriesNotificationsTypes) {
-          $scope.reportCategoriesNotificationsTypes[index].order = index;
+        for (var index in $scope.notificationTypesArray) {
+          $scope.notificationTypesArray[index].order = index;
         }
       },
       start: function (e, ui) {
@@ -117,12 +177,11 @@ angular
     $scope.addNotificationType = function () {
       $scope.addingNotificationType = true;
       var newNotificationType = {};
-      newNotificationType.order = $scope.reportCategoriesNotificationsTypes.length;
+      newNotificationType.order = $scope.notificationTypesArray.length;
       newNotificationType.title = 'Novo tipo de notificação';
       newNotificationType.id = undefined;
       newNotificationType.reports_category_id = categoryId;
-
-      $scope.reportCategoriesNotificationsTypes[newNotificationType.order] = newNotificationType;
+      $scope.notificationTypesArray[newNotificationType.order] = newNotificationType;
       $scope.editNotificationType(newNotificationType);
     }
 
@@ -132,9 +191,6 @@ angular
       $scope.notificationTypeMemento = angular.copy(notificationType);
       $scope.editingNotificationTypeId = notificationType.id;
       $scope.editingNotificationType = true;
-      $log.info(notificationType);
-      $location.hash('notificationTypeInfo'+notificationType.id);
-      $anchorScroll();
     };
 
     $scope.verifyDirtyNotificationTypeMemento = function (notificationType) {
@@ -166,33 +222,29 @@ angular
       notificationType.reports_status_id = $scope.notificationTypeMemento.reports_status_id;
       notificationType.default_deadline_in_days = $scope.notificationTypeMemento.default_deadline_in_days;
       notificationType.layout = $scope.notificationTypeMemento.layout;
+      $scope.saveNotificationTypePromise = undefined;
       if ($scope.addingNotificationType) {
-        var postNotificationTypePromise = Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .withHttpConfig({treatingErrors: true})
-          .post('notification_types', notificationType);
-        postNotificationTypePromise.then(function () {
-          resetNotificationTypesFlags();
-          $scope.addingNotificationType = false;
-          sucessPostPutPromise('O tipo de notificação foi criado com sucesso');
-        }, function (r) {
-          errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
-        });
-      }else {
-        var putNotificationTypePromise = Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .one('notification_types', notificationType.id)
-          .withHttpConfig({treatingErrors: true})
-          .customPUT(notificationType);
-        putNotificationTypePromise.then(function () {
-          resetNotificationTypesFlags();
-          $scope.addingNotificationType = false;
-          sucessPostPutPromise('O tipo de notificação foi atualizado com sucesso');
-        }, function (r) {
-          errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
-        });
+        $scope.saveNotificationTypePromise = NotificationTypesService
+          .saveNotificationType(categoryId, notificationType)
+          .then(function () {
+            resetNotificationTypesFlags();
+            $scope.addingNotificationType = false;
+            sucessPostPutPromise('O tipo de notificação foi criado com sucesso');
+            refreshNotificationTypesArray();
+          }, function (r) {
+            errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
+          });
+      } else {
+        $scope.saveNotificationTypePromise = NotificationTypesService
+          .updateNotificationType(categoryId, notificationType)
+          .then(function () {
+            resetNotificationTypesFlags();
+            $scope.addingNotificationType = false;
+            sucessPostPutPromise('O tipo de notificação foi atualizado com sucesso');
+            refreshNotificationTypesArray();
+          }, function (r) {
+            errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
+          });
       }
     };
 
@@ -205,7 +257,7 @@ angular
 
     $scope.cancelEditingNotificationType = function () {
       if ($scope.addingNotificationType) {
-        $scope.reportCategoriesNotificationsTypes.splice($scope.reportCategoriesNotificationsTypes.length - 1, 1);
+        $scope.notificationTypesArray.splice($scope.notificationTypesArray.length - 1, 1);
         $scope.addingNotificationType = false;
       }
       resetNotificationTypesFlags();
@@ -254,7 +306,7 @@ angular
       var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
 
 
-      $q.all([categoriesPromise, categoryPromise, notificationsTypesPromise]).then(function (responses) {
+      $q.all([categoriesPromise, categoryPromise]).then(function (responses) {
         $scope.categories = responses[0].data;
 
         // ...and we populate $scope.category with the data from the server =)
@@ -273,9 +325,7 @@ angular
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
 
-        $scope.reportCategoriesNotificationsTypes = responses[2].data;
-
-        fillNotificationTypes();
+        refreshNotificationTypesArray();
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {

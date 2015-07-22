@@ -10,14 +10,14 @@ angular.module('DeleteModalDirectiveModule', [])
       scope: {
         ngModel: '=',
         modalConfirmFunction: '&',
-        modalConfirmPromise: '='
+        modalConfirmPromise: '=',
+        modalItemTitle: '='
       },
       templateUrl: 'directives/delete-modal/delete-modal.template.html',
       link: function (scope, el, attrs) {
         scope.modalId = attrs.modalId;
         scope.modalTitle = attrs.modalTitle;
         scope.modalCustomMsg = attrs.modalCustomMsg;
-        scope.modalItemTitle = attrs.modalItemTitle;
 
         scope.$watch(function () {
           return scope.modalConfirmPromise;

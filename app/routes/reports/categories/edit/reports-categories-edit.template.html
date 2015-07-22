@@ -630,6 +630,7 @@
 
         <div class="form-group">
           <label>Notificações devem ser emitidas em ordem</label>
+
           <div class="row">
             <div class="custom-private-option-column">
               <input type="checkbox" bs-switch ng-model="category.ordered_notifications">
@@ -647,9 +648,9 @@
 
           <ul ui-sortable="notificationsSortableOptions" ng-model="reportCategoriesNotificationsTypes"
               class="reports-categories-notifications-sortable-list">
-            <li ng-repeat="notificationType in reportCategoriesNotificationsTypes" class="notifications-li"
+            <li ng-repeat="notificationType in notificationTypesArray" class="notifications-li"
                 ng-animate-children>
-              <div id="notificationTypeInfo{{notificationType.id}}" class="info" ng-if="!editingNotificationType">
+              <div class="info" ng-if="!editingNotificationType">
                 <a href="" ng-click="editNotificationType(notificationType)">{{ notificationType.title }}</a>
               </div>
               <div class="info" ng-if="editingNotificationType">
@@ -668,15 +669,9 @@
                   </a>
                 </div>
                 <div class="trash">
-                  <!-- ngIf: popover.remove === true -->
-                  <a href="" data-toggle="modal" data-target="#deleteModal{{notificationType.id}}" class="icon">
+                  <a href="" ng-click="prepareToDeleteNotificationType(notificationType)" data-toggle="modal" data-target="#deleteNotificationTypeModal" class="icon">
                     <span class="glyphicon glyphicon-trash"></span>
                   </a>
-
-                  <div delete-modal modal-id="deleteModal{{notificationType.id}}" modal-title="Remover Notificação"
-                       modal-confirm-function="deleteNotificationType(notificationType)"
-                       modal-item-title="{{notificationType.title}}"
-                       modal-confirm-promise="deleteNotificationTypePromise"></div>
                 </div>
                 <div class="move ng-hide" ng-show="category.ordered_notifications">
                   <a href="" class="icon">
@@ -717,6 +712,7 @@
 
                 <div class="form-group">
                   <label>Estado vinculado (opcional)</label>
+
                   <div class="row">
                     <div class="col-xs-4">
                       <select class="form-control" ng-model="notificationTypeMemento.reports_status_id"
@@ -730,6 +726,7 @@
 
                 <div class="form-group">
                   <label>Leiaute</label>
+
                   <div class="row">
                     <div class="col-xs-4">
                       <a href="" ng-click="editNotificationTypeLayout(notificationTypeMemento)">
@@ -742,11 +739,17 @@
                 <div class="clearfix"></div>
 
                 <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom"
-                        ng-disabled="!dirtyNotificationType">{{addingNotificationType ? 'Salvar' : 'Atualizar'}}
+                        ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">{{addingNotificationType ? 'Salvar' : 'Atualizar'}}
                 </button>
                 <button ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom">Cancelar</button>
               </div>
             </li>
+
+            <div delete-modal modal-id="deleteNotificationTypeModal"
+                 modal-title="Remover Notificação"
+                 modal-confirm-function="deleteNotificationType(notificationTypeToDelete)"
+                 modal-item-title="notificationTypeToDelete.title"
+                 modal-confirm-promise="deleteNotificationTypePromise" ng-if="notificationTypeToDelete"></div>
           </ul>
           <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
         </div>
