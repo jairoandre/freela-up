@@ -616,11 +616,10 @@
       <div class="form-group">
         <label>Exibir Notificações</label>
 
-        <div class="clearfix"></div>
-
         <div class="row">
           <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.notifications" switch-active="{{!editingNotificationType}}">
+            <input type="checkbox" bs-switch ng-model="category.notifications"
+                   switch-active="{{!editingNotificationType}}">
           </div>
         </div>
 
@@ -629,11 +628,8 @@
 
       <div class="actived-notifications app-animation" ng-show="category.notifications">
 
-        <div class="form-group" >
+        <div class="form-group">
           <label>Notificações devem ser emitidas em ordem</label>
-
-          <div class="clearfix"></div>
-
           <div class="row">
             <div class="custom-private-option-column">
               <input type="checkbox" bs-switch ng-model="category.ordered_notifications">
@@ -653,12 +649,12 @@
               class="reports-categories-notifications-sortable-list">
             <li ng-repeat="notificationType in reportCategoriesNotificationsTypes" class="notifications-li"
                 ng-animate-children>
-              <div class="info" ng-if="!editingNotificationType">
+              <div id="notificationTypeInfo{{notificationType.id}}" class="info" ng-if="!editingNotificationType">
                 <a href="" ng-click="editNotificationType(notificationType)">{{ notificationType.title }}</a>
-
               </div>
               <div class="info" ng-if="editingNotificationType">
-                <a href="" ng-style="notificationTypeEditTitleStyle(notificationType)">{{ notificationType.title + (isDirtyNotificationType(notificationType) ? '*' : '') }}</a>
+                <a href="" ng-style="notificationTypeEditTitleStyle(notificationType)">{{ notificationType.title +
+                  (isDirtyNotificationType(notificationType) ? '*' : '') }}</a>
               </div>
               <div class="actions animate-show" ng-if="!editingNotificationType">
                 <div class="layout" style="display: inline-block" title="Visualizar Layout">
@@ -676,9 +672,11 @@
                   <a href="" data-toggle="modal" data-target="#deleteModal{{notificationType.id}}" class="icon">
                     <span class="glyphicon glyphicon-trash"></span>
                   </a>
+
                   <div delete-modal modal-id="deleteModal{{notificationType.id}}" modal-title="Remover Notificação"
-                       modal-confirm-function="deleteNotificationType(notificationType,'deleteModal'+notificationType.id)" modal-item-title="{{notificationType.title}}"
-                    modal-confirm-promise="deleteNotificationTypePromise"></div>
+                       modal-confirm-function="deleteNotificationType(notificationType)"
+                       modal-item-title="{{notificationType.title}}"
+                       modal-confirm-promise="deleteNotificationTypePromise"></div>
                 </div>
                 <div class="move ng-hide" ng-show="category.ordered_notifications">
                   <a href="" class="icon">
@@ -686,24 +684,31 @@
                   </a>
                 </div>
               </div>
+              <div class="clearfix"></div>
               <!-- Edit Section -->
-              <div class="edit-mode animate-show" ng-show="editingNotificationType && editingNotificationTypeId === notificationType.id">
+              <div class="edit-mode animate-show"
+                   ng-show="editingNotificationType && editingNotificationTypeId === notificationType.id">
 
                 <div class="form-group">
                   <label>Título da notificaçao</label>
+
                   <div class="row">
                     <div class="col-xs-4">
-                      <input type="text" class="form-control" ng-model="notificationTypeMemento.title" ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
+                      <input type="text" class="form-control" ng-model="notificationTypeMemento.title"
+                             ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
                     </div>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label>Prazo padrão</label>
+
                   <div class="row">
                     <div class="col-xs-3">
                       <div class="input-group">
-                        <input type="text" class="form-control" ng-model="notificationTypeMemento.default_deadline_in_days" ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
+                        <input type="text" class="form-control"
+                               ng-model="notificationTypeMemento.default_deadline_in_days"
+                               ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
                         <span class="input-group-addon">dias</span>
                       </div>
                     </div>
@@ -715,7 +720,8 @@
                   <div class="row">
                     <div class="col-xs-4">
                       <select class="form-control" ng-model="notificationTypeMemento.reports_status_id"
-                              ng-options="status.id as status.title for status in category.statuses" ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
+                              ng-options="status.id as status.title for status in category.statuses"
+                              ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
                         <option value=""></option>
                       </select>
                     </div>
@@ -726,7 +732,7 @@
                   <label>Leiaute</label>
                   <div class="row">
                     <div class="col-xs-4">
-                      <a href="" ng-click="editNotificationTypeLayout(notificationType)">
+                      <a href="" ng-click="editNotificationTypeLayout(notificationTypeMemento)">
                         <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Editar leiaute
                       </a>
                     </div>
@@ -735,19 +741,14 @@
 
                 <div class="clearfix"></div>
 
-                <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom" ng-disabled="!dirtyNotificationType">{{addingNotificationType ? 'Salvar' : 'Atualizar'}}</button>
-
+                <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom"
+                        ng-disabled="!dirtyNotificationType">{{addingNotificationType ? 'Salvar' : 'Atualizar'}}
+                </button>
                 <button ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom">Cancelar</button>
-
               </div>
-
-              <div class="clearfix"></div>
-
             </li>
           </ul>
-
           <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
-
         </div>
       </div>
 

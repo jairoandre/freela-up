@@ -10,7 +10,7 @@ angular
       $log.info('ReportsCategoriesNotificationsLayoutController destroyed.');
     });
 
-    $scope.originalLayout = notificationType.layout;
+    var originalLayout = angular.copy(notificationType.layout);
 
     $scope.notificationTypeOnLayoutModal = notificationType;
 
@@ -49,9 +49,13 @@ angular
     });
 
     $scope.closeLayoutNotificationTypeModal = function () {
-      if ($scope.originalLayout !== $scope.notificationTypeOnLayoutModal.layout) {
+      if(!originalLayout && $scope.notificationTypeOnLayoutModal.layout.length === 0){
+        $modalInstance.close();
+        return;
+      }
+      if (!angular.equals(originalLayout,$scope.notificationTypeOnLayoutModal.layout)) {
         if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) {
-          $scope.notificationTypeOnLayoutModal.layout = angular.copy($scope.originalLayout);
+          $scope.notificationTypeOnLayoutModal.layout = angular.copy(originalLayout);
           $modalInstance.close();
         }
       } else {
@@ -60,8 +64,8 @@ angular
     };
 
     $scope.saveLayoutNotificationType = function () {
-      if ($scope.originalLayout !== $scope.notificationTypeOnLayoutModal.layout) {
-        parentScope.verifyDirtyNotificationTypeMemento(notificationType);
+      if (!angular.equals(originalLayout,$scope.notificationTypeOnLayoutModal.layout)) {
+        parentScope.verifyDirtyNotificationTypeMemento(parentScope.notificationTypeOriginator);
       }
       $modalInstance.close();
     }

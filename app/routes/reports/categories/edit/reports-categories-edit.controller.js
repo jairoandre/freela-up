@@ -11,7 +11,7 @@ angular
     'DeleteModalDirectiveModule'
   ])
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $http, $location, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
     var updating = $scope.updating = false;
     var categoryId = $scope.categoryId = $stateParams.id;
 
@@ -54,10 +54,42 @@ angular
 
     /* Notifications */
 
-    $scope.deleteNotificationType = function(notificationType,modalId) {
-      $scope.deleteNotificationTypePromise = $http.get('http://httpbin.org/delay/2').then(function () {
-        $('#'+modalId).modal('hide');
+    var notificationsTypesPromise = Restangular.one('reports')
+      .one('categories', categoryId)
+      .all('notification_types')
+      .getList({return_fields: 'id,category.id,status.id,order,title,default_deadline_in_days,layout,active,created_at,updated_at'});
+
+    var fillNotificationTypes = function () {
+      for (var i = 0; i < $scope.reportCategoriesNotificationsTypes.length; i++) {
+        var _notificationType = $scope.reportCategoriesNotificationsTypes[i];
+        var _status = _notificationType.status;
+        if (_status) {
+          _notificationType.reports_status_id = _status.id;
+        }
+      }
+
+      $scope.reportCategoriesNotificationsTypes.sort(function (a, b) {
+        return a.order > b.order;
       });
+    };
+
+    $scope.deleteNotificationType = function (notificationType) {
+      var deletePromise = Restangular.one('reports').one('categories', categoryId).one('notification_types', notificationType.id).remove();
+
+      //$scope.deleteNotificationTypePromise = $http.get('http://httpbin.org/delay/5').then(function () {
+        //$('#'+modalId).modal('hide');
+      //});
+
+      $scope.deleteNotificationTypePromise = deletePromise.then(function(){
+        $scope.showMessage('ok', 'O tipo de notificacao foi removido com sucesso', 'success', true);
+      }).finally(
+        $scope.deleteNotificationTypePromise = undefined
+      );
+
+      //.finally(
+      //  $timeout($scope.reportCategoriesNotificationsTypes.splice($scope.reportCategoriesNotificationsTypes.indexOf(notificationType),1),3000)
+      //);
+
     }
 
     $scope.reportCategoriesNotificationsTypes = [];
@@ -69,11 +101,11 @@ angular
           $scope.reportCategoriesNotificationsTypes[index].order = index;
         }
       },
-      start: function(e, ui){
+      start: function (e, ui) {
         ui.placeholder.height(ui.item.height());
       },
       tolerance: 'pointer',
-      items:'li',
+      items: 'li',
       revert: true,
       placeholder: 'ui-sortable-placeholder-notification-type'
     }
@@ -82,7 +114,7 @@ angular
     $scope.editingNotificationTypeId = '';
     $scope.addingNotificationType = false;
 
-    $scope.addNotificationType = function() {
+    $scope.addNotificationType = function () {
       $scope.addingNotificationType = true;
       var newNotificationType = {};
       newNotificationType.order = $scope.reportCategoriesNotificationsTypes.length;
@@ -94,38 +126,32 @@ angular
       $scope.editNotificationType(newNotificationType);
     }
 
-    $scope.editNotificationType = function(notificationType) {
-
-      $log.info('Editing notification type');
-
+    $scope.editNotificationType = function (notificationType) {
       $scope.dirtyNotificationType = false;
-
+      $scope.notificationTypeOriginator = notificationType;
       $scope.notificationTypeMemento = angular.copy(notificationType);
-
       $scope.editingNotificationTypeId = notificationType.id;
-
       $scope.editingNotificationType = true;
-
+      $log.info(notificationType);
+      $location.hash('notificationTypeInfo'+notificationType.id);
+      $anchorScroll();
     };
 
-    $scope.verifyDirtyNotificationTypeMemento = function(notificationType) {
-      $scope.notificationTypeMemento.default_deadline_in_days = parseInt($scope.notificationTypeMemento.default_deadline_in_days,10);
+    $scope.verifyDirtyNotificationTypeMemento = function (notificationType) {
+      $scope.notificationTypeMemento.default_deadline_in_days = parseInt($scope.notificationTypeMemento.default_deadline_in_days, 10);
       var sameValues = angular.equals(notificationType, $scope.notificationTypeMemento);
-      if(sameValues){
+      if (sameValues) {
         $scope.dirtyNotificationType = false;
-      }else{
+      } else {
         $scope.dirtyNotificationType = true;
       }
     };
 
-    var sucessPostPutPromise = function(sucessMsg){
-      ReportsCategoriesService.purgeCache();
+    var sucessPostPutPromise = function (sucessMsg) {
       $scope.showMessage('ok', sucessMsg, 'success', true);
-      $scope.path('/reports/categories');
-      $rootScope.resolvingRequest = false;
     }
 
-    var errorPostPutPromise = function(response, errorMsg) {
+    var errorPostPutPromise = function (response, errorMsg) {
       $scope.showMessage('exclamation-sign', errorMsg, 'error', true);
       if (typeof response.data.error !== 'object') {
         Error.show(response);
@@ -133,16 +159,14 @@ angular
       else {
         $scope.inputErrors = response.data.error;
       }
-      $rootScope.resolvingRequest = false;
     }
 
-    $scope.updateEditingNotificationType = function(notificationType) {
+    $scope.updateEditingNotificationType = function (notificationType) {
       notificationType.title = $scope.notificationTypeMemento.title;
       notificationType.reports_status_id = $scope.notificationTypeMemento.reports_status_id;
       notificationType.default_deadline_in_days = $scope.notificationTypeMemento.default_deadline_in_days;
       notificationType.layout = $scope.notificationTypeMemento.layout;
-      $log.info(notificationType);
-      if($scope.addingNotificationType) {
+      if ($scope.addingNotificationType) {
         var postNotificationTypePromise = Restangular
           .one('reports')
           .one('categories', categoryId)
@@ -155,37 +179,51 @@ angular
         }, function (r) {
           errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
         });
+      }else {
+        var putNotificationTypePromise = Restangular
+          .one('reports')
+          .one('categories', categoryId)
+          .one('notification_types', notificationType.id)
+          .withHttpConfig({treatingErrors: true})
+          .customPUT(notificationType);
+        putNotificationTypePromise.then(function () {
+          resetNotificationTypesFlags();
+          $scope.addingNotificationType = false;
+          sucessPostPutPromise('O tipo de notificação foi atualizado com sucesso');
+        }, function (r) {
+          errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
+        });
       }
     };
 
-    var resetNotificationTypesFlags = function() {
+    var resetNotificationTypesFlags = function () {
       $scope.dirtyNotificationType = false;
       $scope.notificationTypeMemento = null;
       $scope.editingNotificationTypeId = null;
       $scope.editingNotificationType = false;
     }
 
-    $scope.cancelEditingNotificationType = function() {
-      resetNotificationTypesFlags();
-      if($scope.addingNotificationType){
-        $scope.reportCategoriesNotificationsTypes.splice($scope.reportCategoriesNotificationsTypes.length,1);
+    $scope.cancelEditingNotificationType = function () {
+      if ($scope.addingNotificationType) {
+        $scope.reportCategoriesNotificationsTypes.splice($scope.reportCategoriesNotificationsTypes.length - 1, 1);
         $scope.addingNotificationType = false;
       }
+      resetNotificationTypesFlags();
     };
 
-    $scope.isEditNotificationType = function(notificationType) {
+    $scope.isEditNotificationType = function (notificationType) {
       return $scope.editingNotificationTypeId === notificationType.id;
     }
 
-    $scope.isDirtyNotificationType = function(notificationType){
+    $scope.isDirtyNotificationType = function (notificationType) {
       return $scope.isEditNotificationType(notificationType) && $scope.dirtyNotificationType;
     }
 
-    $scope.notificationTypeEditTitleStyle = function(notificationType) {
-      if($scope.isEditNotificationType(notificationType)){
-        return {'font-weight' : 'bold'};
-      }else {
-        return {'font-weight' : 'normal'};
+    $scope.notificationTypeEditTitleStyle = function (notificationType) {
+      if ($scope.isEditNotificationType(notificationType)) {
+        return {'font-weight': 'bold'};
+      } else {
+        return {'font-weight': 'normal'};
       }
 
     }
@@ -199,7 +237,7 @@ angular
           notificationType: function () {
             return notificationType;
           },
-          parentScope: function() {
+          parentScope: function () {
             return $scope;
           }
         },
@@ -215,10 +253,6 @@ angular
 
       var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
 
-      var notificationsTypesPromise = Restangular.one('reports')
-        .one('categories',categoryId)
-        .all('notification_types')
-        .getList({return_fields: 'id,reports_category_id,order,title,reports_status_id,default_deadline_in_days,layout,active,created_at,updated_at'});
 
       $q.all([categoriesPromise, categoryPromise, notificationsTypesPromise]).then(function (responses) {
         $scope.categories = responses[0].data;
@@ -241,13 +275,7 @@ angular
 
         $scope.reportCategoriesNotificationsTypes = responses[2].data;
 
-        notificationsTypesPromise.then(function(r){
-          $scope.reportCategoriesNotificationsTypes = r.data;
-          $scope.reportCategoriesNotificationsTypes.sort(function (a, b) {
-            return a.order > b.order;
-          });
-        });
-
+        fillNotificationTypes();
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
