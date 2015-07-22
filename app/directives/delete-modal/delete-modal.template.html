@@ -18,7 +18,9 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-fat-custom btn-default" ng-click="modalConfirmText = ''" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-fat-custom btn-danger" ng-click="modalConfirmFunction();modalConfirmText = ''" ng-disabled="modalConfirmText.toLowerCase() !== 'deletar'" promise-btn="modalConfirmPromise">Remover</button>
+        <button type="button" class="btn btn-fat-custom btn-danger" ng-click="modalConfirmFunction();modalConfirmText = ''" ng-disabled="modalConfirmText.toLowerCase() !== 'deletar'" promise-btn="modalConfirmPromise">
+          <span>Remover</span>
+        </button>
       </div>
 
     </div>

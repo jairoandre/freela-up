@@ -64,6 +64,14 @@ angular
           .customPUT(notificationType);
       };
 
+      self.deleteNotificationType = function (categoryId, notificationType) {
+        return Restangular
+          .one('reports')
+          .one('categories', categoryId)
+          .one('notification_types', notificationType.id)
+          .remove();
+      }
+
     }
 
     return new NotificationTypesService();
@@ -139,18 +147,23 @@ angular
 
     $scope.prepareToDeleteNotificationType = function (notificationType) {
       $scope.notificationTypeToDelete = notificationType;
-      $log.info($scope.notificationTypeToDelete);
     }
 
     $scope.deleteNotificationType = function (notificationType) {
-      var deletePromise = Restangular.one('reports').one('categories', categoryId).one('notification_types', notificationType.id).remove();
-
-      $scope.deleteNotificationTypePromise = deletePromise.then(function () {
-        $scope.showMessage('ok', 'O tipo de notificacao foi removido com sucesso', 'success', true);
-        $scope.notificationTypesArray.splice($scope.notificationTypesArray.indexOf(notificationType), 1);
-      });
+      $scope.deleteNotificationTypePromise = NotificationTypesService
+        .deleteNotificationType(categoryId, notificationType)
+        .then(function () {
+          $scope.showMessage('ok', 'O tipo de notificacao foi removido com sucesso', 'success', true);
+          $scope.notificationTypesArray.splice($scope.notificationTypesArray.indexOf(notificationType), 1);
+        });
 
     }
+
+    $scope.btnTeste = function(){
+      $scope.myPromise = $http.get('http://httpbin.org/delay/2').then(function(){
+
+      });
+    };
 
     $scope.notificationTypesArray = [];
 
