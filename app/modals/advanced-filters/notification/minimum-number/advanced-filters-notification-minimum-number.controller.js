@@ -8,9 +8,9 @@ angular
     $scope.save = function() {
       var filter = {
         title: 'Quantidade mínima',
-        desc: $scope.input.minimum_number,
+        desc: $scope.input.value,
         type: 'minimumNotificationNumber',
-        value: $scope.input.minimum_number
+        value: $scope.input.value
       };
 
       activeAdvancedFilters.push(filter);
