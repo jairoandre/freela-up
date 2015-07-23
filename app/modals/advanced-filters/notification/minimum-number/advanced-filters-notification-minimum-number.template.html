@@ -12,5 +12,5 @@
 </div>
 
 <div class="modal-footer">
-   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Criar filtro</button>
+   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-disabled="!input.value || (input.value && input.value < 0)" ng-click="save()">Criar filtro</button>
 </div>
