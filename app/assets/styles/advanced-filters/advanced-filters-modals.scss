@@ -432,6 +432,20 @@
   }
 }
 
+.filterNotificationModal {
+  .modal-dialog {
+    width: 450px;
+  }
+
+  .modal-body {
+    .form-control {
+      width: 50px;
+      text-align: center;
+      margin: 0 5px;
+    }
+  }
+}
+
 .filterNotificationMininumNumberModal {
   .modal-dialog {
     width: 350px;

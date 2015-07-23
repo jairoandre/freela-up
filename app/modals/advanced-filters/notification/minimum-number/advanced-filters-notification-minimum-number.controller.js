@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('AdvancedFiltersNotificationMinimumNumberModalControllerModule', [])
+  .module('AdvancedFiltersNotificationMinimumNumberModalControllerModule', [
+    'FormInputValidatorIntegerComponentModule'
+  ])
   .controller('AdvancedFiltersNotificationMinimumNumberModalController', function(Restangular, $scope, $modalInstance, activeAdvancedFilters) {
     $scope.input = {
       value: null
@@ -10,8 +12,8 @@ angular
     $scope.save = function() {
 
       var filter = {
-        title: 'Quantidade mínima',
-        desc: +($scope.input.value) > 0 ? 'dias' : 'dia',
+        title: 'Quantidade mínima de',
+        desc: $scope.input.value + (+($scope.input.value) > 1 ? ' notificações' : ' notificação'),
         type: 'minimumNotificationNumber',
         value: $scope.input.value
       };
