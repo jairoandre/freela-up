@@ -12,6 +12,7 @@ angular
     'AdvancedFiltersFieldsModalControllerModule',
     'AdvancedFiltersShareModalControllerModule',
     'AdvancedFiltersNotificationMinimumNumberModalControllerModule',
+    'AdvancedFiltersNotificationDeadlineModalControllerModule',
     'ReportsCategoriesServiceModule',
     'InventoriesCategoriesServiceModule'
   ])
@@ -165,7 +166,16 @@ angular
 
       // advanced filter by days for last notification deadline
       notificationDeadline: function(activeAdvancedFilters) {
-        console.log('factory advanced filters', activeAdvancedFilters);
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/deadline/advanced-filters-notification-deadline.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationDeadlineModalController'
+        });
       },
 
       // advanced filter by days for overdue notification
