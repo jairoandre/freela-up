@@ -11,6 +11,7 @@ angular
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
     'AdvancedFiltersShareModalControllerModule',
+    'AdvancedFiltersNotificationMinimumNumberModalControllerModule',
     'ReportsCategoriesServiceModule',
     'InventoriesCategoriesServiceModule'
   ])
@@ -145,7 +146,16 @@ angular
 
       // advanced filter by minimum notification number
       notificationMinimumNumber: function(activeAdvancedFilters) {
-        console.log('factory advanced filters', activeAdvancedFilters);
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/minimum-number/advanced-filters-notification-minimum-number.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationMinimumNumberModalController'
+        });
       },
 
       // advanced filter by days since last notification
