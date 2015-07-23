@@ -13,6 +13,8 @@ angular
     'AdvancedFiltersShareModalControllerModule',
     'AdvancedFiltersNotificationMinimumNumberModalControllerModule',
     'AdvancedFiltersNotificationDeadlineModalControllerModule',
+    'AdvancedFiltersNotificationOverdueModalControllerModule',
+    'AdvancedFiltersNotificationSinceLastModalControllerModule',
     'ReportsCategoriesServiceModule',
     'InventoriesCategoriesServiceModule'
   ])
@@ -161,7 +163,16 @@ angular
 
       // advanced filter by days since last notification
       notificationSinceLast: function(activeAdvancedFilters) {
-        console.log('factory advanced filters', activeAdvancedFilters);
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/since-last/advanced-filters-notification-since-last.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationSinceLastModalController'
+        });
       },
 
       // advanced filter by days for last notification deadline
@@ -180,7 +191,16 @@ angular
 
       // advanced filter by days for overdue notification
       notificationOverdue: function(activeAdvancedFilters) {
-        console.log('factory advanced filters', activeAdvancedFilters);
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/overdue/advanced-filters-notification-overdue.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationOverdueModalController'
+        });
       },
 
       fields: function(activeAdvancedFilters) {
