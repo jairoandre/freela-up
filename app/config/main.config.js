@@ -46,6 +46,29 @@ angular
         return $delegate;
     }]);
   }])
+  .factory('singleItemUploaderFilter', function(){
+    return {
+      name: 'fixQueueLimit',
+      fn: function(item, options) {
+        if(this.queue.length === 1) {
+          this.clearQueue();
+        }
+        return true;
+      }
+    };
+  })
+  .factory('onlyImagesUploaderFilter', function(){
+    return function(isHTML5) {
+      return {
+        name: 'onlyImages',
+        fn: function (item, options) {
+          var type = isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+          type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+          return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+      };
+    };
+  })
   .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', 'ENV', '$window', function(Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular, ENV, $window) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
     FullResponseRestangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});

@@ -77,32 +77,20 @@ angular.
     };
 
     var getGroupById = function(id) {
-      for (var i = $scope.groups.length - 1; i >= 0; i--) {
-        if ($scope.groups[i].id == id)
-        {
-          return $scope.groups[i];
-        }
-      };
+      return _.findWhere($scope.groups, {id: id});
     };
 
     if (updating)
     {
-      if ($scope.category.plot_format === 'pin') // jshint ignore:line
-      {
-        $scope.category.plot_format = false; // jshint ignore:line
-      }
-      else
-      {
-        $scope.category.plot_format = true; // jshint ignore:line
-      }
+      $scope.category.plot_format = $scope.category.plot_format === 'pin' ? false : true;
 
       for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_edit[i] = getGroupById($scope.category.permissions.groups_can_edit[i]);
-      };
+      }
 
       for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_view[i] = getGroupById($scope.category.permissions.groups_can_view[i]);
-      };
+      }
     }
     else
     {
@@ -122,7 +110,7 @@ angular.
       // we add all of our current groups into the `can_edit` array.
       for (var i = $scope.me.groups.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_edit.push($scope.me.groups[i]);
-      };
+      }
 
       $scope.category.sections = [{
           'title': 'Localização',
@@ -533,6 +521,12 @@ angular.
 
           uploaderQueue: function() {
             return $scope.uploaderQueue;
+          },
+
+          send: function() {
+            return function() {
+              return $scope.send();
+            }
           }
         },
         controller: 'ItemsCategoriesEditOptionsModalController'
@@ -568,25 +562,36 @@ angular.
       }
 
       // wait for images to process as base64
-      $q.all(promises).then(function() {
+      return $q.all(promises).then(function() {
 
         // the permissions object should be only made of id's
         var formattedPermissions = {groups_can_edit: [], groups_can_view: []};
 
         for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
           formattedPermissions.groups_can_edit.push($scope.category.permissions.groups_can_edit[i].id);
-        };
+        }
 
         for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
           formattedPermissions.groups_can_view.push($scope.category.permissions.groups_can_view[i].id);
-        };
+        }
 
         var formattedData = { title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, permissions: formattedPermissions }; // jshint ignore:line
         var formattedFormData = { sections: $scope.category.sections };
 
         // before sending the data to the server, we need to convert each new field's field_options to an array based method
         _.each(formattedFormData.sections, function(section) {
-          _.each(section.fields, function(field) {
+          _.each(section.fields, function(field, fieldKey) {
+
+            /**
+             * If toRemove attribute has been given, this field was added and marked to be removed
+             */
+            if(field.hasOwnProperty('toRemove')) {
+              if(field.toRemove) {
+                section.fields.splice(fieldKey, 1);
+              } else {
+                delete field.toRemove;
+              }
+            }
 
             // if id is undefined then the field is newly created
             if (_.isUndefined(field.id) && _.isArray(field.field_options) && !_.isEmpty(field.field_options))
@@ -625,6 +630,13 @@ angular.
           var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
           var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
 
+          putCategoryPromise.then(function(response) {
+            /**
+             * Update icon
+             */
+            $scope.category.original_icon = response.data.original_icon;
+          });
+
           putCategoryFormsPromise.then(function(response) {
             $scope.category.sections = response.data.sections;
 
@@ -633,7 +645,7 @@ angular.
             });
           });
 
-          $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
+          return $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
             $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
 
             $scope.unsavedCategory = false;
@@ -661,6 +673,11 @@ angular.
 
           postCategoryPromise.then(function(response) {
             var newCategory = response.data, updateFieldsIds = {}, updateSectionId;
+
+            /**
+             * Update icon
+             */
+            $scope.category.original_icon = response.data.original_icon;
 
             // before updating the forms, let's set each field id to our own
             for (var i = newCategory.sections.length - 1; i >= 0; i--) {
@@ -698,7 +715,11 @@ angular.
 
               $state.go('items.categories.edit', {id: newCategory.id});
             });
+
+            return putCategoryFormsPromise;
           });
+
+          return postCategoryPromise;
         }
       });
     };

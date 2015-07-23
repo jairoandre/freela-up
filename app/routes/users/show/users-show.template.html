@@ -1,7 +1,7 @@
 <div class="custom-users">
 <div class="title">
   <ul>
-    <li><a href="#/users">Usuários</a></li>
+    <li><a ng-href="#/users">Usuários</a></li>
     <li>{{ user.name }}</li>
   </ul>
 
@@ -9,7 +9,7 @@
 
   <a class="icon_action" href="" ng-click="enableUser(user)" tooltip="Ativar usuário" tooltip-placement="bottom" ng-show="user.disabled && (hasPermission('users_full_access') || hasPermission('users_edit', user.groups))"><span class="glyphicon glyphicon-repeat"></span></a>
 
-  <a href="#/users/{{ user.id }}/edit" class="icon_action" ng-show="hasPermission('users_edit', user.groups) || hasPermission('users_full_access') || user.id == me.id"><span class="glyphicon glyphicon-edit"></span></a>
+  <a ng-href="#/users/{{ user.id }}/edit" class="icon_action" ng-show="hasPermission('users_edit', user.groups) || hasPermission('users_full_access') || user.id == me.id"><span class="glyphicon glyphicon-edit"></span></a>
 </div>
 
 <div class="content">
@@ -54,7 +54,7 @@
       <h5>Grupos</h5>
 
       <ul ng-hide="user.groups.length == 0" class="groups-list">
-          <li ng-repeat="group in user.groups"><a href="#/groups/{{ group.id }}"><i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}</a></li>
+          <li ng-repeat="group in user.groups"><a ng-href="#/groups/{{ group.id }}"><i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}</a></li>
       </ul>
 
       <p ng-show="user.groups.length == 0">Usuário não está vinculado a um grupo.</p>
@@ -68,6 +68,6 @@
 
   <hr />
 
-  <a href="#/users" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
+  <a ng-href="#/users" class="btn btn-info btn-fat-custom btn-custom">Voltar</a>
 </div>
 </div>

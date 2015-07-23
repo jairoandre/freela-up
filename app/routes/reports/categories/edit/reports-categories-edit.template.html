@@ -3,8 +3,8 @@
 <div ng-hide="loading" class="custom-manage-category pages-animation">
   <div class="title">
     <ul>
-      <li><a href="#/reports">Relatos</a></li>
-      <li><a href="#/reports/categories">Gerenciar categorias</a></li>
+      <li><a ng-href="#/reports">Relatos</a></li>
+      <li><a ng-href="#/reports/categories">Gerenciar categorias</a></li>
       <li><span ng-hide="updating">Nova categoria</span><span ng-show="updating">{{ category.title }}</span></li>
     </ul>
   </div>

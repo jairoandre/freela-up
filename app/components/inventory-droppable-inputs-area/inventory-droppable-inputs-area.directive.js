@@ -34,6 +34,7 @@ angular
             var inputType = ui.item.attr('name'), inputName = ui.item.find('p').html();
 
             var newInput = {
+              toRemove: false,
               kind: inputType,
               label: 'Novo "' + inputName + '"',
               title: null,

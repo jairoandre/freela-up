@@ -38,7 +38,7 @@ angular
         {
           $scope.user.groups.push(groups[i]);
         }
-      };
+      }
     }
 
     // groups autocomplete
@@ -132,7 +132,7 @@ angular
 
           for (var i = user.groups.length - 1; i >= 0; i--) {
             user.groups_ids.push(user.groups[i].id);
-          };
+          }
         }
 
         // remove unecessary data from the request
