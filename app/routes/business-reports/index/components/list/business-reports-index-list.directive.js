@@ -45,12 +45,15 @@ angular
         };
 
         $scope.duplicateReport = function(report) {
+          if($rootScope.loading) return;
+          $rootScope.loading = true;
           BusinessReportsService.find(report.id).then(function(report){
             delete report.id;
             report.title += ' - cópia';
             _.each(report.charts, function(c) { delete c.id; } );
             BusinessReportsService.save(report).then(function(){
               $rootScope.showMessage('ok', 'Relato duplicado com sucesso!', 'success', true);
+              $rootScope.loading = false;
               $state.transitionTo($state.current, {}, {
                 reload: true,
                 inherit: false,
