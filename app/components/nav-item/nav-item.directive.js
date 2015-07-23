@@ -7,11 +7,11 @@ angular
       restrict: 'A',
 
       link: function(scope, element) {
-        var toPath = element.find('a')[0].href;
+        var toPath = element.find('a')[0].getAttribute('ng-href');
 
         scope.location = $location;
         scope.$watch('location.absUrl()', function(currentPath) {
-          if (!currentPath.indexOf(toPath))
+          if (currentPath.indexOf(toPath) !== -1)
           {
             element.addClass('active');
           }
