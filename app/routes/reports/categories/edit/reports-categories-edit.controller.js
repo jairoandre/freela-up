@@ -285,15 +285,6 @@ angular
       return $scope.isEditNotificationType(notificationType) && $scope.dirtyNotificationType;
     }
 
-    $scope.notificationTypeEditTitleStyle = function (notificationType) {
-      if ($scope.isEditNotificationType(notificationType)) {
-        return {'font-weight': 'bold'};
-      } else {
-        return {'font-weight': 'normal'};
-      }
-
-    }
-
     $scope.editNotificationTypeLayout = function (notificationType) {
       $modal.open({
         templateUrl: 'modals/reports/categories/notifications/reports-categories-notifications-layout.template.html',

@@ -17,7 +17,7 @@
   }
 
   li {
-    font-size: 18px;
+    font-size: 14px;
     background: #FFF;
     padding-top: 5px;
     border-bottom: 1px solid #E1E1E1;
@@ -29,6 +29,7 @@
 
     .info {
       float: left;
+      font-weight: bold;
       display: inline-block;
     }
 
@@ -44,6 +45,7 @@
 
       .edit, .trash, .move {
         display: inline-block;
+        margin-left: 10px;
       }
 
       .move {
