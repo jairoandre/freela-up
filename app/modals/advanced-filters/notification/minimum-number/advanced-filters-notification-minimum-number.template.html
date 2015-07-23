@@ -1,10 +1,14 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h4 class="modal-title">Filtrar relatos pelo autor</h4>
+  <h4 class="modal-title">Exibir relatos contendo</h4>
 </div>
 
 <div class="modal-body">
-  kkkk
+  <form ng-submit="send()" class="form-inline">
+    <div class="form-group">
+      Mínimo de <input type="text" ng-model="input.minimum_number" placeholder="0" class="form-control"/> notificações
+    </div>
+  </form>
 </div>
 
 <div class="modal-footer">

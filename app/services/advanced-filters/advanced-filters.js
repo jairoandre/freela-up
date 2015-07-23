@@ -151,7 +151,7 @@ angular
       notificationMinimumNumber: function(activeAdvancedFilters) {
         return $modal.open({
           templateUrl: 'modals/advanced-filters/notification/minimum-number/advanced-filters-notification-minimum-number.template.html',
-          windowClass: 'filterNotificationModal',
+          windowClass: 'filterNotificationMininumNumberModal',
           resolve: {
             activeAdvancedFilters: function() {
               return activeAdvancedFilters;
