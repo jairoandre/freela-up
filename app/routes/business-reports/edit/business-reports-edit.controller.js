@@ -5,11 +5,14 @@ angular
     'BusinessReportsEditHeaderDirectiveModule',
     'BusinessReportsEditFormDirectiveModule',
     'BusinessReportsEditChartsDirectiveModule',
-    'BusinessReportsServiceModule'
+    'BusinessReportsServiceModule',
+    'GroupSelectorModule'
   ])
-  .controller('BusinessReportsEditController', function ($state, $scope, BusinessReportsService, $stateParams, editable) {
+  .controller('BusinessReportsEditController', function (ENV, Auth, $state, $scope, BusinessReportsService, $stateParams, $window, editable, GroupSelectorService) {
     $scope.reportLoaded = false;
+    $scope.editable = editable;
 
+    // Load report
     if($stateParams.reportId) {
       BusinessReportsService.find($stateParams.reportId).then(function (report) {
         $scope.report = report;
@@ -23,15 +26,14 @@ angular
       $scope.reportLoaded = true;
     }
 
-    $scope.editable = editable;
-
+    // Enable/disable save button
     var updateValidity = function(){
       $scope.valid = $scope.reportLoaded && BusinessReportsService.isValid($scope.report);
     };
-
     $scope.$watch('report.title', updateValidity);
     $scope.$watch('report.charts', updateValidity, true);
 
+    // Save
     $scope.saveBusinessReport = function(){
       $scope.savePromise = BusinessReportsService.save($scope.report);
       $scope.savePromise.then(function(report){
@@ -41,5 +43,19 @@ angular
       }, function(){
         $scope.showMessage('exclamation-sign', ' Não foi possível salvar o relatório ' + $scope.report.title + '. Por favor, tente novamente em alguns minutos.', 'error', true);
       });
+    };
+
+    // Share
+    $scope.openShareBusinessReport = function(){
+      var selectedGroups = [];
+      GroupSelectorService.open(selectedGroups, true).then(function(newSelectedGroups){
+        BusinessReportsService.share(newSelectedGroups);
+        selectedGroups = newSelectedGroups;
+      });
+    };
+
+    // Export to XLS
+    $scope.exportToXLS = function(){
+      $window.location = ENV.apiEndpoint + '/business_reports/' + $scope.report.id + '/export/xls?token=' + Auth.getToken();
     };
   });

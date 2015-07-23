@@ -8,12 +8,14 @@ angular
       scope: {
         report: '=',
         savePromise: '=',
+        showXlsButton: '=',
         showShareButton: '=',
         showEditButton: '=',
         showSaveButton: '=',
         enableSaveButton: '=',
         saveButtonClicked: '&',
-        shareButtonClicked: '&'
+        shareButtonClicked: '&',
+        xlsButtonClicked: '&'
       },
       templateUrl: 'routes/business-reports/edit/components/header/business-reports-edit-header.template.html'
     };
