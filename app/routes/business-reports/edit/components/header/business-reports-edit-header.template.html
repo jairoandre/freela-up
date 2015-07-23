@@ -10,9 +10,18 @@
      ng-if="showSaveButton"
      ng-click="saveButtonClicked()"
      class="btn btn-info btn-custom"
-     ng-disabled="!enableSaveButton">Salvar relatório</a>
+     ng-disabled="!enableSaveButton"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar relatório</a>
+
+  <a href=""
+     ng-if="showShareButton"
+     ng-click="shareButtonClicked()"
+     tooltip="Compartilhamento"
+     tooltip-placement="bottom"
+     class="btn btn-info btn-custom"><span class="glyphicon glyphicon-share"></span> </a>
 
   <a href="#/business-reports/{{report.id}}/edit"
      ng-if="showEditButton"
-     class="btn btn-info btn-custom">Editar relatório</a>
+     tooltip="Editar relatório"
+     tooltip-placement="bottom"
+     class="btn btn-info btn-custom"><span class="glyphicon glyphicon-pencil"></span></a>
 </div>
