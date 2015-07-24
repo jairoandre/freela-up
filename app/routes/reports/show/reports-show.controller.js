@@ -449,6 +449,27 @@ angular
         resolve: {
           report: function() {
             return $scope.report;
+          },
+          notifications: function() {
+            var returnFields = [
+              "id",
+              "user_id",
+              "reports_item_id",
+              "reports_notification_type_id",
+              "deadline_in_days",
+              "content", // Conteúdo em HTML do leiaute com os placeholder já substituídos
+              "sent",
+              "can_send_again",
+              "days_to_deadline",
+              "created_at",
+              "updated_at",
+              "overdue_at"];
+
+            return Restangular
+              .one('reports')
+              .one('items',$scope.report.id)
+              .all('notifications')
+              .getList({return_fields: returnFields.join() });
           }
         },
         controller: 'ReportsSendNotificationsModalController'

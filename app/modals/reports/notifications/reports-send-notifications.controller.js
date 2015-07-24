@@ -3,7 +3,7 @@
 angular
   .module('ReportsSendNotificationsModalControllerModule', [])
 
-  .controller('ReportsSendNotificationsModalController', function ($scope, $modalInstance, Restangular, $q, report, $log) {
+  .controller('ReportsSendNotificationsModalController', function ($scope, $modalInstance, Restangular, $q, $log, report, notifications) {
 
     $log.info('ReportsSendNotificationsModalController created.');
     $scope.$on('$destroy', function () {
@@ -13,6 +13,8 @@ angular
     window.scope = $scope;
 
     var categoryId = report.category.id;
+
+    $scope.notifications = notifications;
 
     $scope.orderedNotifications = report.category.ordered_notifications;
 
@@ -59,10 +61,10 @@ angular
     statusesPromise.then(function (r) {
       $scope.statuses = r.data;
       // TODO: Remover
-      $scope.notifications = dummyNotifications(categoryId, $scope.statuses, 20, 6);
-      $scope.itemNotifications = dummyItemNotifications(3);
+      //$scope.notifications = dummyNotifications(categoryId, $scope.statuses, 20, 6);
+      //$scope.itemNotifications = dummyItemNotifications(3);
       $scope.showTable = true;
-      $scope.refreshNotifications();
+      //$scope.refreshNotifications();
       for (var i = 0; i < $scope.statuses.length; i++) {
         var _s = $scope.statuses[i];
         $scope.statusesMap[_s.id] = _s;
