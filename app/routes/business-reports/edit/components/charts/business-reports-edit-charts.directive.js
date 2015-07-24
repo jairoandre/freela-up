@@ -17,7 +17,6 @@ angular
         $scope.addChart = function(){
           var chart = {};
           $scope.charts.push(chart);
-          return chart;
         };
 
         $scope.deleteChart = function(chart) {
