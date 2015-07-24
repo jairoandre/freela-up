@@ -10,7 +10,7 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, onlyImagesUploaderFilter, singleItemUploaderFilter, reportCategoriesResponse, inventoriesCategoriesResponse) {
+  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, onlyImagesUploaderFilter, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
 
     $scope.address = {
@@ -28,12 +28,6 @@ angular
     $scope.selectedCategory = null;
 
     uploader.filters.push(onlyImagesUploaderFilter(uploader.isHTML5));
-
-    /**
-     * @todo Bug on angular-file-upload
-     * https://github.com/nervgh/angular-file-upload/issues/290
-     */
-    uploader.filters.push(singleItemUploaderFilter);
 
     $scope.getInventoryCategory = function(id) {
       for (var i = $scope.inventoryCategories.length - 1; i >= 0; i--) {
