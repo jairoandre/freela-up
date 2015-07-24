@@ -8,3 +8,4 @@ dist/
 app/config/main.constants.js
 Procfile_dev
 .env
+.DS_Store
