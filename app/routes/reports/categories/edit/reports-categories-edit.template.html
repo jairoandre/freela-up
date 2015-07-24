@@ -626,7 +626,7 @@
         <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a funcionalidade de envio de notificação será ativa para a categoria.</span>
       </div>
 
-      <div class="actived-notifications app-animation" ng-show="category.notifications">
+      <div id="notificationTypesSection" class="actived-notifications app-animation" ng-show="category.notifications">
 
         <div class="form-group">
           <label>Notificações devem ser emitidas em ordem</label>
@@ -640,35 +640,39 @@
         </div>
 
         <div class="form-group">
-          <label generic-input name="statuses">Tipos de notificações disponíveis
-            <a href="" ng-click="addNotificationType()" ng-if="!editingNotificationType">(Criar novo)</a>
+          <label>Tipos de notificações disponíveis
+            <a href="#notificationItem{{notificationTypesArray.length}}" ng-click="addNotificationType()" ng-if="!editingNotificationType" du-smooth-scroll>(Criar novo)</a>
           </label>
 
           <div class="clearfix"></div>
 
           <ul ui-sortable="notificationsSortableOptions" ng-model="notificationTypesArray"
               class="reports-categories-notifications-sortable-list">
-            <li ng-repeat="notificationType in notificationTypesArray" class="notifications-li"
+            <li id="notificationItem{{$index}}" ng-repeat="notificationType in notificationTypesArray"
+                class="notifications-li animate-show"
                 ng-animate-children>
               <div class="info" ng-if="!editingNotificationType">
-                <a href="" ng-click="editNotificationType(notificationType)">{{ notificationType.title }}</a>
+                <a href="#notificationItem{{$index}}" ng-click="editNotificationType(notificationType)"
+                   du-smooth-scroll>{{ notificationType.title }}</a>
               </div>
               <div class="info" ng-if="editingNotificationType">
                 <a href="">{{ notificationType.title + (isDirtyNotificationType(notificationType) ? '*' : '') }}</a>
               </div>
-              <div class="actions animate-show" ng-if="!editingNotificationType">
+              <div class="actions" ng-if="!editingNotificationType">
                 <div class="layout" style="display: inline-block" title="Visualizar Layout">
                   <a href="" ng-click="openNotifcationTypeLayout(notificationType)" class="icon">
                     <span class="glyphicon glyphicon-search"></span>
                   </a>
                 </div>
                 <div class="edit" style="display: inline-block" title="Editar">
-                  <a href="" ng-click="editNotificationType(notificationType)" class="icon">
+                  <a href="#notificationItem{{$index}}" ng-click="editNotificationType(notificationType)" class="icon"
+                     du-smooth-scroll>
                     <span class="glyphicon glyphicon-edit"></span>
                   </a>
                 </div>
                 <div class="trash">
-                  <a href="" ng-click="prepareToDeleteNotificationType(notificationType)" data-toggle="modal" data-target="#deleteNotificationTypeModal" class="icon">
+                  <a href="" ng-click="prepareToDeleteNotificationType(notificationType)" data-toggle="modal"
+                     data-target="#deleteNotificationTypeModal" class="icon">
                     <span class="glyphicon glyphicon-trash"></span>
                   </a>
                 </div>
@@ -680,7 +684,7 @@
               </div>
               <div class="clearfix"></div>
               <!-- Edit Section -->
-              <div class="edit-mode animate-show"
+              <div class="edit-mode"
                    ng-show="editingNotificationType && editingNotificationTypeId === notificationType.id">
 
                 <div class="form-group">
@@ -688,7 +692,7 @@
 
                   <div class="row">
                     <div class="col-xs-4">
-                      <input type="text" class="form-control" ng-model="notificationTypeMemento.title"
+                      <input type="text" class="form-control input-lg" ng-model="notificationTypeMemento.title"
                              ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
                     </div>
                   </div>
@@ -700,7 +704,7 @@
                   <div class="row">
                     <div class="col-xs-3">
                       <div class="input-group">
-                        <input type="text" class="form-control"
+                        <input type="text" class="form-control input-lg"
                                ng-model="notificationTypeMemento.default_deadline_in_days"
                                ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
                         <span class="input-group-addon">dias</span>
@@ -714,7 +718,7 @@
 
                   <div class="row">
                     <div class="col-xs-4">
-                      <select class="form-control" ng-model="notificationTypeMemento.reports_status_id"
+                      <select class="form-control input-lg" ng-model="notificationTypeMemento.reports_status_id"
                               ng-options="status.id as status.title for status in category.statuses"
                               ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
                         <option value=""></option>
@@ -737,10 +741,13 @@
 
                 <div class="clearfix"></div>
 
-                <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom"
-                        ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">{{addingNotificationType ? 'Salvar' : 'Atualizar'}}
-                </button>
-                <button ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom">Cancelar</button>
+                <div class="edit-mode-buttons">
+                  <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom"
+                          ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">
+                    {{addingNotificationType ? 'Salvar' : 'Atualizar'}}
+                  </button>
+                  <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom" du-smooth-scroll>Cancelar</a>
+                </div>
               </div>
             </li>
           </ul>

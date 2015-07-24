@@ -171,6 +171,7 @@ angular
     $scope.notificationsSortableOptions = {
       handle: '.move',
       stop: function (e, ui) {
+        $scope.notificationOrderArray = [];
         for (var i = 0; i < $scope.notificationTypesArray.length; i++) {
           $scope.notificationOrderArray[$scope.notificationTypesArray[i].id] = i;
         }

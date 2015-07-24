@@ -46,7 +46,8 @@
     "angular-load": "~0.2.0",
     "base64image_1.3": "http://download.ckeditor.com/base64image/releases/base64image_1.3.zip",
     "font_4.5.1": "http://download.ckeditor.com/font/releases/font_4.5.1.zip",
-    "imagepaste_1.1.1": "http://download.ckeditor.com/imagepaste/releases/imagepaste_1.1.1.zip"
+    "imagepaste_1.1.1": "http://download.ckeditor.com/imagepaste/releases/imagepaste_1.1.1.zip",
+    "bootstrapck_1.0_0": "http://download.ckeditor.com/bootstrapck/releases/bootstrapck_1.0_0.zip"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

@@ -332,6 +332,12 @@ module.exports = function (grunt) {
             cwd: '<%= yeoman.app %>/bower_components/imagepaste_1.1.1',
             dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/imagepaste',
             src: ['**/*']
+          },
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/bower_components/bootstrapck_1.0_0',
+            dest: '<%= yeoman.app %>/bower_components/ckeditor/skins/bootstrapck',
+            src: ['**/*']
           }
         ]
 
@@ -372,6 +378,11 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.app %>/bower_components/imagepaste_1.1.1',
           dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/imagepaste',
+          src: ['**/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/bower_components/bootstrapck_1.0_0',
+          dest: '<%= yeoman.dist %>/bower_components/ckeditor/skins/bootstrapck',
           src: ['**/*']
         }]
       },

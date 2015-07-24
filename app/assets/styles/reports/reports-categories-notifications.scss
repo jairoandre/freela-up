@@ -6,6 +6,9 @@
   }
 }
 
+
+$notification-list-height: 50px;
+
 .reports-categories-notifications-sortable-list {
 
   list-style: none outside none;
@@ -19,9 +22,10 @@
   li {
     font-size: 14px;
     background: #FFF;
-    padding-top: 5px;
+    border-top: 1px transparent;
     border-bottom: 1px solid #E1E1E1;
     display: block;
+    line-height: $notification-list-height;
 
     label {
       font-size: 14px;
@@ -34,18 +38,22 @@
     }
 
     .edit-mode {
-      margin-top: 10px;
       border-top: 1px solid #E1E1E1;
-      padding: 10px;
+      padding-top: 20px;
+      .edit-mode-buttons {
+        padding-bottom: 20px;
+      }
     }
 
     .actions {
       display: inline-block;
       float: right;
+      height: $notification-list-height;
 
-      .edit, .trash, .move {
+      .layout, .edit, .trash, .move {
         display: inline-block;
         margin-left: 10px;
+        font-size: 18px;
       }
 
       .move {
@@ -57,6 +65,11 @@
     }
 
     // page animation
+    .animate-show {
+
+    }
+
+
     .animate-show.ng-hide-remove,
     .animate-show.ng-hide-add {
       transition: .5s linear all;
@@ -68,10 +81,22 @@
       height: 0px;
     }
 
-  }
+    .animate-show.ng-enter,
+    .animate-show.ng-leave {
+      transition: .5s linear all;
+    }
 
-  li:last-child {
-    border-bottom: 0px;
+    .animate-show.ng-enter,
+    .animate-show.ng-leave.ng-leave-active {
+      height: 0;
+    }
+
+    .animate-show.ng-leave,
+    .animate-show.ng-enter.ng-enter-active {
+      height: 500px;
+      overflow: hidden;
+    }
+
   }
 
   // Layout modal
@@ -158,6 +183,7 @@
 
     .toolbar-div {
       position: fixed;
+      padding-top: 5px;
       top: 70px;
       width:100%;
       height: 110px;

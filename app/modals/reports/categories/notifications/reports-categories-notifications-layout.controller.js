@@ -19,7 +19,7 @@ angular
     var configureCkEditor = function () {
       $scope.loadingCkeditorScript = false;
       $scope.ckeditorOptions = {
-
+        skin: 'bootstrapck',
         allowedContent: true,
         extraPlugins: 'sharedspace,placeholder,base64image,font,imagepaste',
         sharedSpaces: {top: 'ckeditor-toolbar'},
