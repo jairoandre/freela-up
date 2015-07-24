@@ -76,7 +76,7 @@ angular
     };
 
     $scope.filterUsersByGroup = function () {
-      GroupSelectorService.open(angular.copy($scope.selectedGroups), true).then(function(selectedGroups){
+      GroupSelectorService.open($scope.selectedGroups, true).then(function(selectedGroups){
         $scope.selectedGroups = selectedGroups;
         refresh();
       });

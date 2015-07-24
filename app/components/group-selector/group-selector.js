@@ -3,7 +3,7 @@
 angular
   .module('GroupSelectorModule', [])
   .controller('GroupSelectorController', function ($scope, $modalInstance, selectedGroups, multiple, promise, Restangular) {
-    $scope.selectedGroups = selectedGroups;
+    $scope.selectedGroups = angular.copy(selectedGroups);
     $scope.multiple = multiple;
 
     $scope.loading = true;
