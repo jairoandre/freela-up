@@ -11,23 +11,50 @@ angular.module('FormInputSliderComponentModule', [])
           return;
         }
 
+        var el = element[0];
+
         /**
          * Add the input-slider class
          */
-        angular.element(element).addClass('input-slider');
+        angular.element(el).addClass('input-slider');
 
         /**
          * Create the single slider
          */
-        noUiSlider.create(element[0], {
+        noUiSlider.create(el, {
           start: 0,
           step: 1,
           connect: 'lower',
           range: {
             min: [0],
-            max: [100]
+            max: [90]
           }
         });
+
+        ctrl.$render = function() {
+
+          if (ctrl.$viewValue > 90) {
+            el.noUiSlider.set(90);
+          } else if (ctrl.$viewValue < 0) {
+            el.noUiSlider.set(0);
+          } else {
+            el.noUiSlider.set(ctrl.$viewValue || 0);
+          }
+
+          console.log('$render', ctrl);
+        };
+
+        var value = 0;
+        el.noUiSlider.on('update', function(values, handle, unencoded) {
+          value = parseInt(values[0], 10) || 0;
+          scope.$evalAsync(update);
+        });
+        update();
+
+        function update() {
+          //ctrl.$setViewValue(value);
+          console.log('update', value);
+        }
 
         /*
         // Specify how UI should be updated
