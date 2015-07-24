@@ -7,7 +7,7 @@ angular.module('FormInputValidatorIntegerComponentModule', [])
       require: 'ngModel',
       link: function(scope, element, attrs, ctrl) {
         if(!ctrl) {
-          $log.warn('Match validation requires ngModel to be on the element');
+          $log.warn('Integer validation requires ngModel to be on the element');
           return;
         }
 

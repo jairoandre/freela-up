@@ -1,7 +1,9 @@
 'use strict';
 
 angular
-  .module('AdvancedFiltersNotificationSinceLastModalControllerModule', [])
+  .module('AdvancedFiltersNotificationSinceLastModalControllerModule', [
+    'FormInputSliderComponentModule'
+  ])
   .controller('AdvancedFiltersNotificationSinceLastModalController', function(Restangular, $scope, $modalInstance, activeAdvancedFilters) {
     $scope.input = {};
 

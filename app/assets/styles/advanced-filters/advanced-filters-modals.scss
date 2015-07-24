@@ -443,6 +443,17 @@
       text-align: center;
       margin: 0 5px;
     }
+
+    .input-slider-container {
+      margin: 35px 0 25px 0;
+
+      .grid-start-value,
+      .grid-end-value {
+        margin: 15px 0px;
+        color: #818181;
+        font-weight: 500;
+      }
+    }
   }
 }
 
