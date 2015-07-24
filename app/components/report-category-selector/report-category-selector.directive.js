@@ -29,10 +29,6 @@ angular
           $scope.show = false;
         };
 
-        $scope.isSelected = function (optionId) {
-          return optionId === $scope.ngModel;
-        };
-
         $scope.loadingReportCategories = true;
         $scope.errorLoadingReportCategories = false;
 
