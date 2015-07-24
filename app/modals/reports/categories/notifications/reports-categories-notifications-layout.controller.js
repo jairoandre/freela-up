@@ -1,14 +1,18 @@
 'use strict';
 
+var scope;
+
 angular
   .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor', 'angularLoad'])
 
-  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $rootScope, $location, $modalInstance, $log, parentScope, notificationType, angularLoad) {
+  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $rootScope, $timeout, $location, $anchorScroll, $modalInstance, $log, parentScope, notificationType, angularLoad) {
 
     $log.info('ReportsCategoriesNotificationsLayoutController created.');
     $scope.$on('$destroy', function () {
       $log.info('ReportsCategoriesNotificationsLayoutController destroyed.');
     });
+
+    scope = $scope;
 
     var originalLayout = angular.copy(notificationType.layout);
 
@@ -16,15 +20,10 @@ angular
 
     $scope.loadingCkeditorScript = true;
 
-    $scope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
-      // Revert 
-      $rootScope.resolvingRoute = false;
-      $rootScope.uiHasScroll = true;
-      $rootScope.uiDebugMap = true;
-      event.preventDefault();
+    $scope.$on('$locationChangeStart',function(event, toState, toParams, fromState, fromParams){
       $scope.closeLayoutNotificationTypeModal();
+      event.preventDefault();
     });
-
 
     var configureCkEditor = function () {
       $scope.loadingCkeditorScript = false;
