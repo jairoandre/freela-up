@@ -36,7 +36,7 @@
   </table>
 
   <div ng-if="reports.length == 0 && contentLoaded" class="nice-and-centered">
-    <p>Nenhum relatório cadastrado até o momento. Gostaria de <a href="#/business-reports/add">criar um novo?</a></p>
+    <p>Nenhum relatório cadastrado até o momento. <span ng-if="showEditButton">Gostaria de <a href="#/business-reports/add">criar um novo?</a></span></p>
   </div>
 
   <div ng-if="errorLoadingContent" class="nice-and-centered">
