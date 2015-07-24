@@ -4,12 +4,10 @@
     enable-save-button="valid"
     show-save-button="editable"
     show-edit-button="!editable && hasPermission('business_reports_edit')"
-    show-share-button="!editable && hasPermission('business_reports_edit')"
     show-xls-button="!editable"
     show-print-button="!editable"
     report="report"
     xls-button-clicked="exportToXLS()"
-    share-button-clicked="openShareBusinessReport()"
     save-button-clicked="saveBusinessReport()">
   </business-reports-edit-header>
   <business-reports-edit-form editable="editable" report="report" valid="valid"></business-reports-edit-form>

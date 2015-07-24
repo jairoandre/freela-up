@@ -46,15 +46,6 @@ angular
       });
     };
 
-    // Share
-    $scope.openShareBusinessReport = function(){
-      var selectedGroups = [];
-      GroupSelectorService.open(selectedGroups, true).then(function(newSelectedGroups){
-        BusinessReportsService.share(newSelectedGroups);
-        selectedGroups = newSelectedGroups;
-      });
-    };
-
     // Export to XLS
     $scope.exportToXLS = function(){
       $window.location = ENV.apiEndpoint + '/business_reports/' + $scope.report.id + '/export/xls?token=' + Auth.getToken();
