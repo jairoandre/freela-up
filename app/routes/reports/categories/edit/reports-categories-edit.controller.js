@@ -299,7 +299,8 @@ angular
             return $scope;
           }
         },
-        controller: 'ReportsCategoriesNotificationsLayoutController'
+        controller: 'ReportsCategoriesNotificationsLayoutController',
+        navigateWithoutLoading: '/layout-modal'
       });
     };
 

@@ -19,6 +19,10 @@ $notification-list-height: 50px;
     background: #ccc;
   }
 
+  li:last-child {
+    border-bottom: 0px;
+  }
+
   li {
     font-size: 14px;
     background: #FFF;
@@ -186,7 +190,7 @@ $notification-list-height: 50px;
       padding-top: 5px;
       top: 70px;
       width:100%;
-      height: 110px;
+      height: 80px;
       background: #e6e6e6;
       box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
       z-index: 999;
@@ -199,7 +203,7 @@ $notification-list-height: 50px;
 
     .editor-content {
       position: fixed;
-      top: 180px;
+      top: 150px;
       width:100%;
       height: 100%;
       background: #d9d9d9;
@@ -242,6 +246,12 @@ $notification-list-height: 50px;
 .ckeditor-editable-content{
   height: 27cm;
   overflow: hidden;
+  border: 0px !important;
+}
+
+.cke_focus {
+  -webkit-appearance:none;
+  outline:0px !important;
 }
 
 .a4-page {

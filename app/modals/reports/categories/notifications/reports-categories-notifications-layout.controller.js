@@ -3,7 +3,7 @@
 angular
   .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor', 'angularLoad'])
 
-  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $modalInstance, $log, parentScope, notificationType, angularLoad) {
+  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $rootScope, $location, $modalInstance, $log, parentScope, notificationType, angularLoad) {
 
     $log.info('ReportsCategoriesNotificationsLayoutController created.');
     $scope.$on('$destroy', function () {
@@ -15,6 +15,16 @@ angular
     $scope.notificationTypeOnLayoutModal = notificationType;
 
     $scope.loadingCkeditorScript = true;
+
+    $scope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+      // Revert 
+      $rootScope.resolvingRoute = false;
+      $rootScope.uiHasScroll = true;
+      $rootScope.uiDebugMap = true;
+      event.preventDefault();
+      $scope.closeLayoutNotificationTypeModal();
+    });
+
 
     var configureCkEditor = function () {
       $scope.loadingCkeditorScript = false;
@@ -35,7 +45,6 @@ angular
           {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
           {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
           {name: 'document', groups: ['mode', 'document', 'doctools']},
-          '/',
           {name: 'styles', groups: ['styles']},
           {name: 'colors', groups: ['colors']},
           {name: 'about', groups: ['about']}
