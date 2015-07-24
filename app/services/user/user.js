@@ -29,14 +29,14 @@ angular
           {
             if (permissionName === permission)
             {
-              if (typeof user.permissions[permissionName] === 'boolean')
+              if (_.isBoolean(user.permissions[permissionName]))
               {
                 return (user.permissions[permissionName] === true);
               }
-              else if (typeof user.permissions[permissionName] === 'object')
+              else if (_.isObject(user.permissions[permissionName]))
               {
                 // if there is not `id` specified, we just check if the permission is empty
-                if (typeof id === 'undefined')
+                if (_.isUndefined(id))
                 {
                   return (user.permissions[permissionName] && user.permissions[permissionName].length !== 0);
                 }
@@ -44,7 +44,7 @@ angular
                 // returns true if the user has the permission for any of the given objects
                 if(_.isArray(id)) {
                   var ids = _.map(id, function(id){
-                    if(_.isObject(id) && typeof id.id !== 'undefined') {
+                    if(_.isObject(id) && _.isUndefined(id.id)) {
                       return id.id;
                     }
                     return id;
@@ -82,7 +82,7 @@ angular
             {
               return true;
             }
-          };
+          }
 
           return false;
         };
