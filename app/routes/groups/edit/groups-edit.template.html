@@ -79,6 +79,12 @@
               <li ng-repeat="group in groups | filter:q" ng-class="{ 'active': isObjectSelected(group.id) }"><a href="" ng-click="toggleObject(group)"><span ng-bind-html="group.name  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
             </ul>
 
+            <ul ng-if="newPermission.type === 'business_report'">
+              <li><a href="" ng-click="selectAllObjects(businessReports)">Selecionar todos os relatórios</a></li>
+
+              <li ng-repeat="report in businessReports | filter:q" ng-class="{ 'active': isObjectSelected(report.id) }"><a href="" ng-click="toggleObject(report)"><span ng-bind-html="report.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
+            </ul>
+
             <ul ng-if="newPermission.type === 'report'">
               <li><a href="" ng-click="selectAllObjects(reportsCategories)">Selecionar todas as categorias</a></li>
 

@@ -23,7 +23,7 @@ angular
 
             'objectsResponse': ['FullResponseRestangular', function(FullResponseRestangular) {
               return FullResponseRestangular.one('utils').all('available_objects').customGET();
-            }],
+            }]
           }
         }
       }
