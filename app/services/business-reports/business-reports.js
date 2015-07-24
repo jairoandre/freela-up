@@ -7,6 +7,12 @@
 angular
   .module('BusinessReportsServiceModule', [])
   .factory('BusinessReportsService', function ($q, FullResponseRestangular) {
+    var ALL_FIELDS = [
+      'id', 'title', 'summary', 'begin_date', 'end_date',
+      'charts.id', 'charts.title', 'charts.chart_type', 'charts.data', 'charts.description', 'charts.begin_date', 'charts.end_date',
+      'charts.processed', 'charts.metric', 'charts.categories.id', 'charts.categories.title'
+    ].join();
+
     /**
      * Fetches the business reports list
      * @param {Object} options - API options for the search report endpoint
@@ -65,9 +71,7 @@ angular
       var url = FullResponseRestangular.one('business_reports', id);
 
       options.display_type = 'full';
-      options.return_fields = [
-        'id', 'title', 'summary', 'begin_date', 'end_date', 'charts'
-      ].join();
+      options.return_fields = ALL_FIELDS;
 
       var promise = url.customGET(null, options);
 
@@ -134,7 +138,7 @@ angular
     self.save = function (report) {
       var options = {}, deferred = $q.defer();
 
-      options.return_fields = ['id', 'title', 'summary', 'begin_date', 'end_date', 'charts'].join();
+      options.return_fields = ALL_FIELDS;
 
       var reportSavePromise, reportData = normalizeReport(report);
 
