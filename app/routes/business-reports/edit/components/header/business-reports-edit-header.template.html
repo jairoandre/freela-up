@@ -13,6 +13,13 @@
      ng-disabled="!enableSaveButton"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar relatório</a>
 
   <a href=""
+     ng-if="showPrintButton"
+     tooltip="Imprimir"
+     tooltip-placement="bottom"
+     print-btn
+     class="btn btn-info btn-custom"><span class="glyphicon glyphicon-print"></span> </a>
+
+  <a href=""
      ng-if="showXlsButton"
      ng-click="xlsButtonClicked()"
      tooltip="Exportar em XLS"

@@ -8,6 +8,7 @@ angular
       scope: {
         report: '=',
         savePromise: '=',
+        showPrintButton: '=',
         showXlsButton: '=',
         showShareButton: '=',
         showEditButton: '=',

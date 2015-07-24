@@ -40,7 +40,8 @@
     "ng-cpf-cnpj": "*",
     "angular-toArrayFilter": "~1.0.0",
     "angular-promise-buttons": "*",
-    "angular-google-chart": "~0.0.11"
+    "angular-google-chart": "~0.0.11",
+    "angular-print": "~0.3.7"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

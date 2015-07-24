@@ -226,3 +226,22 @@
     visibility: visible
   }
 }
+
+@media print {
+  .state-business-reports-show {
+    #sidebar, business-reports-edit-header {
+      display: none;
+    }
+
+    .business-report-foreground {
+      position: absolute;
+      margin: 15px;
+      padding: 0;
+      width: 95%;
+    }
+
+    #main_layout #main_content {
+      padding: 0;
+    }
+  }
+}

@@ -6,7 +6,8 @@ angular
     'BusinessReportsEditFormDirectiveModule',
     'BusinessReportsEditChartsDirectiveModule',
     'BusinessReportsServiceModule',
-    'GroupSelectorModule'
+    'GroupSelectorModule',
+    'AngularPrint'
   ])
   .controller('BusinessReportsEditController', function (ENV, Auth, $state, $scope, BusinessReportsService, $stateParams, $window, editable, GroupSelectorService) {
     $scope.reportLoaded = false;
