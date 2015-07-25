@@ -51,6 +51,13 @@ angular.module('FormInputSliderComponentModule', [])
         function update() {
           ctrl.$setViewValue(value);
         }
+
+        var $handlerDestroy = scope.$on('$destroy', function() {
+          el.noUiSlider.off('slide');
+          el.noUiSlider.destroy();
+          $handlerDestroy();
+          $handlerDestroy = null;
+        });
       }
     };
   });
