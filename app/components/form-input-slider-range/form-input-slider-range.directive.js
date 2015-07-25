@@ -6,6 +6,10 @@ angular.module('FormInputSliderRangeComponentModule', [])
       restrict: 'CA',
       require: '?ngModel',
       link: function(scope, element, attrs, ctrl) {
+        if (!ctrl) {
+          $log.warn('Slider directive requires ngModel to be on the element');
+          return;
+        }
 
         var el = element[0];
 
@@ -28,7 +32,7 @@ angular.module('FormInputSliderRangeComponentModule', [])
         });
 
         var ngModelGet = $parse(attrs.ngModel);
-        scope.$watch(attrs.ngModel, function () {
+        var $handleNgModelWatch = scope.$watch(attrs.ngModel, function () {
           var values = ngModelGet(scope);
           var begin = parseInt(values.begin || 0, 10);
           var end = parseInt(values.end || 90, 10);
@@ -53,6 +57,17 @@ angular.module('FormInputSliderRangeComponentModule', [])
             begin: value.begin || 0,
             end: value.end || 90
           };
+        });
+
+        var $handlerDestroy = scope.$on('$destroy', function() {
+          $handleNgModelWatch();
+          $handleNgModelWatch = null;
+
+          el.noUiSlider.off('slide');
+          el.noUiSlider.destroy();
+
+          $handlerDestroy();
+          $handlerDestroy = null;
         });
       }
     };
