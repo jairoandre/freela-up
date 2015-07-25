@@ -7,8 +7,8 @@ angular
   .controller('AdvancedFiltersNotificationOverdueModalController', function(Restangular, $scope, $modalInstance, activeAdvancedFilters) {
     $scope.input = {
       values: {
-        begin: 0,
-        end: 90
+        begin: null,
+        end: null
       }
     };
 

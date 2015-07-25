@@ -144,7 +144,7 @@ $white: #fff;
 
 .input-slider[data-is-color=cyan].noUi-connect,
 .input-slider-range[data-is-color=cyan].noUi-connect,
-.input-slider-values[data-is-color=cyan].noUi-connect {
+.input-slider-values[data-is-color=cyan].noUi-connect, {
   @include box-shadow(none);
 }
 
@@ -156,10 +156,18 @@ $white: #fff;
   background: $background_color_theme_default !important;
 }
 
-/* @todo: Fix wrong Pins boundaries */
 .input-slider[data-is-color=cyan] .noUi-base,
-.input-slider-range[data-is-color=cyan] .noUi-base{
+.input-slider-range[data-is-color=cyan] .noUi-connect {
   background: $background_color_theme_blue !important;
+}
+
+.input-slider[data-is-color=cyan] .noUi-connect,
+.input-slider-range[data-is-color=cyan] .noUi-connect {
+  @include box-shadow(none);
+}
+
+.input-slider[data-is-color=cyan] .noUi-base,
+.input-slider-range[data-is-color=cyan] .noUi-base {
   left: 17px;
   @include calc( width, '100% - 17px');
 }
