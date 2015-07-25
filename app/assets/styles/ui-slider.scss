@@ -156,9 +156,10 @@ $white: #fff;
   background: $background_color_theme_default !important;
 }
 
-.input-slider[data-is-color=cyan] .noUi-base {
+/* @todo: Fix wrong Pins boundaries */
+.input-slider[data-is-color=cyan] .noUi-base,
+.input-slider-range[data-is-color=cyan] .noUi-base{
   background: $background_color_theme_blue !important;
-  /* @todo: Fix wrong boundaries */
   left: 17px;
   @include calc( width, '100% - 17px');
 }
