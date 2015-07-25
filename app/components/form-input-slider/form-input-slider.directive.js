@@ -55,6 +55,7 @@ angular.module('FormInputSliderComponentModule', [])
         var $handlerDestroy = scope.$on('$destroy', function() {
           el.noUiSlider.off('slide');
           el.noUiSlider.destroy();
+
           $handlerDestroy();
           $handlerDestroy = null;
         });
