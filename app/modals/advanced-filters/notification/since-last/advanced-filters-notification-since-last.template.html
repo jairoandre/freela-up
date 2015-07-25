@@ -6,7 +6,7 @@
 <div class="modal-body">
   <form name="formNotification" ng-submit="save()" class="form-inline" novalidate>
     <div class="form-group" ng-class="{ 'has-error' : formNotification.value.$invalid && !formNotification.value.$pristine }">
-      <input type="text" name="value" ng-model="input.value" placeholder="0" class="form-control" form-input-validator-integer required /> dias
+      <input type="text" name="value" ng-model="input.value" placeholder="0" class="form-control" form-input-validator-integer required /> {{input.value > 1 ? 'dias' : 'dia'}}
     </div>
   </form>
   <div class="input-slider-container">
