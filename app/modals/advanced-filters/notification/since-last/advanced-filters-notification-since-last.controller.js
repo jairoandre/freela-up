@@ -10,7 +10,7 @@ angular
     $scope.save = function() {
       var filter = {
         title: 'Última notificação emitida há',
-        desc: $scope.input.value,
+        desc: $scope.input.value + ( +($scope.input.value) > 1 ? " dias" : " dia"),
         type: 'daysSinceLastNotification',
         value: $scope.input.value
       };
