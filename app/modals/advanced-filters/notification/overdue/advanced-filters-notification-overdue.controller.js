@@ -13,16 +13,15 @@ angular
     };
 
     $scope.save = function() {
-      //var filter = {
-      //  title: 'Última notificação emitida há',
-      //  desc: $scope.input.value + ( +($scope.input.value) > 1 ? " dias" : " dia"),
-      //  type: 'daysSinceLastNotification',
-      //  value: $scope.input.value
-      //};
-      //
-      //activeAdvancedFilters.push(filter);
-      //$modalInstance.close();
-      console.log($scope.input);
+      var filter = {
+        title: 'Vencimento da última notificação',
+        desc: $scope.input.values.begin + ' a ' + $scope.input.values.end + ' dias',
+        type: 'daysSinceLastNotification',
+        value: $scope.input.values
+      };
+
+      activeAdvancedFilters.push(filter);
+      $modalInstance.close();
     };
 
     $scope.close = function() {
