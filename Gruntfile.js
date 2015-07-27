@@ -158,7 +158,7 @@ module.exports = function (grunt) {
       options: {
         directory: '<%= yeoman.app %>/bower_components',
         ignorePath: '<%= yeoman.app %>/',
-        exclude: ['/ckeditor/', '/base64image_1.3/'],
+        exclude: ['/ckeditor/', '/base64image_1.3/', 'font_4.5.1', 'imagepaste_1.1.1', 'bootstrapck_1.0_0'],
         overrides: {
           "bootstrap": {
             "main": [

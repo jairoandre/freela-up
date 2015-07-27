@@ -38,7 +38,7 @@ angular
             .then(function (r) {
               self.notificationTypesMap[categoryId] = r.data;
               deferred.resolve(r.data);
-            }, function () {
+            }, function (r) {
               deferred.reject(r);
             });
         }
