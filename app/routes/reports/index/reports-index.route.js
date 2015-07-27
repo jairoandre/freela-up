@@ -2,6 +2,7 @@ angular
   .module('ReportsIndexModule', [
     'ReportsIndexControllerModule',
     'ReportsIndexMapModule',
+    'ReportsIndexNotificationsModule',
     'StyleResultsTableComponentModule'
   ])
 
