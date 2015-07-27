@@ -1,5 +1,6 @@
 angular
   .module('ReportsIndexMapModule', [
+    'ReportsIndexControllerModule',
     'StyleMapComponentModule',
     'MapComponentModule'
   ])
