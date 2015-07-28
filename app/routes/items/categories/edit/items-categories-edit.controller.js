@@ -584,18 +584,20 @@ angular.
             /**
              * Prevent errors because user permissions
              */
-            if (!field) {
+            if (!_.isObject(field)) {
               return;
             }
 
             /**
-             * If toRemove attribute has been given, this field was added and marked to be removed
+             * We only should check for 'toRemove' attributes on newly fields
              */
-            if(field.hasOwnProperty('toRemove')) {
-              if(field.toRemove) {
-                section.fields.splice(fieldKey, 1);
-              } else {
-                delete field.toRemove;
+            if (_.isUndefined(field.id)) {
+              if (field.hasOwnProperty('toRemove')) {
+                if(field.toRemove) {
+                  section.fields.splice(fieldKey, 1);
+                } else {
+                  delete field.toRemove;
+                }
               }
             }
 
