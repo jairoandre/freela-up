@@ -8,7 +8,7 @@ angular
       'TranslateErrorsHelperModule'
     ])
 
-    .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, singleItemUploaderFilter, onlyImagesUploaderFilter, $localStorage, itemResponse, categoryResponse, $timeout, User) {
+    .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, onlyImagesUploaderFilter, $localStorage, itemResponse, categoryResponse, $timeout, User) {
       var updating = $scope.updating = false;
 
       var categoryId = categoryResponse.data.id;
@@ -206,12 +206,6 @@ angular
               var uploader = new FileUploader();
 
               uploader.filters.push(onlyImagesUploaderFilter(uploader.isHTML5));
-
-              /**
-               * @todo Bug on angular-file-upload
-               * https://github.com/nervgh/angular-file-upload/issues/290
-               */
-              uploader.filters.push(singleItemUploaderFilter);
 
               $scope.uploaders[section.fields[j].id] = uploader;
 
