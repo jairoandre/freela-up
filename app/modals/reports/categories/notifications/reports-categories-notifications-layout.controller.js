@@ -5,7 +5,7 @@ var scope;
 angular
   .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor', 'angularLoad'])
 
-  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $rootScope, $timeout, $location, $anchorScroll, $modalInstance, $log, parentScope, notificationType, angularLoad) {
+  .controller('ReportsCategoriesNotificationsLayoutController', function ($scope, $rootScope, $timeout, $location, $anchorScroll, $modalInstance, $log, parentScope, notificationType, angularLoad, ENV) {
 
     $log.info('ReportsCategoriesNotificationsLayoutController created.');
     $scope.$on('$destroy', function () {
@@ -29,6 +29,7 @@ angular
       $scope.loadingCkeditorScript = false;
       $scope.ckeditorOptions = {
         skin: 'bootstrapck',
+        language: 'pt-br',
         allowedContent: true,
         extraPlugins: 'sharedspace,placeholder,base64image,font,imagepaste',
         sharedSpaces: {top: 'ckeditor-toolbar'},
@@ -52,7 +53,7 @@ angular
       };
     }
 
-    angularLoad.loadScript('bower_components/ckeditor/ckeditor.js').then(function(){
+    angularLoad.loadScript(ENV.ckeditorPath).then(function(){
       configureCkEditor();
     });
 

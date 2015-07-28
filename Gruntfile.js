@@ -158,7 +158,7 @@ module.exports = function (grunt) {
       options: {
         directory: '<%= yeoman.app %>/bower_components',
         ignorePath: '<%= yeoman.app %>/',
-        exclude: ['/ckeditor/', '/base64image_1.3/', 'font_4.5.1', 'imagepaste_1.1.1', 'bootstrapck_1.0_0'],
+        exclude: ['/ckeditor/', '/base64image_1.3/', '/font_4.5.1/', '/imagepaste_1.1.1/', '/bootstrapck_1.0_0/'],
         overrides: {
           "bootstrap": {
             "main": [
@@ -218,6 +218,7 @@ module.exports = function (grunt) {
             '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
             '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
+            '!<%= yeoman.dist %>/assets/scripts/ckeditor/**',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
             '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
@@ -356,8 +357,7 @@ module.exports = function (grunt) {
             'assets/images/**/*',
             'assets/fonts/*',
             'assets/scripts/*',
-            'assets/documents/*',
-            'bower_components/ckeditor/**/*'
+            'assets/documents/*'
           ]
         }, {
           expand: true,
@@ -366,23 +366,28 @@ module.exports = function (grunt) {
           src: ['generated/*']
         }, {
           expand: true,
+          cwd: '<%= yeoman.app %>/bower_components/ckeditor',
+          dest: '<%= yeoman.dist %>/assets/scripts/ckeditor',
+          src: ['**/*']
+        }, {
+          expand: true,
           cwd: '<%= yeoman.app %>/bower_components/base64image_1.3',
-          dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/base64image',
+          dest: '<%= yeoman.dist %>/assets/scripts/ckeditor/plugins/base64image',
           src: ['**/*']
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>/bower_components/font_4.5.1',
-          dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/font',
+          dest: '<%= yeoman.dist %>/assets/scripts/ckeditor/plugins/font',
           src: ['**/*']
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>/bower_components/imagepaste_1.1.1',
-          dest: '<%= yeoman.dist %>/bower_components/ckeditor/plugins/imagepaste',
+          dest: '<%= yeoman.dist %>/assets/scripts/ckeditor/plugins/imagepaste',
           src: ['**/*']
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>/bower_components/bootstrapck_1.0_0',
-          dest: '<%= yeoman.dist %>/bower_components/ckeditor/skins/bootstrapck',
+          dest: '<%= yeoman.dist %>/assets/scripts/ckeditor/skins/bootstrapck',
           src: ['**/*']
         }]
       },
@@ -417,7 +422,8 @@ module.exports = function (grunt) {
             logoImgUrl: '<%= LOGO_IMG_URL %>',
             defaultCity: '<%= DEFAULT_CITY %>',
             defaultState: '<%= DEFAULT_STATE %>',
-            defaultCountry: '<%= DEFAULT_COUNTRY %>'
+            defaultCountry: '<%= DEFAULT_COUNTRY %>',
+            ckeditorPath: 'bower_components/ckeditor/ckeditor.js'
           }
         }
       },
@@ -437,7 +443,8 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>'
+            logoImgUrl: '<%= LOGO_IMG_URL %>',
+            ckeditorPath: 'assets/scripts/ckeditor/ckeditor.js'
           },
         }
       }
