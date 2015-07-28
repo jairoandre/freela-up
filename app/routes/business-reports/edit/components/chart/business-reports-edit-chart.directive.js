@@ -45,7 +45,7 @@ angular
           $scope.onChartUpdate({ chart: $scope.chart });
         };
 
-        if (!$scope.chartData.id) {
+        if (!$scope.chartData || !$scope.chartData.id) {
           $scope.chart = _.extend($scope.chartData, sampleChart);
         } else {
           $scope.chart = $scope.chartData;
