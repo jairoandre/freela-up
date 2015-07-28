@@ -37,12 +37,14 @@
         $scope.editMode = false;
         $scope.inputValue = '';
 
+        var editTextTimeout;
         $scope.editText = function(inputValue) {
           $scope.editMode = true;
           $scope.inputValue = (typeof inputValue === 'string') ?
             inputValue : $scope.model;
 
-          $timeout(function() {
+          if(editTextTimeout) $timeout.cancel(editTextTimeout);
+          editTextTimeout = $timeout(function() {
             $scope.editInput[0].focus();
             if ($scope.isOnBlurBehaviorValid) {
               $document.bind('click', $scope.onDocumentClick);
@@ -63,9 +65,11 @@
             $scope.editMode = false;
           }
 
+          var onFailureTimeout;
           function _onFailure() {
             $scope.validationError = true;
-            $timeout(function() {
+            if(onFailureTimeout) $timeout.cancel(onFailureTimeout);
+            onFailureTimeout = $timeout(function() {
               $scope.editText(inputValue);
             }, 0);
           }
