@@ -184,8 +184,7 @@
     padding: 3px 25px 3px 3px;
     margin: 0;
     border: none;
-    -webkit-box-shadow: 0 0 0 1px $inline-edit-border-color;
-    box-shadow: 0 0 0 1px $inline-edit-border-color;
+    @include box-shadow(0 0 0 1px $inline-edit-border-color);
     @include border-radius(2px);
 
     &:focus {
@@ -204,10 +203,8 @@
   .ng-inline-edit__text:hover {
     background: #fff;
     color: #333;
-    -webkit-border-radius: 2.01px;
-    -webkit-box-shadow: 0 0 0 1px $inline-edit-border-color;
-    box-shadow: 0 0 0 1px $inline-edit-border-color;
-
+    @include border-radius(2px);
+    @include box-shadow(0 0 0 1px $inline-edit-border-color);
   }
 
   .ng-inline-edit__text:after {
