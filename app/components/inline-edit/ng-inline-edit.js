@@ -137,6 +137,12 @@
             }
           }
         };
+
+        $scope.$on('$destroy', function(){
+          if($scope.isOnBlurBehaviorValid) {
+            $document.unbind('click', $scope.onDocumentClick);
+          }
+        });
       }
     ]);
 
