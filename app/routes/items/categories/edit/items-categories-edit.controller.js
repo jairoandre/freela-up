@@ -581,6 +581,12 @@ angular.
         // before sending the data to the server, we need to convert each new field's field_options to an array based method
         _.each(formattedFormData.sections, function(section) {
           _.each(section.fields, function(field, fieldKey) {
+            /**
+             * Prevent errors because user permissions
+             */
+            if (!field) {
+              return;
+            }
 
             /**
              * If toRemove attribute has been given, this field was added and marked to be removed
