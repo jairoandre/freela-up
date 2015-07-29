@@ -30,8 +30,10 @@ angular
       $scope.ckeditorOptions = {
         skin: 'bootstrapck',
         language: 'pt-br',
-        allowedContent: true,
-        extraPlugins: 'sharedspace,placeholder,base64image,font,imagepaste',
+        height: '27cm',
+        resize_enabled: false,
+        removePlugins: 'elementspath',
+        extraPlugins: 'sharedspace,tableresize,placeholder,base64image,font,imagepaste,image2',
         sharedSpaces: {top: 'ckeditor-toolbar'},
         toolbarGroups: [
           {name: 'clipboard', groups: ['clipboard', 'undo']},
@@ -41,15 +43,15 @@ angular
           {name: 'forms', groups: ['forms']},
           {name: 'tools', groups: ['tools']},
           {name: 'others', groups: ['others']},
+          {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
           '/',
           {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-          {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
           {name: 'document', groups: ['mode', 'document', 'doctools']},
           {name: 'styles', groups: ['styles']},
           {name: 'colors', groups: ['colors']},
           {name: 'about', groups: ['about']}
         ],
-        removeButtons: 'Underline,Subscript,Superscript,Maximize,Image'
+        removeButtons: 'Maximize,Image'
       };
     }
 

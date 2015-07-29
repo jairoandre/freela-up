@@ -197,6 +197,12 @@ $notification-list-height: 50px;
     height: 100%;
     font-size: 18px;
 
+    table {
+      border-collapse: separate;
+      border-spacing: 2px;
+      border-color: grey;
+    }
+
     .header {
       position: fixed;
       width: 100%;
@@ -309,6 +315,10 @@ $notification-list-height: 50px;
 .cke_focus {
   -webkit-appearance:none;
   outline:0px !important;
+}
+
+.cke_contents {
+  border: 0px !important;
 }
 
 .a4-page {
