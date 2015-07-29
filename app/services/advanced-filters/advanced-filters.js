@@ -122,7 +122,7 @@ angular
             var beginDateFilter = {
               title: 'A partir da data',
               type: 'beginDate',
-              desc: period.beginDate.getDate() + '/' + (period.beginDate.getMonth() + 1) + '/' + period.beginDate.getFullYear(),
+              desc: moment(period.beginDate).format('DD/MM/YYYY'),
               value: moment(period.beginDate).startOf('day').format()
             };
 
@@ -133,7 +133,7 @@ angular
             var endDateFilter = {
               title: 'Até a data',
               type: 'endDate',
-              desc: period.endDate.getDate() + '/' + (period.endDate.getMonth() + 1) + '/' + period.endDate.getFullYear(),
+              desc: moment(period.endDate).format('DD/MM/YYYY'),
               value: moment(period.endDate).endOf('day').format()
             };
 
