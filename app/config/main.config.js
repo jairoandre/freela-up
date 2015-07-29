@@ -154,6 +154,8 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      $rootScope.stateClass = 'state-' + toState.name.replace(".", "-").replace("_", "-");
+
       if (fromState.name.length === 0)
       {
         $rootScope.hideInitialLoading = true;
@@ -166,16 +168,21 @@ angular
     });
 
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+      $rootScope.stateClass = '';
       if (error.status === 403) $window.location = '/';
       else if (error.status === 404) $window.location = '/';
       else if (error.status === 401) Error.show('expired_session');
       else Error.show(error);
     });
 
-    // FIXME let's put this in a directive, please, Mr. Gabriel? :-D
+    $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
+      console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
+      console.log(unfoundState, fromState, fromParams);
+    });
+
     $rootScope.glyphicons = {
       'exclamation-sign': 'glyphicon-exclamation-sign',
-      'ok': 'glyphicon-ok',
+      'ok': 'glyphicon-ok'
     };
 
     $rootScope.showMessage = function(icon, text, messageClass, scrollTop) {

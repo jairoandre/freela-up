@@ -1,25 +1,63 @@
-    <div class="logo">
-      <a href="#"><img ng-src="{{ logoImg }}"></a>
-    </div>
+<div class="logo">
+  <a href="#"><img ng-src="{{ logoImg }}"></a>
+</div>
 
-    <ul>
-      <li nav-item ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit') || hasPermission('inventories_items_read_only') || hasPermission('inventories_items_delete') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_create')"><a ng-href="#/items"><span class="glyphicon glyphicon-list"></span> <p>Inventário</p></a></li>
+<ul>
+  <li nav-item
+      ng-show="hasPermission('inventories_full_access') || hasPermission('inventories_categories_edit') || hasPermission('inventories_items_read_only') || hasPermission('inventories_items_delete') || hasPermission('inventories_items_edit') || hasPermission('inventories_items_create')">
+    <a ng-href="#/items"><span class="glyphicon glyphicon-list"></span>
 
-      <li nav-item ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit') || hasPermission('reports_items_delete') || hasPermission('reports_items_edit') || hasPermission('reports_items_create') || hasPermission('reports_items_read_public') || hasPermission('reports_items_read_private')"><a ng-href="#/reports"><span class="glyphicon glyphicon-list-alt"></span> <p>Relatos</p></a></li>
+      <p>Inventário</p></a></li>
 
-      <!-- permissions: manage_flows -->
-      <li nav-item ng-show="flowsEnabled && (hasPermission('flow_can_view_all_steps') || hasPermission('flow_can_delete_all_cases') || hasPermission('flow_can_delete_own_cases') || hasPermission('flow_can_execute_all_steps') || hasPermission('can_execute_step') || hasPermission('can_view_step'))"><a ng-href="#/flows"><span class="glyphicon glyphicon-ok-circle"></span> <p>Fluxos</p></a></li>
+  <li nav-item
+      ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit') || hasPermission('reports_items_delete') || hasPermission('reports_items_edit') || hasPermission('reports_items_create') || hasPermission('reports_items_read_public') || hasPermission('reports_items_read_private')">
+    <a ng-href="#/reports"><span class="glyphicon glyphicon-list-alt"></span>
 
-      <!-- permissions: manage_flows -->
-      <li nav-item ng-show="flowsEnabled && (hasPermission('flow_can_view_all_steps') || hasPermission('flow_can_delete_all_cases') || hasPermission('flow_can_delete_own_cases') || hasPermission('flow_can_execute_all_steps') || hasPermission('can_execute_step') || hasPermission('can_view_step'))"><a ng-href="#/cases"><span class="glyphicon glyphicon-file"></span> <p>Casos</p></a></li>
+      <p>Relatos</p></a></li>
 
-      <li nav-item ng-show="hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only')"><a ng-href="#/groups"><span class="ico-groups"></span> <p>Grupos</p></a></li>
+  <!-- permissions: manage_flows -->
+  <li nav-item
+      ng-show="flowsEnabled && (hasPermission('flow_can_view_all_steps') || hasPermission('flow_can_delete_all_cases') || hasPermission('flow_can_delete_own_cases') || hasPermission('flow_can_execute_all_steps') || hasPermission('can_execute_step') || hasPermission('can_view_step'))">
+    <a ng-href="#/flows"><span class="glyphicon glyphicon-ok-circle"></span>
 
-      <li nav-item ng-show="hasPermission('users_full_access') || hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only') || hasPermission('users_edit')"><a ng-href="#/users"><span class="glyphicon glyphicon-user"></span> <p>Usuários</p></a></li>
+      <p>Fluxos</p></a></li>
 
-      <li nav-item ng-show="hasPermission('manage_config')"><a ng-href="#/config"><span class="glyphicon glyphicon-cog"></span> <p>Configurações</p></a></li>
+  <!-- permissions: manage_flows -->
+  <li nav-item
+      ng-show="flowsEnabled && (hasPermission('flow_can_view_all_steps') || hasPermission('flow_can_delete_all_cases') || hasPermission('flow_can_delete_own_cases') || hasPermission('flow_can_execute_all_steps') || hasPermission('can_execute_step') || hasPermission('can_view_step'))">
+    <a ng-href="#/cases"><span class="glyphicon glyphicon-file"></span>
 
-      <li nav-item><a href="https://zeladoriaurbana.zendesk.com/hc/pt-br" target="_blank"><span class="glyphicon glyphicon-question-sign"></span> <p>Ajuda</p></a></li>
+      <p>Casos</p></a></li>
 
-      <li><a href="https://zeladoriaurbana.zendesk.com/hc/pt-br/requests/new" target="_blank"><span class="glyphicon glyphicon-flag"></span> <p>Suporte</p></a></li>
-    </ul>
+  <li nav-item
+      ng-show="hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only')">
+    <a ng-href="#/groups"><span class="ico-groups"></span>
+
+      <p>Grupos</p></a></li>
+
+  <li nav-item
+      ng-show="hasPermission('users_full_access') || hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only') || hasPermission('users_edit')">
+    <a ng-href="#/users"><span class="glyphicon glyphicon-user"></span>
+
+      <p>Usuários</p></a></li>
+
+  <li nav-item ng-show="hasPermission('manage_config')"><a ng-href="#/config"><span
+    class="glyphicon glyphicon-cog"></span>
+
+    <p>Configurações</p></a></li>
+
+  <li nav-item ng-show="hasPermission('business_reports_edit') || hasPermission('business_reports_view')"><a
+    ng-href="#/business-reports"><span class="glyphicon glyphicon-stats"></span>
+
+    <p>Relatórios</p></a></li>
+
+  <li nav-item><a href="https://zeladoriaurbana.zendesk.com/hc/pt-br" target="_blank"><span
+    class="glyphicon glyphicon-question-sign"></span>
+
+    <p>Ajuda</p></a></li>
+
+  <li><a href="https://zeladoriaurbana.zendesk.com/hc/pt-br/requests/new" target="_blank"><span
+    class="glyphicon glyphicon-flag"></span>
+
+    <p>Suporte</p></a></li>
+</ul>

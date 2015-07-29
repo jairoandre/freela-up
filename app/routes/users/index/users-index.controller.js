@@ -5,14 +5,14 @@ angular
     'KeyboardPosterComponentModule',
     'GenericInputComponentModule',
     'UsersDisableModalControllerModule',
-    'FilterGroupModalControllerModule'
+    'GroupSelectorModule'
   ])
 
-  .controller('UsersIndexController', function ($scope, $q, $stateParams, $modal, Restangular, groupsResponse) {
+  .controller('UsersIndexController', function ($scope, $q, $stateParams, $modal, Restangular, GroupSelectorService) {
     $scope.loading = true;
     $scope.loadingPagination = false;
 
-    var page = 1, perPage = 30, total, searchText = '', groupsIds = [];
+    var page = 1, perPage = 30, total, searchText = '';
 
     // sorting the tables
     $scope.sort = {
@@ -40,11 +40,11 @@ angular
 
     // Return right promise
     var generateUsersPromise = function() {
-      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups.id', sort: $scope.sort};
+      var options = {page: page, per_page: perPage, disabled: true, 'return_fields': 'id,name,disabled,email,phone,groups.id,groups.name', sort: $scope.sort};
 
-      if (groupsIds.length !== 0)
+      if ($scope.selectedGroups.length !== 0)
       {
-        options['groups'] = groupsIds.join();
+        options['groups'] = _.map($scope.selectedGroups, function(g) { return g.id; }).join();
       }
 
       if (searchText.length !== 0)
@@ -57,16 +57,13 @@ angular
       return Restangular.one('search').all('users').getList(options);
     };
 
-    // Get groups for filters
-    $scope.groups = {};
-    _.each(groupsResponse.data, function(group){
-      $scope.groups[group.id] = group;
-    });
+    // Group filter
+    $scope.selectedGroups = [];
 
     $scope.getGroupsExcerpt = function() {
-      switch(groupsIds.length) {
+      switch($scope.selectedGroups.length) {
         case 1:
-          return 'Grupo: ' + _.findWhere($scope.groups, { id: groupsIds[0] }).name;
+          return 'Grupo: ' + $scope.selectedGroups[0].name;
           break;
 
         case 0:
@@ -74,12 +71,15 @@ angular
           break;
 
         default:
-           return 'Grupo: ' + groupsIds.length + ' grupos selecionados';
+           return 'Grupo: ' + $scope.selectedGroups.length + ' grupos selecionados';
       }
     };
 
-    $scope.getGroupNameById = function(id){
-      return $scope.groups[id].name;
+    $scope.filterUsersByGroup = function () {
+      GroupSelectorService.open($scope.selectedGroups, true).then(function(selectedGroups){
+        $scope.selectedGroups = selectedGroups;
+        refresh();
+      });
     };
 
     // One every change of page or search, we create generate a new request based on current values
@@ -150,31 +150,6 @@ angular
 
       // reset pagination
       refresh();
-    };
-
-    $scope.filterUsersByGroup = function () {
-      $modal.open({
-        templateUrl: 'modals/users/filter-group/users-filter-group.template.html',
-        windowClass: 'filterCategoriesModal',
-        resolve: {
-          groups: function() {
-            return $scope.groups;
-          },
-
-          selectedGroups: function() {
-            return angular.copy(groupsIds);
-          },
-
-          applyFilter: function() {
-            return function(selectedGroupsIDs) {
-              groupsIds = selectedGroupsIDs;
-
-              refresh();
-            }
-          }
-        },
-        controller: 'FilterGroupModalController'
-      });
     };
 
     $scope.disableUser = function (user) {

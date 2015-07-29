@@ -1,6 +1,6 @@
 @import "compass/css3";
 
-.filterCategoriesModal, .filterStatusesModal, .filterAuthorModal {
+.groupSelectorModal, .filterCategoriesModal, .filterStatusesModal, .filterAuthorModal {
   .modal-dialog {
     width: 500px;
   }
@@ -156,7 +156,7 @@
   }
 }
 
-.filterCategoriesModal {
+.groupSelectorModal, .filterCategoriesModal {
   ul.fixed-height {
     height: 400px;
     overflow: auto;
@@ -355,11 +355,7 @@
   }
 }
 
-.filterPeriodModal {
-  .modal-dialog {
-    width: 530px;
-  }
-
+.periodSelectorModal {
   .modal-body {
     padding-top: 10px;
     padding: 0px;

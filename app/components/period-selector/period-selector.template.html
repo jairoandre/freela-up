@@ -1,10 +1,10 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h4 class="modal-title">Criado entre...</h4>
+  <h4 class="modal-title">Selecione o período</h4>
 </div>
 
 <div class="modal-body">
-  <div class="row tabs">
+  <div class="row tabs" ng-if="openEnded">
     <a href="" ng-click="period.tab = 'between'" class="tab col-xs-4" ng-class="{'active': period.tab == 'between'}"><p>Entre as datas</p></a>
     <a href="" ng-click="period.tab = 'from'" class="tab col-xs-4" ng-class="{'active': period.tab == 'from'}"><p>A partir da data</p></a>
     <a href="" ng-click="period.tab = 'to'" class="tab col-xs-4" ng-class="{'active': period.tab == 'to'}"><p>Até a data</p></a>
@@ -34,5 +34,6 @@
 </div>
 
 <div class="modal-footer">
-   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()">Criar filtro</button>
+   <span style="padding-top: 5px; color: red" class="pull-left" ng-if="!validRange()">O período inicial precisa ser menor ou igual ao período final.</span>
+   <button type="button" class="btn btn-info btn-custom btn-fat-custom" ng-click="save()" ng-disabled="!validRange()">Selecionar</button>
 </div>

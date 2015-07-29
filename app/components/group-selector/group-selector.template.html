@@ -1,6 +1,7 @@
+<div class="loading" ng-if="loading"></div>
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h4 class="modal-title">Filtrar usuários</h4>
+  <h4 class="modal-title">Selecione {{ multiple ? 'os grupos' : 'o grupo'}}</h4>
 </div>
 
 <div class="modal-body">
@@ -17,5 +18,5 @@
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-info btn-fat-custom" ng-click="confirm()" ng-disabled="selectedGroupsIDs.length < 1">Criar filtro</button>
+  <button type="button" class="btn btn-info btn-fat-custom" ng-click="confirm()" ng-disabled="selectedGroups.length < 1">Selecionar</button>
 </div>
