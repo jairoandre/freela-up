@@ -3,6 +3,7 @@
 angular
   .module('StyleResultsTableComponentModule', [])
   .directive('styleResultsTable', function ($timeout) {
+    var timeoutId = null;
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -13,7 +14,10 @@ angular
         changeMargin();
 
         scope.$watch('activeAdvancedFilters', function() {
-          $timeout(function() {
+          if (timeoutId) {
+            $timeout.cancel(timeoutId);
+          }
+          timeoutId = $timeout(function() {
             changeMargin();
           });
         }, true);
