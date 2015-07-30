@@ -19,7 +19,7 @@ angular
 
     //var page = 1, perPage = 15;
 
-    //$scope.loadingPagination = false;
+    $scope.loadingPagination = false;
     $scope.filtersHash = null;
     $scope.categories = {};
     $scope.categoriesStatuses = {};
@@ -51,30 +51,6 @@ angular
     };
 
     resetFilters();
-
-    // sorting the tables
-    $scope.sort = {
-      column: 'created_at',
-      descending: true
-    };
-
-    //$scope.changeSorting = function (column) {
-    //  var sort = $scope.sort;
-    //
-    //  if (sort.column === column) {
-    //    sort.descending = !sort.descending;
-    //  } else {
-    //    sort.column = column;
-    //    sort.descending = false;
-    //  }
-    //
-    //  ReportsItemsService.resetCache();
-    //  $scope.reload();
-    //};
-    //
-    //$scope.selectedCls = function (column) {
-    //  return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
-    //};
 
     // Advanced filters
     $scope.availableFilters = [
@@ -194,17 +170,17 @@ angular
         }
       }
 
-      //loadFilters();
+      loadFilters();
     }, true);
 
     // Return right promise
-    $scope.generateReportsFetchingOptions = function (page, perPage) {
+    $scope.generateReportsFetchingOptions = function () {
       var options = {};
 
-      if (!$scope.position) {
-        options.page = page;
-        options.per_page = perPage;
-      }
+      //if (!$scope.position) {
+      //  options.page = page || 1;
+      //  options.per_page = perPage || 15;
+      //}
 
       // if we searching, hit search/users
       if ($scope.searchText !== null) {
@@ -239,10 +215,10 @@ angular
         options.end_date = $scope.endDate; // jshint ignore:line
       }
 
-      if ($scope.sort.column !== '') {
-        options.sort = $scope.sort.column;
-        options.order = $scope.sort.descending ? 'desc' : 'asc';
-      }
+      //if ($scope.sort.column !== '') {
+      //  options.sort = $scope.sort.column;
+      //  options.order = $scope.sort.descending ? 'desc' : 'asc';
+      //}
 
       // map options
       if ($scope.selectedAreas.length === 0 && $scope.position !== null) {
@@ -340,13 +316,14 @@ angular
     //    $scope.loading = true;
     //  }
     //});
-    //
+
     //$scope.$on('reportsItemsFetched', function () {
     //  $scope.total = ReportsItemsService.total;
     //  $scope.loading = false;
     //});
 
-    //var loadFilters = $scope.reload = function (reloading) {
+    var loadFilters = $scope.reload = function (reloading) {
+      $scope.$broadcast('loadFilters', reloading);
     //  if (!isMap) {
     //    // reset pagination
     //    ReportsItemsService.resetCache();
@@ -370,7 +347,7 @@ angular
     //  } else {
     //    $scope.$broadcast('mapRefreshRequested', true);
     //  }
-    //};
+    };
     //
     //$scope.$on('reports:itemRemoved', function (reportId) {
     //  $scope.reload(true);
@@ -465,8 +442,7 @@ angular
     // Search function
     $scope.search = function (text) {
       $scope.searchText = text;
-
-      //loadFilters();
+      loadFilters();
     };
 
     $scope.share = function () {

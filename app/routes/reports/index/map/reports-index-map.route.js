@@ -1,6 +1,6 @@
 angular
   .module('ReportsIndexMapModule', [
-    //'ReportsIndexControllerModule',
+    'ReportsIndexMapControllerModule',
     'StyleMapComponentModule',
     'MapComponentModule'
   ])
@@ -13,12 +13,8 @@ angular
       views: {
         '': {
           templateUrl: 'routes/reports/index/map/reports-index-map.template.html',
-          controller: function() {
-            "use strict";
-            console.log('maps');
-          },
-          //controller: 'ReportsIndexController',
-          //controllerAs: 'ctrl',
+          controller: 'ReportsIndexMapController',
+          controllerAs: 'ctrlMap'
         }
       }
     });
