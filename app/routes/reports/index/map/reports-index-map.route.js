@@ -1,25 +1,24 @@
 angular
   .module('ReportsIndexMapModule', [
-    'ReportsIndexControllerModule',
+    //'ReportsIndexControllerModule',
     'StyleMapComponentModule',
     'MapComponentModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
 
-    $stateProvider.state('reports.list.map', {
+    $stateProvider.state('reports.index.map', {
       url: '/map',
 
       views: {
-        '@reports': {
+        '': {
           templateUrl: 'routes/reports/index/map/reports-index-map.template.html',
-          controller: 'ReportsIndexController',
-          controllerAs: 'ctrl',
-          resolve: {
-            'isMap': function() {
-              return true;
-            }
-          }
+          controller: function() {
+            "use strict";
+            console.log('maps');
+          },
+          //controller: 'ReportsIndexController',
+          //controllerAs: 'ctrl',
         }
       }
     });

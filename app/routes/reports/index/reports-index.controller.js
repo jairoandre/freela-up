@@ -10,21 +10,21 @@ angular
     'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
     $log.info('ReportsIndexController created.');
 
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
-    var page = 1, perPage = 15;
+    //var page = 1, perPage = 15;
 
-    $scope.loadingPagination = false;
+    //$scope.loadingPagination = false;
     $scope.filtersHash = null;
     $scope.categories = {};
     $scope.categoriesStatuses = {};
-    $scope.total = 0;
-    $scope.reports = [];
+    //$scope.total = 0;
+    //$scope.reports = [];
 
     // Basic filters
     var resetFilters = function () {
@@ -58,23 +58,23 @@ angular
       descending: true
     };
 
-    $scope.changeSorting = function (column) {
-      var sort = $scope.sort;
-
-      if (sort.column === column) {
-        sort.descending = !sort.descending;
-      } else {
-        sort.column = column;
-        sort.descending = false;
-      }
-
-      ReportsItemsService.resetCache();
-      $scope.reload();
-    };
-
-    $scope.selectedCls = function (column) {
-      return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
-    };
+    //$scope.changeSorting = function (column) {
+    //  var sort = $scope.sort;
+    //
+    //  if (sort.column === column) {
+    //    sort.descending = !sort.descending;
+    //  } else {
+    //    sort.column = column;
+    //    sort.descending = false;
+    //  }
+    //
+    //  ReportsItemsService.resetCache();
+    //  $scope.reload();
+    //};
+    //
+    //$scope.selectedCls = function (column) {
+    //  return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
+    //};
 
     // Advanced filters
     $scope.availableFilters = [
@@ -96,11 +96,11 @@ angular
 
     $scope.activeAdvancedFilters = [];
 
-    if (typeof $cookies.reportsFiltersHash !== 'undefined') {
+    if (angular.isDefined($cookies.reportsFiltersHash)) {
       $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
     }
 
-    if (typeof $location.search().filters !== 'undefined') {
+    if (angular.isDefined($location.search().filters)) {
       $scope.filtersHash = $location.search().filters;
       $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
     }
@@ -112,7 +112,7 @@ angular
     };
 
     // Entrypoint / Fires initial load
-    var $handleActiveAdvancedFilters = $scope.$watch('activeAdvancedFilters', function () {
+    $scope.$watch('activeAdvancedFilters', function () {
       resetFilters();
 
       // save filters into hash
@@ -194,11 +194,11 @@ angular
         }
       }
 
-      loadFilters();
+      //loadFilters();
     }, true);
 
     // Return right promise
-    $scope.generateReportsFetchingOptions = function () {
+    $scope.generateReportsFetchingOptions = function (page, perPage) {
       var options = {};
 
       if (!$scope.position) {
@@ -300,85 +300,85 @@ angular
       return options;
     };
 
-    // One every change of page or search, we create generate a new request based on current values
-    var getData = $scope.getData = function (paginate, mapOptions) {
-      if ($scope.loadingPagination === false) {
-        $scope.loadingPagination = true;
+    //// One every change of page or search, we create generate a new request based on current values
+    //var getData = $scope.getData = function (paginate, mapOptions) {
+    //  if ($scope.loadingPagination === false) {
+    //    $scope.loadingPagination = true;
+    //
+    //    if (typeof mapOptions !== 'undefined') {
+    //      $scope.position = mapOptions.position;
+    //      $scope.zoom = mapOptions.zoom;
+    //      $scope.clusterize = mapOptions.clusterize;
+    //    }
+    //
+    //    var fetchOptions = $scope.generateReportsFetchingOptions();
+    //
+    //    var promise = ReportsItemsService.fetchAll(fetchOptions);
+    //
+    //    promise.then(function (reports) {
+    //      page++;
+    //      $scope.reports = reports;
+    //
+    //      var lastPage = Math.ceil($scope.total / perPage);
+    //
+    //      if (page === (lastPage + 1)) {
+    //        $scope.loadingPagination = null;
+    //      }
+    //      else {
+    //        $scope.loadingPagination = false;
+    //      }
+    //
+    //      $scope.loading = false;
+    //    });
+    //
+    //    return promise;
+    //  }
+    //};
 
-        if (typeof mapOptions !== 'undefined') {
-          $scope.position = mapOptions.position;
-          $scope.zoom = mapOptions.zoom;
-          $scope.clusterize = mapOptions.clusterize;
-        }
+    //$scope.$on('reportsItemsFetching', function () {
+    //  if (isMap) {
+    //    $scope.loading = true;
+    //  }
+    //});
+    //
+    //$scope.$on('reportsItemsFetched', function () {
+    //  $scope.total = ReportsItemsService.total;
+    //  $scope.loading = false;
+    //});
 
-        var fetchOptions = $scope.generateReportsFetchingOptions();
-
-        var promise = ReportsItemsService.fetchAll(fetchOptions);
-
-        promise.then(function (reports) {
-          page++;
-          $scope.reports = reports;
-
-          var lastPage = Math.ceil($scope.total / perPage);
-
-          if (page === (lastPage + 1)) {
-            $scope.loadingPagination = null;
-          }
-          else {
-            $scope.loadingPagination = false;
-          }
-
-          $scope.loading = false;
-        });
-
-        return promise;
-      }
-    };
-
-    $scope.$on('reportsItemsFetching', function () {
-      if (isMap) {
-        $scope.loading = true;
-      }
-    });
-
-    $scope.$on('reportsItemsFetched', function () {
-      $scope.total = ReportsItemsService.total;
-      $scope.loading = false;
-    });
-
-    var loadFilters = $scope.reload = function (reloading) {
-      if (!isMap) {
-        // reset pagination
-        ReportsItemsService.resetCache();
-        page = 1;
-        $scope.loadingPagination = false;
-
-        if (reloading === true) {
-          $scope.reloading = true;
-        }
-
-        $scope.loadingContent = true;
-
-        getData().then(function (reports) {
-          $scope.loadingContent = false;
-          $scope.reports = reports;
-
-          if (reloading === true) {
-            $scope.reloading = false;
-          }
-        });
-      } else {
-        $scope.$broadcast('mapRefreshRequested', true);
-      }
-    };
-
-    $scope.$on('reports:itemRemoved', function (reportId) {
-      $scope.reload(true);
-    });
-
-    $scope.reloadMap = function () {
-      $rootScope.$emit('mapRefreshRequested');
-    };
+    //var loadFilters = $scope.reload = function (reloading) {
+    //  if (!isMap) {
+    //    // reset pagination
+    //    ReportsItemsService.resetCache();
+    //    page = 1;
+    //    $scope.loadingPagination = false;
+    //
+    //    if (reloading === true) {
+    //      $scope.reloading = true;
+    //    }
+    //
+    //    $scope.loadingContent = true;
+    //
+    //    getData().then(function (reports) {
+    //      $scope.loadingContent = false;
+    //      $scope.reports = reports;
+    //
+    //      if (reloading === true) {
+    //        $scope.reloading = false;
+    //      }
+    //    });
+    //  } else {
+    //    $scope.$broadcast('mapRefreshRequested', true);
+    //  }
+    //};
+    //
+    //$scope.$on('reports:itemRemoved', function (reportId) {
+    //  $scope.reload(true);
+    //});
+    //
+    //$scope.reloadMap = function () {
+    //  $rootScope.$emit('mapRefreshRequested');
+    //};
 
     $scope.removeFilter = function (filter) {
       $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
@@ -387,9 +387,9 @@ angular
     $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
 
-      if (isMap) {
-        $scope.$broadcast('mapRefreshRequested', true);
-      }
+      //if (isMap) {
+      //  $scope.$broadcast('mapRefreshRequested', true);
+      //}
     };
 
     $scope.loadFilter = function (status) {
@@ -422,33 +422,27 @@ angular
       }
 
       if (status === 'overdueOnly') {
-        var overdueFilter = {
+        $scope.activeAdvancedFilters.push({
           title: 'Atraso',
           type: 'overdueOnly',
           desc: 'Apenas relatos atrasados'
-        };
-
-        $scope.activeAdvancedFilters.push(overdueFilter);
+        });
       }
 
       if (status === 'assignedToMyGroup') {
-        var overdueFilter = {
+        $scope.activeAdvancedFilters.push({
           title: 'Relatos associados',
           type: 'assignedToMyGroup',
           desc: 'Ao meu grupo'
-        };
-
-        $scope.activeAdvancedFilters.push(overdueFilter);
+        });
       }
 
       if (status === 'assignedToMe') {
-        var overdueFilter = {
+        $scope.activeAdvancedFilters.push({
           title: 'Relatos associados',
           type: 'assignedToMe',
           desc: 'À mim'
-        };
-
-        $scope.activeAdvancedFilters.push(overdueFilter);
+        });
       }
 
       if (status === 'minimumNotificationNumber') {
@@ -472,85 +466,85 @@ angular
     $scope.search = function (text) {
       $scope.searchText = text;
 
-      loadFilters();
+      //loadFilters();
     };
 
     $scope.share = function () {
       AdvancedFilters.share();
     };
 
-    $scope.changeToMap = function () {
-      if ($scope.filtersHash !== null) {
-        $location.url('/reports/map?filters=' + $scope.filtersHash);
-      } else {
-        $location.url('/reports/map');
-      }
-    };
-
-    $scope.changeToList = function () {
-      if ($scope.filtersHash !== null) {
-        $location.url('/reports?filters=' + $scope.filtersHash);
-      } else {
-        $location.url('/reports');
-      }
-    };
-
-    $scope.deleteReport = function (report) {
-      $modal.open({
-        templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
-        windowClass: 'removeModal',
-        resolve: {
-          removeReportFromList: function () {
-            return function (report) {
-              $scope.total--;
-              $scope.reports.splice($scope.reports.indexOf(report), 1);
-            }
-          },
-
-          report: function () {
-            return report;
-          }
-        },
-        controller: 'ReportsDestroyModalController'
-      });
-    };
-
-    $scope.editReportStatus = function (report, category) {
-      $modal.open({
-        templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
-        windowClass: 'editStatusModal',
-        resolve: {
-          report: function () {
-            return report;
-          },
-
-          category: function () {
-            return category;
-          }
-        },
-        controller: 'ReportsEditStatusModalController'
-      });
-    };
-
-    $scope.openReport = function (report_id, event) {
-      if (!$rootScope.loading
-        && event.target.parentNode.tagName.toLowerCase() != 'a'
-        && event.target.tagName.toLowerCase() != 'a'
-      ) {
-        $state.go('reports.show', {id: report_id});
-      }
-    };
-
-    // we hide/show map debug
-    $rootScope.pageHasMap = isMap;
-
-    var $handleDestroy = $scope.$on('$destroy', function () {
-      $rootScope.pageHasMap = false;
-
-      // Remove watchers
-      $handleActiveAdvancedFilters();
-      $handleDestroy();
-
-      $log.info('ReportsIndexController destroyed.');
-    });
+    //$scope.changeToMap = function () {
+    //  if ($scope.filtersHash !== null) {
+    //    $location.url('/reports/map?filters=' + $scope.filtersHash);
+    //  } else {
+    //    $location.url('/reports/map');
+    //  }
+    //};
+    //
+    //$scope.changeToList = function () {
+    //  if ($scope.filtersHash !== null) {
+    //    $location.url('/reports?filters=' + $scope.filtersHash);
+    //  } else {
+    //    $location.url('/reports');
+    //  }
+    //};
+    //
+    //$scope.deleteReport = function (report) {
+    //  $modal.open({
+    //    templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
+    //    windowClass: 'removeModal',
+    //    resolve: {
+    //      removeReportFromList: function () {
+    //        return function (report) {
+    //          $scope.total--;
+    //          $scope.reports.splice($scope.reports.indexOf(report), 1);
+    //        }
+    //      },
+    //
+    //      report: function () {
+    //        return report;
+    //      }
+    //    },
+    //    controller: 'ReportsDestroyModalController'
+    //  });
+    //};
+    //
+    //$scope.editReportStatus = function (report, category) {
+    //  $modal.open({
+    //    templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
+    //    windowClass: 'editStatusModal',
+    //    resolve: {
+    //      report: function () {
+    //        return report;
+    //      },
+    //
+    //      category: function () {
+    //        return category;
+    //      }
+    //    },
+    //    controller: 'ReportsEditStatusModalController'
+    //  });
+    //};
+    //
+    //$scope.openReport = function (report_id, event) {
+    //  if (!$rootScope.loading
+    //    && event.target.parentNode.tagName.toLowerCase() != 'a'
+    //    && event.target.tagName.toLowerCase() != 'a'
+    //  ) {
+    //    $state.go('reports.show', {id: report_id});
+    //  }
+    //};
+    //
+    //// we hide/show map debug
+    //$rootScope.pageHasMap = isMap;
+    //
+    //var $handleDestroy = $scope.$on('$destroy', function () {
+    //  $rootScope.pageHasMap = false;
+    //
+    //  // Remove watchers
+    //  $handleActiveAdvancedFilters();
+    //  $handleDestroy();
+    //
+    //  $log.info('ReportsIndexController destroyed.');
+    //});
   });

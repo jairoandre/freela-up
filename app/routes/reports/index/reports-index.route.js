@@ -1,6 +1,7 @@
 angular
   .module('ReportsIndexModule', [
     'ReportsIndexControllerModule',
+    'ReportsIndexListModule',
     'ReportsIndexMapModule',
     'ReportsIndexNotificationsModule',
     'StyleResultsTableComponentModule'
@@ -8,19 +9,13 @@ angular
 
   .config(['$stateProvider', function($stateProvider) {
 
-    $stateProvider.state('reports.list', {
-      url: '',
-
+    $stateProvider.state('reports.index', {
+      abstract: true,
       views: {
         '': {
           templateUrl: 'routes/reports/index/reports-index.template.html',
           controller: 'ReportsIndexController',
-          controllerAs: 'ctrl',
-          resolve: {
-            'isMap': function() {
-              return false;
-            }
-          }
+          controllerAs: 'ctrl'
         }
       }
     });
