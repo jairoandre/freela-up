@@ -17,14 +17,10 @@ angular
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
-    //var page = 1, perPage = 15;
-
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
     $scope.categories = {};
     $scope.categoriesStatuses = {};
-    //$scope.total = 0;
-    //$scope.reports = [];
 
     // Basic filters
     var resetFilters = function () {
@@ -46,8 +42,6 @@ angular
       // map options
       $scope.position = null;
       $scope.selectedAreas = [];
-      $scope.zoom = null;
-      $scope.clusterize = null;
     };
 
     resetFilters();
@@ -237,13 +231,13 @@ angular
         }
       }
 
-      if ($scope.zoom !== null) {
-        options.zoom = $scope.zoom;
-      }
-
-      if ($scope.clusterize !== null) {
-        options.clusterize = true;
-      }
+      //if ($scope.zoom !== null) {
+      //  options.zoom = $scope.zoom;
+      //}
+      //
+      //if ($scope.clusterize !== null) {
+      //  options.clusterize = true;
+      //}
 
       if ($scope.overdueOnly !== null) {
         options.overdue = $scope.overdueOnly;
@@ -363,7 +357,7 @@ angular
 
     $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
-
+      $scope.$broadcast('resetFilters');
       //if (isMap) {
       //  $scope.$broadcast('mapRefreshRequested', true);
       //}
