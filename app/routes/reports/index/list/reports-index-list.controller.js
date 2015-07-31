@@ -45,7 +45,7 @@ angular
     };
 
     // One every change of page or search, we create generate a new request based on current values
-    var getData = $scope.getData = function (paginate) {
+    var getData = $scope.getData = function () {
       if ($scope.$parent.loadingPagination === false) {
         $scope.$parent.loadingPagination = true;
 
