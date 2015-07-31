@@ -14,42 +14,24 @@ angular
 
     $log.info('ReportsIndexMapController created.');
 
+    var page = 1, perPage = 15;
+
     $scope.reports = [];
-    $scope.position = null;
-    $scope.selectedAreas = [];
     $scope.zoom = null;
     $scope.clusterize = null;
 
-    // One every change of page or search, we create generate a new request based on current values
-    var getData = $scope.getData = function (paginate) {
+    $scope.generateReportsFetchingMapOptions = function() {
+      var fetchOptions = $scope.generateReportsFetchingOptions();
 
-      console.log('getData');
-
-      if ($scope.$parent.loadingPagination === false) {
-        $scope.$parent.loadingPagination = true;
-
-        var fetchOptions = $scope.generateReportsFetchingOptions();
-
-        var promise = ReportsItemsService.fetchAll(fetchOptions);
-
-        promise.then(function (reports) {
-          page++;
-          $scope.reports = reports;
-
-          var lastPage = Math.ceil($scope.total / perPage);
-
-          if (page === (lastPage + 1)) {
-            $scope.$parent.loadingPagination = null;
-          }
-          else {
-            $scope.$parent.loadingPagination = false;
-          }
-
-          $scope.$parent.loading = false;
-        });
-
-        return promise;
+      if ($scope.zoom !== null) {
+        fetchOptions.zoom = $scope.zoom;
       }
+
+      if ($scope.clusterize !== null) {
+        fetchOptions.clusterize = true;
+      }
+
+      return fetchOptions;
     };
 
     $scope.$on('reportsItemsFetching', function () {
@@ -65,6 +47,11 @@ angular
 
     $scope.$on('loadFilters', function (event, reloading) {
       console.log('loadFilters');
+      $scope.$broadcast('mapRefreshRequested', true);
+    });
+
+    $scope.$on('resetFilters', function (event, reloading) {
+      console.log('resetFilters');
       $scope.$broadcast('mapRefreshRequested', true);
     });
 
