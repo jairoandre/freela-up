@@ -15,7 +15,7 @@ angular
         '': {
           templateUrl: 'routes/reports/index/reports-index.template.html',
           controller: 'ReportsIndexController',
-          controllerAs: 'ctrl'
+          controllerAs: 'ctrlReportsIndex'
         }
       }
     });

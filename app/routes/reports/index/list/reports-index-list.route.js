@@ -12,7 +12,7 @@ angular
         '': {
           templateUrl: 'routes/reports/index/list/reports-index-list.template.html',
           controller: 'ReportsIndexListController',
-          controllerAs: 'ctrlList'
+          controllerAs: 'ctrlReportsList'
         }
       }
     });
