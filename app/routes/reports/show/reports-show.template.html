@@ -8,7 +8,7 @@
     </ul>
 
     <a href="" ng-click="print()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-print"></i></a>
-    <a href="" ng-click="showSendNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotificationsSendBtn">Notificações</i></a>
+    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotificationsBtn">Notificações</i></a>
 
   </div>
 
@@ -201,15 +201,15 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" id="report-notifications">
+    <div class="rounder_wrapper" id="report-notifications" ng-if="lastNotification">
       <div class="wrapper_title"><h1>Notificação emitida</h1></div>
 
-      {{ notifications }}
+      {{ lastNotification }}
 
       <div class="fields">
         <h5>Nome da notificação</h5>
         <p>
-          Notificação 1 <span class="label label-danger" ng-show="true">ATRASADO</span>
+          Notificação 1 <span class="label label-danger" ng-show="true">&nbsp;VENCIDO</span>
           <a href="" ng-click="showLeiaute()" class="btn btn-info btn-custom" style="float: right;"><i class="glyphicon glyphicon-search"></i>&nbsp;Visualizar</a>
         </p>
         <hr/>

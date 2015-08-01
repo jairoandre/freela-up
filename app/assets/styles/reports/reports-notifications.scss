@@ -1,4 +1,4 @@
-.reports-send-notifications-modal {
+.reports-notifications-modal {
   .modal-dialog {
     width: 910px;
   }
@@ -16,11 +16,7 @@
     width: 100px;
   }
 
-  .table-div {
-    max-height: 400px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+
 
 
   p {
@@ -48,6 +44,17 @@
   .ui-select-bootstrap .ui-select-search {
     height: 50px;
     padding: 6px 20px;
+  }
+
+  table tbody, table thead
+  {
+    display: block;
+  }
+
+  table tbody {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   thead {

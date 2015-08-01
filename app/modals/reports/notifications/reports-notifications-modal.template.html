@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()">&times;</button>
+  <h3 class="modal-title">Emitir notificação</h3>
+</div>
+
+<div class="modal-body">
+
+  <div class="table-div">
+    <table id="reports-nofitications-table" class="table custom_table items-listing-table">
+      <thead>
+      <tr>
+        <td width="30%">
+          <span>Tipo</span>
+        </td>
+        <td width="20%">
+          <span>Estado vinculado</span>
+        </td>
+        <td width="10%">
+          <span>Prazo total</span>
+        </td>
+        <td width="15%">
+          <span>Data de emissão</span>
+        </td>
+        <td width="15%">
+          <span>Prazo Restante</span>
+        </td>
+        <td width="10%"></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="notification in notifications | orderBy:'notification_type.order'" ng-click="openReport(report.id, $event)">
+        <td width="30%">
+          <a href="">
+            <span class="glyphicon glyphicon-search" title="Ordem: {{notification.notification_type.order}}"></span>
+          </a>&nbsp;&nbsp;<b>{{notification.notification_type.title }}</b>
+        </td>
+        <td width="20%" ng-if="notification.notification_type.reports_status_id">
+          <span class="status-color" style="background-color: {{statusesMap[notification.notification_type.reports_status_id].color}}">
+          </span>
+          &nbsp;{{statusesMap[notification.notification_type.reports_status_id].title}}
+        </td>
+        <td width="20%" ng-if="!notification.notification_type.reports_status_id">-</td>
+        <td width="10%">{{ notification.deadline_in_days ? (notification.deadline_in_days + ' dia' + (notification.deadline_in_days === 1 ? '' : 's')) : '-'}}</td>
+        <td width="15%">{{ notification.created_at ? (notification.created_at | date:'dd/MM/yy') : '-'}}</td>
+        <td width="15%">{{ notification.overdue_at ? 'Encerrado' : ((notification.days_to_deadline ? (notificaiton.days_to_deadline + ' dia' + (notification.days_to_deadline === 1 ? '' : 's')) : '-')) }}</td>
+        <td width="10%">
+          <button ng-click="send()" class="btn btn-info btn-custom" ng-if="notification.able_to_send">{{ notification.sent ? 'Reemitir' : 'Emitir' }}</button>
+          <button class="btn btn-info btn-custom" ng-if="!notification.sent && !notification.able_to_send" disabled="true">Emitir</button>
+        </td>
+        <td width="10%" class="reports-notification-emitted" ng-if="notification.sent && !notification.able_to_send">
+          <b><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Emitida</b>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <a href="" ng-click="restart()" style="float: left; font-weight: bold">Reiniciar</a>
+</div>

@@ -15,12 +15,14 @@ angular
     'MapNewReportComponentModule',
     'NextFieldOnEnterComponentModule',
     'duScroll',
-    'ReportsSendNotificationsModalControllerModule'
+    'ReportsSendNotificationsModalControllerModule',
+    'ReportsCategoriesNotificationsServiceModule',
+    'ReportsCategoriesServiceModule'
   ])
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService) {
 
     $log.info('ReportsShowController created.');
     $scope.$on('$destroy',function(){
@@ -426,50 +428,33 @@ angular
     // Notifications
     // Fetch notifications
 
-    $scope.showNotificationsSendBtn = $scope.report.category.notifications;
+    var showNotifications = $scope.showNotificationsBtn = $scope.report.category.notifications;
 
-    //TODO: Remover
-    $scope.showNotificationsSendBtn = true;
+    $scope.notifications = [];
 
-    /*
-    Restangular.one('reports', $scope.report.id).all('notifications').getList({
-      return_fields: 'id,user,reports_notification_type_id,deadline_in_days,content,created_at,updated_at'
-    }).then(function(response){
-      var notifications = $scope.notifications = response.data;
-      if(notifications.length > 0)
-      $scope.lastNotification = notifications[0];
-    });
-    */
-    $scope.showSendNotificationsModal = function () {
+
+    if(showNotifications){
+      //ReportsCategoriesNotificationsService.getLastNotification($scope.report.id, $scope.report.category.id).then(function(r){
+      //   $scope.lastNotification = r.data;
+      //});
+      ReportsCategoriesNotificationsService.getAvailableNotificationsForReport($scope.report.id, $scope.report.category.id).then(function(r){
+        $scope.notifications = r;
+        $log.info($scope.notifications);
+      });
+    }
+
+    $scope.showNotificationsModal = function () {
 
       $modal.open({
-        templateUrl: 'modals/reports/notifications/reports-send-notifications.template.html',
-        windowClass: 'reports-send-notifications-modal',
+        templateUrl: 'modals/reports/notifications/reports-notifications-modal.template.html',
+        windowClass: 'reports-notifications-modal',
         backdrop: 'static',
         resolve: {
           report: function() {
             return $scope.report;
           },
           notifications: function() {
-            var returnFields = [
-              "id",
-              "user_id",
-              "reports_item_id",
-              "reports_notification_type_id",
-              "deadline_in_days",
-              "content", // Conteúdo em HTML do leiaute com os placeholder já substituídos
-              "sent",
-              "can_send_again",
-              "days_to_deadline",
-              "created_at",
-              "updated_at",
-              "overdue_at"];
-
-            return Restangular
-              .one('reports')
-              .one('items',$scope.report.id)
-              .all('notifications')
-              .getList({return_fields: returnFields.join() });
+            return $scope.notifications;
           }
         },
         controller: 'ReportsSendNotificationsModalController'
