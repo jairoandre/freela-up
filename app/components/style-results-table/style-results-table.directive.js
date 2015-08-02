@@ -6,6 +6,7 @@ angular
     var timeoutId = null;
     return {
       restrict: 'A',
+      priority: 0,
       link: function postLink(scope, element) {
         var changeMargin = function() {
           element.find('.custom_table').css({'margin-top': element.find('.advancedSearch').height()});
@@ -19,7 +20,7 @@ angular
           }
           timeoutId = $timeout(function() {
             changeMargin();
-          });
+          },0);
         }, true);
       }
     };
