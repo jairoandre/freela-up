@@ -26,7 +26,6 @@ angular
     });
 
     var configureCkEditor = function () {
-      $scope.loadingCkeditorScript = false;
       $scope.ckeditorOptions = {
         skin: 'bootstrapck',
         language: 'pt-br',
@@ -53,6 +52,9 @@ angular
         ],
         removeButtons: 'Maximize,Image'
       };
+
+      $timeout(function(){$scope.loadingCkeditorScript = false},2000);
+
     }
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function(){
