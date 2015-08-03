@@ -11,7 +11,7 @@ angular
       views: {
         '': {
           templateUrl: 'routes/reports/index/notifications/reports-index-notifications.template.html',
-          controller: 'ReportsIndexController',
+          controller: 'ReportsIndexNotificationsController',
           controllerAs: 'ctrlReportsNotifications'
         }
       }

@@ -26,15 +26,63 @@ angular
 
         var fetchOptions = $scope.generateReportsFetchingOptions();
 
-        if ($scope.sort.column !== '') {
-          fetchOptions.sort = $scope.sort.column;
-          fetchOptions.order = $scope.sort.descending ? 'desc' : 'asc';
-        }
-
         fetchOptions.page = +page || 1;
         fetchOptions.per_page = +perPage || 15;
 
         //var promise = ReportsItemsService.fetchAll(fetchOptions);
+        var promise = (function() {
+          var defered = $q.defer();
+          defered.resolve([
+            {
+              protocol: 1,
+              title: "Nome da Notificação",
+              address: "Logradouro",
+              overdue_at: new Date(),
+              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
+              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
+            },{
+              protocol: 2,
+              title: "Nome da Notificação",
+              address: "Logradouro",
+              overdue_at: new Date(),
+              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
+              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
+            },{
+              protocol: 3,
+              title: "Nome da Notificação",
+              address: "Logradouro",
+              overdue_at: new Date(),
+              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
+              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
+            },{
+              protocol: 4,
+              title: "Nome da Notificação",
+              address: "Logradouro",
+              overdue_at: new Date(),
+              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
+              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
+            },{
+              protocol: 5,
+              title: "Nome da Notificação",
+              address: "Logradouro",
+              overdue_at: new Date(),
+              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
+              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
+              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
+            }
+          ]);
+
+          return defered.promise;
+        })();
 
         promise.then(function (reports) {
           page++;
