@@ -38,23 +38,19 @@ angular
     };
 
     $scope.$on('reportsItemsFetching', function () {
-      console.log('reportsItemsFetching');
       $scope.$parent.loading = true;
     });
 
     $scope.$on('reportsItemsFetched', function () {
-      console.log('reportsItemsFetched');
       $scope.$parent.total = ReportsItemsService.total;
       $scope.$parent.loading = false;
     });
 
     $scope.$on('loadFilters', function (event, reloading) {
-      console.log('loadFilters');
       $scope.$broadcast('mapRefreshRequested', true);
     });
 
     $scope.$on('resetFilters', function (event, reloading) {
-      console.log('resetFilters');
       $scope.$broadcast('mapRefreshRequested', true);
     });
 
