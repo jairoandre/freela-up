@@ -171,11 +171,6 @@ angular
     $scope.generateReportsFetchingOptions = function () {
       var options = {};
 
-      //if (!$scope.position) {
-      //  options.page = page || 1;
-      //  options.per_page = perPage || 15;
-      //}
-
       // if we searching, hit search/users
       if ($scope.searchText !== null) {
         options.query = $scope.searchText;
@@ -209,11 +204,6 @@ angular
         options.end_date = $scope.endDate; // jshint ignore:line
       }
 
-      //if ($scope.sort.column !== '') {
-      //  options.sort = $scope.sort.column;
-      //  options.order = $scope.sort.descending ? 'desc' : 'asc';
-      //}
-
       // map options
       if ($scope.selectedAreas.length === 0 && $scope.position !== null) {
         options['position[latitude]'] = $scope.position.latitude;
@@ -230,14 +220,6 @@ angular
           options[disKey] = $scope.selectedAreas[i].distance;
         }
       }
-
-      //if ($scope.zoom !== null) {
-      //  options.zoom = $scope.zoom;
-      //}
-      //
-      //if ($scope.clusterize !== null) {
-      //  options.clusterize = true;
-      //}
 
       if ($scope.overdueOnly !== null) {
         options.overdue = $scope.overdueOnly;
@@ -270,86 +252,9 @@ angular
       return options;
     };
 
-    //// One every change of page or search, we create generate a new request based on current values
-    //var getData = $scope.getData = function (paginate, mapOptions) {
-    //  if ($scope.loadingPagination === false) {
-    //    $scope.loadingPagination = true;
-    //
-    //    if (typeof mapOptions !== 'undefined') {
-    //      $scope.position = mapOptions.position;
-    //      $scope.zoom = mapOptions.zoom;
-    //      $scope.clusterize = mapOptions.clusterize;
-    //    }
-    //
-    //    var fetchOptions = $scope.generateReportsFetchingOptions();
-    //
-    //    var promise = ReportsItemsService.fetchAll(fetchOptions);
-    //
-    //    promise.then(function (reports) {
-    //      page++;
-    //      $scope.reports = reports;
-    //
-    //      var lastPage = Math.ceil($scope.total / perPage);
-    //
-    //      if (page === (lastPage + 1)) {
-    //        $scope.loadingPagination = null;
-    //      }
-    //      else {
-    //        $scope.loadingPagination = false;
-    //      }
-    //
-    //      $scope.loading = false;
-    //    });
-    //
-    //    return promise;
-    //  }
-    //};
-
-    //$scope.$on('reportsItemsFetching', function () {
-    //  if (isMap) {
-    //    $scope.loading = true;
-    //  }
-    //});
-
-    //$scope.$on('reportsItemsFetched', function () {
-    //  $scope.total = ReportsItemsService.total;
-    //  $scope.loading = false;
-    //});
-
     var loadFilters = $scope.reload = function (reloading) {
       $scope.$broadcast('loadFilters', reloading);
-    //  if (!isMap) {
-    //    // reset pagination
-    //    ReportsItemsService.resetCache();
-    //    page = 1;
-    //    $scope.loadingPagination = false;
-    //
-    //    if (reloading === true) {
-    //      $scope.reloading = true;
-    //    }
-    //
-    //    $scope.loadingContent = true;
-    //
-    //    getData().then(function (reports) {
-    //      $scope.loadingContent = false;
-    //      $scope.reports = reports;
-    //
-    //      if (reloading === true) {
-    //        $scope.reloading = false;
-    //      }
-    //    });
-    //  } else {
-    //    $scope.$broadcast('mapRefreshRequested', true);
-    //  }
     };
-    //
-    //$scope.$on('reports:itemRemoved', function (reportId) {
-    //  $scope.reload(true);
-    //});
-    //
-    //$scope.reloadMap = function () {
-    //  $rootScope.$emit('mapRefreshRequested');
-    //};
 
     $scope.removeFilter = function (filter) {
       $scope.activeAdvancedFilters.splice($scope.activeAdvancedFilters.indexOf(filter), 1);
@@ -358,9 +263,6 @@ angular
     $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
       $scope.$broadcast('resetFilters');
-      //if (isMap) {
-      //  $scope.$broadcast('mapRefreshRequested', true);
-      //}
     };
 
     $scope.loadFilter = function (status) {
@@ -443,78 +345,7 @@ angular
       AdvancedFilters.share();
     };
 
-    //$scope.changeToMap = function () {
-    //  if ($scope.filtersHash !== null) {
-    //    $location.url('/reports/map?filters=' + $scope.filtersHash);
-    //  } else {
-    //    $location.url('/reports/map');
-    //  }
-    //};
-    //
-    //$scope.changeToList = function () {
-    //  if ($scope.filtersHash !== null) {
-    //    $location.url('/reports?filters=' + $scope.filtersHash);
-    //  } else {
-    //    $location.url('/reports');
-    //  }
-    //};
-    //
-    //$scope.deleteReport = function (report) {
-    //  $modal.open({
-    //    templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
-    //    windowClass: 'removeModal',
-    //    resolve: {
-    //      removeReportFromList: function () {
-    //        return function (report) {
-    //          $scope.total--;
-    //          $scope.reports.splice($scope.reports.indexOf(report), 1);
-    //        }
-    //      },
-    //
-    //      report: function () {
-    //        return report;
-    //      }
-    //    },
-    //    controller: 'ReportsDestroyModalController'
-    //  });
-    //};
-    //
-    //$scope.editReportStatus = function (report, category) {
-    //  $modal.open({
-    //    templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
-    //    windowClass: 'editStatusModal',
-    //    resolve: {
-    //      report: function () {
-    //        return report;
-    //      },
-    //
-    //      category: function () {
-    //        return category;
-    //      }
-    //    },
-    //    controller: 'ReportsEditStatusModalController'
-    //  });
-    //};
-    //
-    //$scope.openReport = function (report_id, event) {
-    //  if (!$rootScope.loading
-    //    && event.target.parentNode.tagName.toLowerCase() != 'a'
-    //    && event.target.tagName.toLowerCase() != 'a'
-    //  ) {
-    //    $state.go('reports.show', {id: report_id});
-    //  }
-    //};
-    //
-    //// we hide/show map debug
-    //$rootScope.pageHasMap = isMap;
-    //
-    //var $handleDestroy = $scope.$on('$destroy', function () {
-    //  $rootScope.pageHasMap = false;
-    //
-    //  // Remove watchers
-    //  $handleActiveAdvancedFilters();
-    //  $handleDestroy();
-    //
-    //  $log.info('ReportsIndexController destroyed.');
-    //});
+    var $handleDestroy = $scope.$on('$destroy', function () {
+      $log.info('ReportsIndexController destroyed.');
+    });
   });
