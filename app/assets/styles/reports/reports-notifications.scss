@@ -1,6 +1,6 @@
 .reports-notifications-modal {
   .modal-dialog {
-    width: 910px;
+    width: 905px;
   }
 
   .modal-header, .modal-body, .modal-footer {
@@ -13,11 +13,8 @@
   }
 
   .btn-custom {
-    width: 100px;
+    width: 120px;
   }
-
-
-
 
   p {
     margin: 0px;
@@ -68,13 +65,31 @@
   tr {
     td {
       vertical-align: middle !important;
+
     }
-    td:first-child{
-      padding-left:30px;
+
+    td.type-cell {
+      width: 250px;
+      padding-left: 30px;
     }
-    td:last-child{
-      padding-right:30px;
+
+    td.status-cell {
+      width: 150px;
     }
+
+    td.overdue-cell {
+      width: 100px;
+    }
+
+    td.date-cell {
+      width: 110px;
+    }
+
+    td.button-cell {
+      width: 150px;
+      padding-right: 30px;
+    }
+
 
   }
 
@@ -87,8 +102,8 @@
 
   .reports-notification-emitted {
     opacity: 0.5;
-    padding-top: 14px;
-    padding-bottom: 14px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
   .modal-title {

@@ -1,8 +1,9 @@
 'use strict';
 
 /**
- * Provides an API client for the reports categories from ZUP API
+ * Provides an API client for the reports notifications from ZUP API
  * @module ReportsCategoriesService
+ * @author Jairo André (jairo.andre@gmail.com)
  */
 angular
   .module('ReportsCategoriesNotificationsServiceModule', [])
@@ -17,63 +18,55 @@ angular
       self.reportNotificationTypes = {};
 
       self.cleanCache = function () {
+        $log.info('Cleaning notification cache.')
         self.notificationTypesMap = {};
+        self.reportNotificationTypes = {};
       }
+
+      var notificationReturnFields = [
+        "id",
+        "user_id",
+        "reports_item_id",
+        "reports_notification_type_id",
+        "deadline_in_days",
+        "content",
+        "sent",
+        "able_to_send",
+        "days_to_deadline",
+        "created_at",
+        "updated_at",
+        "overdue_at"
+      ];
 
       self.getLastNotification = function(reportId, categoryId) {
 
-        var returnFields = [
-          "id",
-          "user_id",
-          "reports_item_id",
-          "reports_notification_type_id",
-          "deadline_in_days",
-          "content",
-          "sent",
-          "able_to_send",
-          "days_to_deadline",
-          "created_at",
-          "updated_at",
-          "overdue_at"
-        ];
+        $log.info('Retrieving last notification for report [id=' + reportId + ']');
 
         return Restangular
           .one('reports')
           .one('categories', categoryId)
           .one('items', reportId)
           .one('notifications')
-          .one('last').customGET(null, {return_fields : returnFields.join()});
+          .customGET('last', {return_fields : notificationReturnFields.join()});
 
       };
 
       self.getAvailableNotificationsForReport = function (reportId, categoryId) {
-
-        var returnFields = [
-          "id",
-          "user_id",
-          "reports_item_id",
-          "reports_notification_type_id",
-          "deadline_in_days",
-          "content",
-          "sent",
-          "able_to_send",
-          "days_to_deadline",
-          "created_at",
-          "updated_at",
-          "overdue_at"
-        ];
+        $log.info('Retrieving notifications for report [id=' + reportId + ']');
 
         var deferred = $q.defer();
 
         if (self.reportNotificationTypes[reportId]) {
+          $log.info('Notification info from cache.');
           deferred.resolve(self.reportNotificationTypes[reportId]);
         } else {
           Restangular
             .one('reports')
             .one('categories', categoryId)
             .one('items', reportId)
-            .getList('notifications',{return_fields : returnFields.join()})
+            .getList('notifications',{return_fields : notificationReturnFields.join()})
             .then(function(r){
+              $log.info('Notification info from rest.');
               var array = r.data;
               var onlyActives = [];
               var j = 0;
@@ -89,53 +82,15 @@ angular
         return deferred.promise;
       };
 
-      self.getNotificationTypesArrayForCategory = function (categoryId) {
-
-        var deferred = $q.defer();
-
-        if (self.notificationTypesMap[categoryId]) {
-          deferred.resolve(self.notificationTypesMap[categoryId]);
-        } else {
-          Restangular.one('reports')
-            .one('categories', categoryId)
-            .all('notification_types')
-            .getList({return_fields: returnFields.join()})
-            .then(function (r) {
-              self.notificationTypesMap[categoryId] = r.data;
-              deferred.resolve(r.data);
-            }, function (r) {
-              deferred.reject(r);
-            });
-        }
-
-        return deferred.promise;
-
-      };
-
-      self.saveNotificationType = function (categoryId, notificationType) {
+      self.sendNotification = function(reportId, categoryId, notificationType){
+        $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationType.id + ']');
         return Restangular
           .one('reports')
           .one('categories', categoryId)
-          .withHttpConfig({treatingErrors: true})
-          .post('notification_types', notificationType);
+          .one('items', reportId)
+          .withHttpConfig({treatingErrors: false})
+          .post('notifications',{notification_type_id: notificationType.id, deadline_in_days: notificationType.default_deadline_in_days });
       };
-
-      self.updateNotificationType = function (categoryId, notificationType) {
-        return Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .one('notification_types', notificationType.id)
-          .withHttpConfig({treatingErrors: true})
-          .customPUT(notificationType);
-      };
-
-      self.deleteNotificationType = function (categoryId, notificationType) {
-        return Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .one('notification_types', notificationType.id)
-          .remove();
-      }
 
     }
 

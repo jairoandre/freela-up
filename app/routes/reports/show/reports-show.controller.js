@@ -31,7 +31,9 @@ angular
 
 
     $scope.report = reportResponse.data;
-    $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
+    if($scope.report.status){
+      $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
+    }
     $scope.categoryData = $scope.report.category;
     $scope.images = [];
     $scope.lat = $scope.report.position.latitude; // Please fix this mess whenever possible #TODO
@@ -430,17 +432,10 @@ angular
 
     var showNotifications = $scope.showNotificationsBtn = $scope.report.category.notifications;
 
-    $scope.notifications = [];
-
-
     if(showNotifications){
       //ReportsCategoriesNotificationsService.getLastNotification($scope.report.id, $scope.report.category.id).then(function(r){
       //   $scope.lastNotification = r.data;
       //});
-      ReportsCategoriesNotificationsService.getAvailableNotificationsForReport($scope.report.id, $scope.report.category.id).then(function(r){
-        $scope.notifications = r;
-        $log.info($scope.notifications);
-      });
     }
 
     $scope.showNotificationsModal = function () {
@@ -454,7 +449,10 @@ angular
             return $scope.report;
           },
           notifications: function() {
-            return $scope.notifications;
+            return ReportsCategoriesNotificationsService.getAvailableNotificationsForReport($scope.report.id, $scope.report.category.id);
+          },
+          parentScope: function() {
+            return $scope;
           }
         },
         controller: 'ReportsSendNotificationsModalController'
