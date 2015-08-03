@@ -44,6 +44,35 @@ angular
       return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
     };
 
+    $scope.openReport = function (report_id, event) {
+      if (!$rootScope.loading
+        && event.target.parentNode.tagName.toLowerCase() != 'a'
+        && event.target.tagName.toLowerCase() != 'a'
+      ) {
+        $state.go('reports.show', {id: report_id});
+      }
+    };
+
+    $scope.deleteReport = function (report) {
+      $modal.open({
+        templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
+        windowClass: 'removeModal',
+        resolve: {
+          removeReportFromList: function () {
+            return function (report) {
+              $scope.$parent.total--;
+              $scope.reports.splice($scope.reports.indexOf(report), 1);
+            }
+          },
+
+          report: function () {
+            return report;
+          }
+        },
+        controller: 'ReportsDestroyModalController'
+      });
+    };
+
     // One every change of page or search, we create generate a new request based on current values
     var getData = $scope.getData = function () {
       if ($scope.$parent.loadingPagination === false) {
@@ -56,8 +85,8 @@ angular
           fetchOptions.order = $scope.sort.descending ? 'desc' : 'asc';
         }
 
-        fetchOptions.page = page || 1;
-        fetchOptions.per_page = perPage || 15;
+        fetchOptions.page = +page || 1;
+        fetchOptions.per_page = +perPage || 15;
 
         var promise = ReportsItemsService.fetchAll(fetchOptions);
 

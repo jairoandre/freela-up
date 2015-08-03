@@ -20,6 +20,9 @@ angular
     $scope.zoom = null;
     $scope.clusterize = null;
 
+    // we hide/show map debug
+    $rootScope.pageHasMap = true;
+
     $scope.generateReportsFetchingMapOptions = function() {
       var fetchOptions = $scope.generateReportsFetchingOptions();
 
@@ -56,6 +59,8 @@ angular
     });
 
     $scope.$on('$destroy', function () {
+      $rootScope.pageHasMap = false;
+
       $log.info('ReportsIndexMapController destroyed.');
     });
   });
