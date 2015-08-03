@@ -1,7 +1,6 @@
 angular
   .module('ReportsIndexNotificationsModule', [
-    //'ReportsIndexControllerModule',
-    'StyleResultsTableComponentModule'
+    'ReportsIndexNotificationsControllerModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
@@ -12,17 +11,8 @@ angular
       views: {
         '': {
           templateUrl: 'routes/reports/index/notifications/reports-index-notifications.template.html',
-          controller: function() {
-            "use strict";
-            console.log('notifications');
-          },
-          //controller: 'ReportsIndexController',
-          //controllerAs: 'ctrl',
-          //resolve: {
-          //  'isMap': function() {
-          //    return false;
-          //  }
-          //}
+          controller: 'ReportsIndexController',
+          controllerAs: 'ctrlReportsNotifications'
         }
       }
     });

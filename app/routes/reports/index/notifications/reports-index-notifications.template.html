@@ -1,3 +1,44 @@
-<h1>
-  NOTIFICATIONS
-</h1>
+<table id="reports-listing-table" class="table custom_table items-listing-table" infinite-scroll="getData(true)" infinite-scroll-distance="2" ng-class="{'advanced-filters-margin': advancedSearch == true}">
+  <thead>
+  <tr>
+    <td style="width: 30px">
+      <span>Protocolo</span><span class="arrow"></span>
+    </td>
+    <td width="20%">
+      <span>Nome da Notificação</span><span class="arrow"></span>
+    </td>
+    <td width="10%">
+      <span>Logradouro</span><span class="arrow"></span>
+    </td>
+    <td width="10%">
+      <span>Data da Emissão</span><span class="arrow"></span>
+    </td>
+    <td width="20%">
+      <span>Prazo Total</span><span class="arrow"></span>
+    </td>
+    <td class="sort-table">
+      <span>Prazo Restante</span><span class="arrow"></span>
+    </td>
+    <td width="150">
+      <span>Emitido Por</span><span class="arrow"></span>
+    </td>
+    <td width="150">
+      <span>Categoria</span><span class="arrow"></span>
+    </td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr ng-repeat="report in reports | toArray:false | orderBy:'order'">
+    <td>{{ report.protocol }} </td>
+    <td>{{ report.title }} </td>
+    <td>{{ report.address }} </td>
+    <td>{{ report.overdue_at }} </td>
+    <td>{{ report.default_deadline_in_days }} </td>
+    <td>{{ report.days_to_deadline }} </td>
+    <td>{{ report.user_id }} </td>
+    <td>{{ report.reports_category_id }} </td>
+  </tr>
+  </tbody>
+
+</table>
