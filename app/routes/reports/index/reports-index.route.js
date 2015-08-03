@@ -4,6 +4,7 @@ angular
     'ReportsIndexListModule',
     'ReportsIndexMapModule',
     'ReportsIndexNotificationsModule',
+    'MapComponentModule',
     'StyleResultsTableComponentModule'
   ])
 

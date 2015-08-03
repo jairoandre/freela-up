@@ -6,8 +6,7 @@ angular
     'OnFocusComponentModule',
     'OnBlurComponentModule',
     'AdvancedFiltersServiceModule',
-    'ReportsItemsServiceModule',
-    'angular-toArrayFilter'
+    'ReportsItemsServiceModule'
   ])
 
   .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {

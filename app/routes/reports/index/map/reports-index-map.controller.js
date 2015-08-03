@@ -5,12 +5,10 @@ angular
     'ReportsDestroyModalControllerModule',
     'OnFocusComponentModule',
     'OnBlurComponentModule',
-    'AdvancedFiltersServiceModule',
-    'ReportsItemsServiceModule',
-    'angular-toArrayFilter'
+    'ReportsItemsServiceModule'
   ])
 
-  .controller('ReportsIndexMapController', function ($rootScope, $scope, Restangular, $modal, $q, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
+  .controller('ReportsIndexMapController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
     $log.info('ReportsIndexMapController created.');
 
