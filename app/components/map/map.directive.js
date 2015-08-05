@@ -61,8 +61,9 @@ angular
               var nextItems = itemsAreReports ? response.reports : response.items;
 
               map.processMarkers(nextClusters, nextItems);
-
-              map.processMarkersCanvas(nextClusters, nextItems);
+              if (map.hasOwnProperty('processMarkersCanvas')) {
+                map.processMarkersCanvas(nextClusters, nextItems);
+              }
             }
           });
         };
@@ -104,8 +105,10 @@ angular
           boundsChanged();
         });
 
-        google.maps.event.addListener(map.getMap(), 'dragend', function() {
-          map.overlay.draw();
+        var listenerDragEnd = google.maps.event.addListener(map.getMap(), 'dragend', function() {
+          if (map.overlay && map.overlay.hasOwnProperty('draw')) {
+            map.overlay.draw();
+          }
         });
 
         scope.$on('mapRefreshRequested', function () {
@@ -114,6 +117,16 @@ angular
           scope.$watch('filterSelectedAreas', function() {
             map.processAreaFilters(scope.filterSelectedAreas);
           });
+        });
+
+        var $handleDestroy = scope.$on('$destroy', function() {
+          if (listenerDragEnd) {
+            google.maps.event.removeListener(listenerDragEnd);
+            listenerDragEnd = null;
+          }
+
+          $handleDestroy();
+          $handleDestroy = null;
         });
       }
   }
