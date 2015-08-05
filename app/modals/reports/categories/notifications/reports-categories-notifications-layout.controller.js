@@ -32,7 +32,7 @@ angular
         height: '27cm',
         resize_enabled: false,
         removePlugins: 'elementspath',
-        extraPlugins: 'sharedspace,tableresize,placeholder,base64image,font,imagepaste,image2',
+        extraPlugins: 'sharedspace,tableresize,zupplaceholder,base64image,font,imagepaste,image2',
         sharedSpaces: {top: 'ckeditor-toolbar'},
         toolbarGroups: [
           {name: 'clipboard', groups: ['clipboard', 'undo']},
