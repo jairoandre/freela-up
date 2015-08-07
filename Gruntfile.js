@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').load({ silent: true });
+require('dotenv').load({silent: true});
 
 module.exports = function (grunt) {
 
@@ -151,11 +151,22 @@ module.exports = function (grunt) {
     },
 
     // Automatically inject Bower components into the app
-    'bower-install': {
-      app: {
-        html: '<%= yeoman.app %>/index.html',
+    wiredep: {
+      target: {
+        src: '<%= yeoman.app %>/index.html'
+      },
+      options: {
+        directory: '<%= yeoman.app %>/bower_components',
         ignorePath: '<%= yeoman.app %>/',
-        exclude: ['bower_components/bootstrap/docs/assets/css/bootstrap.css']
+        exclude: [],
+        overrides: {
+          "bootstrap": {
+            "main": [
+              "dist/css/bootstrap.css",
+            ]
+          }
+        }
+
       }
     },
 
@@ -413,7 +424,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bower-install',
+      'wiredep',
       'ngconstant:angularLocal',
       'concurrent:server',
       'autoprefixer',
@@ -442,7 +453,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'ngconstant:angularBuild',
-    'bower-install',
+    'wiredep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

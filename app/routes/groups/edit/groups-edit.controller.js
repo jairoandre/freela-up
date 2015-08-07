@@ -12,6 +12,7 @@ angular
     $scope.flows = objectsResponse.data.flows;
     $scope.inventoriesCategories = objectsResponse.data.inventory_categories;
     $scope.reportsCategories = objectsResponse.data.reports_categories;
+    $scope.businessReports = objectsResponse.data.business_reports;
 
     $scope.newPermission = { type: null, objects: [], slugs: [] };
 
@@ -225,7 +226,23 @@ angular
             name: 'Enviar comentários ao munícipe',
             needsObject: true,
             tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
+          }
+        ]
+      },
+      {
+        type: 'business_report',
+        name: 'Relatórios',
+        permissionsNames: [
+          {
+            slug: 'business_reports_edit',
+            name: 'Gerenciar relatórios',
+            needsObject: false
           },
+          {
+            slug: 'business_reports_view',
+            name: 'Visualizar relatório específico',
+            needsObject: true
+          }
         ]
       }
     ];
@@ -389,7 +406,7 @@ angular
         break;
 
         default:
-          return $scope.newPermission.objects.length + ' categorias selecionadas';
+          return $scope.newPermission.objects.length + ' itens selecionados';
       }
     };
 
@@ -492,7 +509,8 @@ angular
         $scope.showPermissionsMenu = false;
         $scope.showObjectsMenu = false;
 
-        $scope.newPermission.type = permissionType.type;
+        if(permissionType)
+          $scope.newPermission.type = permissionType.type;
       });
     };
 
