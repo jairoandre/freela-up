@@ -2,7 +2,7 @@
 
 angular
   .module('zupPainelApp')
-  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', 'uiSelectConfig', '$tooltipProvider', '$provide', function($urlRouterProvider, RestangularProvider, ENV, uiSelectConfig, $tooltipProvider, $provide) {
+  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', 'uiSelectConfig', '$provide', function($urlRouterProvider, RestangularProvider, ENV, uiSelectConfig, $provide) {
     $urlRouterProvider.otherwise('/');
 
     RestangularProvider.setBaseUrl(ENV.apiEndpoint);
@@ -10,11 +10,6 @@ angular
 
     // ui-select config
     uiSelectConfig.theme = 'bootstrap';
-
-    // angular-bootstrap tooltip
-    $tooltipProvider.options({
-      appendToBody: true
-    });
 
     // translate bs-switch
     $.fn.bootstrapSwitch.defaults.onText = 'Sim';
