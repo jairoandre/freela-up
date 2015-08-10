@@ -98,7 +98,7 @@ angular
       var validCharts, chartsToCreate, chartsToUpdate, chartsToRemove, promises = [];
 
       validCharts = _.reject(report.charts, function (c) {
-        return !self.isValid(report) ? true : false;
+        return !self.isValid(report);
       });
 
       chartsToCreate = _.reject(validCharts, function (c) {
