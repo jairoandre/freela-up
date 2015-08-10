@@ -98,7 +98,7 @@ angular
       var validCharts, chartsToCreate, chartsToUpdate, chartsToRemove, promises = [];
 
       validCharts = _.reject(report.charts, function (c) {
-        return !self.isValid(report);
+        return !self.isChartValid(c);
       });
 
       chartsToCreate = _.reject(validCharts, function (c) {
@@ -117,6 +117,8 @@ angular
         promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts', chart.id).customPUT(normalizeChart(chart)));
       });
 
+      // If the chart is not present in the current version but it came from the API (stored at _original) then we
+      // should delete them
       if (report._original && report._original.charts.length > 0) {
         chartsToRemove = _.select(report._original.charts, function (c) {
           return !_.findWhere(report.charts, {id: c.id});
@@ -173,9 +175,16 @@ angular
      * @returns {bool}
      */
     self.isValid = function (report) {
-      return !!(report.title && report.title.length > 0 && report.charts.length > 0 && _.all(report.charts, function (c) {
-        return !!(c.title && c.categories.length > 0 && c.period.begin_date && c.period.end_date)
-      }));
+      return !!(report.title && report.title.length > 0 && report.charts.length > 0 && _.all(report.charts, self.isChartValid));
+    };
+
+    /**
+     * Returns true if the chart is valid
+     * @param {Object} chart
+     * @returns {bool}
+     */
+    self.isChartValid = function(chart){
+      return !!(chart.title && chart.categories.length > 0 && chart.period.begin_date && chart.period.end_date)
     };
 
     // Transforms a chart's attributes to the format used on the client-side
