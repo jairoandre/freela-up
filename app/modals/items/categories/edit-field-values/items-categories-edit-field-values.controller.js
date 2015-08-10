@@ -20,7 +20,7 @@ angular
     }
 
     $scope.toggleImport = function () {
-      $scope.value.importing = $scope.value.importing === true ? false : true;
+      $scope.value.importing = !!$scope.value.importing;
     };
 
     var verifyExistingOption = function (value) {
