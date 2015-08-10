@@ -98,11 +98,11 @@ angular
       var validCharts, chartsToCreate, chartsToUpdate, chartsToRemove, promises = [];
 
       validCharts = _.reject(report.charts, function (c) {
-        if (!self.isValid(report)) return true;
+        return !self.isValid(report) ? true : false;
       });
 
       chartsToCreate = _.reject(validCharts, function (c) {
-        if (c.id) return true;
+        return c.id ? true : false;
       });
 
       _.each(chartsToCreate, function (chart) {
@@ -110,19 +110,19 @@ angular
       });
 
       chartsToUpdate = _.select(validCharts, function (c) {
-        if (c.id) return true;
+        return c.id ? true : false;
       });
 
       _.each(chartsToUpdate, function (chart) {
         promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts', chart.id).customPUT(normalizeChart(chart)));
       });
 
-      if(report._original && report._original.charts.length > 0) {
-        chartsToRemove = _.select(report._original.charts, function(c){
-          return !_.findWhere(report.charts, { id: c.id });
+      if (report._original && report._original.charts.length > 0) {
+        chartsToRemove = _.select(report._original.charts, function (c) {
+          return !_.findWhere(report.charts, {id: c.id});
         });
 
-        _.each(chartsToRemove, function(c){
+        _.each(chartsToRemove, function (c) {
           promises.push(FullResponseRestangular.one('business_reports', report.id).one('charts', c.id).remove());
         });
       }
@@ -153,12 +153,12 @@ angular
         });
       } else {
         reportSavePromise = FullResponseRestangular.one('business_reports').customPOST(reportData);
-        reportSavePromise.then(function(response){
+        reportSavePromise.then(function (response) {
           var newReport = response.data;
           report.id = newReport.id;
-          $q.all(self.saveCharts(report)).then(function(){
+          $q.all(self.saveCharts(report)).then(function () {
             deferred.resolve(report);
-          }, function(response){
+          }, function (response) {
             deferred.reject(response);
           });
         })
@@ -172,13 +172,10 @@ angular
      * @param {Object} report
      * @returns {bool}
      */
-    self.isValid = function(report){
-        return !!(report.title &&
-                  report.title.length > 0 &&
-                  report.charts.length > 0 &&
-        _.all(report.charts, function(c){
-          return !!(c.title && c.categories.length > 0 && c.period.begin_date && c.period.end_date)
-        }));
+    self.isValid = function (report) {
+      return !!(report.title && report.title.length > 0 && report.charts.length > 0 && _.all(report.charts, function (c) {
+        return !!(c.title && c.categories.length > 0 && c.period.begin_date && c.period.end_date)
+      }));
     };
 
     // Transforms a chart's attributes to the format used on the client-side
@@ -186,7 +183,9 @@ angular
       return {
         id: chart.id,
         metric: chart.metric,
-        type: chart.chart_type.replace(/\w\S*/g, function(t){return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();}) + "Chart",
+        type: chart.chart_type.replace(/\w\S*/g, function (t) {
+          return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();
+        }) + "Chart",
         title: chart.title,
         processed: chart.processed,
         description: chart.description,
@@ -196,16 +195,22 @@ angular
         },
         categories: chart.categories,
         data: {
-          cols: _.map(chart.data.subtitles, function(k, v){ return { type: k, label: v}}),
-          rows: _.map(chart.data.content, function(row){
-            return { c: _.map(row, function(v){ return { v: v }; })}
+          cols: _.map((chart.data && chart.data.subtitles ? chart.data.subtitles : []), function (k, v) {
+            return {type: k, label: v}
+          }),
+          rows: _.map((chart.data && chart.data.content ? chart.data.content : []), function (row) {
+            return {
+              c: _.map(row, function (v) {
+                return {v: v};
+              })
+            }
           })
         }
       };
     };
 
     // Transforms a chart's attributes to the format used on the server
-    var normalizeChart = function(chart){
+    var normalizeChart = function (chart) {
       return {
         id: chart.id,
         metric: chart.metric,
@@ -222,7 +227,7 @@ angular
 
     // Transforms a report's attributes to the format used on the client-side
     var denormalizeReport = function (report) {
-      if(report.begin_date && report.end_date) {
+      if (report.begin_date && report.end_date) {
         report.begin_date = new Date(report.begin_date);
         report.end_date = new Date(report.end_date);
       }
@@ -235,7 +240,7 @@ angular
     };
 
     // Transforms a report's attributes to the format used on the server
-    var normalizeReport = function(report) {
+    var normalizeReport = function (report) {
       return {
         title: report.title,
         begin_date: report.begin_date,
