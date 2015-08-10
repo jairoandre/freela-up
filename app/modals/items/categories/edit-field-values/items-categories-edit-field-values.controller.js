@@ -26,7 +26,7 @@ angular
     var verifyExistingOption = function (value) {
       var options = _.findWhere($scope.field.field_options, {value: value});
 
-      return _.isUndefined(options) ? false : true;
+      return !angular.isUndefined(options);
     };
 
     var createField = function (values) {
