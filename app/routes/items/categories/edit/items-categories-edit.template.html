@@ -360,14 +360,14 @@
                         <div class="row">
                           <div class="col-xs-6">
                             <div class="form-group">
-                              <label>Min. de caracteres</label>
+                              <label>{{getLabelForMinField(field.kind)}}</label>
                               <input type="number" class="form-control" ng-model="field.minimum" />
                             </div>
                           </div>
 
                           <div class="col-xs-6">
                             <div class="form-group">
-                              <label>Máx. de caracteres</label>
+                              <label>{{getLabelForMaxField(field.kind)}}</label>
                               <input type="number" class="form-control" ng-model="field.maximum" />
                             </div>
                           </div>
