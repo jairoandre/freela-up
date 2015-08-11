@@ -6,6 +6,7 @@
 <div class="modal-body">
 
   <div class="table-div">
+    <alert ng-repeat="alert in alerts" type="alert.type" class="animate-if" close="closeAlert($index)" dismiss-on-timeout="2000" style="margin: 10px 20px 10px 20px;">{{alert.msg}}</alert>
     <table id="reports-nofitications-table" class="table custom_table items-listing-table">
       <thead>
       <tr>
@@ -43,24 +44,21 @@
           </div>
           <div ng-if="!notification.notification_type.reports_status_id">-</div>
         </td>
-        <td class="overdue-cell">{{ notification.deadline_in_days ? (notification.deadline_in_days + ' dia' +
-          (notification.deadline_in_days === 1 ? '' : 's')) : '-'}}
+        <td class="overdue-cell">
+          {{ getDefaultDeadlineInDaysTxt(notification) }}
         </td>
         <td class="date-cell">{{ notification.created_at ? (notification.created_at | date:'dd/MM/yy') : '-'}}</td>
         <td class="overdue-cell">
-          {{ notification.sent ?
-            (notification.days_to_deadline <= 0 ?
-              'Encerrado'
-              : notification.days_to_deadline + ' dia' + (notification.days_to_deadline === 1 ? '' : 's'))
-          : '-' }}
+          {{ getDaysToDeadlineTxt(notification) }}
         </td>
         <td class="button-cell">
           <button ng-click="send(notification)" class="btn btn-info btn-custom"
-                  ng-if="notification.able_to_send && !confirmSendMap[notification.notification_type.id]">{{ notification.sent ? 'Reemitir' :
-            'Emitir' }}
+                  ng-if="notification.able_to_send && !confirmSendMap[notification.notification_type.id]">
+            {{ notification.sent ? 'Reemitir' : 'Emitir' }}
           </button>
           <button ng-click="confirmSend(notification)" class="btn btn-info btn-custom"
-                  ng-if="notification.able_to_send && confirmSendMap[notification.notification_type.id]" style="background: #ff5e33"
+                  ng-if="notification.able_to_send && confirmSendMap[notification.notification_type.id]"
+                  style="background: #ff5e33"
                   promise-btn="notificationPromises[notification]">Confirmar
           </button>
           <button class="btn btn-info btn-custom" ng-if="!notification.sent && !notification.able_to_send"
@@ -77,5 +75,5 @@
 </div>
 
 <div class="modal-footer">
-  <a href="" ng-click="restart()" style="float: left; font-weight: bold">Reiniciar</a>
+  <a href="" ng-click="restartProcess()" style="float: left; font-weight: bold">Reiniciar</a>
 </div>

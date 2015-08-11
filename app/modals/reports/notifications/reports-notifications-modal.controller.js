@@ -12,11 +12,13 @@ angular
 
     window.scope = $scope;
 
-    $scope.notifications = notifications;
+    var init = function () {
+      $scope.notifications = notifications;
+      $scope.confirmSendMap = {};
+      $scope.notificationPromises = {};
+    };
 
-    $scope.confirmSendMap = {};
-
-    $scope.notificationPromises = {};
+    init();
 
     for (var i = 0, l = notifications.length; i < l; i++) {
       $scope.confirmSendMap[notifications[i]] = false;
@@ -30,6 +32,15 @@ angular
     for (var i = 0, l = statuses.length; i < l; i++) {
       var _s = statuses[i];
       $scope.statusesMap[_s.id] = _s;
+    }
+
+    var refreshNotifications = function () {
+      init();
+      ReportsCategoriesNotificationsService.cleanCache();
+      ReportsCategoriesNotificationsService.getAvailableNotificationsForReport(report.id, report.category.id)
+        .then(function (r) {
+          $scope.notifications = r;
+        });
     }
 
 
@@ -46,22 +57,63 @@ angular
      * @param notification
      */
     $scope.confirmSend = function (notification) {
-      $scope.notificationPromises[notification.notification_type.id] = ReportsCategoriesNotificationsService
+      var notificationId = notification.notification_type.id;
+      $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService
         .sendNotification(report.id, report.category.id, notification.notification_type)
         .then(function () {
-          $scope.confirmSendMap[notification.notification_type.id] = false;
-          notification.sent = true;
-          ReportsCategoriesNotificationsService.cleanCache();
-          ReportsCategoriesNotificationsService.getAvailableNotificationsForReport(report.id, report.category.id)
+          $scope.alerts.push({type: 'success', msg: 'Notificação emitida!'});
+          refreshNotifications();
+          ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id)
             .then(function (r) {
-              $scope.notifications = r;
+              parentScope.lastNotification = r;
             });
-          //ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id)
-          //  .then(function(r) {
-          //    parentScope.lastNotification = r.data;
-          //});
         });
+    };
+
+    var daysTxt = function (days) {
+      if (days > 1) {
+        return days + ' dias';
+      } else {
+        return days + ' dia';
+      }
     }
+
+    $scope.getDefaultDeadlineInDaysTxt = function (notification) {
+      var deadlineInDays = notification.deadline_in_days;
+      if (deadlineInDays) {
+        return daysTxt(deadlineInDays);
+      }
+      else {
+        return '-';
+      }
+    };
+
+
+    $scope.getDaysToDeadlineTxt = function (notification) {
+      if (notification.sent) {
+        var daysToDeadline = notification.days_to_deadline;
+        if (daysToDeadline <= 0) {
+          return 'Encerrado';
+        } else {
+          return daysTxt(daysToDeadline);
+        }
+      } else {
+        return '-';
+      }
+    };
+
+    $scope.alerts = [];
+
+    $scope.restartProcess = function () {
+      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function () {
+        $scope.alerts.push({type: 'success', msg: 'Processo reiniciado!'});
+        refreshNotifications();
+      });
+    };
+
+    $scope.closeAlert = function (index) {
+      $scope.alerts.splice(index, 1);
+    };
 
     $scope.close = function () {
       $modalInstance.close();
