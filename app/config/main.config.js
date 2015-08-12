@@ -74,13 +74,13 @@ angular
     // Return what is being requested
     Restangular.addResponseInterceptor(function (response, operation, what) {
       // we first check if what we want do exist
-      if (typeof response[what] !== 'undefined') {
+      if (angular.isDefined(response[what])) {
         return response[what];
       }
 
       // then return the first object in the response
       for (var key in response) {
-        if (typeof response[key] === 'object') {
+        if (angular.isObject(response[key])) {
           return response[key];
         }
       }
@@ -114,7 +114,7 @@ angular
     $http.defaults.transformResponse = [transformResponse];
 
     var errorInterceptor = function (response, deferred, responseHandler) {
-      if (response.status === 401 && (typeof response.config.treatingUnauthorizedErrors === 'undefined' || response.config.treatingUnauthorizedErrors === false)) {
+      if (response.status === 401 && (angular.isUndefined(response.config.treatingUnauthorizedErrors) || response.config.treatingUnauthorizedErrors === false)) {
         Error.show('expired_session');
       }
       else if (typeof response.config.treatingErrors === 'undefined' || response.config.treatingErrors === false) {
@@ -148,10 +148,16 @@ angular
     });
 
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-      if (error.status === 403) $window.location = '/';
-      else if (error.status === 404) $window.location = '/';
-      else if (error.status === 401) Error.show('expired_session');
-      else Error.show(error);
+      if (error.status === 403) {
+        $window.location = '/';
+      } else if (error.status === 404) {
+        $window.location = '/';
+      } else if (error.status === 401) {
+        Error.show('expired_session');
+      }
+      else {
+        Error.show(error);
+      }
     });
 
     // FIXME let's put this in a directive, please, Mr. Gabriel? :-D

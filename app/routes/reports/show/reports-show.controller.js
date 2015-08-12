@@ -308,8 +308,7 @@ angular
 
     // report's history
     $scope.refreshHistory = function () {
-      var options = {return_fields: 'changes,created_at,kind,user.id,user.name'},
-        selectedFilters = $scope.selectedFilters();
+      var options = {return_fields: 'changes,created_at,kind,user.id,user.name'}, selectedFilters = $scope.selectedFilters();
 
       if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
 
@@ -325,18 +324,16 @@ angular
 
         // Resolve o texto de estado para mensagem de atraso
         var nextStatus = false;
-        for (var i = 0; i < $scope.historyLogs.length; i++) {
+        for (var i = 0, l = $scope.historyLogs.length; i < l; i++) {
           var log = $scope.historyLogs[i];
           var kind = log.kind;
           if (kind === 'overdue') {
             nextStatus = true;
             continue;
           }
-          if (nextStatus) {
-            if (kind === 'status' || kind === 'creation') {
-              $scope.overdue_status = log.changes.new.title;
-              break;
-            }
+          if (nextStatus && (kind === 'status' || kind === 'creation')) {
+            $scope.overdue_status = log.changes.new.title;
+            break;
           }
         }
 
@@ -461,7 +458,7 @@ angular
     var showNotifications = $scope.showNotificationsBtn = $scope.report.category.notifications;
 
     if (showNotifications) {
-      ReportsCategoriesNotificationsService.getLastNotification($scope.report.id, $scope.report.category.id).then(function(r){
+      ReportsCategoriesNotificationsService.getLastNotification($scope.report.id, $scope.report.category.id).then(function (r) {
         $scope.lastNotification = r;
       });
     }
