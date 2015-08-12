@@ -59,10 +59,10 @@ angular
       $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.sendNotification(report.id, report.category.id, notification.notification_type);
       var lastNotificationPromise = ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id);
       $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
-        .then(function (responses) {
-          $scope.alerts.push({type: 'success', msg: 'Notificação emitida!'});
+        .then(function (r) {
+          $scope.addModalMessage('ok', 'Notificação ['+ notification.notification_type.title +'] emitida.', 'success');
           refreshNotifications();
-          parentScope.lastNotification = responses[1];
+          parentScope.lastNotification = r.data;
         });
     };
 
@@ -85,17 +85,12 @@ angular
       }
     };
 
-    $scope.alerts = [];
-
     $scope.restartProcess = function () {
       ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function () {
-        $scope.alerts.push({type: 'success', msg: 'Processo reiniciado!'});
+        $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
+        parentScope.lastNotification = undefined;
       });
-    };
-
-    $scope.closeAlert = function (index) {
-      $scope.alerts.splice(index, 1);
     };
 
     $scope.close = function () {

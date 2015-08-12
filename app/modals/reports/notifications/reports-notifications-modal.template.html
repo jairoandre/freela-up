@@ -5,8 +5,12 @@
 
 <div class="modal-body">
 
+  <div ng-show="showModalMessage" class="message-status fade-animation" ng-class="modalMessage.messageClass">
+    <p><span class="glyphicon" ng-class="glyphicons[modalMessage.icon]"></span> {{ modalMessage.text }}</p>
+  </div>
+
   <div class="table-div">
-    <alert ng-repeat="alert in alerts" type="alert.type" class="animate-if" close="closeAlert($index)" dismiss-on-timeout="2000" style="margin: 10px 20px 10px 20px;">{{alert.msg}}</alert>
+
     <table id="reports-nofitications-table" class="table custom_table items-listing-table">
       <thead>
       <tr>
