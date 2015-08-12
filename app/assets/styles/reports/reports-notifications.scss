@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .reports-notifications-modal {
   .modal-dialog {
     width: 905px;
@@ -7,7 +9,7 @@
     padding: 30px;
   }
 
-  .modal-body{
+  .modal-body {
     margin: -30px;
     font-size: 14px;
   }
@@ -17,7 +19,7 @@
   }
 
   p {
-    margin: 0px;
+    margin: 0;
   }
 
   .spacing {
@@ -35,7 +37,7 @@
   .ui-select-bootstrap .ui-select-match {
     height: 50px;
     padding: 6px 20px;
-    box-shadow: none;
+    @include box-shadow(none);
   }
 
   .ui-select-bootstrap .ui-select-search {
@@ -43,8 +45,7 @@
     padding: 6px 20px;
   }
 
-  table tbody, table thead
-  {
+  table tbody, table thead {
     display: block;
   }
 
@@ -55,8 +56,8 @@
   }
 
   thead {
-    tr{
-      td{
+    tr {
+      td {
         font-size: 12px;
       }
     }
@@ -65,7 +66,6 @@
   tr {
     td {
       vertical-align: middle !important;
-
     }
 
     td.type-cell {
@@ -90,18 +90,17 @@
       padding-right: 30px;
     }
 
-
   }
 
-  .status-color{
+  .status-color {
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 10px;
+    @include border-radius(10px);
   }
 
   .reports-notification-emitted {
-    opacity: 0.5;
+    @include opacity(.5);
     padding-top: 6px;
     padding-bottom: 6px;
   }

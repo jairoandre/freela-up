@@ -10,8 +10,6 @@ angular
       $log.info('ReportsSendNotificationsModalController destroyed.');
     });
 
-    window.scope = $scope;
-
     var init = function () {
       $scope.notifications = notifications;
       $scope.confirmSendMap = {};
@@ -58,45 +56,30 @@ angular
      */
     $scope.confirmSend = function (notification) {
       var notificationId = notification.notification_type.id;
-      $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService
-        .sendNotification(report.id, report.category.id, notification.notification_type)
-        .then(function () {
+      $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.sendNotification(report.id, report.category.id, notification.notification_type);
+      var lastNotificationPromise = ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id);
+      $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
+        .then(function (responses) {
           $scope.alerts.push({type: 'success', msg: 'Notificação emitida!'});
           refreshNotifications();
-          ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id)
-            .then(function (r) {
-              parentScope.lastNotification = r;
-            });
+          parentScope.lastNotification = responses[1];
         });
     };
 
     var daysTxt = function (days) {
-      if (days > 1) {
-        return days + ' dias';
-      } else {
-        return days + ' dia';
-      }
+      return days + ' dia' + (days > 1 ? 's' : '');
     }
 
     $scope.getDefaultDeadlineInDaysTxt = function (notification) {
       var deadlineInDays = notification.deadline_in_days;
-      if (deadlineInDays) {
-        return daysTxt(deadlineInDays);
-      }
-      else {
-        return '-';
-      }
+      return deadlineInDays ? daysTxt(deadlineInDays) : '-';
     };
 
 
     $scope.getDaysToDeadlineTxt = function (notification) {
       if (notification.sent) {
         var daysToDeadline = notification.days_to_deadline;
-        if (daysToDeadline <= 0) {
-          return 'Encerrado';
-        } else {
-          return daysTxt(daysToDeadline);
-        }
+        return daysToDeadline <= 0 ? 'Encerrado' : daysTxt(daysToDeadline);
       } else {
         return '-';
       }
