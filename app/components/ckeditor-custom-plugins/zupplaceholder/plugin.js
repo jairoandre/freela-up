@@ -34,8 +34,7 @@
     afterInit: function (a) {
       var b = /\[\[([^\[\]])+\]\]/g;
       a.dataProcessor.dataFilter.addRules({
-        text: function (f,
-                        d) {
+        text: function (f, d) {
           var e = d.parent && CKEDITOR.dtd[d.parent.name];
           if (!e || e.span)return f.replace(b, function (b) {
             var c = null, c = new CKEDITOR.htmlParser.element("span", {"class": "cke_placeholder"});
