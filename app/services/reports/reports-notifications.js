@@ -89,16 +89,29 @@ angular
         return deferred.promise;
       };
 
-      self.sendNotification = function (reportId, categoryId, notificationType) {
-        $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationType.id + ']');
+      self.sendNotification = function (reportId, categoryId, notificationTypeId) {
+        $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationTypeId + ']');
         return Restangular
           .one('reports')
           .one('categories', categoryId)
           .one('items', reportId)
           .withHttpConfig({treatingErrors: false})
           .post('notifications', {
-            notification_type_id: notificationType.id
+            notification_type_id: notificationTypeId
           });
+      };
+
+      self.resendNotification = function (reportId, categoryId, notificationId) {
+        // reports/categories/:categoryId/items/:reportId/notifications/:notificationId/resend
+        $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationId: ' + notificationId + ']');
+        return Restangular
+          .one('reports')
+          .one('categories', categoryId)
+          .one('items', reportId)
+          .one('notifications', notificationId)
+          .one('resend')
+          .withHttpConfig({treatingErrors: false})
+          .put();
       };
 
       self.restartProcess = function(reportId, categoryId) {

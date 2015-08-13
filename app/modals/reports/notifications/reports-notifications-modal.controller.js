@@ -56,11 +56,16 @@ angular
      */
     $scope.confirmSend = function (notification) {
       var notificationId = notification.notification_type.id;
-      $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.sendNotification(report.id, report.category.id, notification.notification_type);
+      if (notification.sent) {
+        $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.resendNotification(report.id, report.category.id, notification.id);
+      } else {
+        $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.sendNotification(report.id, report.category.id, notification.notification_type.id);
+      }
+
       var lastNotificationPromise = ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id);
       $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
         .then(function (r) {
-          $scope.addModalMessage('ok', 'Notificação ['+ notification.notification_type.title +'] emitida.', 'success');
+          $scope.addModalMessage('ok', 'Notificação [' + notification.notification_type.title + ']' +  (notification.sent ? ' reemitida': ' emitida'), 'success');
           refreshNotifications();
           parentScope.lastNotification = r.data;
         });
