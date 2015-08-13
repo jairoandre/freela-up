@@ -48,8 +48,7 @@
     "font_4.5.1": "http://download.ckeditor.com/font/releases/font_4.5.1.zip",
     "imagepaste_1.1.1": "http://download.ckeditor.com/imagepaste/releases/imagepaste_1.1.1.zip",
     "bootstrapck_1.0_0": "http://download.ckeditor.com/bootstrapck/releases/bootstrapck_1.0_0.zip",
-    "tableresize_4.5.1": "http://download.ckeditor.com/tableresize/releases/tableresize_4.5.1.zip",
-    "angular-print": "~0.3.7"
+    "tableresize_4.5.1": "http://download.ckeditor.com/tableresize/releases/tableresize_4.5.1.zip"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

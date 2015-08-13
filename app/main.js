@@ -22,7 +22,6 @@ angular
     'monospaced.elastic',
     'angularPromiseButtons',
     'ui.sortable',
-    'AngularPrint',
 
     // Core services
     'AuthServiceModule',

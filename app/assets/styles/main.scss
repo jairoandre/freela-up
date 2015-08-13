@@ -4574,30 +4574,3 @@ colorpicker-preview {
     @include animation-name(flipOutX);
   }
 }
-
-
-@page {
-  size: A4;
-  margin: 0;
-}
-
-@media print {
-
-  html, body {
-    width: 210mm;
-    height: 297mm;
-  }
-
-  body * {
-    position: absolute;
-    visibility: hidden;
-  }
-
-  #sidebar {
-    display: none;
-  }
-
-  .printSection, .printSection * {
-    position: relative;
-  }
-}

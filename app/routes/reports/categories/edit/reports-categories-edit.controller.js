@@ -154,7 +154,6 @@ angular
     }
 
     $scope.prepareToDisplayNotification = function (notificationType) {
-      $log.info(notificationType.layout);
       $scope.notificationContentToDisplay = notificationType.layout;
     }
 
