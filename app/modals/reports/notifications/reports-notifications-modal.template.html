@@ -1,12 +1,13 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
   <h3 class="modal-title">Emitir notificação</h3>
-  <div ng-show="showModalMessage" class="message-status fade-animation" ng-class="modalMessage.messageClass">
-    <p><span class="glyphicon" ng-class="glyphicons[modalMessage.icon]"></span> {{ modalMessage.text }}</p>
-  </div>
 </div>
 
 <div class="modal-body">
+
+  <div ng-if="showModalMessage" class="message-status fade-animation" ng-class="modalMessage.messageClass">
+    <p><span class="glyphicon" ng-class="glyphicons[modalMessage.icon]"></span> {{ modalMessage.text }}</p>
+  </div>
 
   <div class="table-div">
 
