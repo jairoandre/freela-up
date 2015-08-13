@@ -5,9 +5,6 @@ angular.module('ZupPrintDirectiveModule', [])
   .directive('zupPrint', function () {
     return {
       restrict: 'A',
-      scope: {
-        ngModel: '='
-      },
       link: function (scope, el, attrs) {
 
         el.bind('click', function(evt) {
@@ -40,6 +37,8 @@ angular.module('ZupPrintDirectiveModule', [])
           printFrame.contentWindow.document.body.appendChild(cloneDiv);
           printFrame.contentWindow.document.close();
           printFrame.contentWindow.print();
+
+          setTimeout(removeIframe(printFrame), 2000);
 
         }
 
