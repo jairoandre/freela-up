@@ -218,13 +218,12 @@
         <hr/>
         <h5>Prazo para encerrar</h5>
         <p>
-          {{lastNotification.days_to_deadline >= 0 ? (lastNotification.days_to_deadline + ' dias') :
-            ('Encerrado há ' + (lastNotification.days_to_deadline*-1) + ' dia' + (lastNotification.days_to_deadline === -1 ? '' : 's'))  }}
+          {{getDaysTxt(lastNotification.days_to_deadline)}}
         </p>
         <hr/>
         <h5>Prazo total</h5>
         <p>
-          {{lastNotification.overdue_at | date : 'dd/MM/yyyy'}}
+          {{getDaysTxt(lastNotification.notification_type.default_deadline_in_days)}}
         </p>
 
       </div>
