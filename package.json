@@ -11,7 +11,11 @@
     "marked": "~0.3.2"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "chai-string": "^1.1.2",
+    "cucumber": "^0.5.2",
+    "grunt": "^0.4.5",
     "grunt-autoprefixer": "~0.4.0",
     "grunt-concurrent": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
@@ -29,19 +33,23 @@
     "grunt-google-cdn": "~0.2.0",
     "grunt-newer": "~0.5.4",
     "grunt-ngmin": "~0.0.2",
+    "grunt-protractor-runner": "^2.1.0",
     "grunt-rev": "~0.1.0",
     "grunt-svgmin": "~0.2.0",
     "grunt-usemin": "~2.0.0",
     "grunt-wiredep": "^2.0.0",
     "jshint-stylish": "~0.1.3",
     "load-grunt-tasks": "~0.2.0",
-    "time-grunt": "~0.2.1",
-    "requirejs": "~2.1.9"
+    "requirejs": "~2.1.9",
+    "time-grunt": "~0.2.1"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.12.2"
   },
   "scripts": {
-    "test": "grunt test"
+    "setup": "npm install && bower install",
+    "dev-server": "grunt serve",
+    "prod-build": "NODE_ENV=production grunt build",
+    "test": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update && grunt test"
   }
 }

@@ -162,7 +162,7 @@ module.exports = function (grunt) {
         overrides: {
           "bootstrap": {
             "main": [
-              "dist/css/bootstrap.css",
+              "dist/css/bootstrap.css"
             ]
           }
         }
@@ -214,7 +214,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
             '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/assets/fonts/*',
+            '<%= yeoman.dist %>/assets/fonts/*'
           ]
         }
       }
@@ -381,7 +381,7 @@ module.exports = function (grunt) {
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
             logoImgUrl: '<%= LOGO_IMG_URL %>'
-          },
+          }
         }
       }
     },
@@ -400,6 +400,15 @@ module.exports = function (grunt) {
       }
     },
 
+    protractor: {
+      options: {
+        configFile: "e2e-tests/protractor-conf.js",
+        keepAlive: true,
+        noColor: false
+      },
+      all: {}
+    },
+
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -410,10 +419,9 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        //'imagemin',
         'svgmin'
       ]
-    },
+    }
 
   });
 
@@ -440,9 +448,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test'
+    'protractor'
   ]);
 
   grunt.registerTask('dist', [
@@ -460,7 +466,6 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'imagemin',
     'cdnify',
     'cssmin',
     'uglify',
