@@ -10,3 +10,14 @@ Procfile_dev
 .env
 .DS_Store
 *.log
+
+
+#VSCode config files 
+.settings/ 
+tsd.json
+jsconfig.json
+typings/
+
+/e2e-tests/tsd.json
+/e2e-tests/jsconfig.json
+/e2e-tests/typings/
