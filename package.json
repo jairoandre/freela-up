@@ -50,6 +50,6 @@
     "setup": "npm install && bower install",
     "dev-server": "grunt serve",
     "prod-build": "NODE_ENV=production grunt build",
-    "test": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update && grunt test"
+    "test": "node ./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update && grunt test"
   }
 }
