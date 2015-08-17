@@ -1,9 +1,7 @@
 var chai = require('chai');
 chai.use(require('chai-as-promised'));
-chai.use(require('chai-string'));
 
 var expect = chai.expect;
-var $URL_login = '/#/user/login';
 
 module.exports = function () {
   var page;
@@ -24,12 +22,5 @@ module.exports = function () {
 
   this.When(/^o sistema encerra minha sessão$/, function () {
     return expect(page.isLogged()).to.eventually.not.ok;
-  });
-
-  this.Then(/^eu sou redirecionado para a tela de autenticação$/, function (done) {
-    this.currentUrl().then(function (actualUrl) {
-      expect(actualUrl).to.endsWith($URL_login);
-      done();
-    });
   });
 };
