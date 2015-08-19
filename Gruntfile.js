@@ -403,7 +403,7 @@ module.exports = function (grunt) {
     protractor: {
       options: {
         configFile: "e2e-tests/protractor-conf.js",
-        keepAlive: true,
+        keepAlive: false,
         noColor: false
       },
       all: {}
@@ -447,7 +447,8 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'clean:server',
+    'build',
+    'connect:test',
     'protractor'
   ]);
 

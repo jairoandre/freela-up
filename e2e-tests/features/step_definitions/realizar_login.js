@@ -3,25 +3,26 @@ chai.use(require('chai-string'));
 chai.use(require('chai-as-promised'));
 
 var expect = chai.expect;
-var $URL_login = '/#/user/login';
 
-var $URL_login = '/#/user/login';
+var $URL_login  = '/#/user/login';
+var $USER_login = process.env.USER_EMAIL;
+var $USER_pass  = process.env.USER_PASSWORD;
 
 module.exports = function () {
   var page;
 
   this.World = require('../support/world').World;
-  
+
   function makeLogin(next){
     page = this.pages.auth;
 
-    page.fillLogin('tecnologia@ntxdev.com.br', '123456', function () {
+    page.fillLogin($USER_login, $USER_pass, function () {
       page.login(function () {
         expect(page.isLogged()).to.eventually.be.ok.and.notify(next);
       });
     });
   }
-  
+
   this.Given(/^estou autenticado no sistema$/, makeLogin);
   this.Given(/^que estou autenticado na aplicação$/, makeLogin);
 
@@ -42,7 +43,7 @@ module.exports = function () {
   });
 
   this.Given(/^preencho os dados do formulário corretamente$/, function (next) {
-    page.fillLogin('tecnologia@ntxdev.com.br', '123456', next);
+    page.fillLogin($USER_login, $USER_pass, next);
   });
 
   this.When(/^tento realizar autenticação$/, function (next) {
@@ -71,5 +72,12 @@ module.exports = function () {
       expect(errorMsg.getText()).to.eventually.equal('Dados incorretos. Por favor, tente novamente.'),
       expect(errorMsg.isDisplayed()).to.eventually.ok
     ]);
+  });
+
+  this.Then(/^eu sou redirecionado para a tela de autenticação$/, function (done) {
+    this.currentUrl().then(function (actualUrl) {
+      expect(actualUrl).to.endsWith($URL_login);
+      done();
+    });
   });
 }
