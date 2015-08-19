@@ -3,7 +3,7 @@
 Funcionalidade: Permitir que um usuário previamente cadastrado possa ativar as notificações de categoria de relato
   Como um usuário responsável pelas notificações
   Quero ser capaz de editar as categorias de relatos
-  Pois desta estarei apto para ativar a funcionalidade de notificações
+  Pois preciso ativar a funcionalidade de notificações
 
   Contexto:
     Dado que sou um usuário cadastrado
@@ -12,8 +12,8 @@ Funcionalidade: Permitir que um usuário previamente cadastrado possa ativar as 
 
   Cenário: Ativar notificação de relato
     Dado que eu selecione a opção para editar categoria de relato
-    Quando eu selecionar um relato
-    Então o sistema deve exibir a seção de configurar notificaões
+    Quando eu selecionar uma categoria
+    Então o sistema deve exibir a seção de configurar notificações
     E clico em exibir notificações
-    E seleciono a opção para atualizar a categoria
+    E clico no botão para atualizar a categoria
     Então devo receber uma mensagem de sucesso
