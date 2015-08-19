@@ -5,14 +5,14 @@ chai.use(require('chai-as-promised'));
 var expect = chai.expect;
 
 var $URL_login  = '/#/user/login';
-var $USER_login = 'teste.zup@gmail.com'
-var $USER_pass  = '123456';
+var $USER_login = process.env.USER_EMAIL;
+var $USER_pass  = process.env.USER_PASSWORD;
 
 module.exports = function () {
   var page;
 
   this.World = require('../support/world').World;
-  
+
   function makeLogin(next){
     page = this.pages.auth;
 
@@ -22,7 +22,7 @@ module.exports = function () {
       });
     });
   }
-  
+
   this.Given(/^estou autenticado no sistema$/, makeLogin);
   this.Given(/^que estou autenticado na aplicação$/, makeLogin);
 
@@ -73,7 +73,7 @@ module.exports = function () {
       expect(errorMsg.isDisplayed()).to.eventually.ok
     ]);
   });
-  
+
   this.Then(/^eu sou redirecionado para a tela de autenticação$/, function (done) {
     this.currentUrl().then(function (actualUrl) {
       expect(actualUrl).to.endsWith($URL_login);

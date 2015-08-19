@@ -12,7 +12,7 @@ module.exports = function () {
   });
 
   this.Given(/^que preencho os dados do formulário de recuperação de senha corretamente$/, function () {
-    return page.resetPass.setEmail('tecnologia@ntxdev.com.br');
+    return page.resetPass.setEmail(process.env.USER_EMAIL);
   });
 
   this.When(/^clico no botão recuperar senha ou tecla enter$/, function () {
