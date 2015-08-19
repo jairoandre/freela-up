@@ -68,6 +68,7 @@ angular
           $scope.addModalMessage('ok', 'Notificação [' + notification.notification_type.title + ']' +  (notification.sent ? ' reemitida': ' emitida'), 'success');
           refreshNotifications();
           parentScope.lastNotification = r.data;
+          parentScope.refreshHistory();
         });
     };
 
@@ -95,6 +96,7 @@ angular
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
         parentScope.lastNotification = undefined;
+        parentScope.refreshHistory();
       });
     };
 

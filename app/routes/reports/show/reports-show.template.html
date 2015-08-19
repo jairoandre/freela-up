@@ -464,6 +464,8 @@
                 <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 2">inseriu o comentáro interno: <b>{{ log.changes.new.message }}</b>.</span>
 
                 <span ng-show="log.kind === 'creation'"> criou o relato com o estado <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'notification'">emitiu a notificação <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'notification_restart'">reiniciou o processo de notificações.</span>
               </p>
 
               <div class="divider"></div>
