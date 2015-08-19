@@ -448,6 +448,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
+    'connect:test',
     'protractor'
   ]);
 
