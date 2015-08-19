@@ -14,22 +14,22 @@ module.exports = function () {
         callback.pending();
     });
 
-    this.Given(/^eu selecionar um relato$/, function (callback) {
+    this.Given(/^eu selecionar uma categoria$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });
 
-    this.Given(/^o sistema deve exibir a seção de configurar notificaões$/, function (callback) {
+    this.Given(/^o sistema deve exibir a seção de configurar notificações$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });
 
-    this.Given(/^clico em exibir notificações$/, function (callback) {
+    this.Given(/^seleciono para exibir notificações$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });
 
-    this.Given(/^seleciono a opção para atualizar a categoria$/, function (callback) {
+    this.Given(/^ao selecionar o botão para atualizar a categoria$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });

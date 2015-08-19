@@ -14,6 +14,6 @@ Funcionalidade: Permitir que um usuário previamente cadastrado possa ativar as 
     Dado que eu selecione a opção para editar categoria de relato
     Quando eu selecionar uma categoria
     Então o sistema deve exibir a seção de configurar notificações
-    E clico em exibir notificações
-    E clico no botão para atualizar a categoria
+    E seleciono para exibir notificações
+    E ao selecionar o botão para atualizar a categoria
     Então devo receber uma mensagem de sucesso
