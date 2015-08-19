@@ -38,7 +38,12 @@ angular.module('ZupPrintDirectiveModule', [])
           printFrame.contentWindow.document.close();
           printFrame.contentWindow.print();
 
-          setTimeout(removeIframe(printFrame), 2000);
+          var timeoutId = null;
+          if(timeoutId){
+            window.clearTimeout(timeoutId);
+          }
+          timeoutId = window.setTimeout(removeIframe(printFrame), 2000);
+
 
         }
 
