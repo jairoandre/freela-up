@@ -29,60 +29,12 @@ angular
         fetchOptions.page = +page || 1;
         fetchOptions.per_page = +perPage || 15;
 
-        //var promise = ReportsItemsService.fetchAll(fetchOptions);
-        var promise = (function() {
-          var defered = $q.defer();
-          defered.resolve([
-            {
-              protocol: 1,
-              title: "Nome da Notificação",
-              address: "Logradouro",
-              overdue_at: new Date(),
-              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
-              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
-            },{
-              protocol: 2,
-              title: "Nome da Notificação",
-              address: "Logradouro",
-              overdue_at: new Date(),
-              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
-              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
-            },{
-              protocol: 3,
-              title: "Nome da Notificação",
-              address: "Logradouro",
-              overdue_at: new Date(),
-              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
-              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
-            },{
-              protocol: 4,
-              title: "Nome da Notificação",
-              address: "Logradouro",
-              overdue_at: new Date(),
-              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
-              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
-            },{
-              protocol: 5,
-              title: "Nome da Notificação",
-              address: "Logradouro",
-              overdue_at: new Date(),
-              default_deadline_in_days: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              days_to_deadline: Math.ceil( Math.random() * 100 * Math.abs( Math.log( Math.random() ) ) ),
-              user_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) ),
-              reports_category_id: Math.ceil( Math.random() * 1000 * Math.abs( Math.log( Math.random() ) ) )
-            }
-          ]);
+        fetchOptions.return_fields = [
+          'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue',
+          'overdue_at', 'category.title', 'user.name', 'user.id', 'last_notification'
+        ].join();
 
-          return defered.promise;
-        })();
+        var promise = ReportsItemsService.fetchAll(fetchOptions);
 
         promise.then(function (reports) {
           page++;
