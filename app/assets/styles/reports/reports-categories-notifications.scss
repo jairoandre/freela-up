@@ -1,0 +1,343 @@
+#layout_editor {
+  #cke_1_top {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+
+$notification-list-height: 50px;
+
+.reports-categories-notifications-sortable-list {
+
+  list-style: none outside none;
+  padding-left: 0px;
+  margin-top: 10px;
+
+  .ui-sortable-placeholder {
+    background: #ccc;
+  }
+
+  li:last-child {
+    border-bottom: 0px;
+  }
+
+  li {
+    font-size: 14px;
+    background: #FFF;
+    border-top: 1px transparent;
+    border-bottom: 1px solid #E1E1E1;
+    display: block;
+    line-height: $notification-list-height;
+
+    label {
+      font-size: 14px;
+    }
+
+    .info {
+      float: left;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .edit-mode {
+      border-top: 1px solid #E1E1E1;
+      padding-top: 20px;
+      .edit-mode-buttons {
+        padding-bottom: 20px;
+      }
+    }
+
+    .actions {
+      display: inline-block;
+      float: right;
+      height: $notification-list-height;
+
+      .layout, .edit, .trash, .move {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 18px;
+      }
+
+      .move {
+        cursor: move;
+        a {
+          cursor: move;
+        }
+      }
+    }
+
+    // page animation
+    .animate-show {
+
+    }
+
+
+    .animate-show.ng-hide-remove,
+    .animate-show.ng-hide-add {
+      transition: .5s linear all;
+      height: 500px;
+      overflow: hidden;
+    }
+
+    .animate-show.ng-hide {
+      height: 0px;
+    }
+
+    .animate-show.ng-enter,
+    .animate-show.ng-leave {
+      transition: .5s linear all;
+    }
+
+    .animate-show.ng-enter,
+    .animate-show.ng-leave.ng-leave-active {
+      height: 0;
+    }
+
+    .animate-show.ng-leave,
+    .animate-show.ng-enter.ng-enter-active {
+      height: 500px;
+      overflow: hidden;
+    }
+
+  }
+
+  // Layout modal
+
+}
+
+.notifications-type-layout {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.85);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  overflow: auto;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+
+  .animate-if.ng-enter, .animate-if.ng-leave {
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+  }
+
+  .animate-if.ng-enter,
+  .animate-if.ng-leave.ng-leave-active {
+    opacity:0;
+  }
+
+  .animate-if.ng-leave,
+  .animate-if.ng-enter.ng-enter-active {
+    opacity:1;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+
+    position: relative;
+    margin: 100px auto;
+  }
+
+  .double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+  }
+
+  .double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+  }
+
+  @-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+  }
+
+  @keyframes sk-bounce {
+    0%, 100% {
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+      }
+  }
+
+  .notifications-type-layout-inner {
+    width: 100%;
+    height: 100%;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: translate3d(0, 0, 150px);
+    transform: translate3d(0, 0, 150px);
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+  }
+
+  .notifications-type-layout-content {
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+
+    table {
+      border-collapse: separate;
+      border-spacing: 2px;
+      border-color: grey;
+    }
+
+    .header {
+      position: fixed;
+      width: 100%;
+      height: 70px;
+      background: #333333;
+      z-index: 1000;
+
+      a.back {
+        float: left;
+        display: block;
+        background: #292929;
+        padding: 18px 23px;
+        font-size: 24px;
+        color: #B7B7B7;
+      }
+
+      .title {
+        float: left;
+        font-size: 22px;
+        font-weight: normal;
+        margin: 19px 0 0 23px;
+        color: #FFF;
+      }
+
+      a.submit_button {
+        float: right;
+        width: 120px;
+        height: 100%;
+        background: #259ECB;
+        display: table;
+
+        span {
+          display: table-cell;
+          color: #FFF;
+          vertical-align: middle;
+          text-align: center;
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+    }
+
+    .toolbar-div {
+      position: fixed;
+      padding-top: 5px;
+      top: 70px;
+      width:100%;
+      height: 80px;
+      background: #e6e6e6;
+      box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+      z-index: 999;
+
+      .ckeditor-toolbar {
+        width: 21cm;
+        margin: auto;
+      }
+    }
+
+    .editor-content {
+      position: fixed;
+      top: 150px;
+      width:100%;
+      height: 100%;
+      background: #d9d9d9;
+      padding-top: 20px;
+      z-index: 998;
+      overflow: auto;
+      padding-bottom: 10px;
+    }
+
+  }
+
+}
+
+
+
+.notifications-type-layout-open.notifications-type-layout {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+
+  .notifications-type-layout-inner {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  .cke_top, .cke_inner, .cke_chrome {
+    border: 0px;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.ui-sortable-placeholder-notification-type {
+  background: #259ecb !important;
+}
+
+// A4
+
+.ckeditor-editable-content{
+  height: 27cm;
+  overflow: hidden;
+  border: 0px !important;
+}
+
+.cke_focus {
+  -webkit-appearance:none;
+  outline:0px !important;
+}
+
+.cke_contents {
+  border: 0px !important;
+}
+
+.a4-page {
+  background: white;
+  width: 21cm;
+  height: 29.7cm;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  padding: 50px;
+}
+
+@media print {
+  body, .a4-page {
+    margin: 0;
+    box-shadow: 0;
+  }
+}
+
+
+

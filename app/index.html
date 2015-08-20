@@ -18,6 +18,7 @@
     <!-- build:css assets/styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
     <link rel="stylesheet" href="bower_components/select2/select2.css" />
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
@@ -34,6 +35,7 @@
     <link rel="stylesheet" href="assets/styles/reports/reports-edit.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-categories-edit.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-notifications.css">
+    <link rel="stylesheet" href="assets/styles/reports/reports-categories-notifications.css">
 
     <link rel="stylesheet" href="assets/styles/advanced-filters/advanced-filters-modals.css">
 
@@ -86,6 +88,7 @@
     <!-- Sentry Configuration -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry&language=pt-br"></script>
 
+
     <!-- build:js assets/scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
@@ -98,7 +101,6 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
     <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
     <script src="bower_components/angular-file-upload/angular-file-upload.js"></script>
@@ -127,6 +129,9 @@
     <script src="bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>
     <script src="bower_components/angular-toArrayFilter/toArrayFilter.js"></script>
     <script src="bower_components/angular-promise-buttons/dist/angular-promise-buttons.js"></script>
+    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+    <script src="bower_components/angular-ckeditor/angular-ckeditor.js"></script>
+    <script src="bower_components/angular-load/angular-load.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
     <script src="bower_components/marked/lib/marked.js"></script>
@@ -316,6 +321,7 @@
     <script src="modals/advanced-filters/status/advanced-filters-status.controller.js"></script>
     <script src="modals/reports/categories/manage-statuses/reports-categories-manage-statuses.controller.js"></script>
     <script src="modals/reports/categories/destroy/reports-categories-destroy.controller.js"></script>
+    <script src="modals/reports/categories/notifications/reports-categories-notifications-layout.controller.js"></script>
     <script src="modals/items/destroy/items-destroy.controller.js"></script>
     <script src="modals/items/restore/items-restore.controller.js"></script>
     <script src="modals/items/select-address/items-select-address.controller.js"></script>
@@ -325,6 +331,7 @@
     <script src="modals/items/categories/edit-field-values/items-categories-edit-field-values.controller.js"></script>
     <script src="modals/items/categories/new-status/items-categories-new-status.controller.js"></script>
     <script src="modals/items/categories/edit-status/items-categories-edit-status.controller.js"></script>
+
     <script src="modals/users/disable/users-disable.controller.js"></script>
     <script src="modals/users/filter-group/users-filter-group.controller.js"></script>
     <script src="modals/gallery/gallery.controller.js"></script>
@@ -342,6 +349,9 @@
     <script src="modals/groups/add-users/groups-add-users.controller.js"></script>
     <script src="modals/groups/remove-user/groups-remove-user.controller.js"></script>
     <script src="modals/user/password-recovery/user-password-recovery.controller.js"></script>
+
+    <script src="directives/delete-modal/delete-modal.directive.js"></script>
+
 
     <script src="helpers/format-errors/format-errors.filter.js"></script>
     <script src="helpers/replace-dot-with-comma/replace-dot-with-comma.filter.js"></script>

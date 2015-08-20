@@ -29,6 +29,7 @@ angular
         "reports_item_id",
         "notification_type.id",
         "notification_type.title",
+        "notification_type.active",
         "deadline_in_days",
         "content",
         "sent",

@@ -226,6 +226,20 @@ angular
             needsObject: true,
             tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
           },
+
+          {
+            slug: 'reports_items_send_notification',
+            name: 'Enviar notificação de relato',
+            needsObject: true,
+            tooltip: 'Grupo pode enviar e reenviar notificações.'
+          },
+
+          {
+            slug: 'reports_items_restart_notification',
+            name: 'Reeiniciar processo de notificação de relato',
+            needsObject: true,
+            tooltip: 'Grupo pode reiniciar todo o processo de notificações.'
+          }
         ]
       }
     ];

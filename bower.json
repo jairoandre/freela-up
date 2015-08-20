@@ -4,7 +4,7 @@
   "dependencies": {
     "angular": "1.2.26",
     "restangular": "~1.4.0",
-    "angular-bootstrap": "~0.9.0",
+    "angular-bootstrap": "~0.11.0",
     "angular-resource": "1.2.6",
     "angular-cookies": "~1.2.9",
     "angular-sanitize": "1.2.6",
@@ -39,7 +39,16 @@
     "js-rich-marker": "git://github.com/googlemaps/js-rich-marker.git#gh-pages",
     "ng-cpf-cnpj": "*",
     "angular-toArrayFilter": "~1.0.0",
-    "angular-promise-buttons": "*"
+    "angular-promise-buttons": "*",
+    "angular-ui-sortable": "~0.13.4",
+    "angular-ckeditor": "~0.4.2",
+    "ckeditor": "4.5.1",
+    "angular-load": "~0.2.0",
+    "base64image_1.3": "http://download.ckeditor.com/base64image/releases/base64image_1.3.zip",
+    "font_4.5.1": "http://download.ckeditor.com/font/releases/font_4.5.1.zip",
+    "imagepaste_1.1.1": "http://download.ckeditor.com/imagepaste/releases/imagepaste_1.1.1.zip",
+    "bootstrapck_1.0_0": "http://download.ckeditor.com/bootstrapck/releases/bootstrapck_1.0_0.zip",
+    "tableresize_4.5.1": "http://download.ckeditor.com/tableresize/releases/tableresize_4.5.1.zip"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
