@@ -345,6 +345,12 @@ module.exports = function (grunt) {
             cwd: '<%= yeoman.app %>/bower_components/tableresize_4.5.1',
             dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/tableresize',
             src: ['**/*']
+          },
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/components/ckeditor-custom-plugins/zupplaceholder',
+            dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/zupplaceholder',
+            src: ['**/*']
           }
         ]
 
@@ -399,6 +405,11 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.app %>/bower_components/tableresize_4.5.1',
           dest: '<%= yeoman.dist %>/assets/scripts/ckeditor/plugins/tableresize',
+          src: ['**/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/components/ckeditor-custom-plugins/zupplaceholder',
+          dest: '<%= yeoman.dist %>/assets/scripts/ckeditor/plugins/zupplaceholder',
           src: ['**/*']
         }]
       },
