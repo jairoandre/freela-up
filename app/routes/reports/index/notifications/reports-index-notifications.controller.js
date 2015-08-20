@@ -29,6 +29,7 @@ angular
         fetchOptions.page = +page || 1;
         fetchOptions.per_page = +perPage || 15;
 
+        fetchOptions.with_notifications = true;
         fetchOptions.return_fields = [
           'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue',
           'overdue_at', 'category.title', 'user.name', 'user.id', 'last_notification'
