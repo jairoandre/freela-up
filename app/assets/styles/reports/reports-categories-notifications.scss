@@ -1,3 +1,7 @@
+@import "compass/css3";
+
+$notification-list-height: 50px;
+
 #layout_editor {
   #cke_1_top {
     position: absolute;
@@ -7,7 +11,7 @@
 }
 
 
-$notification-list-height: 50px;
+
 
 .reports-categories-notifications-sortable-list {
 
@@ -280,8 +284,6 @@ $notification-list-height: 50px;
 
 }
 
-
-
 .notifications-type-layout-open.notifications-type-layout {
   opacity: 1;
   visibility: visible;
@@ -321,23 +323,13 @@ $notification-list-height: 50px;
   border: 0px !important;
 }
 
+
 .a4-page {
-  background: white;
-  width: 21cm;
-  height: 29.7cm;
+  background: #ffffff;
+  width: 8.3in;
+  height: 11.7in;
   display: block;
-  margin: 0 auto;
-  margin-bottom: 0.5cm;
-  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  margin: 0 auto .5cm auto;
+  @include box-shadow(0 0 0.5cm rgba(0,0,0,0.5));
   padding: 50px;
 }
-
-@media print {
-  body, .a4-page {
-    margin: 0;
-    box-shadow: 0;
-  }
-}
-
-
-

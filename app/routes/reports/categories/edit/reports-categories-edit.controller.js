@@ -8,7 +8,8 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule',
     'ReportsCategoriesServiceModule',
     'ReportsCategoriesNotificationsLayoutControllerModule',
-    'DeleteModalDirectiveModule'
+    'DeleteModalDirectiveModule',
+    'DisplayNotificationDirectiveModule'
   ])
 
   .factory('NotificationTypesService', function (Restangular, $q) {
@@ -150,6 +151,10 @@ angular
 
     $scope.prepareToDeleteNotificationType = function (notificationType) {
       $scope.notificationTypeToDelete = notificationType;
+    }
+
+    $scope.prepareToDisplayNotification = function (notificationType) {
+      $scope.notificationContentToDisplay = notificationType.layout;
     }
 
     $scope.deleteNotificationType = function (notificationType) {
