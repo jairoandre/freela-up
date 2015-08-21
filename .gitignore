@@ -4,6 +4,7 @@ node_modules
 app/bower_components
 telas
 .idea
+.directory
 dist/
 app/config/main.constants.js
 Procfile_dev
@@ -12,8 +13,8 @@ Procfile_dev
 *.log
 
 
-#VSCode config files 
-.settings/ 
+#VSCode config files
+.settings/
 tsd.json
 jsconfig.json
 typings/

@@ -1,16 +1,16 @@
 #language: pt
-@notimplemented
+
 Funcionalidade: Remover relatos pelo painel ZUP
 	Usuários com acesso privilegiados podem ter acesso a exclusão de relatos dentro do sistema ZUP.
 
-Contexto: 
+Contexto:
 	Dado que sou um usuário cadastrado no sistema
-	E que estou autenticado	
+	E que estou autenticado
 	E que estou em um grupo que possui a permissão para excluir relatos e acessar o painel administativo
 	E o sistema deve me retornar a listagem de relatos das categorias que posso remover
 
 Cenário: Excluir um relato na listagem com a confirmação de exclusão bem sucedida
-	Dado que eu estou na listagem de relatos 
+	Dado que eu estou na listagem de relatos
 	Quando clicar no ícone de exclusão
 	E aparecer a confirmação de exclusão
 	E digito a palavra deletar
@@ -19,7 +19,7 @@ Cenário: Excluir um relato na listagem com a confirmação de exclusão bem suc
 	E atualizar a listagem de relatos
 
 Cenário: Confirmação de exclusão mal sucedida
-	Dado que eu estou na listagem de relatos 
+	Dado que eu estou na listagem de relatos
 	Quando clicar no ícone de exclusão
 	E aparecer a confirmação de exclusão
 	E digito qualquer palavra que não seja deletar

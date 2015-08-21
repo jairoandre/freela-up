@@ -17,12 +17,13 @@ module.exports = function () {
     page = this.pages.report;
     return this.visit('/#/reports');
   };
-  
+
   this.World = require('../support/world').World;
-  
+
   this.Given(/^que estou na tela de relatos$/, goToReports);
   this.Given(/^que estou na listagem de relatos$/, goToReports);
-  
+  this.Given(/^que eu estou na listagem de relatos$/, goToReports);
+
   this.Given(/^que existem relatos cadastrados$/, hasReports);
   this.Given(/^que estou visualizando todos os relatos$/, hasReports);
 
@@ -58,14 +59,14 @@ module.exports = function () {
 
   this.Given(/^que eu desejo visualizar um relato$/, function () {
     //TODO: saber o que realmente deve ser feito aqui alem de checar a url
-    
+
     //deve acabar com a url /#/reports/:num
     return expect(this.currentUrl()).to.eventually.match(/\#\/reports/);
   });
 
   this.Given(/^que pretendo editar um relato$/, function () {
     //TODO: saber o que realmente deve ser feito aqui alem de checar a url
-  
+
     //deve acabar com a url /#/reports/:num
     return expect(this.currentUrl()).to.eventually.match(/\#\/reports/);
   });
