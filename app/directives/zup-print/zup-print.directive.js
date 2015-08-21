@@ -7,7 +7,7 @@ angular.module('ZupPrintDirectiveModule', [])
       restrict: 'A',
       link: function (scope, el, attrs) {
 
-        el.bind('click', function(evt) {
+        el.on('click', function(evt) {
           evt.preventDefault();
           print();
         });
@@ -15,6 +15,8 @@ angular.module('ZupPrintDirectiveModule', [])
         function removeIframe(printFrame) {
           printFrame.parentNode.removeChild(printFrame);
         }
+
+        var timeoutId = null;
 
         function print() {
           var document = window.document;
@@ -38,7 +40,6 @@ angular.module('ZupPrintDirectiveModule', [])
           printFrame.contentWindow.document.close();
           printFrame.contentWindow.print();
 
-          var timeoutId = null;
           if(timeoutId){
             window.clearTimeout(timeoutId);
           }
