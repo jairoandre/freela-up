@@ -1,0 +1,111 @@
+@import "compass/css3";
+
+.reports-notifications-modal {
+  .modal-dialog {
+    width: 905px;
+  }
+
+  .modal-header, .modal-body, .modal-footer {
+    padding: 30px;
+  }
+
+  .modal-body {
+    margin: -30px;
+    font-size: 14px;
+  }
+
+  .btn-custom {
+    width: 120px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .spacing {
+    height: 30px;
+  }
+
+  .color-ball {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+  }
+
+  .ui-select-bootstrap .ui-select-match {
+    height: 50px;
+    padding: 6px 20px;
+    @include box-shadow(none);
+  }
+
+  .ui-select-bootstrap .ui-select-search {
+    height: 50px;
+    padding: 6px 20px;
+  }
+
+  table tbody, table thead {
+    display: block;
+  }
+
+  table tbody {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  thead {
+    tr {
+      td {
+        font-size: 12px;
+      }
+    }
+  }
+
+  tr {
+    td {
+      vertical-align: middle !important;
+    }
+
+    td.type-cell {
+      width: 250px;
+      padding-left: 30px;
+    }
+
+    td.status-cell {
+      width: 150px;
+    }
+
+    td.overdue-cell {
+      width: 100px;
+    }
+
+    td.date-cell {
+      width: 110px;
+    }
+
+    td.button-cell {
+      width: 150px;
+      padding-right: 30px;
+    }
+
+  }
+
+  .status-color {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    @include border-radius(10px);
+  }
+
+  .reports-notification-emitted {
+    @include opacity(.5);
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .modal-title {
+    font-weight: bold;
+  }
+}

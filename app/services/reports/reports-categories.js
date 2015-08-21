@@ -6,7 +6,7 @@
  */
 angular
   .module('ReportsCategoriesServiceModule', [])
-  .factory('ReportsCategoriesService', function ($rootScope, FullResponseRestangular) {
+  .factory('ReportsCategoriesService', function ($rootScope, FullResponseRestangular, Restangular) {
     var self = {};
     self.categories = {};
     self.categoriesStatuses = {};
@@ -43,6 +43,12 @@ angular
 
       return self.fetchAllBasicInfo();
     };
+
+    self.getStatusesByCategory = function(categoryId){
+
+      return Restangular.one('reports').one('categories', categoryId).all('statuses').getList();
+
+    }
 
     /**
      * Fetches basic information for all categories
