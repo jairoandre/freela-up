@@ -40,7 +40,7 @@
             <span class="glyphicon glyphicon-search" title="Ordem: {{notification.notification_type.order}}"></span>
           </a>&nbsp;&nbsp;<b>{{notification.notification_type.title }}</b>
         </td>
-        <td class="status-cell" ng-if="notification.notification_type.reports_status_id">
+        <td class="status-cell">
           <div ng-if="notification.notification_type.reports_status_id">
             <span class="status-color"
                   style="background-color: {{statusesMap[notification.notification_type.reports_status_id].color}}"></span>
