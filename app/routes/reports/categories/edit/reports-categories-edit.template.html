@@ -660,8 +660,7 @@
               </div>
               <div class="actions" ng-if="!editingNotificationType">
                 <div class="layout" style="display: inline-block" title="Visualizar Layout">
-                  <a href="" ng-click="prepareToDisplayNotification(notificationType)" data-toggle="modal"
-                     data-target="#displayNotificationLayout" class="icon">
+                  <a href="" display-notification="notificationType.layout" class="icon">
                     <span class="glyphicon glyphicon-search"></span>
                   </a>
                 </div>
@@ -752,7 +751,6 @@
               </div>
             </li>
           </ul>
-          <display-notification modal-id="displayNotificationLayout" content="notificationContentToDisplay" ng-if="notificationContentToDisplay"></display-notification>
           <div delete-modal modal-id="deleteNotificationTypeModal"
                modal-title="Remover Notificação"
                modal-confirm-function="deleteNotificationType(notificationTypeToDelete)"

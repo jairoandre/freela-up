@@ -203,13 +203,12 @@
 
     <div class="rounder_wrapper" id="report-notifications" ng-if="lastNotification">
       <div class="wrapper_title"><h1>Notificação emitida</h1></div>
-      <display-notification modal-id="displayNotificationContent" content="lastNotification.content"></display-notification>
 
       <div class="fields">
         <h5>Nome da notificação</h5>
         <p>
           {{lastNotification.notification_type.title}} <span class="label label-danger" ng-show="lastNotification.overdue">&nbsp;VENCIDO</span>
-          <a href="" class="btn btn-info btn-custom" style="float: right;" data-toggle="modal" data-target="#displayNotificationContent">
+          <a href="" class="btn btn-info btn-custom" style="float: right;" display-notification="lastNotification.content">
             <i class="glyphicon glyphicon-search"></i>&nbsp;Visualizar</a>
         </p>
         <hr/>

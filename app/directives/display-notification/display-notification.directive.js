@@ -2,25 +2,37 @@
  * Created by Jairo on 19/07/2015.
  */
 angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule'])
-  .directive('displayNotification', function () {
+  .directive('displayNotification', function ($modal) {
     return {
-      restrict: 'E',
+      restrict: 'A',
       scope: {
-        ngModel: '=',
-        content: '='
+        displayNotification: '&'
       },
-      templateUrl: 'directives/display-notification/display-notification.template.html',
       link: function (scope, el, attrs) {
-
-        scope.modalId = attrs.modalId;
-
-        scope.$on('$locationChangeStart', function (event, toState, toParams, fromState, fromParams) {
-          el.modal('hide');
-          event.preventDefault();
+        el.on('click', function (evt) {
+          $modal.open({
+            backdrop: 'static',
+            templateUrl: 'directives/display-notification/display-notification.template.html',
+            windowClass: 'gallery-modal fade',
+            resolve: {
+              content: function(){
+                return scope.displayNotification();
+              }
+            },
+            controller: 'DisplayNotificationModalCtrl'
+          });
+          evt.preventDefault();
         });
-
       }
     }
-
-  }
-);
+  })
+  .controller('DisplayNotificationModalCtrl', function($scope, $modalInstance, content){
+    $scope.content = content;
+    $scope.close = function() {
+      $modalInstance.close();
+    };
+    $scope.$on('$locationChangeStart', function(evt) {
+      $modalInstance.dismiss('locationChange');
+      evt.preventDefault();
+    });
+  });

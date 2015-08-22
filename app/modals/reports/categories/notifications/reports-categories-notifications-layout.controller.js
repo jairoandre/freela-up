@@ -20,11 +20,6 @@ angular
 
     $scope.loadingCkeditorScript = true;
 
-    $scope.$on('$locationChangeStart',function(event, toState, toParams, fromState, fromParams){
-      $scope.closeLayoutNotificationTypeModal();
-      event.preventDefault();
-    });
-
     var configureCkEditor = function () {
       $scope.ckeditorOptions = {
         skin: 'bootstrapck',
@@ -53,12 +48,17 @@ angular
         removeButtons: 'Maximize,Image'
       };
 
-      $timeout(function(){$scope.loadingCkeditorScript = false},2000);
+      $timeout(function(){$scope.loadingCkeditorScript = false},1000);
 
     }
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function(){
       configureCkEditor();
+    });
+
+    $scope.$on('$locationChangeStart', function(evt) {
+      $scope.closeLayoutNotificationTypeModal();
+      evt.preventDefault();
     });
 
     $scope.closeLayoutNotificationTypeModal = function () {
