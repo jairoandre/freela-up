@@ -478,7 +478,8 @@ angular
             return $scope.report;
           },
           notifications: function () {
-            return ReportsCategoriesNotificationsService.getAvailableNotificationsForReport($scope.report.id, $scope.report.category.id);
+            $scope.retrieveNotificationsPromise = ReportsCategoriesNotificationsService.getAvailableNotificationsForReport($scope.report.id, $scope.report.category.id);
+            return $scope.retrieveNotificationsPromise;
           },
           parentScope: function () {
             return $scope;
