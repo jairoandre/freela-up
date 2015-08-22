@@ -30,6 +30,7 @@ angular
         "notification_type.id",
         "notification_type.title",
         "notification_type.active",
+        "notification_type.default_deadline_in_days",
         "deadline_in_days",
         "content",
         "sent",
