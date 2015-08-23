@@ -92,7 +92,8 @@ angular
     };
 
     $scope.restartProcess = function () {
-      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function () {
+      $scope.restartProcessPromise = ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id);
+      $scope.restartProcessPromise.then(function () {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
         parentScope.lastNotification = undefined;

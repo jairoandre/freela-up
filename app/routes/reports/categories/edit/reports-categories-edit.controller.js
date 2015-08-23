@@ -149,14 +149,6 @@ angular
       });
     }
 
-    $scope.prepareToDeleteNotificationType = function (notificationType) {
-      $scope.notificationTypeToDelete = notificationType;
-    }
-
-    $scope.prepareToDisplayNotification = function (notificationType) {
-      $scope.notificationContentToDisplay = notificationType.layout;
-    }
-
     $scope.deleteNotificationType = function (notificationType) {
       $scope.deleteNotificationTypePromise = NotificationTypesService
         .deleteNotificationType(categoryId, notificationType)

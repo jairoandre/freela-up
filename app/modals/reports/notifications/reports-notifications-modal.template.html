@@ -79,5 +79,13 @@
 </div>
 
 <div class="modal-footer">
-  <a href="" ng-click="restartProcess()" style="float: left; font-weight: bold">Reiniciar</a>
+  <a href=""
+     confirm-dialog
+     cd-modal-title="Reiniciar processo de notificações"
+     cd-warning-msg="Atenção, você está prestes a reiniciar o processo de notificações. Ao confirmar, você esta ciente de sua responsabilidade por esta ação."
+     cd-confirm-text="REINICIAR"
+     cd-button-label="Reiniciar"
+     cd-confirm-function="restartProcess()"
+     cd-confirm-promise="restartProcessPromise"
+     style="float: left; font-weight: bold">Reiniciar</a>
 </div>

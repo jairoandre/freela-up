@@ -671,10 +671,13 @@
                   </a>
                 </div>
                 <div class="trash">
-                  <a href="" ng-click="prepareToDeleteNotificationType(notificationType)" data-toggle="modal"
-                     data-target="#deleteNotificationTypeModal" class="icon">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </a>
+                  <a href=""
+                     confirm-dialog
+                     cd-modal-title="Remover notificação"
+                     cd-item-title="notificationType.title"
+                     cd-confirm-function="deleteNotificationType(notificationType)"
+                     cd-confirm-promise="deleteNotificationTypePromise"
+                     class="icon"><span class="glyphicon glyphicon-trash"></span></a>
                 </div>
                 <div class="move ng-hide" ng-show="category.ordered_notifications">
                   <a href="" class="icon">
@@ -751,11 +754,6 @@
               </div>
             </li>
           </ul>
-          <div delete-modal modal-id="deleteNotificationTypeModal"
-               modal-title="Remover Notificação"
-               modal-confirm-function="deleteNotificationType(notificationTypeToDelete)"
-               modal-item-title="notificationTypeToDelete.title"
-               modal-confirm-promise="deleteNotificationTypePromise" ng-if="notificationTypeToDelete"></div>
           <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
         </div>
       </div>
