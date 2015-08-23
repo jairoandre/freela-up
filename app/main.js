@@ -21,6 +21,7 @@ angular
     'ngRaven',
     'monospaced.elastic',
     'angularPromiseButtons',
+    'ui.sortable',
 
     // Core services
     'AuthServiceModule',

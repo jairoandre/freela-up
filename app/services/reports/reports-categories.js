@@ -6,7 +6,7 @@
  */
 angular
   .module('ReportsCategoriesServiceModule', [])
-  .factory('ReportsCategoriesService', function ($rootScope, FullResponseRestangular, $q) {
+  .factory('ReportsCategoriesService', function ($rootScope, FullResponseRestangular, Restangular) {
     var self = {};
     self.categories = {};
     self.categoriesStatuses = {};
@@ -44,6 +44,12 @@ angular
       return self.fetchAllBasicInfo();
     };
 
+    self.getStatusesByCategory = function(categoryId){
+
+      return Restangular.one('reports').one('categories', categoryId).all('statuses').getList();
+
+    }
+
     /**
      * Fetches basic information for all categories
      * This function is safe to call multiple times and will not duplicate categories in the cache
@@ -66,28 +72,6 @@ angular
       });
 
       return promise;
-    };
-
-    /**
-     * Fetches id, title and subcategories
-     * @returns {Array} fetched categories
-     */
-    self.fetchTitlesAndIds = function(){
-      var request = FullResponseRestangular.all('reports').all('categories'), deferred = $q.defer(), options = {};
-
-      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
-      options.subcategories_flat = false;
-      options.return_fields = [ 'id', 'title', 'subcategories.id', 'subcategories.title' ].join();
-
-      var promise = request.customGET(null, options);
-
-      promise.then(function (response) {
-        deferred.resolve(response.data.categories);
-      }, function(response){
-        deferred.reject(response);
-      });
-
-      return deferred.promise;
     };
 
     return self;

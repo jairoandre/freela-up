@@ -8,6 +8,8 @@
     </ul>
 
     <a href="" ng-click="print()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-print"></i></a>
+    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotificationsBtn">Notificações</i></a>
+
   </div>
 
   <ul class="report-menu" reports-menu>
@@ -195,6 +197,34 @@
 
           <div class="clearfix"></div>
         </div>
+
+      </div>
+    </div>
+
+    <div class="rounder_wrapper" id="report-notifications" ng-if="lastNotification">
+      <div class="wrapper_title"><h1>Notificação emitida</h1></div>
+
+      <div class="fields">
+        <h5>Nome da notificação</h5>
+        <p>
+          {{lastNotification.notification_type.title}} <span class="label label-danger" ng-show="lastNotification.overdue">&nbsp;VENCIDO</span>
+          <a href="" ng-click="showLeiaute()" class="btn btn-info btn-custom" style="float: right;"><i class="glyphicon glyphicon-search"></i>&nbsp;Visualizar</a>
+        </p>
+        <hr/>
+        <h5>Data da emissão</h5>
+        <p>
+          {{lastNotification.created_at | date : 'dd/MM/yyyy'}}
+        </p>
+        <hr/>
+        <h5>Prazo para encerrar</h5>
+        <p>
+          {{getDaysTxt(lastNotification.days_to_deadline)}}
+        </p>
+        <hr/>
+        <h5>Prazo total</h5>
+        <p>
+          {{getDaysTxt(lastNotification.notification_type.default_deadline_in_days)}}
+        </p>
 
       </div>
     </div>
@@ -434,6 +464,8 @@
                 <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 2">inseriu o comentáro interno: <b>{{ log.changes.new.message }}</b>.</span>
 
                 <span ng-show="log.kind === 'creation'"> criou o relato com o estado <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'notification'">emitiu a notificação <b>{{ log.changes.new.title }}</b>.</span>
+                <span ng-show="log.kind === 'notification_restart'">reiniciou o processo de notificações.</span>
               </p>
 
               <div class="divider"></div>

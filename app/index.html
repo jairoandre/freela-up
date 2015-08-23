@@ -12,6 +12,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <!-- build:css assets/styles/vendor.css -->
     <!-- bower:css -->
@@ -34,6 +36,8 @@
     <link rel="stylesheet" href="assets/styles/reports/reports-show.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-edit.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-categories-edit.css">
+    <link rel="stylesheet" href="assets/styles/reports/reports-notifications.css">
+    <link rel="stylesheet" href="assets/styles/reports/reports-categories-notifications.css">
 
     <link rel="stylesheet" href="assets/styles/advanced-filters/advanced-filters-modals.css">
 
@@ -91,6 +95,7 @@
     <!-- Sentry Configuration -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places,geometry&language=pt-br"></script>
 
+
     <!-- build:js assets/scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
@@ -134,6 +139,9 @@
     <script src="bower_components/nouislider/distribute/nouislider.js"></script>
     <script src="bower_components/angular-google-chart/ng-google-chart.js"></script>
     <script src="bower_components/angular-print/angularPrint.js"></script>
+    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+    <script src="bower_components/angular-ckeditor/angular-ckeditor.js"></script>
+    <script src="bower_components/angular-load/angular-load.js"></script>
     <!-- endbower -->
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
     <script src="bower_components/marked/lib/marked.js"></script>
@@ -170,6 +178,7 @@
     <script src="services/error/error.js"></script>
     <script src="services/reports/reports-categories.js"></script>
     <script src="services/reports/reports-items.js"></script>
+    <script src="services/reports/reports-notifications.js"></script>
     <script src="services/inventories/inventories-categories.js"></script>
     <script src="services/inventories/inventories-items.js"></script>
     <script src="services/business-reports/business-reports.js"></script>
@@ -337,6 +346,7 @@
     <script src="modals/reports/edit-category/reports-edit-category.controller.js"></script>
     <script src="modals/reports/select-address/reports-select-address.controller.js"></script>
     <script src="modals/reports/forward/reports-forward.controller.js"></script>
+    <script src="modals/reports/notifications/reports-notifications-modal.controller.js"></script>
     <script src="modals/reports/edit-reference/reports-edit-reference.controller.js"></script>
     <script src="modals/reports/print/reports-print.controller.js"></script>
     <script src="modals/advanced-filters/area/advanced-filters-area.controller.js"></script>
@@ -353,6 +363,7 @@
     <script src="modals/advanced-filters/notification/since-last/advanced-filters-notification-since-last.controller.js"></script>
     <script src="modals/reports/categories/manage-statuses/reports-categories-manage-statuses.controller.js"></script>
     <script src="modals/reports/categories/destroy/reports-categories-destroy.controller.js"></script>
+    <script src="modals/reports/categories/notifications/reports-categories-notifications-layout.controller.js"></script>
     <script src="modals/items/destroy/items-destroy.controller.js"></script>
     <script src="modals/items/restore/items-restore.controller.js"></script>
     <script src="modals/items/select-address/items-select-address.controller.js"></script>
@@ -362,6 +373,7 @@
     <script src="modals/items/categories/edit-field-values/items-categories-edit-field-values.controller.js"></script>
     <script src="modals/items/categories/new-status/items-categories-new-status.controller.js"></script>
     <script src="modals/items/categories/edit-status/items-categories-edit-status.controller.js"></script>
+
     <script src="modals/users/disable/users-disable.controller.js"></script>
     <script src="modals/gallery/gallery.controller.js"></script>
     <script src="modals/reports/select-user/reports-select-user.controller.js"></script>
@@ -378,6 +390,11 @@
     <script src="modals/groups/add-users/groups-add-users.controller.js"></script>
     <script src="modals/groups/remove-user/groups-remove-user.controller.js"></script>
     <script src="modals/user/password-recovery/user-password-recovery.controller.js"></script>
+
+    <script src="directives/delete-modal/delete-modal.directive.js"></script>
+    <script src="directives/display-notification/display-notification.directive.js"></script>
+    <script src="directives/zup-print/zup-print.directive.js"></script>
+
 
     <script src="helpers/format-errors/format-errors.filter.js"></script>
     <script src="helpers/replace-dot-with-comma/replace-dot-with-comma.filter.js"></script>

@@ -2689,43 +2689,69 @@ colorpicker-preview {
 
 .fade-animation.ng-hide-add,
 .fade-animation.ng-hide-remove {
-  -webkit-transition:0.5s linear all;
-  transition:0.5s linear all;
+  @include transition(0.5s linear all);
 
   /* remember to add this */
   display:block!important;
-  opacity:1;
+  @include opacity(1);
 }
-.fade-animation.ng-hide {
-  opacity:0;
+
+.fade-animation.ng-enter,
+.fade-animation.ng-leave {
+  @include transition(0.5s linear all);
+}
+
+.fade-animation.ng-leave,
+.fade-animation.ng-enter.ng-enter-active {
+  @include opacity(1);
+}
+
+.fade-animation.ng-hide,
+.fade-animation.ng-enter,
+.fade-animation.ng-leave.ng-leave-active{
+  @include opacity(0);
 }
 
 // page animation
 .app-animation.ng-hide-add,
 .app-animation.ng-hide-remove {
-  -webkit-transition:0.6s linear all;
-  transition:0.6s linear all;
+  @include transition(0.6s linear all);
 
   /* remember to add this */
   display:block!important;
-  opacity:1;
+  @include opacity(1);
 }
 .app-animation.ng-hide {
-  opacity:0;
+  @include opacity(0);
+}
+
+.app-animation.ng-enter,
+.app-animation.ng-leave {
+  @include transition(0.6s linear all);
+}
+
+.app-animation.ng-leave,
+.app-animation.ng-enter.ng-enter-active {
+  @include opacity(1);
+}
+
+.app-animation.ng-hide,
+.app-animation.ng-enter,
+.app-animation.ng-leave.ng-leave-active{
+  @include opacity(0);
 }
 
 // page animation
 .pages-animation.ng-hide-add,
 .pages-animation.ng-hide-remove {
-  -webkit-transition:0.25s linear all;
-  transition:0.25s linear all;
+  @include transition(0.25s linear all);
 
   /* remember to add this */
   display:block!important;
-  opacity:1;
+  @include opacity(1);
 }
 .pages-animation.ng-hide {
-  opacity:0;
+  @include opacity(0);
 }
 
 .resolving-route {
