@@ -1,62 +1,49 @@
 var chai = require('chai');
 chai.use(require('chai-as-promised'));
-chai.use(require('chai-string'));
 var expect = chai.expect;
 
 module.exports = function () {
   this.World = require('../support/world').World;
 
-  var confirmTextEl;
-  var buttonConfirm = element(by.css('button[ng-click="confirm()"]'));
+  var buttonConfirm = element.all(by.css('button[ng-click="confirm()"]')).get(0);
+  var innerHtmlBefore;
 
-  var deleteButton = function () {
+  this.When(/^clicar no ícone de exclusão$/, function () {
+    innerHtmlBefore = element(by.css('#reports-listing-table')).getInnerHtml();
     return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
-  };
+  });
 
-  var showConfirmText = function () {
-    return Promise.resolve(
-      expect(element(by.model('confirmText')).isPresent()).to.eventually.be.ok
-    ).then(function () {
-        confirmTextEl = element(by.model('confirmText'));
-      }
-    );
-  };
-
-  // TODO: Arrumar clique inválido na passagem do cenário "Confirmação de exclusão mal sucedida"
-  this.When(/^clicar no ícone de exclusão$/, deleteButton);
-
-  this.When(/^aparecer a confirmação de exclusão$/, showConfirmText);
+  this.When(/^aparecer a confirmação de exclusão$/, function () {
+    browser.sleep(1000);
+    return expect(element(by.model('confirmText')).isDisplayed()).to.eventually.be.true
+  });
 
   this.When(/^digito a palavra deletar$/, function () {
-    return confirmTextEl.sendKeys('deletar');
+    return element(by.model('confirmText')).sendKeys('deletar');
   });
 
   this.When(/^clicar no botão remover$/, function () {
-    return buttonConfirm.click();
+    buttonConfirm.click()
   });
 
-  this.Then(/^o sistema deve retornar uma mensagem de sucesso$/, function () {
-      return expect(element(by.css('.message-status.success p')).isDisplayed()).to.eventually.ok;
+  this.Then(/^o sistema deve retornar uma mensagem de remoção bem sucedida$/, function () {
+    return expect(element(by.css('.message-status.success p')).isPresent()).to.eventually.be.true
   });
 
-  // TODO: Ver como ocorre este evento
-  this.Then(/^atualizar a listagem de relatos$/, function (next) {
-    next();
+  this.Then(/^atualizar a listagem de relatos$/, function () {
+    return expect(element(by.css('#reports-listing-table')).getInnerHtml()).to.not.equal(innerHtmlBefore);
   });
 
-  this.When(/^digito qualquer palavra que não seja deletar$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.When(/^digito qualquer palavra que não seja deletar$/, function () {
+    return element(by.model('confirmText')).sendKeys('I\'m alive');
   });
 
-  this.Then(/^o sistema não deve ativar o botão remover$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^eu não conseguirei clicar no botão para excluir o relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.Then(/^o sistema não deve ativar o botão remover$/, function (next) {
+    return Promise.all([
+        expect(buttonConfirm.isEnabled()).to.eventually.be.false,
+        element.all(by.css('button[ng-click="close()"]')).get(0).click()
+      ]
+    )
   });
 
   this.Given(/^escolho o relato com protocolo \#(\d+)$/, function (arg1, callback) {

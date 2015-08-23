@@ -15,7 +15,7 @@ Cenário: Excluir um relato na listagem com a confirmação de exclusão bem suc
 	E aparecer a confirmação de exclusão
 	E digito a palavra deletar
 	E clicar no botão remover
-	Então o sistema deve retornar uma mensagem de sucesso
+	Então o sistema deve retornar uma mensagem de remoção bem sucedida
 	E atualizar a listagem de relatos
 
 Cenário: Confirmação de exclusão mal sucedida
@@ -24,7 +24,6 @@ Cenário: Confirmação de exclusão mal sucedida
 	E aparecer a confirmação de exclusão
 	E digito qualquer palavra que não seja deletar
 	Então o sistema não deve ativar o botão remover
-	E eu não conseguirei clicar no botão para excluir o relato
 
 Cenário: Confirmar se o protocolo que eu estou deletando diz respeito ao relato que eu quero deletar
 	Dado que eu estou na listagem de relatos
