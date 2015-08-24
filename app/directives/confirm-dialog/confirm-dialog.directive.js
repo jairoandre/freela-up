@@ -16,7 +16,8 @@ angular.module('ConfirmDialogDirectiveModule', [])
 
       },
       link: function (scope, el, attrs) {
-        el.on('click', function (evt) {
+        var clickHandler = function (evt) {
+          evt.preventDefault();
           $modal.open({
             backdrop: 'static',
             templateUrl: 'directives/confirm-dialog/confirm-dialog.template.html',
@@ -45,7 +46,12 @@ angular.module('ConfirmDialogDirectiveModule', [])
             },
             controller: 'ConfirmDialogCtrl'
           });
-          evt.preventDefault();
+        };
+        el.on('click', function (evt) {
+          clickHandler(evt);
+        });
+        el.off('click', function (evt) {
+          clickHandler(evt);
         });
       }
     }
@@ -54,12 +60,7 @@ angular.module('ConfirmDialogDirectiveModule', [])
     $scope.cdModalTitle = cdModalTitle;
     $scope.cdWarningMsg = cdWarningMsg;
     $scope.cdItemTitle = cdItemTitle;
-    if(cdConfirmText){
-      $scope.cdConfirmText = cdConfirmText;
-    }else{
-      $scope.cdConfirmText = 'DELETAR';
-    }
-
+    $scope.cdConfirmText = cdConfirmText ? cdConfirmText : 'DELETAR';
     $scope.cdButtonLabel = cdButtonLabel;
     $scope.cdConfirmPromise = cdConfirmPromise;
     $scope.confirmText = '';
@@ -69,11 +70,7 @@ angular.module('ConfirmDialogDirectiveModule', [])
     };
 
     $scope.disabled = function () {
-      if ($scope.confirmText && angular.equals($scope.confirmText.toLowerCase(), $scope.cdConfirmText)) {
-        return false;
-      } else {
-        return true;
-      }
+      return !($scope.confirmText && angular.equals($scope.confirmText.toLowerCase(), $scope.cdConfirmText));
     };
 
     $scope.confirm = function () {
