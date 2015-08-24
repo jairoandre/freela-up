@@ -8,7 +8,6 @@ angular
     'ReportsCategoriesManageStatusesModalControllerModule',
     'ReportsCategoriesServiceModule',
     'ReportsCategoriesNotificationsLayoutControllerModule',
-    'DeleteModalDirectiveModule',
     'DisplayNotificationDirectiveModule'
   ])
 
