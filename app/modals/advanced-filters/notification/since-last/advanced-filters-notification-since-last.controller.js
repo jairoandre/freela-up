@@ -2,17 +2,22 @@
 
 angular
   .module('AdvancedFiltersNotificationSinceLastModalControllerModule', [
-    'FormInputSliderComponentModule'
+    'FormInputSliderRangeComponentModule'
   ])
   .controller('AdvancedFiltersNotificationSinceLastModalController', function(Restangular, $scope, $modalInstance, activeAdvancedFilters) {
-    $scope.input = {};
+    $scope.input = {
+      values: {
+        begin: null,
+        end: null
+      }
+    };
 
     $scope.save = function() {
       var filter = {
         title: 'Última notificação emitida há',
-        desc: $scope.input.value + ( +($scope.input.value) > 1 ? " dias" : " dia"),
+        desc: $scope.input.values.begin + ' a ' + $scope.input.values.end + ' dias',
         type: 'daysSinceLastNotification',
-        value: $scope.input.value
+        value: $scope.input.values
       };
 
       activeAdvancedFilters.push(filter);

@@ -1,16 +1,23 @@
 'use strict';
 
 angular
-  .module('AdvancedFiltersNotificationDeadlineModalControllerModule', [])
+  .module('AdvancedFiltersNotificationDeadlineModalControllerModule', [
+    'FormInputSliderRangeComponentModule'
+  ])
   .controller('AdvancedFiltersNotificationDeadlineModalController', function(Restangular, $scope, $modalInstance, activeAdvancedFilters) {
-    $scope.input = {};
+    $scope.input = {
+      values: {
+        begin: null,
+        end: null
+      }
+    };
 
     $scope.save = function() {
       var filter = {
         title: 'Vencimento da última notificação',
-        desc: $scope.input.value + ( +($scope.input.value) > 1 ? " dias restantes" : " dia restante"),
+        desc: $scope.input.values.begin + ' a ' + $scope.input.values.end + ' dias',
         type: 'daysForLastNotificationDeadline',
-        value: $scope.input.value
+        value: $scope.input.values
       };
 
       activeAdvancedFilters.push(filter);
