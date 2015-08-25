@@ -7,6 +7,7 @@ module.exports = function () {
 
   var buttonConfirm = element.all(by.css('button[ng-click="confirm()"]')).get(0);
   var innerHtmlBefore;
+  var reportNumber;
 
   this.When(/^clicar no ícone de exclusão$/, function () {
     innerHtmlBefore = element(by.css('#reports-listing-table')).getInnerHtml();
@@ -38,7 +39,7 @@ module.exports = function () {
     return element(by.model('confirmText')).sendKeys('I\'m alive');
   });
 
-  this.Then(/^o sistema não deve ativar o botão remover$/, function (next) {
+  this.Then(/^o sistema não deve ativar o botão remover$/, function () {
     return Promise.all([
         expect(buttonConfirm.isEnabled()).to.eventually.be.false,
         element.all(by.css('button[ng-click="close()"]')).get(0).click()
@@ -46,24 +47,27 @@ module.exports = function () {
     )
   });
 
-  this.Given(/^escolho o relato com protocolo \#(\d+)$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.Given(/^escolho o relato com protocolo \#(\d+)$/, function () {
+    element(by.css('#reports-listing-table tbody td:first-of-type a')).getText().then(function(thisText) {
+      reportNumber = '#' + thisText;
+    });
   });
 
-  this.Given(/^clicar no ícone de exclusão deste relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.When(/^clicar no ícone de exclusão deste relato$/, function () {
+    return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
   });
 
-  this.Given(/^leio a fraseologia de atenção$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.When(/^leio a fraseologia de atenção$/, function () {
+    browser.sleep(5000);
+    return expect(element(by.css('.removeModal .modal-body p:first-of-type')).getInnerHtml()).to.not.empty;
   });
 
-  this.Given(/^confirmo que a fraseologia cita o protocolo \#(\d+)$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.Then(/^confirmo que a fraseologia cita o protocolo \#(\d+)$/, function () {
+    return Promise.all([
+      expect(element(by.css('.removeModal .modal-body p:first-of-type b:first-of-type')).getText()).to.eventually.equal(reportNumber),
+      element(by.model('confirmText')).sendKeys('deletar'),
+      buttonConfirm.click()
+    ])
   });
 
   this.Given(/^escolho o relato com protocolo localizado na R\. Leonel Guarnieri$/, function (callback) {
