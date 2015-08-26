@@ -29,7 +29,7 @@ angular.module('ZupPrintDirectiveModule', [])
           printFrame.id = 'zupPrintFrame';
           printFrame.contentWindow.document.open();
           printFrame.contentWindow.document.write('<html><head>'
-            + '<style>@page {size: A4; margin: 0;}</style>'
+            + '<style>@page {size: A4; margin: 50px;}</style>'
             + '</head><body></body></html>');
 
           document.body.appendChild(printFrame);
