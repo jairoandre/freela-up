@@ -50,7 +50,7 @@ angular
 
       $timeout(function(){$scope.loadingCkeditorScript = false},1000);
 
-    }
+    };
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function(){
       configureCkEditor();
