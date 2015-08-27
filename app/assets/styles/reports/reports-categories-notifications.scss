@@ -16,7 +16,7 @@ $notification-list-height: 50px;
 .reports-categories-notifications-sortable-list {
 
   list-style: none outside none;
-  padding-left: 0px;
+  padding-left: 0;
   margin-top: 10px;
 
   .ui-sortable-placeholder {
@@ -24,7 +24,7 @@ $notification-list-height: 50px;
   }
 
   li:last-child {
-    border-bottom: 0px;
+    border-bottom: 0;
   }
 
   li {
@@ -86,7 +86,7 @@ $notification-list-height: 50px;
     }
 
     .animate-show.ng-hide {
-      height: 0px;
+      height: 0;
     }
 
     .animate-show.ng-enter,
@@ -123,14 +123,11 @@ $notification-list-height: 50px;
   opacity: 0;
   visibility: hidden;
   overflow: auto;
-  -webkit-perspective: 1000px;
-  perspective: 1000px;
-  transition: opacity 0.5s, visibility 0s 0.5s;
-  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  @include perspective(1000px);
+  @include transition(opacity 0.5s, visibility 0s 0.5s);
 
   .animate-if.ng-enter, .animate-if.ng-leave {
-    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
-    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+    @include transition(all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s);
   }
 
   .animate-if.ng-enter,
@@ -161,8 +158,7 @@ $notification-list-height: 50px;
     top: 0;
     left: 0;
 
-    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-    animation: sk-bounce 2.0s infinite ease-in-out;
+    @include animation(sk-bounce 2.0s infinite ease-in-out);
   }
 
   .double-bounce2 {
@@ -258,7 +254,7 @@ $notification-list-height: 50px;
       width:100%;
       height: 80px;
       background: #e6e6e6;
-      box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+      @include box-shadow(0 0 0.5cm rgba(0,0,0,0.5));
       z-index: 999;
 
       .ckeditor-toolbar {
@@ -286,17 +282,15 @@ $notification-list-height: 50px;
 .notifications-type-layout-open.notifications-type-layout {
   opacity: 1;
   visibility: visible;
-  -webkit-transition: opacity 0.5s;
-  transition: opacity 0.5s;
+  @include transition(opacity 0.5s);
 
   .notifications-type-layout-inner {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    @include translate3d(0, 0, 0);
   }
 
   .cke_top, .cke_inner, .cke_chrome {
-    border: 0px;
-    box-shadow: none;
+    border: 0;
+    @include box-shadow(none);
     background: transparent;
   }
 }
@@ -310,16 +304,16 @@ $notification-list-height: 50px;
 .ckeditor-editable-content{
   height: 27cm;
   overflow: hidden;
-  border: 0px !important;
+  border: 0 !important;
 }
 
 .cke_focus {
   -webkit-appearance:none;
-  outline:0px !important;
+  outline: 0 !important;
 }
 
 .cke_contents {
-  border: 0px !important;
+  border: 0 !important;
 }
 
 
@@ -333,7 +327,7 @@ $notification-list-height: 50px;
   @include box-shadow(0 0 0.5cm rgba(0,0,0,0.5));
   padding: 50px;
   .cke_top, .cke_inner, .cke_chrome {
-    border: 0px;
+    border: 0;
     box-shadow: none;
     background: transparent;
   }
