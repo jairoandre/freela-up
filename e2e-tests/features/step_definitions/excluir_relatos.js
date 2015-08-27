@@ -19,8 +19,9 @@ module.exports = function () {
   });
 
   this.When(/^aparecer a confirmação de exclusão$/, function () {
-    browser.sleep(1000);
-    return expect(element(by.model('confirmText')).isDisplayed()).to.eventually.be.true
+    browser.wait(function () {
+      return expect(element(by.model('confirmText')).isDisplayed()).to.eventually.be.true
+    }, 1000);
   });
 
   this.When(/^digito a palavra deletar$/, function () {
@@ -44,11 +45,9 @@ module.exports = function () {
   });
 
   this.Then(/^o sistema não deve ativar o botão remover$/, function () {
-    return Promise.all([
-        expect(buttonConfirm.isEnabled()).to.eventually.be.false,
-        element.all(by.css('button[ng-click="close()"]')).get(0).click()
-      ]
-    )
+    return expect(buttonConfirm.isEnabled()).to.eventually.be.false.then(function () {
+      return element.all(by.css('button[ng-click="close()"]')).get(0).click()
+    })
   });
 
   this.Given(/^escolho o relato com protocolo \#(\d+)$/, function () {
@@ -62,16 +61,15 @@ module.exports = function () {
   });
 
   this.When(/^leio a fraseologia de atenção$/, function () {
-    browser.sleep(5000);
     return expect(element(by.css('.removeModal .modal-body p:first-of-type')).getInnerHtml()).to.not.empty;
   });
 
   this.Then(/^confirmo que a fraseologia cita o protocolo \#(\d+)$/, function () {
-    return Promise.all([
-      expect(element(by.css('.removeModal .modal-body p:first-of-type b:first-of-type')).getText()).to.eventually.equal(reportNumber),
-      confirmationText('deletar'),
-      buttonConfirm.click()
-    ])
+    return expect(element(by.css('.removeModal .modal-body p:first-of-type b:first-of-type')).getText()).to.eventually.equal(reportNumber).then(function () {
+      return confirmationText('deletar');
+    }).then(function () {
+      return buttonConfirm.click();
+    })
   });
 
   this.Given(/^escolho o relato com protocolo localizado na R\. Leonel Guarnieri$/, function () {
@@ -81,10 +79,10 @@ module.exports = function () {
   });
 
   this.Then(/^confirmo que a fraseologia cita o endereço R\. Leonel Guarnieri$/, function () {
-    return Promise.all([
-      expect(element(by.css('.removeModal .modal-body p:first-of-type b:nth-child(2)')).getText()).to.eventually.equal(address),
-      confirmationText('deletar'),
-      buttonConfirm.click()
-    ]);
+      return expect(element(by.css('.removeModal .modal-body p:first-of-type b:nth-child(2)')).getText()).to.eventually.equal(address).then(function () {
+        return confirmationText('deletar');
+      }).then(function () {
+        return buttonConfirm.click();
+      });
   });
 };
