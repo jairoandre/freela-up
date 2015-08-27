@@ -4,7 +4,7 @@
   }
 
   .modal-body {
-    padding: 0px !important;
+    padding: 0 !important;
   }
 
   .new-status {
@@ -21,7 +21,7 @@
       width: 100%;
       color: #333;
       background: #F2F2F2;
-      border: 0px;
+      border: 0;
       padding: 8px 20px;
       outline: none;
     }
@@ -79,15 +79,15 @@
             width: 677px;
             height: 100%;
             background: #F2F2F2;
-            top: 0px;
-            left: 0px;
+            top: 0;
+            left: 0;
             z-index: 1000;
             text-align: right;
             padding-right: 20px;
 
             input {
               height: 100%;
-              border: 0px;
+              border: 0;
               outline: none;
               background: #F2F2F2;
               padding-left: 27px;
@@ -125,7 +125,7 @@
 
       .colorpicker_input {
         width: 80px;
-        border: 0px;
+        border: 0;
         border-bottom: 1px solid #E5E5E5;
         background: #F2F2F2;
         text-align: center;
@@ -143,9 +143,10 @@
   }
 
   .modal-footer {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
+
 .editStepModal {
   .modal-header {
     border-bottom: 1px solid #808080;
