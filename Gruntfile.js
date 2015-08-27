@@ -13,6 +13,7 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    THEME: process.env.THEME,
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
@@ -70,7 +71,7 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: '0.0.0.0',
+        hostname: '127.0.0.1',
         livereload: 35729
       },
       livereload: {
@@ -162,7 +163,7 @@ module.exports = function (grunt) {
         overrides: {
           "bootstrap": {
             "main": [
-              "dist/css/bootstrap.css",
+              "dist/css/bootstrap.css"
             ]
           }
         }
@@ -352,6 +353,7 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
+            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',

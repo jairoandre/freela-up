@@ -1,0 +1,21 @@
+.unicef {
+  #main_layout {
+    #sidebar {
+      background: #0C5E8E;
+
+      .logo {
+        background: #259ECB;
+      }
+
+      ul {
+        li a {
+          color: #CCC;
+        }
+
+        li.active, li:hover {
+          background: #292929;
+        }
+      }
+    }
+  }
+}

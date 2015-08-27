@@ -215,5 +215,6 @@ angular
 
     };
 
+    $rootScope.theme = (ENV.theme.length > 0) ? ENV.theme : 'default';
     $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
   }]);
