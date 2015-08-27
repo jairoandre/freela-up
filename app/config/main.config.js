@@ -210,9 +210,6 @@ angular
         $rootScope.showModalMessage = false;
         $timeout(function() {$rootScope.modalMessage = {icon: null, text: null, messageClass: null};}, 1000);
       }, 3500);
-
-
-
     };
 
     $rootScope.theme = (ENV.theme.length > 0) ? ENV.theme : 'default';

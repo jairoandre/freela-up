@@ -14,6 +14,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     BASE_URL: process.env.BASE_URL,
+    THEME: process.env.THEME,
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
@@ -167,7 +168,6 @@ module.exports = function (grunt) {
             ]
           }
         }
-
       }
     },
 
@@ -258,6 +258,7 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     svgmin: {
       dist: {
         files: [{
@@ -268,6 +269,7 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     htmlmin: {
       dist: {
         options: {
@@ -342,7 +344,6 @@ module.exports = function (grunt) {
       options: {
         name: 'config'
       },
-
       angularLocal: {
         options: {
           dest: '<%= yeoman.app %>/config/main.constants.js',
@@ -353,6 +354,7 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
+            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
@@ -376,19 +378,20 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'production',
+            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
             logoImgUrl: '<%= LOGO_IMG_URL %>'
-          },
+          }
         }
       }
     },
 
     'string-replace': {
-      all: {
+      dist: {
         files: {
           '<%= yeoman.dist %>/': '<%= yeoman.dist %>/index.html'
         },
@@ -414,11 +417,9 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        //'imagemin',
         'svgmin'
       ]
-    },
-
+    }
   });
 
   grunt.registerTask('serve', function (target) {
@@ -464,14 +465,13 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'imagemin',
     'cdnify',
     'cssmin',
+    'string-replace',
     'uglify',
     'rev',
     'usemin',
-    'htmlmin',
-    'string-replace'
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
