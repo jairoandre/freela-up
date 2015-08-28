@@ -22,16 +22,6 @@ angular
       $scope.confirmSendMap[notifications[i]] = false;
     }
 
-    // Status map to help the rendering elemments.
-    $scope.statusesMap = {};
-
-    var statuses = report.category.statuses;
-
-    for (var i = 0, l = statuses.length; i < l; i++) {
-      var _s = statuses[i];
-      $scope.statusesMap[_s.id] = _s;
-    }
-
     var refreshNotifications = function () {
       init();
       ReportsCategoriesNotificationsService.cleanCache();
@@ -39,7 +29,7 @@ angular
         .then(function (r) {
           $scope.notifications = r;
         });
-    }
+    };
 
 
     /**
@@ -74,7 +64,7 @@ angular
 
     var daysTxt = function (days) {
       return days + ' dia' + (days > 1 ? 's' : '');
-    }
+    };
 
     $scope.getDefaultDeadlineInDaysTxt = function (notification) {
       var deadlineInDays = notification.deadline_in_days;
@@ -105,5 +95,4 @@ angular
     };
 
   }
-)
-;
+);

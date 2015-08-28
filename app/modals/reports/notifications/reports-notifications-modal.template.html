@@ -41,12 +41,12 @@
           </a>&nbsp;&nbsp;<b>{{notification.notification_type.title }}</b>
         </td>
         <td class="status-cell">
-          <div ng-if="notification.notification_type.reports_status_id">
+          <div ng-if="notification.notification_type.status.id">
             <span class="status-color"
-                  style="background-color: {{statusesMap[notification.notification_type.reports_status_id].color}}"></span>
-            &nbsp;{{statusesMap[notification.notification_type.reports_status_id].title}}
+                  style="background-color: {{notification.notification_type.status.color}}"></span>
+            &nbsp;{{notification.notification_type.status.title}}
           </div>
-          <div ng-if="!notification.notification_type.reports_status_id">-</div>
+          <div ng-if="!notification.notification_type.status.id">-</div>
         </td>
         <td class="overdue-cell">
           {{ getDefaultDeadlineInDaysTxt(notification) }}
