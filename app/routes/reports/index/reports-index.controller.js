@@ -337,6 +337,15 @@ angular
       }
     };
 
+    $scope.openReport = function (report_id, event) {
+      if (!$rootScope.loading
+        && event.target.parentNode.tagName.toLowerCase() != 'a'
+        && event.target.tagName.toLowerCase() != 'a'
+      ) {
+        $state.go('reports.show', {id: report_id});
+      }
+    };
+
     // Search function
     $scope.search = function (text) {
       $scope.searchText = text;

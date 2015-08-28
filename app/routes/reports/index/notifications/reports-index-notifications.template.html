@@ -29,7 +29,7 @@
   </thead>
 
   <tbody>
-  <tr ng-repeat="report in reports | toArray:false | orderBy:'order'">
+  <tr ng-repeat="report in reports | toArray:false | orderBy:'order'" ng-click="openReport(report.id, $event)">
     <td>{{ report.protocol }} </td>
     <td>{{ report.last_notification.notification_type.title }} </td>
     <td>{{ report.address }} </td>

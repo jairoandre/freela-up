@@ -43,15 +43,6 @@ angular
       return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
     };
 
-    $scope.openReport = function (report_id, event) {
-      if (!$rootScope.loading
-        && event.target.parentNode.tagName.toLowerCase() != 'a'
-        && event.target.tagName.toLowerCase() != 'a'
-      ) {
-        $state.go('reports.show', {id: report_id});
-      }
-    };
-
     $scope.deleteReport = function (report) {
       $modal.open({
         templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
