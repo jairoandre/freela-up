@@ -1,4 +1,5 @@
 @import "compass/css3";
+@import "compass/typography/text/ellipsis";
 
 .reports-notifications-modal {
   .modal-dialog {
@@ -68,25 +69,31 @@
       vertical-align: middle !important;
     }
 
-    td.type-cell {
-      width: 250px;
+    .type-cell {
+      max-width: 250px;
+      min-width: 250px;
       padding-left: 30px;
+      @include ellipsis();
     }
 
-    td.status-cell {
-      width: 150px;
+    .status-cell {
+      max-width: 150px;
+      min-width: 150px;
     }
 
-    td.overdue-cell {
-      width: 100px;
+    .overdue-cell {
+      max-width: 100px;
+      min-width: 100px;
     }
 
-    td.date-cell {
-      width: 110px;
+    .date-cell {
+      max-width: 110px;
+      min-width: 110px;
     }
 
-    td.button-cell {
-      width: 150px;
+    .button-cell {
+      max-width: 150px;
+      min-width: 150px;
       padding-right: 30px;
     }
 

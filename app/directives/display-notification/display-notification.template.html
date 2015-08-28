@@ -3,8 +3,28 @@
   <a href="" zup-print="notificationToPrint" class="modal-icon save-image"><i class="glyphicon glyphicon-print"></i></a>
 
   <div id="notificationToPrint">
+    <div id="ckeditor-toolbar" class="ckeditor-toolbar" style="display: none;"></div>
     <div class="a4-page">
-      <div ng-bind-html="content"></div>
+      <div ckeditor="ckeditorOptions" ng-model="content" contenteditable="true" ng-if="scriptLoaded"></div>
     </div>
   </div>
+  <script ng-if="scriptLoaded">
+
+    var editor;
+
+    // The instanceReady event is fired when an instance of CKEditor has finished
+    // its initialization.
+    CKEDITOR.on( 'instanceReady', function ( ev ) {
+      editor = ev.editor;
+
+      // Event fired when the readOnly property changes.
+      editor.on( 'readOnly', function () {
+        if(!this.readOnly){
+          editor.setReadOnly(true);
+        }
+      } );
+
+    } );
+
+  </script>
 </div>

@@ -746,7 +746,7 @@
                           ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">
                     {{addingNotificationType ? 'Salvar' : 'Atualizar'}}
                   </button>
-                  <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom" du-smooth-scroll>Cancelar</a>
+                  <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom" ng-disabled="saveNotificationTypePromise" du-smooth-scroll>Cancelar</a>
                 </div>
               </div>
             </li>

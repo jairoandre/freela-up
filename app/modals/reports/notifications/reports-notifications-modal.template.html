@@ -35,9 +35,9 @@
       <tbody>
       <tr ng-repeat="notification in notifications | orderBy:'notification_type.order'"
           ng-click="openReport(report.id, $event)">
-        <td class="type-cell">
-          <a href="">
-            <span class="glyphicon glyphicon-search" title="Ordem: {{notification.notification_type.order}}"></span>
+        <td class="type-cell" title="{{notification.notification_type.title}}">
+          <a href="" display-notification="notification.notification_type.layout" >
+            <span class="glyphicon glyphicon-search"></span>
           </a>&nbsp;&nbsp;<b>{{notification.notification_type.title }}</b>
         </td>
         <td class="status-cell">

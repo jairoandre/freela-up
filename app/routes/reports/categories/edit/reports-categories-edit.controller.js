@@ -251,8 +251,10 @@ angular
             $scope.addingNotificationType = false;
             sucessPostPutPromise('O tipo de notificação foi criado com sucesso');
             refreshNotificationTypesArray();
+            $scope.saveNotificationTypePromise = undefined;
           }, function (r) {
             errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
+            $scope.saveNotificationTypePromise = undefined;
           });
       } else {
         $scope.saveNotificationTypePromise = NotificationTypesService
@@ -262,8 +264,10 @@ angular
             $scope.addingNotificationType = false;
             sucessPostPutPromise('O tipo de notificação foi atualizado com sucesso');
             refreshNotificationTypesArray();
+            $scope.saveNotificationTypePromise = undefined;
           }, function (r) {
             errorPostPutPromise(r, 'O tipo de notificação não pode ser salvo');
+            $scope.saveNotificationTypePromise = undefined;
           });
       }
     };

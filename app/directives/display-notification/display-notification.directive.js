@@ -1,7 +1,7 @@
 /**
  * Created by Jairo on 19/07/2015.
  */
-angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule'])
+angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule','ckeditor', 'angularLoad'])
   .directive('displayNotification', function ($modal) {
     return {
       restrict: 'A',
@@ -26,13 +26,26 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule']
       }
     }
   })
-  .controller('DisplayNotificationModalCtrl', function($scope, $modalInstance, content){
+  .controller('DisplayNotificationModalCtrl', function($scope, $modalInstance, ENV, content, angularLoad){
     $scope.content = content;
     $scope.close = function() {
       $modalInstance.close();
     };
+    $scope.scriptLoaded = false;
+    var configureCkEditor = function () {
+      $scope.ckeditorOptions = {
+        readOnly: true,
+        extraPlugins: 'sharedspace',
+        sharedSpaces: {top: 'ckeditor-toolbar'}
+      };
+
+    };
+    angularLoad.loadScript(ENV.ckeditorPath).then(function(){
+      configureCkEditor();
+      $scope.scriptLoaded = true;
+    });
     $scope.$on('$locationChangeStart', function(evt) {
-      $modalInstance.dismiss('locationChange');
       evt.preventDefault();
+      $modalInstance.dismiss('locationChange');
     });
   });
