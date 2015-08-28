@@ -1,6 +1,8 @@
 $icon-font-path: "../fonts/";
+$fa-font-path:   "../fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
+@import 'font-awesome/scss/font-awesome';
 @import "compass/css3";
 
 .browsehappy {
