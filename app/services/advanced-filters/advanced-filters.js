@@ -7,16 +7,20 @@ angular
     'AdvancedFiltersStatusModalControllerModule',
     'AdvancedFiltersAuthorModalControllerModule',
     'AdvancedFiltersReporterModalControllerModule',
-    'AdvancedFiltersPeriodModalControllerModule',
+    'PeriodSelectorModule',
     'AdvancedFiltersAreaModalControllerModule',
     'AdvancedFiltersFieldsModalControllerModule',
     'AdvancedFiltersShareModalControllerModule',
+    'AdvancedFiltersNotificationMinimumNumberModalControllerModule',
+    'AdvancedFiltersNotificationDeadlineModalControllerModule',
+    'AdvancedFiltersNotificationOverdueModalControllerModule',
+    'AdvancedFiltersNotificationSinceLastModalControllerModule',
     'ReportsCategoriesServiceModule',
     'InventoriesCategoriesServiceModule'
   ])
 
   /* This file contains common filters used by inventory/reports */
-  .factory('AdvancedFilters', function ($modal, Restangular, $q, $location, $rootScope, ReportsCategoriesService, InventoriesCategoriesService) {
+  .factory('AdvancedFilters', function ($modal, PeriodSelectorService, Restangular, $q, $location, $rootScope, ReportsCategoriesService, InventoriesCategoriesService) {
     var categoryResolver = function(type) {
       var list;
 
@@ -117,15 +121,28 @@ angular
 
       // advanced filter by date
       period: function(activeAdvancedFilters) {
-        $modal.open({
-          templateUrl: 'modals/advanced-filters/period/advanced-filters-period.template.html',
-          windowClass: 'filterPeriodModal',
-          resolve: {
-            activeAdvancedFilters: function() {
-              return activeAdvancedFilters;
-            }
-          },
-          controller: 'AdvancedFiltersPeriodModalController'
+        PeriodSelectorService.open(true).then(function(period){
+          if(period.beginDate) {
+            var beginDateFilter = {
+              title: 'A partir da data',
+              type: 'beginDate',
+              desc: moment(period.beginDate).format('DD/MM/YYYY'),
+              value: moment(period.beginDate).startOf('day').format()
+            };
+
+            activeAdvancedFilters.push(beginDateFilter);
+          }
+
+          if(period.endDate) {
+            var endDateFilter = {
+              title: 'Até a data',
+              type: 'endDate',
+              desc: moment(period.endDate).format('DD/MM/YYYY'),
+              value: moment(period.endDate).endOf('day').format()
+            };
+
+            activeAdvancedFilters.push(endDateFilter);
+          }
         });
       },
 
@@ -140,6 +157,62 @@ angular
             }
           },
           controller: 'AdvancedFiltersAreaModalController'
+        });
+      },
+
+      // advanced filter by minimum notification number
+      notificationMinimumNumber: function(activeAdvancedFilters) {
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/minimum-number/advanced-filters-notification-minimum-number.template.html',
+          windowClass: 'filterNotificationMininumNumberModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationMinimumNumberModalController'
+        });
+      },
+
+      // advanced filter by days since last notification
+      notificationSinceLast: function(activeAdvancedFilters) {
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/since-last/advanced-filters-notification-since-last.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationSinceLastModalController'
+        });
+      },
+
+      // advanced filter by days for last notification deadline
+      notificationDeadline: function(activeAdvancedFilters) {
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/deadline/advanced-filters-notification-deadline.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationDeadlineModalController'
+        });
+      },
+
+      // advanced filter by days for overdue notification
+      notificationOverdue: function(activeAdvancedFilters) {
+        return $modal.open({
+          templateUrl: 'modals/advanced-filters/notification/overdue/advanced-filters-notification-overdue.template.html',
+          windowClass: 'filterNotificationModal',
+          resolve: {
+            activeAdvancedFilters: function() {
+              return activeAdvancedFilters;
+            }
+          },
+          controller: 'AdvancedFiltersNotificationOverdueModalController'
         });
       },
 

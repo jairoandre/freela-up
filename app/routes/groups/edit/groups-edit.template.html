@@ -3,8 +3,8 @@
 <div ng-hide="loading" class="pages-animation">
   <div class="title">
     <ul>
-      <li><a href="#/groups">Grupos</a></li>
-      <li><a href="#/groups/{{ group.id }}">{{ group.name }}</a></li>
+      <li><a ng-href="#/groups">Grupos</a></li>
+      <li><a ng-href="#/groups/{{ group.id }}">{{ group.name }}</a></li>
       <li>Editar permissões</li>
     </ul>
   </div>
@@ -77,6 +77,12 @@
               <li><a href="" ng-click="selectAllObjects(groups)">Selecionar todos os grupos</a></li>
 
               <li ng-repeat="group in groups | filter:q" ng-class="{ 'active': isObjectSelected(group.id) }"><a href="" ng-click="toggleObject(group)"><span ng-bind-html="group.name  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
+            </ul>
+
+            <ul ng-if="newPermission.type === 'business_report'">
+              <li><a href="" ng-click="selectAllObjects(businessReports)">Selecionar todos os relatórios</a></li>
+
+              <li ng-repeat="report in businessReports | filter:q" ng-class="{ 'active': isObjectSelected(report.id) }"><a href="" ng-click="toggleObject(report)"><span ng-bind-html="report.title  | highlight:q"></span> <b class="glyphicon glyphicon-ok pull-right"></b></a></li>
             </ul>
 
             <ul ng-if="newPermission.type === 'report'">

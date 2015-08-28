@@ -222,7 +222,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
             '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/assets/fonts/*',
+            '<%= yeoman.dist %>/assets/fonts/*'
           ]
         }
       }
@@ -467,7 +467,7 @@ module.exports = function (grunt) {
             flowsEnabled: '<%= FLOWS_ENABLED %>',
             logoImgUrl: '<%= LOGO_IMG_URL %>',
             ckeditorPath: 'assets/scripts/ckeditor/ckeditor.js'
-          },
+          }
         }
       }
     },
@@ -479,7 +479,7 @@ module.exports = function (grunt) {
         },
         options: {
           replacements: [{
-            pattern: /Raven\.config\('.+', {}\)\.install\(\);/,
+            pattern: /Raven\.config\('.+', {\}\)\.install\(\);/,
             replacement: 'Raven.config(\'<%= SENTRY_DSN %>\', {}).install();'
           }]
         }
@@ -499,8 +499,7 @@ module.exports = function (grunt) {
         //'imagemin',
         'svgmin'
       ]
-    },
-
+    }
   });
 
   grunt.registerTask('serve', function (target) {

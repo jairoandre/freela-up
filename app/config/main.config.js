@@ -60,6 +60,29 @@ angular
       return $delegate;
     }]);
   }])
+  .factory('singleItemUploaderFilter', function(){
+    return {
+      name: 'fixQueueLimit',
+      fn: function(item, options) {
+        if(this.queue.length === 1) {
+          this.clearQueue();
+        }
+        return true;
+      }
+    };
+  })
+  .factory('onlyImagesUploaderFilter', function(){
+    return function(isHTML5) {
+      return {
+        name: 'onlyImages',
+        fn: function (item, options) {
+          var type = isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+          type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+          return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+      };
+    };
+  })
   .run(['Restangular', 'Auth', '$rootScope', '$timeout', 'Error', '$http', 'FullResponseRestangular', 'ENV', '$window', function (Restangular, Auth, $rootScope, $timeout, Error, $http, FullResponseRestangular, ENV, $window) {
     Restangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
     FullResponseRestangular.setDefaultHeaders({'X-App-Token': Auth.getToken()});
@@ -137,6 +160,7 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      $rootScope.stateClass = 'state-' + toState.name.replace(".", "-").replace("_", "-");
       if (fromState.name.length === 0) {
         $rootScope.hideInitialLoading = true;
       }
@@ -148,22 +172,26 @@ angular
     });
 
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+      $rootScope.stateClass = '';
       if (error.status === 403) {
         $window.location = '/';
       } else if (error.status === 404) {
         $window.location = '/';
       } else if (error.status === 401) {
         Error.show('expired_session');
-      }
-      else {
+      } else {
         Error.show(error);
       }
     });
 
-    // FIXME let's put this in a directive, please, Mr. Gabriel? :-D
+    $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
+      console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
+      console.log(unfoundState, fromState, fromParams);
+    });
+
     $rootScope.glyphicons = {
       'exclamation-sign': 'glyphicon-exclamation-sign',
-      'ok': 'glyphicon-ok',
+      'ok': 'glyphicon-ok'
     };
 
     $rootScope.showMessage = function (icon, text, messageClass, scrollTop) {

@@ -1,6 +1,6 @@
 <div id="full_page">
   <div class="header">
-    <a href="#/inventories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a ng-href="#/inventories" class="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
     <div class="title">Novo item de inventário</div>
   </div>
@@ -14,7 +14,7 @@
       <p>Por favor, selecione a categoria na qual você deseja cadastrar o item.</p>
 
       <ul>
-        <li ng-repeat="category in categories"><a href="#/items/category/{{ category.id }}/add">{{ category.title }}</a></li>
+        <li ng-repeat="category in categories"><a ng-href="#/items/category/{{ category.id }}/add">{{ category.title }}</a></li>
       </ul>
     </div>
 

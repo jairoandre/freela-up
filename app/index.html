@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="bower_components/select2/select2.css" />
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/nouislider/distribute/nouislider.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-print/angularPrint.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) assets/styles/main.css -->
@@ -54,11 +56,16 @@
     <link rel="stylesheet" href="assets/styles/users.css">
     <link rel="stylesheet" href="assets/styles/multiple-select-list.css">
     <link rel="stylesheet" href="assets/styles/ui-select.css">
+    <link rel="stylesheet" href="assets/styles/ui-slider.css">
     <link rel="stylesheet" href="assets/styles/animate.css">
+
+    <link rel="stylesheet" href="assets/styles/business_reports/edit-chart.css">
+    <link rel="stylesheet" href="assets/styles/business_reports/common.css">
+    <link rel="stylesheet" href="assets/styles/business_reports/index.css">
     <!-- endbuild -->
   </head>
 
-  <body ng-app="zupPainelApp" detect-scroll-top ng-class="{'vertical-scroll': uiHasScroll}">
+  <body ng-app="zupPainelApp" detect-scroll-top class="{{stateClass}}" ng-class="{'vertical-scroll': uiHasScroll}">
     <!--[if lt IE 10]>
       <p class="browsehappy">Você está usando um navegador <strong>antigo</strong>. Por favor <a href="http://browsehappy.com/">seu navegador</a> para ter uma experiência agradável.</p>
     <![endif]-->
@@ -129,6 +136,9 @@
     <script src="bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>
     <script src="bower_components/angular-toArrayFilter/toArrayFilter.js"></script>
     <script src="bower_components/angular-promise-buttons/dist/angular-promise-buttons.js"></script>
+    <script src="bower_components/nouislider/distribute/nouislider.js"></script>
+    <script src="bower_components/angular-google-chart/ng-google-chart.js"></script>
+    <script src="bower_components/angular-print/angularPrint.js"></script>
     <script src="bower_components/angular-ui-sortable/sortable.js"></script>
     <script src="bower_components/angular-ckeditor/angular-ckeditor.js"></script>
     <script src="bower_components/angular-load/angular-load.js"></script>
@@ -155,6 +165,7 @@
     <script src="config/main.constants.js"></script>
 
     <!-- build:js({.tmp,app}) assets/scripts/scripts.js -->
+    <script src="polyfill.js"></script>
     <script src="main.js"></script>
 
     <script src="config/pt-br.locale.js"></script>
@@ -170,6 +181,7 @@
     <script src="services/reports/reports-notifications.js"></script>
     <script src="services/inventories/inventories-categories.js"></script>
     <script src="services/inventories/inventories-items.js"></script>
+    <script src="services/business-reports/business-reports.js"></script>
     <script src="services/google-map/google-map.js"></script>
 
     <script src="routes/user/user.route.js"></script>
@@ -186,7 +198,13 @@
     <script src="routes/reports/reports.route.js"></script>
     <script src="routes/reports/index/reports-index.route.js"></script>
     <script src="routes/reports/index/reports-index.controller.js"></script>
+    <script src="routes/reports/index/list/reports-index-list.route.js"></script>
+    <script src="routes/reports/index/list/reports-index-list.controller.js"></script>
     <script src="routes/reports/index/map/reports-index-map.route.js"></script>
+    <script src="routes/reports/index/map/reports-index-map.controller.js"></script>
+    <script src="routes/reports/index/notifications/reports-index-notifications.route.js"></script>
+    <script src="routes/reports/index/notifications/reports-index-notifications.controller.js"></script>
+
     <script src="routes/reports/show/reports-show.route.js"></script>
     <script src="routes/reports/show/reports-show.controller.js"></script>
     <script src="routes/reports/show/print/reports-show-print.route.js"></script>
@@ -249,15 +267,31 @@
     <script src="routes/cases/edit/cases-edit.route.js"></script>
     <script src="routes/cases/edit/cases-edit.controller.js"></script>
 
+    <script src="routes/business-reports/business-reports.route.js"></script>
+    <script src="routes/business-reports/index/business-reports-index.route.js"></script>
+    <script src="routes/business-reports/index/business-reports-index.controller.js"></script>
+    <script src="routes/business-reports/index/components/header/business-reports-index-header.directive.js"></script>
+    <script src="routes/business-reports/index/components/list/business-reports-index-list.directive.js"></script>
+    <script src="routes/business-reports/edit/business-reports-edit.route.js"></script>
+    <script src="routes/business-reports/edit/business-reports-edit.controller.js"></script>
+    <script src="routes/business-reports/edit/components/header/business-reports-edit-header.directive.js"></script>
+    <script src="routes/business-reports/edit/components/form/business-reports-edit-form.directive.js"></script>
+    <script src="routes/business-reports/edit/components/chart/business-reports-edit-chart.directive.js"></script>
+    <script src="routes/business-reports/edit/components/charts/business-reports-edit-charts.directive.js"></script>
+
     <script src="components/equals/equals.directive.js"></script>
     <script src="components/next-field-on-enter/next-field-on-enter.directive.js"></script>
     <script src="components/nav-item/nav-item.directive.js"></script>
     <script src="components/map/map.directive.js"></script>
+    <script src="components/period-selector/period-selector.js"></script>
+    <script src="components/group-selector/group-selector.js"></script>
+    <script src="components/inline-edit/ng-inline-edit.js"></script>
     <script src="components/style-map/style-map.directive.js"></script>
     <script src="components/style-results-table/style-results-table.directive.js"></script>
     <script src="components/on-blur/on-blur.directive.js"></script>
     <script src="components/on-focus/on-focus.directive.js"></script>
     <script src="components/focus-on-event/focus-on-event.directive.js"></script>
+    <script src="components/focus-if/focus-if.directive.js"></script>
     <script src="components/add-area-circle-form/add-area-circle-form.directive.js"></script>
     <script src="components/area-map/area-map.directive.js"></script>
     <script src="components/fields-filter-item/fields-filter-item.directive.js"></script>
@@ -301,7 +335,13 @@
     <script src="components/zup-transclude/zup-transclude.directive.js"></script>
     <script src="components/multiple-select-list/multiple-select-list.directive.js"></script>
     <script src="components/select-list/select-list.directive.js"></script>
-
+    <script src="components/form-input-validator/integer/form-input-validator-integer.directive.js"></script>
+    <script src="components/form-input-validator/great-than/form-input-validator-great-than.directive.js"></script>
+    <script src="components/form-input-slider/form-input-slider.directive.js"></script>
+    <script src="components/form-input-slider-range/form-input-slider-range.directive.js"></script>
+    <script src="components/report-category-selector/report-category-selector.directive.js"></script>
+    <script src="modals/business-reports/destroy/business-reports-destroy.controller.js"></script>
+    <script src="modals/business-reports/edit-chart/business-reports-edit-chart.controller.js"></script>
     <script src="modals/reports/destroy/reports-destroy.controller.js"></script>
     <script src="modals/reports/edit-status/reports-edit-status.controller.js"></script>
     <script src="modals/reports/edit-category/reports-edit-category.controller.js"></script>
@@ -315,10 +355,13 @@
     <script src="modals/advanced-filters/reporter/advanced-filters-reporter.controller.js"></script>
     <script src="modals/advanced-filters/category/advanced-filters-category.controller.js"></script>
     <script src="modals/advanced-filters/fields/advanced-filters-fields.controller.js"></script>
-    <script src="modals/advanced-filters/period/advanced-filters-period.controller.js"></script>
     <script src="modals/advanced-filters/query/advanced-filters-query.controller.js"></script>
     <script src="modals/advanced-filters/share/advanced-filters-share.controller.js"></script>
     <script src="modals/advanced-filters/status/advanced-filters-status.controller.js"></script>
+    <script src="modals/advanced-filters/notification/minimum-number/advanced-filters-notification-minimum-number.controller.js"></script>
+    <script src="modals/advanced-filters/notification/deadline/advanced-filters-notification-deadline.controller.js"></script>
+    <script src="modals/advanced-filters/notification/overdue/advanced-filters-notification-overdue.controller.js"></script>
+    <script src="modals/advanced-filters/notification/since-last/advanced-filters-notification-since-last.controller.js"></script>
     <script src="modals/reports/categories/manage-statuses/reports-categories-manage-statuses.controller.js"></script>
     <script src="modals/reports/categories/destroy/reports-categories-destroy.controller.js"></script>
     <script src="modals/reports/categories/notifications/reports-categories-notifications-layout.controller.js"></script>
@@ -333,7 +376,6 @@
     <script src="modals/items/categories/edit-status/items-categories-edit-status.controller.js"></script>
 
     <script src="modals/users/disable/users-disable.controller.js"></script>
-    <script src="modals/users/filter-group/users-filter-group.controller.js"></script>
     <script src="modals/gallery/gallery.controller.js"></script>
     <script src="modals/reports/select-user/reports-select-user.controller.js"></script>
     <script src="modals/reports/create-user/reports-create-user.controller.js"></script>

@@ -282,7 +282,7 @@
                     <a href="" class="handle icon"><span class="glyphicon glyphicon-move"></span></a>
                   </div>
 
-                  <div class="option trash" ng-hide="field.location === true">
+                  <div class="option trash" ng-hide="field.location === true || !hasPermission('inventories_formulas_full_access')">
                     <div class="popover bottom" inventory-popover="remove" ng-if="popover.remove === true">
                       <div class="arrow"></div>
                       <h3 class="popover-title">Remover campo {{ field.label }}</h3>
@@ -290,7 +290,7 @@
                       <div class="popover-content">
                         <div class="row">
                           <div class="col-xs-6"><a href="" ng-click="$parent.popover.remove = false" class="btn btn-default btn-block">Cancelar</a></div>
-                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true;$parent.popover.remove = false" class="btn btn-danger btn-block">Remover</a></div>
+                          <div class="col-xs-6"><a href="" ng-click="field.destroy = true;field.toRemove = true;$parent.popover.remove = false" class="btn btn-danger btn-block">Remover</a></div>
                         </div>
                       </div>
                     </div>

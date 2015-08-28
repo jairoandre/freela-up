@@ -10,7 +10,7 @@ angular
     'ngSanitize',
     'ui.bootstrap',
     'ui.autocomplete',
-    'ui.select2', // old version MOTHAFU#@
+    'ui.select2', // old version
     'ui.select',
     'ui.mask',
     'infinite-scroll',
@@ -47,5 +47,6 @@ angular
     'GroupsModule',
     'HelpModule',
     'FlowsModule',
-    'CasesModule'
+    'CasesModule',
+    'BusinessReportsModule'
   ]);

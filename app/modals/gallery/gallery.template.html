@@ -1,5 +1,5 @@
 <a href="" ng-click="close()" class="modal-icon"><i class="glyphicon glyphicon-remove"></i></a>
-<a href="" ng-href="{{ image.url }}" download class="modal-icon save-image"><i class="glyphicon glyphicon-save"></i></a>
+<a ng-href="{{ image.url }}" download class="modal-icon save-image"><i class="glyphicon glyphicon-save"></i></a>
 
 <img ng-src="{{ image.url }}" class="image-to-be-loaded" ng-show="loading" gallery-image-on-load />
 

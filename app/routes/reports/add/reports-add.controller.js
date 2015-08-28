@@ -10,7 +10,7 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, reportCategoriesResponse, inventoriesCategoriesResponse) {
+  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, onlyImagesUploaderFilter, reportCategoriesResponse, inventoriesCategoriesResponse) {
     var categories = reportCategoriesResponse.data;
 
     $scope.address = {
@@ -24,17 +24,10 @@ angular
 
     $scope.inventoryCategories = inventoriesCategoriesResponse.data;
 
-    $scope.uploader = new FileUploader();
+    var uploader = $scope.uploader = new FileUploader();
     $scope.selectedCategory = null;
 
-    $scope.uploader.filters.push({
-      name: 'onlyImages',
-      fn: function(item, options) {
-        var type = $scope.uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-        type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-      }
-    });
+    uploader.filters.push(onlyImagesUploaderFilter(uploader.isHTML5));
 
     $scope.getInventoryCategory = function(id) {
       for (var i = $scope.inventoryCategories.length - 1; i >= 0; i--) {

@@ -3,7 +3,7 @@
 <div ng-hide="loading" class="pages-animation">
   <div class="title">
     <ul>
-      <li><a href="#/flows">Fluxos</a></li>
+      <li><a ng-href="#/flows">Fluxos</a></li>
       <li class="ng-binding">{{ flow.title }}</li>
     </ul>
 
@@ -27,7 +27,7 @@
           </td>
 
           <td class="links">
-            <a class="icon_action" href="#/flows/{{ flow.id }}/steps/{{ step.id }}/edit">
+            <a class="icon_action" ng-href="#/flows/{{ flow.id }}/steps/{{ step.id }}/edit">
               <span class="glyphicon glyphicon-edit"></span>
             </a>
 
@@ -43,7 +43,7 @@
 
         <tr ng-show="step.step_type === 'flow'" ng-repeat="flowStep in step.my_child_flow.my_steps" class="secondLevel">
           <td colspan="3">
-            <span></span> <a href="#/flows/{{ step.my_child_flow.id }}/steps/{{ flowStep.id }}/edit">{{ flowStep.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step_type == 'form'">(tipo formulário)</b></a></a>
+            <span></span> <a ng-href="#/flows/{{ step.my_child_flow.id }}/steps/{{ flowStep.id }}/edit">{{ flowStep.title }} <b ng-show="flowStep.step.step_type == 'flow'">(tipo fluxo)</b><b ng-show="flowStep.step_type == 'form'">(tipo formulário)</b></a></a>
           </td>
         </tr>
       </tbody>
