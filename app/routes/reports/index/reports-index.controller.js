@@ -237,15 +237,18 @@ angular
       }
 
       if ($scope.daysSinceLastNotification !== null) {
-        options.days_since_last_notification = $scope.daysSinceLastNotification;
+        options['days_since_last_notification[begin]'] = $scope.daysSinceLastNotification.begin;
+        options['days_since_last_notification[end]'] = $scope.daysSinceLastNotification.end;
       }
 
       if ($scope.daysForLastNotificationDeadline !== null) {
-        options.days_for_last_notification_deadline = $scope.daysForLastNotificationDeadline;
+        options['days_for_last_notification_deadline[begin]'] = $scope.daysForLastNotificationDeadline.begin;
+        options['days_for_last_notification_deadline[end]'] = $scope.daysForLastNotificationDeadline.end;
       }
 
       if ($scope.daysForOverdueNotification !== null) {
-        options.days_for_overdue_notification = $scope.daysForOverdueNotification;
+        options['days_for_overdue_notification[begin]'] = $scope.daysForOverdueNotification.begin;
+        options['days_for_overdue_notification[end]'] = $scope.daysForOverdueNotification.end;
       }
 
       return options;

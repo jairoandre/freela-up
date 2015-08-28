@@ -16,7 +16,7 @@ angular
       var filter = {
         title: 'Vencimento da última notificação',
         desc: $scope.input.values.begin + ' a ' + $scope.input.values.end + ' dias',
-        type: 'daysSinceLastNotification',
+        type: 'daysForOverdueNotification',
         value: $scope.input.values
       };
 
