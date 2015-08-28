@@ -41,8 +41,11 @@
       <div class="fields">
         <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
           <h5>Protocolo</h5>
-          <p>{{ report.protocol }} <span class="label label-danger" ng-show="report.overdue">ATRASADO</span></p>
-
+          <p>
+            <span>{{ report.protocol }}</span>
+            <span class="label label-danger" ng-show="report.overdue">ATRASADO</span>
+            <span class="label label-danger" ng-show="report.last_notification.days_to_deadline < 0">VENCIDO</span>
+          </p>
           <hr />
         </div>
 

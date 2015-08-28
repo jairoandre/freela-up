@@ -457,9 +457,9 @@ angular
 
     var showNotifications = $scope.showNotificationsBtn = $scope.report.category.notifications;
 
-    $scope.getDaysTxt = function(days) {
-      return days < 0 ? ('Encerrado há ' + days*-1 + (days === -1 ? ' dia' : ' dias')) : (days + (days === 1 ? ' dia' : ' dias'));
-    }
+    $scope.getDaysTxt = function (days) {
+      return days < 0 ? ('Encerrado há ' + days * -1 + (days === -1 ? ' dia' : ' dias')) : (days + (days === 1 ? ' dia' : ' dias'));
+    };
 
     if (showNotifications) {
       ReportsCategoriesNotificationsService.getLastNotification($scope.report.id, $scope.report.category.id).then(function (r) {
