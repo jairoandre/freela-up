@@ -53,11 +53,12 @@ angular
       }
 
       var lastNotificationPromise = ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id);
-      $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
+      $scope.sendPromise = $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
         .then(function (r) {
           $scope.addModalMessage('ok', 'Notificação [' + notification.notification_type.title + ']' +  (notification.sent ? ' reemitida': ' emitida'), 'success');
           refreshNotifications();
           parentScope.lastNotification = r.data;
+          parentScope.report.status = r.data.current_status;
           parentScope.refreshHistory();
         });
     };
@@ -82,9 +83,13 @@ angular
     };
 
     $scope.restartProcess = function () {
-      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function () {
+      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function (r) {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
+        // The API returns { message: "...", current_status: { ... } } but we only get data here
+        // because there is a response interceptor on main.config that takes the first Object on a given response
+        // and makes it the returned value, in that case current_status being the first object
+        parentScope.report.status = r.data;
         parentScope.lastNotification = undefined;
         parentScope.refreshHistory();
       });
