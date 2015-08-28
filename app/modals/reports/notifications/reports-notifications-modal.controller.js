@@ -58,6 +58,7 @@ angular
           $scope.addModalMessage('ok', 'Notificação [' + notification.notification_type.title + ']' +  (notification.sent ? ' reemitida': ' emitida'), 'success');
           refreshNotifications();
           parentScope.lastNotification = r.data;
+          parentScope.report.status = r.data.current_status;
           parentScope.refreshHistory();
         });
     };
@@ -82,9 +83,10 @@ angular
     };
 
     $scope.restartProcess = function () {
-      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function () {
+      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function (r) {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
+        parentScope.report.status = r.data.current_status;
         parentScope.lastNotification = undefined;
         parentScope.refreshHistory();
       });
