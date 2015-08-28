@@ -86,7 +86,10 @@ angular
       ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function (r) {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
-        parentScope.report.status = r.data.current_status;
+        // The API returns { message: "...", current_status: { ... } } but we only get data here
+        // because there is a response interceptor on main.config that takes the first Object on a given response
+        // and makes it the returned value, in that case current_status being the first object
+        parentScope.report.status = r.data;
         parentScope.lastNotification = undefined;
         parentScope.refreshHistory();
       });
