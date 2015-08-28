@@ -57,7 +57,7 @@ angular
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
       {name: 'Associados ao meu grupo...', action: 'assignedToMyGroup'},
       {name: 'Associados à mim...', action: 'assignedToMe'},
-      {name: 'Quantidade de relatos emitidos...', action: 'minimumNotificationNumber'},
+      {name: 'Quantidade de notificações emitidas...', action: 'minimumNotificationNumber'},
       {name: 'Dias desde a última notificação emitida...', action: 'daysSinceLastNotification'},
       {name: 'Dias para o vencimento da última notificação emitida...', action: 'daysForLastNotificationDeadline'},
       {name: 'Dias em atraso para notificações vencidas...',action: 'daysForOverdueNotification'}
