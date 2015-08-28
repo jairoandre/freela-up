@@ -53,7 +53,7 @@ angular
       }
 
       var lastNotificationPromise = ReportsCategoriesNotificationsService.getLastNotification(report.id, report.category.id);
-      $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
+      $scope.sendPromise = $q.all($scope.notificationPromises[notificationId], lastNotificationPromise)
         .then(function (r) {
           $scope.addModalMessage('ok', 'Notificação [' + notification.notification_type.title + ']' +  (notification.sent ? ' reemitida': ' emitida'), 'success');
           refreshNotifications();
