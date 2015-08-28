@@ -7,22 +7,22 @@
     <td width="20%">
       <span>Nome da Notificação</span><span class="arrow"></span>
     </td>
-    <td width="10%">
+    <td width="20%">
       <span>Logradouro</span><span class="arrow"></span>
     </td>
     <td width="10%">
       <span>Data da Emissão</span><span class="arrow"></span>
     </td>
-    <td width="20%">
+    <td width="10%">
       <span>Prazo Total</span><span class="arrow"></span>
     </td>
-    <td class="sort-table">
-      <span>Prazo Restante</span><span class="arrow"></span>
+    <td class="sort-table" width="10%">
+      <span>Prazo para Encerramento</span><span class="arrow"></span>
     </td>
-    <td width="150">
+    <td width="15%">
       <span>Emitido Por</span><span class="arrow"></span>
     </td>
-    <td width="150">
+    <td width="15%">
       <span>Categoria</span><span class="arrow"></span>
     </td>
   </tr>
@@ -30,12 +30,13 @@
 
   <tbody>
   <tr ng-repeat="report in reports | toArray:false | orderBy:'order'" ng-click="openReport(report.id, $event)">
-    <td>{{ report.protocol }} </td>
+    <td><a ng-href="#/reports/{{ report.id }}">{{ report.protocol }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">Protocolo indisponível</b></a> </td>
     <td>{{ report.last_notification.notification_type.title }} </td>
-    <td>{{ report.address }} </td>
+    <td>{{ report.address }}, {{ report.number }} </td>
     <td>{{ report.last_notification.overdue_at | date:'dd/MM/yy HH:mm'}} </td>
-    <td>{{ report.last_notification.deadline_in_days }} </td>
-    <td>{{ report.last_notification.days_to_deadline }} </td>
+    <td>{{ report.last_notification.deadline_in_days }} dia{{ report.last_notification.deadline_in_days > 1 ? 's' : ''}}</td>
+    <td ng-if="report.last_notification.days_to_deadline > -1">{{ report.last_notification.days_to_deadline }} dias</td>
+    <td ng-if="report.last_notification.days_to_deadline < 0"><span class="label label-danger">VENCIDO</span> {{ report.last_notification.days_to_deadline | abs}} dias atrás</td>
     <td>{{ report.user.name }} </td>
     <td>{{ report.category.title }} </td>
   </tr>

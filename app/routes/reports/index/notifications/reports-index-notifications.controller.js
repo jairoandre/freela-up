@@ -31,7 +31,7 @@ angular
 
         fetchOptions.with_notifications = true;
         fetchOptions.return_fields = [
-          'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue',
+          'id', 'protocol', 'address', 'number', 'category_id', 'status_id', 'created_at', 'overdue',
           'overdue_at', 'category.title', 'user.name', 'user.id', 'last_notification'
         ].join();
 

@@ -224,4 +224,9 @@ angular
     };
 
     $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
-  }]);
+  }])
+  .filter('abs', function () {
+  return function(val) {
+    return Math.abs(val);
+  }
+});
