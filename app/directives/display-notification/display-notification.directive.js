@@ -48,7 +48,8 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
         extraPlugins: 'sharedspace',
         sharedSpaces: {
           top: 'ckeditor-toolbar'
-        }
+        },
+        extraAllowedContent: 'div;*[class](*){*}'
       };
 
       $scope.scriptLoaded = true;

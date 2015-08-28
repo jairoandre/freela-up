@@ -320,7 +320,7 @@ $notification-list-height: 50px;
 .a4-page {
   background: #ffffff;
   width: 8.3in;
-  height: 11.7in;
+  min-height: 11.7in;
   display: block;
   font-size: 13px;
   margin: 0 auto .5cm auto;
