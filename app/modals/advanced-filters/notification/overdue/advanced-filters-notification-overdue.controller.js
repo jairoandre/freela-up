@@ -14,7 +14,7 @@ angular
 
     $scope.save = function() {
       var filter = {
-        title: 'Vencimento da última notificação',
+        title: 'Notificações vencidas',
         desc: $scope.input.values.begin + ' a ' + $scope.input.values.end + ' dias',
         type: 'daysForOverdueNotification',
         value: $scope.input.values

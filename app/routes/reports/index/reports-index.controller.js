@@ -57,10 +57,10 @@ angular
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
       {name: 'Associados ao meu grupo...', action: 'assignedToMyGroup'},
       {name: 'Associados à mim...', action: 'assignedToMe'},
-      {name: 'Quantidade mínima de notificações...', action: 'minimumNotificationNumber'},
-      {name: 'O número de dias desde a última notificação...', action: 'daysSinceLastNotification'},
-      {name: 'O número de dias restantes para o vencimento da última notificação...',action: 'daysForLastNotificationDeadline'},
-      {name: 'Intervalo de dias para o vencimento da última notificação...',action: 'daysForOverdueNotification'}
+      {name: 'Quantidade de relatos emitidos...', action: 'minimumNotificationNumber'},
+      {name: 'Dias desde a última notificação emitida...', action: 'daysSinceLastNotification'},
+      {name: 'Dias para o vencimento da última notificação emitida...', action: 'daysForLastNotificationDeadline'},
+      {name: 'Dias em atraso para notificações vencidas...',action: 'daysForOverdueNotification'}
     ];
 
     $scope.activeAdvancedFilters = [];
