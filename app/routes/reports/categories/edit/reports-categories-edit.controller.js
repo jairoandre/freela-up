@@ -14,7 +14,6 @@ angular
 
   .factory('NotificationTypesService', function (Restangular, $q) {
 
-
     function NotificationTypesService() {
 
       var self = this;
@@ -23,7 +22,7 @@ angular
 
       self.cleanCache = function () {
         self.notificationTypesMap = {};
-      }
+      };
 
       self.getNotificationTypesArrayForCategory = function (categoryId) {
 
@@ -45,7 +44,6 @@ angular
         }
 
         return deferred.promise;
-
       };
 
       self.saveNotificationType = function (categoryId, notificationType) {
@@ -71,13 +69,10 @@ angular
           .one('categories', categoryId)
           .one('notification_types', notificationType.id)
           .remove();
-      }
-
+      };
     }
 
     return new NotificationTypesService();
-
-
   })
 
   .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
@@ -122,8 +117,6 @@ angular
 
 
     /* Notifications */
-
-
     var fillNotificationTypes = function () {
       for (var i = 0; i < $scope.notificationTypesArray.length; i++) {
         var _notificationType = $scope.notificationTypesArray[i];
@@ -131,7 +124,7 @@ angular
         if (_status) {
           _notificationType.reports_status_id = _status.id;
         }
-        if(!_notificationType.order){
+        if (!_notificationType.order) {
           _notificationType.order = i;
         }
       }
@@ -147,15 +140,15 @@ angular
         $scope.notificationTypesArray = r;
         fillNotificationTypes();
       });
-    }
+    };
 
     $scope.prepareToDeleteNotificationType = function (notificationType) {
       $scope.notificationTypeToDelete = notificationType;
-    }
+    };
 
     $scope.prepareToDisplayNotification = function (notificationType) {
       $scope.notificationContentToDisplay = notificationType.layout;
-    }
+    };
 
     $scope.deleteNotificationType = function (notificationType) {
       $scope.deleteNotificationTypePromise = NotificationTypesService
@@ -164,13 +157,6 @@ angular
           $scope.showMessage('ok', 'O tipo de notificacao foi removido com sucesso', 'success', true);
           $scope.notificationTypesArray.splice($scope.notificationTypesArray.indexOf(notificationType), 1);
         });
-
-    }
-
-    $scope.btnTeste = function(){
-      $scope.myPromise = $http.get('http://httpbin.org/delay/2').then(function(){
-
-      });
     };
 
     $scope.notificationsSortableOptions = {
@@ -188,7 +174,7 @@ angular
       items: 'li',
       revert: true,
       placeholder: 'ui-sortable-placeholder-notification-type'
-    }
+    };
 
     $scope.editingNotificationType = false;
     $scope.editingNotificationTypeId = '';
@@ -203,7 +189,7 @@ angular
       newNotificationType.reports_category_id = categoryId;
       $scope.notificationTypesArray[newNotificationType.order] = newNotificationType;
       $scope.editNotificationType(newNotificationType);
-    }
+    };
 
     $scope.editNotificationType = function (notificationType) {
       $scope.dirtyNotificationType = false;
@@ -225,7 +211,7 @@ angular
 
     var sucessPostPutPromise = function (sucessMsg) {
       $scope.showMessage('ok', sucessMsg, 'success', true);
-    }
+    };
 
     var errorPostPutPromise = function (response, errorMsg) {
       $scope.showMessage('exclamation-sign', errorMsg, 'error', true);
@@ -235,7 +221,7 @@ angular
       else {
         $scope.inputErrors = response.data.error;
       }
-    }
+    };
 
     $scope.updateEditingNotificationType = function (notificationType) {
       notificationType.title = $scope.notificationTypeMemento.title;
@@ -277,7 +263,7 @@ angular
       $scope.notificationTypeMemento = null;
       $scope.editingNotificationTypeId = null;
       $scope.editingNotificationType = false;
-    }
+    };
 
     $scope.cancelEditingNotificationType = function () {
       if ($scope.addingNotificationType) {
@@ -289,11 +275,11 @@ angular
 
     $scope.isEditNotificationType = function (notificationType) {
       return $scope.editingNotificationTypeId === notificationType.id;
-    }
+    };
 
     $scope.isDirtyNotificationType = function (notificationType) {
       return $scope.isEditNotificationType(notificationType) && $scope.dirtyNotificationType;
-    }
+    };
 
     $scope.editNotificationTypeLayout = function (notificationType) {
       $modal.open({
@@ -320,7 +306,6 @@ angular
       category = $scope.category = {};
 
       var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
-
 
       $q.all([categoriesPromise, categoryPromise]).then(function (responses) {
         $scope.categories = responses[0].data;
@@ -368,7 +353,6 @@ angular
           for (var i = responses[1].data.inventory_categories.length - 1; i >= 0; i--) {
             category.inventory_categories.push(responses[1].data.inventory_categories[i].id);
           }
-          ;
         }
         /* jshint ignore:end */
 
@@ -376,8 +360,7 @@ angular
 
         $scope.loading = false;
       });
-    }
-    else {
+    } else {
       categoriesPromise.then(function (response) {
         $scope.categories = response.data;
 

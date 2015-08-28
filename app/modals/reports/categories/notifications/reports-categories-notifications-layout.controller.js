@@ -1,7 +1,5 @@
 'use strict';
 
-var scope;
-
 angular
   .module('ReportsCategoriesNotificationsLayoutControllerModule', ['ckeditor', 'angularLoad'])
 
@@ -11,8 +9,6 @@ angular
     $scope.$on('$destroy', function () {
       $log.info('ReportsCategoriesNotificationsLayoutController destroyed.');
     });
-
-    scope = $scope;
 
     var originalLayout = angular.copy(notificationType.layout);
 
@@ -48,25 +44,27 @@ angular
         removeButtons: 'Maximize,Image'
       };
 
-      $timeout(function(){$scope.loadingCkeditorScript = false},1000);
+      $timeout(function () {
+        $scope.loadingCkeditorScript = false
+      }, 1000);
 
     };
 
-    angularLoad.loadScript(ENV.ckeditorPath).then(function(){
+    angularLoad.loadScript(ENV.ckeditorPath).then(function () {
       configureCkEditor();
     });
 
-    $scope.$on('$locationChangeStart', function(evt) {
-      $scope.closeLayoutNotificationTypeModal();
+    $scope.$on('$locationChangeStart', function (evt) {
       evt.preventDefault();
+      $scope.closeLayoutNotificationTypeModal();
     });
 
     $scope.closeLayoutNotificationTypeModal = function () {
-      if(!originalLayout && $scope.notificationTypeOnLayoutModal.layout.length === 0){
+      if (!originalLayout && $scope.notificationTypeOnLayoutModal.layout.length === 0) {
         $modalInstance.close();
         return;
       }
-      if (!angular.equals(originalLayout,$scope.notificationTypeOnLayoutModal.layout)) {
+      if (!angular.equals(originalLayout, $scope.notificationTypeOnLayoutModal.layout)) {
         if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) {
           $scope.notificationTypeOnLayoutModal.layout = angular.copy(originalLayout);
           $modalInstance.close();
@@ -77,11 +75,10 @@ angular
     };
 
     $scope.saveLayoutNotificationType = function () {
-      if (!angular.equals(originalLayout,$scope.notificationTypeOnLayoutModal.layout)) {
+      if (!angular.equals(originalLayout, $scope.notificationTypeOnLayoutModal.layout)) {
         parentScope.verifyDirtyNotificationTypeMemento(parentScope.notificationTypeOriginator);
       }
       $modalInstance.close();
-    }
+    };
 
-  })
-;
+  });
