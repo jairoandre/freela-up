@@ -12,8 +12,6 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
         var fncClick = function (evt) {
           evt.preventDefault();
 
-          console.log( scope.displayNotification() );
-
           $modal.open({
             backdrop: 'static',
             templateUrl: 'directives/display-notification/display-notification.template.html',
