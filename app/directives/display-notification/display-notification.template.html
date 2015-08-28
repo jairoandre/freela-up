@@ -18,13 +18,12 @@
       editor = ev.editor;
 
       // Event fired when the readOnly property changes.
-      editor.on( 'readOnly', function () {
+      editor.on('readOnly', function () {
         if(!this.readOnly){
           editor.setReadOnly(true);
         }
-      } );
-
-    } );
+      });
+    });
 
   </script>
 </div>

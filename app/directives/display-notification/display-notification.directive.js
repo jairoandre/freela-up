@@ -9,7 +9,8 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
         displayNotification: '&'
       },
       link: function (scope, el, attrs) {
-        el.on('click', function (evt) {
+        var fncClick = function (evt) {
+          evt.preventDefault();
           $modal.open({
             backdrop: 'static',
             templateUrl: 'directives/display-notification/display-notification.template.html',
@@ -21,29 +22,39 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
             },
             controller: 'DisplayNotificationModalCtrl'
           });
-          evt.preventDefault();
+        };
+
+        el.on('click', fncClick);
+        scope.$on('$destroy', function () {
+          el.off('click', fncClick);
         });
       }
     }
   })
   .controller('DisplayNotificationModalCtrl', function($scope, $modalInstance, ENV, content, angularLoad){
+
     $scope.content = content;
+    $scope.scriptLoaded = false;
+
     $scope.close = function() {
       $modalInstance.close();
     };
-    $scope.scriptLoaded = false;
+
     var configureCkEditor = function () {
       $scope.ckeditorOptions = {
         readOnly: true,
         extraPlugins: 'sharedspace',
-        sharedSpaces: {top: 'ckeditor-toolbar'}
+        sharedSpaces: {
+          top: 'ckeditor-toolbar'
+        }
       };
-
     };
+
     angularLoad.loadScript(ENV.ckeditorPath).then(function(){
       configureCkEditor();
       $scope.scriptLoaded = true;
     });
+
     $scope.$on('$locationChangeStart', function(evt) {
       evt.preventDefault();
       $modalInstance.dismiss('locationChange');
