@@ -2,7 +2,7 @@ var Auth = require('./autenticacao');
 var Report = require('./relatos');
 
 require('dotenv').load({ silent: true , path:'../../../'});
-var baseUrl = process.env.PAINEL_URL || 'http://zup.cognita.ntxdev.com.br'
+var baseUrl = process.env.PAINEL_URL || 'http://zup.cognita.ntxdev.com.br';
 
 function WorldFactory(callback) {
   callback({
@@ -15,6 +15,9 @@ function WorldFactory(callback) {
     },
     currentUrl: function () {
       return browser.getCurrentUrl();
+    },
+    getInnerHtmlState: function (el) {
+      return element(by.css(el)).getInnerHtml();
     }
   });
 }

@@ -3,25 +3,29 @@ chai.use(require('chai-as-promised'));
 var expect = chai.expect;
 
 module.exports = function () {
+
   this.World = require('../support/world').World;
 
   var buttonConfirm = element.all(by.css('button[ng-click="confirm()"]')).get(0);
-  var innerHtmlBefore;
   var reportNumber;
   var address;
+  var oldHtml;
+
   var confirmationText = function (txt) {
     return element(by.model('confirmText')).sendKeys(txt)
   };
 
-  this.When(/^clicar no ícone de exclusão$/, function () {
-    innerHtmlBefore = element(by.css('#reports-listing-table')).getInnerHtml();
+  var actionClick = function () {
+    oldHtml = this.getInnerHtmlState('#reports-listing-table');
     return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
-  });
+  };
+
+  this.When(/^clicar no ícone de exclusão$/, actionClick);
 
   this.When(/^aparecer a confirmação de exclusão$/, function () {
     browser.wait(function () {
       return expect(element(by.model('confirmText')).isDisplayed()).to.eventually.be.true
-    }, 1000);
+    }, 2000);
   });
 
   this.When(/^digito a palavra deletar$/, function () {
@@ -37,7 +41,7 @@ module.exports = function () {
   });
 
   this.Then(/^atualizar a listagem de relatos$/, function () {
-    return expect(element(by.css('#reports-listing-table')).getInnerHtml()).to.not.equal(innerHtmlBefore);
+    return expect(element(by.css('#reports-listing-table')).getInnerHtml()).to.not.equal(oldHtml);
   });
 
   this.When(/^digito qualquer palavra que não seja deletar$/, function () {
