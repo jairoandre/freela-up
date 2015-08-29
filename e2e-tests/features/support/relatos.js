@@ -34,7 +34,43 @@ Reports.prototype = {
 		var selectorItems = byColumn ? ':nth-child(' + byColumn + ')':':not(:last-child)';
 
 		return element.all(by.css('#reports-listing-table tbody tr td' + selectorItems));
-	}
+	},
+
+  confirmProtocol: function () {
+    return element(by.css('.removeModal .modal-body p:first-of-type b:first-of-type'));
+  },
+
+  confirmAddress: function () {
+    return element(by.css('.removeModal .modal-body p:first-of-type b:nth-child(2)'));
+  },
+
+  getProtocol: function () {
+    return element(by.css('#reports-listing-table tbody td:first-of-type a'));
+  },
+
+  getAdress: function () {
+    return element(by.css('#reports-listing-table tbody td:nth-child(2)'));
+  },
+
+  getSuccessMsg: function () {
+    return element(by.css('.message-status.success p'));
+  },
+
+  reportDeleteButton: function () {
+    return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
+  },
+
+  closeButton: function () {
+    return element.all(by.css('button[ng-click="close()"]')).get(0).click();
+  },
+
+  getPhrase: function () {
+    return element(by.css('.removeModal .modal-body p:first-of-type'));
+  },
+
+  excludeIcon: function () {
+    return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
+  }
 };
 
 module.exports = Reports;

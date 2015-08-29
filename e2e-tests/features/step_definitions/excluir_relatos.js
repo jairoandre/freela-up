@@ -4,21 +4,23 @@ var expect = chai.expect;
 
 module.exports = function () {
 
-  this.World = require('../support/world').World;
-
   var buttonConfirm = element.all(by.css('button[ng-click="confirm()"]')).get(0);
   var reportNumber;
   var address;
   var oldHtml;
+  var thisPage;
 
   var confirmationText = function (txt) {
     return element(by.model('confirmText')).sendKeys(txt)
   };
 
   var actionClick = function () {
-    oldHtml = this.getInnerHtmlState('#reports-listing-table');
-    return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
+    thisPage = this.pages.report;
+    oldHtml  = this.getInnerHtmlState('#reports-listing-table');
+
+    return thisPage.reportDeleteButton();
   };
+  this.World = require('../support/world').World;
 
   this.When(/^clicar no ícone de exclusão$/, actionClick);
 
@@ -37,7 +39,7 @@ module.exports = function () {
   });
 
   this.Then(/^o sistema deve retornar uma mensagem de remoção bem sucedida$/, function () {
-    return expect(element(by.css('.message-status.success p')).isPresent()).to.eventually.be.true
+    return expect(thisPage.getSuccessMsg().isPresent()).to.eventually.be.true
   });
 
   this.Then(/^atualizar a listagem de relatos$/, function () {
@@ -50,43 +52,43 @@ module.exports = function () {
 
   this.Then(/^o sistema não deve ativar o botão remover$/, function () {
     return expect(buttonConfirm.isEnabled()).to.eventually.be.false.then(function () {
-      return element.all(by.css('button[ng-click="close()"]')).get(0).click()
+      return thisPage.closeButton();
     })
   });
 
   this.Given(/^escolho o relato com protocolo \#(\d+)$/, function () {
-    return element(by.css('#reports-listing-table tbody td:first-of-type a')).getText().then(function(thisText) {
-      reportNumber = '#' + thisText;
-    });
+     return thisPage.getProtocol().getText().then(function(thisText) {
+       reportNumber = '#' + thisText;
+      });
   });
 
   this.When(/^clicar no ícone de exclusão deste relato$/, function () {
-    return element.all(by.css('a[ng-click="deleteReport(report)"]')).get(0).click();
+    return thisPage.excludeIcon();
   });
 
   this.When(/^leio a fraseologia de atenção$/, function () {
-    return expect(element(by.css('.removeModal .modal-body p:first-of-type')).getInnerHtml()).to.not.empty;
+    return expect(thisPage.getPhrase().getInnerHtml()).to.not.empty;
   });
 
   this.Then(/^confirmo que a fraseologia cita o protocolo \#(\d+)$/, function () {
-    return expect(element(by.css('.removeModal .modal-body p:first-of-type b:first-of-type')).getText()).to.eventually.equal(reportNumber).then(function () {
+    return expect(thisPage.confirmProtocol().getText()).to.eventually.equal(reportNumber).then(function () {
       return confirmationText('deletar');
     }).then(function () {
       return buttonConfirm.click();
-    })
+    });
   });
 
   this.Given(/^escolho o relato com protocolo localizado na R\. Leonel Guarnieri$/, function () {
-    return element(by.css('#reports-listing-table tbody td:nth-child(2)')).getText().then(function (thisText) {
-      address = thisText;
+     return thisPage.getAdress().getText().then(function (thisText) {
+       address = thisText;
     });
   });
 
   this.Then(/^confirmo que a fraseologia cita o endereço R\. Leonel Guarnieri$/, function () {
-      return expect(element(by.css('.removeModal .modal-body p:first-of-type b:nth-child(2)')).getText()).to.eventually.equal(address).then(function () {
-        return confirmationText('deletar');
-      }).then(function () {
-        return buttonConfirm.click();
-      });
+    return expect(thisPage.confirmAddress().getText()).to.eventually.equal(address).then(function () {
+      return confirmationText('deletar');
+    }).then(function () {
+      return buttonConfirm.click();
+    });
   });
 };
