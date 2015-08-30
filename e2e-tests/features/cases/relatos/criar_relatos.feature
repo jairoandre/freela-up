@@ -1,5 +1,5 @@
 #language: pt
-  @notimplemented
+  
   Funcionalidade: Permitir que um usuário previamente cadastrado possa reporte um relato
     Como um usuário responsável por reportar novos relatos diretamente no painel do sistema
     Quero ser capaz de reportar um relato
@@ -29,8 +29,7 @@
 
     Cenário: Criar um relato preenchendo os campos obrigatórios e visualizar seus dados
       Dado escolho a categoria "fios e cabos"
-      E preencho o logradouro com "R. julieta" 
-      E preencho o numero com "167" 
+      E preencho o endereço com "R. julieta, 167" 
       E descrevo a situação com texto: "acidente de carro derrubou  os fios do poste" 
       E seleciono o usuário "Leide Santos" como solicitante
       Quando clico no botão criar relato
@@ -44,7 +43,7 @@
       Dado que preencho os campos obrigatórios do relato
       Quando clico no botão criar relato
       Então devo visualizar uma aba "Histórico"
-      E devo visualizar o nome do usuário atual
+      E devo visualizar o nome do usuário atual na area de Histórico
 
     Cenário: Criar um relato e cadastrar um novo solicitante
       Dado que preencho os campos obrigatórios do relato

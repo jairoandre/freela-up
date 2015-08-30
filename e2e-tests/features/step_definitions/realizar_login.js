@@ -22,18 +22,21 @@ module.exports = function () {
       });
     });
   }
-
-  this.Given(/^estou autenticado no sistema$/, makeLogin);
-  this.Given(/^que estou autenticado na aplicação$/, makeLogin);
-
-  this.Given(/^que sou um usuário cadastrado$/, function (next) {
+  
+  function IamAuthUser(next) {
     page = this.pages.auth;
 
     expect(page.user).to.not.equal('');
     expect(page.pass).to.not.equal('');
     next();
-  });
+  }
 
+  this.Given(/^estou autenticado no sistema$/, makeLogin);
+  this.Given(/^que estou autenticado na aplicação$/, makeLogin);
+  
+  this.Given(/^que sou um usuário cadastrado no sistema$/, IamAuthUser);
+  this.Given(/^que sou um usuário cadastrado$/, IamAuthUser);
+  
   this.Given(/^ainda não estou logado$/, function () {
     return expect(page.isLogged()).to.eventually.not.ok;
   });
