@@ -114,6 +114,7 @@ angular
 
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
+    $scope.notificationTypesArray = [];
 
 
     /* Notifications */
