@@ -202,11 +202,7 @@ angular
     $scope.verifyDirtyNotificationTypeMemento = function (notificationType) {
       $scope.notificationTypeMemento.default_deadline_in_days = parseInt($scope.notificationTypeMemento.default_deadline_in_days, 10);
       var sameValues = angular.equals(notificationType, $scope.notificationTypeMemento);
-      if (sameValues) {
-        $scope.dirtyNotificationType = false;
-      } else {
-        $scope.dirtyNotificationType = true;
-      }
+      $scope.dirtyNotificationType = sameValues ? false : true;
     };
 
     var sucessPostPutPromise = function (sucessMsg) {
@@ -217,13 +213,13 @@ angular
       $scope.showMessage('exclamation-sign', errorMsg, 'error', true);
       if (typeof response.data.error !== 'object') {
         Error.show(response);
-      }
-      else {
+      } else {
         $scope.inputErrors = response.data.error;
       }
     };
 
     $scope.updateEditingNotificationType = function (notificationType) {
+      $scope.inputErrors = null;
       notificationType.title = $scope.notificationTypeMemento.title;
       notificationType.reports_status_id = $scope.notificationTypeMemento.reports_status_id;
       notificationType.default_deadline_in_days = $scope.notificationTypeMemento.default_deadline_in_days;
@@ -446,10 +442,7 @@ angular
     };
 
     $scope.filterByIds = function (item) {
-      if (_.isUndefined(category.solver_groups_ids)) return false;
-      if (!~category.solver_groups_ids.indexOf(item.id)) return false;
-
-      return true;
+      return (_.isUndefined(category.solver_groups_ids) || !~category.solver_groups_ids.indexOf(item.id)) ? false : true;
     };
 
     $scope.categoriesAutocomplete = {
@@ -482,8 +475,7 @@ angular
     };
 
     $scope.addCategory = function (id) {
-      if (!~category.inventory_categories.indexOf(id)) // jshint ignore:line
-      {
+      if (!~category.inventory_categories.indexOf(id)) {
         category.inventory_categories.push(id); // jshint ignore:line
       }
     };
@@ -583,8 +575,7 @@ angular
         })();
 
         promises.push(promise);
-      }
-      else {
+      } else {
         for (var i = uploader.queue.length - 1; i >= 0; i--) {
           promises.push(addAsync(uploader.queue[i]._file));
         }
@@ -614,11 +605,9 @@ angular
         editedCategory.resolution_time = editedCategory.resolution_time; // jshint ignore:line
 
         // also the user feedback time we convert it to seconds
-        if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabledUserResponseTime == true) // jshint ignore:line
-        {
+        if (typeof editedCategory.user_response_time !== 'undefined' && editedCategory.user_response_time !== 'null' && $scope.enabledUserResponseTime == true) {
           editedCategory.user_response_time = editedCategory.user_response_time; // jshint ignore:line
-        }
-        else {
+        } else {
           editedCategory.user_response_time = null; // jshint ignore:line
         }
 
@@ -641,15 +630,13 @@ angular
 
             if (typeof response.data.error !== 'object') {
               Error.show(response);
-            }
-            else {
+            } else {
               $scope.inputErrors = response.data.error;
             }
 
             $rootScope.resolvingRequest = false;
           });
-        }
-        else {
+        } else {
           editedCategory.icon = icon;
           editedCategory.marker = icon;
 
@@ -668,8 +655,7 @@ angular
 
             if (typeof response.data.error !== 'object') {
               Error.show(response);
-            }
-            else {
+            } else {
               $scope.inputErrors = response.data.error;
             }
 
