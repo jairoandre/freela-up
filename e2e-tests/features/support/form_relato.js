@@ -53,8 +53,8 @@ Form.prototype = {
     });
   },
   
-  uploadImage:function(){
-    var fileToUpload = '../assets/images/9666941.png';
+  uploadImage : function () {
+    var fileToUpload = 'e2e-tests/assets/images/9666941.png';
     var absolutePath = path.resolve(__dirname, fileToUpload);
 
     return element(by.css('.upload input[type="file"]')).sendKeys(absolutePath);    

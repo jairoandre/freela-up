@@ -48,9 +48,9 @@
     Cenário: Criar um relato e cadastrar um novo solicitante
       Dado que preencho os campos obrigatórios do relato
       E clico no botão + Cadastro novo usuário
-      E preencho os campos obrigatórios do usuário "Solicitante da Silva"
+      E preencho os campos obrigatórios do usuário "José da Silva"
       Quando clico no botão criar usuário
       Então o sistema retorna a tela de criação do relato e exibe o nome do solicitante vinculado ao relato
       E clico no botão criar relato
       Quando for redirecionado para a exibição dos dados do relato 
-      Então devo visualizar o texto "Solicitante da Silva"
+      Então devo visualizar o texto "José da Silva"

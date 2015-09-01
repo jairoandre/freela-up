@@ -18,7 +18,7 @@ module.exports = function () {
     });
   });
 
-  this.When(/^que preencho os campos obrigatórios do relato$/, function (callback) {
+  this.When(/^que preencho os campos obrigatórios do relato$/, function () {
     return form.fillCategory("fios e cabos")
 		 .then(form.fillAddress.bind(form, "R. Julieta vila jordanopolis", "167"))
 		 .then(form.linkUser.bind(form, "Leide Santos"))
@@ -75,23 +75,41 @@ module.exports = function () {
     return form.linkUser(userName);
   });
   
-  this.Given(/^devo visualizar o texto "([^"]*)"$/, function (texto) {
+  this.Then(/^devo visualizar o texto "([^"]*)"$/, function (texto) {
     return expect(element(by.cssContainingText('.report-data', texto)).isDisplayed()).to.eventually.be.true;
   });
   
-  this.Given(/^devo visualizar o nome do usuário atual na area de Histórico$/, function () {
-    //return expect(element(by.cssContainingText('.report-data', texto)).isDisplayed()).to.eventually.be.true;
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.Then(/^devo visualizar o nome do usuário atual na area de Histórico$/, function () {
+    return expect(element(by.binding('log.user.name')).isDisplayed()).to.eventually.be.true;
   });
   
-  this.Given(/^preencho os campos obrigatórios do usuário "([^"]*)"$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.Given(/^preencho os campos obrigatórios do usuário "([^"]*)"$/, function (userName) {
+    var nome      = element(by.model('user.name'));
+    var email     = element(by.model('user.email'));
+    var endereco  = element(by.model('user.address'));
+    var bairro    = element(by.model('user.district'));
+    var cidade    = element(by.model('user.city'));
+    var cep       = element(by.model('user.postal_code'));
+    var telefone  = element(by.model('user.phone'));
+    var cpf       = element(by.model('user.document'));
+    
+    return Promise.all([
+      nome.sendKeys(userName),
+      email.sendKeys('teste.zup@gmail.com'),    
+      endereco.sendKeys('R. Julieta, 167'), 
+      bairro.sendKeys('vila jordanopolis'),   
+      cidade.sendKeys('São Bernardo do Campo'),   
+      cep.sendKeys('09891-190'),      
+      telefone.sendKeys('11981710184'), 
+      cpf.sendKeys('46141383220')      
+    ]);    
   });
   
-  this.Given(/^for redirecionado para a exibição dos dados do relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  this.When(/^for redirecionado para a exibição dos dados do relato$/, function () {
+    return expect(this.currentUrl()).to.eventually.match(/reports\/\d+/);
+  });
+  
+  this.Then(/^o sistema deve retornar uma mensagem de sucesso$/, function(){
+    return expect(element(by.css('.message-status.success')).isDisplayed()).to.eventually.true;
   });
 };
