@@ -15,7 +15,7 @@ angular
           resolve: {
             'userResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
               return Restangular.one('users', $stateParams.id).get();
-            }],
+            }]
           }
         }
       }
