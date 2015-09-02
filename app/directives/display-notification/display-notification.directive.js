@@ -2,15 +2,7 @@
  * Created by Jairo on 19/07/2015.
  */
 angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule', 'ckeditor', 'angularLoad'])
-  .run(["$templateCache", function($templateCache) {
-    $templateCache.put("template/modal/backdrop.html",
-      "<div class=\"modal-backdrop fade\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 10040 + index*10}\"></div>");
 
-    $templateCache.put("template/modal/window.html",
-      "<div tabindex=\"-1\" class=\"modal fade {{ windowClass }}\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 10050 + index*10, display: 'block'}\" ng-click=\"close($event)\">\n" +
-      "    <div class=\"modal-dialog\"><div class=\"modal-content\" ng-transclude></div></div>\n" +
-      "</div>");
-  }])
   .directive('displayNotification', function ($modal) {
     return {
       restrict: 'A',
