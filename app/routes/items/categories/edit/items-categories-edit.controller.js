@@ -39,6 +39,16 @@ angular.
     $scope.showDisabledFields = $localStorage;
     $scope.currentTab = 'fields';
 
+    var numericKinds = ['integer','decimal','meters','centimeters','kilometers','years','months','days','hours','seconds','angle','date','time'];
+
+    $scope.getLabelForMinField = function(kind){
+      return numericKinds.indexOf(kind) === -1 ? 'Min. de caracteres' : 'Valor mínimo';
+    };
+
+    $scope.getLabelForMaxField = function(kind){
+      return numericKinds.indexOf(kind) === -1 ? 'Máx. de caracteres' : 'Valor máximo';
+    };
+
     $scope.availableInputs = [
       {kind: 'text', name: 'Campo de texto', multipleOptions: false},
       {kind: 'textarea', name: 'Campo de parágrafo', multipleOptions: false},
