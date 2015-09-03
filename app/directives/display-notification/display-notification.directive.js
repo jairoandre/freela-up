@@ -23,12 +23,8 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule']
           });
           evt.preventDefault();
         };
-        el.on('click', function (evt) {
-          fncHandler(evt);
-        });
-        el.off('click', function (evt) {
-          fncHandler(evt);
-        });
+        el.on('click', fncHandler);
+        el.off('click', fncHandler);
       }
     }
   })
