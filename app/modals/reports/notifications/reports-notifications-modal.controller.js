@@ -83,7 +83,8 @@ angular
     };
 
     $scope.restartProcess = function () {
-      ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id).then(function (r) {
+      $scope.restartProcessPromise = ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id);
+      $scope.restartProcessPromise.then(function (r) {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
         refreshNotifications();
         // The API returns { message: "...", current_status: { ... } } but we only get data here

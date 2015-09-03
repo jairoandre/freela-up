@@ -9,9 +9,8 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
         displayNotification: '&'
       },
       link: function (scope, el, attrs) {
-        var fncClick = function (evt) {
+        var fncHandler = function (evt) {
           evt.preventDefault();
-
           $modal.open({
             backdrop: 'static',
             templateUrl: 'directives/display-notification/display-notification.template.html',
@@ -25,9 +24,9 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
           });
         };
 
-        el.on('click', fncClick);
+        el.on('click', fncHandler);
         scope.$on('$destroy', function () {
-          el.off('click', fncClick);
+          el.off('click', fncHandler);
         });
       }
     }

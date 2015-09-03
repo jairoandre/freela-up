@@ -28,6 +28,7 @@ angular
     'UserServiceModule',
     'FullResponseRestangularServiceModule',
     'ErrorServiceModule',
+    'ConfirmDialogDirectiveModule',
 
     // Core components
     'NavItemComponentModule',
