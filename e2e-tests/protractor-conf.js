@@ -8,7 +8,6 @@ exports.config = {
   onPrepare: function () {
     return browser.driver.manage().window().setSize(1600, 800);
   },
-  directConnect:true,
   seleniumAddress: 'http://localhost:4444/wd/hub',
   framework: 'cucumber',
   specs: features || [
