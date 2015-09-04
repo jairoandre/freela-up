@@ -26,7 +26,8 @@ CKEDITOR.dialog.add("zupplaceholder", function (a) {
           [ 'Referência', 'item_reference' ],
           [ 'Descrição', 'item_description' ],
           [ 'Data de cadastro', 'item_created_at' ],
-          [ 'Data do vencimento da notificação', 'item_overdue_at' ],
+          [ 'Data de emissão da notificação', 'item_overdue_at' ],
+          [ 'Data do vencimento da notificação', 'item_notification_created_at' ],
           [ 'Endereço do relato', 'item_address' ]
         ],
         label: b.name,
