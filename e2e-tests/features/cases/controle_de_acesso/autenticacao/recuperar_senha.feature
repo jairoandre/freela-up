@@ -6,8 +6,7 @@
     Para que consiga acesso a minha conta caso esqueça informações para autenticação
 
     Contexto:
-      Dado que acesso ao sistema
-      E que sou um usuário cadastrado
+      Dado que sou um usuário cadastrado
       E ainda não estou logado
 
     Cenário: Permitir usuários recuperarem a senha
