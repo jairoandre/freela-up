@@ -13,7 +13,6 @@ stages:
     - build
 
 before_script:
-      - env
       - echo API_URL=http://localhost:3000 >> api.env
       - echo WEB_URL=http://localhost:3000 >> api.env
       - echo SMTP_ADDRESS=smtp.sendgrid.net >> api.env
