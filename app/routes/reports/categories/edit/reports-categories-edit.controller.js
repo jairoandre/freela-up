@@ -23,6 +23,10 @@ angular
         self.notificationTypesMap = {};
       };
 
+      self.updateCache = function (categoryId, notificationTypes) {
+        self.notificationTypesMap[categoryId] = notificationTypes;
+      };
+
       self.getNotificationTypesArrayForCategory = function (categoryId) {
 
         var deferred = $q.defer();
@@ -35,7 +39,7 @@ angular
             .all('notification_types')
             .getList({return_fields: 'id,category.id,status.id,order,title,default_deadline_in_days,layout,active,created_at,updated_at'})
             .then(function (r) {
-              self.notificationTypesMap[categoryId] = r.data;
+              self.updateCache(categoryId, r.data);
               deferred.resolve(r.data);
             }, function (r) {
               deferred.reject(r);
@@ -74,7 +78,7 @@ angular
     return new NotificationTypesService();
   })
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, Error, ReportsCategoriesService, $log, $state) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse,notificationsTypesResponse, Error, ReportsCategoriesService, $log, $state) {
     var updating = $scope.updating = false;
     var categoryId = $scope.categoryId = $stateParams.id;
 
@@ -114,7 +118,6 @@ angular
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;
     $scope.notificationTypesArray = [];
-
 
     /* Notifications */
     var fillNotificationTypes = function () {
@@ -322,7 +325,9 @@ angular
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
 
-        refreshNotificationTypesArray();
+        NotificationTypesService.updateCache(categoryId, notificationsTypesResponse.data);
+        $scope.notificationTypesArray = notificationsTypesResponse.data;
+        fillNotificationTypes();
 
         if (responses[1].data.user_response_time !== null) // jshint ignore:line
         {
