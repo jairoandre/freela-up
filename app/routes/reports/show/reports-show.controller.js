@@ -308,12 +308,23 @@ angular
 
     // report's history
     $scope.refreshHistory = function () {
-      var options = {return_fields: 'changes,created_at,kind,user.id,user.name'}, selectedFilters = $scope.selectedFilters();
+      var options = {
+        return_fields: 'changes,created_at,kind,user.id,user.name'
+      };
 
-      if (selectedFilters.length !== 0) options.kind = selectedFilters.join();
+      var selectedFilters = $scope.selectedFilters();
 
-      if ($scope.historyFilterBeginDate) options['created_at[begin]'] = $scope.historyFilterBeginDate;
-      if ($scope.historyFilterEndDate) options['created_at[end]'] = $scope.historyFilterEndDate;
+      if (selectedFilters.length !== 0) {
+        options.kind = selectedFilters.join();
+      }
+
+      if ($scope.historyFilterBeginDate) {
+        options['created_at[begin]'] = $scope.historyFilterBeginDate;
+      }
+
+      if ($scope.historyFilterEndDate) {
+        options['created_at[end]'] = $scope.historyFilterEndDate;
+      }
 
       $scope.loadingHistoryLogs = true;
 
@@ -341,7 +352,10 @@ angular
       });
     };
 
-    $scope.historyOptions = {type: undefined};
+    $scope.historyOptions = {
+      type: undefined
+    };
+
     $scope.availableHistoryFilters = [
       {type: 'category', name: 'Categoria', selected: false},
       {type: 'status', name: 'Estados', selected: false},
@@ -488,6 +502,4 @@ angular
         controller: 'ReportsSendNotificationsModalController'
       });
     };
-
-
   });
