@@ -6,8 +6,7 @@
     Para que matenha o acesso de minha conta liberado apenas enquanto uso
 
     Contexto:
-      Dado que acesso ao sistema
-      E que sou um usuário cadastrado
+      Dado que sou um usuário cadastrado
       E estou autenticado no sistema
 
     Cenário: Encerrar a sessão do sistema

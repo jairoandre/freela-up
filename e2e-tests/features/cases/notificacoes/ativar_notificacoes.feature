@@ -1,5 +1,5 @@
 #language: pt
-
+@notimplemented
 Funcionalidade: Permitir que um usuário previamente cadastrado possa ativar as notificações de categoria de relato
   Como um usuário responsável pelas notificações
   Quero ser capaz de editar as categorias de relatos

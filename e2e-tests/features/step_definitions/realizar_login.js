@@ -33,6 +33,7 @@ module.exports = function () {
 
   this.Given(/^estou autenticado no sistema$/, makeLogin);
   this.Given(/^que estou autenticado na aplicação$/, makeLogin);
+  this.Given(/^que estou autenticado$/, makeLogin);
   
   this.Given(/^que sou um usuário cadastrado no sistema$/, IamAuthUser);
   this.Given(/^que sou um usuário cadastrado$/, IamAuthUser);
