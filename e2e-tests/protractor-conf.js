@@ -9,7 +9,7 @@ exports.config = {
     return browser.driver.manage().window().setSize(1600, 800);
   },
   directConnect : process.env.DEBUG_TESTS || false,
-  seleniumAddress: 'http://localhost:4444/wd/hub',
+  seleniumAddress: process.env.DEBUG_TESTS ? 'http://localhost:4444/wd/hub':undefined,
   framework: 'cucumber',
   specs: features || [
     'features/cases/**/*.feature'
