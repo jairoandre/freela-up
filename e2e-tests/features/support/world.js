@@ -15,6 +15,9 @@ function WorldFactory(callback) {
     },
     currentUrl: function () {
       return browser.getCurrentUrl();
+    },
+    getInnerHtmlState: function (el) {
+      return element(by.css(el)).getInnerHtml();
     }
   });
 }

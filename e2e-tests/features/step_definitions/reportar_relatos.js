@@ -126,10 +126,11 @@ module.exports = function () {
     callback.pending();
   });
 
+  /*
   this.Given(/^que sou um usuário cadastrado no sistema$/, function (callback) {
     // Write code here that turns the phrase above into concrete actions
     callback.pending();
-  });
+  });*/
 
   this.Given(/^que o grupo que estou contido tenha a permissão "([^"]*)" em uma ou mais categorias de relato$/, function (arg1, callback) {
     // Write code here that turns the phrase above into concrete actions
