@@ -62,6 +62,6 @@ build:
         - "[[ $(git symbolic-ref --short -q HEAD) = $CI_BUILD_REF_NAME ]] || git checkout -b $CI_BUILD_REF_NAME"
         - rm -rf zup-painel
         - cp -R ../dist ./zup-painel
-        - git add zup-painel
-        - git commit -m 'Build $CI_BUILD_ID'
+        - git add --all zup-painel
+        - git commit -m "Build $CI_BUILD_ID"
         - git push origin $CI_BUILD_REF_NAME
