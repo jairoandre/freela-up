@@ -1,7 +1,9 @@
 @charset "UTF-8";
 $icon-font-path: "../fonts/";
+$fa-font-path:   "../fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
+@import 'font-awesome/scss/font-awesome';
 @import "compass/css3";
 
 .browsehappy {
@@ -949,6 +951,7 @@ $sidebar-size-full: 300px;
 
       .btn-upload {
         width: 100%;
+        min-width: 120px;
         margin-top: 10px;
         position: relative;
         overflow: hidden;
