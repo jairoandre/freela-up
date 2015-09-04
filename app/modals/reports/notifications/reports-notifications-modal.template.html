@@ -42,7 +42,7 @@
           </td>
           <td class="status-cell">
             <div ng-if="notification.notification_type.status.id">
-              <span class="status-color" ng-style="{background-color: notification.notification_type.status.color}"></span>
+              <span class="status-color" ng-style="{'background-color': notification.notification_type.status.color}"></span>
               &nbsp;{{notification.notification_type.status.title}}
             </div>
             <div ng-if="!notification.notification_type.status.id">-</div>
