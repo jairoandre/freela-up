@@ -10,126 +10,119 @@ angular
   .factory('ReportsCategoriesNotificationsService', function (Restangular, $q, $log) {
 
     function ReportsCategoriesNotificationsService() {
+      this.notificationTypesMap = {};
+      this.reportNotificationTypes = {};
+    }
 
-      var self = this;
+    ReportsCategoriesNotificationsService.notificationReturnFields = [
+      "id",
+      "user_id",
+      "reports_item_id",
+      "notification_type.id",
+      "notification_type.title",
+      "notification_type.active",
+      "notification_type.default_deadline_in_days",
+      "deadline_in_days",
+      "content",
+      "sent",
+      "able_to_send",
+      "days_to_deadline",
+      "created_at",
+      "updated_at",
+      "overdue_at"
+    ];
 
-      self.notificationTypesMap = {};
+    ReportsCategoriesNotificationsService.prototype.cleanCache = function () {
+      $log.info('Cleaning notification cache.');
+      this.notificationTypesMap = {};
+      this.reportNotificationTypes = {};
+    };
 
-      self.reportNotificationTypes = {};
+    ReportsCategoriesNotificationsService.prototype.getLastNotification = function (reportId, categoryId) {
 
-      self.cleanCache = function () {
-        $log.info('Cleaning notification cache.')
-        self.notificationTypesMap = {};
-        self.reportNotificationTypes = {};
-      }
+      $log.info('Retrieving last notification for report [id=' + reportId + ']');
 
-      var notificationReturnFields = [
-        "id",
-        "user_id",
-        "reports_item_id",
-        "notification_type.id",
-        "notification_type.title",
-        "notification_type.active",
-        "notification_type.default_deadline_in_days",
-        "deadline_in_days",
-        "content",
-        "sent",
-        "able_to_send",
-        "days_to_deadline",
-        "created_at",
-        "updated_at",
-        "overdue_at"
-      ];
+      var deferred = $q.defer();
 
-      self.getLastNotification = function (reportId, categoryId) {
+      Restangular
+        .one('reports')
+        .one('categories', categoryId)
+        .one('items', reportId)
+        .one('notifications')
+        .customGET('last',{return_fields: ReportsCategoriesNotificationsService.notificationReturnFields.join()}).then(function(r){
+          deferred.resolve(r.data);
+        });
 
-        $log.info('Retrieving last notification for report [id=' + reportId + ']');
+      return deferred.promise;
+    };
 
-        var deferred = $q.defer();
+    ReportsCategoriesNotificationsService.prototype.getAvailableNotificationsForReport = function (reportId, categoryId) {
+      $log.info('Retrieving notifications for report [id=' + reportId + ']');
 
+      var deferred = $q.defer();
+
+      if (this.reportNotificationTypes[reportId]) {
+        $log.info('Notification info from cache.');
+        deferred.resolve(this.reportNotificationTypes[reportId]);
+      } else {
         Restangular
           .one('reports')
           .one('categories', categoryId)
           .one('items', reportId)
-          .one('notifications')
-          .customGET('last',{return_fields: notificationReturnFields.join()}).then(function(r){
-            deferred.resolve(r.data);
-          });
-
-        return deferred.promise;
-
-      };
-
-      self.getAvailableNotificationsForReport = function (reportId, categoryId) {
-        $log.info('Retrieving notifications for report [id=' + reportId + ']');
-
-        var deferred = $q.defer();
-
-        if (self.reportNotificationTypes[reportId]) {
-          $log.info('Notification info from cache.');
-          deferred.resolve(self.reportNotificationTypes[reportId]);
-        } else {
-          Restangular
-            .one('reports')
-            .one('categories', categoryId)
-            .one('items', reportId)
-            .getList('notifications', {return_fields: notificationReturnFields.join()})
-            .then(function (r) {
-              $log.info('Notification info from rest.');
-              var array = r.data;
-              var onlyActives = [];
-              var j = 0;
-              for (var i = 0; i < array.length; i++) {
-                if (array[i].notification_type.active) {
-                  onlyActives[j++] = array[i];
-                }
+          .getList('notifications', {return_fields: ReportsCategoriesNotificationsService.notificationReturnFields.join()})
+          .then(function (r) {
+            $log.info('Notification info from rest.');
+            var array = r.data;
+            var onlyActives = [];
+            var j = 0;
+            for (var i = 0, l = array.length; i < l; i++) {
+              if (array[i].notification_type.active) {
+                onlyActives[j++] = array[i];
               }
-              self.reportNotificationTypes[reportId] = onlyActives;
-              deferred.resolve(onlyActives);
-            });
-        }
-        return deferred.promise;
-      };
-
-      self.sendNotification = function (reportId, categoryId, notificationTypeId) {
-        $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationTypeId + ']');
-        return Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .one('items', reportId)
-          .withHttpConfig({treatingErrors: false})
-          .post('notifications', {
-            notification_type_id: notificationTypeId
-          });
-      };
-
-      self.resendNotification = function (reportId, categoryId, notificationId) {
-        // reports/categories/:categoryId/items/:reportId/notifications/:notificationId/resend
-        $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationId: ' + notificationId + ']');
-        return Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .one('items', reportId)
-          .one('notifications', notificationId)
-          .one('resend')
-          .withHttpConfig({treatingErrors: false})
-          .put();
-      };
-
-      self.restartProcess = function(reportId, categoryId) {
-        $log.info('Restart process for report [categoryId: ' + categoryId + ', reportId: ' + reportId + ']');
-        return Restangular
-          .one('reports')
-          .one('categories', categoryId)
-          .one('items', reportId)
-          .one('notifications')
-          .one('restart')
-          .withHttpConfig({treatingErrors: false})
-          .put();
+            }
+            this.reportNotificationTypes[reportId] = onlyActives;
+            deferred.resolve(onlyActives);
+          }.bind(this));
       }
+      return deferred.promise;
+    };
 
-    }
+    ReportsCategoriesNotificationsService.prototype.sendNotification = function (reportId, categoryId, notificationTypeId) {
+      $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationTypeId + ']');
+      return Restangular
+        .one('reports')
+        .one('categories', categoryId)
+        .one('items', reportId)
+        .withHttpConfig({treatingErrors: false})
+        .post('notifications', {
+          notification_type_id: notificationTypeId
+        });
+    };
+
+    ReportsCategoriesNotificationsService.prototype.resendNotification = function (reportId, categoryId, notificationId) {
+      // reports/categories/:categoryId/items/:reportId/notifications/:notificationId/resend
+      $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationId: ' + notificationId + ']');
+      return Restangular
+        .one('reports')
+        .one('categories', categoryId)
+        .one('items', reportId)
+        .one('notifications', notificationId)
+        .one('resend')
+        .withHttpConfig({treatingErrors: false})
+        .put();
+    };
+
+    ReportsCategoriesNotificationsService.prototype.restartProcess = function(reportId, categoryId) {
+      $log.info('Restart process for report [categoryId: ' + categoryId + ', reportId: ' + reportId + ']');
+      return Restangular
+        .one('reports')
+        .one('categories', categoryId)
+        .one('items', reportId)
+        .one('notifications')
+        .one('restart')
+        .withHttpConfig({treatingErrors: false})
+        .put();
+    };
 
     return new ReportsCategoriesNotificationsService();
-
   });
