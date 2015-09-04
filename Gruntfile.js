@@ -158,7 +158,7 @@ module.exports = function (grunt) {
       options: {
         directory: '<%= yeoman.app %>/bower_components',
         ignorePath: '<%= yeoman.app %>/',
-        exclude: ['/ckeditor/', '/base64image_1.3/', '/font_4.5.1/', '/imagepaste_1.1.1/', '/bootstrapck_1.0_0/', '/tableresize_4.5.1/'],
+        exclude: ['/ckeditor/', '/base64image_1.3/', '/font_4.5.1/', '/imagepaste_1.1.1/', '/bootstrapck_1.0_0/', '/tableresize_4.5.1/', '/colorbutton_4.5.3/'],
         overrides: {
           "bootstrap": {
             "main": [
@@ -344,6 +344,12 @@ module.exports = function (grunt) {
             expand: true,
             cwd: '<%= yeoman.app %>/bower_components/tableresize_4.5.1',
             dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/tableresize',
+            src: ['**/*']
+          },
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/bower_components/colorbutton_4.5.3',
+            dest: '<%= yeoman.app %>/bower_components/ckeditor/plugins/colorbutton',
             src: ['**/*']
           },
           {

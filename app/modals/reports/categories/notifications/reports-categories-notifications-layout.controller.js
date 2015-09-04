@@ -23,7 +23,7 @@ angular
         height: '27cm',
         resize_enabled: false,
         removePlugins: 'elementspath',
-        extraPlugins: 'sharedspace,tableresize,zupplaceholder,base64image,font,imagepaste,image2',
+        extraPlugins: 'sharedspace,tableresize,zupplaceholder,base64image,font,imagepaste,image2,colorbutton,colordialog',
         sharedSpaces: {top: 'ckeditor-toolbar'},
         toolbarGroups: [
           {name: 'clipboard', groups: ['clipboard', 'undo']},
@@ -38,10 +38,9 @@ angular
           {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
           {name: 'document', groups: ['mode', 'document', 'doctools']},
           {name: 'styles', groups: ['styles']},
-          {name: 'colors', groups: ['colors']},
-          {name: 'about', groups: ['about']}
+          {name: 'colors', groups: ['colors']}
         ],
-        removeButtons: 'Maximize,Image'
+        removeButtons: 'Maximize,Image,Source'
       };
 
       $timeout(function () {
