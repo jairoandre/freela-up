@@ -6,8 +6,7 @@
     Para poder utilizar os recursos protegidos
 
     Contexto:
-      Dado que acesso ao sistema
-      E que sou um usuário cadastrado
+      Dado que sou um usuário cadastrado
       E ainda não estou logado
 
     Cenário: Permitir acesso ao sistema

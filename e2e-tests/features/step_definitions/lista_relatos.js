@@ -5,9 +5,14 @@ var expect = chai.expect;
 
 module.exports = function () {
   var page;
-  var $SEARCH_TERM = 'Avenida';
-  var $SEARCH_EXP = /^Avenida/;
+  var $SEARCH_TERM = 'plain';
+  var $SEARCH_EXP = /[pP]lain/;
   var hasReports = function () {
+    browser.wait(function(){
+      return page.reports().isDisplayed()
+    },5000);
+    
+    page = this.pages.report;
     return Promise.all([
       expect(element(by.css('#reports-listing-table')).isPresent()).to.eventually.be.ok,
       expect(page.reports().count()).to.eventually.greaterThan(0)
@@ -28,8 +33,12 @@ module.exports = function () {
   this.Given(/^que estou visualizando todos os relatos$/, hasReports);
 
   this.Then(/^todas colunas devem estar devidamente preenchidas$/, function () {
-    return page.getAllItems().map(function (coluna) {
-      return expect(coluna.getText()).to.eventually.not.empty;
+    return browser.wait(function(){
+      return page.reports().count();
+    }, 5000).then(function(){
+      return page.getAllItems().map(function (coluna) {
+        return expect(coluna.getText()).to.eventually.not.be.empty;
+      });
     });
   });
 
@@ -44,7 +53,7 @@ module.exports = function () {
   });
 
   this.When(/^preencho todos dados necessarios para realizar a busca$/, function () {
-    return page.fillFilter($SEARCH_TERM);
+    return page.fillFilter('input.query', $SEARCH_TERM);
   });
 
   this.When(/^clico no botão criar filtro$/, function () {
@@ -72,10 +81,6 @@ module.exports = function () {
   });
 
   this.Then(/^eu clico em cima do relato desejado$/, function () {
-    browser.wait(function () {
-      return page.reports().isDisplayed();
-    }, 9000);
-
     return page.reports().first().click();
   });
 
@@ -91,78 +96,5 @@ module.exports = function () {
     ]);
   });
 
-  this.Given(/^que escolhi (\d+) para o filtro de número de notificações$/, function (numero, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^existem relatos que já possuem uma notificação emitida$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^carrego a lista de relatos$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^a lista trás relatos que possuem ao menos (\d+) notificação$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^nenhum outro relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^ordena por data de criação mais recente$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^que escolhi de (\d+) a (\d+) dias no filtro de dias desde emissão da última notificação$/, function (num1, num2, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^existem relatos com notificações emitidas entre (\d+) a (\d+) dias atrás$/, function (num1, num2, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^a lista trás apenas relatos que possuem notificações emitidas entre (\d+) a (\d+) dias atrás$/, function (num1, num2, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^que escolhi de (\d+) a (\d+) dias o filtro de notificações a vencer$/, function (num1, num2, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^existem relatos com notificações a vencer entre (\d+) e (\d+) dias$/, function (arg1, arg2, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^a lista trás apenas relatos que possuem notificações a vencer entre (\d+) e (\d+) dias$/, function (arg1, arg2, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^que escolhi em (\d+) dias o filtro de notificações vencidas$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^existem relatos com notificações vencidas a mais de (\d+) dias$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
-
-  this.Given(/^a lista trás apenas relatos que possuem notificações vencidas a mais pelo menos (\d+) dias$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });
+  this.Given(/^carrego a lista de relatos$/, hasReports);
 };

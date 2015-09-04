@@ -8,11 +8,8 @@ exports.config = {
   onPrepare: function () {
     return browser.driver.manage().window().setSize(1600, 800);
   },
-
-  //Run faster in chrome and firefox. Dont work in phantomjs
-  directConnect: true,
-
-  seleniumAddress: 'http://localhost:4444/wd/hub',
+  directConnect : process.env.DEBUG_TESTS || false,
+  seleniumAddress: process.env.DEBUG_TESTS ? 'http://localhost:4444/wd/hub':undefined,
   framework: 'cucumber',
   specs: features || [
     'features/cases/**/*.feature'

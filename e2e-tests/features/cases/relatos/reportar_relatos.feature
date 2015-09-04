@@ -1,5 +1,5 @@
 #language: pt
-
+  @notimplemented
   Funcionalidade: Permitir que um usuário previamente cadastrado possa reporte um relato
     Como um usuário responsável por reportar novos relatos diretamente no painel do sistema
     Quero ser capaz de reportar um relato
