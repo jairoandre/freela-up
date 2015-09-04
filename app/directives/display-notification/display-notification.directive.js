@@ -2,6 +2,7 @@
  * Created by Jairo on 19/07/2015.
  */
 angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule', 'ckeditor', 'angularLoad'])
+
   .directive('displayNotification', function ($modal) {
     return {
       restrict: 'A',
