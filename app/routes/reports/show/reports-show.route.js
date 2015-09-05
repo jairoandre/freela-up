@@ -13,7 +13,7 @@ angular
           var returnFields = [
             'id', 'protocol', 'address', 'number', 'district', 'country', 'country', 'postal_code', 'state', 'city', 'created_at', 'description', 'comment_required_when_updating_status',
             'feedback', 'images', 'inventory_item', 'inventory_item_category_id', 'overdue', 'position', 'reference', 'status',
-            'last_notification.days_to_deadline',
+            'notifications.notification_type.title', 'notifications.notification_type.default_deadline_in_days', 'notifications.created_at', 'notifications.days_to_deadline',
             'user.name', 'user.email', 'user.id', 'user.phone',
             'assigned_user.id', 'assigned_user.name', 'assigned_group.id', 'assigned_group.name',
             'category.id', 'category.marker', 'category.notifications', 'category.icon', 'category.solver_groups.id',
