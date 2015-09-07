@@ -37,7 +37,7 @@
       Quando clico no botão criar relato
       Então o sistema deve retornar uma mensagem de sucesso
       E devo visualizar o texto "Coleta de Entulho"
-      E devo visualizar o texto "Rua Julieta, 167, 09891190, Vila Alvinopolis - SP, Brasil"
+      E devo visualizar o texto "Rua Julieta, 167"
       E devo visualizar o texto "grande quantidade de lixo acumulado na rua"
       E devo visualizar o texto "Garnet Price"
     
