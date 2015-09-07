@@ -22,8 +22,8 @@ module.exports = function () {
       });
     });
   }
-
-  function checkExpected(next) {
+  
+  function IamAuthUser(next) {
     page = this.pages.auth;
 
     expect(page.user).to.not.equal('');
@@ -34,10 +34,10 @@ module.exports = function () {
   this.Given(/^estou autenticado no sistema$/, makeLogin);
   this.Given(/^que estou autenticado na aplicação$/, makeLogin);
   this.Given(/^que estou autenticado$/, makeLogin);
-
-  this.Given(/^que sou um usuário cadastrado$/, checkExpected);
-  this.Given(/^que sou um usuário cadastrado no sistema$/, checkExpected);
-
+  
+  this.Given(/^que sou um usuário cadastrado no sistema$/, IamAuthUser);
+  this.Given(/^que sou um usuário cadastrado$/, IamAuthUser);
+  
   this.Given(/^ainda não estou logado$/, function () {
     return expect(page.isLogged()).to.eventually.not.ok;
   });

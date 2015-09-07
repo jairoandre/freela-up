@@ -1,4 +1,8 @@
-function Reports() {}
+var ReportForm = require('./form_relato');
+
+function Reports() {
+	this.editForm = new ReportForm();
+}
 
 Reports.prototype = {
   activeFilter: function () {
@@ -50,6 +54,17 @@ Reports.prototype = {
     return element.all(by.css('#reports-listing-table tbody tr td' + selectorItems));
   },
   
+  newReport:function(){
+		return element(by.css('[href="#/reports/add"]')).click()
+	},
+	
+	fillRequiredFieldsInEditForm : function(){
+		var form  = this.editForm;
+		
+		return form.fillCategory("fios e cabos")
+			.then(form.fillAddress.bind(form, "R. Julieta vila jordanopolis", "167"))
+			.then(form.linkUser.bind(form, "Leide Santos"))
+	},
   applyFilter:function(filter, value){
     var page = this;
 	  if(!Array.isArray(value))

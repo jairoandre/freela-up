@@ -25,9 +25,14 @@ module.exports = function () {
   this.When(/^clicar no ícone de exclusão$/, actionClick);
 
   this.When(/^aparecer a confirmação de exclusão$/, function () {
-    browser.wait(function () {
-      return expect(element(by.model('confirmText')).isDisplayed()).to.eventually.be.true
-    }, 2000);
+    var confirmText = element(by.model('confirmText'));
+
+    return browser.wait(function () {
+      return confirmText.isPresent();
+    }, 2000).then(function(){
+      return expect(confirmText.isDisplayed()).to.eventually.be.true;
+    });
+    
   });
 
   this.When(/^digito a palavra deletar$/, function () {
@@ -35,7 +40,7 @@ module.exports = function () {
   });
 
   this.When(/^clicar no botão remover$/, function () {
-    buttonConfirm.click()
+    return buttonConfirm.click()
   });
 
   this.Then(/^o sistema deve retornar uma mensagem de remoção bem sucedida$/, function () {

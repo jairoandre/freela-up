@@ -1,154 +1,131 @@
-
 var chai = require('chai');
 chai.use(require('chai-as-promised'));
 var expect = chai.expect;
-
+ 
 module.exports = function () {
+  var page;
+  var form
+  var goToNewReport = function(){
+    return page.newReport().then(function(){
+      form = page.editForm;
+    });
+  }
   this.World = require('../support/world').World;
-
-  this.Given(/^clico no botão Novo Relato$/, function () {
-    return element(by.css('[href="#/reports/add"]')).click();
+  
+  this.Before(function(callback){
+    page= this.pages.report;
+    callback();
   });
+  
+  this.Given(/^clico no botão Novo Relato$/, goToNewReport);
 
-  this.When(/^escolho uma categoria$/, function () {
-    var select = element(by.model('selectedCategory'));
-    var dropdown = select.element(by.css('.dropdown'));
-    var category = element(by.repeater('subcategory in category.subcategories').row(0));
-
-    return select.element(by.tagName('button')).click().then(function () {
-      return dropdown.element(by.model('q')).sendKeys('fios e cabos').then(function () {
-        return category.click();
+  this.When(/^que preencho os campos obrigatórios do relato$/, function () {
+    return form.fillCategory("coleta de entulho")
+      .then(function(){
+        return form.fillAddress("Rua Julieta vila jordanopolis", "167");
+      }).then(function(){
+        return form.linkUser("Garnet Price");
       });
-    });
-  });
-
-  this.When(/^preencho todos dados do formulario$/, function (callback) {
-    var form = element(by.css('[ng-show="selectedCategory"]'))
-    var getField = function (name) { return form.element(by.model('address.' + name)); }
-
-    var k = protractor.Key;
-    var typeInAddress = function (text) {
-      return getField('address').sendKeys(text);
-    }
-    var setAddressWithAutoComplete = typeInAddress('R. Julieta vila jordanopolis').then(function () {
-      return typeInAddress(k.ARROW_DOWN).then(function () {
-        return typeInAddress(k.ENTER)
-      })
-    });
-
-    return setAddressWithAutoComplete.then(function () {
-      return getField('number').sendKeys('167');
-    });
   });
 
   this.When(/^apos selecionar um usuário$/, function () {
-    var linkOpenModal = element(by.css('button[ng-click="selectUser()"]'));
-    var modal = element(by.css('.modal-reports-select-user'));
-    var searchUsers = modal.element(by.css('input[keyboard-poster="search"]'));
-    var firstUser = modal.element(by.repeater('user in users').row(0));
-    var select = firstUser.element(by.css('button[ng-click="setUser(user)"]'));
-
-
-    return linkOpenModal.click().then(function () {
-      return modal.isDisplayed().then(function () {
-        return searchUsers.sendKeys('Leide Santos').then(function () {
-          browser.wait(function () {
-            return firstUser.isDisplayed();
-          }, 9000);
-          return select.click();
-        });
-      });
-    });
+    return form.linkUser("Garnet Price");
   });
 
-  this.When(/^clico no botão para criar o relato$/, function () {
-    return element(by.css('button[ng-click="send()"]')).click();
+  this.When(/^clico no botão criar relato$/, function () {
+    return form.saveReport();
   });
 
-  this.Then(/^o sistema mostra uma mensagem de sucesso$/, function (callback) {
-    return expect(this.currentUrl()).to.eventually.match(/\/#\/reports\/\d+/);
+  this.Given(/^faço um upload de uma imagem$/, function () {
+    return form.uploadImage();
   });
-
-  this.Given(/^clico na listagem de categorias$/, function () {
-    var select = element(by.model('selectedCategory'));
-    return select.element(by.tagName('button')).click();
+  
+  this.Given(/^devo visualizar uma aba "(.*)"$/, function (texto) {
+    return expect(form.abaIsDisplayed(texto)).to.eventually.true;
   });
-
-  this.Given(/^o sistema deve listar as categorias de relato que possuo permissão$/, function (callback) {
-    var select = element(by.model('selectedCategory'));
-    var dropdown = select.element(by.css('.dropdown'));
-
-    return expect(dropdown.element(by.css('ul li')).count()).to.eventually.greaterThan(0);
+  
+  this.Given(/^devo visualizar as imagens que fiz upload$/, function () {
+    return expect(form.imageAreaIsDisplayed()).to.eventually.be.true;
   });
-
-  this.Given(/^preencho o campo endereço, adiciono uma ou mais imagens, descrevo a situação$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^não devo visualizar uma aba "([^"]*)"$/, function (texto) {
+    return expect(form.abaIsDisplayed(texto)).to.eventually.false;
   });
-
-  this.Given(/^clico no botão \+ Cadastro novo usuário$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^não devo visualizar a área de imagens$/, function () {
+    return expect(form.imageAreaIsDisplayed()).to.eventually.be.false;
   });
-
-  this.Given(/^o sistema apresenta todos os campos para cadastrar um novo usuário$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^escolho a categoria "([^"]*)"$/, function (categoria) {
+    return form.fillCategory(categoria);
   });
-
-  this.Given(/^preencho os campos obrigatórios$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^preencho o endereço com "([^"]*)"$/, function (texto) {
+    var rua = texto.split(', ')[0];
+    var numero = texto.split(', ')[1]; 
+    
+    return form.fillAddress(rua, numero); 
   });
-
-  this.Given(/^clico no botão criar usuário$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^descrevo a situação com texto: "([^"]*)"$/, function (situacao) {
+    return element(by.model('description')).sendKeys(situacao);
   });
-
-  this.Given(/^o sistema retorna a tela de criação do relato e exibe o nome do solicitante vinculado ao relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^seleciono o usuário "([^"]*)" como solicitante$/, function (userName) {
+    return form.linkUser(userName);
   });
-
-  this.Given(/^clico no botão criar relao$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Then(/^devo visualizar o texto "([^"]*)"$/, function (texto) {
+    return expect(element(by.cssContainingText('.fields', texto)).isDisplayed()).to.eventually.be.true;
   });
-
-  this.Given(/^o sistema deve retornar uma mensagem de sucesso$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Then(/^devo visualizar o nome do usuário atual na area de Histórico$/, function () {
+    return expect(element(by.binding('log.user.name')).isDisplayed()).to.eventually.be.true;
   });
-
-  this.Given(/^exibe o autor do relato no histórico do relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^preencho os campos obrigatórios do usuário "([^"]*)"$/, function (userName) {
+    var nome      = element(by.model('user.name'));
+    var email     = element(by.model('user.email'));
+    var endereco  = element(by.model('user.address'));
+    var bairro    = element(by.model('user.district'));
+    var cidade    = element(by.model('user.city'));
+    var cep       = element(by.model('user.postal_code'));
+    var telefone  = element(by.model('user.phone'));
+    var cpf       = element(by.model('user.document'));
+    
+    return Promise.all([
+      nome.sendKeys(userName),
+      email.sendKeys('teste.zup@gmail.com'),    
+      endereco.sendKeys('R. Julieta, 167'), 
+      bairro.sendKeys('vila jordanopolis'),   
+      cidade.sendKeys('São Bernardo do Campo'),   
+      cep.sendKeys('09891-190'),      
+      telefone.sendKeys('11981710184'), 
+      cpf.sendKeys('46141383220')      
+    ]);    
   });
-
-  /*
-  this.Given(/^que sou um usuário cadastrado no sistema$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
-  });*/
-
-  this.Given(/^que o grupo que estou contido tenha a permissão "([^"]*)" em uma ou mais categorias de relato$/, function (arg1, callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.When(/^for redirecionado para a exibição dos dados do relato$/, function () {
+    return expect(this.currentUrl()).to.eventually.match(/reports\/\d+/);
   });
-
-  this.Given(/^o sistema deve exibir o botão \+ Novo Relato na listagem de relatos$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Then(/^o sistema deve retornar uma mensagem de sucesso$/, function(){
+    return expect(element(by.css('.message-status.success')).isPresent()).to.eventually.true;
+  }); 
+  
+  this.Given(/^o sistema deve exibir o botão \+ Novo Relato na listagem de relatos$/, function () {
+    return expect(element(by.linkText('+ Novo relato')).isDisplayed()).to.eventually.to.be.true;
   });
-
-  this.Given(/^seleciono um usuário existente no sistema como solicitante$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^clico no botão \+ Cadastro novo usuário$/, function () {
+    return element(by.buttonText('+ Cadastrar novo usuário')).click();
   });
-
-  this.Given(/^clico no botão criar relato$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    callback.pending();
+  
+  this.Given(/^clico no botão criar usuário$/, function () {
+    return element(by.buttonText('Criar usuário')).click();
+  });
+  
+  this.Given(/^o sistema retorna a tela de criação do relato e exibe o nome do solicitante vinculado ao relato$/, function () {
+      return expect(element(by.binding('user.name')).isDisplayed()).to.eventually.be.true;
   });
 };
