@@ -33,16 +33,10 @@
 .item-history {
   margin: 40px 60px 60px;
 
-  .filters,
-  .notifications-header {
+  .filters {
     border-bottom: 1px solid #E5E5E5;
     margin-bottom: 20px;
     padding-bottom: 20px;
-  }
-
-  .notification-column {
-    float: left;
-    font-size: 12px;
   }
 
   .filter {
@@ -98,9 +92,10 @@
     }
   }
 
-  .notification {
-    font-size: 12px;
-    font-weight: 400;
+  .notifications-header {
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 
   .period .dropdown-menu {

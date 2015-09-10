@@ -469,7 +469,7 @@ angular
     // Notifications
     // Fetch notifications
 
-    var showNotifications = $scope.showNotificationsBtn = $scope.report.category.notifications;
+    var showNotifications = $scope.showNotifications = $scope.report.category.notifications;
 
     $scope.getDaysTxt = function (days) {
       return days < 0 ? ('Encerrado há ' + days * -1 + (days === -1 ? ' dia' : ' dias')) : (days + (days === 1 ? ' dia' : ' dias'));

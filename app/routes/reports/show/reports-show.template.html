@@ -8,30 +8,42 @@
     </ul>
 
     <a href="" ng-click="print()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-print"></i></a>
-    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotificationsBtn"
-       promise-btn="retrieveNotificationsPromise">Notificações</i></a>
+    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotifications" promise-btn="retrieveNotificationsPromise">Notificações</i></a>
 
   </div>
 
   <ul class="report-menu" reports-menu>
-    <li du-scrollspy="report-data"><a href="#report-data" du-smooth-scroll>Dados do relato</a></li>
-    <li ng-if="report.notifications.length > 0" du-scrollspy="report-notifications"><a href="#report-notifications"
-                                                                                       du-smooth-scroll>Notificações
-      emitidas</a></li>
-    <li ng-if="report.images.length > 0" du-scrollspy="report-images"><a href="#report-images"
-                                                                         du-smooth-scroll>Imagens</a></li>
-    <li du-scrollspy="report-map"><a href="#report-map" du-smooth-scroll>Mapa</a></li>
-    <li du-scrollspy="report-author"><a href="#report-author" du-smooth-scroll>Informações do munícipe</a></li>
-    <li du-scrollspy="report-responses"><a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a></li>
+
+    <li du-scrollspy="report-data">
+      <a href="#report-data" du-smooth-scroll>Dados do relato</a>
+    </li>
+    <li ng-if="report.notifications.length > 0" du-scrollspy="report-notifications">
+      <a href="#report-notifications" du-smooth-scroll>Notificações emitidas</a>
+    </li>
+    <li ng-if="report.images.length > 0" du-scrollspy="report-images">
+      <a href="#report-images" du-smooth-scroll>Imagens</a>
+    </li>
+    <li du-scrollspy="report-map">
+      <a href="#report-map" du-smooth-scroll>Mapa</a>
+    </li>
+    <li du-scrollspy="report-author">
+      <a href="#report-author" du-smooth-scroll>Informações do munícipe</a>
+    </li>
+    <li du-scrollspy="report-responses">
+      <a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a>
+    </li>
     <li du-scrollspy="report-comments"
         ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)">
-      <a href="#report-comments" du-smooth-scroll>Observações internas</a></li>
-    <li du-scrollspy="report-history"><a href="#report-history" du-smooth-scroll>Histórico</a></li>
+      <a href="#report-comments" du-smooth-scroll>Observações internas</a>
+    </li>
+    <li du-scrollspy="report-history">
+      <a href="#report-history" du-smooth-scroll>Histórico</a>
+    </li>
 
     <div class="clearfix"></div>
   </ul>
 
-  <div class="content wrappers reports-show">
+  <div class="content wrappers reports-show notifications">
     <div class="rounder_wrapper" id="report-data">
       <div class="wrapper_title"><h1>Dados do relato</h1></div>
 
@@ -264,17 +276,15 @@
       <div class="item-history">
 
         <div class="notifications-header">
-          <div class="notification-column col-xs-3">Data de emissão</div>
-          <div class="notification-column col-xs-3 pull-text-left">Prazo restante</div>
-          <div class="notification-column col-xs-3 pull-text-left">Prazo total</div>
-          <div class="notification-column col-xs-3 pull-text-left">Nome da notificação</div>
+          <div class="column date">Data de emissão</div>
+          <div class="column pull-text-left">Prazo restante</div>
+          <div class="column pull-text-left">Prazo total</div>
+          <div class="column pull-text-left">Nome da notificação</div>
         </div>
 
         <div class="timeline">
 
-          <div class="loadingHistoryLogs pages-animation" ng-show="loadingHistoryLogs"><span></span></div>
-
-          <div class="empty" ng-show="historyLogs.length === 0"><p>Não há alterações cadastradas.</p></div>
+          <div class="empty" ng-show="report.notifications.length === 0"><p>Não há notificações registradas.</p></div>
 
           <div class="line"><span></span></div>
 
