@@ -17,12 +17,13 @@ angular
     'duScroll',
     'ReportsSendNotificationsModalControllerModule',
     'ReportsCategoriesNotificationsServiceModule',
-    'ReportsCategoriesServiceModule'
+    'ReportsCategoriesServiceModule',
+    'ckeditor', 'angularLoad'
   ])
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService, angularLoad, ENV) {
 
     $log.info('ReportsShowController created.');
     $scope.$on('$destroy', function () {
@@ -471,8 +472,29 @@ angular
 
     var showNotifications = $scope.showNotifications = $scope.report.category.notifications;
 
+    $scope.scriptLoaded = false;
+
+    angularLoad.loadScript(ENV.ckeditorPath).then(function () {
+
+      $scope.ckeditorOptions = {
+        readOnly: true,
+        extraPlugins: 'sharedspace',
+        sharedSpaces: {
+          top: 'ckeditor-toolbar'
+        },
+        extraAllowedContent: 'div;*[class](*){*}'
+      };
+
+      $scope.scriptLoaded = true;
+    });
+
+    function daysLiteral(days) {
+      var abs = Math.abs(days);
+      return abs + (abs === 1 ? ' dia' : ' dias');
+    };
+
     $scope.getDaysTxt = function (days) {
-      return days < 0 ? ('Encerrado há ' + days * -1 + (days === -1 ? ' dia' : ' dias')) : (days + (days === 1 ? ' dia' : ' dias'));
+      return days < 0 ? (daysLiteral(days) + ' atrás') : (days === 0 ? 'Encerrado' : daysLiteral(days));
     };
 
     $scope.showNotificationsModal = function () {

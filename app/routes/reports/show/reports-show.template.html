@@ -8,7 +8,8 @@
     </ul>
 
     <a href="" ng-click="print()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-print"></i></a>
-    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotifications" promise-btn="retrieveNotificationsPromise">Notificações</i></a>
+    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotifications"
+       promise-btn="retrieveNotificationsPromise">Notificações</i></a>
 
   </div>
 
@@ -17,7 +18,7 @@
     <li du-scrollspy="report-data">
       <a href="#report-data" du-smooth-scroll>Dados do relato</a>
     </li>
-    <li ng-if="report.notifications.length > 0" du-scrollspy="report-notifications">
+    <li du-scrollspy="report-notifications">
       <a href="#report-notifications" du-smooth-scroll>Notificações emitidas</a>
     </li>
     <li ng-if="report.images.length > 0" du-scrollspy="report-images">
@@ -274,39 +275,59 @@
     <div class="rounder_wrapper" id="report-notifications">
       <div class="wrapper_title"><h1>Notificações emitidas</h1></div>
       <div class="item-history">
+        <div class="empty" ng-show="report.notifications.length === 0"><p>Não há notificações registradas.</p></div>
+        <table class="notifications-history-table" >
+          <thead>
+          <tr>
+            <td class="date-cell">
+              <span>Data de emissão</span>
+            </td>
+            <td class="overdue-cell">
+              <span>Prazo Restante</span>
+            </td>
+            <td class="overdue-cell">
+              <span>Prazo total</span>
+            </td>
+            <td class="type-cell">
+              <span>Nome da notificação</span>
+            </td>
+            <td class="button-cell"></td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="notification in report.notifications">
+            <td class="date-cell">
+                <span class="date">{{notification.created_at | date:'dd/MM/yy HH:mm'}}h</span>
+                <span class="line" ng-if="$index < (report.notifications.length - 1)"></span>
+            </td>
+            <td class="overdue-cell">
+              <span class="label label-danger" ng-show="notification.days_to_deadline < 0">&nbsp;VENCIDO</span>
+              <span>{{getDaysTxt(notification.days_to_deadline)}}</span>
+            </td>
+            <td class="overdue-cell">
+              <span>{{getDaysTxt(notification.notification_type.default_deadline_in_days)}}</span>
+            </td>
+            <td class="type-cell">
+              <span>{{notification.notification_type.title}}</span>
+            </td>
+            <td class="button-cell">
 
-        <div class="notifications-header">
-          <div class="column date">Data de emissão</div>
-          <div class="column pull-text-left">Prazo restante</div>
-          <div class="column pull-text-left">Prazo total</div>
-          <div class="column pull-text-left">Nome da notificação</div>
-        </div>
+              <a href="" class="btn btn-info btn-custom" display-notification="notification.content" style="font-weight: normal;">
+                <i class="glyphicon glyphicon-search"></i>&nbsp;Visualizar</a>
 
-        <div class="timeline">
+              <a href="" zup-print="notificationToPrint_{{$index}}" class="btn btn-info btn-custom" style="font-weight: normal;"><i class="glyphicon glyphicon-print"></i></a>
 
-          <div class="empty" ng-show="report.notifications.length === 0"><p>Não há notificações registradas.</p></div>
+              <div style="display:none">
+                <div id="notificationToPrint_{{$index}}" class="a4-page">
+                  <div ckeditor="ckeditorOptions" ng-model="notification.content" contenteditable="true" ng-if="scriptLoaded"></div>
+                </div>
+              </div>
 
-          <div class="line"><span></span></div>
 
-          <div class="log" ng-repeat="notification in report.notifications">
-            <div class="date">
-              <span>{{ notification.created_at | date:'dd/MM/yy HH:mm'}}h</span>
-            </div>
-
-            <div class="action">
-
-              <p>
-                <span>{{getDaysTxt(notification.days_to_deadline)}}</span>
-                <span>{{getDaysTxt(notification.notification_type.default_deadline_in_days)}}</span>
-                <span>{{notification.notification_type.title}}</span>
-              </p>
-
-              <div class="divider"></div>
-            </div>
-
-            <div class="clearfix"></div>
-          </div>
-        </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
