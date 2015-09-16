@@ -48,7 +48,7 @@
     "angular-promise-buttons": "*",
     "angular-google-chart": "~0.0.11",
     "angular-print": "~0.3.7",
-    "font-awesome": "~4.4.0"
+    "font-awesome": "~4.4.0",
     "nouislider": "~8.0.2",
     "ckeditor": "4.5.1",
     "font_4.5.1": "http://download.ckeditor.com/font/releases/font_4.5.1.zip",
