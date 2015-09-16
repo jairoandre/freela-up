@@ -49,7 +49,7 @@
             <p ng-if="!chart.processed">Os dados deste relatório ainda estão sendo processados.</p>
           </div>
         </div>
-        <div google-chart chart="chart" class="chart"></div>
+        <div google-chart chart="chart" class="chart" ng-class="{invisible: !chart.processed}"></div>
       </div>
 
       <p class="chart-description" ng-if="chart.description && chart.description != ''">{{chart.description}}</p>
