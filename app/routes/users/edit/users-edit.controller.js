@@ -98,10 +98,18 @@ angular
 
       var user = angular.copy($scope.user);
 
+      var extraParams = {};
+      if($scope.should_generate_password) {
+        delete user.password;
+        delete user.password_confirmation;
+        extraParams.generate_password = true;
+      }
+
       // PUT if updating and POST if creating a new user
       if (updating)
       {
-        var putUserPromise = Restangular.one('users', userId).withHttpConfig({ treatingErrors: true }).customPUT(user);
+
+        var putUserPromise = Restangular.one('users', userId).withHttpConfig({ treatingErrors: true }).customPUT(user, null, extraParams);
 
         putUserPromise.then(function() {
           $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
@@ -138,13 +146,7 @@ angular
         // remove unecessary data from the request
         delete user.groups;
 
-        var extraParams = { return_fields: 'id' };
-
-        if($scope.should_generate_password) {
-          delete user.password;
-          delete user.password_confirmation;
-          extraParams.generate_password = true;
-        }
+        extraParams.return_fields = 'id';
 
         var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, user, extraParams);
 

@@ -24,8 +24,8 @@ angular
         };
 
         $scope.clearDefaultPeriod = function() {
-          $scope.report.begin_date = undefined;
-          $scope.report.end_date = undefined;
+          $scope.report.begin_date = null;
+          $scope.report.end_date = null;
         }
       }
     };
