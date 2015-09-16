@@ -85,12 +85,9 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+          hostname: '0.0.0.0',
           port: 9001,
-          base: [
-            '.tmp',
-            'test',
-            '<%= yeoman.app %>'
-          ]
+          base: '<%= yeoman.dist %>'
         }
       },
       dist: {
@@ -496,6 +493,15 @@ module.exports = function (grunt) {
       }
     },
 
+    protractor: {
+      options: {
+        configFile: "e2e-tests/protractor-conf.js",
+        keepAlive: false,
+        noColor: false
+      },
+      all: {}
+    },
+
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -506,7 +512,6 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        //'imagemin',
         'svgmin'
       ]
     }
@@ -535,10 +540,9 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test'
+    'build',
+    'connect:test',
+    'protractor'
   ]);
 
   grunt.registerTask('dist', [
@@ -556,7 +560,6 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'imagemin',
     'cdnify',
     'cssmin',
     'uglify',
