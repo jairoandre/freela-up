@@ -16,6 +16,7 @@
       Entao o sistema cria uma sessão para o usuário
       E redireciona para a tela inicial do usuário
 
+    @notimplemented
     Cenário: Não permitir usuários com credenciais incorretas
       Dado que estou na tela de autenticação
       E que preencho os dados do formulário de de autenticação com dados inexistentes
