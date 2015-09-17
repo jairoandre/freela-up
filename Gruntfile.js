@@ -86,7 +86,7 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
-          hostname: '0.0.0.0',
+          hostname: '<%= BASE_URL %>',
           port: 9001,
           base: '<%= yeoman.dist %>'
         }
