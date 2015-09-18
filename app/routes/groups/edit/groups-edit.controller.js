@@ -181,7 +181,7 @@ angular
             slug: 'reports_items_delete',
             name: 'Remover relatos',
             needsObject: true,
-            needsPermission: 'reports_items_read_public',
+            needsPermission: 'reports_items_read_private',
             tooltip: 'Permite visualizar e deletar os relatos das categorias selecionadas.'
           },
 
