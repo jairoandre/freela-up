@@ -14,7 +14,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     BASE_URL: process.env.BASE_URL,
-    THEME: process.env.THEME,
+    THEME: process.env.THEME || 'zup',
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
@@ -22,7 +22,6 @@ module.exports = function (grunt) {
     SENTRY_DSN: process.env.SENTRY_DSN,
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     FLOWS_ENABLED: process.env.FLOWS_ENABLED,
-    LOGO_IMG_URL: process.env.LOGO_IMG_URL,
     DEFAULT_CITY: process.env.DEFAULT_CITY,
     DEFAULT_COUNTRY: process.env.DEFAULT_COUNTRY,
     DEFAULT_STATE: process.env.DEFAULT_STATE,
@@ -357,7 +356,6 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>',
             defaultCity: '<%= DEFAULT_CITY %>',
             defaultState: '<%= DEFAULT_STATE %>',
             defaultCountry: '<%= DEFAULT_COUNTRY %>'
@@ -380,8 +378,7 @@ module.exports = function (grunt) {
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
-            flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>'
+            flowsEnabled: '<%= FLOWS_ENABLED %>'
           }
         }
       }

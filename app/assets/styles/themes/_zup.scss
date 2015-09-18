@@ -1,0 +1,24 @@
+.zup {
+
+  #login .logo .img {
+    width: 86px;
+    height: 37px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url('../images/logos/logo-zup-blue.png');
+  }
+
+  #main_layout {
+    #sidebar {
+      .logo {
+        .img {
+          width: 86px;
+          height: 37px;
+          display: inline-block;
+          vertical-align: middle;
+          background-image: url('../images/logos/logo-zup.png');
+        }
+      }
+    }
+  }
+}

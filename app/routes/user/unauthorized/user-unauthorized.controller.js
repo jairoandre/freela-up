@@ -9,8 +9,4 @@ angular
 
     Auth.clearToken();
     Auth.clearUser();
-
-    var img = $scope.logoImg;
-
-    $scope.blueLogoImg = img.substring(0, img.lastIndexOf('.')) + '-blue' + img.substring(img.lastIndexOf('.'));
   });
