@@ -1,4 +1,23 @@
 .unicef {
+
+  %logo {
+    width: 131px;
+    height: 54px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #login .logo {
+    .img {
+      @extend %logo;
+      background-image: url('../images/logos/logo-unicef.png');
+    }
+
+    .slogan-title::before {
+      content: "UNICEF DESCRIPTION";
+    }
+  }
+
   #main_layout {
     #sidebar {
       background: #0C5E8E;
@@ -6,6 +25,11 @@
       .logo {
         background: #2192CA;
         padding-top: 8px;
+
+        .img {
+          @extend %logo;
+          background-image: url('../images/logos/logo-unicef.png');
+        }
       }
 
       ul {
@@ -17,6 +41,20 @@
           background: #0A4B71;
         }
       }
+    }
+  }
+
+  #printContent {
+    .logo > .img {
+      @extend %logo;
+      background-image: url('../images/logos/logo-unicef.png');
+    }
+  }
+
+  .initial-loading-page {
+    .logo > .img {
+      @extend %logo;
+      background-image: url('../images/logos/logo-unicef.png');
     }
   }
 }
