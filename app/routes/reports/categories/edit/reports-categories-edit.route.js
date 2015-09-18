@@ -48,7 +48,7 @@ angular
               return Restangular.all('groups').getList({ return_fields: 'id,name'});
             }],
 
-            'notificationsTypesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+            'notificationsTypesResponse': [function() {
               return {};
             }]
           }
