@@ -639,9 +639,13 @@
           <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a emissão de notificações se dará de maneira ordenada.</span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-if="!categoryId">
+          <span class="help-block">*Só será possível criar tipos de notificação após o registro da nova categoria.</span>
+        </div>
+        <div class="form-group" ng-if="categoryId">
           <label>Tipos de notificações disponíveis
-            <a href="#notificationItem{{notificationTypesArray.length}}" ng-click="addNotificationType()" ng-if="!editingNotificationType" du-smooth-scroll>(Criar novo)</a>
+            <a href="#notificationItem{{notificationTypesArray.length}}" ng-click="addNotificationType()"
+               ng-if="!editingNotificationType" du-smooth-scroll>(Criar novo)</a>
           </label>
 
           <div class="clearfix"></div>
@@ -749,7 +753,9 @@
                           ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">
                     {{addingNotificationType ? 'Salvar' : 'Atualizar'}}
                   </button>
-                  <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()" class="btn btn-info btn-custom" ng-disabled="saveNotificationTypePromise" du-smooth-scroll>Cancelar</a>
+                  <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()"
+                     class="btn btn-info btn-custom" ng-disabled="saveNotificationTypePromise"
+                     du-smooth-scroll>Cancelar</a>
                 </div>
               </div>
             </li>
