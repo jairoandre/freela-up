@@ -10,23 +10,31 @@ angular
       $log.info('ReportsSendNotificationsModalController destroyed.');
     });
 
+    $scope.notifications = notifications;
+
+    $scope.loadingInfo = false;
+
     var init = function () {
-      $scope.notifications = notifications;
       $scope.confirmSendMap = {};
       $scope.notificationPromises = {};
+      $scope.showRestartProcessLink = false;
+      for (var i = 0, l = $scope.notifications.length; i < l; i++) {
+        $scope.confirmSendMap[$scope.notifications[i]] = false;
+        if($scope.notifications[i].created_at){
+          $scope.showRestartProcessLink = true;
+        }
+      }
     };
 
     init();
 
-    for (var i = 0, l = notifications.length; i < l; i++) {
-      $scope.confirmSendMap[notifications[i]] = false;
-    }
-
     var refreshNotifications = function () {
-      init();
+      $scope.loadingInfo = true;
       ReportsCategoriesNotificationsService.cleanCache();
       ReportsCategoriesNotificationsService.getAvailableNotificationsForReport(report.id, report.category.id).then(function (r) {
         $scope.notifications = r;
+        init();
+        $scope.loadingInfo = false;
       });
     };
 
