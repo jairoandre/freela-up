@@ -3,6 +3,7 @@
 ## 1.0.1 [Em aberto]
 ### Corrigido
 - Correções na seção de histórico de alterações do relato.
+- Correção na listagem dinâmica de usuários do grupo
 
 -
 
