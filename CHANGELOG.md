@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.0.1 [Em aberto]
+### Corrigido
+- Correções na seção de histórico de alterações do relato.
 
 -
 
