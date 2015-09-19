@@ -5,22 +5,39 @@ var expect = chai.expect;
 
 module.exports = function () {
   var page;
-  var $SEARCH_TERM = 'plain';
-  var $SEARCH_EXP = /[pP]lain/;
+  var $SEARCH_TERM;
+
+  var getTerm = function () {
+    return page.getAllItems(2).first().getText().then(function (thisTxt) {
+      $SEARCH_TERM = thisTxt;
+    });
+  };
+
   var hasReports = function () {
     browser.wait(function(){
       return page.reports().isDisplayed()
     },5000);
-    
+
     page = this.pages.report;
     return Promise.all([
       expect(element(by.css('#reports-listing-table')).isPresent()).to.eventually.be.ok,
       expect(page.reports().count()).to.eventually.greaterThan(0)
     ]);
   };
+
   var goToReports = function(){
     page = this.pages.report;
     return this.visit('/#/reports');
+  };
+
+  var checkCols = function () {
+    return browser.wait(function(){
+      return page.reports().count();
+    }, 5000).then(function(){
+      return page.getAllItems().map(function (coluna) {
+        return expect(coluna.getText()).to.eventually.not.be.empty;
+      });
+    });
   };
 
   this.World = require('../support/world').World;
@@ -32,15 +49,7 @@ module.exports = function () {
   this.Given(/^que existem relatos cadastrados$/, hasReports);
   this.Given(/^que estou visualizando todos os relatos$/, hasReports);
 
-  this.Then(/^todas colunas devem estar devidamente preenchidas$/, function () {
-    return browser.wait(function(){
-      return page.reports().count();
-    }, 5000).then(function(){
-      return page.getAllItems().map(function (coluna) {
-        return expect(coluna.getText()).to.eventually.not.be.empty;
-      });
-    });
-  });
+  this.Then(/^todas colunas devem estar devidamente preenchidas$/, checkCols);
 
   this.Given(/^clico no campo para filtrar items$/, function () {
     return page.activeFilter().then(function () {
@@ -49,11 +58,13 @@ module.exports = function () {
   });
 
   this.When(/^escolho um filtro$/, function () {
-    return page.avaliableFilters().element(by.css('a[ng-click]')).click();
+    return page.clickOnFilter();
   });
 
   this.When(/^preencho todos dados necessarios para realizar a busca$/, function () {
-    return page.fillFilter('input.query', $SEARCH_TERM);
+    return getTerm().then(function () {
+      return page.fillFilter('input.query', $SEARCH_TERM);
+    });
   });
 
   this.When(/^clico no botão criar filtro$/, function () {
@@ -62,7 +73,7 @@ module.exports = function () {
 
   this.Then(/^devo visualizar somente os relatos que contem o mesmo valor enserido no filtro$/, function () {
     return page.getAllItems(2).each(function (colunaEndereco) {
-      return expect(colunaEndereco.getText()).to.eventually.match($SEARCH_EXP);
+      return expect(colunaEndereco.getText()).to.eventually.equal($SEARCH_TERM);
     });
   });
 
