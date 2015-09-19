@@ -1,6 +1,5 @@
 services:
     - ntxcode/postgresql:9.4
-    - ntxcode/redis-non-persistent:latest
 
 variables:
     POSTGRES_PASSWORD: "zup"
@@ -20,16 +19,20 @@ before_script:
       - echo SMTP_PASS=CBsowzZ7kq2d >> api.env
       - echo SMTP_TTLS=true >> api.env
       - echo SMTP_AUTH=plain >> api.env
-      - echo REDIS_URL=redis://$NTXCODE__REDIS_NON_PERSISTENT_PORT_6379_TCP_ADDR:6379 >> api.env
+      - echo REDIS_URL=redis://redis:6379 >> api.env
       - echo RACK_ENV=production >> api.env
       - echo DATABASE_URL=postgis://zup:zup@$NTXCODE__POSTGRESQL_PORT_5432_TCP_ADDR:5432/zup >> api.env
       - export API_BRANCH=$CI_BUILD_REF_NAME
       - docker login -e $DOCKER_LOGIN -p $DOCKER_PASSWORD -u $DOCKER_USERNAME
+      - export REDIS_NAME="redis$CI_BUILD_ID"
+      - REDIS_CID=$(docker run --privileged -d --name $REDIS_NAME ntxcode/redis-non-persistent:latest)
+      - echo $REDIS_CID
+      - docker exec -d "$REDIS_CID" "sysctl -w net.core.somaxconn=1024"
       - docker pull ntxcode/zup-api:$API_BRANCH || docker pull ntxcode/zup-api:latest && export API_BRANCH="latest"
-      - docker run -a stdout -a stderr --env-file api.env ntxcode/zup-api:$API_BRANCH bundle exec rake db:schema:load
-      - "docker run -a stdout -a stderr --env-file api.env ntxcode/zup-api:$API_BRANCH /bin/bash -c \"bundle exec rake db:seed WITH_FAKE_DATA=true\" &"
+      - docker run --link $REDIS_NAME:redis -a stdout -a stderr --env-file api.env ntxcode/zup-api:$API_BRANCH bundle exec rake db:schema:load
+      - "docker run --link $REDIS_NAME:redis -a stdout -a stderr --env-file api.env ntxcode/zup-api:$API_BRANCH /bin/bash -c \"bundle exec rake db:seed WITH_FAKE_DATA=true\" &"
       - export API_CNAME="zup-api-$CI_BUILD_ID"
-      - docker run -a stdout -a stderr --env-file api.env --name $API_CNAME -p 8282:80 ntxcode/zup-api:$API_BRANCH &
+      - docker run --link $REDIS_NAME:redis -a stdout -a stderr --env-file api.env --name $API_CNAME -p 8282:80 ntxcode/zup-api:$API_BRANCH &
 
 build:
     stage: build
@@ -53,6 +56,7 @@ build:
         - echo FLOWS_ENABLED=true >> .env
         - curl http://localhost:8282/feature_flags &
         - NODE_ENV=production grunt test
+        - docker rm -f $REDIS_NAME
         - git config --global user.name 'Gitlab CI'
         - git config --global user.email 'tecnologia@ntdev.com.br'
         - rm -rf zup-web || true
