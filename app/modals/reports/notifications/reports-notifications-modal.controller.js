@@ -52,6 +52,7 @@ angular
      * @param notification
      */
     $scope.confirmSend = function (notification) {
+      $scope.loadingInfo = true;
       var notificationId = notification.notification_type.id;
       if (notification.sent) {
         $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.resendNotification(report.id, report.category.id, notification.id);
@@ -89,6 +90,7 @@ angular
     };
 
     $scope.restartProcess = function () {
+      $scope.loadingInfo = true;
       $scope.restartProcessPromise = ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id);
       $scope.restartProcessPromise.then(function (r) {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');
