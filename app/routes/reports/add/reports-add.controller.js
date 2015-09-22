@@ -29,10 +29,9 @@ angular
 
     uploader.filters.push(onlyImagesUploaderFilter(uploader.isHTML5));
 
-    $scope.getInventoryCategory = function(id) {
+    $scope.getInventoryCategory = function (id) {
       for (var i = $scope.inventoryCategories.length - 1; i >= 0; i--) {
-        if ($scope.inventoryCategories[i].id === id)
-        {
+        if ($scope.inventoryCategories[i].id === id) {
           return $scope.inventoryCategories[i];
         }
       }
@@ -40,41 +39,37 @@ angular
       return null;
     };
 
-    $scope.$watch('selectedCategory', function(newValue, oldValue) {
-      if (newValue !== oldValue)
-      {
+    $scope.$watch('selectedCategory', function (newValue, oldValue) {
+      if (newValue !== oldValue) {
         for (var i = $scope.categories.length - 1; i >= 0; i--) {
-          if ($scope.categories[i].id === parseInt($scope.selectedCategory))
-          {
+          if ($scope.categories[i].id === parseInt($scope.selectedCategory)) {
             return $scope.categoryData = $scope.categories[i];
           }
 
           // we search into subcategories
-          if ($scope.categories[i].subcategories.length !== 0)
-          {
+          if ($scope.categories[i].subcategories.length !== 0) {
             for (var j = $scope.categories[i].subcategories.length - 1; j >= 0; j--) {
-              if ($scope.categories[i].subcategories[j].id === parseInt($scope.selectedCategory))
-              {
+              if ($scope.categories[i].subcategories[j].id === parseInt($scope.selectedCategory)) {
                 return $scope.categoryData = $scope.categories[i].subcategories[j];
               }
-            };
+            }
           }
-        };
+        }
       }
     });
 
-    $scope.selectUser = function() {
+    $scope.selectUser = function () {
       $modal.open({
         templateUrl: 'modals/reports/select-user/reports-select-user.template.html',
         windowClass: 'modal-reports-select-user',
         resolve: {
-          setUser: function() {
-            return function(user) {
+          setUser: function () {
+            return function (user) {
               $scope.user = user;
             }
           },
 
-          filterByGroup: function() {
+          filterByGroup: function () {
             return null;
           }
         },
@@ -82,27 +77,27 @@ angular
       });
     };
 
-    $scope.registerUser = function() {
+    $scope.registerUser = function () {
       $modal.open({
         templateUrl: 'modals/reports/create-user/reports-create-user.template.html',
         windowClass: 'modal-reports-create-user',
         resolve: {
-          setUser: function() {
-            return function(user) {
+          setUser: function () {
+            return function (user) {
               $scope.user = user;
             }
-          },
+          }
         },
         controller: 'ReportsCreateUserModalController'
       });
     };
 
-    var addAsyncImage = function(img) {
+    var addAsyncImage = function (img) {
       var deferred = $q.defer();
 
       var picReader = new FileReader();
 
-      picReader.addEventListener('load', function(event) {
+      picReader.addEventListener('load', function (event) {
         var picFile = event.target;
 
         deferred.resolve(picFile.result.replace(/^data:image\/[^;]+;base64,/, ''));
@@ -114,19 +109,19 @@ angular
       return deferred.promise;
     };
 
-    $scope.$on('reportMap:position_changed', function(e, latLng){
+    $scope.$on('reportMap:position_changed', function (e, latLng) {
       $scope.lat = latLng.lat();
       $scope.lng = latLng.lng();
     });
 
     var lastAddress = $scope.address.address, lastNumber = $scope.address.number;
     var wasPositionUpdated = false;
-    $scope.fieldOnEnter = function(previousField, currentField){
-      if(previousField.name == 'address' || $scope.address.address == ''  || $scope.address.number == '') {
+    $scope.fieldOnEnter = function (previousField, currentField) {
+      if (previousField.name == 'address' || $scope.address.address == '' || $scope.address.number == '') {
         wasPositionUpdated = false;
         return;
       }
-      if($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
+      if ($scope.address.address != lastAddress || $scope.address.number != parseInt(lastNumber, 10)) {
         wasPositionUpdated = true;
         lastAddress = $scope.address.address;
         lastNumber = $scope.address.number;
@@ -134,15 +129,15 @@ angular
       }
     };
 
-    $scope.$on('reports:position-updated', function(e, location){
+    $scope.$on('reports:position-updated', function (e, location) {
       $scope.lat = location.lat();
       $scope.lng = location.lng();
-      if(!wasPositionUpdated) {
+      if (!wasPositionUpdated) {
         $scope.$broadcast('addressChanged', true);
       }
     });
 
-    $scope.send = function() {
+    $scope.send = function () {
       $rootScope.resolvingRequest = true;
 
       var imagesPromises = [];
@@ -151,7 +146,7 @@ angular
         imagesPromises.push(addAsyncImage($scope.uploader.queue[i]._file));
       }
 
-      $q.all(imagesPromises).then(function(images) {
+      $q.all(imagesPromises).then(function (images) {
         var newReport = {
           latitude: $scope.lat,
           longitude: $scope.lng,
@@ -169,18 +164,16 @@ angular
           return_fields: 'id'
         };
 
-        if ($scope.user)
-        {
+        if ($scope.user) {
           newReport.user_id = $scope.user.id;
         }
 
         var newReportPromise = Restangular.one('reports', $scope.selectedCategory).customPOST(newReport, 'items');
 
-        newReportPromise.then(function(response) {
+        newReportPromise.then(function (response) {
           $scope.showMessage('ok', 'O relato foi criado com sucesso.', 'success', true);
 
-          if ($scope.createAnother)
-          {
+          if ($scope.createAnother) {
             $scope.lat = null;
             $scope.lng = null;
             $scope.itemId = null;
@@ -193,10 +186,8 @@ angular
             $scope.uploader.clearQueue();
 
             $rootScope.resolvingRequest = false;
-          }
-          else
-          {
-            $state.go('reports.show', { id: response.data.id });
+          } else {
+            $state.go('reports.show', {id: response.data.id});
           }
         });
 
