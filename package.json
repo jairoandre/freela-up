@@ -1,6 +1,6 @@
 {
   "name": "zuppainel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "dotenv": "^1.0.0",
     "express": "~4.4.1",
