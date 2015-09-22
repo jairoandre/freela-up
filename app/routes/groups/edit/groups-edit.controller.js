@@ -506,7 +506,7 @@ angular
         $scope.showPermissionsMenu = false;
         $scope.showObjectsMenu = false;
 
-        $scope.newPermission.type = permissionType.type;
+        $scope.newPermission.type = permissionType ? permissionType.type : null;
       });
     };
 
