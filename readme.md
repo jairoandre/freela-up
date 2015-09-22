@@ -48,3 +48,4 @@ The `dist` directory will contain the ready-to-deploy assets.
 # Running tests
 
     npm run test
+
