@@ -10,8 +10,7 @@
   </div>
 
   <div class="table-div">
-
-    <table id="reports-nofitications-table" class="table custom_table items-listing-table">
+    <table id="reports-nofitications-table" class="table custom_table items-listing-table" ng-if="notifications">
       <thead>
         <tr>
           <td class="type-cell">
@@ -48,11 +47,28 @@
             <div ng-if="!notification.notification_type.status.id">-</div>
           </td>
           <td class="overdue-cell">
-            {{ getDefaultDeadlineInDaysTxt(notification) }}
+            <span ng-if="!loadingInfo">{{ getDefaultDeadlineInDaysTxt(notification) }}</span>
+            <div class="loading_dots" ng-if="loadingInfo">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </td>
-          <td class="date-cell">{{ notification.created_at ? (notification.created_at | date:'dd/MM/yy') : '-'}}</td>
+          <td class="date-cell">
+            <span ng-if="!loadingInfo">{{ notification.created_at ? (notification.created_at | date:'dd/MM/yy') : '-'}}</span>
+            <div class="loading_dots" ng-if="loadingInfo">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </td>
           <td class="overdue-cell">
-            {{ getDaysToDeadlineTxt(notification) }}
+            <span ng-if="!loadingInfo">{{ getDaysToDeadlineTxt(notification) }}</span>
+            <div class="loading_dots" ng-if="loadingInfo">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </td>
           <td class="button-cell">
             <button class="btn btn-info btn-custom"
@@ -89,5 +105,6 @@
      cd-button-label="Reiniciar"
      cd-confirm-function="restartProcess()"
      cd-confirm-promise="restartProcessPromise"
+     ng-if="showRestartProcessLink"
      style="float: left; font-weight: bold">Reiniciar</a>
 </div>

@@ -44,23 +44,24 @@
 
       <div class="line"><span></span></div>
 
-      <div class="log" ng-repeat="log in historyLogs">
+      <div class="log" ng-repeat="log in historyLogs" ng-init="last_index = (historyLogs.length - 1)">
         <div class="date">
           <span>{{ log.created_at | date:'dd/MM/yy'}}</span>
         </div>
 
-        <div class="action">
-          <p ng-if="isArray(log.changes.new_content) === false">
-            {{ log.changes.new_content }}
+        <div class="action" ng-init="new_content = log.changes['new_content'];">
+          <p ng-if="isArray(new_content) === false">
+            {{ new_content === null ? 'Não preenchido' : new_content }}
           </p>
 
-          <div ng-if="isArray(log.changes.new_content) === true">
-            <ul>
-              <li ng-repeat="content in log.changes.new_content">{{ content }}</li>
+          <div ng-if="isArray(new_content) === true">
+            <ul ng-if="new_content.length > 0">
+              <li ng-repeat="content in new_content">{{ content }}</li>
             </ul>
+            <p ng-if="new_content.length === 0">Não preenchido</p>
           </div>
 
-          <div class="author">Alterado por <a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> </div>
+          <div class="author">{{ (new_content === null || new_content.length === 0) ? 'Por ' : ($index === last_index ? 'Iniciado por ' : 'Alterado por ') }}<a ng-href="#/users/{{ log.user.id }}">{{ log.user.name }}</a> </div>
 
           <div class="divider"></div>
         </div>

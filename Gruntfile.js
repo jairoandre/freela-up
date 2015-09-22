@@ -13,11 +13,13 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    BASE_URL: process.env.BASE_URL,
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
     MAP_ZOOM: process.env.MAP_ZOOM,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     FLOWS_ENABLED: process.env.FLOWS_ENABLED,
     LOGO_IMG_URL: process.env.LOGO_IMG_URL,
     DEFAULT_CITY: process.env.DEFAULT_CITY,
@@ -69,8 +71,7 @@ module.exports = function (grunt) {
     connect: {
       options: {
         port: 9000,
-        // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '<%= BASE_URL %>',
         livereload: 35729
       },
       livereload: {
@@ -84,12 +85,9 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+          hostname: '0.0.0.0',
           port: 9001,
-          base: [
-            '.tmp',
-            'test',
-            '<%= yeoman.app %>'
-          ]
+          base: '<%= yeoman.dist %>'
         }
       },
       dist: {
@@ -479,17 +477,29 @@ module.exports = function (grunt) {
     },
 
     'string-replace': {
-      kit: {
+      all: {
         files: {
           '<%= yeoman.dist %>/': '<%= yeoman.dist %>/index.html'
         },
         options: {
           replacements: [{
-            pattern: /Raven\.config\('.+', {\}\)\.install\(\);/,
+            pattern: /Raven\.config\(\'.+\', \{\}\)\.install\(\);/,
             replacement: 'Raven.config(\'<%= SENTRY_DSN %>\', {}).install();'
+          }, {
+            pattern: /gapi\.client\.setApiKey\(\'.+\'\);/,
+            replacement: 'gapi.client.setApiKey(\'<%= GOOGLE_ANALYTICS %>\');'
           }]
         }
       }
+    },
+
+    protractor: {
+      options: {
+        configFile: "e2e-tests/protractor-conf.js",
+        keepAlive: false,
+        noColor: false
+      },
+      all: {}
     },
 
     // Run some tasks in parallel to speed up the build process
@@ -502,7 +512,6 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        //'imagemin',
         'svgmin'
       ]
     }
@@ -531,10 +540,9 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test'
+    'build',
+    'connect:test',
+    'protractor'
   ]);
 
   grunt.registerTask('dist', [
@@ -552,13 +560,13 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'imagemin',
     'cdnify',
     'cssmin',
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'string-replace'
   ]);
 
   grunt.registerTask('default', [

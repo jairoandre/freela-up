@@ -46,6 +46,10 @@ angular
 
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList({ return_fields: 'id,name'});
+            }],
+
+            'notificationsTypesResponse': [function() {
+              return {};
             }]
           }
         }

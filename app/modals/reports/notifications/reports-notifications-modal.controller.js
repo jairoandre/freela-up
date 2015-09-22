@@ -10,23 +10,31 @@ angular
       $log.info('ReportsSendNotificationsModalController destroyed.');
     });
 
+    $scope.notifications = notifications;
+
+    $scope.loadingInfo = false;
+
     var init = function () {
-      $scope.notifications = notifications;
       $scope.confirmSendMap = {};
       $scope.notificationPromises = {};
+      $scope.showRestartProcessLink = false;
+      for (var i = 0, l = $scope.notifications.length; i < l; i++) {
+        $scope.confirmSendMap[$scope.notifications[i]] = false;
+        if($scope.notifications[i].created_at){
+          $scope.showRestartProcessLink = true;
+        }
+      }
     };
 
     init();
 
-    for (var i = 0, l = notifications.length; i < l; i++) {
-      $scope.confirmSendMap[notifications[i]] = false;
-    }
-
     var refreshNotifications = function () {
-      init();
+      $scope.loadingInfo = true;
       ReportsCategoriesNotificationsService.cleanCache();
       ReportsCategoriesNotificationsService.getAvailableNotificationsForReport(report.id, report.category.id).then(function (r) {
         $scope.notifications = r;
+        init();
+        $scope.loadingInfo = false;
       });
     };
 
@@ -44,6 +52,7 @@ angular
      * @param notification
      */
     $scope.confirmSend = function (notification) {
+      $scope.loadingInfo = true;
       var notificationId = notification.notification_type.id;
       if (notification.sent) {
         $scope.notificationPromises[notificationId] = ReportsCategoriesNotificationsService.resendNotification(report.id, report.category.id, notification.id);
@@ -81,6 +90,7 @@ angular
     };
 
     $scope.restartProcess = function () {
+      $scope.loadingInfo = true;
       $scope.restartProcessPromise = ReportsCategoriesNotificationsService.restartProcess(report.id, report.category.id);
       $scope.restartProcessPromise.then(function (r) {
         $scope.addModalMessage('ok', 'Processo reiniciado.', 'success');

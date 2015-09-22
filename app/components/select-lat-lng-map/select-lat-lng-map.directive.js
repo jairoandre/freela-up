@@ -5,6 +5,7 @@ angular
   .directive('selectLatLngMap', function ($rootScope, ENV, FullResponseRestangular) {
     return {
       restrict: 'A',
+      scope: {},
       link: function postLink(scope, element) {
         var mapProvider = {
           options:
