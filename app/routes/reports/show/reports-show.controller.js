@@ -470,7 +470,18 @@ angular
     // Notifications
     // Fetch notifications
 
-    var showNotifications = $scope.showNotifications = $scope.report.category.notifications;
+    $scope.canSendNotifications = $scope.report.category.notifications;
+
+    $scope.notifications = $scope.report.notifications;
+
+    $scope.reloadNotifications = function() {
+      var reloadNotificationsFields = ['status', 'notifications.notification_type.title', 'notifications.notification_type.default_deadline_in_days', 'notifications.created_at', 'notifications.days_to_deadline',
+        'notifications.content', 'notifications.active'];
+      Restangular.one('reports').one('items', $scope.report.id).get({ 'return_fields': reloadNotificationsFields.join() }).then(function(r){
+        $scope.notifications = r.data.notifications;
+      });
+
+    };
 
     $scope.scriptLoaded = false;
 

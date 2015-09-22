@@ -8,7 +8,7 @@
     </ul>
 
     <a href="" ng-click="print()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-print"></i></a>
-    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="showNotificationsBtn" promise-btn="retrieveNotificationsPromise">Emitir notificações</i></a>
+    <a href="" ng-click="showNotificationsModal()" class="btn btn-info btn-custom" ng-if="canSendNotifications" promise-btn="retrieveNotificationsPromise">Emitir notificações</i></a>
 
   </div>
 
@@ -297,15 +297,15 @@
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="notification in report.notifications">
+          <tr ng-repeat="notification in notifications | orderBy: '-created_at'">
             <td class="date-cell">
                 <span class="date">{{notification.created_at | date:'dd/MM/yy HH:mm'}}h</span>
                 <span class="line" ng-if="$index < (report.notifications.length - 1)"></span>
             </td>
             <td class="overdue-cell">
-              <span class="label label-danger" ng-show="notification.days_to_deadline < 0">&nbsp;VENCIDO</span>
-              <span class="label label-success" ng-show="notification.days_to_deadline >= 0">&nbsp;VIGENTE</span>
-              <span class="label label-success" style="background-color: #b3b3b3;">&nbsp;CANCELADO</span>
+              <span class="label label-danger" ng-show="notification.active && notification.days_to_deadline < 0">&nbsp;VENCIDO</span>
+              <span class="label label-success" ng-show="notification.active && notification.days_to_deadline >= 0">&nbsp;VIGENTE</span>
+              <span class="label label-success" ng-show="!notification.active" style="background-color: #b3b3b3;">&nbsp;CANCELADO</span>
             </td>
             <td class="overdue-cell">
               <span>{{getDaysTxt(notification.days_to_deadline)}}</span>
