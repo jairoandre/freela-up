@@ -4,5 +4,5 @@ stages:
 run_script:
     stage: build
     script:
-        - chmod +x buid_and_test.sh
+        - chmod +x build_and_test.sh
         - ./build_and_test.sh --deploy
