@@ -38,13 +38,13 @@ RUN bower --allow-root cache clean && git config --global url."https://".instead
 # Build ZUP Painel
 RUN mkdir /tmp/zup-painel
 WORKDIR /tmp/zup-painel
+ADD ./.bowerrc ./.bowerrc
 ADD ./bower.json ./bower.json
 ADD ./package.json ./package.json
 RUN npm install && bower install --allow-root
 RUN ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update
 ADD . /tmp/zup-painel
 RUN mv build.env .env
-RUN mv bower_components app/bower_components
 RUN NODE_ENV=production grunt build
 
 COPY entry_point.sh /opt/bin/entry_point.sh
