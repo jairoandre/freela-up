@@ -1,4 +1,10 @@
 {
-    "directory": "app/bower_components",
-    "interactive": false
+  "directory": "app/bower_components",
+  "interactive": false,
+  "registry": {
+    "search": [
+      "http://npm.ntxdev.com.br:5678",
+      "https://bower.herokuapp.com"
+    ]
+  }
 }

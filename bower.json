@@ -14,7 +14,7 @@
     "angular-file-upload": "~1.0.2",
     "angular-animate": "~1.2.22",
     "angular-ui-select2": "~0.0.5",
-    "angular-ui-utils": "bower-mask",
+    "angular-ui-utils": "~0.2.3",
     "json3": "~3.2.6",
     "es5-shim": "*",
     "jquery": "2.0.3",
@@ -51,7 +51,6 @@
   "resolutions": {
     "angular": "1.2.26",
     "hamsterjs": ">=1.0.2",
-    "bootstrap-switch": "~3.0.2",
     "angular-mocks": "1.2.10",
     "jquery": ">= 1.9.1"
   }

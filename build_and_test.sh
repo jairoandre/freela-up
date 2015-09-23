@@ -91,7 +91,7 @@ deploy() {
   git config --global user.email 'tecnologia@ntdev.com.br'
   git add --all zup-painel
   git commit --allow-empty -m "Build $CI_BUILD_ID"
-  git push origin $CI_BUILD_REF_NAME
+  git push origin $CI_BUILD_REF_NAME --force
   cd ..
 }
 
