@@ -238,7 +238,7 @@ angular
         }, 1000);
       }, 3500);
     };
-    $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
+    $rootScope.logoImg = (ENV.logoImgUrl && ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
     $rootScope.theme = ENV.theme;
   }])
   .filter('abs', function () {
