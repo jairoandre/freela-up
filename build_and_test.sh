@@ -92,6 +92,7 @@ deploy() {
   git add --all zup-painel
   git commit -m "Build $CI_BUILD_ID"
   git push origin $CI_BUILD_REF_NAME
+  cd ..
 }
 
 [[ "$1" = "--deploy" ]] && deploy
