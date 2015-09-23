@@ -1,4 +1,4 @@
-<table id="reports-listing-table" class="table custom_table items-listing-table" infinite-scroll="getData(true)" infinite-scroll-distance="2" ng-class="{'advanced-filters-margin': advancedSearch == true}">
+<table id="reports-listing-table" class="table custom_table items-listing-table" infinite-scroll="getData(true)" infinite-scroll-distance="0" ng-class="{'advanced-filters-margin': advancedSearch == true}">
   <thead>
   <tr>
     <td style="width: 30px">
@@ -32,20 +32,20 @@
   </thead>
 
   <tbody>
-  <tr ng-repeat="report in reports | toArray:false | orderBy:'order'" ng-click="openReport(report.id, $event)">
-    <td><a ng-href="#/reports/{{ report.id }}">{{ report.protocol }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">Protocolo indisponível</b></a> </td>
-    <td>{{ report.last_notification.notification_type.title }} </td>
-    <td>{{ report.address }}, {{ report.number }} </td>
-    <td>{{ report.last_notification.overdue_at | date:'dd/MM/yy HH:mm'}} </td>
-    <td>{{ getDaysTxt(report.last_notification.deadline_in_days) }}</td>
-    <td>{{ getDaysTxt(report.last_notification.days_to_deadline) }}</td>
+  <tr ng-repeat="notification in notifications | toArray : false |orderBy : '-created_at'" ng-click="openReport(notification.item.id, $event)">
+    <td><a ng-href="#/reports/{{ notification.item.id }}">{{ notification.item.id }}<b ng-hide="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', notification.category.id) || hasPermission('reports_items_edit', notification.category.id) || hasPermission('reports_items_read_private', notification.category.id)">Protocolo indisponível</b></a> </td>
+    <td>{{ notification.notification_type.title }}</td>
+    <td>{{ notification.item.address }}, {{ notification.item.number }} </td>
+    <td>{{ notification.created_at | date:'dd/MM/yy HH:mm'}} </td>
+    <td>{{ getDaysTxt(notification.deadline_in_days) }}</td>
+    <td>{{ getDaysTxt(notification.days_to_deadline) }}</td>
     <td>
-      <span class="label label-danger" ng-if="report.last_notification.days_to_deadline < 0">VENCIDO</span>
-      <span class="label label-success" ng-if="report.last_notification.days_to_deadline > -1">VIGENTE</span>
-      <span class="label label-danger" style="background-color: #B3B3B3">CANCELADO</span>
+      <span class="label label-danger" ng-if="notification.active && notification.days_to_deadline < 0">VENCIDO</span>
+      <span class="label label-success" ng-if="notification.active && notification.days_to_deadline > -1">VIGENTE</span>
+      <span class="label label-danger" ng-if="!notification.active" style="background-color: #B3B3B3">CANCELADO</span>
     </td>
-    <td>{{ report.user.name }} </td>
-    <td>{{ report.category.title }} </td>
+    <td>{{ notification.user.name }} </td>
+    <td>{{ notification.category.title }} </td>
   </tr>
   </tbody>
 

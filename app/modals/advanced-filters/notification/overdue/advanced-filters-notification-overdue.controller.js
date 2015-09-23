@@ -13,9 +13,16 @@ angular
     };
 
     $scope.save = function() {
+      var values = $scope.input.values;
+      var begin = values.begin;
+      var end = values.end;
+      begin = begin ? begin : 0;
+      end = end ? end : 90;
+      values.begin = begin;
+      values.end = end;
       var filter = {
         title: 'Notificações vencidas',
-        desc: $scope.input.values.begin + ' a ' + $scope.input.values.end + ' dias',
+        desc: begin + ' a ' + end + ' dias',
         type: 'daysForOverdueNotification',
         value: $scope.input.values
       };
