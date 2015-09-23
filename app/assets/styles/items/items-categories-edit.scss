@@ -6,7 +6,7 @@
   }
 
   .modal-body {
-    padding: 0px !important;
+    padding: 0 !important;
   }
 
   .new-value {
@@ -18,7 +18,7 @@
       width: 100%;
       color: #ADABAB;
       background: #F2F2F2;
-      border: 0px;
+      border: 0;
       padding: 8px 20px;
       outline: none;
     }
@@ -29,7 +29,7 @@
     }
 
     .buttons {
-      padding: 0px;
+      padding: 0;
     }
 
     button.btn {
@@ -51,8 +51,8 @@
 
   ul.fieldOptions {
     width: 100%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     list-style: none;
     height: 209px;
     overflow: auto;
@@ -86,7 +86,7 @@
           border-radius: 4px 0 0 4px;
           padding: 2px 6px;
           background: #FFF;
-          outline: 0px;
+          outline: 0;
           font-weight: normal;
           color: #666;
           float: left;
@@ -113,7 +113,7 @@
         float: right;
         background: #1693C6;
         color: #FFF;
-        border: 0px;
+        border: 0;
         width: 25px;
         height: 25px;
         text-align: center;
@@ -143,7 +143,7 @@
   }
 
   .modal-footer {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 
@@ -205,6 +205,6 @@
   }
 
   .modal-footer {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }

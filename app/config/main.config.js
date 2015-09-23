@@ -237,11 +237,9 @@ angular
           $rootScope.modalMessage = {icon: null, text: null, messageClass: null};
         }, 1000);
       }, 3500);
-
-
     };
-
     $rootScope.logoImg = (ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
+    $rootScope.theme = ENV.theme;
   }])
   .filter('abs', function () {
   return function(val) {

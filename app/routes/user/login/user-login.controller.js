@@ -4,10 +4,6 @@ angular
   ])
 
   .controller('UserLoginController', function($scope, $rootScope, $state, Auth, $modal) {
-    var img = $scope.logoImg;
-
-    $scope.blueLogoImg = img.substring(0, img.lastIndexOf('.')) + '-blue' + img.substring(img.lastIndexOf('.'));
-
     $scope.login = function() {
       $scope.loginError = false;
       $scope.processingRequest = true;
