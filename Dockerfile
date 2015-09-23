@@ -1,23 +1,29 @@
 FROM selenium/standalone-chrome:2.47.1
 
+ENV NODE_VERSION 0.12.4
+
 USER root
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends build-essential git-core bzip2 curl python
 
 # Install Nodejs, bower and grunt
-ENV NODE_VERSION 0.12.4
-ENV NPM_VERSION 2.14.0
+RUN \
+  cd /tmp && \
+  curl -s -o node.tar.gz http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.gz && \
+  tar xvzf node.tar.gz && \
+  rm -f node.tar.gz && \
+  cd node-v* && \
+  ./configure && \
+  CXX="g++ -Wno-unused-local-typedefs" make && \
+  CXX="g++ -Wno-unused-local-typedefs" make install && \
+  cd /tmp && \
+  printf '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
 
-RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
-	&& curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-	&& gpg --verify SHASUMS256.txt.asc \
-	&& grep " node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
-	&& tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-	&& rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc \
-	&& npm install -g npm@"$NPM_VERSION" \
-	&& npm cache clear \
-	&& npm install -g bower grunt-cli gulp
+# Update npm and install bower and grunt
+RUN \
+  npm install -g npm && \
+  npm install -g bower grunt-cli
 
 # Install compass
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ruby ruby-dev && gem install compass
@@ -32,6 +38,7 @@ ADD ./bower.json ./bower.json
 ADD ./package.json ./package.json
 RUN npm install && bower install --allow-root
 ADD . /tmp/zup-painel
+RUN mv build.env .env
 RUN mv bower_components app/bower_components
 RUN NODE_ENV=production grunt build
 RUN ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update
