@@ -37,11 +37,11 @@ WORKDIR /tmp/zup-painel
 ADD ./bower.json ./bower.json
 ADD ./package.json ./package.json
 RUN npm install && bower install --allow-root
+RUN ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update
 ADD . /tmp/zup-painel
 RUN mv build.env .env
 RUN mv bower_components app/bower_components
 RUN NODE_ENV=production grunt build
-RUN ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update
 
 COPY entry_point.sh /opt/bin/entry_point.sh
 RUN chmod +x /opt/bin/entry_point.sh
