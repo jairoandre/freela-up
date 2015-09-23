@@ -78,7 +78,7 @@ echo FLOWS_ENABLED=true >> build.env
 # Build & test
 docker build -t $BUILDER_NAME .
 wait $API_PID
-BUILD_CID=$(docker run -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDER_NAME)
+docker run -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDER_NAME
 
 deploy() {
   rm -rf zup-web || true
@@ -86,7 +86,7 @@ deploy() {
   cd zup-web
   [[ $(git symbolic-ref --short -q HEAD) = $CI_BUILD_REF_NAME ]] || git checkout -b $CI_BUILD_REF_NAME
   rm -rf zup-painel
-  docker cp $BUILD_CID:/tmp/zup-painel/dist ./zup-painel
+  docker cp $BUILDER_NAME:/tmp/zup-painel/dist ./zup-painel
   git add --all zup-painel
   git commit -m "Build $CI_BUILD_ID"
   git push origin $CI_BUILD_REF_NAME
