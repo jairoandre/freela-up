@@ -87,6 +87,8 @@ deploy() {
   [[ $(git symbolic-ref --short -q HEAD) = $CI_BUILD_REF_NAME ]] || git checkout -b $CI_BUILD_REF_NAME
   rm -rf zup-painel
   docker cp $BUILDER_NAME:/tmp/zup-painel/dist ./zup-painel
+  git config --global user.name 'Gitlab CI'
+  git config --global user.email 'tecnologia@ntdev.com.br'
   git add --all zup-painel
   git commit -m "Build $CI_BUILD_ID"
   git push origin $CI_BUILD_REF_NAME
