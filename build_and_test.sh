@@ -17,10 +17,10 @@ cleanup() {
     docker rm -f $REDIS_NAME 2>/dev/null
     docker rm -f $API_NAME 2>/dev/null
     docker rm -f $BUILDER_NAME 2>/dev/null
-    docker rmi -f $BUILDER_NAME 2>/dev/null
-    rm build.env
-    rm api.env
-    rm -rf zup-web
+    #docker rmi -f $BUILDER_NAME 2>/dev/null
+    rm build.env || true
+    rm api.env || true
+    rm -rf zup-web || true
 }
 error_handler() {
     exit_code=$?
@@ -90,7 +90,7 @@ deploy() {
   git config --global user.name 'Gitlab CI'
   git config --global user.email 'tecnologia@ntdev.com.br'
   git add --all zup-painel
-  git commit -m "Build $CI_BUILD_ID"
+  git commit --allow-empty -m "Build $CI_BUILD_ID"
   git push origin $CI_BUILD_REF_NAME
   cd ..
 }
