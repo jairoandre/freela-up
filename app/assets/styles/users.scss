@@ -1,7 +1,9 @@
+@import "compass/css3/border-radius";
+
 .selectGroups {
   width: 60%;
   border: 1px solid #C5C5C5;
-  border-radius: 5px;
+  @include border-radius(5px);
 
   .simpleSearch {
     width: 100%;
@@ -19,7 +21,7 @@
       float: left;
       margin: 11px 0 0 13px;
       color: #999999;
-      border: 0px;
+      border: 0;
       background: transparent;
       outline: none;
     }
@@ -27,8 +29,8 @@
 
   ul {
     list-style: none;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 
     li {
       padding: 12px 18px;

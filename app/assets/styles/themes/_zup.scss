@@ -1,0 +1,45 @@
+.zup {
+
+  %logo {
+    width: 86px;
+    height: 37px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #login .logo {
+    .img {
+      @extend %logo;
+      background-image: url('../images/logos/logo-zup-blue.png');
+    }
+
+    .slogan-title::before {
+      content: "Zeladoria Urbana Participativa";
+    }
+  }
+
+  #main_layout {
+    #sidebar {
+      .logo {
+        .img {
+          @extend %logo;
+          background-image: url('../images/logos/logo-zup.png');
+        }
+      }
+    }
+  }
+
+  #printContent {
+    .logo > .img {
+      @extend %logo;
+      background-image: url('../images/logos/logo-zup-blue.png');
+    }
+  }
+
+  .initial-loading-page {
+    .logo > .img {
+      @extend %logo;
+      background-image: url('../images/logos/logo-zup.png');
+    }
+  }
+}
