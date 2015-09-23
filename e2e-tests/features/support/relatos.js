@@ -8,7 +8,7 @@ Reports.prototype = {
   activeFilter: function () {
     //browser.driver not support focus and blur events on tests background
     //But we can set value that control show/hide of filter throuhg focus and blur event
-    
+
 	  var script  = 'setTimeout(function(done){'+
       'var $s = angular.element(\'[ng-model="filterQuery"]\').scope(); '+
       '$s.show_availableFilters = true; '+
@@ -18,10 +18,10 @@ Reports.prototype = {
 
 	  return browser.executeAsyncScript(script);
   },
-	
+
   chooseFilter: function(filterName){
     var input = element(by.model('filterQuery'));
-		
+
     return this.activeFilter()
       .then(function(){
         return input.clear()
@@ -31,7 +31,7 @@ Reports.prototype = {
         return this.avaliableFilters().element(by.css('a[ng-click]')).click();
       }.bind(this));
   },
-	
+
   avaliableFilters:function(){
     return element(by.css('.availableFilters[ng-show]'));
   },
@@ -53,14 +53,18 @@ Reports.prototype = {
 
     return element.all(by.css('#reports-listing-table tbody tr td' + selectorItems));
   },
-  
+
   newReport:function(){
 		return element(by.css('[href="#/reports/add"]')).click()
 	},
-	
+
+  clickOnFilter: function () {
+    return element.all(by.css('.availableFilters[ng-show] a[ng-click]')).first().click();
+  },
+
 	fillRequiredFieldsInEditForm : function(){
 		var form  = this.editForm;
-		
+
 		return form.fillCategory("fios e cabos")
 			.then(form.fillAddress.bind(form, "R. Julieta vila jordanopolis", "167"))
 			.then(form.linkUser.bind(form, "Leide Santos"))
@@ -69,15 +73,15 @@ Reports.prototype = {
     var page = this;
 	  if(!Array.isArray(value))
       value = [{model:'input.value', value:value}];
-      
+
     return page.chooseFilter(filter)
       .then(function(){
         return Promise.all(value.map(function(v){
-          return page.fillFilter(v.model, v.value);  
+          return page.fillFilter(v.model, v.value);
         }))
       }).then(function(){
         return page.submitFilter();
-      });      
+      });
   },
   confirmProtocol: function () {
     return element(by.css('.removeModal .modal-body p:first-of-type b:first-of-type'));
