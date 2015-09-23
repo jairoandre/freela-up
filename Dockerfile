@@ -33,7 +33,7 @@ RUN \
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ruby ruby-dev && gem install compass
 
 # Install application dependencies
-RUN bower --allow-root cache clean && git config --global url."https://".insteadOf git://
+RUN bower --allow-root cache clean && git config --global url."http://".insteadOf git://
 
 # Build ZUP Painel
 RUN mkdir /tmp/zup-painel
