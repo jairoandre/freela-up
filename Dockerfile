@@ -20,6 +20,10 @@ RUN \
   cd /tmp && \
   printf '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
 
+# Use cache server if available
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq netcat
+RUN (nc -z -w 3 npm.ntxdev.com.br 4873 && npm config set registry http://npm.ntxdev.com.br) || true
+
 # Update npm and install bower and grunt
 RUN \
   npm install -g npm && \
@@ -29,18 +33,18 @@ RUN \
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ruby ruby-dev && gem install compass
 
 # Install application dependencies
-RUN bower --allow-root cache clean && git config --global url."https://".insteadOf git://
+RUN bower --allow-root cache clean && git config --global url."http://".insteadOf git://
 
 # Build ZUP Painel
 RUN mkdir /tmp/zup-painel
 WORKDIR /tmp/zup-painel
+ADD ./.bowerrc ./.bowerrc
 ADD ./bower.json ./bower.json
 ADD ./package.json ./package.json
 RUN npm install && bower install --allow-root
 RUN ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update
 ADD . /tmp/zup-painel
 RUN mv build.env .env
-RUN mv bower_components app/bower_components
 RUN NODE_ENV=production grunt build
 
 COPY entry_point.sh /opt/bin/entry_point.sh
