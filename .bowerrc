@@ -1,4 +1,9 @@
 {
-    "directory": "app/bower_components",
-    "interactive": false
+  "directory": "app/bower_components",
+  "interactive": false,
+  "registry": {
+    "search": [
+      "https://bower.herokuapp.com"
+    ]
+  }
 }

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 [ "$CI_BUILD_ID" = "" ] && CI_BUILD_ID=$(( ( RANDOM % 100000 )  + 1 ))
 [ "$CI_BUILD_REF_NAME" = "" ] && CI_BUILD_REF_NAME=$(git symbolic-ref --short -q HEAD)
+[ "$CI_BUILD_REF_NAME" = "master" ] && CI_BUILD_REF_NAME="latest"
 POSTGRES_PASSWORD="zup"
 POSTGRES_USER="zup"
 POSTGRES_DB="zup"
@@ -91,7 +92,7 @@ deploy() {
   git config --global user.email 'tecnologia@ntdev.com.br'
   git add --all zup-painel
   git commit --allow-empty -m "Build $CI_BUILD_ID"
-  git push origin $CI_BUILD_REF_NAME
+  git push origin $CI_BUILD_REF_NAME --force
   cd ..
 }
 
