@@ -131,6 +131,24 @@ angular
     service.searchNotifications = function (options) {
       $log.info('Searching notifications');
 
+      var defaultOptions = {
+        display_type : 'full',
+        return_fields : [
+          'id',
+          'deadline_in_days',
+          'days_to_deadline',
+          'created_at',
+          'active',
+          'item.id',
+          'item.address',
+          'user.name',
+          'notification_type.id',
+          'notification_type.title',
+          'category.id',
+          'category.name'].join()
+      };
+
+      angular.merge(defaultOptions,options);
 
       var promise = FullResponseRestangular
         .one('search')

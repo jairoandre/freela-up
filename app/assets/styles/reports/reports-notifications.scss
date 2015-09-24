@@ -160,7 +160,7 @@
       padding: 7px 12px;
       background: #F2F2F2;
       border: 1px solid #D9D9D9;
-      border-radius: 8px;
+      @include border-radius(8px);
       color: #999;
       z-index: 2;
       position: relative;

@@ -29,8 +29,6 @@ angular
         fetchOptions.page = +page || 1;
         fetchOptions.per_page = +perPage || 15;
 
-        fetchOptions.return_fields = ['deadline_in_days','days_to_deadline','created_at','active','item.id','item.address','user.name', 'category.id', 'category.name'].join();
-
         var promise = ReportsCategoriesNotificationsService.searchNotifications(fetchOptions);
 
         promise.then(function (r) {
