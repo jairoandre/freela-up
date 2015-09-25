@@ -44,14 +44,14 @@ Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
 
 Para rodar os testes, você também precisa fazer o setup das seguintes variáveis:
 
-    PAINEL_URL=http://127.0.0.1:9001
+    SERVER_PORT=9001
     USER_EMAIL=teste.zup@gmail.com
     USER_PASSWORD=123456
 
 Altere o `API_URL` para apontar para sua instância do ZUP API. `MAP`'s `LAT` e `LNG` são utilizadas para centralizar os mapas nas posições iniciais.
 As variáveis `DEFAULT_CITY`, `DEFAULT_STATE` e `DEFAULT_COUNTRY` definem as informações geográficas padrões.
 
-Se você precisa de acesso via uma VM, você deve altar o `SERVER_IP` para o IP `0.0.0.0`.
+Se você precisa de acesso via uma VM, você deve alterar o `SERVER_IP` para o IP `0.0.0.0`.
 
 # Build para produção
 
