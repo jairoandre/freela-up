@@ -13,7 +13,7 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
-    BASE_URL: process.env.BASE_URL,
+    BASE_URL: process.env.BASE_URL || '127.0.0.1',
     THEME: process.env.THEME || 'zup',
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
