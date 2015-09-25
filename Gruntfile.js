@@ -13,7 +13,8 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
-    BASE_URL: process.env.BASE_URL,
+    SERVER_IP: process.env.SERVER_IP || '127.0.0.1',
+    SERVER_PORT: process.env.SERVER_PORT || 9000,
     THEME: process.env.THEME || 'zup',
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
@@ -70,8 +71,8 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9000,
-        hostname: '<%= BASE_URL %>',
+        hostname: '<%= SERVER_IP %>',
+        port: '<%= SERVER_PORT %>',
         livereload: 35729
       },
       livereload: {
@@ -85,8 +86,8 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
-          hostname: '<%= BASE_URL %>',
-          port: 9001,
+          hostname: '<%= SERVER_IP %>',
+          port: '<%= SERVER_PORT %>',
           base: '<%= yeoman.dist %>'
         }
       },

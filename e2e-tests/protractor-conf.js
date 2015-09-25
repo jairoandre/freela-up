@@ -1,5 +1,5 @@
 require('dotenv').load({ silent: true });
-var baseUrl = process.env.PAINEL_URL || 'http://zup.cognita.ntxdev.com.br';
+var baseUrl = ('http://' + process.env.SERVER_IP + ':' + process.env.SERVER_PORT) || 'http://zup.cognita.ntxdev.com.br';
 
 exports.config = {
   allScriptsTimeout: 30000,
