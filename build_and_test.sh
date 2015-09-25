@@ -64,6 +64,7 @@ setup_api &
 API_PID=$!
 
 # Painel env vars
+echo THEME=zup >> build.env
 echo API_URL=http://api:80 >> build.env
 echo MAP_LAT=-23.549671 >> build.env
 echo MAP_LNG=-46.6321713 >> build.env
@@ -71,7 +72,8 @@ echo MAP_ZOOM=11 >> build.env
 echo DEFAULT_CITY="São Bernado do Campo" >> build.env
 echo DEFAULT_STATE=SP >> build.env
 echo DEFAULT_COUNTRY=Brasil >> build.env
-echo PAINEL_URL=http://localhost:9001 >> build.env
+echo SERVER_IP=localhost >> build.env
+echo SERVER_PORT=9001 >> build.env
 echo USER_EMAIL=tecnologia@ntxdev.com.br >> build.env
 echo USER_PASSWORD=123456 >> build.env
 echo FLOWS_ENABLED=true >> build.env
