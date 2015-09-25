@@ -19,7 +19,8 @@ After cloning the repository:
 Create a file name `.env` at the repository's root with the following content:
 
     THEME=zup
-    BASE_URL=127.0.0.1
+    SERVER_IP=127.0.0.1
+    SERVER_PORT=9000
     API_URL=http://your-api.zupinstance.com
     MAP_LAT=-23.549671
     MAP_LNG=-46.6321713
@@ -30,13 +31,13 @@ Create a file name `.env` at the repository's root with the following content:
   
 In order to run tests you also need to set up the following:
 
-    PAINEL_URL=http://127.0.0.1:9001
+    SERVER_PORT=9001
     USER_EMAIL=teste.zup@gmail.com
     USER_PASSWORD=123456
 
 Change the `API_URL` to point to your instance. `MAP`'s `LAT` and `LNG` is used to center the maps starting position. 
 `DEFAULT`'s City, State and Country is used an default value for report's addresses fields. If you need to access though
-a virtual machine, you should change the `BASE_URL` to the IP `0.0.0.0`. This project supports themes and there is an
+a virtual machine, you should change the `SERVER_IP` to the IP `0.0.0.0`. This project supports themes and there is an
  environment variable named `THEME` that should be set up to `zup` or `unicef`.
 
 # Production build
