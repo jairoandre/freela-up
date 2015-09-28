@@ -15,7 +15,6 @@ module.exports = function (grunt) {
 
     SERVER_IP: process.env.SERVER_IP || '127.0.0.1',
     SERVER_PORT: process.env.SERVER_PORT || 9000,
-    THEME: process.env.THEME || 'zup',
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
@@ -208,6 +207,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/**/*.filter.js',
             '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+            '!<%= yeoman.dist %>/assets/styles/theme.css', // themes won't be modified
             '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
@@ -351,7 +351,6 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
-            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
@@ -374,7 +373,6 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'production',
-            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
