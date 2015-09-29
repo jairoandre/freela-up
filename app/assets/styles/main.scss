@@ -1,9 +1,10 @@
 @charset "UTF-8";
-$icon-font-path: "../fonts/";
-$fa-font-path:   "../fonts/";
+//$icon-font-path: "../fonts/";
+$fa-font-path:   "../fonts";
 
-@import 'sass-bootstrap/lib/bootstrap';
-@import 'font-awesome/scss/font-awesome';
+@import 'sass-bootstrap/lib/variables';
+@import 'sass-bootstrap/lib/mixins';
+//@import 'font-awesome/scss/font-awesome';
 @import "compass/css3";
 @import "animate";
 
