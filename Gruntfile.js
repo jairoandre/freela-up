@@ -203,23 +203,21 @@ module.exports = function (grunt) {
     },
 
     // Renames files for browser caching purposes
-    rev: {
+    filerev: {
       dist: {
-        files: {
-          src: [
-            '<%= yeoman.dist %>/**/*.route.js',
-            '<%= yeoman.dist %>/**/*.controller.js',
-            '<%= yeoman.dist %>/**/*.directive.js',
-            '<%= yeoman.dist %>/**/*.filter.js',
-            '!<%= yeoman.dist %>/config/main.constants.js',
-            '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
-            '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
-            '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/assets/fonts/**/*'
-          ]
-        }
+        src: [
+          '<%= yeoman.dist %>/**/*.route.js',
+          '<%= yeoman.dist %>/**/*.controller.js',
+          '<%= yeoman.dist %>/**/*.directive.js',
+          '<%= yeoman.dist %>/**/*.filter.js',
+          '!<%= yeoman.dist %>/config/main.constants.js',
+          '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+          '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
+          '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
+          '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= yeoman.dist %>/assets/fonts/*'
+        ]
       }
     },
 
@@ -491,7 +489,7 @@ module.exports = function (grunt) {
     'cssmin',
     'string-replace',
     'uglify',
-    'rev',
+    'filerev',
     'usemin',
     'htmlmin'
   ]);
