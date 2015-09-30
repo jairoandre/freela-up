@@ -21,15 +21,15 @@ ul.report-menu {
   width: 100%;
   list-style: none;
   border-bottom: 1px solid #CCCCCC;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   z-index: 900;
   position: fixed;
 
   li {
     float: left;
     border-bottom: 4px solid #FFF;
-    padding: 15px 0px;
+    padding: 15px 0;
 
     &.active {
       border-bottom: 4px solid #469CCD;
@@ -41,7 +41,7 @@ ul.report-menu {
 
     a {
       display: block;
-      padding: 0px 22px;
+      padding: 0 22px;
       color: #999;
       border-right: 1px solid #CCCCCC;
       font-weight: bold;
@@ -63,7 +63,7 @@ ul.report-menu {
 
   .report-data p {
     float: left;
-    margin: 0px;
+    margin: 0;
   }
 
   .report-data a.link {
@@ -100,7 +100,7 @@ ul.report-menu {
 
       h2 {
         font-size: 16px;
-        margin: 0px 0 15px 0;
+        margin: 0 0 15px 0;
 
         span {
           font-size: 12px;
@@ -118,7 +118,7 @@ ul.report-menu {
         @include transition-property(height);
 
         &:focus {
-          box-shadow: 0px 0px 0px 1px #4293C8;
+          box-shadow: 0 0 0 1px #4293C8;
         }
       }
 
@@ -196,7 +196,7 @@ ul.report-menu {
   }
 
   p {
-    margin: 0px;
+    margin: 0;
   }
 
   .spacing {
@@ -238,7 +238,7 @@ ul.report-menu {
       @include transition-property(height);
 
       &:focus {
-        box-shadow: 0px 0px 0px 1px #4293C8;
+        box-shadow: 0 0 0 1px #4293C8;
       }
     }
   }
@@ -269,7 +269,7 @@ ul.report-menu {
     }
 
     .history .row {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
 
     .history-date {
@@ -286,14 +286,14 @@ ul.report-menu {
 
 @media print {
   body * {
-    visibility:hidden;
+    visibility: hidden;
   }
   #printSection, #printSection * {
-    visibility:visible;
+    visibility: visible;
   }
   #printSection {
-    position:absolute;
-    left:0;
-    top:0;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }

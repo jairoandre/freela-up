@@ -13,7 +13,8 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
-    BASE_URL: process.env.BASE_URL,
+    SERVER_IP: process.env.SERVER_IP || '127.0.0.1',
+    SERVER_PORT: process.env.SERVER_PORT || 9000,
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
@@ -21,7 +22,6 @@ module.exports = function (grunt) {
     SENTRY_DSN: process.env.SENTRY_DSN,
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     FLOWS_ENABLED: process.env.FLOWS_ENABLED,
-    LOGO_IMG_URL: process.env.LOGO_IMG_URL,
     DEFAULT_CITY: process.env.DEFAULT_CITY,
     DEFAULT_COUNTRY: process.env.DEFAULT_COUNTRY,
     DEFAULT_STATE: process.env.DEFAULT_STATE,
@@ -70,8 +70,8 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9000,
-        hostname: '<%= BASE_URL %>',
+        hostname: '<%= SERVER_IP %>',
+        port: '<%= SERVER_PORT %>',
         livereload: 35729
       },
       livereload: {
@@ -85,8 +85,8 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
-          hostname: '0.0.0.0',
-          port: 9001,
+          hostname: '<%= SERVER_IP %>',
+          port: '<%= SERVER_PORT %>',
           base: '<%= yeoman.dist %>'
         }
       },
@@ -162,9 +162,13 @@ module.exports = function (grunt) {
             "main": [
               "dist/css/bootstrap.css"
             ]
+          },
+          "font-awesome": {
+            "main": [
+              "css/font-awesome.css"
+            ]
           }
         }
-
       }
     },
 
@@ -198,23 +202,21 @@ module.exports = function (grunt) {
     },
 
     // Renames files for browser caching purposes
-    rev: {
+    filerev: {
       dist: {
-        files: {
-          src: [
-            '<%= yeoman.dist %>/**/*.route.js',
-            '<%= yeoman.dist %>/**/*.controller.js',
-            '<%= yeoman.dist %>/**/*.directive.js',
-            '<%= yeoman.dist %>/**/*.filter.js',
-            '!<%= yeoman.dist %>/config/main.constants.js',
-            '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
-            '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
-            '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/assets/fonts/*'
-          ]
-        }
+        src: [
+          '<%= yeoman.dist %>/**/*.route.js',
+          '<%= yeoman.dist %>/**/*.controller.js',
+          '<%= yeoman.dist %>/**/*.directive.js',
+          '<%= yeoman.dist %>/**/*.filter.js',
+          '!<%= yeoman.dist %>/config/main.constants.js',
+          '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+          '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
+          '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
+          '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= yeoman.dist %>/assets/fonts/*'
+        ]
       }
     },
 
@@ -230,11 +232,25 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/**/*.template.html'],
-      css: ['<%= yeoman.dist %>/assets/styles/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/**/*.route.js', '<%= yeoman.dist %>/**/*.controller.js', '<%= yeoman.dist %>/**/*.filter.js', '<%= yeoman.dist %>/**/*.directive.js'],
+      html: [
+        '<%= yeoman.dist %>/{,*/}*.html',
+        '<%= yeoman.dist %>/**/*.template.html'
+      ],
+      css: [
+        '<%= yeoman.dist %>/assets/styles/{,*/}*.css'
+      ],
+      js: [
+        '<%= yeoman.dist %>/**/*.route.js',
+        '<%= yeoman.dist %>/**/*.controller.js',
+        '<%= yeoman.dist %>/**/*.filter.js',
+        '<%= yeoman.dist %>/**/*.directive.js'
+      ],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/assets/images', '<%= yeoman.dist %>/assets/fonts'],
+        assetsDirs: [
+          '<%= yeoman.dist %>',
+          '<%= yeoman.dist %>/assets/images',
+          '<%= yeoman.dist %>/assets/fonts'
+        ],
         patterns: {
           // FIXME While usemin won't have full support for revved files we have to put all references manually here
           js: [
@@ -255,6 +271,7 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     svgmin: {
       dist: {
         files: [{
@@ -265,6 +282,7 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     htmlmin: {
       dist: {
         options: {
@@ -339,7 +357,6 @@ module.exports = function (grunt) {
       options: {
         name: 'config'
       },
-
       angularLocal: {
         options: {
           dest: '<%= yeoman.app %>/config/main.constants.js',
@@ -355,7 +372,6 @@ module.exports = function (grunt) {
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>',
             defaultCity: '<%= DEFAULT_CITY %>',
             defaultState: '<%= DEFAULT_STATE %>',
             defaultCountry: '<%= DEFAULT_COUNTRY %>'
@@ -377,15 +393,14 @@ module.exports = function (grunt) {
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
-            flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>'
+            flowsEnabled: '<%= FLOWS_ENABLED %>'
           }
         }
       }
     },
 
     'string-replace': {
-      all: {
+      dist: {
         files: {
           '<%= yeoman.dist %>/': '<%= yeoman.dist %>/index.html'
         },
@@ -423,7 +438,6 @@ module.exports = function (grunt) {
         'svgmin'
       ]
     }
-
   });
 
   grunt.registerTask('serve', function (target) {
@@ -470,11 +484,11 @@ module.exports = function (grunt) {
     'copy:dist',
     'cdnify',
     'cssmin',
+    'string-replace',
     'uglify',
-    'rev',
+    'filerev',
     'usemin',
-    'htmlmin',
-    'string-replace'
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [

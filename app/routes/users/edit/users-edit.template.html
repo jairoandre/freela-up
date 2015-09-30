@@ -7,8 +7,16 @@
 
 <div class="content">
 
-  <div class="alert alert-danger fade-animation" ng-show="inputErrors">
-    <p ng-bind-html="inputErrors | formatErrors"></p>
+  <div class="rounder_wrapper errors" ng-show="inputErrors && isArray(inputErrors)">
+    <div class="alert alert-danger fade-animation">
+      <p ng-bind-html="inputErrors | formatErrors"></p>
+    </div>
+  </div>
+
+  <div class="rounder_wrapper errors" ng-show="inputErrors && !isArray(inputErrors)">
+    <div class="alert alert-danger fade-animation">
+      <p ng-bind-html="inputErrors"></p>
+    </div>
   </div>
 
   <form ng-submit="send()" name="form" novalidate>

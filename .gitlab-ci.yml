@@ -1,67 +1,8 @@
-services:
-    - ntxcode/postgresql:9.4
-    - ntxcode/redis-non-persistent:latest
-    - selenium/standalone-chrome
-
-variables:
-    POSTGRES_PASSWORD: "zup"
-    POSTGRES_USER: "zup"
-    POSTGRES_DB: "zup"
-    SHARED_BUFFERS: 128MB
-
 stages:
     - build
 
-before_script:
-      - echo API_URL=http://localhost:3000 >> api.env
-      - echo WEB_URL=http://localhost:3000 >> api.env
-      - echo SMTP_ADDRESS=smtp.sendgrid.net >> api.env
-      - echo SMTP_PORT=587 >> api.env
-      - echo SMTP_USER=zup >> api.env
-      - echo SMTP_PASS=CBsowzZ7kq2d >> api.env
-      - echo SMTP_TTLS=true >> api.env
-      - echo SMTP_AUTH=plain >> api.env
-      - echo REDIS_URL=redis://$NTXCODE__REDIS_NON_PERSISTENT_PORT_6379_TCP_ADDR:6379 >> api.env
-      - echo RACK_ENV=production >> api.env
-      - echo DATABASE_URL=postgis://zup:zup@$NTXCODE__POSTGRESQL_PORT_5432_TCP_ADDR:5432/zup >> api.env
-      - export API_BRANCH=$CI_BUILD_REF_NAME
-      - docker login -e $DOCKER_LOGIN -p $DOCKER_PASSWORD -u $DOCKER_USERNAME
-      - docker pull ntxcode/zup-api:$API_BRANCH || docker pull ntxcode/zup-api:latest && export API_BRANCH="latest"
-      - docker run -a stdout -a stderr --env-file api.env ntxcode/zup-api:$API_BRANCH bundle exec rake db:schema:load
-      - "docker run -a stdout -a stderr --env-file api.env ntxcode/zup-api:$API_BRANCH /bin/bash -c \"bundle exec rake db:seed WITH_FAKE_DATA=true\""
-      - export API_CNAME="zup-api-$CI_BUILD_ID"
-      - docker run -a stdout -a stderr --env-file api.env --name $API_CNAME -p 8282:80 ntxcode/zup-api:$API_BRANCH &
-
-build:
+run_script:
     stage: build
     script:
-        - "export RUNNER_IP=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')"
-        - "[[ -d /cache/zup-painel ]] || (mkdir -p /cache/zup-painel/node_modules && mkdir /cache/zup-painel/bower_components)"
-        - ln -s /cache/zup-painel/node_modules ./node_modules
-        - ln -s /cache/zup-painel/bower_components ./app/bower_components
-        - npm install && bower install --allow-root
-        - echo API_URL=http://$RUNNER_IP:8282 >> .env
-        - echo MAP_LAT=-23.549671 >> .env
-        - echo MAP_LNG=-46.6321713 >> .env
-        - echo MAP_ZOOM=11 >> .env
-        - echo DEFAULT_CITY="São Bernado do Campo" >> .env
-        - echo DEFAULT_STATE=SP >> .env
-        - echo DEFAULT_COUNTRY=Brasil >> .env
-        - "echo PAINEL_URL=http://$RUNNER_IP:9001 >> .env"
-        - echo USER_EMAIL=tecnologia@ntxdev.com.br >> .env
-        - echo USER_PASSWORD=123456 >> .env
-        - echo FLOWS_ENABLED=true >> .env
-        - "sed -i \"s@seleniumAddress: 'http://localhost@seleniumAddress: 'http://$SELENIUM__STANDALONE_CHROME_PORT_4444_TCP_ADDR@g\" e2e-tests/protractor-conf.js"
-        - curl http://localhost:8282/feature_flags &
-        - NODE_ENV=production grunt test
-        - git config --global user.name 'Gitlab CI'
-        - git config --global user.email 'tecnologia@ntdev.com.br'
-        - rm -rf zup-web || true
-        - git clone --depth 1 --branch $CI_BUILD_REF_NAME https://$DOCKER_USERNAME:$DOCKER_PASSWORD@gitlab.com/ntxcode/zup-web.git || git clone --depth 1 --branch master https://$DOCKER_USERNAME:$DOCKER_PASSWORD@gitlab.com/ntxcode/zup-web.git
-        - cd zup-web
-        - "[[ $(git symbolic-ref --short -q HEAD) = $CI_BUILD_REF_NAME ]] || git checkout -b $CI_BUILD_REF_NAME"
-        - rm -rf zup-painel
-        - cp -R ../dist ./zup-painel
-        - git add --all zup-painel
-        - git commit -m "Build $CI_BUILD_ID"
-        - git push origin $CI_BUILD_REF_NAME
+        - chmod +x build_and_test.sh
+        - ./build_and_test.sh --deploy

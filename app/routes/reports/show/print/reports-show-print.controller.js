@@ -23,10 +23,6 @@ angular
 
     $scope.historyLogs = reportHistoryResponse.data;
 
-    var img = $scope.logoImg;
-
-    $scope.blueLogoImg = img.substring(0, img.lastIndexOf('.')) + '-blue' + img.substring(img.lastIndexOf('.'));
-
     $scope.print = function () {
 
       var document = $window.document;
@@ -40,7 +36,6 @@ angular
 
       var cloneDiv = divToPrint.cloneNode(true);
       printSection.appendChild(cloneDiv);
-
 
       $window.print();
 

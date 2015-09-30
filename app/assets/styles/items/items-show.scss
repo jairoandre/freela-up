@@ -3,8 +3,8 @@
 .show-field-history {
   border: 1px solid #DBDBDB;
   position: absolute;
-  right: 0px;
-  top: 0px;
+  right: 0;
+  top: 0;
   padding: 9px 18px;
   border-radius: 7px;
   font-weight: bold;
@@ -23,8 +23,8 @@
   @include opacity(1);
 }
 
-.items-category-show{
-  .status-bar{
+.items-category-show {
+  .status-bar {
     margin: -30px -30px 30px -30px !important;
     width: auto !important;
   }
@@ -52,12 +52,12 @@
 
     &.datepicker {
       padding-top: 20px;
-      padding-right: 0px;
+      padding-right: 0;
     }
 
     &.last {
       padding-right: 15px;
-      padding-left: 0px;
+      padding-left: 0;
     }
 
     &.until {
@@ -67,7 +67,7 @@
 
     .dropdown-menu {
       width: 100%;
-      padding-bottom: 0px;
+      padding-bottom: 0;
 
       li a {
         padding: 7px 13px;
@@ -119,7 +119,7 @@
   .timeline {
     width: 100%;
     list-style: none;
-    padding: 0px;
+    padding: 0;
     position: relative;
 
     .empty {
@@ -151,7 +151,7 @@
         width: 64px;
         height: 64px;
         margin: -32px 0 0 -32px;
-        background: url(../../images/loading.gif);
+        background: url(../images/loading.gif);
         background-size: 64px 64px;
       }
     }
@@ -231,11 +231,11 @@
   }
 
   .item-history {
-    margin: 0px;
+    margin: 0;
 
     .filter.datepicker {
-      padding-top: 0px;
-      padding-right: 0px;
+      padding-top: 0;
+      padding-right: 0;
     }
 
     .filter.until {

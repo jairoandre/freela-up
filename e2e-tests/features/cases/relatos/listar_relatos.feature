@@ -10,7 +10,6 @@
       Dado que estou autenticado na aplicação
       E que estou na tela de relatos
 
-    @notimplemented
     Cenário: Permitir que o usuário liste os relatos
       Dado que estou visualizando todos os relatos
       Então todas colunas devem estar devidamente preenchidas

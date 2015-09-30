@@ -17,10 +17,10 @@ Form.prototype = {
 
   fillAddress: function (street, num) {
     var k = protractor.Key;
-    
-    var getField = function (name) { 
+
+    var getField = function (name) {
       var form = element(by.css('[ng-show="selectedCategory"]'));
-      return form.element(by.model('address.' + name)); 
+      return form.element(by.model('address.' + name));
     }
     var typeInAddress = function (text) {
       return getField('address').sendKeys(text);
@@ -34,9 +34,9 @@ Form.prototype = {
         getField('country').getAttribute('value')
       ]).then(function(values){
         return values.every(function(item){ return  !!item; });
-      }); 
+      });
     };
-    
+
     return typeInAddress(street).then(function () {
         return typeInAddress(k.ARROW_DOWN);
       }).then(function(){
@@ -66,27 +66,31 @@ Form.prototype = {
       });
     });
   },
-  
+
   uploadImage : function () {
     var fileToUpload = '../../assets/images/9666941.png';
     var absolutePath = path.resolve(__dirname, fileToUpload);
 
-    return element(by.css('.upload input[type="file"]')).sendKeys(absolutePath);    
-  },  
-  
-  saveReport:function(){
-    return element(by.css('button[ng-click="send()"]')).click();
+    return element(by.css('.upload input[type="file"]')).sendKeys(absolutePath);
   },
-  
+
+  saveReport:function(){
+    var EC = protractor.ExpectedConditions;
+    var button = element(By.css('button[ng-click="send()"]'));
+    browser.wait(EC.presenceOf(button), 10000).then(function () {
+      return button.click();
+    });
+  },
+
   abaIsDisplayed : function(texto){
     var menu = element(by.css('.report-menu'));
     var aba = menu.element(by.linkText(texto));
-    
+
     return aba.isPresent().then(function(present){
-      return present && aba.isDisplayed(); 
+      return present && aba.isDisplayed();
     });
   },
-  
+
   imageAreaIsDisplayed:function(){
     return element(by.id('report-images')).isDisplayed();
   }
