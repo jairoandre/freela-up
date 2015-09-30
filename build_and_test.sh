@@ -64,7 +64,6 @@ setup_api &
 API_PID=$!
 
 # Painel env vars
-echo THEME=zup >> build.env
 echo API_URL=http://api:80 >> build.env
 echo MAP_LAT=-23.549671 >> build.env
 echo MAP_LNG=-46.6321713 >> build.env
