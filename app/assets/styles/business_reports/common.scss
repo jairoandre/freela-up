@@ -208,7 +208,7 @@
   }
 
   .ng-inline-edit__text:after {
-    background: $inline-edit-border-color url("assets/images/edit-pencil.png") no-repeat center;
+    background: $inline-edit-border-color url("../images/edit-pencil.png") no-repeat center;
     border-left: 1px solid $inline-edit-border-color;
     content: "";
     position: absolute;

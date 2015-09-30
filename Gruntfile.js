@@ -162,6 +162,11 @@ module.exports = function (grunt) {
             "main": [
               "dist/css/bootstrap.css"
             ]
+          },
+          "font-awesome": {
+            "main": [
+              "css/font-awesome.css"
+            ]
           }
         }
       }
@@ -197,24 +202,21 @@ module.exports = function (grunt) {
     },
 
     // Renames files for browser caching purposes
-    rev: {
+    filerev: {
       dist: {
-        files: {
-          src: [
-            '<%= yeoman.dist %>/**/*.route.js',
-            '<%= yeoman.dist %>/**/*.controller.js',
-            '<%= yeoman.dist %>/**/*.directive.js',
-            '<%= yeoman.dist %>/**/*.filter.js',
-            '!<%= yeoman.dist %>/config/main.constants.js',
-            '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
-            '!<%= yeoman.dist %>/assets/styles/theme.css', // themes won't be modified
-            '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
-            '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/assets/fonts/*'
-          ]
-        }
+        src: [
+          '<%= yeoman.dist %>/**/*.route.js',
+          '<%= yeoman.dist %>/**/*.controller.js',
+          '<%= yeoman.dist %>/**/*.directive.js',
+          '<%= yeoman.dist %>/**/*.filter.js',
+          '!<%= yeoman.dist %>/config/main.constants.js',
+          '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+          '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
+          '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
+          '!<%= yeoman.dist %>/assets/images/logos/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= yeoman.dist %>/assets/fonts/*'
+        ]
       }
     },
 
@@ -230,11 +232,25 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/**/*.template.html'],
-      css: ['<%= yeoman.dist %>/assets/styles/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/**/*.route.js', '<%= yeoman.dist %>/**/*.controller.js', '<%= yeoman.dist %>/**/*.filter.js', '<%= yeoman.dist %>/**/*.directive.js'],
+      html: [
+        '<%= yeoman.dist %>/{,*/}*.html',
+        '<%= yeoman.dist %>/**/*.template.html'
+      ],
+      css: [
+        '<%= yeoman.dist %>/assets/styles/{,*/}*.css'
+      ],
+      js: [
+        '<%= yeoman.dist %>/**/*.route.js',
+        '<%= yeoman.dist %>/**/*.controller.js',
+        '<%= yeoman.dist %>/**/*.filter.js',
+        '<%= yeoman.dist %>/**/*.directive.js'
+      ],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/assets/images', '<%= yeoman.dist %>/assets/fonts'],
+        assetsDirs: [
+          '<%= yeoman.dist %>',
+          '<%= yeoman.dist %>/assets/images',
+          '<%= yeoman.dist %>/assets/fonts'
+        ],
         patterns: {
           // FIXME While usemin won't have full support for revved files we have to put all references manually here
           js: [
@@ -470,7 +486,7 @@ module.exports = function (grunt) {
     'cssmin',
     'string-replace',
     'uglify',
-    'rev',
+    'filerev',
     'usemin',
     'htmlmin'
   ]);
