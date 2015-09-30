@@ -1,8 +1,6 @@
 {
   "name": "zuppainel",
-  "version": "1.0.0",
-  "private": true,
-  "license": "Apache-2.0",
+  "version": "1.0.1",
   "dependencies": {
     "dotenv": "^1.0.0",
     "express": "~4.4.1",
@@ -52,6 +50,6 @@
     "setup": "npm install && bower install",
     "dev-server": "grunt serve",
     "prod-build": "NODE_ENV=production grunt build",
-    "test": "node ./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update && grunt test"
+    "test": "node ./node_modules/.bin/webdriver-manager update && grunt test"
   }
 }
