@@ -211,6 +211,7 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/**/*.filter.js',
           '!<%= yeoman.dist %>/config/main.constants.js',
           '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+          '!<%= yeoman.dist %>/assets/styles/theme.css',
           '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '!<%= yeoman.dist %>/assets/images/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', // icons won't be modified
