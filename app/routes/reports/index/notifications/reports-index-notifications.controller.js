@@ -5,11 +5,11 @@ angular
     'ReportsDestroyModalControllerModule',
     'OnFocusComponentModule',
     'OnBlurComponentModule',
-    'ReportsItemsServiceModule',
+    'ReportsCategoriesNotificationsServiceModule',
     'angular-toArrayFilter'
   ])
 
-  .controller('ReportsIndexNotificationsController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsItemsService, $state, $log) {
+  .controller('ReportsIndexNotificationsController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsCategoriesNotificationsService, $state, $log) {
 
     $log.info('ReportsIndexNotificationsController created.');
 
@@ -17,7 +17,7 @@ angular
 
     $scope.loadingPagination = false;
     $scope.$parent.total = 0;
-    $scope.reports = [];
+    $scope.notifications = [];
 
     // One every change of page or search, we create generate a new request based on current values
     var getData = $scope.getData = function () {
@@ -29,19 +29,13 @@ angular
         fetchOptions.page = +page || 1;
         fetchOptions.per_page = +perPage || 15;
 
-        fetchOptions.with_notifications = true;
-        fetchOptions.return_fields = [
-          'id', 'protocol', 'address', 'number', 'category_id', 'status_id', 'created_at', 'overdue',
-          'overdue_at', 'category.title', 'user.name', 'user.id', 'last_notification'
-        ].join();
+        var promise = ReportsCategoriesNotificationsService.searchNotifications(fetchOptions);
 
-        var promise = ReportsItemsService.fetchAll(fetchOptions);
-
-        promise.then(function (reports) {
+        promise.then(function (r) {
           page++;
-          $scope.reports = reports;
+          $scope.notifications = r;
 
-          var lastPage = Math.ceil($scope.total / perPage);
+          var lastPage = Math.ceil($scope.$parent.total / perPage);
 
           if (page === (lastPage + 1)) {
             $scope.$parent.loadingPagination = null;
@@ -57,14 +51,14 @@ angular
       }
     };
 
-    $scope.$on('reportsItemsFetched', function () {
-      $scope.$parent.total = ReportsItemsService.total;
+    $scope.$on('notificationsFetched', function () {
+      $scope.$parent.total = ReportsCategoriesNotificationsService.total;
       $scope.$parent.loading = false;
     });
 
     $scope.$on('loadFilters', function (event, reloading) {
       // reset pagination
-      ReportsItemsService.resetCache();
+      ReportsCategoriesNotificationsService.cleanCache();
       page = 1;
       $scope.$parent.loadingPagination = false;
 
@@ -74,15 +68,23 @@ angular
 
       $scope.$parent.loadingContent = true;
 
-      getData().then(function (reports) {
+      getData().then(function (resp) {
         $scope.$parent.loadingContent = false;
-        $scope.reports = reports;
+        $scope.notifications = resp;
 
         if (reloading === true) {
           $scope.$parent.reloading = false;
         }
       });
     });
+
+    function abs(days){
+      return Math.abs(days);
+    };
+
+    $scope.getDaysTxt = function(days) {
+      return days < 0 ?  (abs(days) + ' dia' + (days === -1 ? '' : 's') + ' atrás') : (days + ' dia' + (days === 1 ? '' : 's') );
+    };
 
     $scope.$on('$destroy', function () {
       $log.info('ReportsIndexNotificationsController destroyed.');
