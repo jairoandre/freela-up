@@ -17,32 +17,6 @@ angular
     $scope.loadingCkeditorScript = true;
 
     var configureCkEditor = function () {
-      $scope.ckeditorOptions = {
-        skin: 'bootstrapck',
-        language: 'pt-br',
-        height: '27cm',
-        resize_enabled: false,
-        removePlugins: 'elementspath',
-        extraPlugins: 'sharedspace,tableresize,zupplaceholder,base64image,font,imagepaste,image2,colorbutton,colordialog',
-        sharedSpaces: {top: 'ckeditor-toolbar'},
-        toolbarGroups: [
-          {name: 'clipboard', groups: ['clipboard', 'undo']},
-          {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
-          {name: 'links', groups: ['links']},
-          {name: 'insert', groups: ['insert']},
-          {name: 'forms', groups: ['forms']},
-          {name: 'tools', groups: ['tools']},
-          {name: 'others', groups: ['others']},
-          {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
-          '/',
-          {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-          {name: 'document', groups: ['mode', 'document', 'doctools']},
-          {name: 'styles', groups: ['styles']},
-          {name: 'colors', groups: ['colors']}
-        ],
-        removeButtons: 'Maximize,Image,Source'
-      };
-
       $timeout(function () {
         $scope.loadingCkeditorScript = false
       }, 1000);

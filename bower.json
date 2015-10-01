@@ -56,7 +56,9 @@
     "imagepaste_1.1.1": "http://download.ckeditor.com/imagepaste/releases/imagepaste_1.1.1.zip",
     "bootstrapck_1.0_0": "http://download.ckeditor.com/bootstrapck/releases/bootstrapck_1.0_0.zip",
     "tableresize_4.5.1": "http://download.ckeditor.com/tableresize/releases/tableresize_4.5.1.zip",
-    "colorbutton_4.5.3": "http://download.ckeditor.com/colorbutton/releases/colorbutton_4.5.3.zip"
+    "colorbutton_4.5.3": "http://download.ckeditor.com/colorbutton/releases/colorbutton_4.5.3.zip",
+    "print_4.5.3": "http://download.ckeditor.com/print/releases/print_4.5.3.zip",
+    "justify" : "http://download.ckeditor.com/justify/releases/justify_4.5.3.zip"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.26",

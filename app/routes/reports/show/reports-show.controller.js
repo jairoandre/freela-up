@@ -486,16 +486,6 @@ angular
     $scope.scriptLoaded = false;
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function () {
-
-      $scope.ckeditorOptions = {
-        readOnly: true,
-        extraPlugins: 'sharedspace',
-        sharedSpaces: {
-          top: 'ckeditor-toolbar'
-        },
-        extraAllowedContent: 'div;*[class](*){*}'
-      };
-
       $scope.scriptLoaded = true;
     });
 
