@@ -78,12 +78,8 @@ angular
       });
     });
 
-    function abs(days){
-      return Math.abs(days);
-    };
-
     $scope.getDaysTxt = function(days) {
-      return days < 0 ?  (abs(days) + ' dia' + (days === -1 ? '' : 's') + ' atrás') : (days + ' dia' + (days === 1 ? '' : 's') );
+      return days < 0 ?  (Math.abs(days) + ' dia' + (days === -1 ? '' : 's') + ' atrás') : (days + ' dia' + (days === 1 ? '' : 's') );
     };
 
     $scope.$on('$destroy', function () {
