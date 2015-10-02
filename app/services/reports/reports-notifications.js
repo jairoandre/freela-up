@@ -159,7 +159,7 @@ angular
       var deferred = $q.defer();
 
       promise.then(function (resp) {
-        _.each(resp.data.reports, function (r) {
+        _.each(resp.data.notifications, function (r) {
           service.notifications[r.id] = r;
         });
         deferred.resolve(service.notifications);
