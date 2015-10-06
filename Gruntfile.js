@@ -460,7 +460,8 @@ module.exports = function (grunt) {
             flowsEnabled: '<%= FLOWS_ENABLED %>',
             defaultCity: '<%= DEFAULT_CITY %>',
             defaultState: '<%= DEFAULT_STATE %>',
-            defaultCountry: '<%= DEFAULT_COUNTRY %>'
+            defaultCountry: '<%= DEFAULT_COUNTRY %>',
+            ckeditorPath: 'bower_components/ckeditor/ckeditor.js'
           }
         }
       },
@@ -479,7 +480,8 @@ module.exports = function (grunt) {
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
-            flowsEnabled: '<%= FLOWS_ENABLED %>'
+            flowsEnabled: '<%= FLOWS_ENABLED %>',
+            ckeditorPath: 'assets/scripts/ckeditor/ckeditor.js'
           }
         }
       }
