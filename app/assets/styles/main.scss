@@ -1,9 +1,8 @@
 @charset "UTF-8";
-$icon-font-path: "../fonts/";
-$fa-font-path:   "../fonts/";
+$fa-font-path:   "../fonts";
 
-@import 'sass-bootstrap/lib/bootstrap';
-@import 'font-awesome/scss/font-awesome';
+@import 'sass-bootstrap/lib/variables';
+@import 'sass-bootstrap/lib/mixins';
 @import "compass/css3";
 @import "animate";
 
@@ -324,9 +323,21 @@ $sidebar-size-full: 300px;
 
           &:after {
             content: "\e080";
-            @extend .glyphicon;
             color: #C5C5C5;
             margin-left: 10px;
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            &:empty {
+              width: 1em;
+            }
           }
 
           &:last-child:after {

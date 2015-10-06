@@ -72,13 +72,15 @@
 
       <div class="row">
         <div class="col-xs-6">
-          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" min="6" ng-required="!updating  && !should_generate_password">
+          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Senha" ng-model="user.password" generic-input name="password" equals="{{ user.password_confirmation }}" ng-minlength="6" ng-maxlength="16" ng-required="!updating && !should_generate_password">
         </div>
 
         <div class="col-xs-6">
-          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" min="6" name="password_confirmation" ng-required="!updating  && !should_generate_password">
+          <input type="password" ng-disabled="should_generate_password" class="form-control custom_form" placeholder="Confirmar senha" ng-model="user.password_confirmation" generic-input equals="{{ user.password }}" ng-minlength="6" ng-maxlength="16" name="password_confirmation" ng-required="!updating && !should_generate_password">
         </div>
       </div>
+      <p ng-show="form.password.$error.minlength" class="help-block">A senha é muito curta.</p>
+      <p ng-show="form.password.$error.maxlength" class="help-block">A senha é muito longa.</p>
     </div>
 
     <div class="row">
