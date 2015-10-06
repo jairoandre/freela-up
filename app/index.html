@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="bower_components/angular-print/angularPrint.css" />
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/nouislider/distribute/nouislider.min.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) assets/styles/main.css -->
@@ -63,12 +64,12 @@
     <link rel="stylesheet" href="assets/styles/business_reports/common.css">
     <link rel="stylesheet" href="assets/styles/business_reports/index.css">
     <!-- endbuild -->
-    <!-- build:css({.tmp,app}) assets/styles/themes.css -->
-    <link rel="stylesheet" href="assets/styles/themes.css">
+    <!-- build:css({.tmp,app}) assets/styles/theme.css -->
+    <link rel="stylesheet" href="assets/styles/theme.css">
     <!-- endbuild -->
   </head>
 
-  <body ng-app="zupPainelApp" detect-scroll-top class="{{stateClass}} {{theme}}" ng-class="{'vertical-scroll': uiHasScroll}">
+  <body ng-app="zupPainelApp" detect-scroll-top class="theme {{stateClass}}" ng-class="{'vertical-scroll': uiHasScroll}">
     <!--[if lt IE 10]>
       <p class="browsehappy">Você está usando um navegador <strong>antigo</strong>. Por favor <a href="http://browsehappy.com/">atualize seu navegador</a> para ter uma experiência agradável.</p>
     <![endif]-->
@@ -119,6 +120,9 @@
     <script src="bower_components/select2/select2.js"></script>
     <script src="bower_components/angular-ui-select2/src/select2.js"></script>
     <script src="bower_components/angular-ui-utils/mask.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
     <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="bower_components/angular-ui-sortable/sortable.js"></script>
     <script src="bower_components/hamsterjs/hamster.js"></script>

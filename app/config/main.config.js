@@ -2,7 +2,7 @@
 
 angular
   .module('zupPainelApp')
-  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', 'uiSelectConfig', '$tooltipProvider', '$provide', function($urlRouterProvider, RestangularProvider, ENV, uiSelectConfig, $tooltipProvider, $provide) {
+  .config(['$urlRouterProvider', 'RestangularProvider', 'ENV', 'uiSelectConfig', '$tooltipProvider', '$provide', function ($urlRouterProvider, RestangularProvider, ENV, uiSelectConfig, $tooltipProvider, $provide) {
     $urlRouterProvider.otherwise('/');
 
     RestangularProvider.setBaseUrl(ENV.apiEndpoint);
@@ -65,19 +65,19 @@ angular
       return $delegate;
     }]);
   }])
-  .factory('singleItemUploaderFilter', function(){
+  .factory('singleItemUploaderFilter', function () {
     return {
       name: 'fixQueueLimit',
-      fn: function(item, options) {
-        if(this.queue.length === 1) {
+      fn: function (item, options) {
+        if (this.queue.length === 1) {
           this.clearQueue();
         }
         return true;
       }
     };
   })
-  .factory('onlyImagesUploaderFilter', function(){
-    return function(isHTML5) {
+  .factory('onlyImagesUploaderFilter', function () {
+    return function (isHTML5) {
       return {
         name: 'onlyImages',
         fn: function (item, options) {
@@ -202,8 +202,8 @@ angular
       }
     });
 
-    $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
-      console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
+    $rootScope.$on('$stateNotFound', function (event, unfoundState, fromState, fromParams) {
+      console.log('$stateNotFound ' + unfoundState.to + '  - fired when a state cannot be found by its name.');
       console.log(unfoundState, fromState, fromParams);
     });
 
@@ -238,11 +238,8 @@ angular
         }, 1000);
       }, 3500);
     };
-    $rootScope.logoImg = (ENV.logoImgUrl && ENV.logoImgUrl.length > 0) ? ENV.logoImgUrl : 'assets/images/logos/logo-zup.png';
-    $rootScope.theme = ENV.theme;
-  }])
-  .filter('abs', function () {
-  return function(val) {
-    return Math.abs(val);
-  }
-});
+  }]).filter('abs', function () {
+    return function (val) {
+      return Math.abs(val);
+    }
+  });

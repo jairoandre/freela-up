@@ -1,6 +1,7 @@
 <div class="loading" ng-show="loading"></div>
 
 <div ng-hide="loading" class="editReports pages-animation">
+  
   <div class="title">
     <ul>
       <li><a ng-href="#/reports">Relatos</a></li>
@@ -133,7 +134,7 @@
 
       <hr />
 
-      <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_edit', selectedCategory.id) || hasPermission('reports_categories_edit', selectedCategory.id) || hasPermission('reports_items_read_private', selectedCategory.id)">
+      <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_items_create', selectedCategory.id) || hasPermission('reports_items_edit', selectedCategory.id) || hasPermission('reports_categories_edit', selectedCategory.id) || hasPermission('reports_items_read_private', selectedCategory.id)">
         <h3>6. Vincule a um usuário</h3>
 
         <p ng-show="user">O relato será vinculado ao usuário <b>{{ user.name }}</b>. <button type="button" class="remove" ng-click="user = null">x</button></p>
