@@ -42,7 +42,7 @@ ADD ./.bowerrc ./.bowerrc
 ADD ./bower.json ./bower.json
 ADD ./package.json ./package.json
 RUN npm install && bower install --allow-root
-RUN ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update
+RUN ./node_modules/.bin/webdriver-manager update
 ADD . /tmp/zup-painel
 RUN mv build.env .env
 RUN NODE_ENV=production grunt build

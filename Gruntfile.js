@@ -15,7 +15,6 @@ module.exports = function (grunt) {
 
     SERVER_IP: process.env.SERVER_IP || '127.0.0.1',
     SERVER_PORT: process.env.SERVER_PORT || 9000,
-    THEME: process.env.THEME || 'zup',
     API_URL: process.env.API_URL,
     MAP_LAT: process.env.MAP_LAT,
     MAP_LNG: process.env.MAP_LNG,
@@ -163,17 +162,15 @@ module.exports = function (grunt) {
             "main": [
               "dist/css/bootstrap.css"
             ]
+          },
+          "font-awesome": {
+            "main": [
+              "css/font-awesome.css"
+            ]
           }
         }
       }
     },
-    //'bower-install': {
-    //  app: {
-    //    html: '<%= yeoman.app %>/index.html',
-    //    ignorePath: '<%= yeoman.app %>/',
-    //    exclude: ['ckeditor']
-    //  }
-    //},
 
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
@@ -205,7 +202,7 @@ module.exports = function (grunt) {
     },
 
     // Renames files for browser caching purposes
-    rev: {
+    filerev: {
       dist: {
         files: {
           src: [
@@ -215,6 +212,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/**/*.filter.js',
             '!<%= yeoman.dist %>/config/main.constants.js',
             '<%= yeoman.dist %>/assets/styles/{,*/}*.css',
+            '!<%= yeoman.dist %>/assets/styles/theme.css',
             '<%= yeoman.dist %>/assets/scripts/{,*/}*.js',
             '!<%= yeoman.dist %>/assets/scripts/ckeditor/**',
             '<%= yeoman.dist %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
@@ -238,11 +236,25 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/**/*.template.html'],
-      css: ['<%= yeoman.dist %>/assets/styles/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/**/*.route.js', '<%= yeoman.dist %>/**/*.controller.js', '<%= yeoman.dist %>/**/*.filter.js', '<%= yeoman.dist %>/**/*.directive.js'],
+      html: [
+        '<%= yeoman.dist %>/{,*/}*.html',
+        '<%= yeoman.dist %>/**/*.template.html'
+      ],
+      css: [
+        '<%= yeoman.dist %>/assets/styles/{,*/}*.css'
+      ],
+      js: [
+        '<%= yeoman.dist %>/**/*.route.js',
+        '<%= yeoman.dist %>/**/*.controller.js',
+        '<%= yeoman.dist %>/**/*.filter.js',
+        '<%= yeoman.dist %>/**/*.directive.js'
+      ],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/assets/images', '<%= yeoman.dist %>/assets/fonts'],
+        assetsDirs: [
+          '<%= yeoman.dist %>',
+          '<%= yeoman.dist %>/assets/images',
+          '<%= yeoman.dist %>/assets/fonts'
+        ],
         patterns: {
           // FIXME While usemin won't have full support for revved files we have to put all references manually here
           js: [
@@ -441,7 +453,6 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'development',
-            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
@@ -465,15 +476,12 @@ module.exports = function (grunt) {
         constants: {
           ENV: {
             name: 'production',
-            theme: '<%= THEME %>',
             apiEndpoint: '<%= API_URL %>',
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
             flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>',
             ckeditorPath: 'assets/scripts/ckeditor/ckeditor.js'
-
           }
         }
       }
@@ -532,7 +540,6 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
-      'copy:desenv',
       'watch'
     ]);
   });
@@ -567,7 +574,7 @@ module.exports = function (grunt) {
     'cssmin',
     'string-replace',
     'uglify',
-    'rev',
+    'filerev',
     'usemin',
     'htmlmin'
   ]);

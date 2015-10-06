@@ -31,7 +31,6 @@ Depois de clonar o repositório, rode os comandos:
 
 Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
 
-    THEME=zup
     SERVER_IP=127.0.0.1
     SERVER_PORT=9000
     API_URL=http://your-api.zupinstance.com
