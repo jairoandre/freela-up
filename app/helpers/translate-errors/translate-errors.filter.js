@@ -13,7 +13,8 @@ angular
         'title': 'título',
         'icon': 'ícone',
         'marker': 'marcador',
-        'color': 'Cor'
+        'color': 'Cor',
+        'password': 'Senha'
       };
 
       if (typeof translations[input] !== 'undefined')

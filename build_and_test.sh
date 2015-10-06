@@ -64,7 +64,6 @@ setup_api &
 API_PID=$!
 
 # Painel env vars
-echo THEME=zup >> build.env
 echo API_URL=http://api:80 >> build.env
 echo MAP_LAT=-23.549671 >> build.env
 echo MAP_LNG=-46.6321713 >> build.env
@@ -85,7 +84,7 @@ docker run -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDE
 
 deploy() {
   rm -rf zup-web || true
-  git clone --depth 1 --branch $CI_BUILD_REF_NAME https://$DOCKER_USERNAME:$DOCKER_PASSWORD@gitlab.com/ntxcode/zup-web.git || git clone --depth 1 --branch master https://$DOCKER_USERNAME:$DOCKER_PASSWORD@gitlab.com/ntxcode/zup-web.git
+  git clone --depth 1 --branch $CI_BUILD_REF_NAME $ZUP_WEB_REPO_ACCESS || git clone --depth 1 --branch master $ZUP_WEB_REPO_ACCESS
   cd zup-web
   [[ $(git symbolic-ref --short -q HEAD) = $CI_BUILD_REF_NAME ]] || git checkout -b $CI_BUILD_REF_NAME
   rm -rf zup-painel
