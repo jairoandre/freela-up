@@ -171,13 +171,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    //'bower-install': {
-    //  app: {
-    //    html: '<%= yeoman.app %>/index.html',
-    //    ignorePath: '<%= yeoman.app %>/',
-    //    exclude: ['ckeditor']
-    //  }
-    //},
 
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
@@ -467,8 +460,7 @@ module.exports = function (grunt) {
             flowsEnabled: '<%= FLOWS_ENABLED %>',
             defaultCity: '<%= DEFAULT_CITY %>',
             defaultState: '<%= DEFAULT_STATE %>',
-            defaultCountry: '<%= DEFAULT_COUNTRY %>',
-            ckeditorPath: 'bower_components/ckeditor/ckeditor.js'
+            defaultCountry: '<%= DEFAULT_COUNTRY %>'
           }
         }
       },
@@ -487,10 +479,7 @@ module.exports = function (grunt) {
             mapLat: '<%= MAP_LAT %>',
             mapLng: '<%= MAP_LNG %>',
             mapZoom: '<%= MAP_ZOOM %>',
-            flowsEnabled: '<%= FLOWS_ENABLED %>',
-            logoImgUrl: '<%= LOGO_IMG_URL %>',
-            ckeditorPath: 'assets/scripts/ckeditor/ckeditor.js'
-
+            flowsEnabled: '<%= FLOWS_ENABLED %>'
           }
         }
       }
@@ -549,7 +538,6 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
-      'copy:desenv',
       'watch'
     ]);
   });
