@@ -2,7 +2,7 @@
   "name": "zup-painel",
   "version": "0.2.0",
   "dependencies": {
-    "angular": "~1.2.26",
+    "angular": "#1.2.26",
     "angular-resource": "~1.2.26",
     "angular-cookies": "~1.2.26",
     "angular-sanitize": "~1.2.26",
@@ -63,7 +63,7 @@
     "angular-scenario": "~1.2.26"
   },
   "resolutions": {
-    "angular": "~1.2.26",
+    "angular": "1.2.26",
     "angular-mocks": "~1.2.26",
     "jquery": ">= 1.9.1",
     "hamsterjs": ">=1.0.2",
