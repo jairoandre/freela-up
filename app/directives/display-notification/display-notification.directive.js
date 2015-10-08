@@ -32,7 +32,7 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
       }
     }
   })
-  .controller('DisplayNotificationModalCtrl', function ($scope, $modalInstance, ENV, content, angularLoad) {
+  .controller('DisplayNotificationModalCtrl', function ($scope, $rootScope, $modalInstance, ENV, content, angularLoad) {
 
     $scope.content = content;
     $scope.scriptLoaded = false;
@@ -42,16 +42,6 @@ angular.module('DisplayNotificationDirectiveModule', ['ZupPrintDirectiveModule',
     };
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function () {
-
-      $scope.ckeditorOptions = {
-        readOnly: true,
-        extraPlugins: 'sharedspace',
-        sharedSpaces: {
-          top: 'ckeditor-toolbar'
-        },
-        extraAllowedContent: 'div;*[class](*){*}'
-      };
-
       $scope.scriptLoaded = true;
     });
 
