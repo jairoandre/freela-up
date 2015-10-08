@@ -43,6 +43,7 @@ echo SMTP_TTLS=true >> api.env
 echo SMTP_AUTH=plain >> api.env
 echo REDIS_URL=redis://redis:6379 >> api.env
 echo RACK_ENV=production >> api.env
+echo DISABLE_EMAIL_SENDING=true >> api.env
 echo DATABASE_URL=postgis://zup:zup@postgres:5432/zup >> api.env
 
 set -xe
