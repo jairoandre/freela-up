@@ -43,11 +43,11 @@ angular
         removeButtons: 'Maximize,Image,Source'
       };
 
-      $timeout(function () {
-        $scope.loadingCkeditorScript = false
-      }, 1000);
+      $scope.loadingCkeditorScript = false;
 
     };
+
+    $log.info('ckeditorPath: ' + ENV.ckeditorPath);
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function () {
       configureCkEditor();
