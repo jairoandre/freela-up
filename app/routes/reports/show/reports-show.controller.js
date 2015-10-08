@@ -17,12 +17,13 @@ angular
     'duScroll',
     'ReportsSendNotificationsModalControllerModule',
     'ReportsCategoriesNotificationsServiceModule',
-    'ReportsCategoriesServiceModule'
+    'ReportsCategoriesServiceModule',
+    'ckeditor', 'angularLoad'
   ])
 
   .value('duScrollOffset', 200)
 
-  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService, angularLoad, ENV) {
 
     $log.info('ReportsShowController created.');
     $scope.$on('$destroy', function () {
@@ -469,17 +470,43 @@ angular
     // Notifications
     // Fetch notifications
 
-    var showNotifications = $scope.showNotificationsBtn = $scope.report.category.notifications;
+    $scope.canSendNotifications = $scope.report.category.notifications;
 
-    $scope.getDaysTxt = function (days) {
-      return days < 0 ? ('Encerrado há ' + days * -1 + (days === -1 ? ' dia' : ' dias')) : (days + (days === 1 ? ' dia' : ' dias'));
+    $scope.notifications = $scope.report.notifications;
+
+    $scope.reloadNotifications = function() {
+      var reloadNotificationsFields = ['status', 'notifications.notification_type.title', 'notifications.notification_type.default_deadline_in_days', 'notifications.created_at', 'notifications.days_to_deadline',
+        'notifications.content', 'notifications.active'];
+      Restangular.one('reports').one('items', $scope.report.id).get({ 'return_fields': reloadNotificationsFields.join() }).then(function(r){
+        $scope.notifications = r.data.notifications;
+      });
+
     };
 
-    if (showNotifications) {
-      ReportsCategoriesNotificationsService.getLastNotification($scope.report.id, $scope.report.category.id).then(function (r) {
-        $scope.lastNotification = r;
-      });
-    }
+    $scope.scriptLoaded = false;
+
+    angularLoad.loadScript(ENV.ckeditorPath).then(function () {
+
+      $scope.ckeditorOptions = {
+        readOnly: true,
+        extraPlugins: 'sharedspace',
+        sharedSpaces: {
+          top: 'ckeditor-toolbar'
+        },
+        extraAllowedContent: 'div;*[class](*){*}'
+      };
+
+      $scope.scriptLoaded = true;
+    });
+
+    function daysLiteral(days) {
+      var abs = Math.abs(days);
+      return abs + (abs === 1 ? ' dia' : ' dias');
+    };
+
+    $scope.getDaysTxt = function (days) {
+      return days < 0 ? (daysLiteral(days) + ' atrás') : (days === 0 ? 'Encerrado' : daysLiteral(days));
+    };
 
     $scope.showNotificationsModal = function () {
 

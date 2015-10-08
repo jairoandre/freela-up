@@ -2506,6 +2506,18 @@ $sidebar-size-full: 300px;
   text-align: right;
 }
 
+.pull-text-left {
+  text-align: left;
+}
+
+.pull-text-center {
+  text-align: center;
+}
+
+.pull-text-justify {
+  text-align: justify;
+}
+
 // google maps autocomplete
 .pac-icon-marker {
   display: none !important;
