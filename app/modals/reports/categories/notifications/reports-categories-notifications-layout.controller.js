@@ -16,15 +16,10 @@ angular
 
     $scope.loadingCkeditorScript = true;
 
-    var configureCkEditor = function () {
-      $timeout(function () {
-        $scope.loadingCkeditorScript = false
-      }, 1000);
-
-    };
+    $log.info('ckeditorPath: ' + ENV.ckeditorPath);
 
     angularLoad.loadScript(ENV.ckeditorPath).then(function () {
-      configureCkEditor();
+      $scope.loadingCkeditorScript = false;
     });
 
     $scope.$on('$locationChangeStart', function (evt) {
