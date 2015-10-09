@@ -32,11 +32,10 @@ angular
 
         // since we defined every subcategory as undefined, let's clean it up :)
         categories = _.without(categories, undefined);
-
         $scope.categories = categories;
-
-        $scope.loading = false;
       });
+
+      $scope.loading = false;
     };
 
     ReportsCategoriesService.fetchAllBasicInfo().then(function(response) {
