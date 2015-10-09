@@ -444,6 +444,8 @@ angular.
     };
 
     $scope.newSection = function() {
+      $scope.$broadcast('hidePopovers');
+
       var newSection = {title: 'Nova seção sem título', required: false, location: false, fields: []};
 
       $scope.category.sections.push(newSection);
