@@ -81,7 +81,7 @@ echo FLOWS_ENABLED=true >> build.env
 # Build & test
 docker build -t $BUILDER_NAME .
 wait $API_PID
-docker run -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDER_NAME
+docker run -v /dev/shm:/dev/shm -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDER_NAME
 
 deploy() {
   rm -rf zup-web || true
