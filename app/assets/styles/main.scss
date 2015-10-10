@@ -4572,8 +4572,7 @@ colorpicker-preview {
   color: #7EBA27;
 }
 
-// effects
-@-webkit-keyframes rotating {
+@include keyframes(rotating) {
   from {
     @include rotate(0deg);
   }
@@ -4581,7 +4580,6 @@ colorpicker-preview {
     @include rotate(360deg);
   }
 }
-
 .rotating {
   @include animation(rotating 2s linear infinite);
 }
