@@ -106,12 +106,13 @@ angular
     });
 
     $scope.$on('loadFilters', function (event, reloading) {
+
       // reset pagination
       ReportsItemsService.resetCache();
       page = 1;
       $scope.$parent.loadingPagination = false;
 
-      if (reloading === true) {
+      if (reloading) {
         $scope.$parent.reloading = true;
       }
 
@@ -121,7 +122,7 @@ angular
         $scope.$parent.loadingContent = false;
         $scope.reports = reports;
 
-        if (reloading === true) {
+        if (reloading) {
           $scope.$parent.reloading = false;
         }
       });
