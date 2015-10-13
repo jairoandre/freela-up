@@ -299,7 +299,7 @@
           <tbody>
           <tr ng-repeat="notification in notifications | orderBy: '-created_at'">
             <td class="date-cell">
-                <span class="date">{{notification.created_at | date:'dd/MM/yy HH:mm'}}h</span>
+                <span class="date" style="white-space: nowrap;">{{notification.created_at | date:'dd/MM/yy HH:mm'}}h</span>
                 <span class="line" ng-if="$index < (report.notifications.length - 1)"></span>
             </td>
             <td class="overdue-cell">
@@ -318,18 +318,18 @@
             </td>
             <td class="button-cell">
 
-              <a href="" class="btn btn-info btn-custom" display-notification="notification.content" style="font-weight: normal;">
-                <i class="glyphicon glyphicon-search"></i>&nbsp;Visualizar</a>
+              <div>
+                <a href="" class="btn btn-info btn-custom" display-notification="notification.content" style="font-weight: normal;">
+                  <i class="glyphicon glyphicon-search"></i></a>
 
-              <a href="" zup-print="notificationToPrint_{{$index}}" class="btn btn-info btn-custom" style="font-weight: normal;"><i class="glyphicon glyphicon-print"></i></a>
+                <a href="" zup-print="notificationToPrint_{{$index}}" class="btn btn-info btn-custom" style="font-weight: normal;"><i class="glyphicon glyphicon-print"></i></a>
 
-              <div style="display:none">
-                <div id="notificationToPrint_{{$index}}" class="a4-page">
-                  <div ckeditor="ckeditorDefaultOptions" ng-model="notification.content" contenteditable="true" ng-if="scriptLoaded"></div>
+                <div style="display:none">
+                  <div id="notificationToPrint_{{$index}}" class="a4-page">
+                    <div ckeditor="ckeditorDefaultOptions" ng-model="notification.content" contenteditable="true" ng-if="scriptLoaded"></div>
+                  </div>
                 </div>
               </div>
-
-
             </td>
           </tr>
           </tbody>
