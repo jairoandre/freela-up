@@ -4,9 +4,9 @@
 <div style-results-table style-map>
   <div class="title">
     <div class="links">
-      <a ui-sref="reports.index.list" ui-sref-active="active" ui-sref-opts="{reload: true}"><span class="glyphicon glyphicon-list"></span> <p>Explorar em lista</p></a>
-      <a ui-sref="reports.index.map" ui-sref-active="active" ui-sref-opts="{reload: true}"><span class="glyphicon glyphicon-map-marker"></span> <p>Explorar no mapa</p></a>
-      <a ui-sref="reports.index.notifications" ui-sref-active="active" ui-sref-opts="{reload: true}"><span class="glyphicon glyphicon-bullhorn"></span> <p>Notificações</p></a>
+      <a ui-sref="reports.index.list" ui-sref-active="active" ui-sref-opts="{reload: true}"><span class="glyphicon glyphicon-list"></span> <p class="tab-label">Explorar em lista</p></a>
+      <a ui-sref="reports.index.map" ui-sref-active="active" ui-sref-opts="{reload: true}"><span class="glyphicon glyphicon-map-marker"></span> <p class="tab-label">Explorar no mapa</p></a>
+      <a ui-sref="reports.index.notifications" ui-sref-active="active" ui-sref-opts="{reload: true}"><span class="glyphicon glyphicon-bullhorn"></span> <p class="tab-label">Notificações</p></a>
     </div>
 
     <div class="btn-group">
@@ -19,6 +19,7 @@
     <a href="" ng-click="share()" class="btn btn-info btn-custom"><i class="glyphicon glyphicon-link"></i></a>
 
     <p class="total pages-animation" ng-hide="loadingContent">{{ total }} relatos encontrados</p>
+
   </div>
 
   <div class="advancedSearch" id="advancedSearch">

@@ -4662,3 +4662,9 @@ colorpicker-preview {
     @include animation-name(flipOutX);
   }
 }
+
+@media (max-width: 1300px) {
+  .tab-label {
+    display: none;
+  }
+}
