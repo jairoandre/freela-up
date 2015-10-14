@@ -43,6 +43,7 @@ echo SMTP_TTLS=true >> api.env
 echo SMTP_AUTH=plain >> api.env
 echo REDIS_URL=redis://redis:6379 >> api.env
 echo RACK_ENV=production >> api.env
+echo DISABLE_EMAIL_SENDING=true >> api.env
 echo DATABASE_URL=postgis://zup:zup@postgres:5432/zup >> api.env
 
 set -xe
@@ -80,7 +81,7 @@ echo FLOWS_ENABLED=true >> build.env
 # Build & test
 docker build -t $BUILDER_NAME .
 wait $API_PID
-docker run -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDER_NAME
+docker run -v /dev/shm:/dev/shm -a stdout -a stderr --link $API_NAME:api --name $BUILDER_NAME $BUILDER_NAME
 
 deploy() {
   rm -rf zup-web || true
