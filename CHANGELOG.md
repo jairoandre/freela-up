@@ -1,6 +1,11 @@
 # Changelog
 
-## 1.0.2 [Em aberto]
+## 1.0.3 [Em aberto]
+
+## 1.0.2
+### Adicionado
+- Nova funcionalidade de notificações
+- Correções nas dependências
 
 ## 1.0.1
 ### Corrigido
