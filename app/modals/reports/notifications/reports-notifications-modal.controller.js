@@ -3,7 +3,7 @@
 angular
   .module('ReportsSendNotificationsModalControllerModule', ['ReportsCategoriesNotificationsServiceModule'])
 
-  .controller('ReportsSendNotificationsModalController', function ($scope, $modalInstance, Restangular, $q, $log, $http, parentScope, report, notifications, ReportsCategoriesNotificationsService) {
+  .controller('ReportsSendNotificationsModalController', function ($scope, $modalInstance, Restangular, $q, $log, $http, $rootScope, parentScope, report, notifications, ReportsCategoriesNotificationsService) {
 
     $log.info('ReportsSendNotificationsModalController created.');
     $scope.$on('$destroy', function () {
@@ -25,6 +25,11 @@ angular
         }
       }
     };
+
+    $scope.canRestartNotificationProcess = $rootScope.hasPermission('reports_items_restart_notification') ||
+      $rootScope.hasPermission('manage_reports_categories') ||
+      $rootScope.hasPermission('reports_categories_edit') ||
+      $rootScope.hasPermission('reports_items_edit');
 
     init();
 
