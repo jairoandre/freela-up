@@ -4668,3 +4668,10 @@ colorpicker-preview {
     display: none;
   }
 }
+
+/**
+ * @todo Fix classes orientation on build process
+ */
+.modal-backdrop.fade.in {
+  @include opacity(.5);
+}
