@@ -41,18 +41,24 @@ angular
 
       var url = FullResponseRestangular.one('search').all('reports').all('items'); // jshint ignore:line
 
-      options.display_type = 'full'; // temporarily set display_type as full while API is being updated TODO
-      options.return_fields = [
-        'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue', // Report properties
-        'assigned_group.name', 'assigned_group.title', 'assigned_user.name', 'assigned_user.id',
-        'user.name', 'user.id', // User properties
-        'reporter.name', 'reporter.id'
-      ].join();
+      var defaults = {
+        display_type: 'full',
+        return_fields: [
+          'id', 'protocol', 'address', 'category_id', 'status_id', 'created_at', 'overdue', 'category.title', // Report properties
+          'assigned_group.name', 'assigned_group.title', 'assigned_user.name', 'assigned_user.id',
+          'user.name', 'user.id', // User properties
+          'reporter.name', 'reporter.id',
+          'notifications.notification_type.title', 'notifications.deadline_in_days', 'notifications.days_to_deadline', 'overdue_at' // Notifications
+        ].join()
+      };
+
+      // merge options into defaults
+      angular.merge(defaults, options);
 
       // Categories are always updated in parallel on fetch operations
       var categoryFetchPromise = ReportsCategoriesService.fetchAllBasicInfo();
 
-      var promise = url.customGET(null, options);
+      var promise = url.customGET(null, defaults);
 
       var deferred = $q.defer();
 

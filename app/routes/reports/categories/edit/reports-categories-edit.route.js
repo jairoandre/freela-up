@@ -1,6 +1,6 @@
 angular
   .module('ReportsCategoriesEditModule', [
-    'ReportsCategoriesEditControllerModule',
+    'ReportsCategoriesEditControllerModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
@@ -20,6 +20,13 @@ angular
 
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList({ return_fields: 'id,name'});
+            }],
+
+            'notificationsTypesResponse': ['Restangular', '$stateParams', function(Restangular, $stateParams) {
+              return Restangular.one('reports')
+                .one('categories', $stateParams.id)
+                .all('notification_types')
+                .getList({return_fields: 'id,category.id,status.id,order,title,default_deadline_in_days,layout,active,created_at,updated_at'});
             }]
           }
         }
@@ -39,10 +46,13 @@ angular
 
             'groupsResponse': ['Restangular', function(Restangular) {
               return Restangular.all('groups').getList({ return_fields: 'id,name'});
+            }],
+
+            'notificationsTypesResponse': [function() {
+              return {};
             }]
           }
         }
       }
     });
-
   }]);

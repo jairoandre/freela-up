@@ -21,12 +21,14 @@ angular
     'ngRaven',
     'monospaced.elastic',
     'angularPromiseButtons',
+    'ui.sortable',
 
     // Core services
     'AuthServiceModule',
     'UserServiceModule',
     'FullResponseRestangularServiceModule',
     'ErrorServiceModule',
+    'ConfirmDialogDirectiveModule',
 
     // Core components
     'NavItemComponentModule',

@@ -6,25 +6,20 @@ angular
     'OnFocusComponentModule',
     'OnBlurComponentModule',
     'AdvancedFiltersServiceModule',
-    'ReportsItemsServiceModule',
-    'angular-toArrayFilter'
+    'ReportsItemsServiceModule'
   ])
 
-  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, isMap, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
+  .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
     $log.info('ReportsIndexController created.');
 
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
 
-    var page = 1, perPage = 15;
-
     $scope.loadingPagination = false;
     $scope.filtersHash = null;
     $scope.categories = {};
     $scope.categoriesStatuses = {};
-    $scope.total = 0;
-    $scope.reports = [];
 
     // Basic filters
     var resetFilters = function () {
@@ -38,39 +33,17 @@ angular
       $scope.overdueOnly = null;
       $scope.assignedToMyGroup = null;
       $scope.assignedToMe = null;
+      $scope.minimumNotificationNumber = null;
+      $scope.daysSinceLastNotification = null;
+      $scope.daysForLastNotificationDeadline = null;
+      $scope.daysForOverdueNotification = null;
 
       // map options
       $scope.position = null;
       $scope.selectedAreas = [];
-      $scope.zoom = null;
-      $scope.clusterize = null;
     };
 
     resetFilters();
-
-    // sorting the tables
-    $scope.sort = {
-      column: 'created_at',
-      descending: true
-    };
-
-    $scope.changeSorting = function (column) {
-      var sort = $scope.sort;
-
-      if (sort.column === column) {
-        sort.descending = !sort.descending;
-      } else {
-        sort.column = column;
-        sort.descending = false;
-      }
-
-      ReportsItemsService.resetCache();
-      $scope.reload();
-    };
-
-    $scope.selectedCls = function (column) {
-      return column === $scope.sort.column && 'sort-' + $scope.sort.descending;
-    };
 
     // Advanced filters
     $scope.availableFilters = [
@@ -84,23 +57,25 @@ angular
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
       {name: 'Associados ao meu grupo...', action: 'assignedToMyGroup'},
       {name: 'Associados à mim...', action: 'assignedToMe'},
+      {name: 'Quantidade de notificações emitidas...', action: 'minimumNotificationNumber'},
+      {name: 'Dias desde a última notificação emitida...', action: 'daysSinceLastNotification'},
+      {name: 'Dias para o vencimento da última notificação emitida...', action: 'daysForLastNotificationDeadline'},
+      {name: 'Dias em atraso para notificações vencidas...',action: 'daysForOverdueNotification'}
     ];
 
     $scope.activeAdvancedFilters = [];
 
-    if (typeof $cookies.reportsFiltersHash !== 'undefined')
-    {
+    if (angular.isDefined($cookies.reportsFiltersHash)) {
       $scope.activeAdvancedFilters = JSON.parse($window.atob($cookies.reportsFiltersHash));
     }
 
-    if (typeof $location.search().filters !== 'undefined')
-    {
+    if (angular.isDefined($location.search().filters)) {
       $scope.filtersHash = $location.search().filters;
       $scope.activeAdvancedFilters = JSON.parse($window.atob($scope.filtersHash));
     }
 
-    var pushUnique = function(arr, val) {
-      if(arr.indexOf(val) === -1) {
+    var pushUnique = function (arr, val) {
+      if (arr.indexOf(val) === -1) {
         arr.push(val)
       }
     };
@@ -110,16 +85,13 @@ angular
       resetFilters();
 
       // save filters into hash
-      if ($scope.activeAdvancedFilters.length !== 0)
-      {
+      if ($scope.activeAdvancedFilters.length !== 0) {
         $scope.filtersHash = $window.btoa(JSON.stringify($scope.activeAdvancedFilters));
 
         $location.search('filters', $scope.filtersHash);
 
         $cookies.reportsFiltersHash = $scope.filtersHash;
-      }
-      else
-      {
+      } else {
         $scope.filtersHash = null;
 
         $location.search('filters', null);
@@ -130,18 +102,15 @@ angular
       for (var i = $scope.activeAdvancedFilters.length - 1; i >= 0; i--) {
         var filter = $scope.activeAdvancedFilters[i];
 
-        if (filter.type === 'query')
-        {
+        if (filter.type === 'query') {
           $scope.searchText = filter.value;
         }
 
-        if (filter.type === 'categories')
-        {
+        if (filter.type === 'categories') {
           pushUnique($scope.selectedCategories, filter.value);
         }
 
-        if (filter.type === 'statuses')
-        {
+        if (filter.type === 'statuses') {
           pushUnique($scope.selectedStatuses, filter.value);
         }
 
@@ -153,34 +122,44 @@ angular
           pushUnique($scope.selectedReporters, filter.value);
         }
 
-        if (filter.type === 'beginDate')
-        {
+        if (filter.type === 'beginDate') {
           $scope.beginDate = filter.value;
         }
 
-        if (filter.type === 'endDate')
-        {
+        if (filter.type === 'endDate') {
           $scope.endDate = filter.value;
         }
 
-        if (filter.type === 'area')
-        {
+        if (filter.type === 'area') {
           pushUnique($scope.selectedAreas, filter.value);
         }
 
-        if (filter.type === 'overdueOnly')
-        {
+        if (filter.type === 'overdueOnly') {
           $scope.overdueOnly = true;
         }
 
-        if (filter.type === 'assignedToMyGroup')
-        {
+        if (filter.type === 'assignedToMyGroup') {
           $scope.assignedToMyGroup = true;
         }
 
-        if (filter.type === 'assignedToMe')
-        {
+        if (filter.type === 'assignedToMe') {
           $scope.assignedToMe = true;
+        }
+
+        if (filter.type === 'minimumNotificationNumber') {
+          $scope.minimumNotificationNumber = filter.value;
+        }
+
+        if (filter.type === 'daysSinceLastNotification') {
+          $scope.daysSinceLastNotification = filter.value;
+        }
+
+        if (filter.type === 'daysForLastNotificationDeadline') {
+          $scope.daysForLastNotificationDeadline = filter.value;
+        }
+
+        if (filter.type === 'daysForOverdueNotification') {
+          $scope.daysForOverdueNotification = filter.value;
         }
       }
 
@@ -191,56 +170,37 @@ angular
     $scope.generateReportsFetchingOptions = function () {
       var options = {};
 
-      if (!$scope.position)
-      {
-        options.page = page;
-        options.per_page = perPage;
-      }
-
       // if we searching, hit search/users
-      if ($scope.searchText !== null)
-      {
+      if ($scope.searchText !== null) {
         options.query = $scope.searchText;
       }
 
       // check if we have categories selected
-      if ($scope.selectedCategories.length !== 0)
-      {
+      if ($scope.selectedCategories.length !== 0) {
         options.reports_categories_ids = $scope.selectedCategories.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
-      if ($scope.selectedStatuses.length !== 0)
-      {
+      if ($scope.selectedStatuses.length !== 0) {
         options.statuses_ids = $scope.selectedStatuses.join(); // jshint ignore:line
       }
 
       // check if we have users selected
-      if ($scope.selectedUsers.length !== 0)
-      {
+      if ($scope.selectedUsers.length !== 0) {
         options.users_ids = $scope.selectedUsers.join(); // jshint ignore:line
       }
 
       // check if we have reporters
-      if ($scope.selectedReporters.length !== 0)
-      {
+      if ($scope.selectedReporters.length !== 0) {
         options.reporters_ids = $scope.selectedReporters.join(); // jshint ignore:line
       }
 
-      if ($scope.beginDate !== null)
-      {
+      if ($scope.beginDate !== null) {
         options.begin_date = $scope.beginDate; // jshint ignore:line
       }
 
-      if ($scope.endDate !== null)
-      {
+      if ($scope.endDate !== null) {
         options.end_date = $scope.endDate; // jshint ignore:line
-      }
-
-      if ($scope.sort.column !== '')
-      {
-        options.sort = $scope.sort.column;
-        options.order = $scope.sort.descending ? 'desc' : 'asc';
       }
 
       // map options
@@ -248,9 +208,7 @@ angular
         options['position[latitude]'] = $scope.position.latitude;
         options['position[longitude]'] = $scope.position.longitude;
         options['position[distance]'] = $scope.position.distance;
-      }
-      else if ($scope.selectedAreas.length !== 0)
-      {
+      } else if ($scope.selectedAreas.length !== 0) {
         for (var i = $scope.selectedAreas.length - 1; i >= 0; i--) {
           var latKey = 'position[' + i + '][latitude]';
           var lngKey = 'position[' + i + '][longitude]';
@@ -260,14 +218,6 @@ angular
           options[lngKey] = $scope.selectedAreas[i].longitude;
           options[disKey] = $scope.selectedAreas[i].distance;
         }
-      }
-
-      if ($scope.zoom !== null) {
-        options.zoom = $scope.zoom;
-      }
-
-      if ($scope.clusterize !== null) {
-        options.clusterize = true;
       }
 
       if ($scope.overdueOnly !== null) {
@@ -282,92 +232,30 @@ angular
         options.assigned_to_me = $scope.assignedToMe;
       }
 
+      if ($scope.minimumNotificationNumber !== null) {
+        options.minimum_notification_number = $scope.minimumNotificationNumber;
+      }
+
+      if ($scope.daysSinceLastNotification !== null) {
+        options['days_since_last_notification[begin]'] = $scope.daysSinceLastNotification.begin;
+        options['days_since_last_notification[end]'] = $scope.daysSinceLastNotification.end;
+      }
+
+      if ($scope.daysForLastNotificationDeadline !== null) {
+        options['days_for_last_notification_deadline[begin]'] = $scope.daysForLastNotificationDeadline.begin;
+        options['days_for_last_notification_deadline[end]'] = $scope.daysForLastNotificationDeadline.end;
+      }
+
+      if ($scope.daysForOverdueNotification !== null) {
+        options['days_for_overdue_notification[begin]'] = $scope.daysForOverdueNotification.begin;
+        options['days_for_overdue_notification[end]'] = $scope.daysForOverdueNotification.end;
+      }
+
       return options;
     };
 
-    // One every change of page or search, we create generate a new request based on current values
-    var getData = $scope.getData = function (paginate, mapOptions) {
-      if ($scope.loadingPagination === false) {
-        $scope.loadingPagination = true;
-
-        if (typeof mapOptions !== 'undefined') {
-          $scope.position = mapOptions.position;
-          $scope.zoom = mapOptions.zoom;
-          $scope.clusterize = mapOptions.clusterize;
-        }
-
-        var fetchOptions = $scope.generateReportsFetchingOptions();
-
-        var promise = ReportsItemsService.fetchAll(fetchOptions);
-
-        promise.then(function (reports) {
-          page++;
-          $scope.reports = reports;
-
-          var lastPage = Math.ceil($scope.total / perPage);
-
-          if (page === (lastPage + 1)) {
-            $scope.loadingPagination = null;
-          }
-          else {
-            $scope.loadingPagination = false;
-          }
-
-          $scope.loading = false;
-        });
-
-        return promise;
-      }
-    };
-
-    $scope.$on('reportsItemsFetching', function(){
-      if(isMap) {
-        $scope.loading = true;
-      }
-    });
-
-    $scope.$on('reportsItemsFetched', function(){
-      $scope.total = ReportsItemsService.total;
-      $scope.loading = false;
-    });
-
     var loadFilters = $scope.reload = function (reloading) {
-      if (!isMap)
-      {
-        // reset pagination
-        ReportsItemsService.resetCache();
-        page = 1;
-        $scope.loadingPagination = false;
-
-        if (reloading === true)
-        {
-          $scope.reloading = true;
-        }
-
-        $scope.loadingContent = true;
-
-        getData().then(function (reports) {
-          $scope.loadingContent = false;
-          $scope.reports = reports;
-
-          if (reloading === true)
-          {
-            $scope.reloading = false;
-          }
-        });
-      }
-      else
-      {
-        $scope.$broadcast('mapRefreshRequested', true);
-      }
-    };
-
-    $scope.$on('reports:itemRemoved', function(reportId){
-      $scope.reload(true);
-    });
-
-    $scope.reloadMap = function(){
-      $rootScope.$emit('mapRefreshRequested');
+      $scope.$broadcast('loadFilters', reloading);
     };
 
     $scope.removeFilter = function (filter) {
@@ -376,8 +264,7 @@ angular
 
     $scope.resetFilters = function () {
       $scope.activeAdvancedFilters = [];
-
-      if (isMap) $scope.$broadcast('mapRefreshRequested', true);
+      $scope.$broadcast('resetFilters');
     };
 
     $scope.loadFilter = function (status) {
@@ -410,40 +297,58 @@ angular
       }
 
       if (status === 'overdueOnly') {
-        var overdueFilter = {
+        $scope.activeAdvancedFilters.push({
           title: 'Atraso',
           type: 'overdueOnly',
           desc: 'Apenas relatos atrasados'
-        };
-
-        $scope.activeAdvancedFilters.push(overdueFilter);
+        });
       }
 
       if (status === 'assignedToMyGroup') {
-        var overdueFilter = {
+        $scope.activeAdvancedFilters.push({
           title: 'Relatos associados',
           type: 'assignedToMyGroup',
           desc: 'Ao meu grupo'
-        };
-
-        $scope.activeAdvancedFilters.push(overdueFilter);
+        });
       }
 
       if (status === 'assignedToMe') {
-        var overdueFilter = {
+        $scope.activeAdvancedFilters.push({
           title: 'Relatos associados',
           type: 'assignedToMe',
           desc: 'À mim'
-        };
+        });
+      }
 
-        $scope.activeAdvancedFilters.push(overdueFilter);
+      if (status === 'minimumNotificationNumber') {
+        AdvancedFilters.notificationMinimumNumber($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'daysSinceLastNotification') {
+        AdvancedFilters.notificationSinceLast($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'daysForLastNotificationDeadline') {
+        AdvancedFilters.notificationDeadline($scope.activeAdvancedFilters);
+      }
+
+      if (status === 'daysForOverdueNotification') {
+        AdvancedFilters.notificationOverdue($scope.activeAdvancedFilters);
+      }
+    };
+
+    $scope.openReport = function (report_id, event) {
+      if (!$rootScope.loading
+        && event.target.parentNode.tagName.toLowerCase() != 'a'
+        && event.target.tagName.toLowerCase() != 'a'
+      ) {
+        $state.go('reports.show', {id: report_id});
       }
     };
 
     // Search function
     $scope.search = function (text) {
       $scope.searchText = text;
-
       loadFilters();
     };
 
@@ -451,75 +356,7 @@ angular
       AdvancedFilters.share();
     };
 
-    $scope.changeToMap = function () {
-      if ($scope.filtersHash !== null) {
-        $location.url('/reports/map?filters=' + $scope.filtersHash);
-      }
-      else {
-        $location.url('/reports/map');
-      }
-    };
-
-    $scope.changeToList = function () {
-      if ($scope.filtersHash !== null) {
-        $location.url('/reports?filters=' + $scope.filtersHash);
-      }
-      else {
-        $location.url('/reports');
-      }
-    };
-
-    $scope.deleteReport = function (report) {
-      $modal.open({
-        templateUrl: 'modals/reports/destroy/reports-destroy.template.html',
-        windowClass: 'removeModal',
-        resolve: {
-          removeReportFromList: function () {
-            return function (report) {
-              $scope.total--;
-              $scope.reports.splice($scope.reports.indexOf(report), 1);
-            }
-          },
-
-          report: function () {
-            return report;
-          }
-        },
-        controller: 'ReportsDestroyModalController'
-      });
-    };
-
-    $scope.editReportStatus = function (report, category) {
-      $modal.open({
-        templateUrl: 'modals/reports/edit-status/reports-edit-status.template.html',
-        windowClass: 'editStatusModal',
-        resolve: {
-          report: function () {
-            return report;
-          },
-
-          category: function () {
-            return category;
-          }
-        },
-        controller: 'ReportsEditStatusModalController'
-      });
-    };
-
-    $scope.openReport = function(report_id, event) {
-      if(!$rootScope.loading
-          && event.target.parentNode.tagName.toLowerCase() != 'a'
-          && event.target.tagName.toLowerCase() != 'a'
-        ) {
-        $state.go('reports.show', { id: report_id });
-      }
-    };
-
-    // we hide/show map debug
-    $rootScope.pageHasMap = isMap;
-
-    $scope.$on('$destroy', function() {
-      $rootScope.pageHasMap = false;
+    var $handleDestroy = $scope.$on('$destroy', function () {
       $log.info('ReportsIndexController destroyed.');
     });
   });

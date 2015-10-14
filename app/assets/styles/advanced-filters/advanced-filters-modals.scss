@@ -357,7 +357,6 @@
 
 .periodSelectorModal {
   .modal-body {
-    padding-top: 10px;
     padding: 0;
 
     .tabs {
@@ -426,6 +425,45 @@
 
   .modal-footer {
     margin-top: 0;
+  }
+}
+
+.filterNotificationModal {
+  .modal-dialog {
+    width: 450px;
+  }
+
+  .modal-body {
+    .form-control {
+      width: 50px;
+      text-align: center;
+      margin: 0 5px;
+    }
+
+    .input-slider-container {
+      margin: 35px 0 25px 0;
+
+      .grid-start-value,
+      .grid-end-value {
+        margin: 15px 0;
+        color: #818181;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.filterNotificationMininumNumberModal {
+  .modal-dialog {
+    width: 350px;
+  }
+
+  .modal-body {
+    .form-control {
+      width: 50px;
+      text-align: center;
+      margin: 0 5px;
+    }
   }
 }
 

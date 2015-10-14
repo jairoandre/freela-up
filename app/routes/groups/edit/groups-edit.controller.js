@@ -12,7 +12,6 @@ angular
     $scope.flows = objectsResponse.data.flows;
     $scope.inventoriesCategories = objectsResponse.data.inventory_categories;
     $scope.reportsCategories = objectsResponse.data.reports_categories;
-    $scope.businessReports = objectsResponse.data.business_reports;
 
     $scope.newPermission = { type: null, objects: [], slugs: [] };
 
@@ -226,22 +225,20 @@ angular
             name: 'Enviar comentários ao munícipe',
             needsObject: true,
             tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
-          }
-        ]
-      },
-      {
-        type: 'business_report',
-        name: 'Relatórios',
-        permissionsNames: [
-          {
-            slug: 'business_reports_edit',
-            name: 'Gerenciar relatórios',
-            needsObject: false
           },
+
           {
-            slug: 'business_reports_view',
-            name: 'Visualizar relatório específico',
-            needsObject: true
+            slug: 'reports_items_send_notification',
+            name: 'Enviar notificação de relato',
+            needsObject: true,
+            tooltip: 'Grupo pode enviar e reenviar notificações.'
+          },
+
+          {
+            slug: 'reports_items_restart_notification',
+            name: 'Reeiniciar processo de notificação de relato',
+            needsObject: true,
+            tooltip: 'Grupo pode reiniciar todo o processo de notificações.'
           }
         ]
       }
@@ -406,7 +403,7 @@ angular
         break;
 
         default:
-          return $scope.newPermission.objects.length + ' itens selecionados';
+          return $scope.newPermission.objects.length + ' categorias selecionadas';
       }
     };
 
@@ -509,8 +506,7 @@ angular
         $scope.showPermissionsMenu = false;
         $scope.showObjectsMenu = false;
 
-        if(permissionType)
-          $scope.newPermission.type = permissionType.type;
+        $scope.newPermission.type = permissionType ? permissionType.type : null;
       });
     };
 

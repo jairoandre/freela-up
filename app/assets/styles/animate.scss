@@ -3142,6 +3142,18 @@ Copyright (c) 2014 Daniel Eden
   animation-name: slideOutRight;
 }
 
+// Promise Buttons
+// taken from
+@-webkit-keyframes three-quarters {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
 @-webkit-keyframes slideOutUp {
   0% {
     -webkit-transform: translateY(0);
@@ -3260,7 +3272,7 @@ Copyright (c) 2014 Daniel Eden
   -ms-animation: three-quarters 1250ms infinite linear;
   -o-animation: three-quarters 1250ms infinite linear;
   animation: three-quarters 1250ms infinite linear;
-  border: 3px solid #fafafa;
+  border: 3px solid #ffffff;
   border-right-color: transparent;
   border-radius: 100%;
   box-sizing: border-box;
@@ -3273,6 +3285,7 @@ Copyright (c) 2014 Daniel Eden
   height: 18px;
 }
 
+// slide in out
 .btn-spinner:not(:required) {
   margin-left: -22px;
   opacity: 0;
@@ -3281,9 +3294,14 @@ Copyright (c) 2014 Daniel Eden
 
 .is-loading .btn-spinner {
   transition: 0.2s margin ease-in, 0.4s opacity ease-in;
-  margin-left: 10px;
+  margin: 0 -5px 0 5px;
   opacity: 1;
-  margin-right: -17px;
 }
 
-
+.is-loading {
+  .btn-spinner {
+    transition: 0.2s margin ease-in, 0.4s opacity ease-in;
+    margin-left: 5px;
+    opacity: 1;
+  }
+}

@@ -16,6 +16,15 @@
   box-shadow: none;
 }
 
+div.report-image {
+  width: 100%;
+  text-align: center;
+  img {
+    max-width: 50% !important;
+    padding: 2% !important;
+  }
+}
+
 ul.report-menu {
   background: #FFF;
   width: 100%;

@@ -13,7 +13,7 @@ angular
       }
       else
       {
-        $state.go('reports.list');
+        $state.go('reports.index.list');
       }
     }
     else

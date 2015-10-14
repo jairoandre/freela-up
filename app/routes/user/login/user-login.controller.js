@@ -9,7 +9,7 @@ angular
       $scope.processingRequest = true;
 
       Auth.login($scope.email, $scope.password).then(function() {
-        $state.go('reports.list');
+        $state.go('reports.index.list');
       }, function(response) {
         $scope.loginError = true;
         $scope.processingRequest = false;

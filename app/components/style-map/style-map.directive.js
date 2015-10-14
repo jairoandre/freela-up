@@ -5,6 +5,7 @@ angular
   .directive('styleMap', function ($window) {
     return {
       restrict: 'A',
+      priority: 0,
       link: function postLink(scope, element) {
         var changeMargin = function() {
           element.find('.mapItems').css({'margin-top': element.find('.advancedSearch').height()});
