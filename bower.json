@@ -60,14 +60,9 @@
     "print_4.5.3": "http://download.ckeditor.com/print/releases/print_4.5.3.zip",
     "justify" : "http://download.ckeditor.com/justify/releases/justify_4.5.3.zip"
   },
-  "devDependencies": {
-    "angular-mocks": "~1.2.26",
-    "angular-scenario": "~1.2.26"
-  },
   "resolutions": {
     "angular": "1.2.26",
-    "angular-mocks": "1.2.26",
-    "jquery": ">= 1.9.1",
+    "jquery": ">= 2.1.4",
     "hamsterjs": ">=1.0.2",
     "bootstrap-switch": "~3.0.2"
   }
