@@ -596,7 +596,7 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'cdnify', @todo Check why this broken build
+    'cdnify',
     'cssmin',
     'string-replace',
     'uglify',
