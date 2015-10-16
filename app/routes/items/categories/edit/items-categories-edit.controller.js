@@ -23,8 +23,7 @@ angular.
   .controller('ItemsCategoriesEditController', function ($scope, $stateParams, categoryResponse, groupsResponse, Restangular, $localStorage, $q, $modal, $timeout, $window, $state, FileUploader, formulasResponse, InventoriesCategoriesService) {
     var updating = $scope.updating = false;
 
-    if (categoryResponse)
-    {
+    if (categoryResponse) {
       updating = true;
       $scope.updating = true;
 
@@ -39,13 +38,13 @@ angular.
     $scope.showDisabledFields = $localStorage;
     $scope.currentTab = 'fields';
 
-    var numericKinds = ['integer','decimal','meters','centimeters','kilometers','years','months','days','hours','seconds','angle','date','time'];
+    var numericKinds = ['integer', 'decimal', 'meters', 'centimeters', 'kilometers', 'years', 'months', 'days', 'hours', 'seconds', 'angle', 'date', 'time'];
 
-    $scope.getLabelForMinField = function(kind){
+    $scope.getLabelForMinField = function (kind) {
       return numericKinds.indexOf(kind) === -1 ? 'Min. de caracteres' : 'Valor mínimo';
     };
 
-    $scope.getLabelForMaxField = function(kind){
+    $scope.getLabelForMaxField = function (kind) {
       return numericKinds.indexOf(kind) === -1 ? 'Máx. de caracteres' : 'Valor máximo';
     };
 
@@ -75,10 +74,9 @@ angular.
       {kind: 'images', name: 'Campo de imagens', multipleOptions: false},
     ];
 
-    $scope.kindHasMultipleOptions = function(kind) {
+    $scope.kindHasMultipleOptions = function (kind) {
       for (var i = $scope.availableInputs.length - 1; i >= 0; i--) {
-        if ($scope.availableInputs[i].kind === kind)
-        {
+        if ($scope.availableInputs[i].kind === kind) {
           return $scope.availableInputs[i].multipleOptions === true;
         }
       }
@@ -86,12 +84,11 @@ angular.
       return false;
     };
 
-    var getGroupById = function(id) {
+    var getGroupById = function (id) {
       return _.findWhere($scope.groups, {id: id});
     };
 
-    if (updating)
-    {
+    if (updating) {
       $scope.category.plot_format = $scope.category.plot_format === 'pin' ? false : true;
 
       for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
@@ -101,9 +98,7 @@ angular.
       for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
         $scope.category.permissions.groups_can_view[i] = getGroupById($scope.category.permissions.groups_can_view[i]);
       }
-    }
-    else
-    {
+    } else {
       $scope.category = {};
 
       // added fake fields
@@ -123,175 +118,174 @@ angular.
       }
 
       $scope.category.sections = [{
-          'title': 'Localização',
-          'required': true,
-          'location': true,
-          'permissions': {
-            'groups_can_view': [],
-            'groups_can_edit': []
-          },
-          'fields': [
-            {
-              'title': 'longitude',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 1,
-              'label': 'Longitude',
-              'maximum': null,
-              'minimum': null,
-              'required': true,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'postal_code',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 3,
-              'label': 'CEP',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'road_classification',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 8,
-              'label': 'Classificação Viária',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'city',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 5,
-              'label': 'Cidade',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'latitude',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 0,
-              'label': 'Latitude',
-              'maximum': null,
-              'minimum': null,
-              'required': true,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'address',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 2,
-              'label': 'Endereço',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'district',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 4,
-              'label': 'Bairro',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'state',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 6,
-              'label': 'Estado',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
-            },
-            {
-              'title': 'codlog',
-              'kind': 'text',
-              'size': null,
-              'inventory_section_id': 14,
-              'available_values': null,
-              'position': 7,
-              'label': 'Codlog',
-              'maximum': null,
-              'minimum': null,
-              'required': false,
-              'location': true,
-              'permissions': {
-                'groups_can_view': [],
-                'groups_can_edit': []
-              }
+        'title': 'Localização',
+        'required': true,
+        'location': true,
+        'permissions': {
+          'groups_can_view': [],
+          'groups_can_edit': []
+        },
+        'fields': [
+          {
+            'title': 'longitude',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 1,
+            'label': 'Longitude',
+            'maximum': null,
+            'minimum': null,
+            'required': true,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
             }
-          ]
-        }];
+          },
+          {
+            'title': 'postal_code',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 3,
+            'label': 'CEP',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'road_classification',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 8,
+            'label': 'Classificação Viária',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'city',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 5,
+            'label': 'Cidade',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'latitude',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 0,
+            'label': 'Latitude',
+            'maximum': null,
+            'minimum': null,
+            'required': true,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'address',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 2,
+            'label': 'Endereço',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'district',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 4,
+            'label': 'Bairro',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'state',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 6,
+            'label': 'Estado',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          },
+          {
+            'title': 'codlog',
+            'kind': 'text',
+            'size': null,
+            'inventory_section_id': 14,
+            'available_values': null,
+            'position': 7,
+            'label': 'Codlog',
+            'maximum': null,
+            'minimum': null,
+            'required': false,
+            'location': true,
+            'permissions': {
+              'groups_can_view': [],
+              'groups_can_edit': []
+            }
+          }
+        ]
+      }];
     }
 
     // watch for modifications in $scope.category
-    $scope.$watch('category', function(newValue, oldValue) {
-      if (newValue !== oldValue)
-      {
+    $scope.$watch('category', function (newValue, oldValue) {
+      if (newValue !== oldValue) {
         $scope.unsavedCategory = true;
       }
     }, true);
@@ -300,11 +294,11 @@ angular.
     $scope.groupsCanEditAutocomplete = {
       options: {
         onlySelect: true,
-        source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.all('groups').getList({ name: request.term });
+        source: function (request, uiResponse) {
+          var categoriesPromise = Restangular.all('groups').getList({name: request.term});
 
-          categoriesPromise.then(function(response) {
-            uiResponse( $.map( response.data, function( group ) {
+          categoriesPromise.then(function (response) {
+            uiResponse($.map(response.data, function (group) {
               return {
                 label: group.name,
                 value: group.name,
@@ -315,7 +309,8 @@ angular.
         },
         messages: {
           noResults: '',
-          results: function() {}
+          results: function () {
+          }
         }
       }
     };
@@ -323,11 +318,11 @@ angular.
     $scope.groupsCanViewAutocomplete = {
       options: {
         onlySelect: true,
-        source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.all('groups').getList({ name: request.term });
+        source: function (request, uiResponse) {
+          var categoriesPromise = Restangular.all('groups').getList({name: request.term});
 
-          categoriesPromise.then(function(response) {
-            uiResponse( $.map( response.data, function( group ) {
+          categoriesPromise.then(function (response) {
+            uiResponse($.map(response.data, function (group) {
               return {
                 label: group.name,
                 value: group.name,
@@ -338,75 +333,72 @@ angular.
         },
         messages: {
           noResults: '',
-          results: function() {}
+          results: function () {
+          }
         }
       }
     };
 
     $scope.groupsCanEditAutocomplete.events = {
-      select: function( event, ui ) {
+      select: function (event, ui) {
         var found = false;
 
         for (var i = $scope.category.permissions.groups_can_edit.length - 1; i >= 0; i--) {
-          if ($scope.category.permissions.groups_can_edit[i].id === ui.item.group.id)
-          {
+          if ($scope.category.permissions.groups_can_edit[i].id === ui.item.group.id) {
             found = true;
           }
         }
 
-        if (!found)
-        {
+        if (!found) {
           $scope.category.permissions.groups_can_edit.push(ui.item.group);
         }
       },
 
-      change: function() {
+      change: function () {
         $scope.groupCanEdit = '';
       }
     };
 
     $scope.groupsCanViewAutocomplete.events = {
-      select: function( event, ui ) {
+      select: function (event, ui) {
         var found = false;
 
         for (var i = $scope.category.permissions.groups_can_view.length - 1; i >= 0; i--) {
-          if ($scope.category.permissions.groups_can_view[i].id === ui.item.group.id)
-          {
+          if ($scope.category.permissions.groups_can_view[i].id === ui.item.group.id) {
             found = true;
           }
         }
 
-        if (!found)
-        {
+        if (!found) {
           $scope.category.permissions.groups_can_view.push(ui.item.group);
         }
       },
 
-      change: function() {
+      change: function () {
         $scope.groupCanView = '';
       }
     };
 
-    $scope.removeGroupCanView = function(group) {
+    $scope.removeGroupCanView = function (group) {
       $scope.category.permissions.groups_can_view.splice($scope.category.permissions.groups_can_view.indexOf(group), 1);
     };
 
-    $scope.removeGroupCanEdit = function(group) {
+    $scope.removeGroupCanEdit = function (group) {
       $scope.category.permissions.groups_can_edit.splice($scope.category.permissions.groups_can_edit.indexOf(group), 1);
     };
 
-    $scope.editFieldOptions = function(field) {
+    $scope.editFieldOptions = function (field) {
       $modal.open({
         templateUrl: 'modals/items/categories/edit-field-values/items-categories-edit-field-values.template.html',
         windowClass: 'editFieldOptions',
         controller: 'ItemsCategoriesEditFieldValuesModalController',
         resolve: {
-          field: function() {
+          field: function () {
             return field;
           },
 
-          setFieldOptions: function() {
-            return function(options) {
+          setFieldOptions: function () {
+            return function (options) {
               field.field_options = options;
             }
           }
@@ -415,35 +407,28 @@ angular.
     };
 
     // send alert to user before leaving the page that modifications are not saved
-    $window.onbeforeunload = function() {
-      if ($scope.unsavedCategory === true)
-      {
+    $window.onbeforeunload = function () {
+      if ($scope.unsavedCategory === true) {
         return 'Você tem certeza que deseja sair? Há alterações que não foram salvas.';
-      }
-      else
-      {
+      } else {
         return null;
       }
     };
 
-    $scope.goBack = function() {
-      if ($scope.unsavedCategory === true)
-      {
-        if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.'))
-        {
+    $scope.goBack = function () {
+      if ($scope.unsavedCategory === true) {
+        if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) {
           $scope.unsavedCategory = false;
           $scope.loading = true;
           $state.transitionTo('items.categories', null, {'reload': true});
         }
-      }
-      else
-      {
+      } else {
         $scope.loading = true;
         $state.transitionTo('items.categories', null, {'reload': true});
       }
     };
 
-    $scope.newSection = function() {
+    $scope.newSection = function () {
       $scope.$broadcast('hidePopovers');
 
       var newSection = {title: 'Nova seção sem título', required: false, location: false, fields: []};
@@ -453,24 +438,24 @@ angular.
       // NO NO NO THIS WASNT SUPPOSE TO BE HERE :(:(::())) ILL CRY FOREVA
       // PLS BE SMAR T AND PUT IN A DIRECTIVE
       // PLS
-      $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+      $('html, body').animate({scrollTop: $(document).height()}, 'slow');
     };
 
     // we add a new status and open the edit modal
-    $scope.newStatus = function() {
+    $scope.newStatus = function () {
       $modal.open({
         templateUrl: 'modals/items/categories/new-status/items-categories-new-status.template.html',
         windowClass: 'editInventoryStatusesModal',
         resolve: {
-          statuses: function() {
+          statuses: function () {
             return $scope.category.statuses;
           },
 
-          updating: function() {
+          updating: function () {
             return updating;
           },
 
-          categoryId: function() {
+          categoryId: function () {
             return categoryId;
           }
         },
@@ -484,15 +469,15 @@ angular.
         templateUrl: 'modals/items/categories/edit-status/items-categories-edit-status.template.html',
         windowClass: 'editInventoryStatusesModal',
         resolve: {
-          status: function() {
+          status: function () {
             return status;
           },
 
-          updating: function() {
+          updating: function () {
             return updating;
           },
 
-          categoryId: function() {
+          categoryId: function () {
             return categoryId;
           }
         },
@@ -500,22 +485,19 @@ angular.
       });
     };
 
-    $scope.removeStatus = function(status) {
-      if (typeof status.id !== 'undefined')
-      {
+    $scope.removeStatus = function (status) {
+      if (typeof status.id !== 'undefined') {
         var deletePromise = Restangular.one('inventory').one('categories', categoryId).one('statuses', status.id).remove();
 
-        deletePromise.then(function() {
+        deletePromise.then(function () {
           $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
         });
-      }
-      else
-      {
+      } else {
         $scope.category.statuses.splice($scope.category.statuses.indexOf(status), 1);
       }
     };
 
-    $scope.$on('hidePopovers', function(event, data) {
+    $scope.$on('hidePopovers', function (event, data) {
       // tell each popover to close before opening a new one
       $scope.$broadcast('hideOpenPopovers', data);
     });
@@ -527,16 +509,16 @@ angular.
         templateUrl: 'modals/items/categories/edit-options/items-categories-edit-options.template.html',
         windowClass: 'editCategory',
         resolve: {
-          category: function() {
+          category: function () {
             return $scope.category;
           },
 
-          uploaderQueue: function() {
+          uploaderQueue: function () {
             return $scope.uploaderQueue;
           },
 
-          send: function() {
-            return function() {
+          send: function () {
+            return function () {
               return $scope.send();
             }
           }
@@ -545,7 +527,7 @@ angular.
       });
     };
 
-    $scope.send = function() {
+    $scope.send = function () {
       $scope.processingForm = true;
 
       var icon, promises = [];
@@ -556,7 +538,7 @@ angular.
 
         var picReader = new FileReader();
 
-        picReader.addEventListener('load', function(event) {
+        picReader.addEventListener('load', function (event) {
           var picFile = event.target;
 
           icon = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
@@ -574,7 +556,7 @@ angular.
       }
 
       // wait for images to process as base64
-      return $q.all(promises).then(function() {
+      return $q.all(promises).then(function () {
 
         // the permissions object should be only made of id's
         var formattedPermissions = {groups_can_edit: [], groups_can_view: []};
@@ -587,12 +569,19 @@ angular.
           formattedPermissions.groups_can_view.push($scope.category.permissions.groups_can_view[i].id);
         }
 
-        var formattedData = { title: $scope.category.title, require_item_status: $scope.category.require_item_status, statuses: $scope.category.statuses, color: $scope.category.color, plot_format: $scope.category.plot_format, permissions: formattedPermissions }; // jshint ignore:line
-        var formattedFormData = { sections: $scope.category.sections };
+        var formattedData = {
+          title: $scope.category.title,
+          require_item_status: $scope.category.require_item_status,
+          statuses: $scope.category.statuses,
+          color: $scope.category.color,
+          plot_format: $scope.category.plot_format,
+          permissions: formattedPermissions
+        }; // jshint ignore:line
+        var formattedFormData = {sections: $scope.category.sections};
 
         // before sending the data to the server, we need to convert each new field's field_options to an array based method
-        _.each(formattedFormData.sections, function(section) {
-          _.each(section.fields, function(field, fieldKey) {
+        _.each(formattedFormData.sections, function (section) {
+          _.each(section.fields, function (field, fieldKey) {
             /**
              * Prevent errors because user permissions
              */
@@ -605,7 +594,7 @@ angular.
              */
             if (_.isUndefined(field.id)) {
               if (field.hasOwnProperty('toRemove')) {
-                if(field.toRemove) {
+                if (field.toRemove) {
                   section.fields.splice(fieldKey, 1);
                 } else {
                   delete field.toRemove;
@@ -614,11 +603,10 @@ angular.
             }
 
             // if id is undefined then the field is newly created
-            if (_.isUndefined(field.id) && _.isArray(field.field_options) && !_.isEmpty(field.field_options))
-            {
+            if (_.isUndefined(field.id) && _.isArray(field.field_options) && !_.isEmpty(field.field_options)) {
               var simpleArray = [];
 
-              _.each(field.field_options, function(option) {
+              _.each(field.field_options, function (option) {
                 simpleArray.push(option.value);
               });
 
@@ -627,71 +615,61 @@ angular.
           });
         });
 
-        if ($scope.category.plot_format === false) // jshint ignore:line
-        {
+        if ($scope.category.plot_format === false) { // jshint ignore:line
           formattedData.plot_format = 'pin'; // jshint ignore:line
-        }
-        else
-        {
+        } else {
           formattedData.plot_format = 'marker'; // jshint ignore:line
         }
 
-        if (updating)
-        {
+        if (updating) {
           // we don't need to update 'statuses' when doing PUT
           // /\ SMART BOY!!!!
           delete formattedData.statuses;
 
-          if (icon)
-          {
+          if (icon) {
             formattedData.icon = icon;
           }
 
           var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
           var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
 
-          putCategoryPromise.then(function(response) {
+          putCategoryPromise.then(function (response) {
             /**
              * Update icon
              */
             $scope.category.original_icon = response.data.original_icon;
           });
 
-          putCategoryFormsPromise.then(function(response) {
+          putCategoryFormsPromise.then(function (response) {
             $scope.category.sections = response.data.sections;
 
-            $timeout(function() {
+            $timeout(function () {
               $scope.unsavedCategory = false;
             });
           });
 
-          return $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function() {
+          return $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function () {
             $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
 
             $scope.unsavedCategory = false;
             $scope.processingForm = false;
 
             InventoriesCategoriesService.purgeCache();
-          }, function() {
+          }, function () {
             $scope.showMessage('exclamation-sign', 'O inventário não pode ser atualizado.', 'error', true);
 
             $scope.processingForm = false;
           });
-        }
-        else
-        {
-          if (icon)
-          {
+        } else {
+          if (icon) {
             formattedData.icon = icon;
-          }
-          else
-          {
+          } else {
             formattedData.icon = $scope.category.icon;
           }
 
           var postCategoryPromise = Restangular.one('inventory').post('categories', formattedData);
 
-          postCategoryPromise.then(function(response) {
+          postCategoryPromise.then(function (response) {
             var newCategory = response.data, updateFieldsIds = {}, updateSectionId;
 
             /**
@@ -701,8 +679,7 @@ angular.
 
             // before updating the forms, let's set each field id to our own
             for (var i = newCategory.sections.length - 1; i >= 0; i--) {
-              if (newCategory.sections[i].location === true)
-              {
+              if (newCategory.sections[i].location === true) {
                 updateSectionId = newCategory.sections[i].id;
 
                 // we populate updateFieldsIds with each field's title and it's id
@@ -716,8 +693,7 @@ angular.
             for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
               var section = $scope.category.sections[x];
 
-              if (section.location === true)
-              {
+              if (section.location === true) {
                 section.id = updateSectionId;
 
                 for (var z = section.fields.length - 1; z >= 0; z--) {
@@ -728,7 +704,7 @@ angular.
 
             var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
 
-            putCategoryFormsPromise.then(function() {
+            putCategoryFormsPromise.then(function () {
               $scope.showMessage('ok', 'A categoria de inventário foi criada com sucesso', 'success', true);
 
               InventoriesCategoriesService.purgeCache();
@@ -745,16 +721,17 @@ angular.
     };
 
     // triggers
-    if (formulasResponse) $scope.triggers = formulasResponse.data;
-    else $scope.triggers = [];
+    if (formulasResponse) {
+      $scope.triggers = formulasResponse.data;
+    } else {
+      $scope.triggers = [];
+    }
 
-    $scope.onlyActiveTriggers = function(item) {
-      if (!_.isUndefined(item._destroy) && item._destroy == true) return false;
-
-      return true;
+    $scope.onlyActiveTriggers = function (item) {
+      return !_.isUndefined(item._destroy) && item._destroy == true ? false : true;
     };
 
-    $scope.newTrigger = function() {
+    $scope.newTrigger = function () {
       var newTrigger = {
         conditions: [{inventory_field_id: null, operator: 'equal_to', content: null}], // jshint ignore:line
         inventory_status_id: null,
