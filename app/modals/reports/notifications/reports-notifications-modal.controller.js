@@ -81,7 +81,7 @@ angular
     };
 
     $scope.getDefaultDeadlineInDaysTxt = function (notification) {
-      var deadlineInDays = notification.deadline_in_days;
+      var deadlineInDays = notification.deadline_in_days ? notification.deadline_in_days : notification.notification_type.default_deadline_in_days;
       return deadlineInDays ? daysTxt(deadlineInDays) : '-';
     };
 
