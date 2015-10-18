@@ -10,7 +10,7 @@ angular
     'NgThumbComponentModule'
   ])
 
-  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, onlyImagesUploaderFilter, reportCategoriesResponse, inventoriesCategoriesResponse) {
+  .controller('ReportsAddController', function (ENV, $scope, $rootScope, Restangular, $q, $modal, $state, FileUploader, onlyImagesUploaderFilter, reportCategoriesResponse, inventoriesCategoriesResponse, $log) {
     var categories = reportCategoriesResponse.data;
 
     $scope.address = {
@@ -99,13 +99,17 @@ angular
 
       picReader.addEventListener('load', function (event) {
         var picFile = event.target;
-
-        deferred.resolve(picFile.result.replace(/^data:image\/[^;]+;base64,/, ''));
+        var image = {};
+        image.content = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
+        image.file_name = img.file.name;
+        image.title = img.file.title;
+        image.last_modified_date = img.file.lastModifiedDate;
+        // deferred.resolve(image);
+        deferred.resolve(image.content);
       });
 
       // pass as base64 and strip data:image
-      picReader.readAsDataURL(img);
-
+      picReader.readAsDataURL(img._file);
       return deferred.promise;
     };
 
@@ -143,10 +147,11 @@ angular
       var imagesPromises = [];
 
       for (var i = $scope.uploader.queue.length - 1; i >= 0; i--) {
-        imagesPromises.push(addAsyncImage($scope.uploader.queue[i]._file));
+        imagesPromises.push(addAsyncImage($scope.uploader.queue[i]));
       }
 
       $q.all(imagesPromises).then(function (images) {
+        $log.info(images);
         var newReport = {
           latitude: $scope.lat,
           longitude: $scope.lng,
