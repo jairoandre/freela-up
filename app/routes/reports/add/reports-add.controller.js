@@ -101,13 +101,10 @@ angular
         var picFile = event.target;
         var image = {};
         image.content = picFile.result.replace(/^data:image\/[^;]+;base64,/, '');
-        image.file_name = img.file.name;
         image.title = img.file.title;
-        image.last_modified_date = img.file.lastModifiedDate;
-        // deferred.resolve(image);
-        deferred.resolve(image.content);
+        image.file_name = img.file.name;
+        deferred.resolve(image);
       });
-
       // pass as base64 and strip data:image
       picReader.readAsDataURL(img._file);
       return deferred.promise;
@@ -151,7 +148,6 @@ angular
       }
 
       $q.all(imagesPromises).then(function (images) {
-        $log.info(images);
         var newReport = {
           latitude: $scope.lat,
           longitude: $scope.lng,

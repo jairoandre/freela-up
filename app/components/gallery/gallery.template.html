@@ -1,48 +1,13 @@
 <div class="gallery">
-  <style>
-    .image-wrapper-images {
-      margin: auto;
-      text-align: center;
-    }
-    .image-wrapper {
-      margin: 5px 10px;
-      border: solid #cecece 1px;
-      width: 252px;
-      display: inline-block;
-      text-align: justify;
-
-    }
-    .image-thumb {
-      display: block;
-      background-size: cover;
-      height: 250px;
-      width: 250px;
-    }
-
-    .image-details {
-      padding: 15px;
-      width: 250px;
-    }
-
-    .image-date-label {
-      font-weight: bold;
-    }
-
-    .image-title {
-      margin-top: 15px;
-      height: 150px;
-    }
-
-  </style>
   <div class="titles">
     <div class="image-wrapper-images">
       <div ng-repeat="image in images track by $index" ng-click="show(image)" class="image-wrapper">
         <div>
           <a href="" class="image-thumb" ng-style="{'background-image': 'url(' + image.versions.thumb + ')', 'background-position':'center' }"></a>
         </div>
-        <div class="image-details">
-          <span class="image-date-label">Data da foto:&nbsp;</span><span class="image-date-info">16/06/14 14:23</span>
-          <div class="image-title" data-ng-bind="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus suscipit tortor eget felis porttitor volutpat. Donec rutrum congue leo eget malesuada. Donec sollicitudin molestie malesuada. Cras ultricies ligula sed magna dictum porta.'" data-ellipsis></div>
+        <div class="image-details" ng-if="image.versions.title || image.versions.date">
+          <span class="image-date-label" ng-if="image.versions.date">Data da foto:&nbsp;</span><span class="image-date-info" ng-if="image.versions.date">{{image.versions.date}}</span>
+          <div class="image-title" data-ng-bind="image.versions.title" data-ellipsis></div>
         </div>
       </div>
     </div>

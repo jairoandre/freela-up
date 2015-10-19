@@ -191,3 +191,74 @@
     vertical-align: middle !important;
   }
 }
+
+.image-wrapper-images {
+  margin: auto;
+  text-align: center;
+}
+.image-wrapper {
+  margin: 5px 10px;
+  border: solid #cecece 1px;
+  width: 252px;
+  display: inline-block;
+  text-align: justify;
+}
+.image-thumb {
+  display: block;
+  background-size: cover;
+  height: 250px;
+  width: 250px;
+}
+.image-details {
+  padding: 15px;
+  width: 250px;
+}
+.image-date-label {
+  font-weight: bold;
+}
+.image-title {
+  margin-top: 15px;
+  height: 150px;
+}
+
+.upload-image {
+  border: dashed #CECECE 3px;
+  text-align: center;
+  line-height: 60px;
+  background: #fff !important;
+}
+.upload-image .upload-image-span {
+  color: #7c7c7c;
+  font-size: 15px;
+  font-weight: bold;
+}
+.upload-image .btn-upload-image {
+  display: inline !important;
+  margin: 0 !important;
+}
+
+.table-image-label {
+  display: table;
+  width: 100%;
+}
+.table-cell-image-label {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 10px;
+  width: 100%;
+}
+.table-cell-image-label.first {
+  width: 100px;
+}
+.table-cell-image-label.second {
+  padding: 0 20px;
+}
+.table-cell-image-label.second textarea {
+  height: 100px;
+}
+.table-cell-image-label.second div {
+  margin: 0 !important;
+}
+.table-cell-image-label.third a {
+  font-size: 18px;
+}
