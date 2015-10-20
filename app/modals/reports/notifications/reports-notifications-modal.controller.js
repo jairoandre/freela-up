@@ -26,10 +26,10 @@ angular
       }
     };
 
-    $scope.canRestartNotificationProcess = $rootScope.hasPermission('reports_items_restart_notification') ||
-      $rootScope.hasPermission('manage_reports_categories') ||
-      $rootScope.hasPermission('reports_categories_edit') ||
-      $rootScope.hasPermission('reports_items_edit');
+    $scope.canRestartNotificationProcess = $rootScope.hasAnyPermission(['reports_items_restart_notification',
+      'reports_full_access',
+      'reports_categories_edit',
+      'reports_items_edit']);
 
     init();
 

@@ -470,12 +470,12 @@ angular
     // Notifications
     // Fetch notifications
 
-    $scope.canSendNotifications = $scope.report.category.notifications && (
-      $rootScope.hasPermission('reports_items_restart_notification') ||
-      $rootScope.hasPermission('reports_items_send_notification') ||
-      $rootScope.hasPermission('manage_reports_categories') ||
-      $rootScope.hasPermission('reports_categories_edit') ||
-      $rootScope.hasPermission('reports_items_edit'));
+    $scope.canSendNotifications = $scope.report.category.notifications &&
+      $rootScope.hasAnyPermission(['reports_items_restart_notification',
+      'reports_items_send_notification',
+      'reports_full_access',
+      'reports_categories_edit',
+      'reports_items_edit']);
 
     $scope.notifications = $scope.report.notifications;
 
