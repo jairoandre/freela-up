@@ -1,0 +1,122 @@
+<div class="modal-header perimeters-modal-header">
+  <button type="button" class="close perimeters-close" ng-click="close()">&times;</button>
+  <h3 class="modal-title">Cadastrar novo perímetro</h3>
+</div>
+
+<div class="modal-body">
+
+  <style>
+    .perimeters-modal .btn-upload {
+      margin-top: 10px;
+
+      position: relative;
+      display: block;
+      width: 150px;
+      overflow: hidden;
+      padding: 10px;
+      color: #000000;
+    }
+
+    .perimeters-modal-header .modal-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .perimeters-modal-header .close {
+      font-size: 25px;
+    }
+
+    .perimeters-modal .btn-upload input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 10px 0;
+      font-size: 20px;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      cursor: pointer;
+    }
+
+    .perimeters-labels {
+      font-weight: bold;
+    }
+
+    .perimeters-disclaimer {
+      background-color: #F0F0F0;
+      color: #949494;
+      border: 1px solid #e5e5e5;
+      border-left: none;
+      border-right: none;
+      margin: -21px -20px 20px -20px;
+      padding: 10px;
+    }
+    .btn-perimeter-modal {
+      float: left;
+    }
+    .perimeters-input {
+      width: 300px;
+    }
+    .perimeters-upload-ok {
+      color: #cccccc;
+    }
+    .perimeters-error-messages {
+      color: #EE4E3D;
+      font-weight: bold;
+    }
+    .perimeters-info-message {
+      line-height: 42px;
+    }
+
+  </style>
+
+  <div class="perimeters-disclaimer">
+    <span class="">Para cadastrar um perímetro, você deve enviar os arquivos <b>.shp</b> e <b>.shx</b> que compõem o <b>shapefile</b>.
+    Arquivos .dbf e .prj não deverão ser enviados.
+    </span>
+  </div>
+
+  <div class="form-group perimeters-modal">
+    <span class="perimeters-labels">1. Selecione o arquivo .shp</span>
+    <span class="perimeters-labels perimeters-error-messages" ng-if="!mandatoryCheckFlags[0]">&nbsp;Preenchimento obrigatório</span>
+    <div class="perimeters-info-message" ng-if="uploaderShp.fileTypeError">
+      <span class="glyphicon glyphicon-warning-sign perimeters-error-messages"></span>
+      <span>&nbsp;&nbsp;&nbsp;{{uploaderShp.fileTypeFileName}}&nbsp;&nbsp;&nbsp;</span>
+      <span class="perimeters-error-messages">ARQUIVO INVÁLIDO. SELECIONE UM NOVO ARQUIVO.</span>
+    </div>
+    <div class="perimeters-info-message" ng-if="uploaderShp.queue.length > 0">
+      <span class="glyphicon glyphicon-ok perimeters-upload-ok"></span>&nbsp;&nbsp;<span class="">{{uploaderShp.queue[0].file.name}}</span>
+    </div>
+    <div class="btn btn-default btn-upload" ng-if="uploaderShp.queue.length === 0">
+      <span class="glyphicon glyphicon-open"></span>&nbsp;&nbsp;&nbsp;<span>Enviar arquivo</span>
+      <input type="file" nv-file-select uploader="uploaderShp" />
+    </div>
+  </div>
+  <hr/>
+  <div class="form-group perimeters-modal">
+    <span class="perimeters-labels">2. Selecione o arquivo .shx</span>
+    <span class="perimeters-labels perimeters-error-messages" ng-if="!mandatoryCheckFlags[1]">&nbsp;Preenchimento obrigatório</span>
+    <div class="perimeters-info-message" ng-if="uploaderShx.fileTypeError">
+      <span class="glyphicon glyphicon-warning-sign perimeters-error-messages"></span>
+      <span>&nbsp;&nbsp;&nbsp;{{uploaderShx.fileTypeFileName}}&nbsp;&nbsp;&nbsp;</span>
+      <span class="perimeters-error-messages">ARQUIVO INVÁLIDO. SELECIONE UM NOVO ARQUIVO.</span>
+    </div>
+    <div class="perimeters-info-message" ng-if="uploaderShx.queue.length > 0">
+      <span class="glyphicon glyphicon-ok perimeters-upload-ok"></span>&nbsp;&nbsp;<span class="">{{uploaderShx.queue[0].file.name}}</span>
+    </div>
+    <div class="btn btn-default btn-upload" ng-if="uploaderShx.queue.length === 0">
+      <span class="glyphicon glyphicon-open"></span>&nbsp;&nbsp;&nbsp;<span>Enviar arquivo</span>
+      <input type="file" nv-file-select uploader="uploaderShx" onErrorItem="alert('teste')"/>
+    </div>
+  </div>
+  <hr/>
+  <div class="form-group">
+    <span class="perimeters-labels">3. Cadastre o nome do perímetro/região</span>
+    <span class="perimeters-labels perimeters-error-messages" ng-if="!mandatoryCheckFlags[2]">&nbsp;Preenchimento obrigatório</span>
+    <input type="text" class="form-control perimeters-input" ng-model="perimeter.title" placeholder="Nome do perímetro/região"/>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <a href="" ng-click="save()" class="btn btn-info btn-custom btn-lg-custom btn-perimeter-modal">Cadastrar perímetro</a>
+</div>
