@@ -17,7 +17,7 @@
     <li du-scrollspy="report-data">
       <a href="#report-data" du-smooth-scroll>Dados do relato</a>
     </li>
-    <li du-scrollspy="report-notifications">
+    <li du-scrollspy="report-notifications" ng-if="report.category.notifications">
       <a href="#report-notifications" du-smooth-scroll>Notificações emitidas</a>
     </li>
     <li ng-if="report.images.length > 0" du-scrollspy="report-images">
@@ -271,7 +271,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" id="report-notifications">
+    <div class="rounder_wrapper" id="report-notifications" ng-if="report.category.notifications">
       <div class="wrapper_title"><h1>Notificações emitidas</h1></div>
       <div class="item-history">
         <div class="empty" ng-show="notifications.length === 0"><p>Não há notificações registradas.</p></div>
