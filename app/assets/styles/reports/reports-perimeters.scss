@@ -23,7 +23,7 @@
   }
 }
 .perimeters-table thead tr td {
-  padding: 0 !important;
+  font-size: 14px;
 }
 .perimeter-status-process {
   color: #9b9b9b;
@@ -101,6 +101,21 @@
 }
 .perimeters-info-message {
   line-height: 42px;
+}
+
+.perimeter-title-cell .ng-inline-edit__text {
+  display: inline-block;
+}
+.perimeter-title-cell .ng-inline-edit__text, .perimeter-title-cell .ng-inline-edit__input {
+  width: 100%;
+  padding: 5px 0;
+  border: 1px transparent solid;
+}
+
+.perimeter-title-cell .ng-inline-edit__text:hover {
+  border: 1px #ccc solid;
+  border-right: 10px #ccc solid;
+
 }
 
 

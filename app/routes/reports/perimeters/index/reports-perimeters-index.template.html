@@ -3,13 +3,12 @@
 <div ng-hide="loading" class="pages-animation">
   <div class="title">
     <ul>
-      <li><a ng-href="#/reports">Relatos</a></li>
-      <li><a ng-href="#/reports/categories">Gerenciar categorias</a></li>
+      <li><a ui-sref="reports.index.list">Relatos</a></li>
+      <li><a ui-sref="reports.categories">Gerenciar categorias</a></li>
       <li>Gerenciar perímetros/regiões</li>
     </ul>
   </div>
-<div class="content">
-
+  <div class="content">
     <div class="form-group">
       <a href="" ng-click="addPerimeter()" class="btn btn-info btn-custom btn-lg-custom">Cadastrar novo perímetro</a>
     </div>
