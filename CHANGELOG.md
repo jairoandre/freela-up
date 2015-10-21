@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.0.3 [Em aberto]
+## 1.0.4 [Em aberto]
+
+## 1.0.3
+### Corrigido
+- Permissões das notificações
+- Correção nas cores das categorias
+- Não exibe área de notificações se a categoria de relato não tem notificações
 
 ## 1.0.2
 ### Adicionado
