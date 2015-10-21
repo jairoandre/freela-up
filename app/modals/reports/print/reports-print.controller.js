@@ -11,7 +11,7 @@ angular
       { name: 'Fotos do relato', key: 'images' },
       { name: 'Mapa com localização do relato', key: 'map' },
       { name: 'Informações do solicitante', key: 'user' },
-      { name: 'Respostas ao munícipe', key: 'replies' },
+      { name: 'Respostas ao solicitante', key: 'replies' },
       { name: 'Observações internas', key: 'comments' },
       { name: 'Histórico do relato', key: 'history' },
       { name: 'Feedback do usuário', key: 'feedback' }
