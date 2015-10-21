@@ -51,7 +51,7 @@ angular
       {name: 'Com as categorias...', action: 'category'},
       {name: 'Com os estados...', action: 'status'},
       {name: 'Criado pelos solicitantes...', action: 'author'},
-      {name: 'Relatados por...', action: 'reporter'},
+      {name: 'Autor do relato...', action: 'reporter'},
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
