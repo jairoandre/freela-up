@@ -16,29 +16,11 @@ angular
 
     $scope.mandatoryCheckFlags = [true, true, true];
 
-    var makeFilter = function(extension, uploader){
-      return {
-        name: extension + 'Filter',
-        fn: function(item) {
-          uploader.fileTypeError = false;
-          uploader.fileTypeFileName = '';
-          var type = (uploader.isHTML5 && item.type) ? item.type : '/' + item.name.slice(item.name.lastIndexOf('.') + 1);
-          type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
-          var equalsObj = extension.toLowerCase() === type;
-          if(!equalsObj){
-            uploader.fileTypeError = true;
-            uploader.fileTypeFileName = item.name;
-          }
-          return equalsObj;
-        }
-      }
-    }
-
     var uploaderShp = $scope.uploaderShp = new FileUploader();
     var uploaderShx = $scope.uploaderShx = new FileUploader();
 
-    uploaderShp.filters.push(makeFilter('shp',uploaderShp));
-    uploaderShx.filters.push(makeFilter('shx',uploaderShx));
+    uploaderShp.filters.push(service.createFileUploaderFilter('shp',uploaderShp));
+    uploaderShx.filters.push(service.createFileUploaderFilter('shx',uploaderShx));
 
     var checkMandatoryFields = function() {
       $scope.mandatoryCheckFlags = [true, true, true];

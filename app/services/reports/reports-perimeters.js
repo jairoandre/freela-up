@@ -110,6 +110,32 @@ angular
         .one('reports')
         .withHttpConfig({treatingErrors: true})
         .one('perimeters', perimeter.id).remove();
+    };
+
+
+    /**
+     * Create a file uploader filter
+     *
+     * @param extension
+     * @param uploader
+     * @returns {{name: string, fn: Function}}
+     */
+    service.createFileUploaderFilter = function(extension, uploader) {
+      return {
+        name: extension + 'Filter',
+        fn: function(item) {
+          uploader.fileTypeError = false;
+          uploader.fileTypeFileName = '';
+          var type = (uploader.isHTML5 && item.type) ? item.type : '/' + item.name.slice(item.name.lastIndexOf('.') + 1);
+          type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
+          var equalsObj = extension.toLowerCase() === type;
+          if(!equalsObj){
+            uploader.fileTypeError = true;
+            uploader.fileTypeFileName = item.name;
+          }
+          return equalsObj;
+        }
+      }
     }
 
     return service;

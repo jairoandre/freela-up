@@ -1,0 +1,106 @@
+@import "compass/css3";
+
+.perimeter-btn-cell {
+  width: 30px;
+  font-size: 15px;
+}
+.perimeter-table-tr {
+  height: 65px;
+  .perimeter-status-cell {
+    font-weight: bold;
+  }
+}
+.perimeter-span-title {
+  cursor: pointer;
+}
+.perimeter-title-cell {
+  width: 40%;
+}
+.perimeter-status-cell {
+  width: 40%;
+  .glyphicon {
+    font-size: 20px;
+  }
+}
+.perimeters-table thead tr td {
+  padding: 0 !important;
+}
+.perimeter-status-process {
+  color: #9b9b9b;
+}
+.perimeter-status-ok {
+  color: #5fb971;
+}
+.perimeter-status-error {
+  color: #f14446;
+}
+.perimeters-empty-message {
+  font-weight: bold;
+}
+
+// MODAL CLASSES
+
+.perimeters-modal {
+  .btn-upload {
+    margin-top: 10px;
+    position: relative;
+    display: block;
+    width: 150px;
+    overflow: hidden;
+    padding: 10px;
+    color: #000000;
+
+    input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 10px 0;
+      font-size: 20px;
+      @include opacity(0);
+      cursor: pointer;
+    }
+  }
+}
+
+.perimeters-modal-header {
+  .modal-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .close {
+    font-size: 25px;
+  }
+}
+
+.perimeters-labels {
+  font-weight: bold;
+}
+
+.perimeters-disclaimer {
+  background-color: #F0F0F0;
+  color: #949494;
+  border: 1px solid #e5e5e5;
+  border-left: none;
+  border-right: none;
+  margin: -21px -20px 20px -20px;
+  padding: 10px;
+}
+.btn-perimeter-modal {
+  float: left;
+}
+.perimeters-input {
+  width: 300px;
+}
+.perimeters-upload-ok {
+  color: #cccccc;
+}
+.perimeters-error-messages {
+  color: #EE4E3D;
+  font-weight: bold;
+}
+.perimeters-info-message {
+  line-height: 42px;
+}
+
+
