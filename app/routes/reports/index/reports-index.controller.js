@@ -50,7 +50,7 @@ angular
       {name: 'Protocolo ou endereço contém...', action: 'query'},
       {name: 'Com as categorias...', action: 'category'},
       {name: 'Com os estados...', action: 'status'},
-      {name: 'Criado pelos munícipes...', action: 'author'},
+      {name: 'Criado pelos solicitantes...', action: 'author'},
       {name: 'Relatados por...', action: 'reporter'},
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
