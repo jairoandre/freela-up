@@ -10,7 +10,7 @@ angular
       { name: 'Dados do relato', key: 'fields' },
       { name: 'Fotos do relato', key: 'images' },
       { name: 'Mapa com localização do relato', key: 'map' },
-      { name: 'Informações do munícipe', key: 'user' },
+      { name: 'Informações do solicitante', key: 'user' },
       { name: 'Respostas ao munícipe', key: 'replies' },
       { name: 'Observações internas', key: 'comments' },
       { name: 'Histórico do relato', key: 'history' },
