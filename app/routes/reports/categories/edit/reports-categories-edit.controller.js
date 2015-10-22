@@ -678,6 +678,7 @@ angular
             promises.push(ReportsPerimetersService.deletePerimeterGroup($scope.perimetersGroupsToRemove[i]));
           }
 
+
           $q.all(promises).then(function(results){
             ReportsCategoriesService.purgeCache();
 
@@ -691,8 +692,14 @@ angular
             }
             $scope.perimetersGroupsToRemove = [];
 
+            // Set id for created perimeters groups
             _.each(results,function(result){
-              $log.info(result.perimeter);
+              if(_.isEqual('POST',result.config.method) && _.isEqual('perimeters',result.data.route)){
+                var createdPerimeter = _.find($scope.perimetersGroups,function(perimeter){
+                  return _.isNull(perimeter.id) || _.isUndefined(perimeter.id);
+                });
+                createdPerimeter.id = result.data.id;
+              }
             });
 
           }, function (response) {

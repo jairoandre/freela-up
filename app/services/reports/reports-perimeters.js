@@ -151,17 +151,21 @@ angular
 
       var requestParam = {perimeter_id: perimeterGroup.perimeter_id, group_id: perimeterGroup.group_id};
 
-      var promise = FullResponseRestangular
-        .one('reports')
-        .one('categories',perimeterGroup.category_id)
-        .withHttpConfig({treatingErrors: true});
+      var promise;
 
       if(perimeterGroup.id){
-        promise
+        promise = Restangular
+          .one('reports')
+          .one('categories',perimeterGroup.category_id)
           .one('perimeters', perimeterGroup.id)
+          .withHttpConfig({treatingErrors: true})
           .customPUT(requestParam);
       } else {
-        promise
+        requestParam.return_fields = 'id';
+        promise = Restangular
+          .one('reports')
+          .one('categories',perimeterGroup.category_id)
+          .withHttpConfig({treatingErrors: true})
           .post('perimeters', requestParam);
       }
       return promise;
