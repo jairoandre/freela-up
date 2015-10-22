@@ -64,7 +64,7 @@ angular
       $scope.deletePromise = service.deletePerimeter(perimeter).then(function () {
         loadPerimeters();
         $rootScope.showMessage('ok', 'Perímetro removido com sucesso.', 'success', true);
-        $scope.deletePromise = null;
+        $scope.deletePromise = undefined;
       });
     }
 

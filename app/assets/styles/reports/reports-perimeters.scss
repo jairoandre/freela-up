@@ -19,11 +19,14 @@
 .perimeter-status-cell {
   width: 40%;
   .glyphicon {
-    font-size: 20px;
+    font-size: 18px;
   }
+  vertical-align: middle;
 }
 .perimeters-table thead tr td {
   font-size: 14px;
+  line-height: 40px;
+  border-top: 1px solid #dddddd !important;
 }
 .perimeter-status-process {
   color: #9b9b9b;
@@ -91,6 +94,7 @@
 }
 .perimeters-input {
   width: 300px;
+  margin-top: 10px;
 }
 .perimeters-upload-ok {
   color: #cccccc;
@@ -108,13 +112,13 @@
 }
 .perimeter-title-cell .ng-inline-edit__text, .perimeter-title-cell .ng-inline-edit__input {
   width: 100%;
-  padding: 5px 0;
+  padding: 5px;
   border: 1px transparent solid;
 }
 
 .perimeter-title-cell .ng-inline-edit__text:hover {
   border: 1px #ccc solid;
-  border-right: 10px #ccc solid;
+  border-right: 20px #ccc solid;
 
 }
 

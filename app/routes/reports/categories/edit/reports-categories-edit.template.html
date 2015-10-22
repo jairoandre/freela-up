@@ -28,6 +28,8 @@
                  name="title">
         </div>
 
+        <hr/>
+
         <div class="form-group">
           <label>Categoria principal</label>
 
@@ -36,6 +38,8 @@
             <option value=""></option>
           </select>
         </div>
+
+        <hr/>
 
         <div class="form-group">
           <label>Categoria de inventário relacionada</label>
@@ -56,10 +60,9 @@
               </li>
             </ul>
           </div>
-
-          <!--<select multiple class="form-control" ng-model="category.inventory_categories" ng-options="category.id as category.title for category in categories">
-          </select>-->
         </div>
+
+        <hr/>
 
         <div class="form-group">
           <p><b>Cor repesentativa</b></p>
@@ -92,6 +95,8 @@
 
           <div class="clearfix"></div>
         </div>
+
+        <hr/>
 
         <div class="form-group">
           <label>Ícone de categoria</label>
@@ -357,6 +362,9 @@
         </div>
 
         <div class="form-group" ng-if="icon || uploader.queue.length != 0 || selectedIcon">
+
+          <hr/>
+
           <label>Pré-visualização do ícone</label>
 
           <div class="row final-result">
@@ -397,40 +405,6 @@
             </div>
           </div>
         </div>
-
-        <!--<div class="form-group upload">
-          <label>Ícone da categoria <span>(60x60px)</span></label>
-
-          <div class="queue">
-            <div ng-show="uploader.isHTML5" class="drop-zone" nv-file-over uploader="uploader" ng-style="{'background-color': category.color}">
-              <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste o ícone</span>
-
-              <div class="image" ng-show="icon && uploader.queue.length == 0">
-                <img ng-src="{{ selectedIcon }}" width="65" height="65">
-              </div>
-
-              <div class="image" ng-repeat="item in uploader.queue">
-                <div ng-thumb="{ file: item._file, width: 60, height: 60 }"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="btn btn-default btn-upload">
-              <span>Selecione um arquivo</span>
-
-              <input nv-file-select uploader="uploader" type="file" multiple  />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Cor representativa</label>
-          <div class="row">
-            <div class="col-md-2" generic-input name="color">
-              <button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker" ng-model="category.color" ng-style="{'background-color': category.color}"></button>
-            </div>
-          </div>
-        </div>
-      </div>-->
       </div>
     </div>
 
@@ -475,7 +449,11 @@
           <span class="help-block" style="margin-top: 15px;">Se ativado, o tempo de resolução permite controlar o estado do tempo de resolução que é o tempo em que o relato foi aberto até o seu fechamento. Se passar do período setado aqui, o chamado entrará em atraso automaticamente.</span>
         </div>
 
+
         <div class="form-group" ng-show="category.resolution_time_enabled">
+
+          <hr/>
+
           <label>Tempo de resolução privado</label>
 
           <div class="clearfix"></div>
@@ -489,6 +467,8 @@
           <span class="help-block" style="margin-top: 15px;">Se selecionado não, o tempo para resolução será exibido para os usuários no momento em que o relato esta sendo criado. Se sim, apenas será usado dentro do painel ZUP. Caso o chamado entre em atraso, o atraso não será exibido nos aplicativos.</span>
         </div>
 
+        <hr/>
+
         <div class="form-group">
           <label generic-input name="statuses">Estados de relatos disponíveis <a href="" ng-click="manageStatuses()">(Gerenciar
             estados)</a></label>
@@ -499,6 +479,8 @@
             </li>
           </ul>
         </div>
+
+        <hr/>
 
         <div class="form-group">
           <label>Permitir criar relatos em pontos livres</label>
@@ -514,6 +496,8 @@
           <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, o usuário poderá arrastar o marcador em qualquer lugar do mapa da cidade.</span>
         </div>
 
+        <hr/>
+
         <div class="form-group">
           <label>Categoria sigilosa</label>
 
@@ -527,6 +511,8 @@
 
           <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, será exibido ao usuário um aviso que as informações pessoais são mantidas em sigilo.</span>
         </div>
+
+        <hr/>
 
         <div class="form-group">
           <label>Feedback do usuário</label>
@@ -564,7 +550,7 @@
     </div>
 
     <!-- RESPONSÁVEIS PELO RELATO -->
-    <div class="rounder_wrapper" id="report-data">
+    <div class="rounder_wrapper" id="report-solver-data">
       <div class="wrapper_title"><h1>Responsáveis pelo relato</h1></div>
 
       <div class="fields">
@@ -587,19 +573,60 @@
             </div>
 
             <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
-              <ui-select ng-model="category.default_solver_group_id" theme="bootstrap">
-                <ui-select-match placeholder="Selecione o grupo padrão...">{{ $select.selected.name }}</ui-select-match>
-
-                <ui-select-choices
-                  repeat="group.id as group in groups | filter: { name: $select.search } | filter:filterByIds">
-                  <div ng-bind-html="group.name | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select>
+              <select-list ng-model="category.default_solver_group_id" option-name="name" option-value="id" options="groups" my-place-holder="Selecione o grupo padrão..."/>
             </div>
           </div>
 
           <span class="help-block" style="margin-top: 15px;">Grupos solucionadores são grupos que são responsáveis pelos relatos. O grupo padrão será o grupo no qual todos os relatos criados nesta categoria vão ser vinculados automaticamente ao ser criado.</span>
         </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Gerenciamento por perímetro</label>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.perimeters">
+            </div>
+          </div>
+          <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a categoria poderá associar grupos solucionadores por perímetro.</span>
+          <span class="help-block" style="margin-top: 15px;" ng-if="category.perimeters && !categoryId">*Só será possível associar perímetros aos grupos após a criação da nova categoria.</span>
+
+          <div class="table-div" ng-if="category.perimeters && categoryId">
+            <table id="reports-perimeters-table" class="table custom_table" ng-if="perimetersGroups.length > 0">
+              <thead>
+              <tr>
+                <td class="perimeter-title-cell">
+                  <span>Perímetro/Região</span>
+                </td>
+                <td class="perimeter-status-cell">
+                  <span>Grupo Responsável</span>
+                </td>
+                <td class="perimeter-btn-cell"></td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="perimeter-table-tr" ng-repeat="perimeterGroup in perimetersGroups" >
+                <td class="perimeter-title-cell">
+                  <select-list ng-model="perimeterGroup.perimeter_id" option-name="title" option-value="id" options="perimeters" my-place-holder="Selecione o perímetro/região" mark-dirty="perimeterGroup"/>
+                </td>
+                <td class="perimeter-status-cell">
+                  <select-list ng-model="perimeterGroup.group_id" option-name="name" option-value="id" options="groups" my-place-holder="Selecione o grupo responsável" mark-dirty="perimeterGroup"/>
+                </td>
+                <td class="perimeter-btn-cell">
+                  <a href="" ng-click="removePerimeterGroup(perimeterGroup)">
+                    <span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <a href="" ng-click="addNewPerimeterGroup()" class="btn btn-info btn-custom">
+              Adiconar novo vínculo</a>
+          </div>
+        </div>
+
+        <hr/>
 
         <div class="form-group">
           <label>Obrigatoriedade de inserir um comentário interno ao encaminhar o relato</label>
@@ -614,6 +641,8 @@
 
           <span class="help-block" style="margin-top: 15px;">Ao encaminhar um relato a um grupo, a pessoa deverá escrever um comentário interno ao relato descrevendo a ação.</span>
         </div>
+
+        <hr/>
 
         <div class="form-group">
           <label>Obrigatoriedade de inserir um comentário ao alterar o status</label>
@@ -633,7 +662,7 @@
     </div>
 
     <!-- CONFIGURAÇÕES DE NOTIFICAÇÕES -->
-    <div class="rounder_wrapper" id="report-data">
+    <div class="rounder_wrapper" id="notifications-data">
       <div class="wrapper_title"><h1>Configurações de Notificações</h1></div>
 
       <div class="fields">
@@ -651,6 +680,8 @@
         </div>
 
         <div id="notificationTypesSection" class="actived-notifications app-animation" ng-show="category.notifications">
+
+          <hr/>
 
           <div class="form-group">
             <label>Notificações devem ser emitidas em ordem</label>
@@ -788,20 +819,16 @@
             <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
           </div>
         </div>
+
       </div>
     </div>
 
-    <div class="content">
-      <div class="fields">
-        <div class="form-group">
-          <div class="form-group">
-            <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar categoria
-            </button>
-
-            <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar categoria
-            </button>
-          </div>
-        </div>
+    <div class="content" style="margin-right: 5%; margin-left: 5%; padding-left: 0;">
+      <div class="form-group">
+        <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar categoria
+        </button>
+        <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar categoria
+        </button>
       </div>
     </div>
 

@@ -9,8 +9,9 @@
 
     <div class="btn-group">
       <a ui-sref="reports.categories.add" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access')">+ Nova categoria</a>
-      <a ui-sref="reports.perimeters" class="btn btn-info btn-custom-group" ng-show="hasPermission('reports_full_access')">Gerenciar perímetros/regiões</a>
     </div>
+    <a ui-sref="reports.perimeters" class="btn btn-info btn-custom" ng-show="hasPermission('reports_full_access')">Gerenciar perímetros/regiões</a>
+
 
   </div>
 

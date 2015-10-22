@@ -23,7 +23,7 @@ angular
     ];
 
     service.cleanCache = function () {
-      $log.info('Cleaning perimeters cache.');
+      $log.debug('Cleaning perimeters cache.');
       service.perimeters = [];
     };
 
@@ -33,15 +33,13 @@ angular
      * @returns {*}
      */
     service.listAll = function () {
-      $log.info('Listing all perimeters');
+      $log.debug('Listing all perimeters');
 
       var options = {
         display_type : 'full',
         return_fields : [
           'id',
           'title',
-          'shp_file',
-          'shx_file',
           'status',
           'geometry',
           'created_at'].join()
@@ -74,7 +72,7 @@ angular
      * @returns {*}
      */
     service.addPerimeter = function (perimeter) {
-      $log.info('Adding new perimeter/region [title: ' + perimeter.title + ', shp_file: ' + perimeter.shp_file.file_name + ', shx_file: ' + perimeter.shx_file.file_name + ']');
+      $log.debug('Adding new perimeter/region [title: ' + perimeter.title + ', shp_file: ' + perimeter.shp_file.file_name + ', shx_file: ' + perimeter.shx_file.file_name + ']');
       perimeter.return_fields = 'id';
       return Restangular
         .one('reports')
@@ -89,7 +87,7 @@ angular
      * @returns {*}
      */
     service.updatePerimeter = function (perimeter) {
-      $log.info('Update an existing perimeter/region [title: ' + perimeter.title + ', id: ' + perimeter.id + ']');
+      $log.debug('Update an existing perimeter/region [title: ' + perimeter.title + ', id: ' + perimeter.id + ']');
       perimeter.return_fields = 'id';
       return Restangular
         .one('reports')
@@ -105,7 +103,7 @@ angular
      * @returns {*}
      */
     service.deletePerimeter = function (perimeter) {
-      $log.info('Deleting perimeter/region [id: ' + perimeter.title + ', id: ' + perimeter.id + ']');
+      $log.debug('Deleting perimeter/region [id: ' + perimeter.id + ', title: ' + perimeter.title + ']');
       return Restangular
         .one('reports')
         .withHttpConfig({treatingErrors: true})
@@ -136,6 +134,81 @@ angular
           return equalsObj;
         }
       }
+    }
+
+    /**
+     * Save perimeter group
+     *
+     * @param perimeterGroup
+     */
+    service.savePerimeterGroup = function(perimeterGroup) {
+      $log.debug(
+        (perimeterGroup.id ? 'Update' : 'Create') + ' promise to perimeter group: [' +
+        (perimeterGroup.id ? ('id: ' + perimeterGroup.id + ', ')  : '') +
+        'category_id: ' + perimeterGroup.category_id + ', ' +
+        'group_id: ' + perimeterGroup.group_id + ', ' +
+        'perimeter_id: ' + perimeterGroup.perimeter_id + ']');
+
+      var requestParam = {perimeter_id: perimeterGroup.perimeter_id, group_id: perimeterGroup.group_id};
+
+      var promise = FullResponseRestangular
+        .one('reports')
+        .one('categories',perimeterGroup.category_id)
+        .withHttpConfig({treatingErrors: true});
+
+      if(perimeterGroup.id){
+        promise
+          .one('perimeters', perimeterGroup.id)
+          .customPUT(requestParam);
+      } else {
+        promise
+          .post('perimeters', requestParam);
+      }
+      return promise;
+    }
+
+    /**
+     * Delete the perimeter
+     *
+     * @param perimeter
+     * @returns {*}
+     */
+    service.deletePerimeterGroup = function (perimeterGroup) {
+      $log.debug('Deleting perimeter group [id: ' + perimeterGroup.id + ']');
+      return Restangular
+        .one('reports')
+        .one('categories',perimeterGroup.category_id)
+        .withHttpConfig({treatingErrors: true})
+        .one('perimeters', perimeterGroup.id).remove();
+    };
+
+    /**
+     *
+     * @param categoryId
+     */
+    service.getPerimetersGroups = function(categoryId) {
+      var promise = Restangular
+        .one('reports')
+        .one('categories', categoryId)
+        .all('perimeters')
+        .customGET(null, {display_type: 'full', return_fields: 'id,group.id,perimeter.id,category.id'});
+      var deferred = $q.defer();
+      promise.then(function (resp) {
+        service.perimeters = [];
+        _.each(resp.data, function(val){
+          var perimeterGroup = {};
+          perimeterGroup.id = val.id;
+          if(!_.isNull(val.perimeter)){
+            perimeterGroup.perimeter_id = val.perimeter.id;
+          }
+          perimeterGroup.group_id = val.group.id;
+          perimeterGroup.category_id = val.category.id;
+          service.perimeters.push(perimeterGroup);
+        });
+        deferred.resolve(service.perimeters);
+        $rootScope.$broadcast('perimetersFetched');
+      });
+      return deferred.promise;
     }
 
     return service;
