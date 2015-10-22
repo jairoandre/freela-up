@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.0.3 [Em aberto]
+- Corrigido comportamento incorreto do posicionamento dos popovers.
 
 ## 1.0.2
 ### Adicionado
