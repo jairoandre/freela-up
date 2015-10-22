@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.0.3 [Em aberto]
+- Corrigido bug de z-index no componente de autocomplete.
 
 ## 1.0.2
 ### Adicionado
