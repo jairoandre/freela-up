@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.0.3 [Em aberto]
+- Adicionada variáveis de ambiente que estavam faltando no build.
 
 ## 1.0.2
 ### Adicionado
