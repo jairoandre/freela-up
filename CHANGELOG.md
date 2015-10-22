@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.0.3 [Em aberto]
+- Alterado todos os rótulos de "munícipe" para "solicitante"
 
 ## 1.0.2
 ### Adicionado
