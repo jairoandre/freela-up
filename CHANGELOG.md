@@ -4,6 +4,7 @@
 
 ## 1.0.3
 ### Corrigido
+- Variáveis de ambiente que estavam faltando no build.
 - Permissões das notificações
 - Correção nas cores das categorias
 - Não exibe área de notificações se a categoria de relato não tem notificações
