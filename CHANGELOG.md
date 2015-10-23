@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.0.3 [Em aberto]
+### Adicionado
+- Adicionado cadastro de shapefiles para configuração das categorias
 
 ## 1.0.2
 ### Adicionado
