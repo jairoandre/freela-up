@@ -1,7 +1,13 @@
 # Changelog
 
-## 1.0.3 [Em aberto]
-- Adicionada variáveis de ambiente que estavam faltando no build.
+## 1.0.4 [Em aberto]
+
+## 1.0.3
+### Corrigido
+- Variáveis de ambiente que estavam faltando no build.
+- Permissões das notificações
+- Correção nas cores das categorias
+- Não exibe área de notificações se a categoria de relato não tem notificações
 
 ## 1.0.2
 ### Adicionado
