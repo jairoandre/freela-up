@@ -9,15 +9,17 @@ angular
 
   .controller('ReportsPerimetersIndexController', function ($scope, $rootScope, $log, ReportsPerimetersService, $modal) {
 
-    $log.info('ReportsPerimetersIndexController created.');
+    $log.debug('ReportsPerimetersIndexController created.');
     $scope.$on('$destroy', function () {
-      $log.info('ReportsPerimetersIndexController destroyed.');
+      $log.debug('ReportsPerimetersIndexController destroyed.');
     });
 
 
     var service = ReportsPerimetersService;
 
     $scope.loading = true;
+
+    $scope.loadingPerimeter = {};
 
     $scope.statusDecorator = {
       pendent: ['time', 'perimeter-status-process', 'EM PROCESSAMENTO'],
@@ -42,8 +44,11 @@ angular
 
     $scope.updatePerimeter = function (perimeter, newValue) {
       perimeter.title = newValue;
+      $scope.loadingPerimeter[perimeter.id] = true;
       service.updatePerimeter(perimeter).then(function () {
-        $log.info('Updated title');
+        $scope.loadingPerimeter[perimeter.id] = false;
+        $rootScope.showMessage('ok','Nome do perímetro atualizado com sucesso.','success',true);
+        $log.debug('Updated title');
       });
     };
 

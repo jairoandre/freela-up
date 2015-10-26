@@ -15,19 +15,44 @@
 }
 .perimeter-title-cell {
   width: 40%;
+  padding-left: 5px !important;
 }
 .perimeter-status-cell {
-  width: 40%;
-  .glyphicon {
-    font-size: 18px;
-  }
-  vertical-align: middle;
+  width: 30%;
+  padding-left: 0 !important;
+}
+.perimeter-date-cell {
+  width: 20%;
 }
 .perimeters-table thead tr td {
   font-size: 14px;
   line-height: 40px;
   border-top: 1px solid #dddddd !important;
 }
+
+.glyphicon-refresh-animate {
+  @include animation(spin .7s infinite linear);
+  display: inline-block;
+}
+
+@include keyframes(spin){
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
+}
+
+
+.perimeter-loading-indicator, .perimeter-status-cell-loading {
+  width: 15px !important;
+  padding: 0 !important;
+}
+.perimeter-title-cell-header {
+  padding-left: 10px !important;
+}
+
+.perimeter-status-cell-header {
+  padding-left: 0 !important;
+}
+
 .perimeter-status-process {
   color: #9b9b9b;
 }
@@ -110,15 +135,35 @@
 .perimeter-title-cell .ng-inline-edit__text {
   display: inline-block;
 }
-.perimeter-title-cell .ng-inline-edit__text, .perimeter-title-cell .ng-inline-edit__input {
-  width: 100%;
-  padding: 5px;
-  border: 1px transparent solid;
-}
+.perimeter-title-cell {
 
-.perimeter-title-cell .ng-inline-edit__text:hover {
-  border: 1px #ccc solid;
-  border-right: 20px #ccc solid;
+  .ng-inline-edit__text, .ng-inline-edit__input {
+    width: 100%;
+    padding: 5px;
+    border: 1px transparent solid;
+    position: relative;
+  }
+
+  .ng-inline-edit__text:after {
+    background: #ccc url("../../images/edit-pencil.png") no-repeat center;
+    border-left: 1px solid #ccc;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    visibility: hidden;
+    width: 20px;
+  }
+
+  .ng-inline-edit__text:hover {
+    border: 1px #ccc solid;
+  }
+
+  .ng-inline-edit__text:hover:after {
+    border: 1px #ccc solid;
+    visibility: visible;
+  }
 
 }
 
