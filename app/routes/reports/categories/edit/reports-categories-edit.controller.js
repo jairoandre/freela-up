@@ -358,7 +358,13 @@ angular
         category.default_solver_group_id = responses[1].data.default_solver_group_id;
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
-        category.perimeters = responses[1].data.perimeters;
+        category.perimeters = [];
+
+        _.forEach(responses[1].data.perimeters,function(perimeter){
+          if(_.isEqual(perimeter.status,'imported')){
+            category.perimeters.push(perimeter);
+          }
+        });
 
         $scope.perimetersGroups = responses[2];
 
