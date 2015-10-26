@@ -124,7 +124,11 @@ angular
     var loadPerimeters = $scope.loadPerimeters = function () {
       $scope.loading = true;
       ReportsPerimetersService.listAll().then(function (r) {
-        $scope.perimeters = r;
+        _.forEach(r,function(perimeter){
+          if(_.isEqual(perimeter.status,'imported')){
+            $scope.perimeters.push(perimeter);
+          }
+        });
         $scope.loading = false;
       });
     }
@@ -358,13 +362,7 @@ angular
         category.default_solver_group_id = responses[1].data.default_solver_group_id;
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
-        category.perimeters = [];
-
-        _.forEach(responses[1].data.perimeters,function(perimeter){
-          if(_.isEqual(perimeter.status,'imported')){
-            category.perimeters.push(perimeter);
-          }
-        });
+        category.perimeters = responses[1].data.perimeters;
 
         $scope.perimetersGroups = responses[2];
 
