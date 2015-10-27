@@ -68,7 +68,7 @@ angular
           $scope.select = function(optionId, option) {
             $scope.ngModel = optionId;
 
-            if(_.isArray($scope.markDirty.__dirty)) {
+            if($scope.markDirty && _.isArray($scope.markDirty.__dirty)) {
               $scope.markDirty.__dirty[$scope.dirtyIndex] = !_.isEqual($scope.ngModel, $scope.memento);
             }
 
