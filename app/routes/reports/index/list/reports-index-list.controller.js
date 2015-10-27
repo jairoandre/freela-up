@@ -11,7 +11,7 @@ angular
 
   .controller('ReportsIndexListController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
-    $log.info('ReportsIndexListController created.');
+    $log.debug('ReportsIndexListController created.');
 
     var page = 1, perPage = 15;
 
@@ -129,6 +129,6 @@ angular
     });
 
     $scope.$on('$destroy', function () {
-      $log.info('ReportsIndexListController destroyed.');
+      $log.debug('ReportsIndexListController destroyed.');
     });
   });

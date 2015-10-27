@@ -11,7 +11,7 @@ angular
 
   .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
-    $log.info('ReportsIndexController created.');
+    $log.debug('ReportsIndexController created.');
 
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
@@ -357,6 +357,6 @@ angular
     };
 
     var $handleDestroy = $scope.$on('$destroy', function () {
-      $log.info('ReportsIndexController destroyed.');
+      $log.debug('ReportsIndexController destroyed.');
     });
   });
