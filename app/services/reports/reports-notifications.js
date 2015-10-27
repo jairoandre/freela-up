@@ -148,13 +148,13 @@ angular
           'category.name'].join()
       };
 
-      angular.merge(defaultOptions,options);
+      angular.merge(defaultOptions, options);
 
       var promise = FullResponseRestangular
         .one('search')
         .all('reports')
         .all('notifications')
-        .customGET(null, options);
+        .customGET(null, defaultOptions);
 
       var deferred = $q.defer();
 
