@@ -8,6 +8,7 @@
 - Permissões das notificações
 - Correção nas cores das categorias
 - Não exibe área de notificações se a categoria de relato não tem notificações
+- Revertida mudança de merge que omitiu as permissões de relatórios na edição de grupos
 
 ## 1.0.2
 ### Adicionado
