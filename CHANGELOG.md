@@ -9,6 +9,7 @@
 - Correção nas cores das categorias
 - Não exibe área de notificações se a categoria de relato não tem notificações
 - Corrigido bug de z-index no componente de autocomplete.
+- Alterado todos os rótulos de "munícipe" para "solicitante"
 
 ## 1.0.2
 ### Adicionado
