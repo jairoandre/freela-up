@@ -77,6 +77,8 @@ echo SERVER_PORT=9001 >> build.env
 echo USER_EMAIL=tecnologia@ntxdev.com.br >> build.env
 echo USER_PASSWORD=123456 >> build.env
 echo FLOWS_ENABLED=true >> build.env
+echo SENTRY_DSN=https://318ae5c375b74a07a40b244d327a9090@app.getsentry.com/17327 >> build.env
+echo GOOGLE_ANALYTICS=AIzaSyCsgDC7RbPvhfSCDQgC1R4NXWaT9Rw2VHE >> build.env
 
 # Build & test
 docker build -t $BUILDER_NAME .
