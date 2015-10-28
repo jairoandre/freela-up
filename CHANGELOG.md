@@ -8,6 +8,7 @@
 - Permissões das notificações
 - Correção nas cores das categorias
 - Não exibe área de notificações se a categoria de relato não tem notificações
+- Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 
 ## 1.0.2
 ### Adicionado
