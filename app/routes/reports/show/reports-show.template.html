@@ -324,7 +324,7 @@
 
                 <a href="" zup-print="notificationToPrint_{{$index}}" class="btn btn-info btn-custom" style="font-weight: normal;"><i class="glyphicon glyphicon-print"></i></a>
 
-                <div style="display:none">
+                <div style="position: absolute; visibility: hidden">
                   <div id="notificationToPrint_{{$index}}" class="a4-page">
                     <div ckeditor="ckeditorDefaultOptions" ng-model="notification.content" contenteditable="true" ng-if="scriptLoaded"></div>
                   </div>
