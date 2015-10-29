@@ -12,7 +12,6 @@ angular
         // we go through each type
         _.each(c.types, function(type) {
           if (type === 'route') treatedComponents['address'] = c.long_name
-          else if (type === 'neighborhood') treatedComponents['neighborhood'] = c.long_name
           else if (type === 'sublocality_level_1') treatedComponents['neighborhood'] = c.long_name
           else if (type === 'sublocality') treatedComponents['neighborhood'] = c.long_name
           else if (type === 'locality') treatedComponents['city'] = c.long_name
