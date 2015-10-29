@@ -47,12 +47,7 @@
             <div ng-if="!notification.notification_type.status.id">-</div>
           </td>
           <td class="overdue-cell">
-            <span ng-if="!loadingInfo">{{ getDefaultDeadlineInDaysTxt(notification) }}</span>
-            <div class="loading_dots" ng-if="loadingInfo">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+            <span>{{ getDefaultDeadlineInDaysTxt(notification) }}</span>
           </td>
           <td class="date-cell">
             <span ng-if="!loadingInfo">{{ notification.created_at ? (notification.created_at | date:'dd/MM/yy') : '-'}}</span>
