@@ -17,7 +17,7 @@
     <li du-scrollspy="report-data">
       <a href="#report-data" du-smooth-scroll>Dados do relato</a>
     </li>
-    <li du-scrollspy="report-notifications">
+    <li du-scrollspy="report-notifications" ng-if="report.category.notifications">
       <a href="#report-notifications" du-smooth-scroll>Notificações emitidas</a>
     </li>
     <li ng-if="report.images.length > 0" du-scrollspy="report-images">
@@ -27,10 +27,10 @@
       <a href="#report-map" du-smooth-scroll>Mapa</a>
     </li>
     <li du-scrollspy="report-author">
-      <a href="#report-author" du-smooth-scroll>Informações do munícipe</a>
+      <a href="#report-author" du-smooth-scroll>Informações do solicitante</a>
     </li>
     <li du-scrollspy="report-responses">
-      <a href="#report-responses" du-smooth-scroll>Respostas ao munícipe</a>
+      <a href="#report-responses" du-smooth-scroll>Respostas ao solicitante</a>
     </li>
     <li du-scrollspy="report-comments"
         ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_read_private', report.category.id) || hasPermission('reports_items_create_internal_comment', report.category.id)">
@@ -271,7 +271,7 @@
       </div>
     </div>
 
-    <div class="rounder_wrapper" id="report-notifications">
+    <div class="rounder_wrapper" id="report-notifications" ng-if="report.category.notifications">
       <div class="wrapper_title"><h1>Notificações emitidas</h1></div>
       <div class="item-history">
         <div class="empty" ng-show="notifications.length === 0"><p>Não há notificações registradas.</p></div>
@@ -356,7 +356,7 @@
     </div>
 
     <div class="rounder_wrapper" id="report-author">
-      <div class="wrapper_title"><h1>Informações do munícipe</h1></div>
+      <div class="wrapper_title"><h1>Informações do solicitante</h1></div>
 
       <div class="fields">
         <h5>Nome completo do munícipe</h5>
@@ -411,7 +411,7 @@
 
     <div class="rounder_wrapper" id="report-responses"
          ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)">
-      <div class="wrapper_title"><h1>Respostas ao munícipe</h1></div>
+      <div class="wrapper_title"><h1>Respostas ao solicitante</h1></div>
 
       <div class="fields">
         <div class="user-message"
@@ -611,9 +611,9 @@
                 <span ng-show="log.kind === 'forward'">encaminhou o relato<span ng-show="log.changes.old"> do grupo <a
                   ng-href="#/groups/{{ log.changes.old.id }}">{{ log.changes.old.name }}</a></span> para o grupo <a
                   ng-href="#/groups/{{ log.changes.new.id }}">{{ log.changes.new.name }}</a>.</span>
-                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 0">inseriu uma resposta pública ao munícipe: <b>{{
+                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 0">inseriu uma resposta pública ao solicitante: <b>{{
                   log.changes.new.message }}</b>.</span>
-                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 1">inseriu uma resposta privada ao munícipe: <b>{{
+                <span ng-show="log.kind === 'comment' && log.changes.new.visibility == 1">inseriu uma resposta privada ao solicitante: <b>{{
                   log.changes.new.message }}</b>.</span>
                 <span
                   ng-show="log.kind === 'comment' && log.changes.new.visibility == 2">inseriu o comentáro interno: <b>{{

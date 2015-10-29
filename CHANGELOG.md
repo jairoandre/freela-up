@@ -1,7 +1,17 @@
 # Changelog
 
-## 1.0.3 [Em aberto]
+## 1.0.4 [Em aberto]
+
+## 1.0.3
+### Corrigido
 - Corrigido comportamento incorreto do posicionamento dos popovers.
+- Variáveis de ambiente que estavam faltando no build.
+- Permissões das notificações
+- Correção nas cores das categorias
+- Não exibe área de notificações se a categoria de relato não tem notificações
+- Corrigido bug de z-index no componente de autocomplete.
+- Alterado todos os rótulos de "munícipe" para "solicitante"
+>>>>>>> master
 
 ## 1.0.2
 ### Adicionado
