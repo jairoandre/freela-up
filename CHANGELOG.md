@@ -15,6 +15,7 @@
 ### Adicionado
 - Nova funcionalidade de notificações
 - Correções nas dependências
+- Campo para inserir legendas em imagens de relato
 
 ## 1.0.1
 ### Corrigido
