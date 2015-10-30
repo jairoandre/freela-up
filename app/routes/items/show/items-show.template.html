@@ -179,7 +179,7 @@
 
           <div class="line"><span></span></div>
 
-          <div class="log" ng-repeat="log in historyLogs">
+          <div class="log" ng-repeat="log in historyLogs | orderBy:'-created_at'">
             <div class="date">
               <span>{{ log.created_at | date:'dd/MM/yy HH:mm'}}h</span>
             </div>
