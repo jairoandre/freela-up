@@ -10,6 +10,7 @@
 - Não exibe área de notificações se a categoria de relato não tem notificações
 - Corrigido bug de z-index no componente de autocomplete.
 - Alterado todos os rótulos de "munícipe" para "solicitante"
+- Ajustado ordenamento dos registros de log para os itens de inventário
 
 ## 1.0.2
 ### Adicionado
