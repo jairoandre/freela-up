@@ -88,8 +88,7 @@ angular
 
           if (page === (lastPage + 1)) {
             $scope.$parent.loadingPagination = null;
-          }
-          else {
+          } else {
             $scope.$parent.loadingPagination = false;
           }
 
