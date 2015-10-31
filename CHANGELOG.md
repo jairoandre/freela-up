@@ -3,6 +3,8 @@
 ## 1.0.4 [Em aberto]
 
 ## 1.0.3
+### Adicionado
+- Adicionado cadastro de shapefiles para configuração das categorias
 ### Corrigido
 - Variáveis de ambiente que estavam faltando no build.
 - Permissões das notificações

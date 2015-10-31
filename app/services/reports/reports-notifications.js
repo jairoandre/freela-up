@@ -35,7 +35,7 @@ angular
     ];
 
     service.cleanCache = function () {
-      $log.info('Cleaning notification cache.');
+      $log.debug('Cleaning notification cache.');
       service.notificationTypesMap = {};
       service.reportNotificationTypes = {};
       service.notifications = {};
@@ -44,7 +44,7 @@ angular
 
     service.getLastNotification = function (reportId, categoryId) {
 
-      $log.info('Retrieving last notification for report [id=' + reportId + ']');
+      $log.debug('Retrieving last notification for report [id=' + reportId + ']');
 
       var deferred = $q.defer();
 
@@ -61,12 +61,12 @@ angular
     };
 
     service.getAvailableNotificationsForReport = function (reportId, categoryId) {
-      $log.info('Retrieving notifications for report [id=' + reportId + ']');
+      $log.debug('Retrieving notifications for report [id=' + reportId + ']');
 
       var deferred = $q.defer();
 
       if (service.reportNotificationTypes[reportId]) {
-        $log.info('Notification info from cache.');
+        $log.debug('Notification info from cache.');
         deferred.resolve(service.reportNotificationTypes[reportId]);
       } else {
         Restangular
@@ -75,7 +75,7 @@ angular
           .one('items', reportId)
           .getList('notifications', {return_fields: service.notificationReturnFields.join()})
           .then(function (r) {
-            $log.info('Notification info from rest.');
+            $log.debug('Notification info from rest.');
             var array = r.data;
             var onlyActives = [];
             var j = 0;
@@ -92,7 +92,7 @@ angular
     };
 
     service.sendNotification = function (reportId, categoryId, notificationTypeId) {
-      $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationTypeId + ']');
+      $log.debug('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationTypeId: ' + notificationTypeId + ']');
       return Restangular
         .one('reports')
         .one('categories', categoryId)
@@ -105,7 +105,7 @@ angular
 
     service.resendNotification = function (reportId, categoryId, notificationId) {
       // reports/categories/:categoryId/items/:reportId/notifications/:notificationId/resend
-      $log.info('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationId: ' + notificationId + ']');
+      $log.debug('Send notification [categoryId: ' + categoryId + ', reportId: ' + reportId + ', notificationId: ' + notificationId + ']');
       return Restangular
         .one('reports')
         .one('categories', categoryId)
@@ -117,7 +117,7 @@ angular
     };
 
     service.restartProcess = function (reportId, categoryId) {
-      $log.info('Restart process for report [categoryId: ' + categoryId + ', reportId: ' + reportId + ']');
+      $log.debug('Restart process for report [categoryId: ' + categoryId + ', reportId: ' + reportId + ']');
       return Restangular
         .one('reports')
         .one('categories', categoryId)
@@ -129,7 +129,7 @@ angular
     };
 
     service.searchNotifications = function (options) {
-      $log.info('Searching notifications');
+      $log.debug('Searching notifications');
 
       var defaultOptions = {
         display_type : 'full',
@@ -148,13 +148,13 @@ angular
           'category.name'].join()
       };
 
-      angular.merge(defaultOptions,options);
+      angular.merge(defaultOptions, options);
 
       var promise = FullResponseRestangular
         .one('search')
         .all('reports')
         .all('notifications')
-        .customGET(null, options);
+        .customGET(null, defaultOptions);
 
       var deferred = $q.defer();
 
