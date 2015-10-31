@@ -98,6 +98,9 @@ angular
 
       var user = angular.copy($scope.user);
 
+      var birthdate = user.birthdate.split('/');
+      user.birthdate = new Date(birthdate[1], birthdate[0], birthdate[2]);
+
       var extraParams = {};
       if($scope.should_generate_password) {
         delete user.password;
