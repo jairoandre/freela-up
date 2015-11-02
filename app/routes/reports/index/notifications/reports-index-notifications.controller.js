@@ -11,7 +11,7 @@ angular
 
   .controller('ReportsIndexNotificationsController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsCategoriesNotificationsService, $state, $log) {
 
-    $log.info('ReportsIndexNotificationsController created.');
+    $log.debug('ReportsIndexNotificationsController created.');
 
     var page = 1, perPage = 15;
 
@@ -83,6 +83,6 @@ angular
     };
 
     $scope.$on('$destroy', function () {
-      $log.info('ReportsIndexNotificationsController destroyed.');
+      $log.debug('ReportsIndexNotificationsController destroyed.');
     });
   });
