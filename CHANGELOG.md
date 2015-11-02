@@ -5,6 +5,7 @@
 ## 1.0.3
 ### Adicionado
 - Adicionado cadastro de shapefiles para configuração das categorias
+- Diretiva de seleção em linha de permissões de grupos de usuário
 ### Corrigido
 - Variáveis de ambiente que estavam faltando no build.
 - Permissões das notificações
