@@ -58,7 +58,8 @@
     "tableresize_4.5.1": "http://download.ckeditor.com/tableresize/releases/tableresize_4.5.1.zip",
     "colorbutton_4.5.3": "http://download.ckeditor.com/colorbutton/releases/colorbutton_4.5.3.zip",
     "print_4.5.3": "http://download.ckeditor.com/print/releases/print_4.5.3.zip",
-    "justify" : "http://download.ckeditor.com/justify/releases/justify_4.5.3.zip"
+    "justify": "http://download.ckeditor.com/justify/releases/justify_4.5.3.zip",
+    "angular-moment": "~0.10.3"
   },
   "devDependencies": {
     "angular-mocks": "1.2.10",

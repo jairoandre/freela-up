@@ -6,7 +6,7 @@ angular
     'EqualsComponentModule'
   ])
 
-  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error) {
+  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error, moment) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
 
@@ -22,7 +22,7 @@ angular
     {
       Restangular.one('users', userId).get().then(function(response) {
         $scope.user = response.data;
-
+        $scope.user.birthdate = moment($scope.user.birthdate).format('DD/MM/YYYY');
         $scope.loading = false;
       });
     }
@@ -97,9 +97,7 @@ angular
       $rootScope.resolvingRequest = true;
 
       var user = angular.copy($scope.user);
-
-      var birthdate = user.birthdate.split('/');
-      user.birthdate = new Date(birthdate[1], birthdate[0], birthdate[2]);
+      user.birthdate = moment(user.birthdate, 'DD/MM/YYYY').toJSON();
 
       var extraParams = {};
       if($scope.should_generate_password) {
