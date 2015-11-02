@@ -16,7 +16,7 @@ module.exports = function () {
   var hasReports = function () {
     browser.wait(function () {
       return page.reports().isDisplayed();
-    }, 10000);
+    }, 5000);
 
     page = this.pages.report;
     return Promise.all([
@@ -33,7 +33,7 @@ module.exports = function () {
   var checkCols = function () {
     return browser.wait(function () {
       return page.reports().count();
-    }, 10000).then(function () {
+    }, 5000).then(function () {
       return page.getAllItems().map(function (coluna) {
         return expect(coluna.getText()).to.eventually.not.be.empty;
       });
