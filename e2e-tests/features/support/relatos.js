@@ -97,7 +97,7 @@ Reports.prototype = {
   },
 
   getAdress: function () {
-    return element(by.css('#reports-listing-table tbody td:nth-child(2)'));
+    return element.all(by.css('#reports-listing-table tbody .column-address')).get(0);
   },
 
   getSuccessMsg: function () {
