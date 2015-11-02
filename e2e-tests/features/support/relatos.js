@@ -93,11 +93,11 @@ Reports.prototype = {
   },
 
   getProtocol: function () {
-    return element(by.css('#reports-listing-table tbody td:first-of-type a'));
+    return element.all(by.css('#reports-listing-table tbody td:first-of-type a')).get(0);
   },
 
   getAdress: function () {
-    return element(by.css('#reports-listing-table tbody td:nth-child(2)'));
+    return element.all(by.css('#reports-listing-table tbody .column-address')).get(0);
   },
 
   getSuccessMsg: function () {
