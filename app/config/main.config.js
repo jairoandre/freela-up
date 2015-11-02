@@ -9,7 +9,7 @@ angular
     RestangularProvider.setFullResponse(true);
 
     // add a response interceptor for prevent 'getList SHOULD be array error' which occur when the data is already an array.
-    RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+    RestangularProvider.addResponseInterceptor(function (data, operation) {
       // .. to look for getList operations
       if (operation === "getList") {
         // When the data is already an array
@@ -179,7 +179,7 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      $rootScope.stateClass = 'state-' + toState.name.replace(".", "-").replace("_", "-");
+      $rootScope.stateClass = 'state-' + toState.name.replace(/\./g, "-").replace(/_/g, "-");
       if (fromState.name.length === 0) {
         $rootScope.hideInitialLoading = true;
       }

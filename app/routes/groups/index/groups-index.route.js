@@ -12,7 +12,7 @@ angular
         '': {
           templateUrl: 'routes/groups/index/groups-index.template.html',
           controller: 'GroupsIndexController',
-          controllerAs: 'ctrl',
+          controllerAs: 'ctrl'
         }
       }
     });

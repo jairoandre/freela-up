@@ -11,7 +11,7 @@ angular
 
   .controller('ReportsIndexListController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
-    $log.info('ReportsIndexListController created.');
+    $log.debug('ReportsIndexListController created.');
 
     var page = 1, perPage = 15;
 
@@ -88,8 +88,7 @@ angular
 
           if (page === (lastPage + 1)) {
             $scope.$parent.loadingPagination = null;
-          }
-          else {
+          } else {
             $scope.$parent.loadingPagination = false;
           }
 
@@ -129,6 +128,6 @@ angular
     });
 
     $scope.$on('$destroy', function () {
-      $log.info('ReportsIndexListController destroyed.');
+      $log.debug('ReportsIndexListController destroyed.');
     });
   });

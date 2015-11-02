@@ -23,6 +23,7 @@ angular
     'monospaced.elastic',
     'angularPromiseButtons',
     'ui.sortable',
+    'dibari.angular-ellipsis',
 
     // Core services
     'AuthServiceModule',

@@ -11,7 +11,7 @@ angular
 
   .controller('ReportsIndexController', function ($rootScope, $scope, Restangular, $modal, $q, AdvancedFilters, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
-    $log.info('ReportsIndexController created.');
+    $log.debug('ReportsIndexController created.');
 
     $scope.loading = true;
     $rootScope.uiHasScroll = true;
@@ -50,8 +50,8 @@ angular
       {name: 'Protocolo ou endereço contém...', action: 'query'},
       {name: 'Com as categorias...', action: 'category'},
       {name: 'Com os estados...', action: 'status'},
-      {name: 'Criado pelos munícipes...', action: 'author'},
-      {name: 'Relatados por...', action: 'reporter'},
+      {name: 'Criado pelos solicitantes...', action: 'author'},
+      {name: 'Autor do relato...', action: 'reporter'},
       {name: 'Por período...', action: 'date'},
       {name: 'Por perímetro...', action: 'area'},
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
@@ -357,6 +357,6 @@ angular
     };
 
     var $handleDestroy = $scope.$on('$destroy', function () {
-      $log.info('ReportsIndexController destroyed.');
+      $log.debug('ReportsIndexController destroyed.');
     });
   });

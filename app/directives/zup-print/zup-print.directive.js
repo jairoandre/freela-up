@@ -28,9 +28,15 @@ angular.module('ZupPrintDirectiveModule', [])
           document.body.appendChild(printFrame);
           printFrame.id = 'zupPrintFrame';
           printFrame.contentWindow.document.open();
-          printFrame.contentWindow.document.write('<html><head>'
-            + '<style>@page {size: A4; margin: 50px;} div.report-image { width: 100%; text-align: center } div.report-image img { max-width: 45%; padding: 2% }</style>'
-            + '</head><body></body></html>');
+          printFrame.contentWindow.document.write(
+            '<html><head>' +
+            '<style>' + 
+              '@page {size: A4; margin: 50px;}' + 
+              'div.report-image { width: 100%; text-align: left; }' + 
+              'div.report-image img { max-width: 150px; padding: 5px; }' +
+              'div.report-image span { display: inline-table; }' +
+            '</style>' +
+            '</head><body></body></html>');
 
           document.body.appendChild(printFrame);
 

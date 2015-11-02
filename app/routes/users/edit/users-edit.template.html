@@ -124,16 +124,7 @@
       <div class="form-group">
         <label>Grupos do usuário</label>
 
-        <div class="selectGroups">
-          <div class="simpleSearch">
-            <span class="glyphicon glyphicon-search searchIcon"></span>
-            <input type="text" placeholder="Buscar grupos..." ng-model="user.groups" ui-autocomplete="groupsAutocomplete" />
-          </div>
-
-          <ul>
-            <li ng-repeat="group in user.groups">{{ group.name }} <button type="button" class="remove" ng-click="removeGroup(group)">×</button></li>
-          </ul>
-        </div>
+        <groups-selector-inline groups="user.groups"></groups-selector-inline>
       </div>
 
       <hr />

@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="assets/styles/reports/reports-edit.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-categories-edit.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-notifications.css">
+    <link rel="stylesheet" href="assets/styles/reports/reports-perimeters.css">
     <link rel="stylesheet" href="assets/styles/reports/reports-categories-notifications.css">
 
     <link rel="stylesheet" href="assets/styles/advanced-filters/advanced-filters-modals.css">
@@ -101,7 +102,7 @@
 
     <!-- build:js assets/scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -145,6 +146,7 @@
     <script src="bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>
     <script src="bower_components/nouislider/distribute/nouislider.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/angular-ellipsis/src/angular-ellipsis.js"></script>
     <!-- endbower -->
     <script src="bower_components/moment/locale/pt-br.js"></script>
     <script src="bower_components/smartJQueryZoom/src/e-smart-zoom-jquery.js"></script>
@@ -183,6 +185,7 @@
     <script src="services/reports/reports-categories.js"></script>
     <script src="services/reports/reports-items.js"></script>
     <script src="services/reports/reports-notifications.js"></script>
+    <script src="services/reports/reports-perimeters.js"></script>
     <script src="services/inventories/inventories-categories.js"></script>
     <script src="services/inventories/inventories-items.js"></script>
     <script src="services/business-reports/business-reports.js"></script>
@@ -218,6 +221,8 @@
     <script src="routes/reports/categories/index/reports-categories-index.controller.js"></script>
     <script src="routes/reports/categories/edit/reports-categories-edit.route.js"></script>
     <script src="routes/reports/categories/edit/reports-categories-edit.controller.js"></script>
+    <script src="routes/reports/perimeters/index/reports-perimeters-index.controller.js"></script>
+    <script src="routes/reports/perimeters/index/reports-perimeters-index.route.js"></script>
 
     <script src="routes/items/items.route.js"></script>
     <script src="routes/items/index/items-index.route.js"></script>
@@ -282,6 +287,7 @@
     <script src="routes/business-reports/edit/components/chart/business-reports-edit-chart.directive.js"></script>
     <script src="routes/business-reports/edit/components/charts/business-reports-edit-charts.directive.js"></script>
 
+    <script src="components/groups-selector-inline/groups-selector-inline.directive.js"></script>
     <script src="components/equals/equals.directive.js"></script>
     <script src="components/next-field-on-enter/next-field-on-enter.directive.js"></script>
     <script src="components/nav-item/nav-item.directive.js"></script>
@@ -383,6 +389,7 @@
     <script src="modals/reports/select-user/reports-select-user.controller.js"></script>
     <script src="modals/reports/create-user/reports-create-user.controller.js"></script>
     <script src="modals/reports/edit-description/reports-edit-description.controller.js"></script>
+    <script src="modals/reports/perimeters/reports-perimeters-modal.controller.js"></script>
     <script src="modals/error/error.controller.js"></script>
     <script src="modals/flows/add/flows-add.controller.js"></script>
     <script src="modals/flows/edit/flows-edit.controller.js"></script>
