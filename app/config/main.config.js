@@ -9,7 +9,7 @@ angular
     RestangularProvider.setFullResponse(true);
 
     // add a response interceptor for prevent 'getList SHOULD be array error' which occur when the data is already an array.
-    RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+    RestangularProvider.addResponseInterceptor(function (data, operation) {
       // .. to look for getList operations
       if (operation === "getList") {
         // When the data is already an array
