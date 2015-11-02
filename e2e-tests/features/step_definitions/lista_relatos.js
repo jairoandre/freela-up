@@ -14,9 +14,9 @@ module.exports = function () {
   };
 
   var hasReports = function () {
-    browser.wait(function(){
-      return page.reports().isDisplayed()
-    },5000);
+    browser.wait(function () {
+      return page.reports().isDisplayed();
+    }, 5000);
 
     page = this.pages.report;
     return Promise.all([
@@ -25,15 +25,15 @@ module.exports = function () {
     ]);
   };
 
-  var goToReports = function(){
+  var goToReports = function () {
     page = this.pages.report;
     return this.visit('/#/reports');
   };
 
   var checkCols = function () {
-    return browser.wait(function(){
+    return browser.wait(function () {
       return page.reports().count();
-    }, 5000).then(function(){
+    }, 5000).then(function () {
       return page.getAllItems().map(function (coluna) {
         return expect(coluna.getText()).to.eventually.not.be.empty;
       });
@@ -53,7 +53,7 @@ module.exports = function () {
 
   this.Given(/^clico no campo para filtrar items$/, function () {
     return page.activeFilter().then(function () {
-      return expect(page.avaliableFilters().isDisplayed()).to.eventually.ok;
+      return expect(page.availableFilters().isDisplayed()).to.eventually.ok;
     });
   });
 

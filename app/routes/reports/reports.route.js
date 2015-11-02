@@ -4,7 +4,8 @@ angular
     'ReportsShowModule',
     'ReportsAddModule',
     'ReportsCategoriesIndexModule',
-    'ReportsCategoriesEditModule'
+    'ReportsCategoriesEditModule',
+    'ReportsPerimetersIndexModule'
   ])
 
   .config(['$stateProvider', function($stateProvider) {
