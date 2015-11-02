@@ -213,7 +213,7 @@ angular
                   {
                     var addressComponents = $filter('filterGoogleAddressComponents')(results[0].address_components);
 
-                    if(addressComponents.number.indexOf('-') !== -1) {
+                    if(addressComponents.number && addressComponents.number.indexOf('-') !== -1) {
                       addressComponents.number = addressComponents.number.split('-')[0];
                     }
 
