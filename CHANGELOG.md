@@ -14,6 +14,7 @@
 - Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 - Corrigido bug de z-index no componente de autocomplete
 - Alterado todos os rótulos de "munícipe" para "solicitante"
+- Ajustado ordenamento dos registros de log para os itens de inventário
 - Ajustado filtro de transformação da resposta da API do google maps para endereço (bairro)
 
 ## 1.0.2
