@@ -10,6 +10,7 @@
 - Permissões das notificações
 - Correção nas cores das categorias
 - Não exibe área de notificações se a categoria de relato não tem notificações
+- Revertida mudança de merge que omitiu as permissões de relatórios na edição de grupos
 - Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 - Corrigido bug de z-index no componente de autocomplete
 - Alterado todos os rótulos de "munícipe" para "solicitante"
