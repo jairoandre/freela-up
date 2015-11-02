@@ -19,7 +19,7 @@
       Quando escolho um filtro
       E preencho todos dados necessarios para realizar a busca
       E clico no botão criar filtro
-      Então devo visualizar somente os relatos que contem o mesmo valor enserido no filtro
+      Então devo visualizar somente os relatos que contem o mesmo valor inserido no filtro
 
     Cenário: Usuário a partir da tela de relatos deve ser capaz de editar
       Dado que pretendo editar um relato
