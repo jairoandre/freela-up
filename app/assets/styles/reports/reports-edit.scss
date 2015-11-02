@@ -194,14 +194,15 @@
 
 .image-wrapper-images {
   margin: auto;
-  text-align: center;
+  text-align: left;
 }
 .image-wrapper {
   margin: 5px 10px;
   border: solid #cecece 1px;
   width: 252px;
-  display: inline-block;
+  display: inline-table;
   text-align: justify;
+  vertical-align: top;
 }
 .image-thumb {
   display: block;
@@ -218,7 +219,7 @@
 }
 .image-title {
   margin-top: 15px;
-  height: 150px;
+  min-height: 95px;
 }
 
 .upload-image {
