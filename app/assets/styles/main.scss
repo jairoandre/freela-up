@@ -310,7 +310,7 @@ $sidebar-size-full: 300px;
         margin: 17px 15px 0 0;
       }
 
-      ul {
+      ul:first-child {
         float: left;
         list-style: none;
         margin: 19px 0 0 25px;
@@ -1300,6 +1300,13 @@ $sidebar-size-full: 300px;
       }
     }
   }
+}
+
+.nice-and-centered {
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  color: #666;
 }
 
 #full_page {
@@ -4595,6 +4602,10 @@ colorpicker-preview {
 .ghost-icon {
   @include opacity(.3);
 }
+
+
+
+@import "components";
 
 /* Error modal */
 
