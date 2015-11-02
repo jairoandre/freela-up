@@ -196,7 +196,7 @@ angular
             slug: 'reports_items_read_public',
             name: 'Visualizar relatos parcial',
             needsObject: true,
-            tooltip: 'A visualização de relato parcial é uma permissão que restringe o acesso as informações do relato, isto é, os usuários do grupo não poderão visualizar as observações internas, as respostas enviadas ao munícipe no modo privado e o protocolo. Os usuário exergarão todas as demais informações da tela.'
+            tooltip: 'A visualização de relato parcial é uma permissão que restringe o acesso as informações do relato, isto é, os usuários do grupo não poderão visualizar as observações internas, as respostas enviadas ao solicitante no modo privado e o protocolo. Os usuário exergarão todas as demais informações da tela.'
           },
 
           {
@@ -222,7 +222,7 @@ angular
 
           {
             slug: 'reports_items_create_comment',
-            name: 'Enviar comentários ao munícipe',
+            name: 'Enviar comentários ao solicitante',
             needsObject: true,
             tooltip: 'Grupo pode adicionar comentário público ou privado nos relatos da categoria atribuída.'
           },

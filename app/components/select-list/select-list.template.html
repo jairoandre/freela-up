@@ -8,8 +8,12 @@
       <input type="text" class="form-control" ng-model="q">
       <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
     </div>
-
-    <ul zup-transclude></ul>
+    <ul ng-if="options">
+      <li ng-repeat="option in options | filter: q">
+        <a href="" ng-click="select(option[optionValue], option)"><strong><span ng-bind-html="option[optionName] | highlight: q"></span></strong> <b class="glyphicon glyphicon-ok pull-right"></b></a>
+      </li>
+    </ul>
+    <ul zup-transclude ng-style="{'display': (options ? 'none': 'initial')}"></ul>
   </div>
 
 </div>
