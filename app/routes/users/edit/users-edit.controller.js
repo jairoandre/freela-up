@@ -10,39 +10,35 @@ angular
   .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
-    $scope.user = { groups: [] };
+    $scope.user = {groups: []};
 
-    if (typeof userId !== 'undefined')
-    {
+    if (typeof userId !== 'undefined') {
       updating = true;
       $scope.updating = true;
     }
 
     $scope.loading = true;
 
-    if (updating)
-    {
-      Restangular.one('users', userId).get().then(function(response) {
+    if (updating) {
+      Restangular.one('users', userId).get().then(function (response) {
         $scope.user = response.data;
 
         $scope.loading = false;
       });
     }
-    else
-    {
+    else {
       var groups = Restangular.stripRestangular(groupsResponse.data);
 
       $scope.loading = false;
 
       for (var i = groups.length - 1; i >= 0; i--) {
-        if (groups[i].name === 'Público')
-        {
+        if (groups[i].name === 'Público') {
           $scope.user.groups.push(groups[i]);
         }
       }
     }
 
-    $scope.send = function() {
+    $scope.send = function () {
       $scope.inputErrors = null;
       $scope.processingForm = true;
       $rootScope.resolvingRequest = true;
@@ -50,32 +46,34 @@ angular
       var user = angular.copy($scope.user);
 
       var extraParams = {};
-      if($scope.should_generate_password) {
+      if ($scope.should_generate_password) {
         delete user.password;
         delete user.password_confirmation;
         extraParams.generate_password = true;
       }
 
+      user.groups_ids = _.pluck(user.groups, 'id');
+
+      // remove unecessary data from the request
+      delete user.groups;
+
       // PUT if updating and POST if creating a new user
-      if (updating)
-      {
+      if (updating) {
 
-        var putUserPromise = Restangular.one('users', userId).withHttpConfig({ treatingErrors: true }).customPUT(user, null, extraParams);
+        var putUserPromise = Restangular.one('users', userId).withHttpConfig({treatingErrors: true}).customPUT(user, null, extraParams);
 
-        putUserPromise.then(function() {
+        putUserPromise.then(function () {
           $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
 
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
-        }, function(response) {
+        }, function (response) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser salvo', 'error', true);
 
-          if (typeof response.data.error !== 'object')
-          {
+          if (typeof response.data.error !== 'object') {
             Error.show(response);
           }
-          else
-          {
+          else {
             $scope.inputErrors = response.data.error;
           }
 
@@ -83,40 +81,25 @@ angular
           $rootScope.resolvingRequest = false;
         });
       }
-      else
-      {
-        if (user.groups.length !== 0)
-        {
-          user.groups_ids = [];
-
-          for (var i = user.groups.length - 1; i >= 0; i--) {
-            user.groups_ids.push(user.groups[i].id);
-          }
-        }
-
-        // remove unecessary data from the request
-        delete user.groups;
-
+      else {
         extraParams.return_fields = 'id';
 
-        var postUserPromise = Restangular.one('users').withHttpConfig({ treatingErrors: true }).post(null, user, extraParams);
+        var postUserPromise = Restangular.one('users').withHttpConfig({treatingErrors: true}).post(null, user, extraParams);
 
-        postUserPromise.then(function() {
+        postUserPromise.then(function () {
           $scope.showMessage('ok', 'O usuário foi criado com sucesso', 'success', true);
 
           $location.path('/users');
 
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
-        }, function(response) {
+        }, function (response) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser criado', 'error', true);
 
-          if (typeof response.data.error !== 'object')
-          {
+          if (typeof response.data.error !== 'object') {
             Error.show(response);
           }
-          else
-          {
+          else {
             $scope.inputErrors = response.data.error;
           }
 
