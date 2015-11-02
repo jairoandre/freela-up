@@ -149,7 +149,7 @@
 
     <div class="row">
       <div ng-class="{ 'col-xs-6': showSection('comments'), 'col-xs-12': !showSection('comments') }" ng-if="(hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id) || hasPermission('reports_items_read_private', report.category.id)) && showSection('replies')">
-        <h3>Respostas ao munícipe</h3>
+        <h3>Respostas ao solicitante</h3>
 
         <div ng-repeat="comment in comments | orderBy:'created_at':true | filter: filterByUserMessages">
             <p>{{ comment.author.name }} em <span>{{ comment.created_at | date:'dd/MM/yy HH:mm'}}</span>: {{ comment.message }}</p>
