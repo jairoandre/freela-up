@@ -178,7 +178,7 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      $rootScope.stateClass = 'state-' + toState.name.replace(".", "-").replace("_", "-");
+      $rootScope.stateClass = 'state-' + toState.name.replace(/\./g, "-").replace(/_/g, "-");
       if (fromState.name.length === 0) {
         $rootScope.hideInitialLoading = true;
       }

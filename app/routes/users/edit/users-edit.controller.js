@@ -3,12 +3,14 @@
 angular
   .module('UsersEditControllerModule', [
     'ngCpfCnpj',
-    'EqualsComponentModule'
+    'EqualsComponentModule',
+    'GroupsSelectorInlineModule'
   ])
 
   .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
+    $scope.user = { groups: [] };
 
     if (typeof userId !== 'undefined')
     {
@@ -31,7 +33,6 @@ angular
       var groups = Restangular.stripRestangular(groupsResponse.data);
 
       $scope.loading = false;
-      $scope.user = { groups: [] };
 
       for (var i = groups.length - 1; i >= 0; i--) {
         if (groups[i].name === 'Público')
@@ -40,56 +41,6 @@ angular
         }
       }
     }
-
-    // groups autocomplete
-    $scope.groupsAutocomplete = {
-      options: {
-        onlySelect: true,
-        source: function( request, uiResponse ) {
-          var categoriesPromise = Restangular.all('search/groups').getList({ name: request.term, return_fields: 'id,name', like: true });
-
-          categoriesPromise.then(function(response) {
-            uiResponse( $.map( response.data, function( group ) {
-              return {
-                label: group.name,
-                value: group.name,
-                group: {id: group.id, name: group.name}
-              };
-            }));
-          });
-        },
-        messages: {
-          noResults: '',
-          results: function() {}
-        }
-      }
-    };
-
-    $scope.groupsAutocomplete.events = {
-      select: function( event, ui ) {
-        var found = false;
-
-        for (var i = $scope.user.groups.length - 1; i >= 0; i--) {
-          if ($scope.user.groups[i].id === ui.item.group.id)
-          {
-            found = true;
-          }
-        }
-
-        if (!found)
-        {
-          $scope.user.groups.push(ui.item.group);
-        }
-      },
-
-      change: function() {
-        $scope.group = '';
-      }
-    };
-
-    $scope.removeGroup = function(group) {
-      $scope.user.groups.splice($scope.user.groups.indexOf(group), 1);
-    };
 
     $scope.send = function() {
       $scope.inputErrors = null;
