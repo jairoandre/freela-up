@@ -93,7 +93,7 @@ Reports.prototype = {
   },
 
   getProtocol: function () {
-    return element(by.css('#reports-listing-table tbody td:first-of-type a'));
+    return element.all(by.css('#reports-listing-table tbody td:first-of-type a')).get(0);
   },
 
   getAdress: function () {
