@@ -18,10 +18,13 @@
 
 div.report-image {
   width: 100%;
-  text-align: center;
+  text-align: left;
   img {
-    max-width: 50% !important;
-    padding: 2% !important;
+    max-width: 150px !important;
+    padding: 5px !important;
+  }
+  span {
+    display: inline-table;
   }
 }
 
