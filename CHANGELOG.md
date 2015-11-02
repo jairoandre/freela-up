@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.0.4 [Em aberto]
+### Adicionado
+- Campos extras em usuários
 
 ## 1.0.3
 ### Corrigido
