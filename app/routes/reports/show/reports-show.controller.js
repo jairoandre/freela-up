@@ -184,7 +184,7 @@ angular
         var updateAddressRequest = {
           latitude: $scope.lat,
           longitude: $scope.lng,
-          return_fields: 'position.latitude,position.longitude,address,number,reference,district,postal_code,state,city'
+          return_fields: 'position.latitude,position.longitude,address,number,reference,district,postal_code,state,city,assigned_group.id,assigned_group.name'
         };
 
         _.each(addressFields, function (field) {
@@ -204,6 +204,8 @@ angular
           _.each(addressFields, function (field) {
             $scope.report[field] = updatedReportFields[field]
           });
+          $scope.report['assigned_group'] = updatedReportFields['assigned_group'];
+          $scope.refreshHistory();
         });
       }
     };
