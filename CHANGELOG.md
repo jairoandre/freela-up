@@ -17,6 +17,7 @@
 - Alterado todos os rótulos de "munícipe" para "solicitante"
 - Ajustado ordenamento dos registros de log para os itens de inventário
 - Ajustado filtro de transformação da resposta da API do google maps para endereço (bairro)
+- Corrigido atualização das informações de grupo responsável e histórico do relato quando há atualização do endereço
 - Corrigido formatação de data na lista de shapefiles cadastrados
 
 ## 1.0.2
