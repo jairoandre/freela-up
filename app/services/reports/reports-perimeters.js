@@ -9,9 +9,9 @@ angular
   .module('ReportsPerimetersServiceModule', [])
   .factory('ReportsPerimetersService', function (Restangular, FullResponseRestangular, $rootScope, $q, $log) {
 
-    var service = {};
+    var service = {}, perimeterOrder = 0, total = 0;
 
-    service.perimeters = [];
+    service.perimeters = {};
 
     service.listAllReturnFields = [
       'id',
@@ -32,10 +32,12 @@ angular
      *
      * @returns {*}
      */
-    service.listAll = function () {
-      $log.debug('Listing all perimeters');
+    service.fetchAll = function (options) {
+      $log.debug('Fetching perimeters');
 
-      var options = {
+      options = options || {};
+
+      var defaults = {
         display_type : 'full',
         return_fields : [
           'id',
@@ -45,21 +47,31 @@ angular
           'created_at'].join()
       };
 
+      angular.merge(defaults,options);
+
 
       var promise = FullResponseRestangular
         .one('reports')
         .all('perimeters')
-        .customGET(null, options);
+        .customGET(null, defaults);
 
       var deferred = $q.defer();
 
       promise.then(function (resp) {
-        service.perimeters = resp.data.perimeters;
-        //_.each(resp.data.perimeters, function (r) {
-        //  service.perimeters[r.id] = r;
-        //});
+
+        _.each(resp.data.perimeters, function (r) {
+          if (typeof service.perimeters[r.id] === 'undefined') {
+            r.order = perimeterOrder++;
+          }
+          service.perimeters[r.id] = r;
+        });
+
+        service.total = parseInt(resp.headers().total, 10);
+
         deferred.resolve(service.perimeters);
+
         $rootScope.$broadcast('perimetersFetched');
+
       });
 
       return deferred.promise;
