@@ -66,6 +66,7 @@ angular
           $scope.perimeter.shp_file = hashes[0];
           $scope.perimeter.shx_file = hashes[1];
           service.addPerimeter($scope.perimeter).then(function(){
+            parentScope.cleanCache();
             parentScope.getData();
             $rootScope.showMessage('ok','Perímetro cadastrado com sucesso.','success',true);
             $modalInstance.close();

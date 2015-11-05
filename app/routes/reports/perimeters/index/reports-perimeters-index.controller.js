@@ -4,7 +4,8 @@ angular
   .module('ReportsPerimetersIndexControllerModule', [
     'angularInlineEdit',
     'ReportsPerimetersServiceModule',
-    'ReportsPerimetersModalControllerModule'
+    'ReportsPerimetersModalControllerModule',
+    'angular-toArrayFilter'
   ])
 
   .controller('ReportsPerimetersIndexController', function ($scope, $rootScope, $log, ReportsPerimetersService, $modal) {
@@ -32,17 +33,15 @@ angular
 
     $scope.perimeters = [];
 
-    var loadPerimeters = $scope.loadPerimeters = function () {
-      $scope.loading = true;
-      service.listAll().then(function (r) {
-        $scope.perimeters = r;
-        $scope.loading = false;
-      });
+    $scope.cleanCache = function () {
+      page = 1;
+      perPage = 15;
+      service.cleanCache();
     }
 
     $scope.sort = {
       'column': 'created_at',
-      'descending': true
+      'descending': false
     };
 
     var page = 1, perPage = 15;

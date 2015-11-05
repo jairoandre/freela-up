@@ -31,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="perimeter-table-tr" ng-repeat="perimeter in perimeters | orderBy: 'order'">
+        <tr class="perimeter-table-tr" ng-repeat="perimeter in perimeters | toArray:false | orderBy:'order'">
           <td class="perimeter-title-cell" title="Clique para editar" ng-style="{'font-style': (loadingPerimeter[perimeter.id] ? 'italic' : 'normal')}">
             <span inline-edit="perimeter.title" inline-edit-callback="updatePerimeter(perimeter, newValue)"
                   inline-edit-on-click inline-edit-on-blur="save" inline-edit-btn-edit=""

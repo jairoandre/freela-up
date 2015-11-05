@@ -9,7 +9,9 @@ angular
   .module('ReportsPerimetersServiceModule', [])
   .factory('ReportsPerimetersService', function (Restangular, FullResponseRestangular, $rootScope, $q, $log) {
 
-    var service = {}, perimeterOrder = 0, total = 0;
+    var service = {}, perimeterOrder = 0;
+
+    service.total = 0;
 
     service.perimeters = {};
 
@@ -25,6 +27,8 @@ angular
     service.cleanCache = function () {
       $log.debug('Cleaning perimeters cache.');
       service.perimeters = [];
+      service.total = 0;
+      perimeterOrder = 0;
     };
 
     /**
