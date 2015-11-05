@@ -13,7 +13,7 @@ angular
 
     service.total = 0;
 
-    service.perimeters = {};
+    service.perimeters = [];
 
     service.listAllReturnFields = [
       'id',
