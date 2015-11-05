@@ -61,7 +61,7 @@
         </tr>
         </tbody>
       </table>
-      <div class="perimeters-empty-message" ng-if="perimeters.length === 0">
+      <div class="perimeters-empty-message" ng-if="_.isEmpty(perimeters)">
         Nenhum perímetro cadastado.
       </div>
       <div class="reports-perimeters-loading animate-if" ng-if="loading">

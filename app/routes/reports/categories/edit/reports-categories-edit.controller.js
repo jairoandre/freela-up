@@ -123,7 +123,7 @@ angular
 
     var loadPerimeters = $scope.loadPerimeters = function () {
       $scope.loading = true;
-      ReportsPerimetersService.listAll().then(function (r) {
+      ReportsPerimetersService.fetchAll().then(function (r) {
         _.forEach(r,function(perimeter){
           if(_.isEqual(perimeter.status,'imported')){
             $scope.perimeters.push(perimeter);
@@ -131,7 +131,7 @@ angular
         });
         $scope.loading = false;
       });
-    }
+    };
 
     loadPerimeters();
 
@@ -139,7 +139,7 @@ angular
       var newPerimeterGroup = {};
       newPerimeterGroup.category_id = categoryId;
       $scope.perimetersGroups.push(newPerimeterGroup);
-    }
+    };
 
     $scope.removePerimeterGroup = function(perimeterGroup) {
 
@@ -150,7 +150,7 @@ angular
 
       $scope.perimetersGroups.splice($scope.perimetersGroups.indexOf(perimeterGroup),1);
 
-    }
+    };
 
     $scope.reportCategories = reportCategoriesResponse.data;
     $scope.groups = groupsResponse.data;

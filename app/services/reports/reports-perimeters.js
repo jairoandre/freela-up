@@ -13,7 +13,7 @@ angular
 
     service.total = 0;
 
-    service.perimeters = [];
+    service.perimeters = {};
 
     service.listAllReturnFields = [
       'id',
@@ -26,7 +26,7 @@ angular
 
     service.cleanCache = function () {
       $log.debug('Cleaning perimeters cache.');
-      service.perimeters = [];
+      service.perimeters = {};
       service.total = 0;
       perimeterOrder = 0;
     };
@@ -42,8 +42,8 @@ angular
       options = options || {};
 
       var defaults = {
-        display_type : 'full',
-        return_fields : [
+        display_type: 'full',
+        return_fields: [
           'id',
           'title',
           'status',
@@ -51,7 +51,7 @@ angular
           'created_at'].join()
       };
 
-      angular.merge(defaults,options);
+      angular.merge(defaults, options);
 
 
       var promise = FullResponseRestangular
@@ -134,33 +134,33 @@ angular
      * @param uploader
      * @returns {{name: string, fn: Function}}
      */
-    service.createFileUploaderFilter = function(extension, uploader) {
+    service.createFileUploaderFilter = function (extension, uploader) {
       return {
         name: extension + 'Filter',
-        fn: function(item) {
+        fn: function (item) {
           uploader.fileTypeError = false;
           uploader.fileTypeFileName = '';
           var type = (uploader.isHTML5 && item.type) ? item.type : '/' + item.name.slice(item.name.lastIndexOf('.') + 1);
           type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
           var equalsObj = extension.toLowerCase() === type;
-          if(!equalsObj){
+          if (!equalsObj) {
             uploader.fileTypeError = true;
             uploader.fileTypeFileName = item.name;
           }
           return equalsObj;
         }
       }
-    }
+    };
 
     /**
      * Save perimeter group
      *
      * @param perimeterGroup
      */
-    service.savePerimeterGroup = function(perimeterGroup) {
+    service.savePerimeterGroup = function (perimeterGroup) {
       $log.debug(
         (perimeterGroup.id ? 'Update' : 'Create') + ' promise to perimeter group: [' +
-        (perimeterGroup.id ? ('id: ' + perimeterGroup.id + ', ')  : '') +
+        (perimeterGroup.id ? ('id: ' + perimeterGroup.id + ', ') : '') +
         'category_id: ' + perimeterGroup.category_id + ', ' +
         'group_id: ' + perimeterGroup.group_id + ', ' +
         'perimeter_id: ' + perimeterGroup.perimeter_id + ']');
@@ -169,10 +169,10 @@ angular
 
       var promise;
 
-      if(perimeterGroup.id){
+      if (perimeterGroup.id) {
         promise = Restangular
           .one('reports')
-          .one('categories',perimeterGroup.category_id)
+          .one('categories', perimeterGroup.category_id)
           .one('perimeters', perimeterGroup.id)
           .withHttpConfig({treatingErrors: true})
           .customPUT(requestParam);
@@ -180,12 +180,12 @@ angular
         requestParam.return_fields = 'id';
         promise = Restangular
           .one('reports')
-          .one('categories',perimeterGroup.category_id)
+          .one('categories', perimeterGroup.category_id)
           .withHttpConfig({treatingErrors: true})
           .post('perimeters', requestParam);
       }
       return promise;
-    }
+    };
 
     /**
      * Delete the perimeter
@@ -197,7 +197,7 @@ angular
       $log.debug('Deleting perimeter group [id: ' + perimeterGroup.id + ']');
       return Restangular
         .one('reports')
-        .one('categories',perimeterGroup.category_id)
+        .one('categories', perimeterGroup.category_id)
         .withHttpConfig({treatingErrors: true})
         .one('perimeters', perimeterGroup.id).remove();
     };
@@ -206,30 +206,31 @@ angular
      *
      * @param categoryId
      */
-    service.getPerimetersGroups = function(categoryId) {
+    service.getPerimetersGroups = function (categoryId) {
       var promise = Restangular
         .one('reports')
         .one('categories', categoryId)
         .all('perimeters')
-        .customGET(null, {display_type: 'full', return_fields: 'id,group.id,perimeter.id,category.id'});
+        .customGET(null, {display_type: 'full', return_fields: 'id,perimeter.title,group.id,perimeter.id,category.id'});
       var deferred = $q.defer();
       promise.then(function (resp) {
-        service.perimeters = [];
-        _.each(resp.data, function(val){
+        service.perimetersGroups = [];
+        _.each(resp.data, function (val) {
           var perimeterGroup = {};
           perimeterGroup.id = val.id;
-          if(!_.isNull(val.perimeter)){
+          if (!_.isNull(val.perimeter)) {
             perimeterGroup.perimeter_id = val.perimeter.id;
           }
           perimeterGroup.group_id = val.group.id;
           perimeterGroup.category_id = val.category.id;
-          service.perimeters.push(perimeterGroup);
+          perimeterGroup.title = val.perimeter.title;
+          service.perimetersGroups.push(perimeterGroup);
         });
-        deferred.resolve(service.perimeters);
-        $rootScope.$broadcast('perimetersFetched');
+        deferred.resolve(service.perimetersGroups);
+        $rootScope.$broadcast('perimetersGroupFetched');
       });
       return deferred.promise;
-    }
+    };
 
     return service;
   });
