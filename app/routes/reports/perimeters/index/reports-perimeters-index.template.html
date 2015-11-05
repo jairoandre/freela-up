@@ -1,5 +1,4 @@
-<div class="loading" ng-show="loading"></div>
-<div ng-hide="loading" class="pages-animation">
+<div infinite-scroll="getData()" infinite-scroll-distance="0">
   <div class="title">
     <ul>
       <li><a ui-sref="reports.index.list">Relatos</a></li>
@@ -15,7 +14,7 @@
     <h3>Perímetros/Regiões cadastrados</h3>
 
     <div class="table-div">
-      <table id="reports-perimeters-table" class="table custom_table perimeters-table">
+      <table id="reports-perimeters-table" class="table custom_table perimeters-table" >
         <thead>
         <tr>
           <td class="perimeter-title-cell-header">
@@ -32,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="perimeter-table-tr" ng-repeat="perimeter in perimeters">
+        <tr class="perimeter-table-tr" ng-repeat="perimeter in perimeters | toArray:false | orderBy:'order'">
           <td class="perimeter-title-cell" title="Clique para editar" ng-style="{'font-style': (loadingPerimeter[perimeter.id] ? 'italic' : 'normal')}">
             <span inline-edit="perimeter.title" inline-edit-callback="updatePerimeter(perimeter, newValue)"
                   inline-edit-on-click inline-edit-on-blur="save" inline-edit-btn-edit=""
@@ -65,8 +64,9 @@
       <div class="perimeters-empty-message" ng-if="perimeters.length === 0">
         Nenhum perímetro cadastado.
       </div>
+      <div class="reports-perimeters-loading animate-if" ng-if="loading">
+        <img src="assets/images/loading.gif" width="50" height="50"/>
+      </div>
     </div>
   </div>
-
-
 </div>
