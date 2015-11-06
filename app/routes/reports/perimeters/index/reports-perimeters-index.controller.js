@@ -57,6 +57,7 @@ angular
           options.order = $scope.sort.descending ? 'desc' : 'asc';
         }
 
+        options.paginate = true;
         options.page = +page || 1;
         options.per_page = +perPage || 15;
 
