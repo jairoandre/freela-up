@@ -90,11 +90,13 @@
       <h3>4. Adicione imagens (opcional)</h3>
 
       <div class="form-group">
-        <div class="upload upload-image" nv-file-drop uploader="uploader">
-          <span class="upload-image-span" ng-if="uploader.isHTML5">Arraste as imagens aqui, ou</span>
-          <div class="btn btn-info btn-custom btn-upload btn-upload-image">
-            <span>Selecione os arquivos</span>
-            <input type="file" nv-file-select uploader="uploader" multiple  />
+        <div class="upload" nv-file-drop uploader="uploader">
+          <div class="upload-image" nv-file-over uploader="uploader">
+            <span class="upload-image-span" ng-if="uploader.isHTML5">Arraste as imagens aqui, ou</span>
+            <div class="btn btn-info btn-custom btn-upload btn-upload-image">
+              <span>Selecione os arquivos</span>
+              <input type="file" nv-file-select uploader="uploader" multiple  />
+            </div>
           </div>
         </div>
       </div>

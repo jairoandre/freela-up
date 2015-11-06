@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.0.5 [Em aberto]
+### Corrigido
+- Ajustes visuais na caixa drag-n-drop de upload de imagens do relato
 
 ## 1.0.4
 ### Corrigido
