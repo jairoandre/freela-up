@@ -1,8 +1,18 @@
 # Changelog
 
-## 1.0.4 [Em aberto]
+## 1.0.5 [Em aberto]
 ### Adicionado
 - Campos extras em usuários
+
+### Corrigido
+- Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
+
+## 1.0.4
+### Corrigido
+- Corrigido atualização das informações de grupo responsável e histórico do relato quando há atualização do endereço
+- Corrigido formatação de data na lista de shapefiles cadastrados
+- Ajustado filtro de transformação da resposta da API do google maps para endereço (bairro)
+- Ajustado ordenamento dos registros de log para os itens de inventário
 
 ## 1.0.3
 ### Adicionado
@@ -17,8 +27,6 @@
 - Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 - Corrigido bug de z-index no componente de autocomplete
 - Alterado todos os rótulos de "munícipe" para "solicitante"
-- Ajustado ordenamento dos registros de log para os itens de inventário
-- Ajustado filtro de transformação da resposta da API do google maps para endereço (bairro)
 
 ## 1.0.2
 ### Adicionado
