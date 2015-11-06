@@ -45,7 +45,7 @@
       <input type="text" class="form-control custom_form" id="form_address_additional" ng-model="user.address_additional" generic-input name="address_additional">
     </div>
 
-    <div class="form-group" ng-class="{'has-error': form.district.$dirty && form.city.$invalid}">
+    <div class="form-group" ng-class="{'has-error': form.district.$dirty && form.district.$invalid}">
       <label for="form_district">Bairro *</label>
       <input type="text" class="form-control custom_form" id="form_district" ng-model="user.district" generic-input name="district" required>
     </div>
