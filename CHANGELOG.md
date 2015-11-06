@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.0.5 [Em aberto]
+- Ajustes visuais na tabela de listagem de notificações (header e texto prazo)
 
 ## 1.0.4
 ### Corrigido
