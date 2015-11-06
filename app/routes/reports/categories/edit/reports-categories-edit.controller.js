@@ -80,7 +80,7 @@ angular
     return new NotificationTypesService();
   })
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, notificationsTypesResponse, Error, ReportsCategoriesService, $log, $state, ReportsPerimetersService) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, notificationsTypesResponse, Error, ReportsCategoriesService, $log, $state, ReportsPerimetersService, $timeout) {
     var updating = $scope.updating = false;
     var categoryId = $scope.categoryId = $stateParams.id;
 
@@ -123,6 +123,9 @@ angular
 
     var loadPerimeters = $scope.loadPerimeters = function () {
       $scope.loading = true;
+      var options = {
+
+      };
       ReportsPerimetersService.fetchAll().then(function (r) {
         _.forEach(r,function(perimeter){
           if(_.isEqual(perimeter.status,'imported')){
@@ -135,11 +138,33 @@ angular
 
     loadPerimeters();
 
+    $scope.showPerimeters = false;
+
+    $scope.perimetersLimit = 5;
+
     $scope.addNewPerimeterGroup = function() {
       var newPerimeterGroup = {};
       newPerimeterGroup.category_id = categoryId;
       $scope.perimetersGroups.push(newPerimeterGroup);
     };
+
+    $scope.changePerimetersDelay = function() {
+      $timeout(function(){
+        $scope.showPerimeters = $scope.category.perimeters;
+      }, 1000);      
+    };
+
+    $scope.updatePerimetersLimit = function() {
+
+      if($scope.perimetersLimit < $scope.perimetersGroups.length){
+        $scope.perimetersLimit += 5;  
+      }else{
+        $scope.perimetersLimet = $scope.perimetersGroups.length;
+      }
+
+      
+
+    }
 
     $scope.removePerimeterGroup = function(perimeterGroup) {
 
@@ -362,7 +387,7 @@ angular
         category.default_solver_group_id = responses[1].data.default_solver_group_id;
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
-        category.perimeters = responses[1].data.perimeters;
+        $scope.showPerimeters = category.perimeters = responses[1].data.perimeters;
 
         $scope.perimetersGroups = responses[2];
 

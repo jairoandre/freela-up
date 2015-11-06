@@ -49,8 +49,8 @@ angular
                 var value = _.find($scope.options,function(_value){
                   return _.isEqual(_value[$scope.optionValue],$scope.ngModel);
                 });
-                if(_.isNull(value)){
-                  return $scope.myPlaceHolder;
+                if(_.isNull(value) || _.isUndefined(value)){
+                  return 'Opção não disponível';
                 }else{
                   return value[$scope.optionName];
                 }
