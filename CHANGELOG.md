@@ -3,6 +3,7 @@
 ## 1.0.5 [Em aberto]
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
+- Removido scroll infinito da listagem de grupos por perímetros e aplicado novo formato de renderização
 
 ## 1.0.4
 ### Corrigido
