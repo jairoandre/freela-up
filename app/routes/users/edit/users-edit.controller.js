@@ -44,7 +44,10 @@ angular
       $rootScope.resolvingRequest = true;
 
       var user = angular.copy($scope.user);
-      user.birthdate = moment(user.birthdate, 'DD/MM/YYYY').toJSON();
+
+      if (user.birthdate) {
+        user.birthdate = moment(user.birthdate, 'DD/MM/YYYY').toJSON();
+      }
 
       var extraParams = {};
       if ($scope.should_generate_password) {

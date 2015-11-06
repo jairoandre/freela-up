@@ -5,7 +5,7 @@ angular
     'ngCpfCnpj'
   ])
 
-  .controller('ReportsCreateUserModalController', function (Restangular, $scope, $modalInstance, $q, setUser) {
+  .controller('ReportsCreateUserModalController', function (Restangular, $scope, moment, $modalInstance, $q, setUser) {
     $scope.user = {};
 
     $scope.inputErrors = null;
@@ -13,7 +13,10 @@ angular
     $scope.create = function () {
       $scope.inputErrors = null;
       $scope.processingForm = true;
-      $scope.user.birthdate = moment($scope.user.birthdate, 'DD/MM/YYYY').toJSON();
+
+      if ($scope.user.birthdate) {
+        $scope.user.birthdate = moment($scope.user.birthdate, 'DD/MM/YYYY').toJSON();
+      }
 
       var postUserPromise = Restangular.one('users').withHttpConfig({treatingErrors: true}).post(null, $scope.user, {
         return_fields: 'id,name',
