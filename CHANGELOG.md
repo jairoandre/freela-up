@@ -16,6 +16,7 @@
 - Adicionado cadastro de shapefiles para configuração das categorias
 - Diretiva de seleção em linha de permissões de grupos de usuário
 ### Corrigido
+- Corrigido comportamento incorreto do posicionamento dos popovers.
 - Variáveis de ambiente que estavam faltando no build.
 - Permissões das notificações
 - Correção nas cores das categorias
@@ -24,6 +25,7 @@
 - Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 - Corrigido bug de z-index no componente de autocomplete
 - Alterado todos os rótulos de "munícipe" para "solicitante"
+>>>>>>> master
 
 ## 1.0.2
 ### Adicionado
