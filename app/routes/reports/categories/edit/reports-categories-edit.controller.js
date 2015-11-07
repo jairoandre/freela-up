@@ -4,11 +4,13 @@ angular
   .module('ReportsCategoriesEditControllerModule', [
     'FormatErrorsHelperModule',
     'NgThumbComponentModule',
+    'SelectListComponentModule',
     'MultipleSelectListComponentModule',
     'ReportsCategoriesManageStatusesModalControllerModule',
     'ReportsCategoriesServiceModule',
     'ReportsCategoriesNotificationsLayoutControllerModule',
-    'DisplayNotificationDirectiveModule'
+    'DisplayNotificationDirectiveModule',
+    'ReportsPerimetersServiceModule'
   ])
 
   .factory('NotificationTypesService', function (Restangular, $q) {
@@ -78,13 +80,13 @@ angular
     return new NotificationTypesService();
   })
 
-  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse,notificationsTypesResponse, Error, ReportsCategoriesService, $log, $state) {
+  .controller('ReportsCategoriesEditController', function ($scope, $rootScope, $stateParams, NotificationTypesService, Restangular, FileUploader, $q, $http, $location, $anchorScroll, $modal, $document, reportCategoriesResponse, groupsResponse, notificationsTypesResponse, Error, ReportsCategoriesService, $log, $state, ReportsPerimetersService, $timeout) {
     var updating = $scope.updating = false;
     var categoryId = $scope.categoryId = $stateParams.id;
 
-    $log.info('ReportsCategoriesEditController created.');
+    $log.debug('ReportsCategoriesEditController created.');
     $scope.$on('$destroy', function () {
-      $log.info('ReportsCategoriesEditController destroyed.');
+      $log.debug('ReportsCategoriesEditController destroyed.');
     });
 
     if (typeof categoryId !== 'undefined') {
@@ -113,6 +115,66 @@ angular
       else {
         return MINUTE;
       }
+    };
+
+    /* Perimeters */
+    $scope.perimeters = [];
+    $scope.perimetersGroupsToRemove = [];
+
+    var loadPerimeters = $scope.loadPerimeters = function () {
+      $scope.loading = true;
+      var options = {
+
+      };
+      ReportsPerimetersService.fetchAll().then(function (r) {
+        _.forEach(r,function(perimeter){
+          if(_.isEqual(perimeter.status,'imported')){
+            $scope.perimeters.push(perimeter);
+          }
+        });
+        $scope.loading = false;
+      });
+    };
+
+    loadPerimeters();
+
+    $scope.showPerimeters = false;
+
+    $scope.perimetersLimit = 5;
+
+    $scope.addNewPerimeterGroup = function() {
+      var newPerimeterGroup = {};
+      newPerimeterGroup.category_id = categoryId;
+      $scope.perimetersGroups.push(newPerimeterGroup);
+    };
+
+    $scope.changePerimetersDelay = function() {
+      $timeout(function(){
+        $scope.showPerimeters = $scope.category.perimeters;
+      }, 1000);      
+    };
+
+    $scope.updatePerimetersLimit = function() {
+
+      if($scope.perimetersLimit < $scope.perimetersGroups.length){
+        $scope.perimetersLimit += 5;  
+      }else{
+        $scope.perimetersLimet = $scope.perimetersGroups.length;
+      }
+
+      
+
+    }
+
+    $scope.removePerimeterGroup = function(perimeterGroup) {
+
+      // Perimeters groups queue to remove
+      if(perimeterGroup.id){
+        $scope.perimetersGroupsToRemove.push(perimeterGroup);
+      }
+
+      $scope.perimetersGroups.splice($scope.perimetersGroups.indexOf(perimeterGroup),1);
+
     };
 
     $scope.reportCategories = reportCategoriesResponse.data;
@@ -305,8 +367,9 @@ angular
       category = $scope.category = {};
 
       var categoryPromise = Restangular.one('reports').one('categories', categoryId).get();
+      var perimetersPromise = ReportsPerimetersService.getPerimetersGroups(categoryId);
 
-      $q.all([categoriesPromise, categoryPromise]).then(function (responses) {
+      $q.all([categoriesPromise, categoryPromise, perimetersPromise]).then(function (responses) {
         $scope.categories = responses[0].data;
 
         // ...and we populate $scope.category with the data from the server =)
@@ -324,6 +387,9 @@ angular
         category.default_solver_group_id = responses[1].data.default_solver_group_id;
         category.notifications = responses[1].data.notifications;
         category.ordered_notifications = responses[1].data.ordered_notifications;
+        $scope.showPerimeters = category.perimeters = responses[1].data.perimeters;
+
+        $scope.perimetersGroups = responses[2];
 
         NotificationTypesService.updateCache(categoryId, notificationsTypesResponse.data);
         $scope.notificationTypesArray = notificationsTypesResponse.data;
@@ -367,6 +433,8 @@ angular
 
         $scope.loading = false;
       });
+
+      $scope.perimetersGroups = [];
 
       $scope.enabledUserResponseTime = false;
 
@@ -624,12 +692,45 @@ angular
 
           var putCategoryPromise = Restangular.one('reports').one('categories', categoryId).withHttpConfig({treatingErrors: true}).customPUT(editedCategory);
 
-          putCategoryPromise.then(function () {
+          promises = [];
+
+          promises.push(putCategoryPromise);
+
+          for(var i = $scope.perimetersGroups.length - 1; i >= 0; i--){
+            var currentPerimeterGroup = $scope.perimetersGroups[i];
+            if(currentPerimeterGroup.__isDirty && currentPerimeterGroup.__isDirty()){
+              promises.push(ReportsPerimetersService.savePerimeterGroup(currentPerimeterGroup));
+            }
+          }
+
+          for(var i = $scope.perimetersGroupsToRemove.length - 1; i >= 0; i--){
+            promises.push(ReportsPerimetersService.deletePerimeterGroup($scope.perimetersGroupsToRemove[i]));
+          }
+
+
+          $q.all(promises).then(function(results){
             ReportsCategoriesService.purgeCache();
 
             $scope.showMessage('ok', 'A categoria de relato foi atualizada com sucesso', 'success', true);
 
             $rootScope.resolvingRequest = false;
+            for(var i = $scope.perimetersGroups.length - 1; i >= 0; i--){
+              if($scope.perimetersGroups[i].__resetDirty){
+                $scope.perimetersGroups[i].__resetDirty();
+              }
+            }
+            $scope.perimetersGroupsToRemove = [];
+
+            // Set id for created perimeters groups
+            _.each(results,function(result){
+              if(_.isEqual('POST',result.config.method) && _.isEqual('perimeters',result.data.route)){
+                var createdPerimeter = _.find($scope.perimetersGroups,function(perimeter){
+                  return _.isNull(perimeter.id) || _.isUndefined(perimeter.id);
+                });
+                createdPerimeter.id = result.data.id;
+              }
+            });
+
           }, function (response) {
             $scope.showMessage('exclamation-sign', 'A categoria de relato não pode ser salva', 'error', true);
 

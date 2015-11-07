@@ -9,190 +9,199 @@
     </ul>
   </div>
 
-  <div class="content bigPadding">
+  <div class="content wrappers">
 
-    <h3>Informações da categoria</h3>
+    <!-- INFORMAÇÕES DO RELATO -->
+    <div class="rounder_wrapper" id="report-data">
+      <div class="wrapper_title"><h1>Informações da categoria</h1></div>
 
-    <div class="rounder_wrapper errors" ng-show="inputErrors">
-      <div class="alert alert-danger fade-animation">
-        <p ng-bind-html="inputErrors | formatErrors"></p>
-      </div>
-    </div>
-
-    <div style="width: 90%">
-      <div class="form-group">
-        <label for="form_name">Nome da categoria</label>
-        <input type="text" class="form-control input-lg" id="form_name" ng-model="category.title" generic-input
-               name="title">
+      <div class="rounder_wrapper errors" ng-show="inputErrors">
+        <div class="alert alert-danger fade-animation">
+          <p ng-bind-html="inputErrors | formatErrors"></p>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Categoria principal</label>
+      <div class="fields">
+        <div class="form-group">
+          <label for="form_name">Nome da categoria</label>
+          <input type="text" class="form-control input-lg" id="form_name" ng-model="category.title" generic-input
+                 name="title">
+        </div>
 
-        <select class="form-control" ng-model="category.parent_id"
-                ng-options="category.id as category.title for category in reportCategories">
-          <option value=""></option>
-        </select>
-      </div>
+        <hr/>
 
-      <div class="form-group">
-        <label>Categoria de inventário relacionada</label>
+        <div class="form-group">
+          <label>Categoria principal</label>
 
-        <div class="selectUsers">
+          <select class="form-control" ng-model="category.parent_id"
+                  ng-options="category.id as category.title for category in reportCategories">
+            <option value=""></option>
+          </select>
+        </div>
 
-          <div class="ui-widget">
-            <span class="search_icon"></span>
-            <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete"
-                   ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input"
-                   ng-click="inventories_autocomplete = null">
+        <hr/>
+
+        <div class="form-group">
+          <label>Categoria de inventário relacionada</label>
+
+          <div class="selectUsers">
+
+            <div class="ui-widget">
+              <span class="search_icon"></span>
+              <input type="text" placeholder="Buscar categorias de inventário..." ng-model="inventories_autocomplete"
+                     ui-autocomplete="categoriesAutocomplete" class="ui-autocomplete-input"
+                     ng-click="inventories_autocomplete = null">
+            </div>
+
+            <ul>
+              <li ng-repeat="id in category.inventory_categories"><span ng-repeat="_category in categories"
+                                                                        ng-show="_category.id === id">{{ _category.title }}</span>
+                <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <p><b>Cor repesentativa</b></p>
+
+          <p>Cores principais (recomendadas)</p>
+
+          <div class="colors">
+            <a href="" ng-repeat="color in mainColors" ng-click="pickColor(color)"
+               ng-class="{selected: color === category.color}"><span
+              ng-style="{ 'background-color': color }"></span></a>
+
+            <div class="clearfix"></div>
           </div>
 
-          <ul>
-            <li ng-repeat="id in category.inventory_categories"><span ng-repeat="_category in categories"
-                                                                      ng-show="_category.id === id">{{ _category.title }}</span>
-              <button type="button" class="remove" ng-click="removeCategory(id)">&times;</button>
-            </li>
-          </ul>
-        </div>
+          <p>Cores secundárias</p>
 
-        <!--<select multiple class="form-control" ng-model="category.inventory_categories" ng-options="category.id as category.title for category in categories">
-        </select>-->
-      </div>
+          <div class="colors">
+            <a href="" ng-repeat="color in alternativeColors" ng-click="pickColor(color)"
+               ng-class="{selected: color === category.color}"><span
+              ng-style="{ 'background-color': color }"></span></a>
 
-      <div class="form-group">
-        <p><b>Cor repesentativa</b></p>
+            <div class="clearfix"></div>
+          </div>
 
-        <p>Cores principais (recomendadas)</p>
+          <button colorpicker type="button" colorpicker-position="top" class="btn btn-default pull-left"
+                  ng-model="category.color">Escolher outra cor
+          </button>
 
-        <div class="colors">
-          <a href="" ng-repeat="color in mainColors" ng-click="pickColor(color)"
-             ng-class="{selected: color === category.color}"><span ng-style="{ 'background-color': color }"></span></a>
+          <span class="color" ng-style="{ 'background-color': category.color }"></span>
 
           <div class="clearfix"></div>
         </div>
 
-        <p>Cores secundárias</p>
+        <hr/>
 
-        <div class="colors">
-          <a href="" ng-repeat="color in alternativeColors" ng-click="pickColor(color)"
-             ng-class="{selected: color === category.color}"><span ng-style="{ 'background-color': color }"></span></a>
+        <div class="form-group">
+          <label>Ícone de categoria</label>
 
-          <div class="clearfix"></div>
-        </div>
+          <div class="icons">
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A1' }" ng-click="pickIcon('icon_A1')"><img
+              src="assets/images/icons/icon_A1.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A10' }" ng-click="pickIcon('icon_A10')"><img
+              src="assets/images/icons/icon_A10.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A11' }" ng-click="pickIcon('icon_A11')"><img
+              src="assets/images/icons/icon_A11.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A12' }" ng-click="pickIcon('icon_A12')"><img
+              src="assets/images/icons/icon_A12.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A13' }" ng-click="pickIcon('icon_A13')"><img
+              src="assets/images/icons/icon_A13.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A14' }" ng-click="pickIcon('icon_A14')"><img
+              src="assets/images/icons/icon_A14.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A15' }" ng-click="pickIcon('icon_A15')"><img
+              src="assets/images/icons/icon_A15.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A16' }" ng-click="pickIcon('icon_A16')"><img
+              src="assets/images/icons/icon_A16.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A17' }" ng-click="pickIcon('icon_A17')"><img
+              src="assets/images/icons/icon_A17.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A18' }" ng-click="pickIcon('icon_A18')"><img
+              src="assets/images/icons/icon_A18.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A19' }" ng-click="pickIcon('icon_A19')"><img
+              src="assets/images/icons/icon_A19.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A2' }" ng-click="pickIcon('icon_A2')"><img
+              src="assets/images/icons/icon_A2.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A3' }" ng-click="pickIcon('icon_A3')"><img
+              src="assets/images/icons/icon_A3.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A4' }" ng-click="pickIcon('icon_A4')"><img
+              src="assets/images/icons/icon_A4.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A5' }" ng-click="pickIcon('icon_A5')"><img
+              src="assets/images/icons/icon_A5.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A6' }" ng-click="pickIcon('icon_A6')"><img
+              src="assets/images/icons/icon_A6.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A7' }" ng-click="pickIcon('icon_A7')"><img
+              src="assets/images/icons/icon_A7.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A8' }" ng-click="pickIcon('icon_A8')"><img
+              src="assets/images/icons/icon_A8.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_A9' }" ng-click="pickIcon('icon_A9')"><img
+              src="assets/images/icons/icon_A9.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B1' }" ng-click="pickIcon('icon_B1')"><img
+              src="assets/images/icons/icon_B1.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B10' }" ng-click="pickIcon('icon_B10')"><img
+              src="assets/images/icons/icon_B10.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B2' }" ng-click="pickIcon('icon_B2')"><img
+              src="assets/images/icons/icon_B2.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B3' }" ng-click="pickIcon('icon_B3')"><img
+              src="assets/images/icons/icon_B3.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B4' }" ng-click="pickIcon('icon_B4')"><img
+              src="assets/images/icons/icon_B4.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B5' }" ng-click="pickIcon('icon_B5')"><img
+              src="assets/images/icons/icon_B5.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B6' }" ng-click="pickIcon('icon_B6')"><img
+              src="assets/images/icons/icon_B6.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B7' }" ng-click="pickIcon('icon_B7')"><img
+              src="assets/images/icons/icon_B7.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B8' }" ng-click="pickIcon('icon_B8')"><img
+              src="assets/images/icons/icon_B8.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_B9' }" ng-click="pickIcon('icon_B9')"><img
+              src="assets/images/icons/icon_B9.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C1' }" ng-click="pickIcon('icon_C1')"><img
+              src="assets/images/icons/icon_C1.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C2' }" ng-click="pickIcon('icon_C2')"><img
+              src="assets/images/icons/icon_C2.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C3' }" ng-click="pickIcon('icon_C3')"><img
+              src="assets/images/icons/icon_C3.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C4' }" ng-click="pickIcon('icon_C4')"><img
+              src="assets/images/icons/icon_C4.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C5' }" ng-click="pickIcon('icon_C5')"><img
+              src="assets/images/icons/icon_C5.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C6' }" ng-click="pickIcon('icon_C6')"><img
+              src="assets/images/icons/icon_C6.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C7' }" ng-click="pickIcon('icon_C7')"><img
+              src="assets/images/icons/icon_C7.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C8' }" ng-click="pickIcon('icon_C8')"><img
+              src="assets/images/icons/icon_C8.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_C9' }" ng-click="pickIcon('icon_C9')"><img
+              src="assets/images/icons/icon_C9.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D1' }" ng-click="pickIcon('icon_D1')"><img
+              src="assets/images/icons/icon_D1.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D10' }" ng-click="pickIcon('icon_D10')"><img
+              src="assets/images/icons/icon_D10.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D11' }" ng-click="pickIcon('icon_D11')"><img
+              src="assets/images/icons/icon_D11.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D2' }" ng-click="pickIcon('icon_D2')"><img
+              src="assets/images/icons/icon_D2.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D3' }" ng-click="pickIcon('icon_D3')"><img
+              src="assets/images/icons/icon_D3.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D4' }" ng-click="pickIcon('icon_D4')"><img
+              src="assets/images/icons/icon_D4.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D5' }" ng-click="pickIcon('icon_D5')"><img
+              src="assets/images/icons/icon_D5.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D6' }" ng-click="pickIcon('icon_D6')"><img
+              src="assets/images/icons/icon_D6.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D7' }" ng-click="pickIcon('icon_D7')"><img
+              src="assets/images/icons/icon_D7.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D8' }" ng-click="pickIcon('icon_D8')"><img
+              src="assets/images/icons/icon_D8.png"/></a>
+            <a href="" ng-class="{ selected: selectedIcon === 'icon_D9' }" ng-click="pickIcon('icon_D9')"><img
+              src="assets/images/icons/icon_D9.png"/></a>
 
-        <button colorpicker type="button" colorpicker-position="top" class="btn btn-default pull-left"
-                ng-model="category.color">Escolher outra cor
-        </button>
-
-        <span class="color" ng-style="{ 'background-color': category.color }"></span>
-
-        <div class="clearfix"></div>
-      </div>
-
-      <div class="form-group">
-        <label>Ícone de categoria</label>
-
-        <div class="icons">
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A1' }" ng-click="pickIcon('icon_A1')"><img
-            src="assets/images/icons/icon_A1.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A10' }" ng-click="pickIcon('icon_A10')"><img
-            src="assets/images/icons/icon_A10.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A11' }" ng-click="pickIcon('icon_A11')"><img
-            src="assets/images/icons/icon_A11.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A12' }" ng-click="pickIcon('icon_A12')"><img
-            src="assets/images/icons/icon_A12.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A13' }" ng-click="pickIcon('icon_A13')"><img
-            src="assets/images/icons/icon_A13.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A14' }" ng-click="pickIcon('icon_A14')"><img
-            src="assets/images/icons/icon_A14.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A15' }" ng-click="pickIcon('icon_A15')"><img
-            src="assets/images/icons/icon_A15.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A16' }" ng-click="pickIcon('icon_A16')"><img
-            src="assets/images/icons/icon_A16.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A17' }" ng-click="pickIcon('icon_A17')"><img
-            src="assets/images/icons/icon_A17.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A18' }" ng-click="pickIcon('icon_A18')"><img
-            src="assets/images/icons/icon_A18.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A19' }" ng-click="pickIcon('icon_A19')"><img
-            src="assets/images/icons/icon_A19.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A2' }" ng-click="pickIcon('icon_A2')"><img
-            src="assets/images/icons/icon_A2.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A3' }" ng-click="pickIcon('icon_A3')"><img
-            src="assets/images/icons/icon_A3.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A4' }" ng-click="pickIcon('icon_A4')"><img
-            src="assets/images/icons/icon_A4.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A5' }" ng-click="pickIcon('icon_A5')"><img
-            src="assets/images/icons/icon_A5.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A6' }" ng-click="pickIcon('icon_A6')"><img
-            src="assets/images/icons/icon_A6.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A7' }" ng-click="pickIcon('icon_A7')"><img
-            src="assets/images/icons/icon_A7.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A8' }" ng-click="pickIcon('icon_A8')"><img
-            src="assets/images/icons/icon_A8.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_A9' }" ng-click="pickIcon('icon_A9')"><img
-            src="assets/images/icons/icon_A9.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B1' }" ng-click="pickIcon('icon_B1')"><img
-            src="assets/images/icons/icon_B1.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B10' }" ng-click="pickIcon('icon_B10')"><img
-            src="assets/images/icons/icon_B10.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B2' }" ng-click="pickIcon('icon_B2')"><img
-            src="assets/images/icons/icon_B2.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B3' }" ng-click="pickIcon('icon_B3')"><img
-            src="assets/images/icons/icon_B3.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B4' }" ng-click="pickIcon('icon_B4')"><img
-            src="assets/images/icons/icon_B4.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B5' }" ng-click="pickIcon('icon_B5')"><img
-            src="assets/images/icons/icon_B5.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B6' }" ng-click="pickIcon('icon_B6')"><img
-            src="assets/images/icons/icon_B6.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B7' }" ng-click="pickIcon('icon_B7')"><img
-            src="assets/images/icons/icon_B7.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B8' }" ng-click="pickIcon('icon_B8')"><img
-            src="assets/images/icons/icon_B8.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_B9' }" ng-click="pickIcon('icon_B9')"><img
-            src="assets/images/icons/icon_B9.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C1' }" ng-click="pickIcon('icon_C1')"><img
-            src="assets/images/icons/icon_C1.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C2' }" ng-click="pickIcon('icon_C2')"><img
-            src="assets/images/icons/icon_C2.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C3' }" ng-click="pickIcon('icon_C3')"><img
-            src="assets/images/icons/icon_C3.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C4' }" ng-click="pickIcon('icon_C4')"><img
-            src="assets/images/icons/icon_C4.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C5' }" ng-click="pickIcon('icon_C5')"><img
-            src="assets/images/icons/icon_C5.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C6' }" ng-click="pickIcon('icon_C6')"><img
-            src="assets/images/icons/icon_C6.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C7' }" ng-click="pickIcon('icon_C7')"><img
-            src="assets/images/icons/icon_C7.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C8' }" ng-click="pickIcon('icon_C8')"><img
-            src="assets/images/icons/icon_C8.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_C9' }" ng-click="pickIcon('icon_C9')"><img
-            src="assets/images/icons/icon_C9.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D1' }" ng-click="pickIcon('icon_D1')"><img
-            src="assets/images/icons/icon_D1.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D10' }" ng-click="pickIcon('icon_D10')"><img
-            src="assets/images/icons/icon_D10.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D11' }" ng-click="pickIcon('icon_D11')"><img
-            src="assets/images/icons/icon_D11.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D2' }" ng-click="pickIcon('icon_D2')"><img
-            src="assets/images/icons/icon_D2.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D3' }" ng-click="pickIcon('icon_D3')"><img
-            src="assets/images/icons/icon_D3.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D4' }" ng-click="pickIcon('icon_D4')"><img
-            src="assets/images/icons/icon_D4.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D5' }" ng-click="pickIcon('icon_D5')"><img
-            src="assets/images/icons/icon_D5.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D6' }" ng-click="pickIcon('icon_D6')"><img
-            src="assets/images/icons/icon_D6.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D7' }" ng-click="pickIcon('icon_D7')"><img
-            src="assets/images/icons/icon_D7.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D8' }" ng-click="pickIcon('icon_D8')"><img
-            src="assets/images/icons/icon_D8.png"/></a>
-          <a href="" ng-class="{ selected: selectedIcon === 'icon_D9' }" ng-click="pickIcon('icon_D9')"><img
-            src="assets/images/icons/icon_D9.png"/></a>
-
-          <a href="" class="no-animation" ng-click="showMoreIcons = true" ng-show="!showMoreIcons"><p>Ver mais</p></a>
+            <a href="" class="no-animation" ng-click="showMoreIcons = true" ng-show="!showMoreIcons"><p>Ver mais</p></a>
 
             <span ng-if="showMoreIcons">
               <a href="" ng-class="{ selected: selectedIcon == 'icon_E1'}" ng-click="pickIcon('icon_E1')"><img
@@ -333,446 +342,496 @@
                 src="assets/images/icons/icon_J9.png"/></a>
             </span>
 
-          <div class="clearfix"></div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-2">
-            <div class="btn btn-default btn-upload">
-              <span><i class="glyphicon glyphicon-open"></i> Enviar ícone</span>
-
-              <input nv-file-select uploader="uploader" type="file"/>
-            </div>
+            <div class="clearfix"></div>
           </div>
 
-          <div class="col-md-10">
-            <p>Caso não tenha encontrado nenhum ícone que sirva a sua categoria, você pode enviar um arquivo de 60x60
-              px, na cor branca com fundo transparente e no formato PNG.</p>
-          </div>
-        </div>
-      </div>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="btn btn-default btn-upload">
+                <span><i class="glyphicon glyphicon-open"></i> Enviar ícone</span>
 
-      <div class="form-group" ng-if="icon || uploader.queue.length != 0 || selectedIcon">
-        <label>Pré-visualização do ícone</label>
-
-        <div class="row final-result">
-          <div class="col-md-3 col">
-            <div class="big-icon" ng-style="{'background-color': category.color}">
-              <div class="image" ng-show="selectedIcon && uploader.queue.length == 0">
-                <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="60" height="60" ng-if="selectedIcon">
-              </div>
-
-              <div class="image" ng-show="icon && uploader.queue.length == 0 && !selectedIcon">
-                <img ng-src="{{ icon }}" width="60" height="60">
-              </div>
-
-              <div class="image" ng-repeat="item in uploader.queue">
-                <div ng-thumb="{ file: item._file, width: 60, height: 60 }"></div>
+                <input nv-file-select uploader="uploader" type="file"/>
               </div>
             </div>
 
-            <p>Ampliado</p>
+            <div class="col-md-10">
+              <p>Caso não tenha encontrado nenhum ícone que sirva a sua categoria, você pode enviar um arquivo de 60x60
+                px, na cor branca com fundo transparente e no formato PNG.</p>
+            </div>
           </div>
+        </div>
 
-          <div class="col-md-3 col align">
-            <div class="small-icon" ng-style="{'background-color': category.color}">
-              <div class="image" ng-show="selectedIcon && uploader.queue.length == 0">
-                <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="30" height="30" ng-if="selectedIcon">
+        <div class="form-group" ng-if="icon || uploader.queue.length != 0 || selectedIcon">
+
+          <hr/>
+
+          <label>Pré-visualização do ícone</label>
+
+          <div class="row final-result">
+            <div class="col-md-3 col">
+              <div class="big-icon" ng-style="{'background-color': category.color}">
+                <div class="image" ng-show="selectedIcon && uploader.queue.length == 0">
+                  <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="60" height="60" ng-if="selectedIcon">
+                </div>
+
+                <div class="image" ng-show="icon && uploader.queue.length == 0 && !selectedIcon">
+                  <img ng-src="{{ icon }}" width="60" height="60">
+                </div>
+
+                <div class="image" ng-repeat="item in uploader.queue">
+                  <div ng-thumb="{ file: item._file, width: 60, height: 60 }"></div>
+                </div>
               </div>
 
-              <div class="image" ng-show="icon && uploader.queue.length == 0 && !selectedIcon">
-                <img ng-src="{{ icon }}" width="30" height="30">
+              <p>Ampliado</p>
+            </div>
+
+            <div class="col-md-3 col align">
+              <div class="small-icon" ng-style="{'background-color': category.color}">
+                <div class="image" ng-show="selectedIcon && uploader.queue.length == 0">
+                  <img ng-src="assets/images/icons/{{ selectedIcon }}.png" width="30" height="30" ng-if="selectedIcon">
+                </div>
+
+                <div class="image" ng-show="icon && uploader.queue.length == 0 && !selectedIcon">
+                  <img ng-src="{{ icon }}" width="30" height="30">
+                </div>
+
+                <div class="image" ng-repeat="item in uploader.queue">
+                  <div ng-thumb="{ file: item._file, width: 30, height: 30 }"></div>
+                </div>
               </div>
 
-              <div class="image" ng-repeat="item in uploader.queue">
-                <div ng-thumb="{ file: item._file, width: 30, height: 30 }"></div>
-              </div>
-            </div>
-
-            <p>Tamanho final aprox.</p>
-          </div>
-        </div>
-      </div>
-
-      <!--<div class="form-group upload">
-        <label>Ícone da categoria <span>(60x60px)</span></label>
-
-        <div class="queue">
-          <div ng-show="uploader.isHTML5" class="drop-zone" nv-file-over uploader="uploader" ng-style="{'background-color': category.color}">
-            <span ng-show="uploader.queue.length == 0" ng-hide="icon">Arraste o ícone</span>
-
-            <div class="image" ng-show="icon && uploader.queue.length == 0">
-              <img ng-src="{{ selectedIcon }}" width="65" height="65">
-            </div>
-
-            <div class="image" ng-repeat="item in uploader.queue">
-              <div ng-thumb="{ file: item._file, width: 60, height: 60 }"></div>
+              <p>Tamanho final aprox.</p>
             </div>
           </div>
         </div>
-
-        <div class="btn btn-default btn-upload">
-            <span>Selecione um arquivo</span>
-
-            <input nv-file-select uploader="uploader" type="file" multiple  />
-        </div>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label>Cor representativa</label>
-        <div class="row">
-          <div class="col-md-2" generic-input name="color">
-            <button colorpicker type="button" colorpicker-position="top" class="btn btn-colorpicker" ng-model="category.color" ng-style="{'background-color': category.color}"></button>
-          </div>
-        </div>
-      </div>
-    </div>-->
+    <!-- CONFIGURAÇÕES DO RELATO -->
+    <div class="rounder_wrapper" id="report-data">
+      <div class="wrapper_title"><h1>Configurações do relato</h1></div>
 
-      <hr/>
-
-      <h3>Configurações de relato</h3>
-
-      <div class="form-group">
-        <label>Tempo de resolução do relato</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.resolution_time_enabled">
-          </div>
-
-          <div ng-show="category.resolution_time_enabled">
-            <div class="custom-time-column">
-              <input type="text" class="form-control" ng-model="preferedResolutionTime" generic-input
-                     name="resolution_time">
-            </div>
-
-            <div class="custom-time-select-column">
-              <div class="btn-group" role="group">
-                <button type="button" ng-class="{active: defaultResolutionTimeSelection == 60}" class="btn btn-default"
-                        ng-click="changeDefaultResolutionTimeSelection(60)">Min.
-                </button>
-                <button type="button" ng-class="{active: defaultResolutionTimeSelection == 3600}"
-                        class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(3600)">Horas
-                </button>
-                <button type="button" ng-class="{active: defaultResolutionTimeSelection == 86400}"
-                        class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(86400)">Dias
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Se ativado, o tempo de resolução permite controlar o estado do tempo de resolução que é o tempo em que o relato foi aberto até o seu fechamento. Se passar do período setado aqui, o chamado entrará em atraso automaticamente.</span>
-      </div>
-
-      <div class="form-group" ng-show="category.resolution_time_enabled">
-        <label>Tempo de resolução privado</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.private_resolution_time">
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Se selecionado não, o tempo para resolução será exibido para os usuários no momento em que o relato esta sendo criado. Se sim, apenas será usado dentro do painel ZUP. Caso o chamado entre em atraso, o atraso não será exibido nos aplicativos.</span>
-      </div>
-
-      <div class="form-group">
-        <label generic-input name="statuses">Estados de relatos disponíveis <a href="" ng-click="manageStatuses()">(Gerenciar
-          estados)</a></label>
-
-        <ul class="statuses-list">
-          <li ng-repeat="status in category.statuses"><span ng-style="{'background-color': status.color}"></span> {{
-            status.title }}
-          </li>
-        </ul>
-      </div>
-
-      <div class="form-group">
-        <label>Permitir criar relatos em pontos livres</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, o usuário poderá arrastar o marcador em qualquer lugar do mapa da cidade.</span>
-      </div>
-
-      <div class="form-group">
-        <label>Categoria sigilosa</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.confidential">
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, será exibido ao usuário um aviso que as informações pessoais são mantidas em sigilo.</span>
-      </div>
-
-      <div class="form-group">
-        <label>Feedback do usuário</label>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" class="pull-right" bs-switch ng-model="enabledUserResponseTime">
-          </div>
-
-          <div class="custom-time-column" ng-show="enabledUserResponseTime">
-            <input type="text" class="form-control" ng-model="preferedUserResponseTime" generic-input
-                   name="user_response_time">
-          </div>
-
-          <div class="custom-time-select-column" ng-show="enabledUserResponseTime">
-            <div class="btn-group" role="group">
-              <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 60}" class="btn btn-default"
-                      ng-click="changeDefaultUserResponseTimeSelection(60)">Min.
-              </button>
-              <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 3600}"
-                      class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(3600)">Horas
-              </button>
-              <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 86400}"
-                      class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(86400)">Dias
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Se ativado, quando o chamado for finalizado, o usuário receberá um e-mail com um link para fazer uma avaliação do chamado. O usuário pode dar uma posição positiva ou negativa, inserir um texto e também imagem. É necessário inserir um tempo para que ele tenha a chance de fazer a avaliação, caso o tempo expire, ele não poderá mais a avaliação.</span>
-      </div>
-
-      <div class="form-group">
-        <label>Grupos solucionadores</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <multiple-select-list ng-model="category.solver_groups_ids">
-              <li><a href="" ng-click="selectAll($parent.$parent.groups, 'id')"><b>Selecionar todos</b></a></li>
-
-              <li ng-repeat="group in $parent.$parent.groups | filter: q" ng-class="{ 'active': isSelected(group.id) }">
-                <a href="" ng-click="toggle(group.id)"><span ng-bind-html="group.name | highlight: q"></span> <b
-                  class="glyphicon glyphicon-ok pull-right"></b></a>
-              </li>
-            </multiple-select-list>
-          </div>
-
-          <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
-            <ui-select ng-model="category.default_solver_group_id" theme="bootstrap">
-              <ui-select-match placeholder="Selecione o grupo padrão...">{{ $select.selected.name }}</ui-select-match>
-
-              <ui-select-choices
-                repeat="group.id as group in groups | filter: { name: $select.search } | filter:filterByIds">
-                <div ng-bind-html="group.name | highlight: $select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Grupos solucionadores são grupos que são responsáveis pelos relatos. O grupo padrão será o grupo no qual todos os relatos criados nesta categoria vão ser vinculados automaticamente ao ser criado.</span>
-      </div>
-
-      <div class="form-group">
-        <label>Obrigatoriedade de inserir um comentário interno ao encaminhar o relato</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.comment_required_when_forwarding">
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Ao encaminhar um relato a um grupo, a pessoa deverá escrever um comentário interno ao relato descrevendo a ação.</span>
-      </div>
-
-      <div class="form-group">
-        <label>Obrigatoriedade de inserir um comentário ao alterar o status</label>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.comment_required_when_updating_status">
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Ao alterar o estado de um relato, a pessoa responsável pela ação deverá escrever um comentário para o munícipe - esse comentário pode ser público ou privado.</span>
-      </div>
-
-      <hr/>
-
-      <h3>Configurações de Notificações</h3>
-
-      <div class="form-group">
-        <label>Exibir Notificações</label>
-
-        <div class="row">
-          <div class="custom-private-option-column">
-            <input type="checkbox" bs-switch ng-model="category.notifications"
-                   switch-active="{{!editingNotificationType}}">
-          </div>
-        </div>
-
-        <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a funcionalidade de envio de notificação será ativa para a categoria.</span>
-      </div>
-
-      <div id="notificationTypesSection" class="actived-notifications app-animation" ng-show="category.notifications">
-
+      <div class="fields">
         <div class="form-group">
-          <label>Notificações devem ser emitidas em ordem</label>
+          <label>Tempo de resolução do relato</label>
+
+          <div class="clearfix"></div>
 
           <div class="row">
             <div class="custom-private-option-column">
-              <input type="checkbox" bs-switch ng-model="category.ordered_notifications">
+              <input type="checkbox" bs-switch ng-model="category.resolution_time_enabled">
+            </div>
+
+            <div ng-show="category.resolution_time_enabled">
+              <div class="custom-time-column">
+                <input type="text" class="form-control" ng-model="preferedResolutionTime" generic-input
+                       name="resolution_time">
+              </div>
+
+              <div class="custom-time-select-column">
+                <div class="btn-group" role="group">
+                  <button type="button" ng-class="{active: defaultResolutionTimeSelection == 60}"
+                          class="btn btn-default"
+                          ng-click="changeDefaultResolutionTimeSelection(60)">Min.
+                  </button>
+                  <button type="button" ng-class="{active: defaultResolutionTimeSelection == 3600}"
+                          class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(3600)">Horas
+                  </button>
+                  <button type="button" ng-class="{active: defaultResolutionTimeSelection == 86400}"
+                          class="btn btn-default" ng-click="changeDefaultResolutionTimeSelection(86400)">Dias
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a emissão de notificações se dará de maneira ordenada.</span>
+
+          <span class="help-block" style="margin-top: 15px;">Se ativado, o tempo de resolução permite controlar o estado do tempo de resolução que é o tempo em que o relato foi aberto até o seu fechamento. Se passar do período setado aqui, o chamado entrará em atraso automaticamente.</span>
         </div>
 
-        <div class="form-group" ng-if="!categoryId">
-          <span class="help-block">*Só será possível criar tipos de notificação após o registro da nova categoria.</span>
-        </div>
-        <div class="form-group" ng-if="categoryId">
-          <label>Tipos de notificações disponíveis
-            <a href="#notificationItem{{notificationTypesArray.length}}" ng-click="addNotificationType()"
-               ng-if="!editingNotificationType" du-smooth-scroll>(Criar novo)</a>
-          </label>
+
+        <div class="form-group" ng-show="category.resolution_time_enabled">
+
+          <hr/>
+
+          <label>Tempo de resolução privado</label>
 
           <div class="clearfix"></div>
 
-          <ul ui-sortable="notificationsSortableOptions" ng-model="notificationTypesArray"
-              class="reports-categories-notifications-sortable-list">
-            <li id="notificationItem{{$index}}" ng-repeat="notificationType in notificationTypesArray"
-                class="notifications-li animate-show"
-                ng-animate-children>
-              <div class="info" ng-if="!editingNotificationType">
-                <a href="#notificationItem{{$index}}" ng-click="editNotificationType(notificationType)"
-                   du-smooth-scroll>{{ notificationType.title }}</a>
-              </div>
-              <div class="info" ng-if="editingNotificationType">
-                <a href="">{{ notificationType.title + (isDirtyNotificationType(notificationType) ? '*' : '') }}</a>
-              </div>
-              <div class="actions" ng-if="!editingNotificationType">
-                <div class="layout" style="display: inline-block" title="Visualizar Layout">
-                  <a href="" display-notification="notificationType.layout" class="icon">
-                    <span class="glyphicon glyphicon-search"></span>
-                  </a>
-                </div>
-                <div class="edit" style="display: inline-block" title="Editar">
-                  <a href="#notificationItem{{$index}}" ng-click="editNotificationType(notificationType)" class="icon"
-                     du-smooth-scroll>
-                    <span class="glyphicon glyphicon-edit"></span>
-                  </a>
-                </div>
-                <div class="trash">
-                  <a href=""
-                     confirm-dialog
-                     cd-modal-title="Remover notificação"
-                     cd-item-title="notificationType.title"
-                     cd-confirm-function="deleteNotificationType(notificationType)"
-                     cd-confirm-promise="deleteNotificationTypePromise"
-                     class="icon"><span class="glyphicon glyphicon-trash"></span></a>
-                </div>
-                <div class="move ng-hide" ng-show="category.ordered_notifications">
-                  <a href="" class="icon">
-                    <span class="glyphicon glyphicon-move"></span>
-                  </a>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-              <!-- Edit Section -->
-              <div class="edit-mode"
-                   ng-show="editingNotificationType && editingNotificationTypeId === notificationType.id">
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.private_resolution_time">
+            </div>
+          </div>
 
-                <div class="form-group">
-                  <label>Título da notificaçao</label>
+          <span class="help-block" style="margin-top: 15px;">Se selecionado não, o tempo para resolução será exibido para os usuários no momento em que o relato esta sendo criado. Se sim, apenas será usado dentro do painel ZUP. Caso o chamado entre em atraso, o atraso não será exibido nos aplicativos.</span>
+        </div>
 
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <input type="text" class="form-control input-lg" ng-model="notificationTypeMemento.title"
-                             ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
-                    </div>
-                  </div>
-                </div>
+        <hr/>
 
-                <div class="form-group">
-                  <label>Prazo padrão</label>
+        <div class="form-group">
+          <label generic-input name="statuses">Estados de relatos disponíveis <a href="" ng-click="manageStatuses()">(Gerenciar
+            estados)</a></label>
 
-                  <div class="row">
-                    <div class="col-xs-2">
-                      <div class="input-group">
-                        <input type="text" class="form-control input-lg"
-                               ng-model="notificationTypeMemento.default_deadline_in_days"
-                               ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
-                        <span class="input-group-addon">dias</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Estado vinculado (opcional)</label>
-
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <select class="form-control input-lg" ng-model="notificationTypeMemento.reports_status_id"
-                              ng-options="status.id as status.title for status in category.statuses"
-                              ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
-                        <option value=""></option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Leiaute</label>
-
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <a href="" ng-click="editNotificationTypeLayout(notificationTypeMemento)">
-                        <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Editar leiaute
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="clearfix"></div>
-
-                <div class="edit-mode-buttons">
-                  <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom"
-                          ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">
-                    {{addingNotificationType ? 'Salvar' : 'Atualizar'}}
-                  </button>
-                  <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()"
-                     class="btn btn-info btn-custom" ng-disabled="saveNotificationTypePromise"
-                     du-smooth-scroll>Cancelar</a>
-                </div>
-              </div>
+          <ul class="statuses-list">
+            <li ng-repeat="status in category.statuses"><span ng-style="{'background-color': status.color}"></span> {{
+              status.title }}
             </li>
           </ul>
-          <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Permitir criar relatos em pontos livres</label>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.allows_arbitrary_position">
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, o usuário poderá arrastar o marcador em qualquer lugar do mapa da cidade.</span>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Categoria sigilosa</label>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.confidential">
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Ao ativar esta opção, será exibido ao usuário um aviso que as informações pessoais são mantidas em sigilo.</span>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Feedback do usuário</label>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" class="pull-right" bs-switch ng-model="enabledUserResponseTime">
+            </div>
+
+            <div class="custom-time-column" ng-show="enabledUserResponseTime">
+              <input type="text" class="form-control" ng-model="preferedUserResponseTime" generic-input
+                     name="user_response_time">
+            </div>
+
+            <div class="custom-time-select-column" ng-show="enabledUserResponseTime">
+              <div class="btn-group" role="group">
+                <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 60}"
+                        class="btn btn-default"
+                        ng-click="changeDefaultUserResponseTimeSelection(60)">Min.
+                </button>
+                <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 3600}"
+                        class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(3600)">Horas
+                </button>
+                <button type="button" ng-class="{active: defaultUserResponseTimeSelection == 86400}"
+                        class="btn btn-default" ng-click="changeDefaultUserResponseTimeSelection(86400)">Dias
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Se ativado, quando o chamado for finalizado, o usuário receberá um e-mail com um link para fazer uma avaliação do chamado. O usuário pode dar uma posição positiva ou negativa, inserir um texto e também imagem. É necessário inserir um tempo para que ele tenha a chance de fazer a avaliação, caso o tempo expire, ele não poderá mais a avaliação.</span>
         </div>
       </div>
 
-      <hr/>
-
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar categoria
-      </button>
-
-      <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar categoria
-      </button>
     </div>
+
+    <!-- RESPONSÁVEIS PELO RELATO -->
+    <div class="rounder_wrapper" id="report-solver-data">
+      <div class="wrapper_title"><h1>Responsáveis pelo relato</h1></div>
+
+      <div class="fields">
+        <div class="form-group">
+          <label>Grupos solucionadores</label>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <multiple-select-list ng-model="category.solver_groups_ids">
+                <li><a href="" ng-click="selectAll($parent.$parent.groups, 'id')"><b>Selecionar todos</b></a></li>
+
+                <li ng-repeat="group in $parent.$parent.groups | filter: q"
+                    ng-class="{ 'active': isSelected(group.id) }">
+                  <a href="" ng-click="toggle(group.id)"><span ng-bind-html="group.name | highlight: q"></span> <b
+                    class="glyphicon glyphicon-ok pull-right"></b></a>
+                </li>
+              </multiple-select-list>
+            </div>
+
+            <div class="col-md-4 pages-animation" ng-show="category.solver_groups_ids.length !== 0">
+              <select-list ng-model="category.default_solver_group_id" option-name="name" option-value="id" options="groups" my-place-holder="Selecione o grupo padrão..."/>
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Grupos solucionadores são grupos que são responsáveis pelos relatos. O grupo padrão será o grupo no qual todos os relatos criados nesta categoria vão ser vinculados automaticamente ao ser criado.</span>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Gerenciamento por perímetro</label>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.perimeters" ng-change="changePerimetersDelay()">
+            </div>
+          </div>
+          <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a categoria poderá associar grupos solucionadores por perímetro.</span>
+          <span class="help-block" style="margin-top: 15px;" ng-if="category.perimeters && !categoryId">*Só será possível associar perímetros aos grupos após a criação da nova categoria.</span>
+
+          <div class="table-div" ng-if="showPerimeters && categoryId" infinite-scroll="updatePerimetersLimit()" infinite-scroll-distance="5">
+            <table id="reports-perimeters-table" class="table custom_table" ng-if="perimetersGroups.length > 0">
+              <thead>
+              <tr>
+                <td class="perimeter-title-cell">
+                  <span>Perímetro/Região</span>
+                </td>
+                <td class="perimeter-status-cell">
+                  <span>Grupo Responsável</span>
+                </td>
+                <td class="perimeter-btn-cell"></td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="perimeter-table-tr" ng-repeat="perimeterGroup in perimetersGroups | limitTo : perimetersLimit" >
+                <td class="perimeter-title-cell">
+                  <select-list ng-model="perimeterGroup.perimeter_id" option-name="title" option-value="id" options="perimeters" my-place-holder="Selecione o perímetro/região" mark-dirty="perimeterGroup"/>
+                </td>
+                <td class="perimeter-status-cell">
+                  <select-list ng-model="perimeterGroup.group_id" option-name="name" option-value="id" options="groups" my-place-holder="Selecione o grupo responsável" mark-dirty="perimeterGroup"/>
+                </td>
+                <td class="perimeter-btn-cell">
+                  <a href="" ng-click="removePerimeterGroup(perimeterGroup)">
+                    <span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <a href="" ng-click="addNewPerimeterGroup()" class="btn btn-info btn-custom">
+              Definir novo perímetro</a>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Obrigatoriedade de inserir um comentário interno ao encaminhar o relato</label>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.comment_required_when_forwarding">
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Ao encaminhar um relato a um grupo, a pessoa deverá escrever um comentário interno ao relato descrevendo a ação.</span>
+        </div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label>Obrigatoriedade de inserir um comentário ao alterar o status</label>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.comment_required_when_updating_status">
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Ao alterar o estado de um relato, a pessoa responsável pela ação deverá escrever um comentário para o munícipe - esse comentário pode ser público ou privado.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CONFIGURAÇÕES DE NOTIFICAÇÕES -->
+    <div class="rounder_wrapper" id="notifications-data">
+      <div class="wrapper_title"><h1>Configurações de Notificações</h1></div>
+
+      <div class="fields">
+        <div class="form-group">
+          <label>Exibir Notificações</label>
+
+          <div class="row">
+            <div class="custom-private-option-column">
+              <input type="checkbox" bs-switch ng-model="category.notifications"
+                     switch-active="{{!editingNotificationType}}">
+            </div>
+          </div>
+
+          <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a funcionalidade de envio de notificação será ativa para a categoria.</span>
+        </div>
+
+        <div id="notificationTypesSection" class="actived-notifications app-animation" ng-show="category.notifications">
+
+          <hr/>
+
+          <div class="form-group">
+            <label>Notificações devem ser emitidas em ordem</label>
+
+            <div class="row">
+              <div class="custom-private-option-column">
+                <input type="checkbox" bs-switch ng-model="category.ordered_notifications">
+              </div>
+            </div>
+            <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a emissão de notificações se dará de maneira ordenada.</span>
+          </div>
+
+          <div class="form-group" ng-if="!categoryId">
+            <span
+              class="help-block">*Só será possível criar tipos de notificação após o registro da nova categoria.</span>
+          </div>
+          <div class="form-group" ng-if="categoryId">
+            <label>Tipos de notificações disponíveis
+              <a href="#notificationItem{{notificationTypesArray.length}}" ng-click="addNotificationType()"
+                 ng-if="!editingNotificationType" du-smooth-scroll>(Criar novo)</a>
+            </label>
+
+            <div class="clearfix"></div>
+
+            <ul ui-sortable="notificationsSortableOptions" ng-model="notificationTypesArray"
+                class="reports-categories-notifications-sortable-list">
+              <li id="notificationItem{{$index}}" ng-repeat="notificationType in notificationTypesArray"
+                  class="notifications-li animate-show"
+                  ng-animate-children>
+                <div class="info" ng-if="!editingNotificationType">
+                  <a href="#notificationItem{{$index}}" ng-click="editNotificationType(notificationType)"
+                     du-smooth-scroll>{{ notificationType.title }}</a>
+                </div>
+                <div class="info" ng-if="editingNotificationType">
+                  <a href="">{{ notificationType.title + (isDirtyNotificationType(notificationType) ? '*' : '') }}</a>
+                </div>
+                <div class="actions" ng-if="!editingNotificationType">
+                  <div class="layout" style="display: inline-block" title="Visualizar Layout">
+                    <a href="" display-notification="notificationType.layout" class="icon">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                  </div>
+                  <div class="edit" style="display: inline-block" title="Editar">
+                    <a href="#notificationItem{{$index}}" ng-click="editNotificationType(notificationType)" class="icon"
+                       du-smooth-scroll>
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                  </div>
+                  <div class="trash">
+                    <a href=""
+                       confirm-dialog
+                       cd-modal-title="Remover notificação"
+                       cd-item-title="notificationType.title"
+                       cd-confirm-function="deleteNotificationType(notificationType)"
+                       cd-confirm-promise="deleteNotificationTypePromise"
+                       class="icon"><span class="glyphicon glyphicon-trash"></span></a>
+                  </div>
+                  <div class="move ng-hide" ng-show="category.ordered_notifications">
+                    <a href="" class="icon">
+                      <span class="glyphicon glyphicon-move"></span>
+                    </a>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <!-- Edit Section -->
+                <div class="edit-mode"
+                     ng-show="editingNotificationType && editingNotificationTypeId === notificationType.id">
+
+                  <div class="form-group">
+                    <label>Título da notificaçao</label>
+
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <input type="text" class="form-control input-lg" ng-model="notificationTypeMemento.title"
+                               ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Prazo padrão</label>
+
+                    <div class="row">
+                      <div class="col-xs-2">
+                        <div class="input-group">
+                          <input type="text" class="form-control input-lg"
+                                 ng-model="notificationTypeMemento.default_deadline_in_days"
+                                 ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
+                          <span class="input-group-addon">dias</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Estado vinculado (opcional)</label>
+
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <select class="form-control input-lg" ng-model="notificationTypeMemento.reports_status_id"
+                                ng-options="status.id as status.title for status in category.statuses"
+                                ng-change="verifyDirtyNotificationTypeMemento(notificationType)">
+                          <option value=""></option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Leiaute</label>
+
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <a href="" ng-click="editNotificationTypeLayout(notificationTypeMemento)">
+                          <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Editar leiaute
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="clearfix"></div>
+
+                  <div class="edit-mode-buttons">
+                    <button ng-click="updateEditingNotificationType(notificationType)" class="btn btn-info btn-custom"
+                            ng-disabled="!dirtyNotificationType" promise-btn="saveNotificationTypePromise">
+                      {{addingNotificationType ? 'Salvar' : 'Atualizar'}}
+                    </button>
+                    <a href="#notificationTypesSection" ng-click="cancelEditingNotificationType()"
+                       class="btn btn-info btn-custom" ng-disabled="saveNotificationTypePromise"
+                       du-smooth-scroll>Cancelar</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <span class="help-block app-animation" style="margin-top: 15px;" ng-show="category.ordered_notifications">Os envios das notificações seguirá a ordem acima. Arraste os itens para estabelecer a ordem desejada.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="content" style="margin-right: 5%; margin-left: 5%; padding-left: 0;">
+      <div class="form-group">
+        <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-hide="updating">Criar categoria
+        </button>
+        <button ng-click="send()" class="btn btn-info btn-custom btn-lg-custom" ng-show="updating">Atualizar categoria
+        </button>
+      </div>
+    </div>
+
+
   </div>
 </div>

@@ -14,18 +14,21 @@
       Dado que estou visualizando todos os relatos
       Então todas colunas devem estar devidamente preenchidas
 
+    @notimplemented
     Cenário: Permitir que o usuário realizer busca utilizando os filtros
       Dado clico no campo para filtrar items
       Quando escolho um filtro
       E preencho todos dados necessarios para realizar a busca
       E clico no botão criar filtro
-      Então devo visualizar somente os relatos que contem o mesmo valor enserido no filtro
+      Então devo visualizar somente os relatos que contem o mesmo valor inserido no filtro
 
+    @notimplemented
     Cenário: Usuário a partir da tela de relatos deve ser capaz de editar
       Dado que pretendo editar um relato
       Então eu clico em cima do relato desejado
       E assim devo ser capaz de visualizar o botões de editar e alterar
 
+    @notimplemented
     Cenário: Usuário a partir da tela de relatos deve ser capaz de visualizar o mesmo
       Dado que eu desejo visualizar um relato
       Então eu clico em cima do relato desejado

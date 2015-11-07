@@ -10,7 +10,7 @@ angular
 
   .controller('ReportsIndexMapController', function ($rootScope, $scope, Restangular, $modal, $q, $location, $window, $cookies, ReportsItemsService, $state, $log) {
 
-    $log.info('ReportsIndexMapController created.');
+    $log.debug('ReportsIndexMapController created.');
 
     var page = 1, perPage = 15;
 
@@ -55,6 +55,6 @@ angular
     $scope.$on('$destroy', function () {
       $rootScope.pageHasMap = false;
 
-      $log.info('ReportsIndexMapController destroyed.');
+      $log.debug('ReportsIndexMapController destroyed.');
     });
   });

@@ -241,6 +241,22 @@ angular
             tooltip: 'Grupo pode reiniciar todo o processo de notificações.'
           }
         ]
+      },
+      {
+        type: 'business_report',
+        name: 'Relatórios',
+        permissionsNames: [
+          {
+            slug: 'business_reports_edit',
+            name: 'Gerenciar relatórios',
+            needsObject: false
+          },
+          {
+            slug: 'business_reports_view',
+            name: 'Visualizar relatório específico',
+            needsObject: true
+          }
+        ]
       }
     ];
 

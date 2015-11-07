@@ -10,21 +10,67 @@ angular
         transclude: true,
         scope: {
           ngModel: '=',
-          optionName: '@'
+          optionName: '@',
+          optionValue: '@',
+          myPlaceHolder: '@',
+          markDirty: '=',
+          options: '='
         },
         replace: true,
         controller: function ($scope) {
-          $scope.getExcerpt = function() {
-            if ($scope.title)
-            {
-              return $scope.title;
-            }
 
-            return 'Selecione uma categoria';
+          var setupDirty = function() {
+            if(_.isUndefined($scope.markDirty.__dirty) || _.isNull($scope.markDirty.__dirty)){
+              var dirtyArray = $scope.markDirty.__dirty = [];
+              $scope.markDirty.__isDirty = function() {
+                return _.indexOf(dirtyArray, true) > -1;
+              };
+              $scope.markDirty.__resetDirty = function() {
+                for(var i = dirtyArray.length - 1; i >=0; i--){
+                  dirtyArray[i] = false;
+                }
+                $scope.memento = angular.copy($scope.ngModel);
+              }
+            }
+            $scope.dirtyIndex = $scope.markDirty.__dirty.length;
+            $scope.markDirty.__dirty.push(false);
+            $scope.memento = angular.copy($scope.ngModel);
+          }
+
+          if($scope.markDirty) {
+            setupDirty();
+          }
+
+          $scope.getExcerpt = function() {
+            if(_.isArray($scope.options)){
+              if(_.isNull($scope.ngModel) || _.isUndefined($scope.ngModel)){
+                return $scope.myPlaceHolder;
+              }else{
+                var value = _.find($scope.options,function(_value){
+                  return _.isEqual(_value[$scope.optionValue],$scope.ngModel);
+                });
+                if(_.isNull(value) || _.isUndefined(value)){
+                  return 'Opção não disponível';
+                }else{
+                  return value[$scope.optionName];
+                }
+              }
+            } else {
+              if ($scope.title)
+              {
+                return $scope.title;
+              }
+
+              return 'Selecione uma categoria';
+            }
           };
 
           $scope.select = function(optionId, option) {
             $scope.ngModel = optionId;
+
+            if($scope.markDirty && _.isArray($scope.markDirty.__dirty)) {
+              $scope.markDirty.__dirty[$scope.dirtyIndex] = !_.isEqual($scope.ngModel, $scope.memento);
+            }
 
             $scope.title = option[$scope.optionName];
 
