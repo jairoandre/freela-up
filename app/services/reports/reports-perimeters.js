@@ -76,6 +76,8 @@ angular
 
         $rootScope.$broadcast('perimetersFetched');
 
+      }, function(){
+        deferred.reject('Erro na consulta');
       });
 
       return deferred.promise;

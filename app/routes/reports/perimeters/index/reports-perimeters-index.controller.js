@@ -76,6 +76,9 @@ angular
           }
 
           $scope.loading = false;
+        }, function(){
+          $scope.loading = false;
+          $rootScope.showMessage('exclamation-sign', 'Não foi possível atualizar a listagem.', 'error', false);
         });
 
         return promise;
@@ -114,9 +117,12 @@ angular
 
     $scope.deletePerimeter = function (perimeter) {
       $scope.deletePromise = service.deletePerimeter(perimeter).then(function () {
-        loadPerimeters();
+        delete $scope.perimeters[perimeter.id];
         $rootScope.showMessage('ok', 'Perímetro removido com sucesso.', 'success', true);
-        $scope.deletePromise = undefined;
+        $scope.deletePromise = null;
+      }, function() {
+        $rootScope.showMessage('exclamation-sign', 'Não foi possível remover o perímetro.', 'error', true);
+        $scope.deletePromise = null;
       });
     }
 
