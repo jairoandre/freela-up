@@ -3,6 +3,7 @@
 ## 1.0.5 [Em aberto]
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
+- Adicionado campo "Perímetro" na exibição do relato
 
 ## 1.0.4
 ### Corrigido
