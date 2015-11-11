@@ -185,6 +185,18 @@
         <div class="report-data">
           <hr/>
 
+          <h5>Perímetro</h5>
+
+          <p>{{ report.perimeter.title }}</p>
+
+          <p ng-show="report.perimeter == null || report.perimeter == ''">Não informado.</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="report-data">
+          <hr/>
+
           <h5>Descrição</h5>
 
           <p>{{report.description}}</p>
