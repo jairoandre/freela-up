@@ -4,7 +4,8 @@ angular
   .module('ReportsPerimetersIndexControllerModule', [
     'angularInlineEdit',
     'ReportsPerimetersServiceModule',
-    'ReportsPerimetersModalControllerModule'
+    'ReportsPerimetersModalControllerModule',
+    'angular-toArrayFilter'
   ])
 
   .controller('ReportsPerimetersIndexController', function ($scope, $rootScope, $log, ReportsPerimetersService, $modal) {
@@ -17,7 +18,7 @@ angular
 
     var service = ReportsPerimetersService;
 
-    $scope.loading = true;
+    $scope.loading = false;
 
     $scope.loadingPerimeter = {};
 
@@ -32,15 +33,61 @@ angular
 
     $scope.perimeters = [];
 
-    var loadPerimeters = $scope.loadPerimeters = function () {
-      $scope.loading = true;
-      service.listAll().then(function (r) {
-        $scope.perimeters = r;
-        $scope.loading = false;
-      });
+    $scope.cleanCache = function () {
+      page = 1;
+      perPage = 15;
+      service.cleanCache();
     }
 
-    loadPerimeters();
+    $scope.sort = {
+      'column': 'created_at',
+      'descending': false
+    };
+
+    var page = 1, perPage = 15;
+
+    var getData = $scope.getData = function () {
+      if ($scope.loading === false) {
+        $scope.loading = true;
+
+        var options = {};
+
+        if ($scope.sort.column !== '') {
+          options.sort = $scope.sort.column;
+          options.order = $scope.sort.descending ? 'desc' : 'asc';
+        }
+
+        options.paginate = true;
+        options.page = +page || 1;
+        options.per_page = +perPage || 15;
+
+        var promise = service.fetchAll(options);
+
+        promise.then(function (perimeters) {
+          page++;
+          $scope.perimeters = perimeters;
+
+          var lastPage = Math.ceil($scope.total / perPage);
+
+          if (page === (lastPage + 1)) {
+            $scope.loading = null;
+          } else {
+            $scope.loading = false;
+          }
+
+          $scope.loading = false;
+        });
+
+        return promise;
+      }
+    };
+
+    $scope.$on('perimetersFetched', function () {
+      $scope.total = service.total;
+      $scope.loading = false;
+    });
+
+    getData();
 
     $scope.updatePerimeter = function (perimeter, newValue) {
       perimeter.title = newValue;
