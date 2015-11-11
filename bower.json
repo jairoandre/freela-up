@@ -17,7 +17,7 @@
     "angular-ui-utils": "~0.2.3",
     "angular-ui-sortable": "~0.13.4",
     "angular-mousewheel": "~1.0.4",
-    "angular-pan-zoom": "~1.0.2",
+    "angular-pan-zoom": "~1.0.14",
     "angular-md": "~1.0.0",
     "angular-raven": "~0.5.9",
     "angular-elastic": "~2.4.2",
