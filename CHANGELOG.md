@@ -3,6 +3,7 @@
 ## 1.0.5 [Em aberto]
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
+- Ajustado resolução das imagens do relato
 
 ## 1.0.4
 ### Corrigido
@@ -25,7 +26,6 @@
 - Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 - Corrigido bug de z-index no componente de autocomplete
 - Alterado todos os rótulos de "munícipe" para "solicitante"
->>>>>>> master
 
 ## 1.0.2
 ### Adicionado
