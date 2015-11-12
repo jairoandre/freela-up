@@ -41,7 +41,7 @@ angular
 
     $scope.sort = {
       'column': 'created_at',
-      'descending': false
+      'descending': true
     };
 
     var page = 1, perPage = 15;
