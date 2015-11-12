@@ -62,15 +62,10 @@ angular
           options.order = $scope.sort.descending ? 'desc' : 'asc';
         }
 
-        if(_.isEmpty($scope.titleTerm)){
-          options.title = null;
-          options.paginate = true;
-          options.page = +page || 1;
-          options.per_page = +perPage || 15;
-        }else{
-          options.title = $scope.titleTerm;
-          options.paginate = false;
-        }
+        options.paginate = true;
+        options.page = +page || 1;
+        options.per_page = +perPage || 15;
+        options.title = _.isEmpty($scope.titleTerm) ? null : $scope.titleTerm;
 
 
         var promise = service.fetchAll(options);
