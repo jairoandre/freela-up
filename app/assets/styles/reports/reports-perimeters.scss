@@ -24,10 +24,12 @@
 .perimeter-date-cell {
   width: 20%;
 }
+.perimeters-table {
+  margin-top: 44px;  
+}
 .perimeters-table thead tr td {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 40px;
-  border-top: 1px solid #dddddd !important;
 }
 
 .glyphicon-refresh-animate {

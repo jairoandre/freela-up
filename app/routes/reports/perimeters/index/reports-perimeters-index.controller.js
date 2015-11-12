@@ -33,7 +33,7 @@ angular
 
     $scope.perimeters = [];
 
-    $scope.cleanCache = function () {
+    var cleanCache = $scope.cleanCache = function () {
       page = 1;
       perPage = 15;
       service.cleanCache();
@@ -46,6 +46,11 @@ angular
 
     var page = 1, perPage = 15;
 
+    $scope.changeTitleTerm = function() {
+      cleanCache();
+      getData();
+    };
+
     var getData = $scope.getData = function () {
       if ($scope.loading === false) {
         $scope.loading = true;
@@ -57,9 +62,16 @@ angular
           options.order = $scope.sort.descending ? 'desc' : 'asc';
         }
 
-        options.paginate = true;
-        options.page = +page || 1;
-        options.per_page = +perPage || 15;
+        if(_.isEmpty($scope.titleTerm)){
+          options.title = null;
+          options.paginate = true;
+          options.page = +page || 1;
+          options.per_page = +perPage || 15;
+        }else{
+          options.title = $scope.titleTerm;
+          options.paginate = false;
+        }
+
 
         var promise = service.fetchAll(options);
 
