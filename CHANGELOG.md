@@ -4,6 +4,7 @@
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Ajustes na listagem de perímetros (shapefiles) e comportamento de consulta
+- Incluído pesquisa por nome na lsitagem de perímetros
 
 ## 1.0.4
 ### Corrigido
