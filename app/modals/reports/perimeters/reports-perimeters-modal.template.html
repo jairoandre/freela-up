@@ -49,6 +49,17 @@
     <span class="perimeters-labels perimeters-error-messages" ng-if="!mandatoryCheckFlags[2]">&nbsp;Preenchimento obrigatório</span>
     <input type="text" class="form-control perimeters-input" ng-model="perimeter.title" placeholder="Nome do perímetro/região"/>
   </div>
+  <hr/>
+  <div class="form-group">
+    <span class="perimeters-labels">4. Defina o grupo solucionador padrão (opcional)</span>
+    <select-list
+      class="perimeters-input"
+      ng-model="perimeter.solver_group_id"
+      option-name="name"
+      option-value="id"
+      options="groups"
+      my-place-holder="Selecione o grupo responsável"/>
+  </div>
 </div>
 
 <div class="modal-footer">

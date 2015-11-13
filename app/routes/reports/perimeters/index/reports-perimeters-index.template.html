@@ -33,6 +33,9 @@
             <span>Nome do Perímetro/Região</span>
           </td>
           <td></td>
+          <td class="perimeter-group-cell-header">
+            <span>Grupo solucionador padrão</span>
+          </td>
           <td class="perimeter-status-cell-header" colspan="2">
             <span>Status</span>
           </td>
@@ -52,6 +55,9 @@
           <td class="perimeter-loading-indicator">
             <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"
             ng-show="loadingPerimeter[perimeter.id]"></span>
+          </td>
+          <td class="perimeter-group-cell">
+            <span>{{perimeter.group ? perimeter.group.name : '-'}}</span>
           </td>
           <td class="perimeter-status-cell-loading {{statusDecorator[perimeter.status][1]}}">
             <i class="glyphicon glyphicon-{{statusDecorator[perimeter.status][0]}} perimeter-glyphicon"></i>
