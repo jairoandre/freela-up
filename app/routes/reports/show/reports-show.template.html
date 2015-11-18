@@ -603,7 +603,7 @@
                   }}</b>.</span>
                 <span ng-show="log.kind === 'description'">alterou a descrição do relato para <b>
                   {{ log.changes.new }}</b>.</span>
-                <span ng-show="log.kind === 'reference'">alterou a referência do relato para <b>
+                <span ng-show="log.kind === 'reference'">alterou a referência do relato de <b>{{ log.changes.old }}</b> para <b>
                   {{ log.changes.new }}</b>.</span>
                 <span ng-show="log.kind === 'category'">alterou a categoria do relato de <b>{{ log.changes.old.title
                   }}</b> para <b>{{ log.changes.new.title }}</b>.</span>

@@ -1,38 +1,38 @@
 'use strict';
 
 angular
-.module('ReportsShowControllerModule', [
-  'MapShowReportComponentModule',
-  'ReportsEditStatusModalControllerModule',
-  'ReportsEditDescriptionModalControllerModule',
-  'ReportsEditCategoryModalControllerModule',
-  'ReportsSelectAddressModalControllerModule',
-  'ReportsForwardModalControllerModule',
-  'ReportsSelectUserModalControllerModule',
-  'ReportsEditReferenceModalControllerModule',
-  'ReportsPrintModalControllerModule',
-  'ReportSearchMapComponentModule',
-  'MapNewReportComponentModule',
-  'NextFieldOnEnterComponentModule',
-  'duScroll',
-  'ReportsSendNotificationsModalControllerModule',
-  'ReportsCategoriesNotificationsServiceModule',
-  'ReportsCategoriesServiceModule',
-  'ckeditor', 'angularLoad'
+  .module('ReportsShowControllerModule', [
+    'MapShowReportComponentModule',
+    'ReportsEditStatusModalControllerModule',
+    'ReportsEditDescriptionModalControllerModule',
+    'ReportsEditCategoryModalControllerModule',
+    'ReportsSelectAddressModalControllerModule',
+    'ReportsForwardModalControllerModule',
+    'ReportsSelectUserModalControllerModule',
+    'ReportsEditReferenceModalControllerModule',
+    'ReportsPrintModalControllerModule',
+    'ReportSearchMapComponentModule',
+    'MapNewReportComponentModule',
+    'NextFieldOnEnterComponentModule',
+    'duScroll',
+    'ReportsSendNotificationsModalControllerModule',
+    'ReportsCategoriesNotificationsServiceModule',
+    'ReportsCategoriesServiceModule',
+    'ckeditor', 'angularLoad'
   ])
 
-.value('duScrollOffset', 200)
+  .value('duScrollOffset', 200)
 
-.controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService, angularLoad, ENV) {
+  .controller('ReportsShowController', function ($scope, Restangular, $q, $modal, $window, reportResponse, $rootScope, $log, ReportsCategoriesNotificationsService, ReportsCategoriesService, angularLoad, ENV) {
 
-  $log.info('ReportsShowController created.');
-  $scope.$on('$destroy', function () {
-    $log.info('ReportsShowController destroyed.');
-  });
+    $log.info('ReportsShowController created.');
+    $scope.$on('$destroy', function () {
+      $log.info('ReportsShowController destroyed.');
+    });
 
 
-  $scope.report = reportResponse.data;
-  if ($scope.report.status) {
+    $scope.report = reportResponse.data;
+    if ($scope.report.status) {
       $scope.report.status_id = $scope.report.status.id; // jshint ignore:line
     }
     $scope.categoryData = $scope.report.category;
@@ -67,11 +67,11 @@ angular
 
     var sendComment = function (message, visibility) {
       return Restangular.one('reports', $scope.report.id)
-      .customPOST({
-        message: message,
-        visibility: visibility,
-        return_fields: 'id,created_at,message,visibility,author.id,author.name'
-      }, 'comments');
+        .customPOST({
+          message: message,
+          visibility: visibility,
+          return_fields: 'id,created_at,message,visibility,author.id,author.name'
+        }, 'comments');
     };
 
     $scope.submitUserResponse = function () {
@@ -192,7 +192,7 @@ angular
         });
 
         var updateReportAddressPromise = Restangular.one('reports', $scope.report.category.id)
-        .one('items', $scope.report.id).customPUT(updateAddressRequest);
+          .one('items', $scope.report.id).customPUT(updateAddressRequest);
 
         updateReportAddressPromise.then(function (response) {
           var updatedReportFields = response.data;
@@ -235,11 +235,12 @@ angular
           report: function () {
             return $scope.report;
           },
-          parentScope: function() {
+          parentScope: function () {
             return $scope;
-          },
-          controller: 'ReportsEditReferenceModalController'
-        });
+          }
+        },
+        controller: 'ReportsEditReferenceModalController'
+      });
     };
 
     $scope.forwardReport = function () {
@@ -294,22 +295,22 @@ angular
         },
         controller: 'ReportsSelectUserModalController'
       });
-};
+    };
 
-$scope.print = function () {
-  $modal.open({
-    templateUrl: 'modals/reports/print/reports-print.template.html',
-    windowClass: 'filterCategoriesModal',
-    resolve: {
-      openModal: function () {
-        return function (options) {
-          $window.open('#/reports/' + $scope.report.id + '/print?sections=' + options.join(), 'ZUP Imprimir relato', 'height=800,width=850');
-        }
-      }
-    },
-    controller: 'ReportsPrintModalController'
-  });
-};
+    $scope.print = function () {
+      $modal.open({
+        templateUrl: 'modals/reports/print/reports-print.template.html',
+        windowClass: 'filterCategoriesModal',
+        resolve: {
+          openModal: function () {
+            return function (options) {
+              $window.open('#/reports/' + $scope.report.id + '/print?sections=' + options.join(), 'ZUP Imprimir relato', 'height=800,width=850');
+            }
+          }
+        },
+        controller: 'ReportsPrintModalController'
+      });
+    };
 
     // report's history
     $scope.refreshHistory = function () {
@@ -362,39 +363,39 @@ $scope.print = function () {
     };
 
     $scope.availableHistoryFilters = [
-    {type: 'category', name: 'Categoria', selected: false},
-    {type: 'status', name: 'Estados', selected: false},
-    {type: 'address', name: 'Endereço', selected: false},
-    {type: 'description', name: 'Descrição', selected: false},
-    {type: 'category', name: 'Categoria', selected: false},
+      {type: 'category', name: 'Categoria', selected: false},
+      {type: 'status', name: 'Estados', selected: false},
+      {type: 'address', name: 'Endereço', selected: false},
+      {type: 'description', name: 'Descrição', selected: false},
+      {type: 'category', name: 'Categoria', selected: false},
     ];
 
     $scope.availableHistoryDateFilters = [
-    {
-      name: 'Hoje',
-      beginDate: moment().startOf('day').format(),
-      endDate: moment().endOf('day').format(),
-      selected: false
-    },
-    {
-      name: 'Ontem',
-      beginDate: moment().subtract(1, 'days').startOf('day').format(),
-      endDate: moment().subtract(1, 'days').endOf('day').format(),
-      selected: false
-    },
-    {
-      name: 'Este mês',
-      beginDate: moment().startOf('month').format(),
-      endDate: moment().subtract(1, 'days').endOf('day').format(),
-      selected: false
-    },
-    {
-      name: 'Mês passado',
-      beginDate: moment().subtract(1, 'months').startOf('month').format(),
-      endDate: moment().subtract(1, 'months').subtract(1, 'days').endOf('day').format(),
-      selected: false
-    },
-    {name: 'Todos', beginDate: null, endDate: null, selected: true}
+      {
+        name: 'Hoje',
+        beginDate: moment().startOf('day').format(),
+        endDate: moment().endOf('day').format(),
+        selected: false
+      },
+      {
+        name: 'Ontem',
+        beginDate: moment().subtract(1, 'days').startOf('day').format(),
+        endDate: moment().subtract(1, 'days').endOf('day').format(),
+        selected: false
+      },
+      {
+        name: 'Este mês',
+        beginDate: moment().startOf('month').format(),
+        endDate: moment().subtract(1, 'days').endOf('day').format(),
+        selected: false
+      },
+      {
+        name: 'Mês passado',
+        beginDate: moment().subtract(1, 'months').startOf('month').format(),
+        endDate: moment().subtract(1, 'months').subtract(1, 'days').endOf('day').format(),
+        selected: false
+      },
+      {name: 'Todos', beginDate: null, endDate: null, selected: true}
     ];
 
     $scope.selectedFilters = function () {
@@ -475,7 +476,7 @@ $scope.print = function () {
     // Fetch notifications
 
     $scope.canSendNotifications = $scope.report.category.notifications &&
-    $rootScope.hasAnyPermission(['reports_items_restart_notification',
+      $rootScope.hasAnyPermission(['reports_items_restart_notification',
       'reports_items_send_notification',
       'reports_full_access',
       'reports_categories_edit',
@@ -485,7 +486,7 @@ $scope.print = function () {
 
     $scope.reloadNotifications = function() {
       var reloadNotificationsFields = ['status', 'notifications.notification_type.title', 'notifications.notification_type.default_deadline_in_days', 'notifications.created_at', 'notifications.days_to_deadline',
-      'notifications.content', 'notifications.active'];
+        'notifications.content', 'notifications.active'];
       Restangular.one('reports').one('items', $scope.report.id).get({ 'return_fields': reloadNotificationsFields.join() }).then(function(r){
         $scope.notifications = r.data.notifications;
       });
