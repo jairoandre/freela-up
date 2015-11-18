@@ -4,6 +4,7 @@
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Ajustado resolução das imagens do relato
+- Melhoria no feedback ao usuário quando na alteração da referência do relato
 
 ## 1.0.4
 ### Corrigido
