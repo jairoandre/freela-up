@@ -4,6 +4,7 @@
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Ajustado resolução das imagens do relato
+- Corrigido back do browser na edição da categoria de itens de inventário
 
 ## 1.0.4
 ### Corrigido

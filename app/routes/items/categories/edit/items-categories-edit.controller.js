@@ -415,6 +415,11 @@ angular.
       }
     };
 
+    $scope.$on('$locationChangeStart', function (evt) {
+      evt.preventDefault();
+      $scope.goBack();
+    });
+
     $scope.goBack = function () {
       if ($scope.unsavedCategory === true) {
         if (window.confirm('Você tem certeza que deseja sair? Há alterações que não foram salvas.')) {
