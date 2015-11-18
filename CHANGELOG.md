@@ -4,6 +4,8 @@
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Ajustado resolução das imagens do relato
+### Adicionado
+- Filtro "Por shapefiles.." na busca de relatos
 
 ## 1.0.4
 ### Corrigido
