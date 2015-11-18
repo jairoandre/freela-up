@@ -6,6 +6,7 @@
 
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
+- Ajustado resolução das imagens do relato
 
 ## 1.0.4
 ### Corrigido
@@ -19,6 +20,7 @@
 - Adicionado cadastro de shapefiles para configuração das categorias
 - Diretiva de seleção em linha de permissões de grupos de usuário
 ### Corrigido
+- Corrigido comportamento incorreto do posicionamento dos popovers.
 - Variáveis de ambiente que estavam faltando no build.
 - Permissões das notificações
 - Correção nas cores das categorias
