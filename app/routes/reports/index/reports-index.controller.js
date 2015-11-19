@@ -188,7 +188,7 @@ angular
 
       // check if we have categories selected
       if ($scope.selectedShapefiles.length !== 0) {
-        options.reports_perimeters_id = $scope.selectedShapefiles.join(); // jshint ignore:line
+        options.reports_perimeters_ids = $scope.selectedShapefiles.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
