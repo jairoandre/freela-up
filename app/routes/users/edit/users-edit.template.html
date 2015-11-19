@@ -80,6 +80,11 @@
       <input type="text" class="form-control custom_form" id="form_commercial_phone" ng-model="user.commercial_phone" generic-input name="commercial_phone" ui-mask="(99) 99999999?9">
     </div>
 
+    <div class="form-group" ng-class="{'has-error': form.skype.$dirty && form.skype.$invalid}">
+      <label for="form_skype">Skype</label>
+      <input type="text" class="form-control input-lg" id="form_skype" ng-model="user.skype" generic-input name="skype">
+    </div>
+
     <div class="form-group" ng-class="{'has-error': form.document.$dirty && form.document.$invalid}">
       <label for="form_document">Documento CPF *</label>
       <input type="text" class="form-control custom_form" id="form_document" ng-model="user.document" generic-input name="document" ui-mask="999.999.999-99" ng-cpf required>
