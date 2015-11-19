@@ -3,7 +3,7 @@
 angular
   .module('ReportsPerimetersModalControllerModule', ['ReportsPerimetersServiceModule'])
 
-  .controller('ReportsPerimetersModalController', function ($scope, $modalInstance, $log, $rootScope, FileUploader, $q, parentScope, ReportsPerimetersService) {
+  .controller('ReportsPerimetersModalController', function ($scope, $modalInstance, $log, $rootScope, FileUploader, $q, parentScope, ReportsPerimetersService, Restangular) {
 
     $log.info('ReportsPerimetersModalController created.');
     $scope.$on('$destroy', function () {
@@ -13,6 +13,12 @@ angular
     var service = ReportsPerimetersService;
 
     $scope.perimeter = {};
+
+    $scope.groups = {};
+
+    Restangular.all('groups').getList({ return_fields: 'id,name'}).then(function(r){
+      $scope.groups = r.data;
+    });
 
     $scope.mandatoryCheckFlags = [true, true, true];
 

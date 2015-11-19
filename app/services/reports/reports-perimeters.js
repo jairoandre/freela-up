@@ -47,6 +47,8 @@ angular
           'id',
           'title',
           'status',
+          'group.id',
+          'group.name',
           'geometry',
           'created_at'].join()
       };
