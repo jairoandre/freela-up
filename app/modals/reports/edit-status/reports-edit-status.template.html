@@ -18,7 +18,7 @@
   </div>
 
   <div ng-show="hasPermission('reports_full_access') || hasPermission('reports_categories_edit', report.category.id) || hasPermission('reports_items_edit', report.category.id) || hasPermission('reports_items_create_comment', report.category.id)">
-    <h5>Comentário ao munícipe</h5>
+    <h5>Resposta ao solicitante</h5>
 
     <div class="add-comment">
       <textarea class="form-control" msd-elastic="\n\n\n" ng-focus="report.typing = true" placeholder="{{ category.comment_required_when_updating_status ? 'Para que você possa alterar o status do relato, é obrigatório realizar um comentário.' : 'Digite aqui uma resposta...' }}" ng-model="report.comment"></textarea>
@@ -26,7 +26,7 @@
       <div class="options ng-hide" ng-show="report.typing">
         <input type="checkbox" bs-switch switch-on-text="Privado" switch-off-text="Público" ng-model="report.privateComment">
 
-        <span class="help">{{ report.privateComment == 0 ? 'Respostas públicas podem ser visualizadas por todos os usuários.' : 'Respostas privadas podem ser visualizadas apenas pelo munícipe solicitante.' }}</span>
+        <span class="help">{{ report.privateComment == 0 ? 'Respostas públicas podem ser visualizadas por todos os usuários.' : 'Respostas privadas podem ser visualizadas apenas pelo solicitante.' }}</span>
 
         <div class="clearfix"></div>
       </div>
