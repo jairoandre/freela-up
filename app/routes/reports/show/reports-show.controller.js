@@ -234,6 +234,9 @@ angular
         resolve: {
           report: function () {
             return $scope.report;
+          },
+          parentScope: function () {
+            return $scope;
           }
         },
         controller: 'ReportsEditReferenceModalController'
