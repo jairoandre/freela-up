@@ -28,11 +28,14 @@
 
   <div class="row">
     <div class="col-xs-8">
+      <h5>Data de nascimento</h5>
+      <p>{{ user.birthdate | date:'dd/MM/yy' }}</p>
+
       <h5>Endereço</h5>
       <p>{{ user.address }}</p>
 
       <h5>Complemento</h5>
-      <p>{{ user.address_additional }}</p>
+      <p>{{ user.address_additional || 'Não preenchido' }}</p>
 
       <h5>Bairro</h5>
       <p>{{ user.district }}</p>
@@ -43,8 +46,20 @@
       <h5>CEP</h5>
       <p>{{ user.postal_code }}</p>
 
+      <h5>Instituto</h5>
+      <p>{{ user.institution || 'Não preenchido' }}</p>
+
+      <h5>Cargo</h5>
+      <p>{{ user.position || 'Não preenchido' }}</p>
+
       <h5>Telefone</h5>
       <p>{{ user.phone }}</p>
+
+      <h5>Telefone Comercial</h5>
+      <p>{{ user.commercial_phone || 'Não preenchido' }}</p>
+
+      <h5>Skype</h5>
+      <p>{{ user.skype || 'Não preenchido' }}</p>
 
       <h5>Documento</h5>
       <p>{{ user.document }}</p>

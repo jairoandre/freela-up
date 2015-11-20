@@ -142,9 +142,25 @@ angular
 
     $scope.perimetersLimit = 5;
 
+    var getTxtForId = function(list,keyName,valueName,key){
+      var value = _.find(list,function(_val){
+        return _.isEqual(_val[keyName],key);
+      });
+      return value ? value[valueName] : 'Não disponível';
+    };
+
+    $scope.getPerimeterTitle = function(perimeterId) {
+      return getTxtForId($scope.perimeters,'id','title',perimeterId);
+    };
+
+    $scope.getGroupTitle = function(groupId) {
+      return getTxtForId($scope.groups,'id','name',groupId);
+    };
+
     $scope.addNewPerimeterGroup = function() {
       var newPerimeterGroup = {};
       newPerimeterGroup.category_id = categoryId;
+      newPerimeterGroup.editing = true;
       $scope.perimetersGroups.push(newPerimeterGroup);
     };
 

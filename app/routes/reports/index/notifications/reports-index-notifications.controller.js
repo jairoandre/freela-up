@@ -78,7 +78,8 @@ angular
       });
     });
 
-    $scope.getDaysTxt = function(days) {
+    $scope.getDaysTxt = function(d) {
+      var days = (_.isNull(d) || _.isUndefined(d)) ? 0 : d;
       return days < 0 ?  (Math.abs(days) + ' dia' + (days === -1 ? '' : 's') + ' atrás') : (days + ' dia' + (days === 1 ? '' : 's') );
     };
 
