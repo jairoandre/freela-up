@@ -8,6 +8,7 @@ angular
     'ngCookies',
     'ngAnimate',
     'ngSanitize',
+    'angularMoment',
     'ui.bootstrap',
     'ui.autocomplete',
     'ui.select2', // old version

@@ -1655,7 +1655,7 @@ $sidebar-size-full: 300px;
       background: #F0F0F0;
       border-bottom: 1px solid #E1E1E1;
       padding: 18px 19px;
-      position: relative;
+      position: static;
       z-index: 3;
 
       .type {

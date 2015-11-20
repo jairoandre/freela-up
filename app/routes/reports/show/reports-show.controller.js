@@ -184,7 +184,7 @@ angular
         var updateAddressRequest = {
           latitude: $scope.lat,
           longitude: $scope.lng,
-          return_fields: 'position.latitude,position.longitude,address,number,reference,district,postal_code,state,city,assigned_group.id,assigned_group.name'
+          return_fields: 'position.latitude,position.longitude,address,number,reference,district,postal_code,state,city,assigned_group.id,assigned_group.name,perimeter'
         };
 
         _.each(addressFields, function (field) {
@@ -205,6 +205,7 @@ angular
             $scope.report[field] = updatedReportFields[field]
           });
           $scope.report['assigned_group'] = updatedReportFields['assigned_group'];
+          $scope.report['perimeter'] = updatedReportFields['perimeter'];
           $scope.refreshHistory();
         });
       }
@@ -234,6 +235,9 @@ angular
         resolve: {
           report: function () {
             return $scope.report;
+          },
+          parentScope: function () {
+            return $scope;
           }
         },
         controller: 'ReportsEditReferenceModalController'
@@ -312,7 +316,7 @@ angular
     // report's history
     $scope.refreshHistory = function () {
       var options = {
-        return_fields: 'changes,created_at,kind,user.id,user.name'
+        return_fields: 'changes,created_at,kind,user.id,user.name,action'
       };
 
       var selectedFilters = $scope.selectedFilters();
