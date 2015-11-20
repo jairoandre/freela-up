@@ -13,6 +13,7 @@
 - Melhoria no feedback ao usuário quando na alteração da referência do relato
 - Modificado label "Comentário ao munícipe" para "Resposta ao solicitante" (modal de alteração do status do relato)
 - Atualização do componente panzoom e ajuste em sua configuração para permitir o deslocamento da imagem no modal de visualização
+- Ajustes visuais na tabela de listagem de notificações (header e texto prazo)
 
 ## 1.0.4
 ### Corrigido
