@@ -1,6 +1,9 @@
 # Changelog
 
 ## 1.0.5 [Em aberto]
+### Adicionado
+- Campos extras em usuários
+- Filtro "Por shapefiles.." na busca de relatos
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Ajustado resolução das imagens do relato

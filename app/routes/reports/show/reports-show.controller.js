@@ -312,7 +312,7 @@ angular
     // report's history
     $scope.refreshHistory = function () {
       var options = {
-        return_fields: 'changes,created_at,kind,user.id,user.name'
+        return_fields: 'changes,created_at,kind,user.id,user.name,action'
       };
 
       var selectedFilters = $scope.selectedFilters();
