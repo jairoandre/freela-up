@@ -11,6 +11,8 @@ angular
     $scope.loading = true;
     $scope.image = image;
 
+    
+
     if (typeof image.url === 'undefined')
     {
       $scope.image.url = image.versions.original;
@@ -23,6 +25,7 @@ angular
           zoomLevels: 12,
           neutralZoomLevel: 5,
           scalePerZoomLevel: 1.5,
+          useHardwareAcceleration: true,
           initialPanX: ($($window).width() / 2) - ($scope.imageDimensions.width / 2),
           initialPanY: ($($window).height() / 2) - ($scope.imageDimensions.height / 2)
         };
