@@ -9,6 +9,7 @@
 - Ajustado resolução das imagens do relato
 - Corrigido back do browser na edição da categoria de itens de inventário
 - Melhoria no feedback ao usuário quando na alteração da referência do relato
+- Modificado label "Comentário ao munícipe" para "Resposta ao solicitante" (modal de alteração do status do relato)
 
 ## 1.0.4
 ### Corrigido
