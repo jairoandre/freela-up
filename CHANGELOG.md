@@ -10,6 +10,7 @@
 - Corrigido back do browser na edição da categoria de itens de inventário
 - Melhoria no feedback ao usuário quando na alteração da referência do relato
 - Modificado label "Comentário ao munícipe" para "Resposta ao solicitante" (modal de alteração do status do relato)
+- Atualização do componente panzoom e ajuste em sua configuração para permitir o deslocamento da imagem no modal de visualização
 
 ## 1.0.4
 ### Corrigido
