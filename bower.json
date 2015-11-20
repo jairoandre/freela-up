@@ -17,7 +17,7 @@
     "angular-ui-utils": "~0.2.3",
     "angular-ui-sortable": "~0.13.4",
     "angular-mousewheel": "~1.0.4",
-    "angular-pan-zoom": "~1.0.2",
+    "angular-pan-zoom": "~1.0.14",
     "angular-md": "~1.0.0",
     "angular-raven": "~0.5.9",
     "angular-elastic": "~2.4.2",
@@ -55,6 +55,7 @@
     "colorbutton_4.5.3": "http://download.ckeditor.com/colorbutton/releases/colorbutton_4.5.3.zip",
     "print_4.5.3": "http://download.ckeditor.com/print/releases/print_4.5.3.zip",
     "justify": "http://download.ckeditor.com/justify/releases/justify_4.5.3.zip",
+    "angular-moment": "~0.10.3",
     "angular-ellipsis": "~0.1.5"
   },
   "devDependencies": {

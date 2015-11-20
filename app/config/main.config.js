@@ -88,7 +88,8 @@ angular
       };
     };
   })
-  .run(['Restangular', 'Auth', '$rootScope', '$timeout', '$templateCache', 'Error', '$http', 'FullResponseRestangular', 'ENV', '$window', function (Restangular, Auth, $rootScope, $timeout, $templateCache, Error, $http, FullResponseRestangular, ENV, $window) {
+  .run(['Restangular', 'Auth', '$rootScope', '$timeout', '$templateCache', 'Error', '$http', 'FullResponseRestangular', 'ENV', '$window', 'amMoment', function (Restangular, Auth, $rootScope, $timeout, $templateCache, Error, $http, FullResponseRestangular, ENV, $window, amMoment) {
+    amMoment.changeLocale('pt-br');
 
     $templateCache.put("template/modal/backdrop.html",
       "<div class=\"modal-backdrop fade {{ backdropClass }}\"\n" +
