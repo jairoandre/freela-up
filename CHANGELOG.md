@@ -14,6 +14,7 @@
 - Modificado label "Comentário ao munícipe" para "Resposta ao solicitante" (modal de alteração do status do relato)
 - Atualização do componente panzoom e ajuste em sua configuração para permitir o deslocamento da imagem no modal de visualização
 - Ajustes visuais na tabela de listagem de notificações (header e texto prazo)
+- Ajustes visuais na caixa drag-n-drop de upload de imagens do relato
 
 ## 1.0.4
 ### Corrigido
