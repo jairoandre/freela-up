@@ -43,7 +43,7 @@ angular
 
         if(!_.any($scope.activeAdvancedFilters, function(filter) { return filter.type == 'perimeters' && filter.value == perimeter.id; })) {
           var filter = {
-            title: 'Shapefile',
+            title: 'Perímetro de encaminhamento',
             type: 'shapefiles',
             desc: perimeter.title,
             value: perimeter.id
