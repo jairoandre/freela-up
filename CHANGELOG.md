@@ -4,6 +4,7 @@
 ### Adicionado
 - Campos extras em usuários
 - Filtro "Por shapefiles.." na busca de relatos
+- Adicionado campo "Perímetro" na exibição do relato
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Removido scroll infinito da listagem de grupos por perímetros e aplicado novo formato de renderização
