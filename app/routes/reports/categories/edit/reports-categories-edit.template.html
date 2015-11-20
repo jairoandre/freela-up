@@ -593,28 +593,49 @@
           <span class="help-block" style="margin-top: 15px;">Ao ativar essa opção, a categoria poderá associar grupos solucionadores por perímetro.</span>
           <span class="help-block" style="margin-top: 15px;" ng-if="category.perimeters && !categoryId">*Só será possível associar perímetros aos grupos após a criação da nova categoria.</span>
 
-          <div class="table-div" ng-if="showPerimeters && categoryId" infinite-scroll="updatePerimetersLimit()" infinite-scroll-distance="5">
+          <div class="table-div" ng-if="showPerimeters && categoryId">
             <table id="reports-perimeters-table" class="table custom_table" ng-if="perimetersGroups.length > 0">
               <thead>
               <tr>
                 <td class="perimeter-title-cell">
                   <span>Perímetro/Região</span>
                 </td>
-                <td class="perimeter-status-cell">
+                <td class="perimeter-title-cell">
                   <span>Grupo Responsável</span>
                 </td>
                 <td class="perimeter-btn-cell"></td>
               </tr>
               </thead>
               <tbody>
-              <tr class="perimeter-table-tr" ng-repeat="perimeterGroup in perimetersGroups | limitTo : perimetersLimit" >
+              <tr class="perimeter-table-tr" ng-repeat="perimeterGroup in perimetersGroups" style="height: 77px">
                 <td class="perimeter-title-cell">
-                  <select-list ng-model="perimeterGroup.perimeter_id" option-name="title" option-value="id" options="perimeters" my-place-holder="Selecione o perímetro/região" mark-dirty="perimeterGroup"/>
+                  <span ng-if="!perimeterGroup.editing">{{getPerimeterTitle(perimeterGroup.perimeter_id)}}</span>
+                  <select-list
+                    ng-model="perimeterGroup.perimeter_id"
+                    option-name="title"
+                    option-value="id"
+                    options="perimeters"
+                    my-place-holder="Selecione o perímetro/região"
+                    mark-dirty="perimeterGroup"
+                    ng-if="perimeterGroup.editing"/>
                 </td>
-                <td class="perimeter-status-cell">
-                  <select-list ng-model="perimeterGroup.group_id" option-name="name" option-value="id" options="groups" my-place-holder="Selecione o grupo responsável" mark-dirty="perimeterGroup"/>
+                <td class="perimeter-title-cell">
+                  <span ng-if="!perimeterGroup.editing">{{getGroupTitle(perimeterGroup.group_id)}}</span>
+                  <select-list
+                    ng-model="perimeterGroup.group_id"
+                    option-name="name"
+                    option-value="id"
+                    options="groups"
+                    my-place-holder="Selecione o grupo responsável"
+                    mark-dirty="perimeterGroup"
+                    ng-if="perimeterGroup.editing"/>
+                  }
                 </td>
                 <td class="perimeter-btn-cell">
+                  <a href="" class="btn btn-info btn-custom" ng-click="perimeterGroup.editing = true" ng-if="!perimeterGroup.editing">
+                    Editar</a>
+                  <a href="" class="btn btn-info btn-custom" ng-click="perimeterGroup.editing = false" ng-if="perimeterGroup.editing">
+                    Ok</a>
                   <a href="" ng-click="removePerimeterGroup(perimeterGroup)">
                     <span class="glyphicon glyphicon-trash"></span></a>
                 </td>
