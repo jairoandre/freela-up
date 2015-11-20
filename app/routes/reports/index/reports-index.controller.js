@@ -24,6 +24,7 @@ angular
     // Basic filters
     var resetFilters = function () {
       $scope.selectedCategories = [];
+      $scope.selectedShapefiles = [];
       $scope.selectedStatuses = [];
       $scope.selectedUsers = [];
       $scope.selectedReporters = [];
@@ -53,7 +54,8 @@ angular
       {name: 'Criado pelos solicitantes...', action: 'author'},
       {name: 'Autor do relato...', action: 'reporter'},
       {name: 'Por período...', action: 'date'},
-      {name: 'Por perímetro...', action: 'area'},
+      {name: 'Por áreas...', action: 'area'},
+      {name: 'Por perímetro de encaminhamento...', action: 'shapefile'},
       {name: 'Apenas relatos atrasados...', action: 'overdueOnly'},
       {name: 'Associados ao meu grupo...', action: 'assignedToMyGroup'},
       {name: 'Associados à mim...', action: 'assignedToMe'},
@@ -108,6 +110,10 @@ angular
 
         if (filter.type === 'categories') {
           pushUnique($scope.selectedCategories, filter.value);
+        }
+
+        if (filter.type === 'shapefiles') {
+          pushUnique($scope.selectedShapefiles, filter.value);
         }
 
         if (filter.type === 'statuses') {
@@ -178,6 +184,11 @@ angular
       // check if we have categories selected
       if ($scope.selectedCategories.length !== 0) {
         options.reports_categories_ids = $scope.selectedCategories.join(); // jshint ignore:line
+      }
+
+      // check if we have categories selected
+      if ($scope.selectedShapefiles.length !== 0) {
+        options.reports_perimeters_ids = $scope.selectedShapefiles.join(); // jshint ignore:line
       }
 
       // check if we have statuses selected
@@ -274,6 +285,10 @@ angular
 
       if (status === 'category') {
         AdvancedFilters.category($scope.activeAdvancedFilters, 'reports');
+      }
+
+      if (status === 'shapefile') {
+        AdvancedFilters.shapefile($scope.activeAdvancedFilters);
       }
 
       if (status === 'status') {

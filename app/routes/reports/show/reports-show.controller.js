@@ -234,6 +234,9 @@ angular
         resolve: {
           report: function () {
             return $scope.report;
+          },
+          parentScope: function () {
+            return $scope;
           }
         },
         controller: 'ReportsEditReferenceModalController'
@@ -312,7 +315,7 @@ angular
     // report's history
     $scope.refreshHistory = function () {
       var options = {
-        return_fields: 'changes,created_at,kind,user.id,user.name'
+        return_fields: 'changes,created_at,kind,user.id,user.name,action'
       };
 
       var selectedFilters = $scope.selectedFilters();

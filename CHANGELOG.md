@@ -1,8 +1,15 @@
 # Changelog
 
 ## 1.0.5 [Em aberto]
+### Adicionado
+- Campos extras em usuários
+- Filtro "Por shapefiles.." na busca de relatos
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
+- Ajustado resolução das imagens do relato
+- Corrigido back do browser na edição da categoria de itens de inventário
+- Melhoria no feedback ao usuário quando na alteração da referência do relato
+- Modificado label "Comentário ao munícipe" para "Resposta ao solicitante" (modal de alteração do status do relato)
 - Atualização do componente panzoom e ajuste em sua configuração para permitir o deslocamento da imagem no modal de visualização
 
 ## 1.0.4
@@ -26,7 +33,6 @@
 - Ajustado atributo z-index do pickcolor na edição da categoria de inventário
 - Corrigido bug de z-index no componente de autocomplete
 - Alterado todos os rótulos de "munícipe" para "solicitante"
->>>>>>> master
 
 ## 1.0.2
 ### Adicionado
