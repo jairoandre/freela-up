@@ -18,6 +18,7 @@
 - Ajustes visuais na tabela de listagem de notificações (header e texto prazo)
 - Ajustes visuais na caixa drag-n-drop de upload de imagens do relato
 - Ajustes na listagem de perímetros (shapefiles) e comportamento de consulta
+- Corrigida exibição para a coluna categoria na listagem de relatos na aba notificações
 
 ## 1.0.4
 ### Corrigido
