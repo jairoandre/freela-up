@@ -47,6 +47,8 @@ angular
           'id',
           'title',
           'status',
+          'group.id',
+          'group.name',
           'geometry',
           'created_at'].join()
       };
@@ -76,6 +78,8 @@ angular
 
         $rootScope.$broadcast('perimetersFetched');
 
+      }, function(){
+        deferred.reject('Erro na consulta');
       });
 
       return deferred.promise;

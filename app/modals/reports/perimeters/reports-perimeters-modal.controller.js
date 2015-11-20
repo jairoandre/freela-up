@@ -3,7 +3,7 @@
 angular
   .module('ReportsPerimetersModalControllerModule', ['ReportsPerimetersServiceModule'])
 
-  .controller('ReportsPerimetersModalController', function ($scope, $modalInstance, $log, $rootScope, FileUploader, $q, parentScope, ReportsPerimetersService) {
+  .controller('ReportsPerimetersModalController', function ($scope, $modalInstance, $log, $rootScope, FileUploader, $q, parentScope, ReportsPerimetersService, Restangular) {
 
     $log.info('ReportsPerimetersModalController created.');
     $scope.$on('$destroy', function () {
@@ -13,6 +13,12 @@ angular
     var service = ReportsPerimetersService;
 
     $scope.perimeter = {};
+
+    $scope.groups = {};
+
+    Restangular.all('groups').getList({ return_fields: 'id,name'}).then(function(r){
+      $scope.groups = r.data;
+    });
 
     $scope.mandatoryCheckFlags = [true, true, true];
 
@@ -65,11 +71,16 @@ angular
         $q.all(filePromises).then(function(hashes){
           $scope.perimeter.shp_file = hashes[0];
           $scope.perimeter.shx_file = hashes[1];
-          service.addPerimeter($scope.perimeter).then(function(){
+          $scope.confirmPromise = service.addPerimeter($scope.perimeter).then(function(){
             parentScope.cleanCache();
             parentScope.getData();
-            $rootScope.showMessage('ok','Perímetro cadastrado com sucesso.','success',true);
+            $rootScope.showMessage('ok','Perímetro cadastrado com sucesso.','success',false);
             $modalInstance.close();
+            $scope.confirmPromise = null;
+          }, function(){
+            $rootScope.showMessage('exclamation-sign','Não foi possível cadastrar o perímetro, tente novamente.','error',true);
+            $modalInstance.close();
+            $scope.confirmPromise = null;
           });
         });
       }

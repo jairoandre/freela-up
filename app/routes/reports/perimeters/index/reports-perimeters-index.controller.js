@@ -33,7 +33,7 @@ angular
 
     $scope.perimeters = [];
 
-    $scope.cleanCache = function () {
+    var cleanCache = $scope.cleanCache = function () {
       page = 1;
       perPage = 15;
       service.cleanCache();
@@ -41,10 +41,15 @@ angular
 
     $scope.sort = {
       'column': 'created_at',
-      'descending': false
+      'descending': true
     };
 
     var page = 1, perPage = 15;
+
+    $scope.changeTitleTerm = function() {
+      cleanCache();
+      getData();
+    };
 
     var getData = $scope.getData = function () {
       if ($scope.loading === false) {
@@ -60,6 +65,8 @@ angular
         options.paginate = true;
         options.page = +page || 1;
         options.per_page = +perPage || 15;
+        options.title = _.isEmpty($scope.titleTerm) ? null : $scope.titleTerm;
+
 
         var promise = service.fetchAll(options);
 
@@ -76,6 +83,9 @@ angular
           }
 
           $scope.loading = false;
+        }, function(){
+          $scope.loading = false;
+          $rootScope.showMessage('exclamation-sign', 'Não foi possível atualizar a listagem.', 'error', false);
         });
 
         return promise;
@@ -114,9 +124,12 @@ angular
 
     $scope.deletePerimeter = function (perimeter) {
       $scope.deletePromise = service.deletePerimeter(perimeter).then(function () {
-        loadPerimeters();
+        delete $scope.perimeters[perimeter.id];
         $rootScope.showMessage('ok', 'Perímetro removido com sucesso.', 'success', true);
-        $scope.deletePromise = undefined;
+        $scope.deletePromise = null;
+      }, function() {
+        $rootScope.showMessage('exclamation-sign', 'Não foi possível remover o perímetro.', 'error', true);
+        $scope.deletePromise = null;
       });
     }
 

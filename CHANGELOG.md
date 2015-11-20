@@ -5,6 +5,8 @@
 - Campos extras em usuários
 - Filtro "Por shapefiles.." na busca de relatos
 - Adicionado campo "Perímetro" na exibição do relato
+- Incluído pesquisa por nome na listagem de perímetros
+- Incluído caixa de seleção de grupo solucionador padrão para o perímetro
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Removido scroll infinito da listagem de grupos por perímetros e aplicado novo formato de renderização
@@ -15,6 +17,7 @@
 - Atualização do componente panzoom e ajuste em sua configuração para permitir o deslocamento da imagem no modal de visualização
 - Ajustes visuais na tabela de listagem de notificações (header e texto prazo)
 - Ajustes visuais na caixa drag-n-drop de upload de imagens do relato
+- Ajustes na listagem de perímetros (shapefiles) e comportamento de consulta
 
 ## 1.0.4
 ### Corrigido
