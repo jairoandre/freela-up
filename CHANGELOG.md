@@ -1,12 +1,13 @@
 # Changelog
 
-## 1.0.5 [Em aberto]
+## 1.1.0
 ### Adicionado
 - Campos extras em usuários
-- Filtro "Por shapefiles.." na busca de relatos
+- Filtro "Por perímetro de encaminhamento.." na busca de relatos
 - Adicionado campo "Perímetro" na exibição do relato
 - Incluído pesquisa por nome na listagem de perímetros
 - Incluído caixa de seleção de grupo solucionador padrão para o perímetro
+
 ### Corrigido
 - Incluído scroll infinito na listagem de grupos por perímetros na edição da categoria
 - Removido scroll infinito da listagem de grupos por perímetros e aplicado novo formato de renderização
