@@ -4686,3 +4686,7 @@ colorpicker-preview {
 .modal-backdrop.fade.in {
   @include opacity(.5);
 }
+
+.select2-drop {
+  z-index: 10050;
+}
