@@ -58,7 +58,7 @@ angular
           }
 
           // neighborhood
-          if ($scope.addressComponents[i].types[0] === 'neighborhood')
+          if ($scope.addressComponents[i].types[0] === 'sublocality_level_1' || $scope.addressComponents[i].types[0] === 'sublocality')
           {
             itemData[locationFieldsIds[4]] = $scope.addressComponents[i].long_name;
           }
