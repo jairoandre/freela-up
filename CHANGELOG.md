@@ -21,6 +21,7 @@
 - Ajustes na listagem de perímetros (shapefiles) e comportamento de consulta
 - Corrigido posicionamento z-index da caixa de sugestão auto-complete do componente de escolha de endereço
 - Corrigido posicionamento z-index do filtro "Por campos..." para os itens de inventários
+- Ajustes na exibição de erros na criação de usuários
 
 ## 1.0.4
 ### Corrigido
