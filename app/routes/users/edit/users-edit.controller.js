@@ -4,13 +4,15 @@ angular
   .module('UsersEditControllerModule', [
     'ngCpfCnpj',
     'EqualsComponentModule',
-    'GroupsSelectorInlineModule'
+    'GroupsSelectorInlineModule',
+    'UsersServiceModule'
   ])
 
-  .controller('UsersEditController', function ($scope, $rootScope, Restangular, $stateParams, $location, groupsResponse, Error, moment) {
+  .controller('UsersEditController', function ($scope, $rootScope, Restangular, UsersService, $stateParams, $location, groupsResponse, Error, moment) {
     var updating = $scope.updating = false;
     var userId = $stateParams.id;
     $scope.user = {groups: []};
+    $scope.isObject = angular.isObject;
 
     if (typeof userId !== 'undefined') {
       updating = true;
@@ -20,8 +22,8 @@ angular
     $scope.loading = true;
 
     if (updating) {
-      Restangular.one('users', userId).get().then(function (response) {
-        $scope.user = response.data;
+      UsersService.fetch(userId).then(function (user) {
+        $scope.user = user;
         $scope.user.birthdate = moment($scope.user.birthdate).format('DD/MM/YYYY');
         $scope.loading = false;
       });
@@ -64,22 +66,17 @@ angular
       // PUT if updating and POST if creating a new user
       if (updating) {
 
-        var putUserPromise = Restangular.one('users', userId).withHttpConfig({treatingErrors: true}).customPUT(user, null, extraParams);
+        var putUserPromise = UsersService.update(user, extraParams);
 
         putUserPromise.then(function () {
           $scope.showMessage('ok', 'O usuário foi atualizado com sucesso', 'success', true);
 
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
-        }, function (response) {
+        }, function (err) {
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser salvo', 'error', true);
 
-          if (typeof response.data.error !== 'object') {
-            Error.show(response);
-          }
-          else {
-            $scope.inputErrors = response.data.error;
-          }
+          $scope.inputErrors = err;
 
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
@@ -88,7 +85,7 @@ angular
       else {
         extraParams.return_fields = 'id';
 
-        var postUserPromise = Restangular.one('users').withHttpConfig({treatingErrors: true}).post(null, user, extraParams);
+        var postUserPromise = UsersService.create(user, extraParams);
 
         postUserPromise.then(function () {
           $scope.showMessage('ok', 'O usuário foi criado com sucesso', 'success', true);
@@ -97,15 +94,11 @@ angular
 
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
-        }, function (response) {
+        }, function (err) {
+          console.log(err);
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser criado', 'error', true);
 
-          if (typeof response.data.error !== 'object') {
-            Error.show(response);
-          }
-          else {
-            $scope.inputErrors = response.data.error;
-          }
+          $scope.inputErrors = err;
 
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
