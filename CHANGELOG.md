@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+### Corrigido
+- Atualização do campo "Bairro" no seletor de endereço na criação do item de inventário
+
 ## 1.1.0
 ### Adicionado
 - Campos extras em usuários
