@@ -604,7 +604,7 @@
             <div class="action">
               <p>
                 <a ng-href="#/users/{{ log.user.id }}" ng-if="log.user">{{ log.user.name }}</a>
-                <span ng-if="!log.user && log.kind !== 'overdue'">O sistema </span>
+                <span ng-if="!log.user && (log.kind !== 'overdue' && log.kind !== 'perimeter')">O sistema </span>
                 <span ng-show="log.kind === 'status' && log.user">alterou o estado do relato de <b>{{
                   log.changes.old.title }}</b> para <b>{{ log.changes.new.title }}</b>.</span>
                 <span ng-show="log.kind === 'status' && !log.user">alterou o estado do relato de <b>{{
