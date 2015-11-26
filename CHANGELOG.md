@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+### Corrigido
+- Corrigido fraseologia do histórico para mudança de perímetro
+
 ## 1.1.0
 ### Adicionado
 - Campos extras em usuários
