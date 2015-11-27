@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 - 27/11/2015
+### Correções
+- [Relatos] Corrigido exibição da lista de categorias
+
 ## 1.1.0
 ### Adicionado
 - Campos extras em usuários
