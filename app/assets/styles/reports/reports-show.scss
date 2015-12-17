@@ -294,9 +294,8 @@ ul.report-menu {
   img {
     max-width: none !important;
   }
-  #printSection {
-    position: absolute;
-    left: 0;
-    top: 0;
+
+  div {
+    page-break-inside: avoid;
   }
 }
