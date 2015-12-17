@@ -7,12 +7,13 @@ angular
     'GroupsRemoveUserModalControllerModule'
   ])
 
-  .controller('GroupsShowController', function ($scope, Restangular, $stateParams, $q, $modal) {
+  .controller('GroupsShowController', function ($scope, Restangular, $stateParams, $q, $modal, Group) {
     var groupId = $stateParams.id, page = 1, perPage = 15;
 
-    $scope.loading = true;
+    $scope.loading = false;
     $scope.loadingPagination = false;
     $scope.total = 0;
+    $scope.group = Group;
 
     $scope.sort = {
       column: '',
@@ -55,15 +56,6 @@ angular
         controller: 'GroupsRemoveUserModalController'
       });
     };
-
-    var groupsPromise = Restangular.one('groups', groupId).get();
-
-    // Get specific group
-    groupsPromise.then(function(response) {
-      $scope.group = response.data;
-
-      $scope.loading = false;
-    });
 
     var getData = $scope.getData = function(paginate) {
       if ($scope.loadingPagination === false)
