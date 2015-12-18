@@ -27,6 +27,7 @@
 - Corrigido posicionamento z-index do filtro "Por campos..." para os itens de inventários
 - Corrigido exibição da lista de categorias na criação do relato
 
+
 ## 1.0.4
 ### Corrigido
 - Corrigido atualização das informações de grupo responsável e histórico do relato quando há atualização do endereço
