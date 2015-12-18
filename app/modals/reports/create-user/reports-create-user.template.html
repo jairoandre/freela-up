@@ -50,7 +50,7 @@
 
     <div class="form-group" ng-class="{'has-error': form.city.$dirty && form.city.$invalid}">
       <label for="form_city">Cidade *</label>
-      <input type="text" class="form-control custom_form" id="form_city" ng-model="user.city" generic-input name="city">
+      <input type="text" class="form-control custom_form" id="form_city" ng-model="user.city" generic-input name="city" required>
     </div>
 
     <div class="form-group" ng-class="{'has-error': form.postal_code.$dirty && form.postal_code.$invalid}">
