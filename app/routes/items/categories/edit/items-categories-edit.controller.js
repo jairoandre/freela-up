@@ -635,36 +635,44 @@ angular.
             formattedData.icon = icon;
           }
 
-          var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).customPUT(formattedData);
-          var putCategoryFormsPromise = Restangular.one('inventory').one('categories', categoryId).one('form').customPUT(formattedFormData);
+          var putCategoryPromise =
+            InventoriesCategoriesService
+              .update(categoryId, formattedData)
+              .then(function (category) {
+                $scope.category.original_icon = category.original_icon;
+              });
 
-          putCategoryPromise.then(function (response) {
-            /**
-             * Update icon
-             */
-            $scope.category.original_icon = response.data.original_icon;
-          });
+          var putCategoryFormsPromise =
+            InventoriesCategoriesService
+              .updateForm(categoryId, formattedFormData)
+              .then(function (category) {
+                $scope.category.sections = category.sections;
+              });
 
-          putCategoryFormsPromise.then(function (response) {
-            $scope.category.sections = response.data.sections;
+          return $q.all([putCategoryPromise, putCategoryFormsPromise])
+            .then(function () {
+              $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
 
-            $timeout(function () {
               $scope.unsavedCategory = false;
+              $scope.processingForm = false;
+
+              InventoriesCategoriesService.purgeCache();
+            })
+            .catch(function (results) {
+              var errors = results[0] || results[1];
+              var errIndex = _.first(_.keys(errors));
+              var errValue = _.first(_.values(errors)[0]);
+              var errorMessage = errIndex.charAt(0).toUpperCase() + errIndex.slice(1) + ' ' + errValue;
+
+              $scope.showMessage(
+                'exclamation-sign',
+                errorMessage,
+                'error',
+                true
+              );
+
+              $scope.processingForm = false;
             });
-          });
-
-          return $q.all([putCategoryPromise, putCategoryFormsPromise]).then(function () {
-            $scope.showMessage('ok', 'A categoria de inventário foi atualizada com sucesso!', 'success', true);
-
-            $scope.unsavedCategory = false;
-            $scope.processingForm = false;
-
-            InventoriesCategoriesService.purgeCache();
-          }, function () {
-            $scope.showMessage('exclamation-sign', 'O inventário não pode ser atualizado.', 'error', true);
-
-            $scope.processingForm = false;
-          });
         } else {
           if (icon) {
             formattedData.icon = icon;
@@ -672,55 +680,65 @@ angular.
             formattedData.icon = $scope.category.icon;
           }
 
-          var postCategoryPromise = Restangular.one('inventory').post('categories', formattedData);
+          InventoriesCategoriesService
+            .create(formattedData)
+            .then(function (category) {
+              var updateFieldsIds = {}, updateSectionId;
 
-          postCategoryPromise.then(function (response) {
-            var newCategory = response.data, updateFieldsIds = {}, updateSectionId;
+              /**
+               * Update icon
+               */
+              $scope.category.original_icon = category.original_icon;
 
-            /**
-             * Update icon
-             */
-            $scope.category.original_icon = response.data.original_icon;
+              // before updating the forms, let's set each field id to our own
+              for (var i = category.sections.length - 1; i >= 0; i--) {
+                if (category.sections[i].location === true) {
+                  updateSectionId = category.sections[i].id;
 
-            // before updating the forms, let's set each field id to our own
-            for (var i = newCategory.sections.length - 1; i >= 0; i--) {
-              if (newCategory.sections[i].location === true) {
-                updateSectionId = newCategory.sections[i].id;
-
-                // we populate updateFieldsIds with each field's title and it's id
-                for (var j = newCategory.sections[i].fields.length - 1; j >= 0; j--) {
-                  updateFieldsIds[newCategory.sections[i].fields[j].title] = newCategory.sections[i].fields[j].id;
+                  // we populate updateFieldsIds with each field's title and it's id
+                  for (var j = category.sections[i].fields.length - 1; j >= 0; j--) {
+                    updateFieldsIds[category.sections[i].fields[j].title] = category.sections[i].fields[j].id;
+                  }
                 }
               }
-            }
 
-            // now we update our array of fields with the new ids
-            for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
-              var section = $scope.category.sections[x];
+              // now we update our array of fields with the new ids
+              for (var x = $scope.category.sections.length - 1; x >= 0; x--) {
+                var section = $scope.category.sections[x];
 
-              if (section.location === true) {
-                section.id = updateSectionId;
+                if (section.location === true) {
+                  section.id = updateSectionId;
 
-                for (var z = section.fields.length - 1; z >= 0; z--) {
-                  section.fields[z].id = updateFieldsIds[section.fields[z].title];
+                  for (var z = section.fields.length - 1; z >= 0; z--) {
+                    section.fields[z].id = updateFieldsIds[section.fields[z].title];
+                  }
                 }
               }
-            }
 
-            var putCategoryFormsPromise = Restangular.one('inventory').one('categories', newCategory.id).one('form').customPUT(formattedFormData);
+              return InventoriesCategoriesService
+                .updateForm(category.id, formattedFormData)
+                .then(function () {
+                    $scope.showMessage('ok', 'A categoria de inventário foi criada com sucesso', 'success', true);
 
-            putCategoryFormsPromise.then(function () {
-              $scope.showMessage('ok', 'A categoria de inventário foi criada com sucesso', 'success', true);
+                    InventoriesCategoriesService.purgeCache();
 
-              InventoriesCategoriesService.purgeCache();
+                    $state.go('items.categories.edit', {id: category.id});
+                });
+            })
+            .catch(function (errors) {
+              var errIndex = _.first(_.keys(errors));
+              var errValue = _.first(_.values(errors)[0]);
+              var errorMessage = errIndex.charAt(0).toUpperCase() + errIndex.slice(1) + ' ' + errValue;
 
-              $state.go('items.categories.edit', {id: newCategory.id});
+              $scope.showMessage(
+                'exclamation-sign',
+                errorMessage,
+                'error',
+                true
+              );
+
+              $scope.processingForm = false;
             });
-
-            return putCategoryFormsPromise;
-          });
-
-          return postCategoryPromise;
         }
       });
     };
