@@ -6,7 +6,7 @@
  */
 angular
   .module('InventoriesCategoriesServiceModule', [])
-  .factory('InventoriesCategoriesService', function ($rootScope, Restangular, FullResponseRestangular) {
+  .factory('InventoriesCategoriesService', function ($rootScope, $q, Restangular, FullResponseRestangular) {
     var self = {};
     self.categories = {};
     self.categoriesStatuses = {};
@@ -71,6 +71,53 @@ angular
       var promise = Restangular.one('inventory').one('categories', id).get({display_type: 'full'});
 
       return promise;
+    };
+
+    /**
+     * Create a inventory category
+     * @param {Object} category
+     * @return {Object} Restangular promise
+     */
+    self.create = function (category) {
+      return Restangular
+        .one('inventory')
+        .withHttpConfig({ treatingErrors: true })
+        .post('categories', category)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (response) {
+          return $q.reject(response.data.error);
+        });
+    };
+
+    self.update = function (id, category) {
+      return FullResponseRestangular
+        .one('inventory')
+        .one('categories', id)
+        .withHttpConfig({ treatingErrors: true })
+        .customPUT(category)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (response) {
+          return $q.reject(response.data.error);
+        });
+    };
+
+    self.updateForm = function (id, formData) {
+      return FullResponseRestangular
+        .one('inventory')
+        .one('categories', id)
+        .one('form')
+        .withHttpConfig({ treatingErrors: true })
+        .customPUT(formData)
+        .then(function (response) {
+          return response.data.form;
+        })
+        .catch(function (response) {
+          return $q.reject(response.data.error);
+        });
     };
 
     return self;
