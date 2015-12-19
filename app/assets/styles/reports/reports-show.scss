@@ -290,22 +290,12 @@ ul.report-menu {
   }
 }
 
-@media screen {
-  #printSection {
-    display: none;
-  }
-}
-
 @media print {
-  body * {
-    visibility: hidden;
+  img {
+    max-width: none !important;
   }
-  #printSection, #printSection * {
-    visibility: visible;
-  }
-  #printSection {
-    position: absolute;
-    left: 0;
-    top: 0;
+
+  div {
+    page-break-inside: avoid;
   }
 }

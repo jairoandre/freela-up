@@ -24,20 +24,6 @@ angular
     $scope.historyLogs = reportHistoryResponse.data;
 
     $scope.print = function () {
-
-      var document = $window.document;
-      var printSection = document.getElementById('printSection');
-
-      var printSection = document.createElement('div');
-      printSection.id = 'printSection';
-      document.body.appendChild(printSection);
-
-      var divToPrint = document.getElementById('printContent');
-
-      var cloneDiv = divToPrint.cloneNode(true);
-      printSection.appendChild(cloneDiv);
-
       $window.print();
-
     };
   });
