@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2 - 19/12/2015
+### Correções
+- [Relatos] Corrige quebra de linha nas responstas ao solicitante do relato
+- [Relatos] Corrige a exibição do mapa ao imprimir um relato
+- [Relatos/Inventários] Correção na atualização do bairro na seleção de endereço
+- Corrige fraseologia do histórico para mudança de perímetro
+
 ## 1.1.1 - 27/11/2015
 ### Correções
 - [Relatos] Corrigido exibição da lista de categorias
