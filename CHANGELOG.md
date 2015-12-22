@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 - 22/12/2015
+### Correções
+- [Configuração] Agora é possível trocar corretamente ambas imagens usadas como logo (clara e escura)
+
 ## 1.1.2 - 19/12/2015
 ### Correções
 - [Relatos] Corrige quebra de linha nas responstas ao solicitante do relato
