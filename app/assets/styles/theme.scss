@@ -10,7 +10,7 @@
   #login .logo {
     .img {
       @extend %logo;
-      background-image: url('../images/logos/logo-zup-blue.png');
+      background-image: url('../images/logo-dark.png');
     }
 
     .slogan-title::before {
@@ -23,7 +23,7 @@
       .logo {
         .img {
           @extend %logo;
-          background-image: url('../images/logos/logo-zup.png');
+          background-image: url('../images/logo-light.png');
         }
       }
     }
@@ -32,14 +32,14 @@
   #printContent {
     .logo > .img {
       @extend %logo;
-      background-image: url('../images/logos/logo-zup-blue.png');
+      background-image: url('../images/logo-dark.png');
     }
   }
 
   .initial-loading-page {
     .logo > .img {
       @extend %logo;
-      background-image: url('../images/logos/logo-zup.png');
+      background-image: url('../images/logo-light.png');
     }
   }
 }
