@@ -1,16 +1,21 @@
 .theme {
 
   %logo {
-    width: 86px;
-    height: 37px;
     display: inline-block;
     vertical-align: middle;
   }
 
   #login .logo {
+    width: 280px;
+    height: 37px;
+    margin-bottom: 60px;
+    background-image: url('../images/logo-dark.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
     .img {
       @extend %logo;
-      background-image: url('../images/logo-dark.png');
     }
 
     .slogan-title::before {
@@ -21,8 +26,18 @@
   #main_layout {
     #sidebar {
       .logo {
+        display: block;
+        width: 300px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
         .img {
           @extend %logo;
+          width: 300px;
+          height: 37px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
           background-image: url('../images/logo-light.png');
         }
       }
@@ -32,6 +47,11 @@
   #printContent {
     .logo > .img {
       @extend %logo;
+      width: 300px;
+      height: 37px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
       background-image: url('../images/logo-dark.png');
     }
   }
@@ -39,6 +59,11 @@
   .initial-loading-page {
     .logo > .img {
       @extend %logo;
+      width: 300px;
+      height: 37px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
       background-image: url('../images/logo-light.png');
     }
   }
