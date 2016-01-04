@@ -144,8 +144,8 @@ angular
           'user.name',
           'notification_type.id',
           'notification_type.title',
-          'category.id',
-          'category.name'].join()
+          'notification_type.category.id',
+          'notification_type.category.title'].join()
       };
 
       angular.merge(defaultOptions, options);
