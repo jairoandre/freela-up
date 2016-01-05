@@ -12,6 +12,7 @@ angular
     $scope.flows = objectsResponse.data.flows;
     $scope.inventoriesCategories = objectsResponse.data.inventory_categories;
     $scope.reportsCategories = objectsResponse.data.reports_categories;
+    $scope.businessReports = objectsResponse.data.business_reports;
 
     $scope.newPermission = { type: null, objects: [], slugs: [] };
 
