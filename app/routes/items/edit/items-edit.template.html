@@ -29,15 +29,10 @@
         </div>
       </div>
 
-      <div class="rounder_wrapper errors" ng-show="inputErrors && isArray(inputErrors)">
+      <div class="rounder_wrapper errors" ng-show="inputErrors">
         <div class="alert alert-danger fade-animation">
-          <p ng-bind-html="inputErrors | formatErrors"></p>
-        </div>
-      </div>
-
-      <div class="rounder_wrapper errors" ng-show="inputErrors && !isArray(inputErrors)">
-        <div class="alert alert-danger fade-animation">
-          <p ng-bind-html="inputErrors"></p>
+          <p ng-bind-html="inputErrors | formatErrors" ng-if="isObject(inputErrors)"></p>
+          <p ng-bind-html="inputErrors" ng-if="!isObject(inputErrors)"></p>
         </div>
       </div>
 

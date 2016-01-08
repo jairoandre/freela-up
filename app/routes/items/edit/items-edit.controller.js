@@ -4,11 +4,12 @@ angular
     .module('ItemsEditControllerModule', [
       'ItemsRestoreModalControllerModule',
       'ItemsSelectAddressModalControllerModule',
+      'InventoriesItemsServiceModule',
       'NgThumbComponentModule',
       'TranslateErrorsHelperModule'
     ])
 
-    .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, onlyImagesUploaderFilter, $localStorage, itemResponse, categoryResponse, $timeout, User) {
+    .controller('ItemsEditController', function ($scope, Restangular, $q, $state, $modal, $rootScope, FileUploader, onlyImagesUploaderFilter, $localStorage, itemResponse, categoryResponse, $timeout, User, InventoriesItemsService) {
       var updating = $scope.updating = false;
 
       var categoryId = categoryResponse.data.id;
@@ -17,7 +18,7 @@ angular
       var tempSavedItem, hasPreviousItem = false;
 
       $scope.uploaders = {};
-      $scope.isArray = _.isArray;
+      $scope.isObject = _.isObject;
 
       if (itemResponse)
       {
@@ -449,39 +450,34 @@ angular
         }
 
         $q.all(imagesFieldsPromises).then(function() {
-          if (updating)
-          {
-            var putCategoryPromise = Restangular.one('inventory').one('categories', categoryId).one('items', itemId).customPUT(formattedData);
+          if (updating) {
+            InventoriesItemsService
+              .update(itemId, categoryId, formattedData)
+              .then(function(item) {
+                $scope.storage.updating[categoryId][itemId] = null;
 
-            putCategoryPromise.then(function() {
-              $scope.storage.updating[categoryId][itemId] = null;
+                $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
+                $scope.processingForm = false;
 
-              $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
+                $state.go('items.show', {id: itemId});
+              })
+              .catch(function(err) {
+                $scope.inputErrors = err;
+                $scope.processingForm = false;
+              });
+          } else {
+            InventoriesItemsService
+              .create(categoryId, formattedData)
+              .then(function(item) {
+                $scope.storage.creating[categoryId] = null;
 
-              $scope.processingForm = false;
-            }, function(response) {
-              $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
-
-              $scope.inputErrors = response.data.error;
-              $scope.processingForm = false;
-            });
-          }
-          else
-          {
-            var postCategoryPromise = Restangular.one('inventory').one('categories', categoryId).post('items', formattedData);
-
-            postCategoryPromise.then(function(response) {
-              $scope.storage.creating[categoryId] = null;
-
-              $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
-
-              $state.go('items.show', {id: response.data.id});
-            }, function(response) {
-              $scope.showMessage('exclamation-sign', 'O item não pode ser criado. Por favor, revise os erros.', 'error', true);
-
-              $scope.inputErrors = response.data.error;
-              $scope.processingForm = false;
-            });
+                $scope.showMessage('ok', 'O item foi criado com sucesso', 'success', true);
+                $state.go('items.show', {id: item.id});
+              })
+              .catch(function(err) {
+                $scope.inputErrors = err;
+                $scope.processingForm = false;
+              });
           }
         });
       };

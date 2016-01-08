@@ -15,7 +15,7 @@ angular
     });
     $scope.item = itemResponse;
     $scope.category = $scope.item.category;
-    $scope.show_status_bar = $scope.category.statuses.length > 0;
+    $scope.show_status_bar = $scope.category.statuses && $scope.category.statuses.length > 0;
     $scope.item_status = null;
 
     $scope.updateItemStatus = function(){
