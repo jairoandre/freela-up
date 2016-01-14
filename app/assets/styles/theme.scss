@@ -49,10 +49,10 @@
       @extend %logo;
       width: 300px;
       height: 37px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-image: url('../images/logo-dark.png');
+
+      &::before {
+        content: url('../images/logo-dark.png');
+      }
     }
   }
 
