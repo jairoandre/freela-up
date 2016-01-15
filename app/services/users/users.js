@@ -63,6 +63,9 @@ angular
         .one('users')
         .withHttpConfig({treatingErrors: true})
         .post(null, user, options)
+        .then(function (response) {
+          return response.data.user;
+        })
         .catch(function (response) {
           return $q.reject(response.data.error);
         });

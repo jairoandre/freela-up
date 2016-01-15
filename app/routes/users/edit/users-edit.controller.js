@@ -95,7 +95,6 @@ angular
           $scope.processingForm = false;
           $rootScope.resolvingRequest = false;
         }, function (err) {
-          console.log(err);
           $scope.showMessage('exclamation-sign', 'O usuário não pode ser criado', 'error', true);
 
           $scope.inputErrors = err;
