@@ -432,22 +432,40 @@ angular
       return false;
     };
 
-    $scope.toggleObject = function(object) {
-      var x = false;
+    $scope.toggleChildObject = function(object, parent) {
+      var objectIndex = findIndex($scope.newPermission.objects, function (obj) {
+        return obj.id === object.id;
+      });
 
-      for (var i = 0 ; i < $scope.newPermission.objects.length; i++) {
-        if ($scope.newPermission.objects[i].id == object.id)
-        {
-          x = i;
+      if (objectIndex !== -1) {
+        $scope.newPermission.objects.splice(objectIndex, 1);
+      } else {
+        if (!_.isUndefined(parent) && !$scope.isObjectSelected(parent.id)) {
+          $scope.newPermission.objects.push(parent);
         }
-      }
 
-      if (x !== false)
-      {
-        $scope.newPermission.objects.splice(x, 1);
+        $scope.newPermission.objects.push(object);
       }
-      else
-      {
+    };
+
+    $scope.toggleObject = function(object, childs) {
+      var objectIndex = findIndex($scope.newPermission.objects, function (obj) {
+        console.log(obj.id === object.id);
+        return obj.id === object.id;
+      });
+
+      if (objectIndex !== -1) {
+        // Remove all childs
+        _.each(childs, function (child) {
+          var index = findIndex($scope.newPermission.objects, function (obj) {
+            return obj.id === child.id;
+          });
+
+          if (index !== -1) $scope.newPermission.objects.splice(index, 1);
+        });
+
+        $scope.newPermission.objects.splice(objectIndex, 1);
+      } else {
         $scope.newPermission.objects.push(object);
       }
     };
@@ -593,5 +611,18 @@ angular
 
         permissionObj.removingPermission = false;
       });
+    };
+
+    var findIndex = function (collection, predicate) {
+      var index = -1;
+
+      _.each(collection, function (obj, i) {
+        if (predicate(obj)) {
+          index = i;
+          return;
+        }
+      });
+
+      return index;
     };
   });
