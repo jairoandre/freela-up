@@ -44,7 +44,7 @@ angular
                 // returns true if the user has the permission for any of the given objects
                 if(_.isArray(id)) {
                   var ids = _.map(id, function(id){
-                    if(_.isObject(id) && _.isUndefined(id.id)) {
+                    if(_.isObject(id) && !_.isUndefined(id.id)) {
                       return id.id;
                     }
                     return id;
