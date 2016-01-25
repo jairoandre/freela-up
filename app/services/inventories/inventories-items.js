@@ -175,6 +175,48 @@ angular
     };
 
     /**
+     * Creates a single item from the API
+     * @param {Integer} category_id
+     * @param {Object} item
+     * @returns {*}
+     */
+    self.create = function (category_id, item_data) {
+      return FullResponseRestangular
+        .one('inventory')
+        .one('categories', category_id)
+        .withHttpConfig({ treatingErrors: true })
+        .post('items', item_data)
+        .then(function (response) {
+          return response.data.item;
+        })
+        .catch(function (response) {
+          return $q.reject(response.data.error || 'Ops, ocorreu um erro inesperado. Por favor, tente novamente!');
+        });
+    };
+
+    /**
+     * Updates a single item from the API
+     * @param {Integer} item_id
+     * @param {Integer} category_id
+     * @param {Object} item_data
+     * @returns {*}
+     */
+    self.update = function (item_id, category_id, item_data) {
+      return FullResponseRestangular
+        .one('inventory')
+        .one('categories', category_id)
+        .one('items', item_id)
+        .withHttpConfig({ treatingErrors: true })
+        .customPUT(item_data)
+        .then(function (response) {
+          return response.data.item;
+        })
+        .catch(function (response) {
+          return $q.reject(response.data.error || 'Ops, ocorreu um erro inesperado. Por favor, tente novamente!');
+        });
+    };
+
+    /**
      * Binds categories to either items items or clusters
      * @private
      * @param {Array|Object} items - items to bind the `category` property on
