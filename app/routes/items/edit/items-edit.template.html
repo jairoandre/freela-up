@@ -49,7 +49,7 @@
             <div>
               <div class="radio" ng-repeat="status in category.statuses">
                 <label>
-                  <input type="radio" ng-model="item.inventory_status_id" ng-value="status.id">
+                  <input type="radio" ng-model="item.inventory_status_id" ng-value="status.id" ng-required="category.require_item_status">
                   {{ status.title }}
                 </label>
               </div>
