@@ -129,7 +129,7 @@
                       <br />
 
                       <label class="radio-inline">
-                        <input type="radio" ng-model="section.required" ng-value="true"> Sim
+                        <input type="radio" ng-model="section.required" ng-change="onChangeSectionRequire(section)" ng-value="true"> Sim
                       </label>
 
                       <label class="radio-inline">
@@ -353,7 +353,7 @@
                           </label>
 
                           <label class="radio-inline">
-                            <input type="radio" ng-model="field.required" ng-value="false"> Não
+                            <input type="radio" ng-model="field.required" ng-change="onChangeFieldRequire(field, section)" ng-value="false"> Não
                           </label>
                         </div>
 

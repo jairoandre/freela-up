@@ -84,6 +84,22 @@ angular.
       return false;
     };
 
+    $scope.onChangeFieldRequire = function (field, section) {
+      console.log('onChangeFieldRequire:', field, section);
+      if (!field.required) {
+        section.required = false;
+      }
+    };
+
+    $scope.onChangeSectionRequire = function (section) {
+      console.log('onChangeSectionRequire:', section);
+      if (section.required) {
+        section.fields.forEach(function (field) {
+          field.required = true;
+        });
+      }
+    };
+
     var getGroupById = function (id) {
       return _.findWhere($scope.groups, {id: id});
     };
