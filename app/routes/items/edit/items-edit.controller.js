@@ -34,6 +34,14 @@ angular
         else $state.transitionTo('items.list', null, {'reload': true});
       };
 
+      $scope.isUnselected = function (checkbox) {
+        return _.chain(checkbox)
+          .values()
+          .find(function (value) { return value; })
+          .isUndefined()
+          .value();
+      };
+
       // if category doesn't exist in localStorage, create a null object for it
       if (!updating)
       {
