@@ -70,10 +70,10 @@
 
       <ul ng-hide="user.groups.length == 0" class="groups-list">
           <li ng-repeat="group in user.groups">
-            <span ng-if="!hasPermission('groups_full_access') && !hasPermission('group_edit') && !hasPermission('group_read_only')">
+            <span ng-if="!hasPermission('groups_full_access') && !hasPermission('group_edit', group.id) && !hasPermission('group_read_only', group.id)">
               <i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}
             </span>
-            <a ng-if="hasPermission('groups_full_access') || hasPermission('group_edit') || hasPermission('group_read_only')" ng-href="#/groups/{{ group.id }}">
+            <a ng-if="hasPermission('groups_full_access') || hasPermission('group_edit', group.id) || hasPermission('group_read_only', group.id)" ng-href="#/groups/{{ group.id }}">
               <i class="glyphicon glyphicon-chevron-right"></i> {{ group.name }}
             </a>
           </li>
