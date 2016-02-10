@@ -11,8 +11,6 @@ angular
       var deferred = $q.defer();
 
       Auth.check().then(function(user) {
-        deferred.resolve(user);
-
         $rootScope.me = user;
 
         /**
@@ -91,6 +89,8 @@ angular
         {
           $state.go('user.unauthorized');
         }
+
+        deferred.resolve(user);
       }, function() {
         // user is not logged
         deferred.resolve(null);
