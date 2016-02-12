@@ -15,7 +15,7 @@ angular
         'User': ['User', function(User) {
           return User({ permissions: ['isLogged'] });
         }],
-        'Authorize': function ($rootScope, $state, User) {
+        'Authorize': ['$rootScope', '$state', function ($rootScope, $state) {
           if (!$rootScope.hasAnyPermission(['users_full_access', 'users_edit'])) {
             $rootScope.showMessage(
               'exclamation-sign',
@@ -25,7 +25,7 @@ angular
 
             $state.go('items.list');
           }
-        }
+        }]
       }
     });
 
