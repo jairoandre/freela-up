@@ -467,7 +467,7 @@ angular
                 $scope.showMessage('ok', 'O item foi atualizado com sucesso!', 'success', true);
                 $scope.processingForm = false;
 
-                $state.go('items.show', {id: itemId});
+                $state.go('items.show', { id: itemId }, { reload: true });
               })
               .catch(function(err) {
                 $scope.inputErrors = err;

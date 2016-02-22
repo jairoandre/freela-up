@@ -167,6 +167,11 @@ module.exports = function (grunt) {
             "main": [
               "css/font-awesome.css"
             ]
+          },
+          "js-rich-marker": {
+            "main": [
+              "src/richmarker-compiled.js"
+            ]
           }
         }
       }
